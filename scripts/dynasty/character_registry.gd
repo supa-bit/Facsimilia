@@ -109,6 +109,79 @@ func death_chance_for_age(age: int) -> float:
 # succession) automatically. Pass a seeded rng for deterministic testing;
 # omit it for real randomized play. Returns human-readable event strings
 # for the HUD to display.
+# Plain-Dictionary serialization for SaveSystem. JSON has no int/Color/
+# typed-array types of its own, so load_from_dict() casts every numeric
+# field back explicitly (JSON.parse_string returns floats for all numbers)
+# instead of trusting the parsed types.
+func to_dict() -> Dictionary:
+	var characters_out := {}
+	for id in characters:
+		var c: Character = characters[id]
+		characters_out[str(id)] = {
+			"id": c.id, "name": c.name, "sex": c.sex, "birth_year": c.birth_year,
+			"death_year": c.death_year, "is_alive": c.is_alive, "dynasty_id": c.dynasty_id,
+			"father_id": c.father_id, "mother_id": c.mother_id, "spouse_id": c.spouse_id,
+			"children_ids": Array(c.children_ids), "traits": Array(c.traits),
+		}
+	var dynasties_out := {}
+	for id in dynasties:
+		var d: Dynasty = dynasties[id]
+		dynasties_out[str(id)] = {
+			"id": d.id, "name": d.name, "founder_id": d.founder_id,
+			"member_ids": Array(d.member_ids),
+		}
+	var realms_out := {}
+	for id in realms:
+		var r: Realm = realms[id]
+		realms_out[str(id)] = {
+			"id": r.id, "name": r.name, "ruler_id": r.ruler_id,
+			"succession_law": r.succession_law,
+			"color": [r.color.r, r.color.g, r.color.b, r.color.a],
+		}
+	return {
+		"characters": characters_out, "dynasties": dynasties_out, "realms": realms_out,
+		"next_character_id": _next_character_id, "next_dynasty_id": _next_dynasty_id,
+		"next_realm_id": _next_realm_id,
+	}
+
+func load_from_dict(data: Dictionary) -> void:
+	characters.clear()
+	dynasties.clear()
+	realms.clear()
+	for key in data.get("characters", {}):
+		var cd: Dictionary = data.characters[key]
+		var c := Character.new(int(cd.id), cd.name, cd.sex, int(cd.birth_year),
+			int(cd.dynasty_id), int(cd.father_id), int(cd.mother_id))
+		c.death_year = int(cd.death_year)
+		c.is_alive = bool(cd.is_alive)
+		c.spouse_id = int(cd.spouse_id)
+		var kids: Array[int] = []
+		for k in cd.children_ids:
+			kids.append(int(k))
+		c.children_ids = kids
+		var traits: Array[String] = []
+		for t in cd.traits:
+			traits.append(String(t))
+		c.traits = traits
+		characters[c.id] = c
+	for key in data.get("dynasties", {}):
+		var dd: Dictionary = data.dynasties[key]
+		var d := Dynasty.new(int(dd.id), dd.name, int(dd.founder_id))
+		var members: Array[int] = []
+		for m in dd.member_ids:
+			members.append(int(m))
+		d.member_ids = members
+		dynasties[d.id] = d
+	for key in data.get("realms", {}):
+		var rd: Dictionary = data.realms[key]
+		var color_arr: Array = rd.color
+		var color := Color(color_arr[0], color_arr[1], color_arr[2], color_arr[3])
+		var r := Realm.new(int(rd.id), rd.name, int(rd.ruler_id), int(rd.succession_law), color)
+		realms[r.id] = r
+	_next_character_id = int(data.get("next_character_id", _next_character_id))
+	_next_dynasty_id = int(data.get("next_dynasty_id", _next_dynasty_id))
+	_next_realm_id = int(data.get("next_realm_id", _next_realm_id))
+
 func advance_year(new_year: int, rng: RandomNumberGenerator = null) -> Array[String]:
 	if rng == null:
 		rng = RandomNumberGenerator.new()

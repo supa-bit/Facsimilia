@@ -2,16 +2,20 @@ extends Node2D
 
 const CivSelectScene := preload("res://scenes/CivSelect.tscn")
 const HudScene := preload("res://scenes/Hud.tscn")
+const PauseMenuScene := preload("res://scenes/PauseMenu.tscn")
 const MapViewScript := preload("res://scripts/world/map_view.gd")
 const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
+const SaveSystem := preload("res://scripts/world/save_system.gd")
 
-const INTRO_MIN_SECONDS := 20.0   # shown immediately at game start, before civ-select
-const REGION_MIN_SECONDS := 10.0  # shown after picking a civ, while that region generates
+const INTRO_MIN_SECONDS := 20.0    # shown immediately at game start, before civ-select
+const REGION_MIN_SECONDS := 10.0   # shown after picking a civ, while that region generates
+const CONTINUE_MIN_SECONDS := 5.0  # shown while a save loads - still rebuilds the map image/centroids, see MapView.load_saved_game
 const FADE_SECONDS := 0.6
 
 var map_view: Node2D
 var hud: Control
 var civ_select: Control
+var pause_menu: Control
 var ui_layer: CanvasLayer  # keeps UI in screen space, unaffected by map_view's camera zoom/pan
 var loading_screen: Control
 var loading_label: Label
@@ -20,6 +24,16 @@ func _ready() -> void:
 	ui_layer = CanvasLayer.new()
 	add_child(ui_layer)
 
+	if SaveSystem.continue_requested:
+		SaveSystem.continue_requested = false
+		if await _start_continued_game():
+			return
+		# No save, or it couldn't be read - fall through to a fresh game
+		# rather than leaving the player on a dead screen.
+
+	await _start_new_game()
+
+func _start_new_game() -> void:
 	# Intro screen: no real background work to await (nothing needs
 	# loading yet at this point), so this is just a themed, timed
 	# transition before the civ-select screen appears.
@@ -29,6 +43,26 @@ func _ready() -> void:
 	civ_select.theme = ThemeAncient.build()
 	ui_layer.add_child(civ_select)
 	civ_select.civ_chosen.connect(_on_civ_chosen)
+
+# MainMenu's "Continue" button sets SaveSystem.continue_requested before
+# changing to this scene - see _ready() above. Skips civ-select entirely
+# and restores a previously-saved world instead of generating one.
+func _start_continued_game() -> bool:
+	map_view = MapViewScript.new()
+	map_view.name = "MapView"
+	add_child(map_view)
+	map_view.loading_status_changed.connect(_on_loading_status_changed)
+
+	var loaded := false
+	await _run_loading_screen("300 BC", "Loading your realm...", CONTINUE_MIN_SECONDS,
+		func(): loaded = await map_view.load_saved_game())
+	if not loaded:
+		map_view.queue_free()
+		map_view = null
+		return false
+
+	_show_hud()
+	return true
 
 func _on_civ_chosen(civ_key: String) -> void:
 	civ_select.queue_free()
@@ -42,6 +76,9 @@ func _on_civ_chosen(civ_key: String) -> void:
 	await _run_loading_screen("300 BC", "Preparing the ancient world...",
 		REGION_MIN_SECONDS, map_view.generate_world)
 
+	_show_hud()
+
+func _show_hud() -> void:
 	hud = HudScene.instantiate()
 	hud.theme = ThemeAncient.build()
 	ui_layer.add_child(hud)
@@ -118,11 +155,42 @@ func _on_advance_requested() -> void:
 	hud.log_events(events)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and event.keycode == KEY_F11:
-		_toggle_fullscreen()
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_F11:
+			SettingsStore.set_fullscreen(not SettingsStore.fullscreen)
+		elif event.keycode == KEY_ESCAPE:
+			_toggle_pause_menu()
 
-func _toggle_fullscreen() -> void:
-	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+func _toggle_pause_menu() -> void:
+	if pause_menu != null:
+		return  # already open - its own Resume button is how it closes
+	if hud == null or loading_screen != null:
+		return  # nothing to pause during civ-select or a loading screen
+	pause_menu = PauseMenuScene.instantiate()
+	pause_menu.theme = ThemeAncient.build()
+	ui_layer.add_child(pause_menu)
+	pause_menu.resume_requested.connect(_on_pause_resume)
+	pause_menu.save_and_return_to_menu_requested.connect(_on_pause_save_and_return_to_menu)
+	pause_menu.save_and_quit_requested.connect(_on_pause_save_and_quit)
+
+func _on_pause_resume() -> void:
+	pause_menu.queue_free()
+	pause_menu = null
+
+func _on_pause_save_and_return_to_menu() -> void:
+	pause_menu.set_busy(true)
+	pause_menu.show_message("Saving...")
+	if await map_view.save_current_game():
+		get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		pause_menu.show_message("Save failed - try again.")
+		pause_menu.set_busy(false)
+
+func _on_pause_save_and_quit() -> void:
+	pause_menu.set_busy(true)
+	pause_menu.show_message("Saving...")
+	if await map_view.save_current_game():
+		get_tree().quit()
+	else:
+		pause_menu.show_message("Save failed - try again.")
+		pause_menu.set_busy(false)

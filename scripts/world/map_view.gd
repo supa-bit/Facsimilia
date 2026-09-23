@@ -5,6 +5,7 @@ signal loading_status_changed(text: String)
 const OwnershipGrid := preload("res://scripts/world/ownership_grid.gd")
 const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd")
 const Realm := preload("res://scripts/dynasty/realm.gd")
+const SaveSystem := preload("res://scripts/world/save_system.gd")
 
 const GRID_WIDTH := 8192
 const GRID_HEIGHT := 5476  # ~0.59 km^2/cell over the map's real-world extent
@@ -126,6 +127,42 @@ func generate_world() -> void:
 	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells, year ", demo_year, ". ",
 		"Left-drag to propose annexing/settling land, right-click to clear the proposal, ",
 		"scroll to zoom, middle-drag to pan.")
+
+func save_current_game() -> bool:
+	return await SaveSystem.save_game(grid, registry, demo_year, player_realm_id, self)
+
+# Restores a previously-saved world instead of generating a new one: skips
+# the seeding steps (_seed_land_and_sea/_seed_real_civs/_seed_frontier_zones)
+# entirely and re-runs only the rendering tail generate_world() also ends
+# with, against the loaded grid/registry. Returns false (leaving this
+# MapView unmodified) if there's no save or it couldn't be read - callers
+# should fall back to generate_world() in that case.
+func load_saved_game() -> bool:
+	var loaded := await SaveSystem.load_game(self)
+	if loaded.is_empty():
+		return false
+	var loaded_grid: OwnershipGrid = loaded.grid
+	if loaded_grid.width != GRID_WIDTH or loaded_grid.height != GRID_HEIGHT:
+		# Rendering (proposal array size, shader texel_size, sprite scale)
+		# is all set up for this build's GRID_WIDTH/GRID_HEIGHT in _ready() -
+		# a save from a different grid size can't be reconciled with that
+		# without re-running _ready()'s setup, so refuse it rather than
+		# silently misindexing cells.
+		push_error("SaveSystem: saved grid is %dx%d, this build expects %dx%d" %
+			[loaded_grid.width, loaded_grid.height, GRID_WIDTH, GRID_HEIGHT])
+		return false
+
+	grid = loaded.grid
+	registry = loaded.registry
+	demo_year = loaded.demo_year
+	player_realm_id = loaded.player_realm_id
+
+	loading_status_changed.emit("Drawing the map...")
+	await _build_full_map_image()
+	loading_status_changed.emit("Naming the realms...")
+	var centroids: Dictionary = await _compute_centroids()
+	_build_labels(centroids)
+	return true
 
 func _fit_camera_to_window() -> void:
 	var viewport_size := get_viewport_rect().size

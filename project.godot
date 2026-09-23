@@ -11,8 +11,12 @@ config_version=5
 [application]
 
 config/name="Facsimilia Claude"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+SettingsStore="*res://scripts/ui/settings_store.gd"
 
 [display]
 
