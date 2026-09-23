@@ -716,6 +716,22 @@ Phase 1 (province generation/seeding), not just an implementation detail.
 6. Integration/sentiment (decay-toward-assimilated stat).
 7. Paint-gated annexation (the resolution function tying 2-6 together).
 
+**Status: population engine started.** Built so far:
+`scripts/world/population_engine.gd` (stages 1-2, the historical
+ceiling with player legacy fade, capital bonuses and resettlement,
+HYDE-based seeding and 25-year natural resettlement, save/load),
+`tools/build_population_mask.py` (the HYDE import), the engine wired
+into world generation, the yearly tick, saves, and a HUD population
+line, and each real civ's 300 BC capital registered as an existing
+capital. Covered by `scripts/tests/test_population_engine.gd`, which
+reproduces the calibration timings. Not built yet: stage 3 (clusters,
+percentile naming, ruins' labels), the region mask and Regions overlay,
+real gameplay drivers (the engine exposes `driver_mods` for them; until
+they exist the historical heat stands in as the baseline), player growth
+of the world total, and province capitals, which wait on the province
+layer. The real HYDE files still have to be downloaded and baked; until
+then the engine switches itself off.
+
 Each phase should be independently verified against the real headless Godot
 engine (a Godot 4.3 headless build has been used for this in dev sessions;
 see the test scripts under `scripts/tests/` for the existing pattern) before

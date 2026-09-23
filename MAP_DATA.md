@@ -44,6 +44,21 @@ beneath them; borders scale with the screen footprint instead of thick black
 pixel outlines. Ocean coloration follows the source bathymetric shading rather
 than arbitrary noise or a uniform glow around every coastline.
 
+## Population (HYDE)
+
+The population engine (`scripts/world/population_engine.gd`, design in
+MECHANICS.md) reads HYDE 3.3 historical population grids (PBL Netherlands
+Environmental Assessment Agency / Utrecht University, free and public):
+https://geo.public.data.uu.nl/vault-hyde/ (baseline population, `popc_*`).
+`tools/build_population_mask.py` crops each 5-arcminute snapshot from
+300 BC onward to the map extent. The result is exactly 780 x 456 population
+nodes (12 per degree), each ~10.5 x 12 ownership cells, in the same linear
+lon/lat projection. Output goes to `data/population/`: `hyde_meta.json`
+plus one gzip'd float32 grid per keyframe year.
+
+Until those files exist the game runs without population: the engine
+switches itself off, and saves and the HUD simply omit it.
+
 ## Rebuild
 
 Python dependencies: Pillow, NumPy, SciPy. From this project directory:
@@ -52,7 +67,9 @@ Python dependencies: Pillow, NumPy, SciPy. From this project directory:
 2. `python tools/build_land_mask.py` if changing physical geography.
 3. `python tools/reconcile_map.py` after either of those changes.
 4. `python tools/build_relief_texture.py` to rebuild from the included crop.
-5. Open `project.godot` in Godot and allow the assets to import.
+5. `python tools/build_population_mask.py <dir with HYDE popc zips or .asc>`
+   for the population keyframes (needs NumPy only).
+6. Open `project.godot` in Godot and allow the assets to import.
 
 The project includes the completed assets; Python and Node are not required to
 play. Remove stale `.godot` cache only if an existing local editor fails to pick

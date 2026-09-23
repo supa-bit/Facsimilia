@@ -13,6 +13,7 @@ func _init() -> void:
 	if dir:
 		dir.remove("save_state.json")
 		dir.remove("save_grid.png")
+		dir.remove("save_population.bin")
 	assert(not SaveSystem.has_save())
 
 	var grid := OwnershipGrid.new(20, 15)
@@ -69,5 +70,18 @@ func _init() -> void:
 	var new_character := loaded_registry.create_character("New Arrival", "male", -280)
 	assert(new_character.id > loaded_founder.id and new_character.id > heir.id)
 
-	print("SaveSystem tests passed: grid + registry round-trip through save_game/load_game, id counters continue correctly.")
+	# No population passed: the load reports none.
+	assert((loaded.population as Dictionary).is_empty())
+
+	# Population state round-trips; saving again without one clears it,
+	# so a stale population is never paired with a newer save.
+	var pop := PackedFloat32Array([0.0, 12.5, 30000.0])
+	assert(await SaveSystem.save_game(grid, registry, -279, realm.id, null, {"year": -279, "pop": pop}))
+	var with_pop: Dictionary = await SaveSystem.load_game()
+	assert(with_pop.population.year == -279)
+	assert(with_pop.population.pop == pop)
+	assert(await SaveSystem.save_game(grid, registry, -278, realm.id))
+	assert(((await SaveSystem.load_game()).population as Dictionary).is_empty())
+
+	print("SaveSystem tests passed: grid + registry + population round-trip through save_game/load_game, id counters continue correctly.")
 	quit()

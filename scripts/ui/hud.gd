@@ -7,6 +7,7 @@ var map_view  # set via setup(); untyped to avoid a circular preload with map_vi
 var realm_label: Label
 var ruler_label: Label
 var heir_label: Label
+var population_label: Label
 var log_label: Label
 var advance_button: Button
 
@@ -27,6 +28,7 @@ func _ready() -> void:
 	realm_label = Label.new()
 	ruler_label = Label.new()
 	heir_label = Label.new()
+	population_label = Label.new()
 
 	advance_button = Button.new()
 	advance_button.text = "Advance 1 Year"
@@ -39,6 +41,7 @@ func _ready() -> void:
 	vbox.add_child(realm_label)
 	vbox.add_child(ruler_label)
 	vbox.add_child(heir_label)
+	vbox.add_child(population_label)
 	vbox.add_child(advance_button)
 	vbox.add_child(log_label)
 
@@ -56,6 +59,17 @@ func refresh() -> void:
 	else:
 		ruler_label.text = "Ruler: none - interregnum"
 		heir_label.text = "Heir: -"
+	population_label.visible = map_view.population != null
+	if map_view.population:
+		population_label.text = "Population: %s" % _group_thousands(int(map_view.player_population()))
+
+static func _group_thousands(n: int) -> String:
+	var digits := str(absi(n))
+	var out := ""
+	while digits.length() > 3:
+		out = "," + digits.substr(digits.length() - 3) + out
+		digits = digits.substr(0, digits.length() - 3)
+	return ("-" if n < 0 else "") + digits + out
 
 func log_events(events: Array) -> void:
 	if events.is_empty():

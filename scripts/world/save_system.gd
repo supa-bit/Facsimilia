@@ -21,6 +21,10 @@ const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd"
 
 const STATE_PATH := "user://save_state.json"
 const GRID_PATH := "user://save_grid.png"
+# Population engine state (PopulationEngine.to_dict(): per-node float
+# arrays plus capitals), zstd-compressed via Godot's own store_var -
+# optional, absent when the game ran without HYDE data.
+const POPULATION_PATH := "user://save_population.bin"
 const CHUNK_SIZE := 2000000
 
 # Set by MainMenu's "Continue" button just before changing to Main.tscn;
@@ -32,7 +36,7 @@ static func has_save() -> bool:
 	return FileAccess.file_exists(STATE_PATH) and FileAccess.file_exists(GRID_PATH)
 
 static func save_game(grid: OwnershipGrid, registry: CharacterRegistry, demo_year: int,
-		player_realm_id: int, yield_host: Node = null) -> bool:
+		player_realm_id: int, yield_host: Node = null, population: Dictionary = {}) -> bool:
 	var bytes := await _cells_to_bytes(grid.cells, yield_host)
 	if bytes.is_empty() and grid.cells.size() > 0:
 		return false  # an owner id didn't fit in a byte - see _cells_to_bytes
@@ -54,10 +58,22 @@ static func save_game(grid: OwnershipGrid, registry: CharacterRegistry, demo_yea
 		return false
 	file.store_string(JSON.stringify(state))
 	file.close()
+
+	if population.is_empty():
+		if FileAccess.file_exists(POPULATION_PATH):
+			DirAccess.remove_absolute(POPULATION_PATH)  # don't pair a stale population with this save
+	else:
+		var pop_file := FileAccess.open_compressed(POPULATION_PATH, FileAccess.WRITE, FileAccess.COMPRESSION_ZSTD)
+		if pop_file == null:
+			push_error("SaveSystem: failed to open " + POPULATION_PATH + " for writing")
+			return false
+		pop_file.store_var(population)
+		pop_file.close()
 	return true
 
-# Returns {grid, registry, demo_year, player_realm_id} on success, or an
-# empty Dictionary if there's no save or it couldn't be read.
+# Returns {grid, registry, demo_year, player_realm_id, population} on
+# success (population is {} if the save has none), or an empty Dictionary
+# if there's no save or it couldn't be read.
 static func load_game(yield_host: Node = null) -> Dictionary:
 	if not has_save():
 		return {}
@@ -88,11 +104,21 @@ static func load_game(yield_host: Node = null) -> Dictionary:
 	var registry := CharacterRegistry.new()
 	registry.load_from_dict(parsed.get("registry", {}))
 
+	var population := {}
+	if FileAccess.file_exists(POPULATION_PATH):
+		var pop_file := FileAccess.open_compressed(POPULATION_PATH, FileAccess.READ, FileAccess.COMPRESSION_ZSTD)
+		if pop_file != null:
+			var value = pop_file.get_var()
+			pop_file.close()
+			if typeof(value) == TYPE_DICTIONARY:
+				population = value
+
 	return {
 		"grid": grid,
 		"registry": registry,
 		"demo_year": int(parsed.get("demo_year", 0)),
 		"player_realm_id": int(parsed.get("player_realm_id", 0)),
+		"population": population,
 	}
 
 static func _cells_to_bytes(cells: PackedInt32Array, yield_host: Node) -> PackedByteArray:

@@ -6,6 +6,7 @@ const OwnershipGrid := preload("res://scripts/world/ownership_grid.gd")
 const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd")
 const Realm := preload("res://scripts/dynasty/realm.gd")
 const SaveSystem := preload("res://scripts/world/save_system.gd")
+const PopulationEngine := preload("res://scripts/world/population_engine.gd")
 
 const GRID_WIDTH := 8192
 const GRID_HEIGHT := 5476  # ~0.59 km^2/cell over the map's real-world extent
@@ -20,6 +21,10 @@ const LAND_MASK_PATH := "res://data/land_mask.png"
 const POLITICAL_MASK_PATH := "res://data/political_mask.png"
 const TERRAIN_TEXTURE_PATH := "res://data/terrain_texture.png"
 const MAX_ZOOM := 16.0
+const LON_MIN := -10.0  # map extent, shared with tools/import_bc300.js and the HYDE import
+const LON_MAX := 55.0
+const LAT_MIN := 10.0
+const LAT_MAX := 48.0
 
 # Real 300 BC political boundaries (Roman Republic, Carthaginian Empire,
 # Ptolemaic Kingdom, Meroe, Seleucid Kingdom, Kingdom of Kassander + Greek
@@ -28,16 +33,19 @@ const MAX_ZOOM := 16.0
 # and pre-projected into this grid's coordinate space by
 # tools/import_bc300.js. See that script for the exact source mapping,
 # projection parameters, and simplification tolerance.
+# "capital_lonlat" is each realm's seat in 300 BC (checked to fall inside
+# its own territory in the political mask). Population engine only: the
+# capital's growth bonus already counts as part of recorded history.
 const REAL_CIVS := [
-	{"key": "rome", "ruler": "Numerius", "color": Color(0.75, 0.20, 0.20, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-	{"key": "carthage", "ruler": "Hasdrubal", "color": Color(0.55, 0.30, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-	{"key": "egypt", "ruler": "Ptolemy", "color": Color(0.85, 0.75, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE},
-	{"key": "kush", "ruler": "Arkamani", "color": Color(0.55, 0.25, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE},
-	{"key": "seleucid", "ruler": "Seleukos", "color": Color(0.35, 0.25, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-	{"key": "greek_world", "ruler": "Kassandros", "color": Color(0.20, 0.40, 0.75, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE},
-	{"key": "lysimachus", "ruler": "Lysimachos", "color": Color(0.75, 0.35, 0.55, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE},
-	{"key": "antigonus", "ruler": "Antigonos", "color": Color(0.80, 0.45, 0.15, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-	{"key": "nabatea", "ruler": "Aretas", "color": Color(0.70, 0.55, 0.30, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE},
+	{"key": "rome", "ruler": "Numerius", "color": Color(0.75, 0.20, 0.20, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Rome", "capital_lonlat": Vector2(12.48, 41.89)},
+	{"key": "carthage", "ruler": "Hasdrubal", "color": Color(0.55, 0.30, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Carthage", "capital_lonlat": Vector2(10.32, 36.85)},
+	{"key": "egypt", "ruler": "Ptolemy", "color": Color(0.85, 0.75, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Alexandria", "capital_lonlat": Vector2(29.92, 31.2)},
+	{"key": "kush", "ruler": "Arkamani", "color": Color(0.55, 0.25, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Meroe", "capital_lonlat": Vector2(33.75, 16.94)},
+	{"key": "seleucid", "ruler": "Seleukos", "color": Color(0.35, 0.25, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Seleucia-on-Tigris", "capital_lonlat": Vector2(44.52, 33.1)},
+	{"key": "greek_world", "ruler": "Kassandros", "color": Color(0.20, 0.40, 0.75, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Pella", "capital_lonlat": Vector2(22.52, 40.76)},
+	{"key": "lysimachus", "ruler": "Lysimachos", "color": Color(0.75, 0.35, 0.55, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Lysimachia", "capital_lonlat": Vector2(26.75, 40.52)},
+	{"key": "antigonus", "ruler": "Antigonos", "color": Color(0.80, 0.45, 0.15, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Antigonia", "capital_lonlat": Vector2(36.2, 36.23)},
+	{"key": "nabatea", "ruler": "Aretas", "color": Color(0.70, 0.55, 0.30, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Petra", "capital_lonlat": Vector2(35.44, 30.33)},
 ]
 
 # Tribal/cultural frontier zones - deliberately NOT sourced from real
@@ -65,6 +73,11 @@ var registry: CharacterRegistry
 var player_realm_id: int
 var demo_year := START_YEAR
 var civ_realm_ids: Dictionary = {}  # civ_key -> realm.id
+var pending_player_civ := ""
+# Null when the baked HYDE keyframes (data/population/, built by
+# tools/build_population_mask.py) aren't present - the game then runs
+# without population, exactly as before.
+var population: PopulationEngine
 
 var proposal: PackedInt32Array
 var dirty_proposal_cells: Dictionary = {}  # (y*GRID_WIDTH+x) -> true, cells currently painted
@@ -118,6 +131,10 @@ func generate_world() -> void:
 	await _seed_real_civs()
 	loading_status_changed.emit("Settling the frontier tribes...")
 	await _seed_frontier_zones()
+	if civ_realm_ids.has(pending_player_civ):
+		player_realm_id = civ_realm_ids[pending_player_civ]
+	loading_status_changed.emit("Counting the people...")
+	_start_population()
 	loading_status_changed.emit("Drawing the map...")
 	await _build_full_map_image()
 	loading_status_changed.emit("Naming the realms...")
@@ -129,7 +146,8 @@ func generate_world() -> void:
 		"scroll to zoom, middle-drag to pan.")
 
 func save_current_game() -> bool:
-	return await SaveSystem.save_game(grid, registry, demo_year, player_realm_id, self)
+	return await SaveSystem.save_game(grid, registry, demo_year, player_realm_id, self,
+		population.to_dict() if population else {})
 
 # Restores a previously-saved world instead of generating a new one: skips
 # the seeding steps (_seed_land_and_sea/_seed_real_civs/_seed_frontier_zones)
@@ -156,6 +174,17 @@ func load_saved_game() -> bool:
 	registry = loaded.registry
 	demo_year = loaded.demo_year
 	player_realm_id = loaded.player_realm_id
+	population = null
+	var saved_population: Dictionary = loaded.get("population", {})
+	if not saved_population.is_empty():
+		var engine := PopulationEngine.new()
+		if engine.load_hyde() and engine.load_from_dict(saved_population):
+			population = engine
+			_sync_population_ownership()
+	elif PopulationEngine.hyde_available():
+		# Save from before the population engine existed: start it fresh
+		# from history at the saved year.
+		_start_population(demo_year)
 
 	loading_status_changed.emit("Drawing the map...")
 	await _build_full_map_image()
@@ -192,7 +221,10 @@ func _realm(realm_id: int) -> Realm:
 func get_player_realm() -> Realm:
 	return _realm(player_realm_id)
 
+# game_root calls this before generate_world(), when no realms exist yet,
+# so the choice is remembered and applied once seeding has created them.
 func set_player_civ(civ_key: String) -> void:
+	pending_player_civ = civ_key
 	if civ_realm_ids.has(civ_key):
 		player_realm_id = civ_realm_ids[civ_key]
 
@@ -458,7 +490,42 @@ func _compute_centroids() -> Dictionary:
 # the grid, so no rendering update is needed here.
 func advance_year() -> Array:
 	demo_year += 1
+	if population:
+		_sync_population_ownership()
+		population.tick(demo_year)
 	return registry.advance_year(demo_year)
+
+# Starts the population engine from HYDE's historical population at
+# start_year, with every real civ's 300 BC capital registered as an
+# existing capital. No-op if the HYDE keyframes aren't baked.
+func _start_population(start_year: int = START_YEAR) -> void:
+	if not PopulationEngine.hyde_available():
+		print("Population engine off: no HYDE keyframes in data/population/ ",
+			"(run tools/build_population_mask.py - see MAP_DATA.md).")
+		return
+	var engine := PopulationEngine.new()
+	if not engine.load_hyde():
+		return
+	population = engine
+	_sync_population_ownership()
+	var capitals := []
+	for spec in REAL_CIVS:
+		if civ_realm_ids.has(spec.key) and spec.has("capital_lonlat"):
+			var lonlat: Vector2 = spec.capital_lonlat
+			capitals.append({
+				"node": population.node_at_lonlat(lonlat.x, lonlat.y, LON_MIN, LON_MAX, LAT_MIN, LAT_MAX),
+				"kind": PopulationEngine.CapitalKind.COUNTRY,
+				"realm": civ_realm_ids[spec.key],
+			})
+	population.start(start_year, capitals)
+
+func _sync_population_ownership() -> void:
+	population.set_ownership(
+		population.ownership_from_grid(grid.cells, GRID_WIDTH, GRID_HEIGHT, SEA_OWNER_ID),
+		player_realm_id)
+
+func player_population() -> float:
+	return population.realm_population(player_realm_id) if population else 0.0
 
 func _color_for_owner(owner_id: int) -> Color:
 	if owner_id == 0:
