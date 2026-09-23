@@ -92,6 +92,65 @@ function simplifyClosedRing(ring, tolerance) {
 	return simplifiedA.slice(0, -1).concat(simplifiedB);
 }
 
+// EXPERIMENTAL / clearly not real data: some edges (mostly in frontier/
+// sphere-of-influence areas the source itself only drew approximately -
+// see Carthage's ~486km jump through Morocco) are much longer than the
+// rest of their own ring, rendering as a single jarring straight line.
+// This recursively midpoint-displaces those specific edges into a
+// jagged multi-segment path - FABRICATED coastline-like variation, not
+// sourced from anything real, purely to test whether this visual
+// artifact is what's being seen as "broken." Seeded for reproducibility.
+// Trivial to remove: JITTER_LONG_EDGES=false turns this back into a
+// pure passthrough (long straight edges as the source data actually has
+// them).
+const JITTER_LONG_EDGES = true;
+const JITTER_OUTLIER_FACTOR = 6;  // edge must be > (ring's own avg edge) * this to qualify
+const JITTER_MAX_SEGMENT_FACTOR = 3;  // subdivide until segments are <= (avg edge) * this
+const JITTER_DISPLACEMENT_FRACTION = 0.12;  // max perpendicular wobble, as a fraction of local segment length
+
+function seededRandom(seed) {
+	let s = seed >>> 0;
+	return function () {
+		s = (s * 1103515245 + 12345) >>> 0;
+		return (s >>> 8) / 0x1000000;
+	};
+}
+
+function subdivideJitter(a, b, maxSegment, rng) {
+	const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+	if (d <= maxSegment) return [];
+	const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+	const dx = b[0] - a[0], dy = b[1] - a[1];
+	const len = Math.hypot(dx, dy) || 1;
+	const px = -dy / len, py = dx / len;
+	const displacement = (rng() - 0.5) * 2 * d * JITTER_DISPLACEMENT_FRACTION;
+	const mid = [mx + px * displacement, my + py * displacement];
+	return [...subdivideJitter(a, mid, maxSegment, rng), mid, ...subdivideJitter(mid, b, maxSegment, rng)];
+}
+
+function jitterLongEdges(ring, seed) {
+	if (!JITTER_LONG_EDGES || ring.length < 3) return ring;
+	const n = ring.length;
+	let totalLen = 0;
+	for (let i = 0; i < n; i++) {
+		totalLen += dist(ring[i], ring[(i + 1) % n]);
+	}
+	const avgLen = totalLen / n;
+	const threshold = avgLen * JITTER_OUTLIER_FACTOR;
+	const maxSegment = avgLen * JITTER_MAX_SEGMENT_FACTOR;
+	const rng = seededRandom(seed);
+
+	const result = [];
+	for (let i = 0; i < n; i++) {
+		const a = ring[i], b = ring[(i + 1) % n];
+		result.push(a);
+		if (dist(a, b) > threshold) {
+			result.push(...subdivideJitter(a, b, maxSegment, rng));
+		}
+	}
+	return result;
+}
+
 // civ_key -> real feature NAME(s) to union (matched exactly, trimmed)
 const REGION_SOURCES = {
 	rome: ["Roman Republic"],
@@ -139,6 +198,7 @@ function main() {
 	const regions = [];
 	for (const [key, sourceNames] of Object.entries(REGION_SOURCES)) {
 		const polygons = [];
+		let partIndex = 0;
 		for (const name of sourceNames) {
 			const feats = data.features.filter(f => (f.properties.NAME || "").trim() === name);
 			if (feats.length === 0) {
@@ -148,7 +208,9 @@ function main() {
 				for (const ring of extractPolygons(f)) {
 					const projected = ring.map(([lon, lat]) => project(lon, lat));
 					const simplified = simplifyClosedRing(projected, SIMPLIFY_TOLERANCE_CELLS);
-					polygons.push(simplified);
+					const jittered = jitterLongEdges(simplified, partIndex * 1000 + 7);
+					polygons.push(jittered);
+					partIndex++;
 				}
 			}
 		}
