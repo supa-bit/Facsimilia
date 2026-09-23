@@ -150,12 +150,16 @@ alternate history possible. **(decided)**
 **Source of `H_hist`: HYDE, not a hand-authored map. (decided)** HYDE is
 already the decided source of the population density field (see Might,
 below), and it ships gridded population snapshots from 10,000 BCE to
-2023 CE. That's exactly a sequence of historical target maps, and it's
-already on this projection once `build_population_mask.py` exists. So
-`H_hist(year)` = the HYDE snapshot for that year, normalized to 0-1.
-Between HYDE's snapshots (per-century before 1700, per-decade after),
-interpolate linearly so the pull moves smoothly instead of jumping at each
-keyframe. At the 300 BC start, `H_sim` is seeded from `H_hist` itself, so
+the present (the game uses HYDE 3.2.1, which ends at 2017). That's
+exactly a sequence of historical target maps, baked onto this projection
+by `build_population_mask.py`. So `H_hist(year)` = the HYDE snapshot for
+that year, normalized to 0-1. Between HYDE's snapshots (per-century from
+0 AD to 1700, per-decade to 2000, yearly after), interpolate linearly so
+the pull moves smoothly instead of jumping at each keyframe. HYDE has no
+300 BC snapshot: before 0 AD it steps by 1000 years. The 300 BC keyframe
+is derived from 1000 BC and 0 AD per node, assuming steady exponential
+growth in between (39.4 million people on the map, against 26.1 million
+at 1000 BC and 48.2 million at 0 AD). At the 300 BC start, `H_sim` is seeded from `H_hist` itself, so
 turn one is historical by construction and divergence only comes from play.
 
 **The slow pull comes from population feedback into `H_sim`. (decided)**
@@ -245,12 +249,27 @@ four years early. Behavior at these values:
 
 History's pull at these values comes from `α`, from the slow `μ`, and,
 for everyone except the player, from the hard Historical ceiling below.
-These values get rechecked against the real HYDE grid once it's imported
-(`python3 tools/calibrate_population.py --hyde`, which runs the same fits
-on every land node of the baked 300 BC keyframe), since the toy city
-distribution is synthetic. (Ranks there are within the
-map's extent, not the whole planet, so the rank-size curve of the map
-region is what matters.)
+These values were fitted on a synthetic toy city distribution.
+`python3 tools/calibrate_population.py --hyde` reruns the same fits on
+every land node of the real baked 300 BC keyframe. (Ranks there are within
+the map's extent, not the whole planet, so the rank-size curve of the map
+region is what matters.) Result on the real grid:
+
+| Test node | Current constants (top 50 / top 10) | Best refit | Target |
+|---|---|---|---|
+| Ordinary | 143y / 165y | 139y / 163y (β 0.75, μ 0.0145) | 100 / 166 |
+| Country capital | 42y / 59y | 38y / 62y (transfer 7%, no bonus) | 24 / 78 |
+| Province capital | 85y / 103y | 80y / 104y (transfer 2%, no bonus) | 62 / 122 |
+
+No constants fit both times, and the refit barely improves on the current
+values, so they stay as they are for now. **(open)** The cause is the
+shape of HYDE's curve, not the constants. HYDE's top is flat: at 300 BC
+the #10 node holds ~20,000 and the #50 ~15,000, so a growing city that
+passes #50 is almost at #10. Every combination tried lands the two about
+25 years apart, against the 55-65 years the historical founded cities
+took. Options: target only one of the two ranks, measure ranks on the
+largest nodes of a settlement cluster (stage 3) rather than single nodes,
+or take the historical times as world ranks rather than map ranks.
 
 ### 2. Heatmap-to-population translation
 
@@ -631,7 +650,7 @@ explicitly meant to reflect *historical* population, the density field
 itself is sourced from **HYDE** (History Database of the Global
 Environment — PBL Netherlands Environmental Assessment Agency / Utrecht
 University), which gives gridded population estimates from 10,000 BCE to
-2023 CE. Free, public, no licensing cost — same footing as the Natural
+the present (HYDE 3.2.1, CC BY 3.0). Free, public, no licensing cost — same footing as the Natural
 Earth coastline and historical-basemaps borders already in the project.
 Implementation follows the same pattern as `tools/build_land_mask.py`: a
 new `tools/build_population_mask.py`-style import step bakes HYDE's grid
@@ -731,8 +750,13 @@ percentile naming, ruins' labels), the region mask and Regions overlay,
 real gameplay drivers (the engine exposes `driver_mods` for them; until
 they exist the historical heat stands in as the baseline), player growth
 of the world total, and province capitals, which wait on the province
-layer. The real HYDE files still have to be downloaded and baked; until
-then the engine switches itself off.
+layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
+(300 BC to 2017 AD, the 300 BC one derived; see MAP_DATA.md), so the
+engine now runs on the real grid: 284,626 land nodes, loaded in ~0.5 s.
+Known issues on the real grid: a yearly tick takes ~0.5 s headless, too
+slow for play at speed. By 0 AD the non-player world holds 45.6 million
+against HYDE's 48.2 million, because inertia lags the rising ceiling.
+The calibration doesn't fit (see above).
 
 Each phase should be independently verified against the real headless Godot
 engine (a Godot 4.3 headless build has been used for this in dev sessions;

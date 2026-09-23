@@ -47,16 +47,37 @@ than arbitrary noise or a uniform glow around every coastline.
 ## Population (HYDE)
 
 The population engine (`scripts/world/population_engine.gd`, design in
-MECHANICS.md) reads HYDE 3.3 historical population grids (PBL Netherlands
-Environmental Assessment Agency / Utrecht University, free and public):
-https://geo.public.data.uu.nl/vault-hyde/ (baseline population, `popc_*`).
+MECHANICS.md) reads HYDE 3.2.1 historical population grids, baseline
+estimate, population counts (`popc_*`). HYDE is by PBL Netherlands
+Environmental Assessment Agency / Utrecht University: Klein Goldewijk et
+al. (2017), Earth System Science Data 9, 927-953, CC BY 3.0. The original
+is `HYDE3_2_1-baseline.zip` on DANS, doi:10.17026/dans-25g-gez3. The
+`popc` files are mirrored in this repository's `assets-v1` GitHub release,
+alongside the Godot 4.7.2 Linux zip the session hook installs.
+
 `tools/build_population_mask.py` crops each 5-arcminute snapshot from
 300 BC onward to the map extent. The result is exactly 780 x 456 population
 nodes (12 per degree), each ~10.5 x 12 ownership cells, in the same linear
 lon/lat projection. Output goes to `data/population/`: `hyde_meta.json`
-plus one gzip'd float32 grid per keyframe year.
+plus one gzip'd float32 grid per keyframe year, 66 keyframes from 300 BC
+to 2017 AD.
 
-Until those files exist the game runs without population: the engine
+HYDE has no 300 BC grid. Before 0 AD its snapshots are 1000 years apart,
+so the 300 BC keyframe is derived from 1000 BC and 0 AD: per node, the
+growth is taken as steady and exponential, which is the time-weighted
+geometric mean. The 152 nodes that are empty at one end fall back to
+linear. That gives 39.4 million people on the map at 300 BC, against 26.1
+million at 1000 BC and 48.2 million at 0 AD; linear would give 41.5
+million. `hyde_meta.json` marks the keyframe `derived`. Every later
+keyframe is HYDE's own snapshot.
+
+HYDE spreads each country's historical total over modern-derived
+settlement patterns, so its densest ancient nodes are where cities are
+today. At 300 BC the largest are Beirut (~108,000), the Tel Aviv coast,
+Damascus, Tunis and Athens, not Alexandria or Babylon. That's HYDE's own
+allocation, not an artifact of the crop.
+
+Without `data/population/` the game runs without population: the engine
 switches itself off, and saves and the HUD simply omit it.
 
 ## Rebuild
@@ -67,8 +88,11 @@ Python dependencies: Pillow, NumPy, SciPy. From this project directory:
 2. `python tools/build_land_mask.py` if changing physical geography.
 3. `python tools/reconcile_map.py` after either of those changes.
 4. `python tools/build_relief_texture.py` to rebuild from the included crop.
-5. `python tools/build_population_mask.py <dir with HYDE popc zips or .asc>`
-   for the population keyframes (needs NumPy only).
+5. `python tools/fetch_hyde.py <dir>` downloads the HYDE `popc` zips from
+   the `assets-v1` release (`--from-dans` reads them out of the original
+   DANS archive instead; needs `pip install zipfile-deflate64`). Then
+   `python tools/build_population_mask.py <dir>` bakes the population
+   keyframes (needs NumPy only).
 6. Open `project.godot` in Godot and allow the assets to import.
 
 The project includes the completed assets; Python and Node are not required to

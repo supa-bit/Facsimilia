@@ -1,0 +1,284 @@
+{
+ "source": "HYDE 3.2.1 baseline popc (PBL Netherlands Environmental Assessment Agency / Utrecht University), CC BY 3.0, doi:10.17026/dans-25g-gez3",
+ "width": 780,
+ "height": 456,
+ "lon_min": -10,
+ "lon_max": 55,
+ "lat_min": 10,
+ "lat_max": 48,
+ "no_data": -1.0,
+ "keyframes": [
+  {
+   "year": -300,
+   "file": "popc_300BC.f32.gz"
+  },
+  {
+   "year": 0,
+   "file": "popc_0AD.f32.gz"
+  },
+  {
+   "year": 100,
+   "file": "popc_100AD.f32.gz"
+  },
+  {
+   "year": 200,
+   "file": "popc_200AD.f32.gz"
+  },
+  {
+   "year": 300,
+   "file": "popc_300AD.f32.gz"
+  },
+  {
+   "year": 400,
+   "file": "popc_400AD.f32.gz"
+  },
+  {
+   "year": 500,
+   "file": "popc_500AD.f32.gz"
+  },
+  {
+   "year": 600,
+   "file": "popc_600AD.f32.gz"
+  },
+  {
+   "year": 700,
+   "file": "popc_700AD.f32.gz"
+  },
+  {
+   "year": 800,
+   "file": "popc_800AD.f32.gz"
+  },
+  {
+   "year": 900,
+   "file": "popc_900AD.f32.gz"
+  },
+  {
+   "year": 1000,
+   "file": "popc_1000AD.f32.gz"
+  },
+  {
+   "year": 1100,
+   "file": "popc_1100AD.f32.gz"
+  },
+  {
+   "year": 1200,
+   "file": "popc_1200AD.f32.gz"
+  },
+  {
+   "year": 1300,
+   "file": "popc_1300AD.f32.gz"
+  },
+  {
+   "year": 1400,
+   "file": "popc_1400AD.f32.gz"
+  },
+  {
+   "year": 1500,
+   "file": "popc_1500AD.f32.gz"
+  },
+  {
+   "year": 1600,
+   "file": "popc_1600AD.f32.gz"
+  },
+  {
+   "year": 1700,
+   "file": "popc_1700AD.f32.gz"
+  },
+  {
+   "year": 1710,
+   "file": "popc_1710AD.f32.gz"
+  },
+  {
+   "year": 1720,
+   "file": "popc_1720AD.f32.gz"
+  },
+  {
+   "year": 1730,
+   "file": "popc_1730AD.f32.gz"
+  },
+  {
+   "year": 1740,
+   "file": "popc_1740AD.f32.gz"
+  },
+  {
+   "year": 1750,
+   "file": "popc_1750AD.f32.gz"
+  },
+  {
+   "year": 1760,
+   "file": "popc_1760AD.f32.gz"
+  },
+  {
+   "year": 1770,
+   "file": "popc_1770AD.f32.gz"
+  },
+  {
+   "year": 1780,
+   "file": "popc_1780AD.f32.gz"
+  },
+  {
+   "year": 1790,
+   "file": "popc_1790AD.f32.gz"
+  },
+  {
+   "year": 1800,
+   "file": "popc_1800AD.f32.gz"
+  },
+  {
+   "year": 1810,
+   "file": "popc_1810AD.f32.gz"
+  },
+  {
+   "year": 1820,
+   "file": "popc_1820AD.f32.gz"
+  },
+  {
+   "year": 1830,
+   "file": "popc_1830AD.f32.gz"
+  },
+  {
+   "year": 1840,
+   "file": "popc_1840AD.f32.gz"
+  },
+  {
+   "year": 1850,
+   "file": "popc_1850AD.f32.gz"
+  },
+  {
+   "year": 1860,
+   "file": "popc_1860AD.f32.gz"
+  },
+  {
+   "year": 1870,
+   "file": "popc_1870AD.f32.gz"
+  },
+  {
+   "year": 1880,
+   "file": "popc_1880AD.f32.gz"
+  },
+  {
+   "year": 1890,
+   "file": "popc_1890AD.f32.gz"
+  },
+  {
+   "year": 1900,
+   "file": "popc_1900AD.f32.gz"
+  },
+  {
+   "year": 1910,
+   "file": "popc_1910AD.f32.gz"
+  },
+  {
+   "year": 1920,
+   "file": "popc_1920AD.f32.gz"
+  },
+  {
+   "year": 1930,
+   "file": "popc_1930AD.f32.gz"
+  },
+  {
+   "year": 1940,
+   "file": "popc_1940AD.f32.gz"
+  },
+  {
+   "year": 1950,
+   "file": "popc_1950AD.f32.gz"
+  },
+  {
+   "year": 1960,
+   "file": "popc_1960AD.f32.gz"
+  },
+  {
+   "year": 1970,
+   "file": "popc_1970AD.f32.gz"
+  },
+  {
+   "year": 1980,
+   "file": "popc_1980AD.f32.gz"
+  },
+  {
+   "year": 1990,
+   "file": "popc_1990AD.f32.gz"
+  },
+  {
+   "year": 2000,
+   "file": "popc_2000AD.f32.gz"
+  },
+  {
+   "year": 2001,
+   "file": "popc_2001AD.f32.gz"
+  },
+  {
+   "year": 2002,
+   "file": "popc_2002AD.f32.gz"
+  },
+  {
+   "year": 2003,
+   "file": "popc_2003AD.f32.gz"
+  },
+  {
+   "year": 2004,
+   "file": "popc_2004AD.f32.gz"
+  },
+  {
+   "year": 2005,
+   "file": "popc_2005AD.f32.gz"
+  },
+  {
+   "year": 2006,
+   "file": "popc_2006AD.f32.gz"
+  },
+  {
+   "year": 2007,
+   "file": "popc_2007AD.f32.gz"
+  },
+  {
+   "year": 2008,
+   "file": "popc_2008AD.f32.gz"
+  },
+  {
+   "year": 2009,
+   "file": "popc_2009AD.f32.gz"
+  },
+  {
+   "year": 2010,
+   "file": "popc_2010AD.f32.gz"
+  },
+  {
+   "year": 2011,
+   "file": "popc_2011AD.f32.gz"
+  },
+  {
+   "year": 2012,
+   "file": "popc_2012AD.f32.gz"
+  },
+  {
+   "year": 2013,
+   "file": "popc_2013AD.f32.gz"
+  },
+  {
+   "year": 2014,
+   "file": "popc_2014AD.f32.gz"
+  },
+  {
+   "year": 2015,
+   "file": "popc_2015AD.f32.gz"
+  },
+  {
+   "year": 2016,
+   "file": "popc_2016AD.f32.gz"
+  },
+  {
+   "year": 2017,
+   "file": "popc_2017AD.f32.gz"
+  }
+ ],
+ "derived": {
+  "year": -300,
+  "from": [
+   -1000,
+   0
+  ],
+  "method": "per-node exponential (linear where either end is 0)"
+ }
+}
