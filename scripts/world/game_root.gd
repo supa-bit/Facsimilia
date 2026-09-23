@@ -8,11 +8,15 @@ const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 var map_view: Node2D
 var hud: Control
 var civ_select: Control
+var ui_layer: CanvasLayer  # keeps UI in screen space, unaffected by map_view's camera zoom/pan
 
 func _ready() -> void:
+	ui_layer = CanvasLayer.new()
+	add_child(ui_layer)
+
 	civ_select = CivSelectScene.instantiate()
 	civ_select.theme = ThemeAncient.build()
-	add_child(civ_select)
+	ui_layer.add_child(civ_select)
 	civ_select.civ_chosen.connect(_on_civ_chosen)
 
 func _on_civ_chosen(civ_key: String) -> void:
@@ -25,7 +29,7 @@ func _on_civ_chosen(civ_key: String) -> void:
 
 	hud = HudScene.instantiate()
 	hud.theme = ThemeAncient.build()
-	add_child(hud)
+	ui_layer.add_child(hud)
 	hud.setup(map_view)
 	hud.refresh()
 	hud.advance_requested.connect(_on_advance_requested)

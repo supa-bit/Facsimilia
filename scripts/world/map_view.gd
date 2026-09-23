@@ -41,6 +41,7 @@ var civ_realm_ids: Dictionary = {}
 # offer can be seen before it's ever committed.
 var proposal: PackedInt32Array
 var map_sprite: Sprite2D
+var camera: Camera2D
 var painting := false
 
 func _ready() -> void:
@@ -66,8 +67,29 @@ func _ready() -> void:
 
 	_refresh_map_texture()
 
+	camera = Camera2D.new()
+	camera.position = Vector2(GRID_WIDTH * CELL_PIXELS / 2.0, GRID_HEIGHT * CELL_PIXELS / 2.0)
+	add_child(camera)
+	camera.make_current()
+	get_viewport().size_changed.connect(_fit_camera_to_window)
+	_fit_camera_to_window()
+
 	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells, year ", demo_year, ". ",
 		"Left-drag to propose annexing/settling land, right-click to clear the proposal.")
+
+# The map (320x240 cells * 4px = 1280x960) is bigger than most default
+# windows, so without this only the top-left corner was ever visible -
+# that's what made the previous screenshot look like the coastline was
+# broken, when really most of the map was just off-screen. Zooms out
+# exactly enough that the whole map fits inside whatever window size
+# exists right now, and re-fits automatically if the window is resized.
+func _fit_camera_to_window() -> void:
+	var viewport_size := get_viewport_rect().size
+	if viewport_size.x <= 0 or viewport_size.y <= 0:
+		return
+	var map_size := Vector2(GRID_WIDTH * CELL_PIXELS, GRID_HEIGHT * CELL_PIXELS)
+	var zoom_factor: float = max(map_size.x / viewport_size.x, map_size.y / viewport_size.y)
+	camera.zoom = Vector2(zoom_factor, zoom_factor)
 
 func _build_sea_mask() -> void:
 	sea_mask = PackedByteArray()
@@ -189,15 +211,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			painting = event.pressed
 			if painting:
-				_paint_at(event.position)
+				_paint_at(get_global_mouse_position())
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			proposal.fill(0)
 			_refresh_map_texture()
 	elif event is InputEventMouseMotion and painting:
-		_paint_at(event.position)
+		_paint_at(get_global_mouse_position())
 
-func _paint_at(screen_pos: Vector2) -> void:
-	var cell := Vector2i(screen_pos / CELL_PIXELS)
+# Takes a WORLD-space position (get_global_mouse_position(), not raw event
+# screen coordinates) - with the camera now zoomed out to fit the whole
+# map, those two stop being the same thing, and using screen coordinates
+# directly would misalign painting from what's actually under the cursor.
+func _paint_at(world_pos: Vector2) -> void:
+	var cell := Vector2i(world_pos / CELL_PIXELS)
 	if not grid.in_bounds(cell.x, cell.y):
 		return
 	for dy in range(-PAINT_RADIUS, PAINT_RADIUS + 1):
