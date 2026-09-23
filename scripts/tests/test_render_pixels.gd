@@ -15,11 +15,11 @@ func _init() -> void:
 	var mv = MapViewScript.new()
 	mv.grid = OwnershipGrid.new(MapViewScript.GRID_WIDTH, MapViewScript.GRID_HEIGHT)
 	mv.registry = CharacterRegistry.new()
-	mv._seed_real_civs()
-	mv._seed_frontier_zones()
-	mv._seed_sea()
+	await mv._seed_real_civs()
+	await mv._seed_frontier_zones()
+	await mv._seed_sea()
 	mv.map_sprite = Sprite2D.new()
-	mv._build_full_map_image()
+	await mv._build_full_map_image()
 
 	# Sample actual built-image pixels at cells whose owner we know from
 	# the grid directly, and compare against what that owner's color

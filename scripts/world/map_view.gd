@@ -1,5 +1,7 @@
 extends Node2D
 
+signal loading_status_changed(text: String)
+
 const OwnershipGrid := preload("res://scripts/world/ownership_grid.gd")
 const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd")
 const Realm := preload("res://scripts/dynasty/realm.gd")
@@ -83,12 +85,16 @@ var painting := false
 var panning := false
 
 func _ready() -> void:
+	# Only the fast, instant setup lives in _ready() - grid/registry
+	# creation and node setup are microseconds. The expensive world
+	# generation (seeding, building the display image, computing label
+	# positions - tens of millions of cells) is generate_world(), a
+	# separate coroutine game_root calls and awaits AFTER add_child(this),
+	# broken into yielded chunks so it never blocks the engine's main
+	# loop (rendering/input/OS message pump) for more than a fraction of
+	# a second at a stretch.
 	grid = OwnershipGrid.new(GRID_WIDTH, GRID_HEIGHT)
 	registry = CharacterRegistry.new()
-
-	_seed_real_civs()
-	_seed_frontier_zones()
-	_seed_sea()
 
 	proposal = PackedInt32Array()
 	proposal.resize(GRID_WIDTH * GRID_HEIGHT)
@@ -104,15 +110,25 @@ func _ready() -> void:
 	mat.set_shader_parameter("texel_size", Vector2(1.0 / GRID_WIDTH, 1.0 / GRID_HEIGHT))
 	map_sprite.material = mat
 
-	_build_full_map_image()
-	_build_labels()
-
 	camera = Camera2D.new()
 	camera.position = Vector2(GRID_WIDTH * CELL_PIXELS / 2.0, GRID_HEIGHT * CELL_PIXELS / 2.0)
 	add_child(camera)
 	camera.make_current()
 	get_viewport().size_changed.connect(_fit_camera_to_window)
 	_fit_camera_to_window()
+
+func generate_world() -> void:
+	loading_status_changed.emit("Mapping the ancient world...")
+	await _seed_real_civs()
+	loading_status_changed.emit("Settling the frontier tribes...")
+	await _seed_frontier_zones()
+	loading_status_changed.emit("Charting the seas...")
+	await _seed_sea()
+	loading_status_changed.emit("Drawing the map...")
+	await _build_full_map_image()
+	loading_status_changed.emit("Naming the realms...")
+	var centroids: Dictionary = await _compute_centroids()
+	_build_labels(centroids)
 
 	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells, year ", demo_year, ". ",
 		"Left-drag to propose annexing/settling land, right-click to clear the proposal, ",
@@ -164,7 +180,7 @@ func _seed_real_civs() -> void:
 			var polygon := PackedVector2Array()
 			for point in poly_points:
 				polygon.append(Vector2(point[0], point[1]))
-			_fill_polygon(polygon, realm.id, false)
+			await _fill_polygon(polygon, realm.id, false)
 
 	player_realm_id = civ_realm_ids.get("rome", civ_realm_ids.values()[0])
 
@@ -172,10 +188,23 @@ func _seed_frontier_zones() -> void:
 	for spec in FRONTIER_ZONES:
 		var realm := _make_ruler_and_realm(spec.realm, spec.ruler, spec.color, spec.law)
 		civ_realm_ids[spec.key] = realm.id
-		_fill_polygon(spec.polygon, realm.id, true)
+		await _fill_polygon(spec.polygon, realm.id, true)
 
 func _seed_sea() -> void:
-	_fill_polygon(SEA_ZONE, SEA_OWNER_ID, true)
+	await _fill_polygon(SEA_ZONE, SEA_OWNER_ID, true)
+
+# Yields to the engine's main loop if (and only if) this node is
+# actually inside a running SceneTree. Headless test scripts construct
+# a MapViewScript instance without ever add_child-ing it anywhere, so
+# get_tree() is null there - in that case this is a no-op and every
+# await site below falls through synchronously, keeping those tests
+# fast and simple. In the real game (added to the tree by game_root
+# before generate_world() runs), this is what keeps rendering/input/the
+# OS message pump alive during the ~15-25s of world generation instead
+# of freezing the whole window.
+func _maybe_yield() -> void:
+	if is_inside_tree():
+		await get_tree().process_frame
 
 func is_sea(x: int, y: int) -> bool:
 	return grid.get_owner(x, y) == SEA_OWNER_ID
@@ -200,6 +229,7 @@ func _fill_polygon(polygon: PackedVector2Array, owner_id: int, only_if_unclaimed
 	var y0 := clampi(int(min_y), 0, GRID_HEIGHT - 1)
 	var y1 := clampi(int(max_y), 0, GRID_HEIGHT - 1)
 	var n := polygon.size()
+	var rows_since_yield := 0
 	for y in range(y0, y1 + 1):
 		var scan_y := y + 0.5
 		var xs: Array = []
@@ -224,11 +254,14 @@ func _fill_polygon(polygon: PackedVector2Array, owner_id: int, only_if_unclaimed
 					continue
 				grid.set_owner(x, y, owner_id)
 			i += 2
+		rows_since_yield += 1
+		if rows_since_yield >= 40:
+			rows_since_yield = 0
+			await _maybe_yield()
 
-func _build_labels() -> void:
+func _build_labels(centroids: Dictionary) -> void:
 	label_container = Node2D.new()
 	add_child(label_container)
-	var centroids := _compute_centroids()
 	for realm_id in registry.realms.keys():
 		if not centroids.has(realm_id):
 			continue
@@ -244,19 +277,26 @@ func _build_labels() -> void:
 
 # Single pass over the whole grid (raw array, not per-cell get_owner()
 # calls) computing every realm's centroid at once, instead of one
-# full-grid pass per realm.
+# full-grid pass per realm. Chunked with yields - see _maybe_yield().
 func _compute_centroids() -> Dictionary:
 	var sums := {}
 	var counts := {}
 	var cells := grid.cells
-	for i in cells.size():
-		var o: int = cells[i]
-		if o <= 0 or o == SEA_OWNER_ID:
-			continue
-		var x := i % GRID_WIDTH
-		var y := i / GRID_WIDTH
-		sums[o] = sums.get(o, Vector2.ZERO) + Vector2(x, y)
-		counts[o] = counts.get(o, 0) + 1
+	var total := cells.size()
+	var chunk_size := 1000000
+	var i := 0
+	while i < total:
+		var end: int = mini(i + chunk_size, total)
+		for j in range(i, end):
+			var o: int = cells[j]
+			if o <= 0 or o == SEA_OWNER_ID:
+				continue
+			var x := j % GRID_WIDTH
+			var y := j / GRID_WIDTH
+			sums[o] = sums.get(o, Vector2.ZERO) + Vector2(x, y)
+			counts[o] = counts.get(o, 0) + 1
+		i = end
+		await _maybe_yield()
 	var centroids := {}
 	for o in sums.keys():
 		centroids[o] = sums[o] / counts[o]
@@ -295,7 +335,8 @@ func _display_color(x: int, y: int) -> Color:
 # millions of individual Image.set_pixel() calls - set_pixel has real
 # per-call overhead (bounds checks, an engine call each time) that adds
 # up fast at tens of millions of cells. A palette lookup per cell plus a
-# single create_from_data() bulk upload is dramatically faster.
+# single create_from_data() bulk upload is dramatically faster. Chunked
+# with yields - see _maybe_yield().
 func _build_full_map_image() -> void:
 	var palette := {}
 	for realm_id in registry.realms.keys():
@@ -309,20 +350,27 @@ func _build_full_map_image() -> void:
 	var bytes := PackedByteArray()
 	bytes.resize(GRID_WIDTH * GRID_HEIGHT * 4)
 	var cells := grid.cells
-	for i in cells.size():
-		var owner_id: int = cells[i]
-		var rgba: PackedByteArray
-		if owner_id == 0:
-			rgba = wild8
-		elif owner_id == SEA_OWNER_ID:
-			rgba = sea8
-		else:
-			rgba = palette_bytes.get(owner_id, wild8)
-		var base := i * 4
-		bytes[base] = rgba[0]
-		bytes[base + 1] = rgba[1]
-		bytes[base + 2] = rgba[2]
-		bytes[base + 3] = rgba[3]
+	var total := cells.size()
+	var chunk_size := 500000
+	var i := 0
+	while i < total:
+		var end: int = mini(i + chunk_size, total)
+		for j in range(i, end):
+			var owner_id: int = cells[j]
+			var rgba: PackedByteArray
+			if owner_id == 0:
+				rgba = wild8
+			elif owner_id == SEA_OWNER_ID:
+				rgba = sea8
+			else:
+				rgba = palette_bytes.get(owner_id, wild8)
+			var base := j * 4
+			bytes[base] = rgba[0]
+			bytes[base + 1] = rgba[1]
+			bytes[base + 2] = rgba[2]
+			bytes[base + 3] = rgba[3]
+		i = end
+		await _maybe_yield()
 
 	map_image = Image.create_from_data(GRID_WIDTH, GRID_HEIGHT, false, Image.FORMAT_RGBA8, bytes)
 	map_texture = ImageTexture.create_from_image(map_image)

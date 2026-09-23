@@ -14,9 +14,9 @@ func _init() -> void:
 	mv.registry = CharacterRegistry.new()
 
 	var t0 := Time.get_ticks_msec()
-	mv._seed_real_civs()
-	mv._seed_frontier_zones()
-	mv._seed_sea()
+	await mv._seed_real_civs()
+	await mv._seed_frontier_zones()
+	await mv._seed_sea()
 	var seed_ms := Time.get_ticks_msec() - t0
 
 	var total_cells: int = MapViewScript.GRID_WIDTH * MapViewScript.GRID_HEIGHT

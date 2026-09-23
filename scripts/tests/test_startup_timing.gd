@@ -13,16 +13,16 @@ func _init() -> void:
 	mv.registry = CharacterRegistry.new()
 
 	var t0 := Time.get_ticks_msec()
-	mv._seed_real_civs()
-	mv._seed_frontier_zones()
-	mv._seed_sea()
+	await mv._seed_real_civs()
+	await mv._seed_frontier_zones()
+	await mv._seed_sea()
 	var t1 := Time.get_ticks_msec()
 
 	mv.map_sprite = Sprite2D.new()  # _build_full_map_image needs this to exist
-	mv._build_full_map_image()
+	await mv._build_full_map_image()
 	var t2 := Time.get_ticks_msec()
 
-	var centroids := mv._compute_centroids()
+	var centroids: Dictionary = await mv._compute_centroids()
 	var t3 := Time.get_ticks_msec()
 
 	print("Seeding:            ", t1 - t0, " ms")
