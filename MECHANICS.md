@@ -245,8 +245,10 @@ four years early. Behavior at these values:
 
 History's pull at these values comes from `α`, from the slow `μ`, and,
 for everyone except the player, from the hard Historical ceiling below.
-These values get rechecked against the real HYDE grid once it's imported,
-since the toy city distribution is synthetic. (Ranks there are within the
+These values get rechecked against the real HYDE grid once it's imported
+(`python3 tools/calibrate_population.py --hyde`, which runs the same fits
+on every land node of the baked 300 BC keyframe), since the toy city
+distribution is synthetic. (Ranks there are within the
 map's extent, not the whole planet, so the rank-size curve of the map
 region is what matters.)
 
