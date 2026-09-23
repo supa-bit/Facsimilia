@@ -58,6 +58,40 @@ function douglasPeucker(points, tolerance) {
 	return [first, last];
 }
 
+function dist(a, b) {
+	return Math.hypot(a[0] - b[0], a[1] - b[1]);
+}
+
+// Standard Douglas-Peucker takes two FIXED anchor points and never
+// removes them. A GeoJSON ring's first and last coordinate are the same
+// point (that's how the ring closes) - calling douglasPeucker directly
+// on it uses one coincident point as BOTH anchors, which is degenerate
+// and produces distorted, self-crossing-looking simplifications (this
+// was the actual bug behind the ribbon-like artifacts in-game). Fix:
+// drop the duplicate closing point, pick two points that are actually
+// far apart in the ring, split into two open chains between them,
+// simplify each chain independently (now with real, separated anchors),
+// then rejoin.
+function simplifyClosedRing(ring, tolerance) {
+	let pts = ring.slice();
+	if (pts.length > 1 && dist(pts[0], pts[pts.length - 1]) < 1e-9) {
+		pts = pts.slice(0, -1);
+	}
+	if (pts.length < 4) return ring;
+
+	let farIdx = 0, farDist = -1;
+	for (let i = 1; i < pts.length; i++) {
+		const d = dist(pts[0], pts[i]);
+		if (d > farDist) { farDist = d; farIdx = i; }
+	}
+
+	const chainA = pts.slice(0, farIdx + 1);
+	const chainB = pts.slice(farIdx).concat([pts[0]]);
+	const simplifiedA = douglasPeucker(chainA, tolerance);
+	const simplifiedB = douglasPeucker(chainB, tolerance);
+	return simplifiedA.slice(0, -1).concat(simplifiedB);
+}
+
 // civ_key -> real feature NAME(s) to union (matched exactly, trimmed)
 const REGION_SOURCES = {
 	rome: ["Roman Republic"],
@@ -113,7 +147,7 @@ function main() {
 			for (const f of feats) {
 				for (const ring of extractPolygons(f)) {
 					const projected = ring.map(([lon, lat]) => project(lon, lat));
-					const simplified = douglasPeucker(projected, SIMPLIFY_TOLERANCE_CELLS);
+					const simplified = simplifyClosedRing(projected, SIMPLIFY_TOLERANCE_CELLS);
 					polygons.push(simplified);
 				}
 			}

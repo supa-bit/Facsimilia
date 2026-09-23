@@ -122,8 +122,13 @@ func _fit_camera_to_window() -> void:
 	var viewport_size := get_viewport_rect().size
 	if viewport_size.x <= 0 or viewport_size.y <= 0:
 		return
+	# min(), not max(): fills the whole window (cropping whichever axis
+	# overflows) instead of letterboxing empty space around the map to
+	# preserve its aspect ratio. The map is much bigger than one screen
+	# regardless, so a small crop at the default view is the right
+	# tradeoff versus dead gray space on the sides.
 	var map_size := Vector2(GRID_WIDTH * CELL_PIXELS, GRID_HEIGHT * CELL_PIXELS)
-	max_zoom = max(map_size.x / viewport_size.x, map_size.y / viewport_size.y)
+	max_zoom = min(map_size.x / viewport_size.x, map_size.y / viewport_size.y)
 	camera.zoom = Vector2(max_zoom, max_zoom)
 
 func _realm(realm_id: int) -> Realm:
@@ -340,9 +345,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_MIDDLE:
 			panning = event.pressed
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			_zoom_by(0.9)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			_zoom_by(1.1)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
+			_zoom_by(0.9)
 	elif event is InputEventMouseMotion:
 		if painting:
 			_paint_at(get_global_mouse_position())
