@@ -4,8 +4,8 @@ const OwnershipGrid := preload("res://scripts/world/ownership_grid.gd")
 const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd")
 const Realm := preload("res://scripts/dynasty/realm.gd")
 
-const GRID_WIDTH := 200
-const GRID_HEIGHT := 150
+const GRID_WIDTH := 320
+const GRID_HEIGHT := 240
 const CELL_PIXELS := 4  # on-screen scale per grid cell
 const PAINT_RADIUS := 3
 const WILD_COLOR := Color(0.12, 0.12, 0.12, 1.0)  # unclaimed land - not a realm, no owner
@@ -62,23 +62,40 @@ func set_player_civ(civ_key: String) -> void:
 	if civ_realm_ids.has(civ_key):
 		player_realm_id = civ_realm_ids[civ_key]
 
-# A small regional slice of the Mediterranean/western Europe at 300 BC,
-# not the whole world - positions are stylized, not traced coastlines, but
-# placed at roughly the right relative geography: Rome small and central
-# in Italy, Carthage larger to the southwest across the sea, the Greek
-# world (Epirus) to the east, Gallic tribes sprawling to the north. Rome
-# is deliberately the smallest here - it was a minor regional power in
-# 300 BC, not yet the Mediterranean superpower it became.
+# A regional slice of the Mediterranean/western Eurasia at 300 BC, not the
+# whole world - positions are stylized, not traced coastlines, but placed
+# at roughly the right relative geography per the reference map the user
+# confirmed as accurate for this period. Twelve broad regional powers
+# (grouping many smaller historical factions together, not one blob per
+# named tribe) rather than the whole map's worth of labels. Rome is
+# deliberately the smallest - a minor Italian power in 300 BC, not yet the
+# Mediterranean superpower it became; that gap is the point of the game.
 func _seed_ancient_world() -> void:
 	var specs := [
 		{"key": "rome", "realm": "Rome", "ruler": "Numerius", "color": Color(0.75, 0.20, 0.20, 1.0),
-			"cx": 100, "cy": 90, "radius": 13, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+			"cx": 170, "cy": 120, "radius": 13, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
 		{"key": "carthage", "realm": "Carthage", "ruler": "Hasdrubal", "color": Color(0.55, 0.30, 0.65, 1.0),
-			"cx": 60, "cy": 128, "radius": 22, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-		{"key": "epirus", "realm": "Epirus", "ruler": "Alcetas", "color": Color(0.20, 0.40, 0.75, 1.0),
-			"cx": 150, "cy": 100, "radius": 18, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+			"cx": 140, "cy": 180, "radius": 26, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "numidia", "realm": "Numidian & Berber Peoples", "ruler": "Gaia", "color": Color(0.75, 0.45, 0.20, 1.0),
+			"cx": 75, "cy": 195, "radius": 30, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "egypt", "realm": "Ptolemaic Egypt", "ruler": "Ptolemy", "color": Color(0.85, 0.75, 0.15, 1.0),
+			"cx": 225, "cy": 180, "radius": 20, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "kush", "realm": "Kingdom of Kush", "ruler": "Arkamani", "color": Color(0.55, 0.25, 0.15, 1.0),
+			"cx": 245, "cy": 220, "radius": 18, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "iberia", "realm": "Iberian & Celtiberian Tribes", "ruler": "Indibilis", "color": Color(0.20, 0.55, 0.55, 1.0),
+			"cx": 35, "cy": 145, "radius": 26, "law": Realm.SuccessionLaw.PRIMOGENITURE},
 		{"key": "gaul", "realm": "Gallic Tribes", "ruler": "Brennos", "color": Color(0.25, 0.65, 0.30, 1.0),
-			"cx": 90, "cy": 30, "radius": 27, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+			"cx": 110, "cy": 55, "radius": 32, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "greek_world", "realm": "Greek World", "ruler": "Alcetas", "color": Color(0.20, 0.40, 0.75, 1.0),
+			"cx": 235, "cy": 140, "radius": 20, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "dacia", "realm": "Dacian & Getae Tribes", "ruler": "Oroles", "color": Color(0.45, 0.30, 0.15, 1.0),
+			"cx": 225, "cy": 55, "radius": 22, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "thrace_anatolia", "realm": "Thrace & Anatolia", "ruler": "Lysimachos", "color": Color(0.75, 0.35, 0.55, 1.0),
+			"cx": 280, "cy": 115, "radius": 24, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "scythia", "realm": "Scythian Peoples", "ruler": "Ateas", "color": Color(0.35, 0.65, 0.75, 1.0),
+			"cx": 270, "cy": 45, "radius": 28, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "seleucid", "realm": "Seleucid Empire", "ruler": "Seleukos", "color": Color(0.35, 0.25, 0.65, 1.0),
+			"cx": 295, "cy": 165, "radius": 16, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
 	]
 	for i in specs.size():
 		var spec: Dictionary = specs[i]
