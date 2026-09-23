@@ -36,8 +36,8 @@ func create_character(name: String, sex: String, birth_year: int,
 		characters[mother_id].children_ids.append(c.id)
 	return c
 
-func create_realm(name: String, ruler: Character, succession_law: int) -> Realm:
-	var r := Realm.new(_next_realm_id, name, ruler.id, succession_law)
+func create_realm(name: String, ruler: Character, succession_law: int, color: Color) -> Realm:
+	var r := Realm.new(_next_realm_id, name, ruler.id, succession_law, color)
 	_next_realm_id += 1
 	realms[r.id] = r
 	return r

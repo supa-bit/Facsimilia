@@ -17,7 +17,7 @@ func _init() -> void:
 	assert(founder.dynasty_id == dynasty.id)
 	assert(daughter.father_id == founder.id and daughter.mother_id == spouse.id)
 
-	var realm_male_pref := reg.create_realm("Aldric Realm", founder, Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE)
+	var realm_male_pref := reg.create_realm("Aldric Realm", founder, Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, Color.GRAY)
 	var heir := reg.handle_ruler_death(realm_male_pref, 1090)
 	assert(heir != null)
 	assert(heir.id == son.id)
@@ -32,14 +32,14 @@ func _init() -> void:
 	var eldest_daughter := reg.have_child(spouse2, founder2, "Nadia", "female", 1065)
 	reg.have_child(spouse2, founder2, "Talon", "male", 1068)
 
-	var realm_primo := reg.create_realm("Osric Realm", founder2, Realm.SuccessionLaw.PRIMOGENITURE)
+	var realm_primo := reg.create_realm("Osric Realm", founder2, Realm.SuccessionLaw.PRIMOGENITURE, Color.GRAY)
 	var heir2 := reg.handle_ruler_death(realm_primo, 1085)
 	assert(heir2.id == eldest_daughter.id)
 
 	# Succession crisis: no children means no resolvable heir.
 	var lone_ruler := reg.create_character("Ivo", "male", 1030)
 	reg.create_dynasty("House Ivo", lone_ruler)
-	var lonely_realm := reg.create_realm("Ivo Realm", lone_ruler, Realm.SuccessionLaw.PRIMOGENITURE)
+	var lonely_realm := reg.create_realm("Ivo Realm", lone_ruler, Realm.SuccessionLaw.PRIMOGENITURE, Color.GRAY)
 	var heir3 := reg.handle_ruler_death(lonely_realm, 1080)
 	assert(heir3 == null)
 	assert(lonely_realm.ruler_id == lone_ruler.id)
