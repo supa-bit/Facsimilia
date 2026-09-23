@@ -315,28 +315,44 @@ Two consequences worth knowing before tuning:
 
 ### Historical ceiling: only the player exceeds history
 
-**Bots and unowned land can never grow a place beyond its historical high.
-Only the player can. (decided)** Every node has a ceiling:
+**Bots and unowned land can never hold more people in a place than real
+history had there at that date. Only the player can. (decided)** Every node
+has a ceiling that tracks history as it happened, rises *and* falls:
 
 ```
-HistHigh_i(year) = max over HYDE snapshots up to `year` of HYDE_pop_i   (interpolated like H_hist)
+Ceiling_i(year) = HYDE_pop_i(year)        (interpolated between snapshots, like H_hist)
 ```
 
-This is the most people that place had held in real history by that
-date. It's a running maximum, so it rises as the real place grew, and it
-doesn't fall when the real place declined. A bot can keep Babylon at its
-peak instead of letting it fade, but can't make it bigger than it ever
-was. Rules:
+When real Babylon declines after Seleucia is founded, its ceiling declines
+with it, and a bot-held Babylon declines too. A bot can't keep it at its
+peak. Together with the `α` pull, which draws *under*-populated places up
+toward history, bot-held and unclaimed land hugs the historical record:
+never above it, and pulled back up when it falls below. (An earlier draft
+used the running historical maximum as the ceiling. That was wrong. It let
+a bot freeze Babylon at its peak forever, which contradicts the whole
+point of the historical pull.) Rules:
 
 - **Applies to:** every node not owned by the player's realm. That covers
   bot realms, unorganized land held by bots, and unclaimed land.
-- **Enforced on the target, not the population:** for capped nodes,
-  `Target_i ← min(Target_i, HistHigh_i)`. Because population relaxes
-  toward its target and never overshoots it, a capped node can't grow
-  past its ceiling. A player city above its historical high that's lost
-  to a bot doesn't snap down. It declines toward the ceiling at the normal
-  `μ` rate, about a century to lose half the excess on a log scale. So
-  the player's legacy survives them for a while.
+- **Enforced on the population itself:**
+  `Pop_i ← min(Pop_i, Allowance_i)` after each tick's update, where
+  `Allowance_i = Ceiling_i` for any place the player never lifted above
+  history. Capping only the *target* isn't enough. Population closes about
+  1.2% of its log gap to target each year, so when history falls it would
+  lag far behind. Babylon's roughly 20x fall over three centuries would
+  leave a bot-held Babylon about 2.4x above history the whole way down.
+  Clamping the population makes bot-held places follow history's own
+  decline at history's own pace. Targets are clamped too, so growth
+  toward an unreachable target doesn't spill into the redistribution
+  below.
+- **Player legacy fades instead of snapping:** when a node the player
+  held above its ceiling passes out of player ownership (conquest, or
+  abandoning the land), `Allowance_i` starts at the node's population at
+  that moment and relaxes toward `Ceiling_i` on the normal log-scale `μ`
+  curve: about 60 years to halve the excess on a log scale. The city
+  shrinks back to history gradually rather than overnight. Once
+  `Allowance_i` reaches the ceiling, the node is an ordinary capped node
+  again.
 - **Capped excess stays with bots:** population trimmed off capped
   targets is redistributed to other *non-player* nodes still below their
   ceilings, in proportion to their targets. This keeps the world total on
@@ -416,8 +432,10 @@ Two parts, both historically grounded, fitted to the targets above:
   300 BC. The whole world begins as historical record, not procedural.
 - **Seeding an empty node** (a founding on empty land, or the
   resettlement of a ruin) uses, in order: the node's HYDE population for
-  the current year; else its historical high to date (`HistHigh`); else
-  the median rural node density of its ancient geographic region. A new
+  the current year; else, for the player only, the median rural node
+  density of its ancient geographic region. For bots and unclaimed land
+  the seed is clamped to the ceiling. Where history had nobody that year,
+  nobody but the player can settle. A new
   settlement starts at what history says that land held. Capital
   resettlement, above, adds to that seed.
 - **Ruins need an event.** Log-scale growth never reaches zero on its own
