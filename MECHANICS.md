@@ -219,11 +219,13 @@ numbers is about an informed choice, not a blocked action. Losing (per the
 existing rule below) means the paint snaps back with attrition to the
 attacker's own Might, not that confirm gets disabled. **(decided)**
 
-**(open)** When one stroke spans multiple distinct provinces (or crosses
-from unclaimed land into an organized enemy province), does the panel show
-one blended total, or a breakdown per province? Resolution itself happens
-per-province, so a breakdown seems right, but this is a real layout call
-for the panel, not just an implementation detail.
+When one stroke spans multiple distinct provinces (or crosses from
+unclaimed land into an organized enemy province), the panel shows a
+**breakdown per province** — a separate Might/resource readout for each
+one touched, not a blended total. Matches how resolution itself happens:
+each affected province is checked against its own Might independently, so
+the panel should show exactly what's about to be decided, not an average
+that hides which individual provinces you can and can't take. **(decided)**
 
 ## Annexation resolution
 
