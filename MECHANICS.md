@@ -28,12 +28,15 @@ grid:
    targets this layer instead of ownership, with a selected target
    (an existing province of yours, to expand it, or "new province", to found
    one).
-3. **Density fields** (new) — population and raw-resource presence, baked at
-   world-gen. Population comes from HYDE (see Might, below, for why real
-   historical data matters here); raw-resource presence is derived from
-   terrain data already loaded for the terrain shader. Not normally
-   player-painted (geography/history-driven), though the same brush code
-   could hand-adjust them in a dev/authoring context.
+3. **Density fields** (new) — population and raw-resource presence.
+   Population is **live, not baked**: it's `C * H_final^k`, recomputed
+   each population tick from the blended simulated and historical heatmaps
+   (see Population & settlement engine, below). HYDE (see Might, below)
+   provides the historical side of that blend and seeds the 300 BC starting
+   state. Raw-resource presence is still baked at world-gen from terrain
+   data already loaded for the terrain shader. Not normally player-painted
+   (geography/history-driven), though the same brush code could
+   hand-adjust them in a dev/authoring context.
 
 Provinces never store population/resources as an opaque blob — a province's
 stats are always the sum of the density fields over whatever cells currently
@@ -101,39 +104,169 @@ Deliberately weak defense on both unclaimed and unorganized land is the
 incentive to actually organize conquered/settled territory rather than
 leave it as paperwork. **(decided)**
 
-### Settlement population threshold — a formula, not a fixed number
+### Settlement naming threshold — percentile rank, with hysteresis
 
-A flat number (50,000 was the earlier placeholder) has two problems: it's
-arbitrary, and in practice at the 300 BC start it would only tag a literal
-handful of settlements worldwide — too restrictive to be useful as anything
-but a "the last two or three supercities" special case. It also silently
-breaks the moment the timeline moves past antiquity, since 50,000 stops
-meaning anything once cities reach the millions.
+Supersedes the earlier "10% of the world's largest settlement" rule (and the
+flat 50,000 placeholder before that). Both of those measured *size*; what
+the rule actually needs to protect is *map readability*, and that's a
+question of how many labels are on screen, which a percentile controls
+directly. Full rules, including where the populations being ranked come
+from, are in **Population & settlement engine**, below. Short version: a
+population cluster gets named when it enters the top **2-5%** of active
+clusters, and keeps its name until it falls out of the top **20%** or hits
+zero. This is the "highly populous exception" the capability matrix above
+refers to. It applies the same way on unclaimed, unorganized, and organized
+land. **(decided)**
 
-Formula instead: a settlement counts as **highly populous** when its
-population is at least **10% of the current world's single largest
-settlement's population**, recomputed live off whatever the simulation
-actually produces — never a baked constant. This is self-scaling across the
-entire 300 BC-to-space-age timeline with no manual per-era revisiting:
-whatever the biggest city in the world happens to be at any point, the bar
-moves with it. It also collapses the era-scaling question that was
-previously open into the same fix.
+## Population & settlement engine
 
-Worked example at the 300 BC start: the largest cities in the world (Rome,
-Carthage, Alexandria, Syracuse) sit somewhere around 100,000-300,000. 10%
-of that puts the bar around 15,000-30,000, which catches not just those two
-or three supercities but a genuinely broad set of major centers — Antioch,
-Seleucia-on-Tigris, Pergamon, Athens, Corinth, Babylon, and similar —
-several dozen worldwide rather than a literal handful. **(decided — 10% is
-a first value and the single easiest number in this whole doc to retune if
-playtesting shows it catching too many or too few settlements)**
+Three stages, run in this order every population tick:
+
+1. **Blend** the simulated and historical heatmaps into one `H_final`.
+2. **Translate** `H_final` into raw population per node.
+3. **Rank** clusters by population, and name or un-name settlements.
+
+### 1. Historical gravity: the attractor field
+
+Two heatmaps are kept, both normalized to 0.0-1.0 per node:
+
+- **`H_sim`** (simulated heat) is driven by gameplay: food, water, trade
+  routes, infrastructure the player or AI builds, war damage.
+- **`H_hist`** (historical target heat) is a static, invisible reference,
+  never shown to the player. It carries e.g. a heavy spike over Rome or the
+  Nile Delta in antiquity.
+
+```
+H_final = (1 - α) * H_sim + α * H_hist        α ∈ [0.15, 0.20]
+```
+
+A convex blend of two 0-1 fields stays in 0-1, so no renormalization is
+needed. Since `H_final ≥ (1 - α) * H_sim`, a player who builds heavily in a
+historically barren region always keeps at least 80-85% of their own heat
+there. `H_sim` overpowers the historical pull, which is what makes
+alternate history possible. **(decided)**
+
+**Source of `H_hist`: HYDE, not a hand-authored map. (proposed)** HYDE is
+already the decided source of the population density field (see Might,
+below), and it ships gridded population snapshots from 10,000 BCE to
+2023 CE. That's exactly a sequence of historical target maps, and it's
+already on this projection once `build_population_mask.py` exists. So
+`H_hist(year)` = the HYDE snapshot for that year, normalized to 0-1.
+Between HYDE's snapshots (per-century before 1700, per-decade after),
+interpolate linearly so the pull moves smoothly instead of jumping at each
+keyframe. At the 300 BC start, `H_sim` is seeded from `H_hist` itself, so
+turn one is historical by construction and divergence only comes from play.
+
+**The blend alone doesn't produce a slow pull. (open — needs a call before
+implementation)** As written, the blend is instantaneous and memoryless.
+An ignored but historically important region immediately gets `α * H_hist`
+worth of heat and then stays there forever. It never drifts further toward
+history, because nothing feeds `H_final` back into `H_sim`. To get the
+intended "populations wander there organically over time" behavior, one of
+these is required:
+
+- **Feedback (recommended):** `H_sim` is partly a function of the previous
+  tick's population, since people attract trade, labor, and markets. The
+  small historical boost then compounds tick over tick into a real drift,
+  and it stays counterable by player investment. It's also how `H_sim`
+  most likely wants to work anyway.
+- **Explicit relaxation:** `H_sim += r * (H_hist - H_sim) * dt` with a slow
+  rate `r`. This is simpler to reason about, but it's a second tuning knob
+  alongside `α`.
+
+### 2. Heatmap-to-population translation
+
+```
+Pop_node = C * H_final ^ k
+```
+
+This is a power law, not exponential decay, but it has the intended
+effect: a higher `k` crushes middling heat far harder than peak heat, so
+population funnels into the hottest nodes.
+
+- **`C` (carrying capacity, era multiplier)** is the population of a node at
+  `H = 1.0`, i.e. the ceiling for the single hottest node in the world. It
+  scales with technology unlocks: about **150,000** for ancient megacities
+  at the 300 BC start, and **tens of millions** by the industrial and space
+  eras.
+- **`k` (urbanization exponent)** rises with era. **`k = 2`** in ancient and
+  agrarian eras spreads population out. **`k = 4-5`** in modern and
+  interstellar eras simulates metropolitan concentration.
+
+**(decided)**
+
+Two consequences worth knowing before tuning:
+
+- **Raising `k` shrinks total world population unless `C` rises with it.**
+  Because `H ≤ 1`, `H^4 ≤ H^2` everywhere, so an era transition that bumps
+  `k` from 2 to 4 with `C` held flat would make every node except the peak
+  lose population overnight. A node at `H = 0.5` goes from `0.25·C` to
+  `0.0625·C`. `C` and `k` steps must be tuned together, or `C` gets defined
+  as a *world total* instead: `Pop_i = P_world * H_i^k / Σ_j H_j^k`. That
+  form preserves the total by construction and keeps the funneling effect.
+  It also lines up directly against HYDE's world totals. **(open — which
+  form of `C`)**
+- **`k` must change gradually.** A step change in `k` at an era boundary
+  redistributes the whole world in one tick. Interpolate `k` (and `C`) over
+  the transition, the same way `H_hist` is interpolated between keyframes.
+
+### 3. Settlement naming and spawning (percentile-based)
+
+- **Spawn:** a cluster becomes a named settlement when its population
+  enters the **top 2-5%** of all active population clusters (population
+  `> 0`; empty clusters are excluded so a large empty map doesn't shift the
+  bar). This keeps the label count proportional to map size in every era.
+  **(decided — exact value within 2-5% to be set in playtesting; 3% as the
+  starting value)**
+- **Hysteresis:** once named, a settlement keeps its name, even when
+  conquered or when its land becomes unclaimed, until it drops below the
+  **top 20%**. The wide gap between entry (2-5%) and exit (20%) stops
+  labels flickering on and off when a city hovers near the line.
+  **(decided)**
+- **Ruins:** a named settlement whose population reaches exactly zero
+  loses its active status but becomes a **ruin**: name and position are
+  kept as a map marker, not deleted. It can be re-founded. **(decided)**
+- **Scale shift:** at the planetary-to-interstellar transition the rule
+  doesn't change, only what a "cluster" is. The top 2% of hexes becomes
+  the top 2% of hemispheres or core worlds. **(decided)**
+
+Useful property: **naming depends only on the ordering of `H_final`, not
+on `C` or `k`.** A percentile rank is unchanged by any increasing
+transform, and `C * H^k` is increasing in `H`. So retuning `C` and `k`
+changes displayed populations but never which settlements are named. Only
+the heatmap changes that. Calibration and map readability can be tuned
+independently.
+
+**Cluster vs. node vs. cell. (open — needs a call before implementation)**
+The percentile has to rank *clusters*, not grid cells. The ownership grid
+is 8192x5476 at ~0.59 km² per cell, so there are millions of land cells,
+and the top 2% of *cells* would be hundreds of thousands of labels. A
+single city also covers many adjacent cells. The proposed definition:
+
+- **Node:** the unit `H` and `Pop` are computed on. Coarser than a cell,
+  roughly HYDE's native resolution (5 arcminutes, ~9 km), since there's no
+  finer truth to compute against. Per-cell density values are sampled
+  from their node.
+- **Cluster:** a local maximum of `H_final` plus the contiguous nodes that
+  drain to it (a watershed on the heatmap). Its population is the sum over
+  those nodes. Nearby peaks closer than a minimum separation merge, so twin
+  peaks don't produce two labels for one city.
+
+**Global vs. regional ranking. (open)** A purely global percentile will
+cluster almost every 300 BC label into the Mediterranean, Mesopotamia, the
+Ganges, and the Yellow River. That's historically honest, but it leaves
+regions like Sub-Saharan Africa or Northern Europe label-free. Suggested
+compromise: rank globally, plus a regional floor that names each region's
+single largest cluster if it has none yet. Hysteresis applies to those too.
 
 ## New concepts needed
 
 - **`Settlement`** — named populated place: id, name, position, population,
-  tier, founded year. Tracked separately from provinces (a province can
-  contain several; an unorganized region can contain exactly one, if it
-  clears the highly-populous threshold).
+  tier, founded year, plus a status (`active` / `ruin`) for the hysteresis
+  and ruin rules in Population & settlement engine. Tracked separately from
+  provinces: a province can contain several, and unclaimed or unorganized
+  land carries whichever clusters clear the percentile threshold. Named
+  status survives conquest and loss of ownership.
 - **Resource categories** — coal, ores (iron/copper/tin/gold/silver/lead),
   water, flora/fauna (timber/game/fish/wild plants), plus categories that tie
   into the existing civ flavor text rather than inventing a separate trade-
@@ -212,8 +345,10 @@ University), which gives gridded population estimates from 10,000 BCE to
 Earth coastline and historical-basemaps borders already in the project.
 Implementation follows the same pattern as `tools/build_land_mask.py`: a
 new `tools/build_population_mask.py`-style import step bakes HYDE's grid
-into a texture on this project's own projection, at the year matching the
-game's 300 BC start. Terrain-driven estimation is dropped as the source of
+into textures on this project's own projection. One snapshot is baked per
+HYDE keyframe the game's timeline covers, starting at 300 BC, since the
+snapshots double as the `H_hist` keyframes in Population & settlement
+engine. Terrain-driven estimation is dropped as the source of
 record; it remains only as a plausible gap-filler if HYDE's resolution
 turns out too coarse for a specific region. **(decided)**
 
@@ -280,8 +415,11 @@ Phase 1 (province generation/seeding), not just an implementation detail.
 1. Province layer (`province_id` grid + brush-editable boundaries), no stats
    yet — verify rendering/paint behavior only.
 2. Density fields (population + resource-type per cell), provinces sum on
-   demand.
-3. Unorganized-territory capability gating (the matrix above) + settlements.
+   demand. Population via the engine: HYDE-sourced `H_hist`, `H_sim`
+   seeded from it, blend, then `C * H^k`. Start with `H_sim` static and
+   verify the 300 BC output against HYDE before adding any dynamics.
+3. Unorganized-territory capability gating (the matrix above) + settlements
+   (clustering, percentile naming, hysteresis, ruins).
 4. Economy (realm treasury from province sums).
 5. Military + tech (army/power score, minimal tech multipliers).
 6. Integration/sentiment (decay-toward-assimilated stat).
