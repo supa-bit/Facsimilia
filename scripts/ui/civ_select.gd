@@ -33,7 +33,10 @@ const CIVS := [
 ]
 const DEFAULT_KEY := "rome"
 
+var _debug_buttons: Array[Button] = []
+
 func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 
 	var bg := ColorRect.new()
@@ -79,6 +82,32 @@ func _ready() -> void:
 		vbox.add_child(region_label)
 
 		grid.add_child(panel)
+		_debug_buttons.append(button)
+
+	# Layout (container sizing/positioning) isn't finalized the instant
+	# these nodes are added - call_deferred runs this after the engine
+	# has processed at least one layout pass, so the printed rects
+	# reflect where things actually end up, not a stale pre-layout guess.
+	call_deferred("_debug_print_layout")
+
+func _debug_print_layout() -> void:
+	print("=== CivSelect click-offset diagnostics ===")
+	print("viewport size: ", get_viewport_rect().size, "  window size: ", DisplayServer.window_get_size())
+	print("CivSelect global rect: ", get_global_rect())
+	for b in _debug_buttons:
+		print(b.text, " -> global_rect=", b.get_global_rect())
+	print("Click anywhere on this screen now - each click will print its position below for comparison.")
+
+# Fires for any click that lands on this Control and isn't consumed by
+# a child first (e.g. a click that MISSES every button, landing on
+# empty background) - exactly the case we need to see to measure the
+# offset the user is describing.
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		print("CLICK (missed all buttons) at position=", event.position,
+			" global_position=", event.global_position,
+			" get_global_mouse_position()=", get_global_mouse_position())
 
 func _on_civ_button_pressed(civ_key: String) -> void:
+	print("BUTTON HIT: ", civ_key, " at get_global_mouse_position()=", get_global_mouse_position())
 	civ_chosen.emit(civ_key)

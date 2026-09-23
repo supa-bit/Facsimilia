@@ -5,7 +5,8 @@ const HudScene := preload("res://scenes/Hud.tscn")
 const MapViewScript := preload("res://scripts/world/map_view.gd")
 const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 
-const MIN_LOADING_SECONDS := 45.0
+const INTRO_MIN_SECONDS := 45.0   # shown immediately at game start, before civ-select
+const REGION_MIN_SECONDS := 20.0  # shown after picking a civ, while that region generates
 const FADE_SECONDS := 0.6
 
 var map_view: Node2D
@@ -18,6 +19,11 @@ var loading_label: Label
 func _ready() -> void:
 	ui_layer = CanvasLayer.new()
 	add_child(ui_layer)
+
+	# Intro screen: no real background work to await (nothing needs
+	# loading yet at this point), so this is just a themed, timed
+	# transition before the civ-select screen appears.
+	await _run_loading_screen("Facsimilia", "300 BC", INTRO_MIN_SECONDS, Callable())
 
 	civ_select = CivSelectScene.instantiate()
 	civ_select.theme = ThemeAncient.build()
@@ -33,15 +39,8 @@ func _on_civ_chosen(civ_key: String) -> void:
 	map_view.set_player_civ(civ_key)
 	map_view.loading_status_changed.connect(_on_loading_status_changed)
 
-	await _show_loading_screen()
-
-	var start_ms := Time.get_ticks_msec()
-	await map_view.generate_world()
-	var elapsed_sec := (Time.get_ticks_msec() - start_ms) / 1000.0
-	if elapsed_sec < MIN_LOADING_SECONDS:
-		await get_tree().create_timer(MIN_LOADING_SECONDS - elapsed_sec).timeout
-
-	await _hide_loading_screen()
+	await _run_loading_screen("300 BC", "Preparing the ancient world...",
+		REGION_MIN_SECONDS, map_view.generate_world)
 
 	hud = HudScene.instantiate()
 	hud.theme = ThemeAncient.build()
@@ -54,14 +53,16 @@ func _on_loading_status_changed(text: String) -> void:
 	if loading_label:
 		loading_label.text = text
 
-# Held for a minimum of MIN_LOADING_SECONDS regardless of actual load
-# time (world generation is usually well under that, but the fixed
-# floor avoids a jarring flash-then-gone screen and gives the fade
-# in/out room to actually read as a transition). mouse_filter = STOP
-# on the root blocks all clicks to whatever's behind it while up -
-# world generation is chunked/yielded so the app stays responsive
-# during this time, it's just intentionally not interactive yet.
-func _show_loading_screen() -> void:
+# Shared by both loading screens (intro and per-region). Fades in,
+# optionally awaits real background work (work_fn - a Callable like
+# map_view.generate_world; pass an invalid/empty Callable for a screen
+# with nothing to await, e.g. the intro), holds for at least
+# min_seconds total regardless of how long that work took, fades out.
+# mouse_filter = STOP on the root blocks all clicks to whatever's
+# behind it while up - world generation is chunked/yielded so the app
+# stays responsive during this time, it's just intentionally not
+# interactive yet.
+func _run_loading_screen(title_text: String, status_text: String, min_seconds: float, work_fn: Callable) -> void:
 	loading_screen = Control.new()
 	loading_screen.set_anchors_preset(Control.PRESET_FULL_RECT)
 	loading_screen.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -82,25 +83,31 @@ func _show_loading_screen() -> void:
 	center.add_child(vbox)
 
 	var title := Label.new()
-	title.text = "300 BC"
+	title.text = title_text
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(title)
 
 	loading_label = Label.new()
-	loading_label.text = "Preparing the ancient world..."
+	loading_label.text = status_text
 	loading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(loading_label)
 
 	ui_layer.add_child(loading_screen)
 
-	var tween := create_tween()
-	tween.tween_property(loading_screen, "modulate:a", 1.0, FADE_SECONDS)
-	await tween.finished
+	var fade_in := create_tween()
+	fade_in.tween_property(loading_screen, "modulate:a", 1.0, FADE_SECONDS)
+	await fade_in.finished
 
-func _hide_loading_screen() -> void:
-	var tween := create_tween()
-	tween.tween_property(loading_screen, "modulate:a", 0.0, FADE_SECONDS)
-	await tween.finished
+	var start_ms := Time.get_ticks_msec()
+	if work_fn.is_valid():
+		await work_fn.call()
+	var elapsed_sec := (Time.get_ticks_msec() - start_ms) / 1000.0
+	if elapsed_sec < min_seconds:
+		await get_tree().create_timer(min_seconds - elapsed_sec).timeout
+
+	var fade_out := create_tween()
+	fade_out.tween_property(loading_screen, "modulate:a", 0.0, FADE_SECONDS)
+	await fade_out.finished
 	loading_screen.queue_free()
 	loading_screen = null
 	loading_label = null
