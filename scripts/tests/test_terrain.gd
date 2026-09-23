@@ -14,9 +14,9 @@ func _init() -> void:
 	mv.registry = CharacterRegistry.new()
 
 	var t0 := Time.get_ticks_msec()
+	await mv._seed_land_and_sea()
 	await mv._seed_real_civs()
 	await mv._seed_frontier_zones()
-	await mv._seed_sea()
 	var seed_ms := Time.get_ticks_msec() - t0
 
 	var total_cells: int = MapViewScript.GRID_WIDTH * MapViewScript.GRID_HEIGHT
@@ -24,7 +24,7 @@ func _init() -> void:
 	for cell_owner in mv.grid.cells:
 		if cell_owner == MapViewScript.SEA_OWNER_ID:
 			total_sea += 1
-	print("Seeding (real civs + frontier + sea) took ", seed_ms, " ms for ",
+	print("Seeding (land/sea mask + real civs + frontier) took ", seed_ms, " ms for ",
 		total_cells, " cells (", "%.2f" % (total_cells / 1e6), "M).")
 	print("Sea covers ", total_sea, " of ", total_cells, " cells (",
 		"%.1f" % (100.0 * total_sea / total_cells), "%).")
@@ -44,6 +44,6 @@ func _init() -> void:
 		print(civ_key, ": ", count, " land cells")
 		assert(count > 500, civ_key + " has suspiciously little territory (" + str(count) + " cells)")
 
-	print("Terrain sanity check passed: real 300 BC boundaries loaded via scanline fill, frontier zones filled the gaps, sea carved out the rest, every one of the 12 regions has real territory.")
+	print("Terrain sanity check passed: real coastline mask seeded first, real 300 BC boundaries loaded via scanline fill (clipped to land), frontier zones filled the remaining gaps, every one of the 12 regions has real territory.")
 	mv.free()
 	quit()

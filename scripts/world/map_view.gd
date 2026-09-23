@@ -15,7 +15,8 @@ const SEA_OWNER_ID := 255  # reserved sentinel in the SAME ownership grid - see 
 const PAINT_RADIUS := 12
 const START_YEAR := -300  # 300 BC
 const DATA_PATH := "res://data/ancient_bc300.json"
-const MIN_ZOOM := 0.02
+const LAND_MASK_PATH := "res://data/land_mask.png"
+const MAX_ZOOM := 16.0
 
 # Real 300 BC political boundaries (Roman Republic, Carthaginian Empire,
 # Ptolemaic Kingdom, Meroe, Seleucid Kingdom, Kingdom of Kassander + Greek
@@ -56,17 +57,6 @@ var FRONTIER_ZONES := [
 		"polygon": PackedVector2Array([Vector2(4949,0), Vector2(8021,0), Vector2(8107,811), Vector2(6827,1115), Vector2(5461,913), Vector2(4949,507)])},
 ]
 
-# Broad, deliberately loose "this is open water" zone threaded through the
-# gaps between the real civs' actual positions. Only fills cells still
-# unclaimed after both the real civs AND the frontier zones are placed, so
-# it can never overwrite actual territory.
-var SEA_ZONE: PackedVector2Array = [
-	Vector2(683,1217), Vector2(1707,1115), Vector2(2560,1055), Vector2(3243,1055), Vector2(3925,1318),
-	Vector2(4437,1217), Vector2(5120,1115), Vector2(6144,1825), Vector2(6827,2231), Vector2(7168,2839),
-	Vector2(6315,2637), Vector2(5632,2393), Vector2(5120,2130), Vector2(4437,2028), Vector2(3755,1927),
-	Vector2(3072,1724), Vector2(2389,1521), Vector2(1707,1420), Vector2(853,1379),
-]
-
 var grid: OwnershipGrid
 var registry: CharacterRegistry
 var player_realm_id: int
@@ -79,7 +69,7 @@ var map_image: Image
 var map_texture: ImageTexture
 var map_sprite: Sprite2D
 var camera: Camera2D
-var max_zoom: float = 1.0  # "whole map fits the window" - the zoomed-out limit
+var fit_zoom: float = 1.0  # "whole map fits the window" - the zoomed-out limit (MINIMUM zoom value)
 var label_container: Node2D
 var painting := false
 var panning := false
@@ -118,12 +108,12 @@ func _ready() -> void:
 	_fit_camera_to_window()
 
 func generate_world() -> void:
+	loading_status_changed.emit("Charting the coastline...")
+	await _seed_land_and_sea()
 	loading_status_changed.emit("Mapping the ancient world...")
 	await _seed_real_civs()
 	loading_status_changed.emit("Settling the frontier tribes...")
 	await _seed_frontier_zones()
-	loading_status_changed.emit("Charting the seas...")
-	await _seed_sea()
 	loading_status_changed.emit("Drawing the map...")
 	await _build_full_map_image()
 	loading_status_changed.emit("Naming the realms...")
@@ -138,14 +128,23 @@ func _fit_camera_to_window() -> void:
 	var viewport_size := get_viewport_rect().size
 	if viewport_size.x <= 0 or viewport_size.y <= 0:
 		return
-	# min(), not max(): fills the whole window (cropping whichever axis
-	# overflows) instead of letterboxing empty space around the map to
-	# preserve its aspect ratio. The map is much bigger than one screen
-	# regardless, so a small crop at the default view is the right
-	# tradeoff versus dead gray space on the sides.
+	# Camera2D.zoom is screen pixels shown per map pixel - the visible
+	# world area is viewport_size / zoom, NOT viewport_size * zoom. This
+	# was inverted before (map_size / viewport_size), which computed a
+	# zoom of ~4-5 instead of ~0.2 and made the camera show a tiny,
+	# heavily-magnified fragment of the map instead of fitting the whole
+	# thing - the earlier "letterboxing" fix (switching max() to min())
+	# was correct in spirit but was tuning the wrong-direction ratio, so
+	# it couldn't have actually fixed the framing on its own.
+	# min(): fills the whole window (cropping whichever axis overflows)
+	# instead of letterboxing empty space around the map to preserve its
+	# aspect ratio. The map is much bigger than one screen regardless,
+	# so a small crop at the default view is the right tradeoff versus
+	# dead gray space on the sides. fit_zoom doubles as the MINIMUM zoom
+	# (can't zoom out further than "whole map visible") - see _zoom_by().
 	var map_size := Vector2(GRID_WIDTH * CELL_PIXELS, GRID_HEIGHT * CELL_PIXELS)
-	max_zoom = min(map_size.x / viewport_size.x, map_size.y / viewport_size.y)
-	camera.zoom = Vector2(max_zoom, max_zoom)
+	fit_zoom = min(viewport_size.x / map_size.x, viewport_size.y / map_size.y)
+	camera.zoom = Vector2(fit_zoom, fit_zoom)
 
 func _realm(realm_id: int) -> Realm:
 	return registry.realms[realm_id]
@@ -190,8 +189,38 @@ func _seed_frontier_zones() -> void:
 		civ_realm_ids[spec.key] = realm.id
 		await _fill_polygon(spec.polygon, realm.id, true)
 
-func _seed_sea() -> void:
-	await _fill_polygon(SEA_ZONE, SEA_OWNER_ID, true)
+# Physical geography is independent of political borders. The mask is a
+# real rasterized coastline (Natural Earth's public domain 1:10m land
+# dataset, see tools/build_land_mask.py and MAP_DATA.md) in the SAME
+# lon/lat projection as the political importer: white = land, black =
+# sea. This replaces the earlier hand-drawn approximate sea polygon.
+# Establishing this FIRST, before any political territory is painted,
+# is what lets _fill_polygon (below) treat sea as a hard constraint
+# even real/"trusted" civ polygons can't override - a political
+# boundary that's imprecise right at the coast (e.g. Carthage's known
+# rough western edge) still can't paint over what the real coastline
+# says is ocean.
+func _seed_land_and_sea() -> void:
+	var mask_texture := load(LAND_MASK_PATH) as Texture2D
+	assert(mask_texture != null, "Land mask texture could not be loaded")
+	var mask := mask_texture.get_image()
+	assert(mask != null and mask.get_width() == GRID_WIDTH and mask.get_height() == GRID_HEIGHT,
+		"Land mask missing or incompatible with the territory projection")
+	mask.convert(Image.FORMAT_L8)
+	var pixels := mask.get_data()
+	var cells := grid.cells
+	cells.fill(SEA_OWNER_ID)
+	var total := pixels.size()
+	var chunk_size := 1000000
+	var i := 0
+	while i < total:
+		var end: int = mini(i + chunk_size, total)
+		for j in range(i, end):
+			if pixels[j] != 0:
+				cells[j] = 0
+		i = end
+		await _maybe_yield()
+	grid.cells = cells
 
 # Yields to the engine's main loop if (and only if) this node is
 # actually inside a running SceneTree. Headless test scripts construct
@@ -250,7 +279,13 @@ func _fill_polygon(polygon: PackedVector2Array, owner_id: int, only_if_unclaimed
 			var x_start := clampi(int(ceil(xs[i] - 0.5)), 0, GRID_WIDTH - 1)
 			var x_end := clampi(int(ceil(xs[i + 1] - 0.5)) - 1, 0, GRID_WIDTH - 1)
 			for x in range(x_start, x_end + 1):
-				if only_if_unclaimed and grid.get_owner(x, y) != 0:
+				var existing := grid.get_owner(x, y)
+				# Sea is a hard constraint from the real coastline mask -
+				# not even a "trusted" real-civ polygon (only_if_unclaimed
+				# = false) may paint over it, since coastal accuracy from
+				# real geography outranks a historical political
+				# boundary's precision right at the water's edge.
+				if existing == SEA_OWNER_ID or (only_if_unclaimed and existing != 0):
 					continue
 				grid.set_owner(x, y, owner_id)
 			i += 2
@@ -400,10 +435,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		if painting:
 			_paint_at(get_global_mouse_position())
 		elif panning:
-			camera.position -= event.relative * camera.zoom
+			# world_delta = screen_delta / zoom: at higher zoom (more
+			# zoomed in), the same screen-pixel drag should move the
+			# camera a SMALLER distance through world space. This was
+			# `* camera.zoom` before, which is backwards for the same
+			# reason the zoom formula above was inverted.
+			camera.position -= event.relative / camera.zoom
 
 func _zoom_by(factor: float) -> void:
-	var new_zoom: float = clampf(camera.zoom.x * factor, MIN_ZOOM, max_zoom)
+	# fit_zoom is the "whole map visible" state = the most you can zoom
+	# OUT (lower bound); MAX_ZOOM is the most you can zoom IN (upper
+	# bound). This was backwards before (MIN_ZOOM as the lower bound let
+	# you zoom out to an absurd 0.02, while fit_zoom as the upper bound
+	# meant you couldn't zoom in at all past the initial fitted view).
+	var new_zoom: float = clampf(camera.zoom.x * factor, fit_zoom, MAX_ZOOM)
 	camera.zoom = Vector2(new_zoom, new_zoom)
 
 # Only touches the brush-sized area actually painted (never the whole

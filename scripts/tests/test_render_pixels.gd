@@ -15,9 +15,9 @@ func _init() -> void:
 	var mv = MapViewScript.new()
 	mv.grid = OwnershipGrid.new(MapViewScript.GRID_WIDTH, MapViewScript.GRID_HEIGHT)
 	mv.registry = CharacterRegistry.new()
+	await mv._seed_land_and_sea()
 	await mv._seed_real_civs()
 	await mv._seed_frontier_zones()
-	await mv._seed_sea()
 	mv.map_sprite = Sprite2D.new()
 	await mv._build_full_map_image()
 

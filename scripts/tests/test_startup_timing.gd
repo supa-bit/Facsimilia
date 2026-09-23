@@ -13,9 +13,9 @@ func _init() -> void:
 	mv.registry = CharacterRegistry.new()
 
 	var t0 := Time.get_ticks_msec()
+	await mv._seed_land_and_sea()
 	await mv._seed_real_civs()
 	await mv._seed_frontier_zones()
-	await mv._seed_sea()
 	var t1 := Time.get_ticks_msec()
 
 	mv.map_sprite = Sprite2D.new()  # _build_full_map_image needs this to exist
