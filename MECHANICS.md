@@ -123,7 +123,8 @@ land. **(decided)**
 Three stages, run in this order every population tick:
 
 1. **Blend** the simulated and historical heatmaps into one `H_final`.
-2. **Translate** `H_final` into raw population per node.
+2. **Translate** `H_final` into a target population per node, and move
+   each node's actual population a limited step toward it.
 3. **Rank** clusters by population, and name or un-name settlements.
 
 ### 1. Historical gravity: the attractor field
@@ -165,23 +166,63 @@ and then stay there forever, because nothing feeds `H_final` back into
 population, since people attract trade, labor, and markets:
 
 ```
-H_sim(t+1) = normalize( drivers(t+1) + β * Pop(t) / max Pop(t) )
+H_sim(t+1) = normalize( drivers(t+1) + β * (Pop(t) / max Pop(t)) ^ (1/k) )
 ```
 
 Here `drivers` is the gameplay term (food, water, trade, infrastructure,
-war) and `β` is how strongly existing population draws more. The small
-historical boost from `α` then compounds tick over tick into a real drift
-toward history, and heavy player investment in `drivers` can still beat it.
-That's the "realist alternate history" behavior. Explicit relaxation of
-`H_sim` toward `H_hist` was the alternative. It was rejected because it
-drags on the simulation directly instead of acting through population.
-**(`β` is a tuning value, open)**
+war) and `β` is how strongly existing population draws more. Taking the
+`1/k` root converts population back to heat scale, so the feedback carries
+population's momentum without adding concentration of its own. `k` stays
+the only concentration knob. At the 300 BC start the feedback term equals
+`H_hist`, so the historical starting state is a fixed point: nothing drifts
+until play changes the drivers. The small historical boost from `α` then
+compounds into a real drift toward history, and heavy, sustained player
+investment in `drivers` can still beat it. That's the "realist alternate
+history" behavior. Explicit relaxation of `H_sim` toward `H_hist` was the
+alternative. It was rejected because it drags on the simulation directly
+instead of acting through population.
+
+**`β = 5`, together with population inertia `μ = 0.015`/year (below).
+(decided)** Feedback alone can't make history slow to bend. The update is
+a contraction whose per-tick factor is at most `1 - α`, so any change in
+drivers settles within a few years whatever `β` is. A simulation showed a
+barren node turning into a major city within 0-1 years. The long
+timescales come from population being a stock (see stage 2). `β` then
+sets how much of history survives even under maximum investment. At
+steady state the historical share of a node's `H_sim` is
+`βα / (1 + βα)`, which is ~47% at `β = 5`. A toy simulation (5,000 nodes,
+rural background plus a Zipf distribution of cities, `k = 2`, yearly
+ticks) gives these results for `β = 5`, `μ = 0.015`:
+
+| Scenario | Result |
+|---|---|
+| Barren median node, drivers maxed to match the world's best site, held indefinitely | Top-50 city after ~16 years, top-10 after ~50 years, levels off around **20% of the largest city's population** (a strong second-tier city, the world's #3 in the toy run) after ~2-3 centuries |
+| Same city, investment abandoned | Loses half its gain in ~90 years, then drifts back toward history |
+| 6th-largest historical city loses all its drivers for a 30-year war | Loses ~10% of its population, keeps its name, recovers within decades |
+
+So one generation of focused play builds a notable city. Rivaling
+history's giants takes centuries of sustained investment, and even then
+a single invested site levels off at a fraction of the largest city: big
+dents need many sites and a long game. `β = 3` makes investment ~50%
+stronger (levels off at ~30% of the largest city) and faster. `β = 6+`
+makes history feel rigid. These are starting values and get rechecked
+against the real HYDE grid once it's imported, since the toy distribution
+is synthetic.
 
 ### 2. Heatmap-to-population translation
 
 ```
-Pop_node = C * H_final ^ k
+Target_node = C * H_final ^ k
+Pop_node(t+1) = Pop_node(t) + μ * (Target_node - Pop_node(t))        μ = 0.015 / year
 ```
+
+Population is a **stock**, not recomputed from scratch each tick. People
+can only be born, die, and migrate so fast, so a node closes ~1.5% of its
+gap to target per year: a half-life of ~46 years, about two generations.
+That matches historical urban growth rates. It's what makes bending
+history a long-term strategy rather than something one build order does.
+Each node's own `Pop` is the value everything else reads (Might, taxes,
+naming, the feedback term above). **(decided)**
 
 This is a power law, not exponential decay, but it has the intended
 effect: a higher `k` crushes middling heat far harder than peak heat, so
@@ -207,7 +248,7 @@ Two consequences worth knowing before tuning:
   `0.25·C` to `0.0625·C`. So the implemented form is
 
   ```
-  Pop_i = P_world * H_i^k / Σ_j H_j^k
+  Target_i = P_world * H_i^k / Σ_j H_j^k
   ```
 
   `P_world` is the era's world population: HYDE's historical total by
@@ -240,12 +281,14 @@ Two consequences worth knowing before tuning:
   doesn't change, only what a "cluster" is. The top 2% of hexes becomes
   the top 2% of hemispheres or core worlds. **(decided)**
 
-Useful property: **naming depends only on the ordering of `H_final`, not
-on `C` or `k`.** A percentile rank is unchanged by any increasing
-transform, and `C * H^k` is increasing in `H`. So retuning `C` and `k`
-changes displayed populations but never which settlements are named. Only
-the heatmap changes that. Calibration and map readability can be tuned
-independently.
+Useful property: **the ordering of target populations depends only on the
+ordering of `H_final`, not on `C` or `k`.** A percentile rank is unchanged
+by any increasing transform, and `C * H^k` is increasing in `H`. So
+retuning `C` and `k` changes displayed populations but never the
+settlement ranking the world is heading toward. Only the heatmap changes
+that. (Actual populations lag their targets by the inertia above, so the
+names on the map settle into that ranking over decades, not instantly.)
+Calibration and map readability can be tuned independently.
 
 **Cluster vs. node vs. cell. (decided)**
 The percentile has to rank *clusters*, not grid cells. The ownership grid
@@ -263,15 +306,48 @@ single city also covers many adjacent cells. So:
   peaks don't produce two labels for one city.
 
 **Global ranking with a regional floor. (decided)** A purely global
-percentile would put almost every 300 BC label in the Mediterranean,
-Mesopotamia, the Ganges, and the Yellow River. That's historically honest,
-but it leaves regions like Sub-Saharan Africa or Northern Europe with no
-labels at all. So the ranking is global, plus a regional floor: any region
-with no named settlement gets its single largest cluster named. Hysteresis
-and ruin rules apply to floor-named settlements too. Regions are a fixed
-geographic partition (continent/subregion scale), not political borders,
-so conquest never changes which floor applies. **(open: the exact region
-list, to be set when this is built)**
+percentile would put almost every 300 BC label in the Aegean, the Nile,
+Syria, and Mesopotamia. That's historically honest, but it leaves regions
+like Libya Interior or Scythia with no labels at all. So the ranking is
+global, plus a regional floor: any region with no named settlement gets
+its single largest cluster named. Hysteresis and ruin rules apply to
+floor-named settlements too. Regions are a fixed geographic partition, not
+political borders, so conquest never changes which floor applies.
+
+### Geographic regions — the ancient geographers' map
+
+The partition uses the regions the Greco-Roman geographers themselves
+drew (Hecataeus, Herodotus, Eratosthenes, Strabo, Ptolemy), grouped under
+their three continents: **Europa**, **Libya** (their name for Africa), and
+**Asia**. The map's extent (longitude -10 to 55, latitude 10 to 48) is
+almost exactly the world those geographers described, so their divisions
+cover it without inventing names. Continent borders follow the ancient
+convention: the Tanais (Don) between Europa and Asia, the Nile/Isthmus
+line between Libya and Asia. **(decided)**
+
+| Continent | Regions |
+|---|---|
+| **Europa** | Hispania, Gallia, Raetia, Italia (with Sardinia and Corsica), Sicilia, Pannonia, Illyricum, Dacia, Thracia, Macedonia, Hellas (with Crete and the Aegean islands), Scythia |
+| **Libya** | Mauretania, Numidia, Africa (the Carthaginian heartland, the name the continent itself later took), Syrtica, Cyrenaica, Marmarica, Aegyptus, Libya Interior (the Sahara), Aethiopia (everything south of Egypt, Kush included) |
+| **Asia** | Lydia, Phrygia, Cilicia (with Cyprus), Cappadocia (with Pontus), Colchis (the Caucasus), Armenia, Syria (with Phoenicia and Judaea), Mesopotamia (with Assyria), Babylonia, Arabia Petraea, Arabia Deserta, Arabia Felix, Media, Susiana, Persis, Hyrcania, Sarmatia |
+
+That makes 38 regions. Smaller neighbours are folded into the larger unit
+named above rather than given their own entry. As with Europa, several of
+these names are the ancient roots of modern ones (Africa, Arabia,
+Armenia, Syria, Libya). Boundaries follow the ancient descriptions snapped
+to physical features (rivers, ranges, coasts). They get baked as a
+`region_id` per node by a `tools/build_region_mask.py` step, following the
+same pattern as the land and political masks. **(exact boundary polygons
+open, drawn when this is built; regions beyond the current extent, if the
+map grows, get names the same way, from the geographers who described
+those lands)**
+
+**Display: only on the "Regions" map overlay. (decided)** Region names
+never appear on the default map view. They show only when the player
+switches the map overlay (see Map overlays, under New concepts) to
+**Regions**, which draws each region's name and a faint boundary, grouped
+by continent. The regional-floor rule runs all the time regardless of
+which overlay is showing.
 
 ## New concepts needed
 
@@ -291,6 +367,11 @@ list, to be set when this is built)**
 - **Might** — see the dedicated section below. Supersedes the standalone
   "local militia" idea by generalizing it into the domain-split strength
   score used everywhere annexation resolves, for both realms and raw land.
+- **Map overlays** (UI) — a control to switch what the map draws on top
+  of the terrain: Political (today's ownership view, the default),
+  **Regions** (the ancient geographic regions and their names, the only
+  place those names appear), and later the population heatmap and
+  resource overlays. One overlay active at a time.
 - **Floating confirmation panel** (UI) — live Might + resource-icon readout
   while painting; see Annexation UX, below.
 
@@ -433,7 +514,8 @@ Phase 1 (province generation/seeding), not just an implementation detail.
    seeded from it, blend, then `C * H^k`. Start with `H_sim` static and
    verify the 300 BC output against HYDE before adding any dynamics.
 3. Unorganized-territory capability gating (the matrix above) + settlements
-   (clustering, percentile naming, hysteresis, ruins).
+   (clustering, percentile naming, hysteresis, ruins), plus the region
+   mask, regional floor, and the Regions map overlay.
 4. Economy (realm treasury from province sums).
 5. Military + tech (army/power score, minimal tech multipliers).
 6. Integration/sentiment (decay-toward-assimilated stat).
