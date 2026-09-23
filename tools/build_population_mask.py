@@ -2,7 +2,7 @@
 
 HYDE (History Database of the Global Environment, PBL / Utrecht University)
 publishes gridded population counts (`popc_<year>.asc`, ESRI ASCII, 5 arc-
-minutes, people per cell) from 10,000 BCE to 2023 CE. This crops each
+minutes, people per cell) from 10,000 BCE to the present. This crops each
 snapshot to the map's extent (longitude -10 to 55, latitude 48 to 10 - the
 same linear lon/lat projection as tools/import_bc300.js and
 tools/build_land_mask.py) and writes one keyframe per HYDE year from the
@@ -13,10 +13,20 @@ starting population all at once.
 At 5 arcminutes the map extent is exactly 780 x 456 population nodes (12
 per degree). Each node covers ~10.5 x 12 ownership-grid cells.
 
-Input: a directory holding HYDE's baseline population files, either the
-per-year zips HYDE distributes (e.g. `300BC_pop.zip`) or the extracted
-`popc_<year>.asc` files. Download them from the HYDE 3.3 data portal
-(https://geo.public.data.uu.nl/vault-hyde/, baseline/zip/).
+Input: a directory holding HYDE's baseline population files, either zips
+(e.g. HYDE's `0AD_pop.zip`, or this repo's `popc_0AD.zip`) or the extracted
+`popc_<year>.asc` files. The game is baked from HYDE 3.2.1, mirrored as the
+`popc_*.zip` assets of this repository's `assets-v1` GitHub release; the
+original is `HYDE3_2_1-baseline.zip` on DANS (doi:10.17026/dans-25g-gez3,
+baseline/asc/<year>_pop/popc_<year>.asc).
+
+HYDE has no snapshot for most years before 1700: BCE steps are 1000 years,
+so there is no 300 BC grid. When the start year falls between snapshots its
+keyframe is derived from the two that bracket it (1000 BC and 0 AD for the
+game's start), per node, assuming steady exponential growth: the geometric
+mean weighted by distance in time. A node empty at either end has no growth
+rate, so it falls back to linear. hyde_meta.json marks the keyframe
+"derived". Later keyframes are HYDE's own snapshots, untouched.
 
 Output, under data/population/:
   hyde_meta.json        grid size, extent, and the list of keyframe years
@@ -110,27 +120,55 @@ def crop_to_map(header, grid):
     return out
 
 
+def derive_between(year, y0, p0, y1, p1):
+    """Keyframe for `year` from the snapshots at y0 < year < y1 (see top)."""
+    f = (year - y0) / (y1 - y0)
+    land = (p0 != NO_DATA) & (p1 != NO_DATA)
+    a, b = np.where(land, p0, 0.0), np.where(land, p1, 0.0)
+    both = (a > 0) & (b > 0)
+    out = (1 - f) * a + f * b
+    with np.errstate(divide="ignore"):
+        out[both] = np.exp((1 - f) * np.log(a[both]) + f * np.log(b[both]))
+    out = out.astype(np.float32)
+    out[~land] = NO_DATA
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("hyde_dir")
     ap.add_argument("--start-year", type=int, default=-300)
     ap.add_argument("--out-dir", default=OUT_DIR)
+    ap.add_argument("--source", default="HYDE 3.2.1 baseline popc (PBL Netherlands Environmental Assessment "
+                    "Agency / Utrecht University), CC BY 3.0, doi:10.17026/dans-25g-gez3")
     args = ap.parse_args(argv)
 
-    sources = {}
+    available = {}
     for year, name, opener in find_sources(args.hyde_dir):
-        if year >= args.start_year and year not in sources:
-            sources[year] = (name, opener)
-    if args.start_year not in sources:
-        sys.exit(f"no HYDE snapshot for the start year {year_tag(args.start_year)} in {args.hyde_dir}")
+        available.setdefault(year, (name, opener))
+
+    def load(year):
+        name, opener = available[year]
+        return crop_to_map(*read_asc(opener())), name
+
+    frames = {y: None for y in available if y >= args.start_year}
+    derived = None
+    if args.start_year not in available:
+        before = [y for y in available if y < args.start_year]
+        after = [y for y in available if y > args.start_year]
+        if not before or not after:
+            sys.exit(f"no HYDE snapshots around the start year {year_tag(args.start_year)} in {args.hyde_dir}")
+        y0, y1 = max(before), min(after)
+        (p0, n0), (p1, n1) = load(y0), load(y1)
+        frames[args.start_year] = (derive_between(args.start_year, y0, p0, y1, p1),
+                                   f"derived from {n0} and {n1}")
+        derived = {"year": args.start_year, "from": [y0, y1], "method": "per-node exponential (linear where either end is 0)"}
 
     os.makedirs(args.out_dir, exist_ok=True)
     land = None
-    years = sorted(sources)
+    years = sorted(frames)
     for year in years:
-        name, opener = sources[year]
-        header, grid = read_asc(opener())
-        nodes = crop_to_map(header, grid)
+        nodes, name = frames[year] or load(year)
         # Sea/no-data is fixed by the start snapshot, so every keyframe
         # shares one node mask (HYDE's land mask is constant across years).
         if land is None:
@@ -143,7 +181,7 @@ def main(argv=None):
         print(f"{year_tag(year):>7}: {nodes[land].sum():14,.0f} people on the map  <- {name}")
 
     meta = {
-        "source": "HYDE 3.3 baseline popc (PBL Netherlands Environmental Assessment Agency / Utrecht University)",
+        "source": args.source,
         "width": WIDTH,
         "height": HEIGHT,
         "lon_min": LON_MIN, "lon_max": LON_MAX,
@@ -151,6 +189,8 @@ def main(argv=None):
         "no_data": NO_DATA,
         "keyframes": [{"year": y, "file": f"popc_{year_tag(y)}.f32.gz"} for y in years],
     }
+    if derived:
+        meta["derived"] = derived
     with open(os.path.join(args.out_dir, "hyde_meta.json"), "w") as f:
         json.dump(meta, f, indent=1)
     print(f"wrote {len(years)} keyframes, {WIDTH}x{HEIGHT} nodes, to {os.path.normpath(args.out_dir)}")
