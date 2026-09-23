@@ -7,22 +7,25 @@ const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd"
 func _init() -> void:
 	# Drive map_view's setup manually, without add_child/_ready, so this
 	# stays a pure headless data check - no Sprite2D/shader/window/camera/
-	# labels needed.
+	# labels/full-image-build needed (those are separate, also-tested-for-
+	# timing concerns, not what this test checks).
 	var mv = MapViewScript.new()
 	mv.grid = OwnershipGrid.new(MapViewScript.GRID_WIDTH, MapViewScript.GRID_HEIGHT)
 	mv.registry = CharacterRegistry.new()
-	mv.sea_mask = PackedByteArray()
-	mv.sea_mask.resize(MapViewScript.GRID_WIDTH * MapViewScript.GRID_HEIGHT)
 
+	var t0 := Time.get_ticks_msec()
 	mv._seed_real_civs()
 	mv._seed_frontier_zones()
 	mv._seed_sea()
+	var seed_ms := Time.get_ticks_msec() - t0
 
-	var total_sea := 0
-	for v in mv.sea_mask:
-		if v == 1:
-			total_sea += 1
 	var total_cells: int = MapViewScript.GRID_WIDTH * MapViewScript.GRID_HEIGHT
+	var total_sea := 0
+	for cell_owner in mv.grid.cells:
+		if cell_owner == MapViewScript.SEA_OWNER_ID:
+			total_sea += 1
+	print("Seeding (real civs + frontier + sea) took ", seed_ms, " ms for ",
+		total_cells, " cells (", "%.2f" % (total_cells / 1e6), "M).")
 	print("Sea covers ", total_sea, " of ", total_cells, " cells (",
 		"%.1f" % (100.0 * total_sea / total_cells), "%).")
 	assert(total_sea > 0)
@@ -39,8 +42,8 @@ func _init() -> void:
 			if cell_owner == realm_id:
 				count += 1
 		print(civ_key, ": ", count, " land cells")
-		assert(count > 15, civ_key + " has suspiciously little territory (" + str(count) + " cells)")
+		assert(count > 500, civ_key + " has suspiciously little territory (" + str(count) + " cells)")
 
-	print("Terrain sanity check passed: real 300 BC boundaries loaded, frontier zones filled the gaps, sea carved out the rest, every one of the 12 regions has real territory.")
+	print("Terrain sanity check passed: real 300 BC boundaries loaded via scanline fill, frontier zones filled the gaps, sea carved out the rest, every one of the 12 regions has real territory.")
 	mv.free()
 	quit()
