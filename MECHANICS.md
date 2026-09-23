@@ -56,27 +56,48 @@ For unorganized land (`province_id == 0`), there's no province to defer to:
 works today. Ownership there still changes cell-by-cell via the brush,
 independent of any province. **(decided)**
 
-## Unorganized territory
+## Unclaimed vs. unorganized land — two different things
+
+Easy to conflate, so pinning it down: **unclaimed** land (`owner_id == 0` in
+the existing ownership grid — today's "wild" cells) has no owning realm at
+all. **Unorganized** land has a realm owner, just no province yet
+(`province_id == 0`). They share one mechanic and diverge on everything that
+depends on having an owner to credit output to.
+
+Population is a base geographic fact, independent of ownership — the
+density field (see Layers, above) exists on *every* land cell, unclaimed or
+not. Unclaimed land has its own (typically sparse) native population, same
+as unorganized or organized land does. Local militia strength derives from
+that population everywhere it applies: unclaimed land resists incursion the
+same way unorganized land resists conquest, scaled by however populated it
+actually is. What differs is output — unclaimed land has no owning realm to
+credit raw resources to, so **it produces nothing for no one**, even though
+the same coal/ore/water/flora deposits are physically present in its
+density field. The moment it's claimed and becomes unorganized territory of
+some realm, that realm starts drawing the base-rate raw output described
+below. This also refines the earlier assumption that settling unclaimed
+land is an unconditional freebie: it's cheap in practice (native
+population, and therefore militia, is usually sparse) but not literally
+free — it still resolves against whatever local defense exists.
+**(decided)**
 
 Newly gained land (settled or conquered) defaults to `province_id = 0`.
-It's real territory, but capped well below an organized province. Full
-capability matrix: see the message this was drafted from, or below:
+It's real territory, but capped well below an organized province:
 
-| Capability | Unorganized | Organized (in a province) |
-|---|---|---|
-| Raw resource extraction (coal, ores, water, flora/fauna) | Yes, base rate only | Yes, improvable with infrastructure |
-| Resource processing (refining, manufacturing) | No | Yes |
-| Roads | Dirt & gravel only | Full tiers as tech allows |
-| Electricity routes | Cannot pass through | Allowed once unlocked |
-| Military | Small local militia only, non-deployable | Full army stationing + logistics |
-| Taxation | None | Yes |
-| Named settlements | Suppressed | Full, plus founding new ones |
-| Exception | A pre-existing settlement >= the "highly populous" threshold keeps its name/marker regardless | -- |
+| Capability | Unclaimed (no owner) | Unorganized (owned, no province) | Organized (in a province) |
+|---|---|---|---|
+| Population | Yes — sparse, native | Yes | Yes |
+| Raw resource extraction (coal, ores, water, flora/fauna) | None — no owner to credit it to | Yes, base rate, credited to owner | Yes, improvable with infrastructure |
+| Resource processing | No | No | Yes |
+| Roads | None built; at most a natural/trade trail passing through | Dirt & gravel only | Full tiers as tech allows |
+| Electricity routes | Cannot pass through | Cannot pass through | Allowed once unlocked |
+| Military / defense | Population-scaled local militia, resists incursion | Population-scaled local militia, non-deployable | Full army stationing + logistics |
+| Taxation | None (no owner) | None | Yes |
+| Named settlements | Suppressed, same highly-populous exception applies | Suppressed, same highly-populous exception applies | Full, plus founding new ones |
 
-This gives unorganized land a real but weak defensive profile (population-
-scaled militia only) — deliberately easy to take, which is the incentive to
-actually organize conquered land rather than leave it as paperwork.
-**(decided)**
+Deliberately weak defense on both unclaimed and unorganized land is the
+incentive to actually organize conquered/settled territory rather than
+leave it as paperwork. **(decided)**
 
 ### Settlement population threshold
 
@@ -141,10 +162,12 @@ then a bulk write propagates that to its cells, per the invariant above).
 Same brush, same immediate feedback — the simulation decides whether paint
 sticks, at province granularity, not a separate siege UI. **(decided)**
 
-Unorganized land (enemy-held or wild) has no "whole shape" to inherit, so it
-still resolves locally — per painted cell or contiguous painted blob,
-against the weak militia already established for unorganized territory —
-matching how much easier it's meant to be to take.
+Unorganized land (enemy-held, but never administered into a province) has
+no "whole shape" to inherit, so it still resolves locally — per painted
+cell or contiguous painted blob — against its population-scaled militia.
+Unclaimed land (no owner at all) resolves the same way, against its own
+native militia — usually weak given how sparse unclaimed populations tend
+to be, but not an unconditional freebie either.
 
 This also settles the earlier open question about post-conquest
 organization: captured organized provinces do **not** reset to unorganized
