@@ -182,47 +182,102 @@ history" behavior. Explicit relaxation of `H_sim` toward `H_hist` was the
 alternative. It was rejected because it drags on the simulation directly
 instead of acting through population.
 
-**`β = 5`, together with population inertia `μ = 0.015`/year (below).
-(decided)** Feedback alone can't make history slow to bend. The update is
-a contraction whose per-tick factor is at most `1 - α`, so any change in
-drivers settles within a few years whatever `β` is. A simulation showed a
-barren node turning into a major city within 0-1 years. The long
-timescales come from population being a stock (see stage 2). `β` then
-sets how much of history survives even under maximum investment. At
-steady state the historical share of a node's `H_sim` is
-`βα / (1 + βα)`, which is ~47% at `β = 5`. A toy simulation (5,000 nodes,
-rural background plus a Zipf distribution of cities, `k = 2`, yearly
-ticks) gives these results for `β = 5`, `μ = 0.015`:
+**`β = 0.5`, together with population inertia `μ = 0.0205` (stage 2).
+Both are calibrated to real founded cities. (decided)** Feedback alone
+can't make history slow to bend. The update is a contraction whose
+per-tick factor is at most `1 - α`, so any change in drivers settles
+within a few years whatever `β` is. A simulation showed a barren node
+turning into a major city within 0-1 years. The timescales come from
+population being a stock (see stage 2). The pair `(β, μ)` is then fitted
+to how long real cities took to climb the rankings.
+
+**Historical target.** Years from a city's founding until it entered the
+world's top 50 and top 10 cities by population. The figures are rough
+estimates from Chandler (*Four Thousand Years of Urban Growth*) and
+Modelski. The sample is cities that did make the list; most foundings
+never do.
+
+| City | Founded | → top 50 | → top 10 |
+|---|---|---|---|
+| Alexandria | 331 BC | ~20 | ~50 |
+| Seleucia-on-Tigris | 305 BC | ~25 | ~55 |
+| Antioch | 300 BC | ~50 | ~100 |
+| Pataliputra | 490 BC | — | ~190 |
+| Constantinople (refounded) | 330 AD | ~10 | ~60 |
+| Baghdad | 762 | ~10 | ~30 |
+| Samarra | 836 | ~8 | ~15 |
+| Edo | 1603 | ~20 | ~50 |
+| St. Petersburg | 1703 | ~50 | ~160 |
+| Calcutta | 1690 | ~110 | — |
+| New York | 1624 | ~190 | ~226 |
+| Philadelphia | 1682 | ~150 | ~210 |
+| Chicago | 1833 | ~37 | ~57 |
+| Melbourne | 1835 | ~50 | — |
+| Los Angeles | 1781 | ~140 | ~170 |
+| Shenzhen | 1980 | ~20 | — |
+| **Average** | | **59.3 → 60** | **105.6 → 106** |
+
+Targets are the averages rounded to the nearest even number: **60 years
+to the top 50, 106 years to the top 10.** The spread is bimodal. Imperial
+capitals founded by decree (Alexandria, Baghdad, Samarra, Edo) took ~15-60
+years, and organically grown commercial and colonial cities (New York,
+Philadelphia, Los Angeles) took ~150-230. The averages sit between the
+two. **(open, later: whether founding a capital by decree should get its
+own faster path, e.g. forced resettlement as a one-off population
+transfer, to reproduce the fast group explicitly)**
+
+**Fit.** A toy simulation: 5,000 nodes, a rural background plus 300
+cities on an ancient-style rank-size curve (population ∝ rank^-0.6, i.e.
+flatter than modern Zipf), `k = 2`, yearly ticks. It measures a median
+rural node given drivers matching the world's best site and held there.
+A grid search over `β` and `μ` (`tools/calibrate_population.py`, rerunnable) found exactly one pair that hits both
+targets: **`β = 0.5`, `μ = 0.0205` → top 50 at year 60, top 10 at year
+106.** Stronger feedback (`β ≥ 1`) can't hit both at once; the best it
+manages is ~58/108 at `β = 1`. Behavior at those values:
 
 | Scenario | Result |
 |---|---|
-| Barren median node, drivers maxed to match the world's best site, held indefinitely | Top-50 city after ~16 years, top-10 after ~50 years, levels off around **20% of the largest city's population** (a strong second-tier city, the world's #3 in the toy run) after ~2-3 centuries |
-| Same city, investment abandoned | Loses half its gain in ~90 years, then drifts back toward history |
-| 6th-largest historical city loses all its drivers for a 30-year war | Loses ~10% of its population, keeps its name, recovers within decades |
+| Barren median node, drivers maxed and held indefinitely | Top 50 at **60 years**, top 10 at **106 years**. Levels off at ~60% of the largest city's population, the world's #3, after a few centuries. Realistic: founded cities like Alexandria, Baghdad, and Constantinople did end up at #1 |
+| Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~66 years, and it drops out of the top 20% and loses its name after ~180 years. This is the Samarra or Pataliputra arc |
+| 6th-largest historical city loses **all** its drivers for 30 years | Loses ~58% of its population but keeps its name. Back to 90% of its former size ~137 years after the war ends. Harsh, but this is total loss of food, trade, and infrastructure for a generation, the Rome-after-the-sack scale of disaster |
 
-So one generation of focused play builds a notable city. Rivaling
-history's giants takes centuries of sustained investment, and even then
-a single invested site levels off at a fraction of the largest city: big
-dents need many sites and a long game. `β = 3` makes investment ~50%
-stronger (levels off at ~30% of the largest city) and faster. `β = 6+`
-makes history feel rigid. These are starting values and get rechecked
-against the real HYDE grid once it's imported, since the toy distribution
-is synthetic.
+History's pull at these values comes mostly from `α`. `β = 0.5` keeps
+`βα / (1 + βα)` ≈ 8% historical share inside `H_sim` at steady state, so
+roughly a quarter of `H_final` is historical overall. What holds the
+real ancient giants in place is time, not a cap. A player needs about a
+century of sustained, best-in-world investment to put a new city in the
+top 10, and a few centuries to rival the largest. These values get
+rechecked against the real HYDE grid once it's imported, since the toy
+city distribution is synthetic. (Ranks there are within the map's
+extent, not the whole planet, so the rank-size curve of the map region
+is what matters.)
 
 ### 2. Heatmap-to-population translation
 
 ```
-Target_node = C * H_final ^ k
-Pop_node(t+1) = Pop_node(t) + μ * (Target_node - Pop_node(t))        μ = 0.015 / year
+Target_node   = C * H_final ^ k
+Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0205 / year
 ```
 
 Population is a **stock**, not recomputed from scratch each tick. People
-can only be born, die, and migrate so fast, so a node closes ~1.5% of its
-gap to target per year: a half-life of ~46 years, about two generations.
-That matches historical urban growth rates. It's what makes bending
-history a long-term strategy rather than something one build order does.
-Each node's own `Pop` is the value everything else reads (Might, taxes,
-naming, the feedback term above). **(decided)**
+can only be born, die, and migrate so fast. Each year a node closes ~2%
+of the gap to its target, **measured on a log scale**: growth and decline
+are percentage rates, like real demography. A town 100x below its target
+grows ~10% a year, a Chicago-style boom. A city 10% below its target grows
+~0.2% a year. The log-scale form is required, not stylistic. A linear
+step (`Pop += μ(Target - Pop)`) grows fastest at the very start, which
+makes a founded city's climb from top 50 to top 10 take at least ~2.6x as
+long as reaching the top 50, versus ~1.8x historically. Compounding growth
+matches the real curve. It's what makes bending history a long-term
+strategy rather than something one build order does. Each node's own
+`Pop` is the value everything else reads (Might, taxes, naming, the
+feedback term above). **(decided)**
+
+Populations are whole people. A node that rounds down below 1 is exactly
+zero, which is what triggers the ruin rule in stage 3. Since multiplicative
+growth can't start from zero, an empty node with a positive target is
+seeded with a small settler population, the same way a player-founded
+settlement starts. **(seed size open)**
 
 This is a power law, not exponential decay, but it has the intended
 effect: a higher `k` crushes middling heat far harder than peak heat, so
