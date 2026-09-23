@@ -32,8 +32,10 @@ const CIVS := [
 		"blurb": "Mounted nomads ranging the grasslands north of the Black Sea."},
 ]
 const DEFAULT_KEY := "rome"
+const CARD_MIN_SIZE := Vector2(260, 90)
 
 var _debug_buttons: Array[Button] = []
+var _selection_made := false  # guards against a double-fire if both the card and the button register the same click
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -66,19 +68,37 @@ func _ready() -> void:
 	outer_vbox.add_child(grid)
 
 	for civ in CIVS:
+		# The WHOLE card is the click target, not just the button text -
+		# this is deliberately more forgiving than a precise button hit,
+		# as a robust fix regardless of the exact cause of the reported
+		# click/visual offset (two prior diagnosis attempts - a DPI/
+		# stretch project setting, and confirming via diff that an
+		# external "fix" never touched this code - didn't resolve it, so
+		# this widens the target instead of trying a third unconfirmed
+		# theory). custom_minimum_size gives every card a large, stable
+		# hit area independent of how Container auto-sizing settles.
 		var panel := PanelContainer.new()
+		panel.custom_minimum_size = CARD_MIN_SIZE
+		panel.mouse_filter = Control.MOUSE_FILTER_STOP
+		panel.gui_input.connect(_on_card_gui_input.bind(civ.key))
+		panel.mouse_entered.connect(func(): panel.modulate = Color(1.15, 1.15, 1.15))
+		panel.mouse_exited.connect(func(): panel.modulate = Color(1, 1, 1))
+
 		var vbox := VBoxContainer.new()
+		vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		panel.add_child(vbox)
 
 		var button := Button.new()
 		button.text = civ.name + ("  (default)" if civ.key == DEFAULT_KEY else "")
 		button.tooltip_text = civ.blurb
-		button.pressed.connect(_on_civ_button_pressed.bind(civ.key))
+		button.mouse_filter = Control.MOUSE_FILTER_IGNORE  # card handles the click; button is visual only
+		button.focus_mode = Control.FOCUS_NONE
 		vbox.add_child(button)
 
 		var region_label := Label.new()
 		region_label.text = civ.region
 		region_label.modulate.a = 0.7
+		region_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		vbox.add_child(region_label)
 
 		grid.add_child(panel)
@@ -96,18 +116,25 @@ func _debug_print_layout() -> void:
 	print("CivSelect global rect: ", get_global_rect())
 	for b in _debug_buttons:
 		print(b.text, " -> global_rect=", b.get_global_rect())
-	print("Click anywhere on this screen now - each click will print its position below for comparison.")
 
 # Fires for any click that lands on this Control and isn't consumed by
-# a child first (e.g. a click that MISSES every button, landing on
-# empty background) - exactly the case we need to see to measure the
-# offset the user is describing.
+# a card first (e.g. a click that misses every card, landing on empty
+# background/margin) - if this is STILL happening with the much bigger
+# card targets, that's strong evidence the offset is large or the whole
+# screen is mispositioned, not just imprecise button hit-testing.
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed:
-		print("CLICK (missed all buttons) at position=", event.position,
+		print("CLICK (missed every card) at position=", event.position,
 			" global_position=", event.global_position,
 			" get_global_mouse_position()=", get_global_mouse_position())
 
-func _on_civ_button_pressed(civ_key: String) -> void:
-	print("BUTTON HIT: ", civ_key, " at get_global_mouse_position()=", get_global_mouse_position())
+func _on_card_gui_input(event: InputEvent, civ_key: String) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_select_civ(civ_key)
+
+func _select_civ(civ_key: String) -> void:
+	if _selection_made:
+		return
+	_selection_made = true
+	print("CARD HIT: ", civ_key, " at get_global_mouse_position()=", get_global_mouse_position())
 	civ_chosen.emit(civ_key)
