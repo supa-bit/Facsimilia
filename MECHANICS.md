@@ -146,7 +146,7 @@ historically barren region always keeps at least 80-85% of their own heat
 there. `H_sim` overpowers the historical pull, which is what makes
 alternate history possible. **(decided)**
 
-**Source of `H_hist`: HYDE, not a hand-authored map. (proposed)** HYDE is
+**Source of `H_hist`: HYDE, not a hand-authored map. (decided)** HYDE is
 already the decided source of the population density field (see Might,
 below), and it ships gridded population snapshots from 10,000 BCE to
 2023 CE. That's exactly a sequence of historical target maps, and it's
@@ -157,22 +157,25 @@ interpolate linearly so the pull moves smoothly instead of jumping at each
 keyframe. At the 300 BC start, `H_sim` is seeded from `H_hist` itself, so
 turn one is historical by construction and divergence only comes from play.
 
-**The blend alone doesn't produce a slow pull. (open — needs a call before
-implementation)** As written, the blend is instantaneous and memoryless.
-An ignored but historically important region immediately gets `α * H_hist`
-worth of heat and then stays there forever. It never drifts further toward
-history, because nothing feeds `H_final` back into `H_sim`. To get the
-intended "populations wander there organically over time" behavior, one of
-these is required:
+**The slow pull comes from population feedback into `H_sim`. (decided)**
+On its own the blend is instantaneous and memoryless. An ignored but
+historically important region would get `α * H_hist` worth of heat once
+and then stay there forever, because nothing feeds `H_final` back into
+`H_sim`. So `H_sim` is partly a function of the previous tick's
+population, since people attract trade, labor, and markets:
 
-- **Feedback (recommended):** `H_sim` is partly a function of the previous
-  tick's population, since people attract trade, labor, and markets. The
-  small historical boost then compounds tick over tick into a real drift,
-  and it stays counterable by player investment. It's also how `H_sim`
-  most likely wants to work anyway.
-- **Explicit relaxation:** `H_sim += r * (H_hist - H_sim) * dt` with a slow
-  rate `r`. This is simpler to reason about, but it's a second tuning knob
-  alongside `α`.
+```
+H_sim(t+1) = normalize( drivers(t+1) + β * Pop(t) / max Pop(t) )
+```
+
+Here `drivers` is the gameplay term (food, water, trade, infrastructure,
+war) and `β` is how strongly existing population draws more. The small
+historical boost from `α` then compounds tick over tick into a real drift
+toward history, and heavy player investment in `drivers` can still beat it.
+That's the "realist alternate history" behavior. Explicit relaxation of
+`H_sim` toward `H_hist` was the alternative. It was rejected because it
+drags on the simulation directly instead of acting through population.
+**(`β` is a tuning value, open)**
 
 ### 2. Heatmap-to-population translation
 
@@ -184,11 +187,11 @@ This is a power law, not exponential decay, but it has the intended
 effect: a higher `k` crushes middling heat far harder than peak heat, so
 population funnels into the hottest nodes.
 
-- **`C` (carrying capacity, era multiplier)** is the population of a node at
-  `H = 1.0`, i.e. the ceiling for the single hottest node in the world. It
-  scales with technology unlocks: about **150,000** for ancient megacities
-  at the 300 BC start, and **tens of millions** by the industrial and space
-  eras.
+- **`C` (carrying capacity, era multiplier)** scales with technology
+  unlocks: about **150,000** for ancient megacities at the 300 BC start,
+  and **tens of millions** by the industrial and space eras. It's
+  implemented in world-total form (see below), so those per-city numbers
+  are calibration checks on the hottest node, not a literal constant.
 - **`k` (urbanization exponent)** rises with era. **`k = 2`** in ancient and
   agrarian eras spreads population out. **`k = 4-5`** in modern and
   interstellar eras simulates metropolitan concentration.
@@ -197,15 +200,23 @@ population funnels into the hottest nodes.
 
 Two consequences worth knowing before tuning:
 
-- **Raising `k` shrinks total world population unless `C` rises with it.**
-  Because `H ≤ 1`, `H^4 ≤ H^2` everywhere, so an era transition that bumps
-  `k` from 2 to 4 with `C` held flat would make every node except the peak
-  lose population overnight. A node at `H = 0.5` goes from `0.25·C` to
-  `0.0625·C`. `C` and `k` steps must be tuned together, or `C` gets defined
-  as a *world total* instead: `Pop_i = P_world * H_i^k / Σ_j H_j^k`. That
-  form preserves the total by construction and keeps the funneling effect.
-  It also lines up directly against HYDE's world totals. **(open — which
-  form of `C`)**
+- **`C` is a world total, not a per-node ceiling. (decided)** Because
+  `H ≤ 1`, `H^4 ≤ H^2` everywhere. With `C` as a literal per-node ceiling,
+  an era transition from `k = 2` to `k = 4` would make every node except
+  the peak lose population overnight: a node at `H = 0.5` would drop from
+  `0.25·C` to `0.0625·C`. So the implemented form is
+
+  ```
+  Pop_i = P_world * H_i^k / Σ_j H_j^k
+  ```
+
+  `P_world` is the era's world population: HYDE's historical total by
+  default, which growth mechanics (food surplus etc.) can push off
+  history. The total is preserved by construction, `k` still funnels
+  people into the hottest nodes, and the output can be checked directly
+  against HYDE's totals. The ~150,000 ancient-megacity figure becomes a
+  sanity check: at 300 BC with `k = 2`, the hottest node should come out
+  around there.
 - **`k` must change gradually.** A step change in `k` at an era boundary
   redistributes the whole world in one tick. Interpolate `k` (and `C`) over
   the transition, the same way `H_hist` is interpolated between keyframes.
@@ -216,8 +227,7 @@ Two consequences worth knowing before tuning:
   enters the **top 2-5%** of all active population clusters (population
   `> 0`; empty clusters are excluded so a large empty map doesn't shift the
   bar). This keeps the label count proportional to map size in every era.
-  **(decided — exact value within 2-5% to be set in playtesting; 3% as the
-  starting value)**
+  **(decided — 3% to start; retune within 2-5% in playtesting)**
 - **Hysteresis:** once named, a settlement keeps its name, even when
   conquered or when its land becomes unclaimed, until it drops below the
   **top 20%**. The wide gap between entry (2-5%) and exit (20%) stops
@@ -237,11 +247,11 @@ changes displayed populations but never which settlements are named. Only
 the heatmap changes that. Calibration and map readability can be tuned
 independently.
 
-**Cluster vs. node vs. cell. (open — needs a call before implementation)**
+**Cluster vs. node vs. cell. (decided)**
 The percentile has to rank *clusters*, not grid cells. The ownership grid
 is 8192x5476 at ~0.59 km² per cell, so there are millions of land cells,
 and the top 2% of *cells* would be hundreds of thousands of labels. A
-single city also covers many adjacent cells. The proposed definition:
+single city also covers many adjacent cells. So:
 
 - **Node:** the unit `H` and `Pop` are computed on. Coarser than a cell,
   roughly HYDE's native resolution (5 arcminutes, ~9 km), since there's no
@@ -252,12 +262,16 @@ single city also covers many adjacent cells. The proposed definition:
   those nodes. Nearby peaks closer than a minimum separation merge, so twin
   peaks don't produce two labels for one city.
 
-**Global vs. regional ranking. (open)** A purely global percentile will
-cluster almost every 300 BC label into the Mediterranean, Mesopotamia, the
-Ganges, and the Yellow River. That's historically honest, but it leaves
-regions like Sub-Saharan Africa or Northern Europe label-free. Suggested
-compromise: rank globally, plus a regional floor that names each region's
-single largest cluster if it has none yet. Hysteresis applies to those too.
+**Global ranking with a regional floor. (decided)** A purely global
+percentile would put almost every 300 BC label in the Mediterranean,
+Mesopotamia, the Ganges, and the Yellow River. That's historically honest,
+but it leaves regions like Sub-Saharan Africa or Northern Europe with no
+labels at all. So the ranking is global, plus a regional floor: any region
+with no named settlement gets its single largest cluster named. Hysteresis
+and ruin rules apply to floor-named settlements too. Regions are a fixed
+geographic partition (continent/subregion scale), not political borders,
+so conquest never changes which floor applies. **(open: the exact region
+list, to be set when this is built)**
 
 ## New concepts needed
 
