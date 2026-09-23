@@ -128,9 +128,11 @@ for the whole run. Revisit before building any era past Ancient.
   **(open)** full list not finalized.
 - **Infrastructure tier per cell** — none/dirt/gravel/paved/rail/electrified,
   hard-capped at gravel while unorganized.
-- **Local militia** — defensive-only strength derived from population
-  density, distinct from a realm's real armies (which require organized,
-  supplied provinces to station).
+- **Might** — see the dedicated section below. Supersedes the standalone
+  "local militia" idea by generalizing it into the domain-split strength
+  score used everywhere annexation resolves, for both realms and raw land.
+- **Floating confirmation panel** (UI) — live Might + resource-icon readout
+  while painting; see Annexation UX, below.
 
 ## The five simulation systems (realm/province level)
 
@@ -148,14 +150,89 @@ for the whole run. Revisit before building any era past Ancient.
   — recruited units gated by resources and tech; a leader/general slot
   extends the existing `Character.traits`, not a new character concept.
 
+## Might: the unified strength score
+
+The number actually compared whenever annexation resolves. Split into
+domains that unlock by era: **Land** and **Naval** (both available from the
+game's 300 BC start — ancient/medieval navies were real, triremes and
+quinqueremes included, and several starting civs are explicitly maritime
+powers: Carthage, Rome, the Greek world, Ptolemaic Egypt), **Aerial**
+(~1900 AD), and eventually **Space**. A domain that hasn't unlocked yet
+shows as 0/greyed out for every realm equally. The data model carries all
+four slots from day one (cheap now, expensive to retrofit later) even
+though two sit inert for a long time. **(decided)**
+
+(The ~1500 AD instinct isn't wrong, just describes a different thing — true
+ocean-crossing "Age of Sail" capability, as opposed to Naval Might existing
+at all. That's a plausible later refinement, e.g. a coastal/riverine vs.
+blue-water distinction, not something blocking Naval Might being active
+from turn one.)
+
+Where a Might number comes from depends on what's being measured:
+- **A realm's own Might** (the attacker, or an organized province's
+  defender) — derived from that realm's Military system (armies, tech,
+  fortification), per domain.
+- **Unclaimed or unorganized land's Might** (defender only — raw land has
+  no attacker side) — derived directly from local population density: the
+  same per-cell density field already planned under Layers, read live, not
+  a separately baked asset. "Heat map" here describes the *display* (a
+  colored intensity overlay), not a second data source that could drift out
+  of sync with the density field it's reading.
+
+This resolves both open questions from before:
+- Defense is **not** seat-anchored — it's the whole province's aggregate
+  Might, so beating it (in whichever domain(s) apply — Land and Naval, for
+  a very long time) flips the entire province regardless of exactly which
+  cells got painted, matching the earlier "conquered a state from one city"
+  decision.
+- Resolution reads as **instant at confirm-time** — one decisive Might
+  comparison when you commit, not a multi-tick siege bar. (Inferred from
+  "confirm... if you can handle it" rather than stated outright — flagging
+  in case a multi-year siege was actually intended.)
+
+One refinement worth folding back into Layers: since Might for unclaimed
+land is explicitly meant to reflect *historical* population, the density
+field itself should be sourced from real historical population data where
+it exists (HYDE-style gridded estimates are the standard here), the same
+way the coastline and 300 BC borders already come from real datasets
+instead of synthetic approximation — terrain-driven estimation is a
+reasonable fallback for distributing population within a region, not the
+primary source. **(open, but low-risk — same tools/*.py pipeline pattern
+as land_mask/political_mask would apply)**
+
+## Annexation UX: fog of war and the floating confirmation panel
+
+A target's Might is hidden until you start painting over it — no defense
+numbers just from looking at the map. Starting a paint stroke on unclaimed
+or enemy territory triggers the reveal, and it updates live as the stroke
+grows or shrinks, reusing the same dirty-cell tracking the ownership
+proposal paint already has.
+
+While painting, a floating confirmation panel shows, live:
+- Might per domain for whatever's currently painted (Land and Naval as real
+  numbers; Aerial/Space greyed out at 0 until their era unlocks)
+- Icons for whichever resource types are present in the currently-painted
+  cells
+
+Confirm stays available regardless of whether you're favored — showing the
+numbers is about an informed choice, not a blocked action. Losing (per the
+existing rule below) means the paint snaps back with attrition to the
+attacker's own Might, not that confirm gets disabled. **(decided)**
+
+**(open)** When one stroke spans multiple distinct provinces (or crosses
+from unclaimed land into an organized enemy province), does the panel show
+one blended total, or a breakdown per province? Resolution itself happens
+per-province, so a breakdown seems right, but this is a real layout call
+for the panel, not just an implementation detail.
+
 ## Annexation resolution
 
 Stays a paint action, not a menu. But the *unit of capture is the province*,
 not the cell, once land is organized: painting/confirming inside an enemy
-province checks that province's defense (garrison/fortification, derived
-from the owning realm's military + tech + that province's integration)
-against the attacker's strength. Beating it flips the *entire* province —
-every member cell, including ones the brush stroke never touched, keeps its
+province checks that province's Might (see above — garrison/fortification,
+derived from the owning realm's military + tech + that province's
+integration) against the attacker's Might. Beating it flips the *entire*
+province — every member cell, including ones the brush stroke never touched, keeps its
 existing `province_id`, population, infrastructure, and settlements, just
 under a new owning realm (mechanically: the province's owner pointer flips,
 then a bulk write propagates that to its cells, per the invariant above).
@@ -173,19 +250,6 @@ This also settles the earlier open question about post-conquest
 organization: captured organized provinces do **not** reset to unorganized
 and don't need a separate "decide how to organize this" step. They arrive
 already organized, under new management, exactly as they were run before.
-
-**(open)** Is a province's defense anchored specifically at its seat/main
-settlement (so painting elsewhere in the province does nothing until you
-reach the city), or can beating defense be triggered by occupying enough of
-the province generally? "Conquered from one city" points at the former — a
-defended seat that, once beaten, delivers the whole province — but this
-decides where fortification/garrison data actually lives (on the
-Settlement, not spread across the province), so worth confirming before
-Phase 1.
-
-**(open)** Instant flip the moment defense is beaten, or an occupation/siege
-that plays out over multiple yearly ticks (accumulating painted presence)?
-Affects how swingy conquest feels, especially for large provinces.
 
 Since a province is now captured as an atomic whole, **province size is a
 real balancing lever**: small/numerous provinces make conquest gradual, a
