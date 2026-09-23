@@ -9,12 +9,27 @@ const GRID_HEIGHT := 240
 const CELL_PIXELS := 4  # on-screen scale per grid cell
 const PAINT_RADIUS := 3
 const WILD_COLOR := Color(0.12, 0.12, 0.12, 1.0)  # unclaimed land - not a realm, no owner
+const SEA_COLOR := Color(0.08, 0.16, 0.24, 1.0)  # water - never claimable, never painted
 const START_YEAR := -300  # 300 BC
+
+# A single hand-authored polygon standing in for the Mediterranean Sea,
+# separating "Europe" (north) from "Africa" (south), with a notch pulled
+# down to give Italy a recognizable boot-shaped peninsula. This is a
+# stylized approximation, not traced real coastline data - but it's what
+# actually makes the map read as a map instead of a field of blobs.
+const SEA_POLYGON: PackedVector2Array = [
+	Vector2(0, 150), Vector2(60, 155), Vector2(120, 148), Vector2(150, 150),
+	Vector2(168, 168), Vector2(185, 150), Vector2(200, 145), Vector2(220, 155),
+	Vector2(250, 160), Vector2(290, 165), Vector2(320, 170),
+	Vector2(320, 200), Vector2(280, 195), Vector2(240, 195), Vector2(200, 195),
+	Vector2(160, 190), Vector2(110, 195), Vector2(60, 195), Vector2(0, 190),
+]
 
 var grid: OwnershipGrid
 var registry: CharacterRegistry
 var player_realm_id: int
 var demo_year := START_YEAR
+var sea_mask: PackedByteArray  # 1 = water, 0 = land
 
 # civ_key ("rome", "carthage", ...) -> realm.id, so the civ-select screen
 # can point the player at the right realm without the grid/registry layer
@@ -31,7 +46,9 @@ var painting := false
 func _ready() -> void:
 	grid = OwnershipGrid.new(GRID_WIDTH, GRID_HEIGHT)
 	registry = CharacterRegistry.new()
+	_build_sea_mask()
 	_seed_ancient_world()
+	_clip_to_land()
 
 	proposal = PackedInt32Array()
 	proposal.resize(GRID_WIDTH * GRID_HEIGHT)
@@ -51,6 +68,28 @@ func _ready() -> void:
 
 	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells, year ", demo_year, ". ",
 		"Left-drag to propose annexing/settling land, right-click to clear the proposal.")
+
+func _build_sea_mask() -> void:
+	sea_mask = PackedByteArray()
+	sea_mask.resize(GRID_WIDTH * GRID_HEIGHT)
+	for y in GRID_HEIGHT:
+		for x in GRID_WIDTH:
+			var point := Vector2(x + 0.5, y + 0.5)
+			if Geometry2D.is_point_in_polygon(point, SEA_POLYGON):
+				sea_mask[y * GRID_WIDTH + x] = 1
+
+func is_sea(x: int, y: int) -> bool:
+	return sea_mask[y * GRID_WIDTH + x] == 1
+
+# Blobs are seeded ignoring terrain (organic circular jitter, same as
+# before), then this pass erases ownership anywhere that landed in the
+# sea - so each realm's final shape is its blob clipped to the coastline,
+# not a perfect circle.
+func _clip_to_land() -> void:
+	for y in GRID_HEIGHT:
+		for x in GRID_WIDTH:
+			if is_sea(x, y) and grid.get_owner(x, y) != 0:
+				grid.set_owner(x, y, 0)
 
 func _realm(realm_id: int) -> Realm:
 	return registry.realms[realm_id]
@@ -127,6 +166,8 @@ func _color_for_owner(owner_id: int) -> Color:
 # generic highlight. Unclaimed land has nothing to blend with, so a
 # proposal there just paints it solid - that's settlement, not negotiation.
 func _display_color(x: int, y: int) -> Color:
+	if is_sea(x, y):
+		return SEA_COLOR
 	var proposer := proposal[y * GRID_WIDTH + x]
 	var current_owner := grid.get_owner(x, y)
 	if proposer == 0:
@@ -163,7 +204,7 @@ func _paint_at(screen_pos: Vector2) -> void:
 		for dx in range(-PAINT_RADIUS, PAINT_RADIUS + 1):
 			var x := cell.x + dx
 			var y := cell.y + dy
-			if not grid.in_bounds(x, y):
+			if not grid.in_bounds(x, y) or is_sea(x, y):
 				continue
 			if Vector2(dx, dy).length() <= PAINT_RADIUS:
 				proposal[y * GRID_WIDTH + x] = player_realm_id
