@@ -29,9 +29,11 @@ grid:
    (an existing province of yours, to expand it, or "new province", to found
    one).
 3. **Density fields** (new) — population and raw-resource presence, baked at
-   world-gen from terrain data already loaded for the terrain shader. Not
-   normally player-painted (geography/history-driven), though the same brush
-   code could hand-adjust them in a dev/authoring context.
+   world-gen. Population comes from HYDE (see Might, below, for why real
+   historical data matters here); raw-resource presence is derived from
+   terrain data already loaded for the terrain shader. Not normally
+   player-painted (geography/history-driven), though the same brush code
+   could hand-adjust them in a dev/authoring context.
 
 Provinces never store population/resources as an opaque blob — a province's
 stats are always the sum of the density fields over whatever cells currently
@@ -190,15 +192,19 @@ This resolves both open questions from before:
   "confirm... if you can handle it" rather than stated outright — flagging
   in case a multi-year siege was actually intended.)
 
-One refinement worth folding back into Layers: since Might for unclaimed
-land is explicitly meant to reflect *historical* population, the density
-field itself should be sourced from real historical population data where
-it exists (HYDE-style gridded estimates are the standard here), the same
-way the coastline and 300 BC borders already come from real datasets
-instead of synthetic approximation — terrain-driven estimation is a
-reasonable fallback for distributing population within a region, not the
-primary source. **(open, but low-risk — same tools/*.py pipeline pattern
-as land_mask/political_mask would apply)**
+One refinement folded back into Layers: since Might for unclaimed land is
+explicitly meant to reflect *historical* population, the density field
+itself is sourced from **HYDE** (History Database of the Global
+Environment — PBL Netherlands Environmental Assessment Agency / Utrecht
+University), which gives gridded population estimates from 10,000 BCE to
+2023 CE. Free, public, no licensing cost — same footing as the Natural
+Earth coastline and historical-basemaps borders already in the project.
+Implementation follows the same pattern as `tools/build_land_mask.py`: a
+new `tools/build_population_mask.py`-style import step bakes HYDE's grid
+into a texture on this project's own projection, at the year matching the
+game's 300 BC start. Terrain-driven estimation is dropped as the source of
+record; it remains only as a plausible gap-filler if HYDE's resolution
+turns out too coarse for a specific region. **(decided)**
 
 ## Annexation UX: fog of war and the floating confirmation panel
 
