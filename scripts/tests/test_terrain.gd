@@ -44,6 +44,6 @@ func _init() -> void:
 		print(civ_key, ": ", count, " land cells")
 		assert(count > 500, civ_key + " has suspiciously little territory (" + str(count) + " cells)")
 
-	print("Terrain sanity check passed: real coastline mask seeded first, real 300 BC boundaries loaded via scanline fill (clipped to land), frontier zones filled the remaining gaps, every one of the 12 regions has real territory.")
+	print("Terrain sanity check passed: real coastline mask seeded first, real 300 BC boundaries loaded from the pre-reconciled political mask, frontier zones filled the remaining gaps, every one of the 12 regions has real territory.")
 	mv.free()
 	quit()

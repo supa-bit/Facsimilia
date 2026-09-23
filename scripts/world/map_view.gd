@@ -16,6 +16,8 @@ const PAINT_RADIUS := 12
 const START_YEAR := -300  # 300 BC
 const DATA_PATH := "res://data/ancient_bc300.json"
 const LAND_MASK_PATH := "res://data/land_mask.png"
+const POLITICAL_MASK_PATH := "res://data/political_mask.png"
+const TERRAIN_TEXTURE_PATH := "res://data/terrain_texture.png"
 const MAX_ZOOM := 16.0
 
 # Real 300 BC political boundaries (Roman Republic, Carthaginian Empire,
@@ -98,6 +100,7 @@ func _ready() -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = load("res://shaders/border_outline.gdshader")
 	mat.set_shader_parameter("texel_size", Vector2(1.0 / GRID_WIDTH, 1.0 / GRID_HEIGHT))
+	mat.set_shader_parameter("terrain_texture", load(TERRAIN_TEXTURE_PATH))
 	map_sprite.material = mat
 
 	camera = Camera2D.new()
@@ -171,15 +174,49 @@ func _seed_real_civs() -> void:
 	for region in parsed.regions:
 		regions_by_key[region.key] = region
 
+	# Region codes 1..9 in the baked political mask follow
+	# ancient_bc300.json's region order (see tools/reconcile_map.py) -
+	# REAL_CIVS must stay in that same order for realm_ids[code] to
+	# resolve correctly. Still read ancient_bc300.json for the display
+	# names; the polygon geometry itself is no longer used here.
+	var realm_ids := PackedInt32Array([0])  # code 0 = unclaimed
 	for spec in REAL_CIVS:
 		var region: Dictionary = regions_by_key[spec.key]
 		var realm := _make_ruler_and_realm(region.name, spec.ruler, spec.color, spec.law)
 		civ_realm_ids[spec.key] = realm.id
-		for poly_points in region.polygons:
-			var polygon := PackedVector2Array()
-			for point in poly_points:
-				polygon.append(Vector2(point[0], point[1]))
-			await _fill_polygon(polygon, realm.id, false)
+		realm_ids.append(realm.id)
+
+	# The mask is a pre-baked, offline-reconciled raster (tools/
+	# reconcile_map.py): the real political polygons clipped to the real
+	# coastline, warped as ONE continuous coordinate field so neighboring
+	# regions share borders instead of independently wiggling into gaps
+	# or overlaps, plus bounded coastal-sliver repair (never crosses
+	# water, never overwrites an existing claim, never auto-assigns an
+	# unclaimed island - see data/map_reconciliation.json for exactly
+	# what it changed). This replaces per-polygon scanline filling for
+	# the real civs entirely - just a raster code lookup now.
+	var mask_texture := load(POLITICAL_MASK_PATH) as Texture2D
+	assert(mask_texture != null, "Political mask texture could not be loaded")
+	var mask := mask_texture.get_image()
+	assert(mask != null and mask.get_width() == GRID_WIDTH and mask.get_height() == GRID_HEIGHT,
+		"Political mask missing or incompatible with the territory projection")
+	mask.convert(Image.FORMAT_L8)
+	var pixels := mask.get_data()
+	var cells := grid.cells
+	var total := pixels.size()
+	var chunk_size := 1000000
+	var i := 0
+	while i < total:
+		var end: int = mini(i + chunk_size, total)
+		for j in range(i, end):
+			var code: int = pixels[j]
+			# Sea stays a hard constraint even here, in case the mask
+			# ever disagreed with the land mask at the very margin.
+			if code > 0 and cells[j] != SEA_OWNER_ID:
+				cells[j] = realm_ids[code]
+		i = end
+		await _maybe_yield()
+	grid.cells = cells
 
 	player_realm_id = civ_realm_ids.get("rome", civ_realm_ids.values()[0])
 
@@ -187,7 +224,26 @@ func _seed_frontier_zones() -> void:
 	for spec in FRONTIER_ZONES:
 		var realm := _make_ruler_and_realm(spec.realm, spec.ruler, spec.color, spec.law)
 		civ_realm_ids[spec.key] = realm.id
-		await _fill_polygon(spec.polygon, realm.id, true)
+		await _fill_polygon(_soften_frontier(spec.polygon), realm.id, true)
+
+# Frontier zones are explicitly approximate cultural/tribal sketches,
+# not sourced boundary data (unlike the real civs, which now come from
+# the reconciled political mask above) - this densifies each straight
+# hand-placed edge and displaces every point with a fixed sinusoidal
+# coordinate field, purely to avoid a dead-straight ruler-drawn look.
+# Deterministic (position-based, not random), so it's reproducible.
+func _soften_frontier(polygon: PackedVector2Array) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for i in polygon.size():
+		var a: Vector2 = polygon[i]
+		var b: Vector2 = polygon[(i + 1) % polygon.size()]
+		var steps := maxi(1, ceili(a.distance_to(b) / 20.0))
+		for step in steps:
+			var p := a.lerp(b, float(step) / steps)
+			var dx := 8.0 * sin(p.y / 61.0 + p.x / 147.0) + 3.0 * sin(p.y / 19.0 - p.x / 47.0)
+			var dy := 8.0 * sin(p.x / 73.0 - p.y / 163.0) + 3.0 * sin(p.x / 23.0 + p.y / 53.0)
+			result.append(p + Vector2(dx, dy))
+	return result
 
 # Physical geography is independent of political borders. The mask is a
 # real rasterized coastline (Natural Earth's public domain 1:10m land
@@ -301,14 +357,38 @@ func _build_labels(centroids: Dictionary) -> void:
 		if not centroids.has(realm_id):
 			continue
 		var realm: Realm = registry.realms[realm_id]
-		var centroid: Vector2 = centroids[realm_id]
+		var centroid: Vector2 = _label_anchor(realm_id, centroids[realm_id])
 		var label := Label.new()
 		label.text = realm.name
 		label.add_theme_color_override("font_color", Color.WHITE)
 		label.add_theme_color_override("font_outline_color", Color.BLACK)
 		label.add_theme_constant_override("outline_size", 3)
-		label.position = centroid * CELL_PIXELS - Vector2(label.size.x / 2.0, 0)
+		label.position = centroid * CELL_PIXELS - label.get_minimum_size() / 2.0
 		label_container.add_child(label)
+
+# A raw centroid can land at sea, on another realm's territory, or in a
+# gap between a realm's disconnected parts (e.g. Carthage's islands).
+# Scans a coarse grid for the point closest to the centroid that's
+# actually confirmed on this realm's own territory (checked with a
+# small margin on each side, not just the single sample point).
+func _label_anchor(realm_id: int, centroid: Vector2) -> Vector2:
+	var best := centroid
+	var best_distance := INF
+	for y in range(8, GRID_HEIGHT - 8, 16):
+		for x in range(8, GRID_WIDTH - 8, 16):
+			if grid.get_owner(x, y) != realm_id:
+				continue
+			var point := Vector2(x, y)
+			var distance := point.distance_squared_to(centroid)
+			if distance >= best_distance:
+				continue
+			if grid.get_owner(x - 8, y) != realm_id or grid.get_owner(x + 8, y) != realm_id:
+				continue
+			if grid.get_owner(x, y - 8) != realm_id or grid.get_owner(x, y + 8) != realm_id:
+				continue
+			best = point
+			best_distance = distance
+	return best
 
 # Single pass over the whole grid (raw array, not per-cell get_owner()
 # calls) computing every realm's centroid at once, instead of one
