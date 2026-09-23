@@ -9,11 +9,17 @@ const GRID_HEIGHT := 150
 const CELL_PIXELS := 4  # on-screen scale per grid cell
 const PAINT_RADIUS := 3
 const WILD_COLOR := Color(0.12, 0.12, 0.12, 1.0)  # unclaimed land - not a realm, no owner
+const START_YEAR := -300  # 300 BC
 
 var grid: OwnershipGrid
 var registry: CharacterRegistry
-var painting_realm_id: int
-var demo_year := 1090
+var player_realm_id: int
+var demo_year := START_YEAR
+
+# civ_key ("rome", "carthage", ...) -> realm.id, so the civ-select screen
+# can point the player at the right realm without the grid/registry layer
+# needing to know anything about civ-select UI.
+var civ_realm_ids: Dictionary = {}
 
 # Per-cell proposing realm id (0 = no active proposal). Preview layer only -
 # never mutates grid's real ownership, just how a cell is displayed, so an
@@ -25,7 +31,7 @@ var painting := false
 func _ready() -> void:
 	grid = OwnershipGrid.new(GRID_WIDTH, GRID_HEIGHT)
 	registry = CharacterRegistry.new()
-	_seed_demo_realms()
+	_seed_ancient_world()
 
 	proposal = PackedInt32Array()
 	proposal.resize(GRID_WIDTH * GRID_HEIGHT)
@@ -43,41 +49,54 @@ func _ready() -> void:
 
 	_refresh_map_texture()
 
-	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells. ",
-		"Left-drag to propose annexing/settling land as ", _realm(painting_realm_id).name,
-		", right-click to clear the proposal. Press K to kill that realm's current ",
-		"ruler and watch succession happen (territory color stays the same - only ",
-		"the ruler changes).")
+	print("Facsimilia map view ready: ", GRID_WIDTH, "x", GRID_HEIGHT, " cells, year ", demo_year, ". ",
+		"Left-drag to propose annexing/settling land, right-click to clear the proposal.")
 
 func _realm(realm_id: int) -> Realm:
 	return registry.realms[realm_id]
 
-# Each demo realm gets a founding ruler, a dynasty, a spouse, and one heir
-# already born - enough for the K-key succession demo to have someone to
-# inherit. Territory ownership on the grid is keyed by realm.id, not by an
-# arbitrary faction number, so the map's political map IS the realm data.
-func _seed_demo_realms() -> void:
+func get_player_realm() -> Realm:
+	return _realm(player_realm_id)
+
+func set_player_civ(civ_key: String) -> void:
+	if civ_realm_ids.has(civ_key):
+		player_realm_id = civ_realm_ids[civ_key]
+
+# A small regional slice of the Mediterranean/western Europe at 300 BC,
+# not the whole world - positions are stylized, not traced coastlines, but
+# placed at roughly the right relative geography: Rome small and central
+# in Italy, Carthage larger to the southwest across the sea, the Greek
+# world (Epirus) to the east, Gallic tribes sprawling to the north. Rome
+# is deliberately the smallest here - it was a minor regional power in
+# 300 BC, not yet the Mediterranean superpower it became.
+func _seed_ancient_world() -> void:
 	var specs := [
-		{"realm": "Aldric", "ruler": "Aldric", "color": Color(0.75, 0.20, 0.20, 1.0),
-			"cx": 50, "cy": 45, "radius": 24, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
-		{"realm": "Marveld", "ruler": "Osric", "color": Color(0.20, 0.40, 0.75, 1.0),
-			"cx": 130, "cy": 55, "radius": 20, "law": Realm.SuccessionLaw.PRIMOGENITURE},
-		{"realm": "Cassenor", "ruler": "Ivo", "color": Color(0.25, 0.65, 0.30, 1.0),
-			"cx": 90, "cy": 105, "radius": 22, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "rome", "realm": "Rome", "ruler": "Numerius", "color": Color(0.75, 0.20, 0.20, 1.0),
+			"cx": 100, "cy": 90, "radius": 13, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "carthage", "realm": "Carthage", "ruler": "Hasdrubal", "color": Color(0.55, 0.30, 0.65, 1.0),
+			"cx": 60, "cy": 128, "radius": 22, "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE},
+		{"key": "epirus", "realm": "Epirus", "ruler": "Alcetas", "color": Color(0.20, 0.40, 0.75, 1.0),
+			"cx": 150, "cy": 100, "radius": 18, "law": Realm.SuccessionLaw.PRIMOGENITURE},
+		{"key": "gaul", "realm": "Gallic Tribes", "ruler": "Brennos", "color": Color(0.25, 0.65, 0.30, 1.0),
+			"cx": 90, "cy": 30, "radius": 27, "law": Realm.SuccessionLaw.PRIMOGENITURE},
 	]
-	var first_realm_id := -1
 	for i in specs.size():
 		var spec: Dictionary = specs[i]
-		var ruler := registry.create_character(spec.ruler, "male", 1055)
+		var ruler := registry.create_character(spec.ruler, "male", START_YEAR - 45)
 		registry.create_dynasty("House " + spec.ruler, ruler)
-		var spouse := registry.create_character(spec.ruler + "'s spouse", "female", 1057)
+		var spouse := registry.create_character(spec.ruler + "'s spouse", "female", START_YEAR - 43)
 		registry.marry(ruler, spouse)
-		registry.have_child(spouse, ruler, spec.ruler + "'s heir", "male", 1078)
+		registry.have_child(spouse, ruler, spec.ruler + "'s heir", "male", START_YEAR - 22)
 		var realm := registry.create_realm(spec.realm, ruler, spec.law, spec.color)
-		if first_realm_id == -1:
-			first_realm_id = realm.id
+		civ_realm_ids[spec.key] = realm.id
 		grid.fill_blob(spec.cx, spec.cy, spec.radius, realm.id, i + 1)
-	painting_realm_id = first_realm_id
+	player_realm_id = civ_realm_ids.get("rome", civ_realm_ids.values()[0])
+
+func advance_year() -> Array:
+	demo_year += 1
+	var events := registry.advance_year(demo_year)
+	_refresh_map_texture()
+	return events
 
 func _color_for_owner(owner_id: int) -> Color:
 	if owner_id == 0:
@@ -118,8 +137,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			_refresh_map_texture()
 	elif event is InputEventMouseMotion and painting:
 		_paint_at(event.position)
-	elif event is InputEventKey and event.pressed and event.keycode == KEY_K:
-		_debug_kill_painting_realm_ruler()
 
 func _paint_at(screen_pos: Vector2) -> void:
 	var cell := Vector2i(screen_pos / CELL_PIXELS)
@@ -132,24 +149,5 @@ func _paint_at(screen_pos: Vector2) -> void:
 			if not grid.in_bounds(x, y):
 				continue
 			if Vector2(dx, dy).length() <= PAINT_RADIUS:
-				proposal[y * GRID_WIDTH + x] = painting_realm_id
+				proposal[y * GRID_WIDTH + x] = player_realm_id
 	_refresh_map_texture()
-
-# Debug-only trigger so succession can be watched live in the running game,
-# not just in the headless test. Prints to the editor's Output panel since
-# there's no on-screen UI for character info yet.
-func _debug_kill_painting_realm_ruler() -> void:
-	var realm := _realm(painting_realm_id)
-	var old_ruler = registry.characters.get(realm.ruler_id)
-	if old_ruler == null:
-		print(realm.name, ": no living ruler to kill.")
-		return
-	var old_ruler_name: String = old_ruler.name
-	demo_year += 1
-	var heir = registry.handle_ruler_death(realm, demo_year)
-	if heir == null:
-		print(realm.name, ": ", old_ruler_name, " has died with no heir. ",
-			"Succession crisis - the realm has no ruler.")
-	else:
-		print(realm.name, ": ", old_ruler_name, " has died. ", heir.name, " inherits. ",
-			"Territory color is unchanged - same realm, new ruler.")

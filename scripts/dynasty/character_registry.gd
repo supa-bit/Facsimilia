@@ -97,3 +97,36 @@ func handle_ruler_death(realm: Realm, death_year: int) -> Character:
 	if heir != null:
 		realm.ruler_id = heir.id
 	return heir
+
+# Placeholder mortality curve: flat 0% below 40, rising 1%/year, capped at
+# 35%. Deliberately simple and deterministic (no RNG) so it's fully unit-
+# testable - a real health/trait system replaces this later. Pure function.
+func death_chance_for_age(age: int) -> float:
+	return clamp(float(age - 40) * 0.01, 0.0, 0.35)
+
+# Advances the world by one year: every living ruler ages, and can die per
+# death_chance_for_age, triggering handle_ruler_death (and therefore real
+# succession) automatically. Pass a seeded rng for deterministic testing;
+# omit it for real randomized play. Returns human-readable event strings
+# for the HUD to display.
+func advance_year(new_year: int, rng: RandomNumberGenerator = null) -> Array[String]:
+	if rng == null:
+		rng = RandomNumberGenerator.new()
+		rng.randomize()
+	var events: Array[String] = []
+	for realm_id in realms.keys():
+		var realm: Realm = realms[realm_id]
+		var ruler: Character = characters.get(realm.ruler_id)
+		if ruler == null or not ruler.is_alive:
+			continue
+		var age := ruler.age_in(new_year)
+		if age < 0:
+			continue
+		if rng.randf() < death_chance_for_age(age):
+			var old_name := ruler.name
+			var heir := handle_ruler_death(realm, new_year)
+			if heir == null:
+				events.append("%s: %s has died at %d with no heir - succession crisis." % [realm.name, old_name, age])
+			else:
+				events.append("%s: %s has died at %d. %s inherits." % [realm.name, old_name, age, heir.name])
+	return events
