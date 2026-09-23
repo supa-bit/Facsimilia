@@ -2,31 +2,34 @@ extends Control
 
 signal civ_chosen(civ_key: String)
 
+# Matches map_view.gd's REAL_CIVS (sourced from real 300 BC political
+# boundary data) plus FRONTIER_ZONES (tribal regions with no unified state
+# at this date - genuinely accurate, not a data gap).
 const CIVS := [
 	{"key": "rome", "name": "Rome", "region": "Italy",
 		"blurb": "A modest city-state on the Tiber, one power among many on the Italian peninsula. History remembers what it became - not what it started as."},
-	{"key": "carthage", "name": "Carthage", "region": "North Africa - coast",
+	{"key": "carthage", "name": "Carthage", "region": "North Africa",
 		"blurb": "The dominant trading power of the western Mediterranean, backed by a navy few can match."},
-	{"key": "numidia", "name": "Numidian & Berber Peoples", "region": "North Africa - interior",
-		"blurb": "Horse-lords of the Maghreb's interior, from the Atlas mountains to the desert's edge."},
 	{"key": "egypt", "name": "Ptolemaic Egypt", "region": "Nile Valley",
 		"blurb": "Alexander's Macedonian generals still rule the Nile, richer than almost anyone."},
-	{"key": "iberia", "name": "Iberian & Celtiberian Tribes", "region": "Spain",
-		"blurb": "Fierce, fragmented tribal peoples across the peninsula, prized as mercenaries."},
-	{"key": "gaul", "name": "Gallic Tribes", "region": "Gaul / the Alps",
-		"blurb": "Sprawling, fractious confederations north of the Alps, fiercely independent."},
 	{"key": "kush", "name": "Kingdom of Kush", "region": "Nubia, south of Egypt",
 		"blurb": "An indigenous African kingdom on the upper Nile, with its own pharaohs, iron industry, and pyramids - never conquered by the Ptolemies to its north."},
-	{"key": "greek_world", "name": "Greek World", "region": "Greece / Aegean",
-		"blurb": "City-states, leagues, and Epirus's ambitious kings, forever rivals to one another."},
-	{"key": "dacia", "name": "Dacian & Getae Tribes", "region": "Carpathians",
-		"blurb": "Mountain and river peoples north of the Danube, skilled in metalwork and war."},
-	{"key": "thrace_anatolia", "name": "Thrace & Anatolia", "region": "Asia Minor",
-		"blurb": "The fractured remains of Lysimachus's kingdom, contested by every neighbor."},
+	{"key": "seleucid", "name": "Seleucid Empire", "region": "Syria / Mesopotamia",
+		"blurb": "The largest of Alexander's successor kingdoms, stretching deep into the east."},
+	{"key": "greek_world", "name": "Greek World", "region": "Macedon / Greece",
+		"blurb": "Kassander's Macedon and the southern Greek city-states, forever rivals to one another."},
+	{"key": "lysimachus", "name": "Kingdom of Lysimachus", "region": "Thrace",
+		"blurb": "One of Alexander's own bodyguards, now a king in his own right on the European side of the straits."},
+	{"key": "antigonus", "name": "Kingdom of Antigonus", "region": "Anatolia / Syria",
+		"blurb": "The One-Eyed's sprawling, contested holdings across Asia Minor and the Levant."},
+	{"key": "nabatea", "name": "Nabatean Kingdom", "region": "Arabia",
+		"blurb": "Desert traders controlling the incense routes, centered on their rock-cut capital."},
+	{"key": "iberia", "name": "Iberian & Celtiberian Tribes", "region": "Spain",
+		"blurb": "Fierce, fragmented tribal peoples across the peninsula, prized as mercenaries - no single king rules here yet."},
+	{"key": "gaul", "name": "Gallic Tribes", "region": "Gaul / the Alps",
+		"blurb": "Sprawling, fractious confederations north of the Alps, fiercely independent."},
 	{"key": "scythia", "name": "Scythian Peoples", "region": "Pontic Steppe",
 		"blurb": "Mounted nomads ranging the grasslands north of the Black Sea."},
-	{"key": "seleucid", "name": "Seleucid Empire", "region": "Levant / Mesopotamia",
-		"blurb": "The largest of Alexander's successor kingdoms, stretching deep into the east."},
 ]
 const DEFAULT_KEY := "rome"
 
