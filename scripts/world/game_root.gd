@@ -5,8 +5,8 @@ const HudScene := preload("res://scenes/Hud.tscn")
 const MapViewScript := preload("res://scripts/world/map_view.gd")
 const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 
-const INTRO_MIN_SECONDS := 45.0   # shown immediately at game start, before civ-select
-const REGION_MIN_SECONDS := 20.0  # shown after picking a civ, while that region generates
+const INTRO_MIN_SECONDS := 20.0   # shown immediately at game start, before civ-select
+const REGION_MIN_SECONDS := 10.0  # shown after picking a civ, while that region generates
 const FADE_SECONDS := 0.6
 
 var map_view: Node2D
