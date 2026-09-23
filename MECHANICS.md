@@ -182,89 +182,87 @@ history" behavior. Explicit relaxation of `H_sim` toward `H_hist` was the
 alternative. It was rejected because it drags on the simulation directly
 instead of acting through population.
 
-**`β = 0.5`, together with population inertia `μ = 0.0205` (stage 2).
+**`β = 0.25`, together with population inertia `μ = 0.0115` (stage 2).
 Both are calibrated to real founded cities. (decided)** Feedback alone
 can't make history slow to bend. The update is a contraction whose
 per-tick factor is at most `1 - α`, so any change in drivers settles
 within a few years whatever `β` is. A simulation showed a barren node
 turning into a major city within 0-1 years. The timescales come from
 population being a stock (see stage 2). The pair `(β, μ)` is then fitted
-to how long real cities took to climb the rankings.
+to how long real non-capital cities took to climb the rankings. Capitals
+get their own calibrated bonus on top (see Capital growth bonuses, below).
 
 **Historical target.** Years from a city's founding until it entered the
 world's top 50 and top 10 cities by population. The figures are rough
 estimates from Chandler (*Four Thousand Years of Urban Growth*) and
 Modelski. The sample is cities that did make the list; most foundings
-never do.
+never do. "Capital" means the city was a country's capital from founding
+or within its first few decades.
 
-| City | Founded | → top 50 | → top 10 |
-|---|---|---|---|
-| Alexandria | 331 BC | ~20 | ~50 |
-| Seleucia-on-Tigris | 305 BC | ~25 | ~55 |
-| Antioch | 300 BC | ~50 | ~100 |
-| Pataliputra | 490 BC | — | ~190 |
-| Constantinople (refounded) | 330 AD | ~10 | ~60 |
-| Baghdad | 762 | ~10 | ~30 |
-| Samarra | 836 | ~8 | ~15 |
-| Edo | 1603 | ~20 | ~50 |
-| St. Petersburg | 1703 | ~50 | ~160 |
-| Calcutta | 1690 | ~110 | — |
-| New York | 1624 | ~190 | ~226 |
-| Philadelphia | 1682 | ~150 | ~210 |
-| Chicago | 1833 | ~37 | ~57 |
-| Melbourne | 1835 | ~50 | — |
-| Los Angeles | 1781 | ~140 | ~170 |
-| Shenzhen | 1980 | ~20 | — |
-| **Average** | | **59.3 → 60** | **105.6 → 106** |
+| City | Founded | Capital? | → top 50 | → top 10 |
+|---|---|---|---|---|
+| Alexandria | 331 BC | yes | ~20 | ~50 |
+| Seleucia-on-Tigris | 305 BC | yes | ~25 | ~55 |
+| Antioch | 300 BC | yes | ~50 | ~100 |
+| Pataliputra | 490 BC | yes | — | ~190 |
+| Constantinople (refounded) | 330 AD | yes | ~10 | ~60 |
+| Baghdad | 762 | yes | ~10 | ~30 |
+| Samarra | 836 | yes | ~8 | ~15 |
+| Edo | 1603 | yes | ~20 | ~50 |
+| St. Petersburg | 1703 | yes | ~50 | ~160 |
+| Calcutta | 1690 | no | ~110 | — |
+| New York | 1624 | no | ~190 | ~226 |
+| Philadelphia | 1682 | no | ~150 | ~210 |
+| Chicago | 1833 | no | ~37 | ~57 |
+| Melbourne | 1835 | no | ~50 | — |
+| Los Angeles | 1781 | no | ~140 | ~170 |
+| Shenzhen | 1980 | no | ~20 | — |
+| **Average, capitals** | | | **24.1 → 24** | **78.9 → 78** |
+| **Average, non-capitals** | | | **99.6 → 100** | **165.8 → 166** |
+| *Average, all* | | | *59.3 → 60* | *105.6 → 106* |
 
-Targets are the averages rounded to the nearest even number: **60 years
-to the top 50, 106 years to the top 10.** The spread is bimodal. Imperial
-capitals founded by decree (Alexandria, Baghdad, Samarra, Edo) took ~15-60
-years, and organically grown commercial and colonial cities (New York,
-Philadelphia, Los Angeles) took ~150-230. The averages sit between the
-two. **(open, later: whether founding a capital by decree should get its
-own faster path, e.g. forced resettlement as a one-off population
-transfer, to reproduce the fast group explicitly)**
+Targets are the averages rounded to the nearest even number. The
+all-cities average (60/106) was the first calibration. It blended two
+different populations: capitals founded by decree and organically grown
+commercial cities. So the base engine is now fitted to **non-capitals
+(100/166)**, and capitals reach **24/78** through their own bonus.
 
 **Fit.** A toy simulation: 5,000 nodes, a rural background plus 300
 cities on an ancient-style rank-size curve (population ∝ rank^-0.6, i.e.
 flatter than modern Zipf), `k = 2`, yearly ticks. It measures a median
 rural node given drivers matching the world's best site and held there.
-A grid search over `β` and `μ` (`tools/calibrate_population.py`, rerunnable) found exactly one pair that hits both
-targets: **`β = 0.5`, `μ = 0.0205` → top 50 at year 60, top 10 at year
-106.** Stronger feedback (`β ≥ 1`) can't hit both at once; the best it
-manages is ~58/108 at `β = 1`. Behavior at those values:
+A grid search (`tools/calibrate_population.py`, rerunnable) gives **`β =
+0.25`, `μ = 0.0115` → top 50 at year 96, top 10 at year 166.** That's the
+closest fit available. The model's growth curve can't quite reproduce
+non-capitals' short 1.66x gap between the two milestones, so top 50 lands
+four years early. Behavior at these values:
 
 | Scenario | Result |
 |---|---|
-| Barren median node, drivers maxed and held indefinitely | Top 50 at **60 years**, top 10 at **106 years**. Levels off at ~60% of the largest city's population, the world's #3, after a few centuries. Realistic: founded cities like Alexandria, Baghdad, and Constantinople did end up at #1 |
-| Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~66 years, and it drops out of the top 20% and loses its name after ~180 years. This is the Samarra or Pataliputra arc |
-| 6th-largest historical city loses **all** its drivers for 30 years | Loses ~58% of its population but keeps its name. Back to 90% of its former size ~137 years after the war ends. Harsh, but this is total loss of food, trade, and infrastructure for a generation, the Rome-after-the-sack scale of disaster |
+| Barren median node, drivers maxed and held indefinitely (player only; see Historical ceiling) | Top 50 at **96 years**, top 10 at **166 years**. Levels off at ~64% of the largest city's population, the world's #3, after a few centuries |
+| Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~92 years, and it drops out of the top 20% and loses its name after ~260 years |
+| 6th-largest historical city loses **all** its drivers for 30 years | Loses ~49% of its population but keeps its name. Back to 90% of its former size ~190 years after the war ends. Harsh, but this is total loss of food, trade, and infrastructure for a generation, the Rome-after-the-sack scale of disaster |
 
-History's pull at these values comes mostly from `α`. `β = 0.5` keeps
-`βα / (1 + βα)` ≈ 8% historical share inside `H_sim` at steady state, so
-roughly a quarter of `H_final` is historical overall. What holds the
-real ancient giants in place is time, not a cap. A player needs about a
-century of sustained, best-in-world investment to put a new city in the
-top 10, and a few centuries to rival the largest. These values get
-rechecked against the real HYDE grid once it's imported, since the toy
-city distribution is synthetic. (Ranks there are within the map's
-extent, not the whole planet, so the rank-size curve of the map region
-is what matters.)
+History's pull at these values comes from `α`, from the slow `μ`, and,
+for everyone except the player, from the hard Historical ceiling below.
+These values get rechecked against the real HYDE grid once it's imported,
+since the toy city distribution is synthetic. (Ranks there are within the
+map's extent, not the whole planet, so the rank-size curve of the map
+region is what matters.)
 
 ### 2. Heatmap-to-population translation
 
 ```
 Target_node   = C * H_final ^ k
-Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0205 / year
+Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0115 / year
 ```
 
 Population is a **stock**, not recomputed from scratch each tick. People
-can only be born, die, and migrate so fast. Each year a node closes ~2%
+can only be born, die, and migrate so fast. Each year a node closes ~1.2%
 of the gap to its target, **measured on a log scale**: growth and decline
 are percentage rates, like real demography. A town 100x below its target
-grows ~10% a year, a Chicago-style boom. A city 10% below its target grows
-~0.2% a year. The log-scale form is required, not stylistic. A linear
+grows ~5% a year, a boomtown rate. A city 10% below its target grows
+~0.1% a year. The log-scale form is required, not stylistic. A linear
 step (`Pop += μ(Target - Pop)`) grows fastest at the very start, which
 makes a founded city's climb from top 50 to top 10 take at least ~2.6x as
 long as reaching the top 50, versus ~1.8x historically. Compounding growth
@@ -273,11 +271,8 @@ strategy rather than something one build order does. Each node's own
 `Pop` is the value everything else reads (Might, taxes, naming, the
 feedback term above). **(decided)**
 
-Populations are whole people. A node that rounds down below 1 is exactly
-zero, which is what triggers the ruin rule in stage 3. Since multiplicative
-growth can't start from zero, an empty node with a positive target is
-seeded with a small settler population, the same way a player-founded
-settlement starts. **(seed size open)**
+Populations are whole people. Starting and seed populations come from
+HYDE; see Starting and seed populations, below. **(decided)**
 
 This is a power law, not exponential decay, but it has the intended
 effect: a higher `k` crushes middling heat far harder than peak heat, so
@@ -307,8 +302,9 @@ Two consequences worth knowing before tuning:
   ```
 
   `P_world` is the era's world population: HYDE's historical total by
-  default, which growth mechanics (food surplus etc.) can push off
-  history. The total is preserved by construction, `k` still funnels
+  default. Growth mechanics (food surplus etc.) can push it off history,
+  but only the player's realm can push it *above* history. Bots' growth
+  mechanics can only lower it (see Historical ceiling). The total is preserved by construction, `k` still funnels
   people into the hottest nodes, and the output can be checked directly
   against HYDE's totals. The ~150,000 ancient-megacity figure becomes a
   sanity check: at 300 BC with `k = 2`, the hottest node should come out
@@ -316,6 +312,123 @@ Two consequences worth knowing before tuning:
 - **`k` must change gradually.** A step change in `k` at an era boundary
   redistributes the whole world in one tick. Interpolate `k` (and `C`) over
   the transition, the same way `H_hist` is interpolated between keyframes.
+
+### Historical ceiling: only the player exceeds history
+
+**Bots and unowned land can never grow a place beyond its historical high.
+Only the player can. (decided)** Every node has a ceiling:
+
+```
+HistHigh_i(year) = max over HYDE snapshots up to `year` of HYDE_pop_i   (interpolated like H_hist)
+```
+
+This is the most people that place had held in real history by that
+date. It's a running maximum, so it rises as the real place grew, and it
+doesn't fall when the real place declined. A bot can keep Babylon at its
+peak instead of letting it fade, but can't make it bigger than it ever
+was. Rules:
+
+- **Applies to:** every node not owned by the player's realm. That covers
+  bot realms, unorganized land held by bots, and unclaimed land.
+- **Enforced on the target, not the population:** for capped nodes,
+  `Target_i ← min(Target_i, HistHigh_i)`. Because population relaxes
+  toward its target and never overshoots it, a capped node can't grow
+  past its ceiling. A player city above its historical high that's lost
+  to a bot doesn't snap down. It declines toward the ceiling at the normal
+  `μ` rate, about a century to lose half the excess on a log scale. So
+  the player's legacy survives them for a while.
+- **Capped excess stays with bots:** population trimmed off capped
+  targets is redistributed to other *non-player* nodes still below their
+  ceilings, in proportion to their targets. This keeps the world total on
+  HYDE's historical figure. The player's own targets are never touched by
+  it, so the player neither gains nor loses from bots hitting their caps.
+  If every non-player node is at its ceiling, the excess is simply never
+  born.
+- **World total:** see `P_world` above. Only the player's realm can lift
+  it above history.
+- **Freedom below the ceiling:** bots still diverge from history
+  *downward* and in how population shifts between places under their
+  ceilings (wars, lost trade, moved capitals). They just can't create a
+  metropolis where history never had one. Alternate-history *growth* is
+  the player's alone.
+
+A consequence worth knowing: a bot can't found a large new city in a
+place that was historically empty, since the ceiling there is near zero.
+Bots found cities where history did. The player is the only realm that
+can put a great city somewhere new.
+
+### Capital growth bonuses
+
+Applies to **country capitals** (a realm's seat) and **province
+capitals** (each organized province's administrative seat), for both the
+player and bots. The ancient geographic regions (see Geographic regions)
+are purely geographic and have no capitals. For bots, the bonus only
+speeds growth *up to* the historical ceiling; it never lifts them past
+it. **(decided)**
+
+Two parts, both historically grounded, fitted to the targets above:
+
+| | One-time resettlement when designated | Ongoing driver bonus | → top 50 | → top 10 | Historical target |
+|---|---|---|---|---|---|
+| Country capital | **5%** of the largest city's population | **+0.20** | 22y | 77y | 24 / 78 |
+| Province capital | **1%** of the largest city's population | **+0.15** | 62y | 119y | 62 / 122 |
+| Ordinary city | — | — | 96y | 166y | 100 / 166 |
+
+- **Resettlement** reproduces the founding decree. Seleucia was populated
+  from Babylon, Samarra from Baghdad, and Antioch started with ~5,300
+  Athenian settlers from Antigonia plus their families. At 300 BC, 5% of
+  the largest city is ~15,000 people for a country capital and 1% is
+  ~3,000 for a province capital, the size of a Roman veteran colony. The
+  settlers are **moved, not created**: they're drawn from the realm's other
+  nodes in proportion to their population. It happens only the first time a
+  given city becomes that realm's capital of that kind, so toggling
+  capitals can't farm settlers. For bots it's clamped to the capital's
+  remaining headroom under the ceiling.
+- **Driver bonus** stands for the court, bureaucracy, garrison, and
+  tribute spent at the seat. It's added to the node's `drivers` in the
+  `H_sim` feedback formula for as long as the city stays capital. When it
+  stops being capital, the bonus goes away and the city declines along
+  the normal `μ` curve, which is the Samarra and Pataliputra arc.
+- A faster growth rate (a `μ` multiplier) was tested as the bonus
+  instead. It can't reproduce capitals' fast start: its best fit was 45
+  years to the top 50 against a target of 24. Resettlement is what
+  produces the historical jump.
+- **Province-capital targets are interpolated**, midway between country
+  capitals and ordinary cities. A founding-to-rank dataset for provincial
+  seats doesn't exist the way it does for world top 50 and top 10.
+  Rough anchors support it: Basra and Kufa, garrison capitals founded
+  636/638, reached the top tier within ~30 years; Roman Carthage, a
+  provincial capital refounded in 44 BC, took about 50 years to the top
+  50 and ~130 to the top 10; Fustat and Lugdunum took longer.
+  **(retune when better provincial data turns up)**
+- **Capitals at the 300 BC start** already carry their bonus, and no
+  resettlement is triggered for them. Starting drivers are backed out from
+  HYDE so the historical start is still a fixed point with every existing
+  capital's bonus included. Only capitals moved or founded after the start
+  change anything.
+
+### Starting and seed populations
+
+**Everything starts from the historical population heatmaps (HYDE).
+(decided)**
+
+- **Game start:** every node's population is its HYDE population for
+  300 BC. The whole world begins as historical record, not procedural.
+- **Seeding an empty node** (a founding on empty land, or the
+  resettlement of a ruin) uses, in order: the node's HYDE population for
+  the current year; else its historical high to date (`HistHigh`); else
+  the median rural node density of its ancient geographic region. A new
+  settlement starts at what history says that land held. Capital
+  resettlement, above, adds to that seed.
+- **Ruins need an event.** Log-scale growth never reaches zero on its own
+  while a node has any target. So a settlement only becomes a ruin
+  through an explicit depopulating event: razing, plague, or forced
+  evacuation. A ruin stays empty until a realm deliberately re-founds it
+  (reseeded immediately), or until a generation, **25 years**, passes and
+  it's naturally resettled at its seed size. Resettlement doesn't restore
+  the name. The ruin revives under its old name only when its cluster
+  re-enters the naming percentile. Carthage was razed in 146 BC and
+  refounded by decree in 44 BC. **(25 years is a starting value)**
 
 ### 3. Settlement naming and spawning (percentile-based)
 
@@ -331,7 +444,9 @@ Two consequences worth knowing before tuning:
   **(decided)**
 - **Ruins:** a named settlement whose population reaches exactly zero
   loses its active status but becomes a **ruin**: name and position are
-  kept as a map marker, not deleted. It can be re-founded. **(decided)**
+  kept as a map marker, not deleted. It can be re-founded. Only
+  depopulating events cause this; see Starting and seed populations.
+  **(decided)**
 - **Scale shift:** at the planetary-to-interstellar transition the rule
   doesn't change, only what a "cluster" is. The top 2% of hexes becomes
   the top 2% of hemispheres or core worlds. **(decided)**
@@ -412,6 +527,11 @@ which overlay is showing.
   provinces: a province can contain several, and unclaimed or unorganized
   land carries whichever clusters clear the percentile threshold. Named
   status survives conquest and loss of ownership.
+- **Capitals** — each realm has one country capital, and each organized
+  province has one province capital (its administrative seat). Both are
+  a settlement reference plus a "first designated" record per realm, so
+  the one-time resettlement can't repeat. They drive the growth bonuses
+  in Capital growth bonuses.
 - **Resource categories** — coal, ores (iron/copper/tin/gold/silver/lead),
   water, flora/fauna (timber/game/fish/wild plants), plus categories that tie
   into the existing civ flavor text rather than inventing a separate trade-
@@ -568,6 +688,8 @@ Phase 1 (province generation/seeding), not just an implementation detail.
    demand. Population via the engine: HYDE-sourced `H_hist`, `H_sim`
    seeded from it, blend, then `C * H^k`. Start with `H_sim` static and
    verify the 300 BC output against HYDE before adding any dynamics.
+   Then the historical ceiling, with a player/non-player split, and
+   capital bonuses; rerun `tools/calibrate_population.py` on the real grid.
 3. Unorganized-territory capability gating (the matrix above) + settlements
    (clustering, percentile naming, hysteresis, ruins), plus the region
    mask, regional floor, and the Regions map overlay.
