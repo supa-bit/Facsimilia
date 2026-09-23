@@ -101,21 +101,32 @@ Deliberately weak defense on both unclaimed and unorganized land is the
 incentive to actually organize conquered/settled territory rather than
 leave it as paperwork. **(decided)**
 
-### Settlement population threshold
+### Settlement population threshold — a formula, not a fixed number
 
-**50,000** population, at the game's 300 BC start. Historical grounding:
-only a handful of cities worldwide (Carthage, Alexandria, Rome, Syracuse)
-crossed 100,000 at this date; the next tier (Athens proper, Antioch, regional
-capitals) sits around 20,000-50,000; the large majority of ancient
-settlements never passed a few thousand. 50,000 keeps this a genuinely rare
-exception rather than catching every regional capital. **(decided for the
-300 BC start; open how it scales)**
+A flat number (50,000 was the earlier placeholder) has two problems: it's
+arbitrary, and in practice at the 300 BC start it would only tag a literal
+handful of settlements worldwide — too restrictive to be useful as anything
+but a "the last two or three supercities" special case. It also silently
+breaks the moment the timeline moves past antiquity, since 50,000 stops
+meaning anything once cities reach the millions.
 
-**(open)** This needs to scale once the timeline moves past antiquity —
-50,000 stops being exceptional in later eras (the design already implies the
-game runs into electricity/rail eras). Candidate approach: a relative measure
-(top-percentile-of-world, or era-indexed tiers) instead of one fixed number
-for the whole run. Revisit before building any era past Ancient.
+Formula instead: a settlement counts as **highly populous** when its
+population is at least **10% of the current world's single largest
+settlement's population**, recomputed live off whatever the simulation
+actually produces — never a baked constant. This is self-scaling across the
+entire 300 BC-to-space-age timeline with no manual per-era revisiting:
+whatever the biggest city in the world happens to be at any point, the bar
+moves with it. It also collapses the era-scaling question that was
+previously open into the same fix.
+
+Worked example at the 300 BC start: the largest cities in the world (Rome,
+Carthage, Alexandria, Syracuse) sit somewhere around 100,000-300,000. 10%
+of that puts the bar around 15,000-30,000, which catches not just those two
+or three supercities but a genuinely broad set of major centers — Antioch,
+Seleucia-on-Tigris, Pergamon, Athens, Corinth, Babylon, and similar —
+several dozen worldwide rather than a literal handful. **(decided — 10% is
+a first value and the single easiest number in this whole doc to retune if
+playtesting shows it catching too many or too few settlements)**
 
 ## New concepts needed
 
