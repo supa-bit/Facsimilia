@@ -753,8 +753,9 @@ of the world total, and province capitals, which wait on the province
 layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
 (300 BC to 2017 AD, the 300 BC one derived; see MAP_DATA.md), so the
 engine now runs on the real grid: 284,626 land nodes, loaded in ~0.5 s.
-Known issues on the real grid: a yearly tick takes ~0.5 s headless, too
-slow for play at speed. By 0 AD the non-player world holds 45.6 million
+A yearly tick takes ~0.5 s headless, fine for now since the game is
+turn-based (one tick per player-requested turn). Known issues on the real
+grid: by 0 AD the non-player world holds 45.6 million
 against HYDE's 48.2 million, because inertia lags the rising ceiling.
 The calibration doesn't fit (see above).
 
