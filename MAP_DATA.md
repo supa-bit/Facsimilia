@@ -104,6 +104,14 @@ The project includes the completed assets; Python and Node are not required to
 play. Remove stale `.godot` cache only if an existing local editor fails to pick
 up replaced textures. The delivered ChatGPT folder omits generated caches.
 
+## Code
+
+The game is C# on Godot 4.7.2 .NET (`Facsimilia.csproj`, .NET 10):
+`src/World/` holds the map, ownership grid, population engine, saves and
+the game flow; `src/Dynasties/` the characters, dynasties and realms;
+`src/UI/` the theme and screens; `src/Tests/` the headless test suites.
+Scenes are in `scenes/`, the border/terrain shader in `shaders/`.
+
 ## Validation
 
 Godot 4.5.2: terrain sanity test passed; 52 ownership-image samples, zero
@@ -123,5 +131,5 @@ Fonts (SIL Open Font License, license texts beside them in
 Pablo del Peral / Huerta Tipográfica for body text, both from Google Fonts.
 Icons: game-icons.net by Lorc and Delapouite, CC BY 3.0, recolored to
 white so the game can tint them; the per-file list is
-`assets/icons/CREDITS.md`. `scripts/ui/theme_ancient.gd` builds the theme
+`assets/icons/CREDITS.md`. `src/UI/ThemeAncient.cs` builds the theme
 from them.

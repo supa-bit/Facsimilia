@@ -9,7 +9,7 @@ same way MAP_DATA.md documents the map generation pipeline. Sections marked
 ## Core interaction principle: the brush stays authoritative
 
 The existing left-drag-to-paint / right-click-to-clear ownership brush
-(`map_view.gd`, `PAINT_RADIUS`, the `proposal` overlay) is the one mechanic
+(`src/World/MapView.cs`, `PaintRadius`, the proposal overlay) is the one mechanic
 everything else builds on top of, not around. Every new layer described below
 reuses that same brush code path (radius stamp, drag-paint, dirty-cell
 tracking) rather than introducing a different interaction paradigm (no
@@ -957,14 +957,15 @@ of the world total, and province capitals, which wait on the province
 layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
 (300 BC to 2017 AD, the 300 BC one derived; see MAP_DATA.md), so the
 engine now runs on the real grid: 284,626 land nodes, loaded in ~0.4 s.
-The engine is C# (the project is being ported from GDScript; see
-MAP_DATA.md): a yearly tick takes ~35 ms, against ~0.5 s in GDScript,
-with identical results. Known issues on the real
+The whole game is C# (ported from GDScript with identical results):
+a yearly population tick takes ~30 ms, against ~0.5 s in GDScript, and
+generating the world ~3 s, against ~25-35 s. Known issues on the real
 grid: by 0 AD the non-player world holds 47.7 million against HYDE's
 48.2 million, because inertia lags the rising ceiling.
 
 Each phase should be independently verified against the real headless Godot
 engine (the Godot 4.7.2 .NET build; the session hook installs it) before
-moving to the next. C# tests are under `src/Tests/` (run with
-`godot --headless --path . --script res://src/Tests/<Name>.cs`); the
-GDScript ones still to be ported are under `scripts/tests/`.
+moving to the next. The tests are under `src/Tests/`, one scene-tree
+script per suite, run with
+`godot --headless --path . --script res://src/Tests/<Name>.cs`; each
+exits with 1 if any check fails.

@@ -620,22 +620,4 @@ public partial class PopulationEngine : RefCounted
         UpdateHistory();
         return true;
     }
-
-    // --- GDScript bridge ------------------------------------------------------
-    // Variant-typed entry points for the GDScript callers that remain during
-    // the C# port (scripts/world/map_view.gd). Remove once they're ported.
-
-    public bool HasHydeData() => HydeAvailable();
-
-    /// <summary>capitals: [{node, kind (0 country, 1 province), realm}].</summary>
-    public void StartFromVariant(int startYear, GArray capitals)
-    {
-        var list = new List<StartCapital>();
-        foreach (Variant c in capitals)
-        {
-            var d = c.AsGodotDictionary();
-            list.Add(new StartCapital(d["node"].AsInt32(), (CapitalKind)d["kind"].AsInt32(), d["realm"].AsInt32()));
-        }
-        Start(startYear, list);
-    }
 }

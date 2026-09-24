@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Godot;
 
 namespace Facsimilia.Tests;
@@ -11,6 +13,26 @@ namespace Facsimilia.Tests;
 public abstract partial class TestRunner : SceneTree
 {
     int _failures;
+
+    /// <summary>
+    /// Runs Run() and exits. An exception counts as a failure (and still
+    /// exits) instead of leaving the process hanging. Tests either override
+    /// Run() and end with Finish(), or override _Initialize() themselves.
+    /// </summary>
+    public override async void _Initialize()
+    {
+        try
+        {
+            await Run();
+        }
+        catch (Exception e)
+        {
+            Check(false, "unhandled exception: " + e);
+            Finish("");
+        }
+    }
+
+    protected virtual Task Run() => Task.CompletedTask;
 
     protected bool Check(bool ok, string message)
     {

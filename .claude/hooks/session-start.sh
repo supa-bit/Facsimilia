@@ -4,7 +4,6 @@
 # builds the C# assembly, and imports the project so the headless tests can
 # run straight away:
 #   godot --headless --path . --script res://src/Tests/PopulationEngineTest.cs < /dev/null
-#   godot --headless --path . --script res://scripts/tests/test_time.gd < /dev/null
 set -euo pipefail
 
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then

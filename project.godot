@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 
 [autoload]
 
-SettingsStore="*res://scripts/ui/settings_store.gd"
+SettingsStore="*res://src/UI/SettingsStore.cs"
 
 [display]
 
