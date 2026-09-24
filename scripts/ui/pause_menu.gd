@@ -11,64 +11,73 @@ signal save_and_return_to_menu_requested
 signal save_and_quit_requested
 
 const SettingsPanelScene := preload("res://scenes/SettingsPanel.tscn")
+const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 
 var _buttons: Array[Button] = []
 var _status_label: Label
 var _settings_panel: Control
+var _center: CenterContainer
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var bg := ColorRect.new()
-	bg.color = Color(0.0, 0.0, 0.0, 0.55)
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.03, 0.02, 0.01, 0.7)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_center = center
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 
 	var panel := PanelContainer.new()
 	center.add_child(panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(300, 0)
+	vbox.custom_minimum_size = Vector2(380, 0)
 	vbox.add_theme_constant_override("separation", 10)
 	panel.add_child(vbox)
 
 	var title := Label.new()
 	title.text = "Paused"
+	title.theme_type_variation = "HeaderLabel"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(title)
+	vbox.add_child(ThemeAncient.ornament(300))
 
 	var resume_button := Button.new()
 	resume_button.text = "Resume"
+	resume_button.icon = ThemeAncient.icon("end_turn")
 	resume_button.pressed.connect(func(): resume_requested.emit())
 	vbox.add_child(resume_button)
 	_buttons.append(resume_button)
 
 	var settings_button := Button.new()
 	settings_button.text = "Settings"
+	settings_button.icon = ThemeAncient.icon("settings")
 	settings_button.pressed.connect(_on_settings_pressed)
 	vbox.add_child(settings_button)
 	_buttons.append(settings_button)
 
 	var save_menu_button := Button.new()
 	save_menu_button.text = "Save and Return to Main Menu"
+	save_menu_button.icon = ThemeAncient.icon("save")
 	save_menu_button.pressed.connect(func(): save_and_return_to_menu_requested.emit())
 	vbox.add_child(save_menu_button)
 	_buttons.append(save_menu_button)
 
 	var save_quit_button := Button.new()
 	save_quit_button.text = "Save and Quit to Desktop"
+	save_quit_button.icon = ThemeAncient.icon("quit")
 	save_quit_button.pressed.connect(func(): save_and_quit_requested.emit())
 	vbox.add_child(save_quit_button)
 	_buttons.append(save_quit_button)
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	_status_label.custom_minimum_size = Vector2(300, 0)
+	_status_label.custom_minimum_size = Vector2(380, 0)
 	vbox.add_child(_status_label)
 
 func _on_settings_pressed() -> void:
@@ -77,9 +86,11 @@ func _on_settings_pressed() -> void:
 	_settings_panel = SettingsPanelScene.instantiate()
 	_settings_panel.theme = theme
 	add_child(_settings_panel)
+	_center.visible = false  # one panel at a time
 	_settings_panel.closed.connect(func():
 		_settings_panel.queue_free()
-		_settings_panel = null)
+		_settings_panel = null
+		_center.visible = true)
 
 # Called by game_root while a save is in flight, so a slow chunked save
 # (see SaveSystem) can't be triggered twice or interrupted by Resume.

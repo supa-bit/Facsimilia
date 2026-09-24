@@ -7,9 +7,9 @@ const MapViewScript := preload("res://scripts/world/map_view.gd")
 const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 const SaveSystem := preload("res://scripts/world/save_system.gd")
 
-const INTRO_MIN_SECONDS := 20.0    # shown immediately at game start, before civ-select
-const REGION_MIN_SECONDS := 10.0   # shown after picking a civ, while that region generates
-const CONTINUE_MIN_SECONDS := 5.0  # shown while a save loads - still rebuilds the map image/centroids, see MapView.load_saved_game
+const INTRO_MIN_SECONDS := 2.5     # title card at game start, before civ-select
+const REGION_MIN_SECONDS := 1.5    # after picking a civ; world generation itself takes longer
+const CONTINUE_MIN_SECONDS := 1.0  # while a save loads - still rebuilds the map image/centroids, see MapView.load_saved_game
 const FADE_SECONDS := 0.6
 
 var map_view: Node2D
@@ -37,7 +37,7 @@ func _start_new_game() -> void:
 	# Intro screen: no real background work to await (nothing needs
 	# loading yet at this point), so this is just a themed, timed
 	# transition before the civ-select screen appears.
-	await _run_loading_screen("Facsimilia", "300 BC", INTRO_MIN_SECONDS, Callable())
+	await _run_loading_screen("FACSIMILIA", "The known world, 300 BC", INTRO_MIN_SECONDS, Callable())
 
 	civ_select = CivSelectScene.instantiate()
 	civ_select.theme = ThemeAncient.build()
@@ -101,31 +101,31 @@ func _on_loading_status_changed(text: String) -> void:
 # interactive yet.
 func _run_loading_screen(title_text: String, status_text: String, min_seconds: float, work_fn: Callable) -> void:
 	loading_screen = Control.new()
-	loading_screen.set_anchors_preset(Control.PRESET_FULL_RECT)
+	loading_screen.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	loading_screen.mouse_filter = Control.MOUSE_FILTER_STOP
 	loading_screen.theme = ThemeAncient.build()
 	loading_screen.modulate.a = 0.0
-
-	var bg := ColorRect.new()
-	bg.color = Color(0.09, 0.07, 0.05, 1.0)
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-	loading_screen.add_child(bg)
+	loading_screen.add_child(ThemeAncient.backdrop(0.62))
 
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	loading_screen.add_child(center)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 10)
+	vbox.add_theme_constant_override("separation", 16)
 	center.add_child(vbox)
 
 	var title := Label.new()
 	title.text = title_text
+	title.theme_type_variation = "TitleLabel"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(title)
+	vbox.add_child(ThemeAncient.ornament(420))
 
 	loading_label = Label.new()
 	loading_label.text = status_text
+	loading_label.theme_type_variation = "SubtleLabel"
+	loading_label.add_theme_font_size_override("font_size", 24)
 	loading_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(loading_label)
 
@@ -150,6 +150,8 @@ func _run_loading_screen(title_text: String, status_text: String, min_seconds: f
 	loading_label = null
 
 func _on_advance_requested() -> void:
+	if pause_menu != null or loading_screen != null:
+		return
 	var events: Array = map_view.advance_year()
 	hud.refresh()
 	hud.log_events(events)

@@ -115,3 +115,13 @@ historical accuracy.
 
 Realm label anchors are selected on their own territory instead of using
 unconstrained centroids. All twelve anchors were checked against ownership.
+
+## UI assets
+
+Fonts (SIL Open Font License, license texts beside them in
+`assets/fonts/`): Cinzel by Natanael Gama for headings, Alegreya by Juan
+Pablo del Peral / Huerta Tipográfica for body text, both from Google Fonts.
+Icons: game-icons.net by Lorc and Delapouite, CC BY 3.0, recolored to
+white so the game can tint them; the per-file list is
+`assets/icons/CREDITS.md`. `scripts/ui/theme_ancient.gd` builds the theme
+from them.

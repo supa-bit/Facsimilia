@@ -24,6 +24,9 @@ const LAND_MASK_PATH := "res://data/land_mask.png"
 const POLITICAL_MASK_PATH := "res://data/political_mask.png"
 const TERRAIN_TEXTURE_PATH := "res://data/terrain_texture.png"
 const MAX_ZOOM := 16.0
+const ZOOM_STEP := 1.2         # per mouse-wheel notch / zoom button press
+const KEY_PAN_SPEED := 900.0   # screen pixels per second, arrow keys / WASD
+const LABEL_TOP_MARGIN := 64   # keep realm names clear of the HUD's top bar
 const LON_MIN := -10.0  # map extent, shared with tools/import_bc300.js and the HYDE import
 const LON_MAX := 55.0
 const LAT_MIN := 10.0
@@ -40,16 +43,22 @@ const LAT_MAX := 48.0
 # its own territory in the political mask). Population engine only: the
 # capital's growth bonus already counts as part of recorded history.
 const REAL_CIVS := [
-	{"key": "rome", "ruler": "Numerius", "color": Color(0.75, 0.20, 0.20, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Rome", "capital_lonlat": Vector2(12.48, 41.89)},
-	{"key": "carthage", "ruler": "Hasdrubal", "color": Color(0.55, 0.30, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Carthage", "capital_lonlat": Vector2(10.32, 36.85)},
-	{"key": "egypt", "ruler": "Ptolemy", "color": Color(0.85, 0.75, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Alexandria", "capital_lonlat": Vector2(29.92, 31.2)},
-	{"key": "kush", "ruler": "Arkamani", "color": Color(0.55, 0.25, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Meroe", "capital_lonlat": Vector2(33.75, 16.94)},
-	{"key": "seleucid", "ruler": "Seleukos", "color": Color(0.35, 0.25, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Seleucia-on-Tigris", "capital_lonlat": Vector2(44.52, 33.1)},
-	{"key": "greek_world", "ruler": "Kassandros", "color": Color(0.20, 0.40, 0.75, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Pella", "capital_lonlat": Vector2(22.52, 40.76)},
-	{"key": "lysimachus", "ruler": "Lysimachos", "color": Color(0.75, 0.35, 0.55, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Lysimachia", "capital_lonlat": Vector2(26.75, 40.52)},
-	{"key": "antigonus", "ruler": "Antigonos", "color": Color(0.80, 0.45, 0.15, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Antigonia", "capital_lonlat": Vector2(36.2, 36.23)},
-	{"key": "nabatea", "ruler": "Aretas", "color": Color(0.70, 0.55, 0.30, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Petra", "capital_lonlat": Vector2(35.44, 30.33)},
+	{"key": "rome", "ruler": "Numerius", "heir": "Marcus", "spouse": "Cornelia", "color": Color(0.75, 0.20, 0.20, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Rome", "capital_lonlat": Vector2(12.48, 41.89)},
+	{"key": "carthage", "ruler": "Hasdrubal", "heir": "Hamilcar", "spouse": "Sophoniba", "color": Color(0.55, 0.30, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Carthage", "capital_lonlat": Vector2(10.32, 36.85)},
+	{"key": "egypt", "ruler": "Ptolemy", "heir": "Ptolemaios", "spouse": "Berenike", "color": Color(0.85, 0.75, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Alexandria", "capital_lonlat": Vector2(29.92, 31.2)},
+	{"key": "kush", "ruler": "Arkamani", "heir": "Amanislo", "spouse": "Nahirqo", "color": Color(0.55, 0.25, 0.15, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Meroe", "capital_lonlat": Vector2(33.75, 16.94)},
+	{"key": "seleucid", "ruler": "Seleukos", "heir": "Antiochos", "spouse": "Apama", "color": Color(0.35, 0.25, 0.65, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Seleucia-on-Tigris", "capital_lonlat": Vector2(44.52, 33.1)},
+	{"key": "greek_world", "ruler": "Kassandros", "heir": "Philippos", "spouse": "Thessalonike", "color": Color(0.20, 0.40, 0.75, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Pella", "capital_lonlat": Vector2(22.52, 40.76)},
+	{"key": "lysimachus", "ruler": "Lysimachos", "heir": "Agathokles", "spouse": "Nikaia", "color": Color(0.75, 0.35, 0.55, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Lysimachia", "capital_lonlat": Vector2(26.75, 40.52)},
+	{"key": "antigonus", "ruler": "Antigonos", "heir": "Demetrios", "spouse": "Stratonike", "color": Color(0.80, 0.45, 0.15, 1.0), "law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE, "capital": "Antigonia", "capital_lonlat": Vector2(36.2, 36.23)},
+	{"key": "nabatea", "ruler": "Aretas", "heir": "Obodas", "spouse": "Huldu", "color": Color(0.70, 0.55, 0.30, 1.0), "law": Realm.SuccessionLaw.PRIMOGENITURE, "capital": "Petra", "capital_lonlat": Vector2(35.44, 30.33)},
 ]
+
+const FRONTIER_COLORS := {
+	"iberia": Color(0.20, 0.55, 0.55, 1.0),
+	"gaul": Color(0.25, 0.65, 0.30, 1.0),
+	"scythia": Color(0.35, 0.65, 0.75, 1.0),
+}
 
 # Tribal/cultural frontier zones - deliberately NOT sourced from real
 # political-boundary data, because Gaul, Iberia, and the Pontic steppe
@@ -60,16 +69,23 @@ const REAL_CIVS := [
 # lon/lat-sourced to begin with). Each fills only cells still unclaimed
 # after the real civs are placed - see _fill_polygon(..., true).
 var FRONTIER_ZONES := [
-	{"key": "iberia", "realm": "Iberian & Celtiberian Tribes", "ruler": "Indibilis", "color": Color(0.20, 0.55, 0.55, 1.0),
+	{"key": "iberia", "realm": "Iberian & Celtiberian Tribes", "ruler": "Indibilis", "heir": "Mandonios", "spouse": "Ilduria", "color": FRONTIER_COLORS.iberia,
 		"law": Realm.SuccessionLaw.PRIMOGENITURE,
 		"polygon": PackedVector2Array([Vector2(0,304), Vector2(1536,203), Vector2(1621,1115), Vector2(1195,1825), Vector2(341,1724), Vector2(0,1217)])},
-	{"key": "gaul", "realm": "Gallic Tribes", "ruler": "Brennos", "color": Color(0.25, 0.65, 0.30, 1.0),
+	{"key": "gaul", "realm": "Gallic Tribes", "ruler": "Brennos", "heir": "Bolgios", "spouse": "Onomaris", "color": FRONTIER_COLORS.gaul,
 		"law": Realm.SuccessionLaw.PRIMOGENITURE,
 		"polygon": PackedVector2Array([Vector2(939,0), Vector2(3669,0), Vector2(3840,1014), Vector2(2560,1176), Vector2(1451,1055), Vector2(939,710)])},
-	{"key": "scythia", "realm": "Scythian Peoples", "ruler": "Ateas", "color": Color(0.35, 0.65, 0.75, 1.0),
+	{"key": "scythia", "realm": "Scythian Peoples", "ruler": "Ateas", "heir": "Agaros", "spouse": "Opia", "color": FRONTIER_COLORS.scythia,
 		"law": Realm.SuccessionLaw.MALE_PREFERENCE_PRIMOGENITURE,
 		"polygon": PackedVector2Array([Vector2(4949,0), Vector2(8021,0), Vector2(8107,811), Vector2(6827,1115), Vector2(5461,913), Vector2(4949,507)])},
 ]
+
+# Map color of any playable civ, by key (REAL_CIVS or a frontier zone).
+static func civ_color(key: String) -> Color:
+	for spec in REAL_CIVS:
+		if spec.key == key:
+			return spec.color
+	return FRONTIER_COLORS.get(key, WILD_COLOR)
 
 var grid: OwnershipGrid
 var registry: CharacterRegistry
@@ -87,9 +103,12 @@ var dirty_proposal_cells: Dictionary = {}  # (y*GRID_WIDTH+x) -> true, cells cur
 var map_image: Image
 var map_texture: ImageTexture
 var map_sprite: Sprite2D
+const ThemeAncient := preload("res://scripts/ui/theme_ancient.gd")
 var camera: Camera2D
-var fit_zoom: float = 1.0  # "whole map fits the window" - the zoomed-out limit (MINIMUM zoom value)
-var label_container: Node2D
+var fit_zoom: float = 0.0  # "whole map fills the window" - the zoomed-out limit (MINIMUM zoom value); 0 until first fitted
+var label_layer: CanvasLayer  # realm names, drawn in screen space so they stay crisp
+var map_labels: Array = []    # [{label: Label, world: Vector2, cells: int}], biggest realm first
+var realm_cells := {}  # realm id -> land cells, sizes the realm-name labels
 var painting := false
 var panning := false
 
@@ -200,23 +219,73 @@ func _fit_camera_to_window() -> void:
 	var viewport_size := get_viewport_rect().size
 	if viewport_size.x <= 0 or viewport_size.y <= 0:
 		return
-	# Camera2D.zoom is screen pixels shown per map pixel - the visible
-	# world area is viewport_size / zoom, NOT viewport_size * zoom. This
-	# was inverted before (map_size / viewport_size), which computed a
-	# zoom of ~4-5 instead of ~0.2 and made the camera show a tiny,
-	# heavily-magnified fragment of the map instead of fitting the whole
-	# thing - the earlier "letterboxing" fix (switching max() to min())
-	# was correct in spirit but was tuning the wrong-direction ratio, so
-	# it couldn't have actually fixed the framing on its own.
-	# min(): fills the whole window (cropping whichever axis overflows)
-	# instead of letterboxing empty space around the map to preserve its
-	# aspect ratio. The map is much bigger than one screen regardless,
-	# so a small crop at the default view is the right tradeoff versus
-	# dead gray space on the sides. fit_zoom doubles as the MINIMUM zoom
-	# (can't zoom out further than "whole map visible") - see _zoom_by().
+	# Camera2D.zoom is screen pixels per map pixel. The most-zoomed-out
+	# view fills the window on BOTH axes (the larger of the two ratios),
+	# cropping whichever way the window's shape differs from the map's,
+	# so there are never empty bars beside or under the map.
 	var map_size := Vector2(GRID_WIDTH * CELL_PIXELS, GRID_HEIGHT * CELL_PIXELS)
-	fit_zoom = min(viewport_size.x / map_size.x, viewport_size.y / map_size.y)
+	var first_fit := fit_zoom == 0.0
+	fit_zoom = max(viewport_size.x / map_size.x, viewport_size.y / map_size.y)
+	# First time: show the whole map. On later window resizes, keep the
+	# player's zoom (just not below the new whole-map limit).
+	var z := fit_zoom if first_fit else clampf(camera.zoom.x, fit_zoom, MAX_ZOOM)
+	camera.zoom = Vector2(z, z)
+	_clamp_camera()
+	_update_labels()
+
+# Keeps the view inside the map: the camera centre can't get closer to an
+# edge than half the visible area.
+func _clamp_camera() -> void:
+	var half := get_viewport_rect().size / (2.0 * camera.zoom.x)
+	var map_size := Vector2(GRID_WIDTH * CELL_PIXELS, GRID_HEIGHT * CELL_PIXELS)
+	camera.position = Vector2(
+		clampf(camera.position.x, half.x, maxf(half.x, map_size.x - half.x)),
+		clampf(camera.position.y, half.y, maxf(half.y, map_size.y - half.y)))
+
+func _screen_to_world(screen_pos: Vector2) -> Vector2:
+	return camera.position + (screen_pos - get_viewport_rect().size / 2.0) / camera.zoom.x
+
+# Zooms by `factor` keeping the map point under `screen_anchor` fixed on
+# screen (the mouse cursor for the wheel, the screen centre otherwise).
+func _zoom_by(factor: float, screen_anchor = null) -> void:
+	var anchor: Vector2 = screen_anchor if screen_anchor != null else get_viewport_rect().size / 2.0
+	var before := _screen_to_world(anchor)
+	var new_zoom: float = clampf(camera.zoom.x * factor, fit_zoom, MAX_ZOOM)
+	camera.zoom = Vector2(new_zoom, new_zoom)
+	camera.position += before - _screen_to_world(anchor)
+	_clamp_camera()
+	_update_labels()
+
+func zoom_in() -> void:
+	_zoom_by(ZOOM_STEP)
+
+func zoom_out() -> void:
+	_zoom_by(1.0 / ZOOM_STEP)
+
+# Back to the whole-map view, centred.
+func zoom_to_fit() -> void:
+	camera.position = Vector2(GRID_WIDTH * CELL_PIXELS / 2.0, GRID_HEIGHT * CELL_PIXELS / 2.0)
 	camera.zoom = Vector2(fit_zoom, fit_zoom)
+	_clamp_camera()
+	_update_labels()
+
+# Arrow keys / WASD pan; +/- zoom about the screen centre.
+func _process(delta: float) -> void:
+	if camera == null or get_viewport().gui_get_focus_owner() is LineEdit:
+		return
+	var dir := Vector2.ZERO
+	if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
+		dir.x -= 1
+	if Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):
+		dir.x += 1
+	if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
+		dir.y -= 1
+	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
+		dir.y += 1
+	if dir != Vector2.ZERO:
+		camera.position += dir.normalized() * KEY_PAN_SPEED * delta / camera.zoom.x
+		_clamp_camera()
+		_update_labels()
 
 func _realm(realm_id: int) -> Realm:
 	return registry.realms[realm_id]
@@ -231,13 +300,13 @@ func set_player_civ(civ_key: String) -> void:
 	if civ_realm_ids.has(civ_key):
 		player_realm_id = civ_realm_ids[civ_key]
 
-func _make_ruler_and_realm(realm_name: String, ruler_name: String, color: Color, law: int) -> Realm:
-	var ruler := registry.create_character(ruler_name, "male", START_YEAR - 45)
-	registry.create_dynasty("House " + ruler_name, ruler)
-	var spouse := registry.create_character(ruler_name + "'s spouse", "female", START_YEAR - 43)
+func _make_ruler_and_realm(realm_name: String, spec: Dictionary) -> Realm:
+	var ruler := registry.create_character(spec.ruler, "male", START_YEAR - 45)
+	registry.create_dynasty("House " + spec.ruler, ruler)
+	var spouse := registry.create_character(spec.spouse, "female", START_YEAR - 43)
 	registry.marry(ruler, spouse)
-	registry.have_child(spouse, ruler, ruler_name + "'s heir", "male", START_YEAR - 22)
-	return registry.create_realm(realm_name, ruler, law, color)
+	registry.have_child(spouse, ruler, spec.heir, "male", START_YEAR - 22)
+	return registry.create_realm(realm_name, ruler, spec.law, spec.color)
 
 func _seed_real_civs() -> void:
 	var file := FileAccess.open(DATA_PATH, FileAccess.READ)
@@ -254,7 +323,7 @@ func _seed_real_civs() -> void:
 	var realm_ids := PackedInt32Array([0])  # code 0 = unclaimed
 	for spec in REAL_CIVS:
 		var region: Dictionary = regions_by_key[spec.key]
-		var realm := _make_ruler_and_realm(region.name, spec.ruler, spec.color, spec.law)
+		var realm := _make_ruler_and_realm(region.name, spec)
 		civ_realm_ids[spec.key] = realm.id
 		realm_ids.append(realm.id)
 
@@ -294,7 +363,7 @@ func _seed_real_civs() -> void:
 
 func _seed_frontier_zones() -> void:
 	for spec in FRONTIER_ZONES:
-		var realm := _make_ruler_and_realm(spec.realm, spec.ruler, spec.color, spec.law)
+		var realm := _make_ruler_and_realm(spec.realm, spec)
 		civ_realm_ids[spec.key] = realm.id
 		await _fill_polygon(_soften_frontier(spec.polygon), realm.id, true)
 
@@ -422,21 +491,59 @@ func _fill_polygon(polygon: PackedVector2Array, owner_id: int, only_if_unclaimed
 			rows_since_yield = 0
 			await _maybe_yield()
 
+# Realm names in Cinzel. They live on a screen-space layer at their true
+# pixel size (crisp at any zoom) and are repositioned whenever the camera
+# moves - see _update_labels(). Bigger realms get bigger names.
 func _build_labels(centroids: Dictionary) -> void:
-	label_container = Node2D.new()
-	add_child(label_container)
+	label_layer = CanvasLayer.new()
+	label_layer.layer = 0  # above the map, below the HUD's layer
+	add_child(label_layer)
+	var font := ThemeAncient.heading_font(700)
+	map_labels.clear()
 	for realm_id in registry.realms.keys():
 		if not centroids.has(realm_id):
 			continue
 		var realm: Realm = registry.realms[realm_id]
-		var centroid: Vector2 = _label_anchor(realm_id, centroids[realm_id])
+		var cells: int = realm_cells.get(realm_id, 0)
 		var label := Label.new()
-		label.text = realm.name
-		label.add_theme_color_override("font_color", Color.WHITE)
-		label.add_theme_color_override("font_outline_color", Color.BLACK)
-		label.add_theme_constant_override("outline_size", 3)
-		label.position = centroid * CELL_PIXELS - label.get_minimum_size() / 2.0
-		label_container.add_child(label)
+		label.text = realm.name.to_upper()
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.add_theme_font_override("font", font)
+		label.add_theme_font_size_override("font_size", int(clampf(15.0 + sqrt(float(cells)) / 70.0, 16.0, 34.0)))
+		label.add_theme_color_override("font_color", Color(1.0, 0.97, 0.9))
+		label.add_theme_color_override("font_outline_color", Color(0.05, 0.035, 0.02, 0.85))
+		label.add_theme_constant_override("outline_size", 6)
+		label_layer.add_child(label)
+		map_labels.append({"label": label, "world": _label_anchor(realm_id, centroids[realm_id]) * CELL_PIXELS, "cells": cells})
+	map_labels.sort_custom(func(a, b): return a.cells > b.cells)
+	_update_labels()
+
+# Places every realm name over its anchor for the current camera. Greedy by
+# realm size: a name that would overlap a bigger realm's name, or run off
+# screen or under the top bar, is hidden until zooming makes room.
+func _update_labels() -> void:
+	if map_labels.is_empty() or camera == null or not is_inside_tree():
+		return  # headless/offscreen MapViews (tests) have no camera or viewport
+	var screen := get_viewport_rect().size
+	var bounds := Rect2(Vector2(0, LABEL_TOP_MARGIN), screen - Vector2(0, LABEL_TOP_MARGIN))
+	var placed: Array[Rect2] = []
+	for entry in map_labels:
+		var label: Label = entry.label
+		var size := label.get_minimum_size()
+		var world: Vector2 = entry.world
+		var center: Vector2 = (world - camera.position) * camera.zoom.x + screen / 2.0
+		var rect := Rect2(center - size / 2.0, size)
+		var fits := bounds.encloses(rect)
+		if fits:
+			var padded := rect.grow(6)
+			for other in placed:
+				if padded.intersects(other):
+					fits = false
+					break
+		label.visible = fits
+		if fits:
+			label.position = rect.position
+			placed.append(rect)
 
 # A raw centroid can land at sea, on another realm's territory, or in a
 # gap between a realm's disconnected parts (e.g. Carthage's islands).
@@ -487,12 +594,15 @@ func _compute_centroids() -> Dictionary:
 	var centroids := {}
 	for o in sums.keys():
 		centroids[o] = sums[o] / counts[o]
+	realm_cells = counts
 	return centroids
 
 # Succession changes only realm.ruler_id, never territory ownership on
 # the grid, so no rendering update is needed here.
 func advance_year() -> Array:
 	demo_year += 1
+	if demo_year == 0:
+		demo_year = 1  # 1 BC is followed by AD 1
 	if population:
 		_sync_population_ownership()
 		population.Tick(demo_year)
@@ -615,9 +725,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.button_index == MOUSE_BUTTON_MIDDLE:
 			panning = event.pressed
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-			_zoom_by(1.1)
+			_zoom_by(ZOOM_STEP, event.position)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
-			_zoom_by(0.9)
+			_zoom_by(1.0 / ZOOM_STEP, event.position)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode in [KEY_EQUAL, KEY_PLUS, KEY_KP_ADD]:
+			zoom_in()
+		elif event.keycode in [KEY_MINUS, KEY_KP_SUBTRACT]:
+			zoom_out()
+		elif event.keycode == KEY_HOME:
+			zoom_to_fit()
 	elif event is InputEventMouseMotion:
 		if painting:
 			_paint_at(get_global_mouse_position())
@@ -628,15 +745,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			# `* camera.zoom` before, which is backwards for the same
 			# reason the zoom formula above was inverted.
 			camera.position -= event.relative / camera.zoom
-
-func _zoom_by(factor: float) -> void:
-	# fit_zoom is the "whole map visible" state = the most you can zoom
-	# OUT (lower bound); MAX_ZOOM is the most you can zoom IN (upper
-	# bound). This was backwards before (MIN_ZOOM as the lower bound let
-	# you zoom out to an absurd 0.02, while fit_zoom as the upper bound
-	# meant you couldn't zoom in at all past the initial fitted view).
-	var new_zoom: float = clampf(camera.zoom.x * factor, fit_zoom, MAX_ZOOM)
-	camera.zoom = Vector2(new_zoom, new_zoom)
+			_clamp_camera()
+			_update_labels()
 
 # Only touches the brush-sized area actually painted (never the whole
 # grid) - CPU cost per stroke is bounded by brush size, not map size, so

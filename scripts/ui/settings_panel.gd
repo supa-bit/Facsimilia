@@ -10,30 +10,32 @@ extends Control
 signal closed
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var bg := ColorRect.new()
-	bg.color = Color(0.0, 0.0, 0.0, 0.55)
-	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.color = Color(0.03, 0.02, 0.01, 0.7)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
 	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
 
 	var panel := PanelContainer.new()
 	center.add_child(panel)
 
 	var vbox := VBoxContainer.new()
-	vbox.custom_minimum_size = Vector2(360, 0)
+	vbox.custom_minimum_size = Vector2(420, 0)
 	vbox.add_theme_constant_override("separation", 14)
 	panel.add_child(vbox)
 
 	var title := Label.new()
 	title.text = "Settings"
+	title.theme_type_variation = "HeaderLabel"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(title)
+	vbox.add_child(preload("res://scripts/ui/theme_ancient.gd").ornament(300))
 
 	var fullscreen_row := HBoxContainer.new()
 	vbox.add_child(fullscreen_row)
@@ -53,7 +55,8 @@ func _ready() -> void:
 	volume_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	volume_row.add_child(volume_label)
 	var volume_slider := HSlider.new()
-	volume_slider.custom_minimum_size = Vector2(160, 0)
+	volume_slider.custom_minimum_size = Vector2(200, 0)
+	volume_slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	volume_slider.min_value = 0.0
 	volume_slider.max_value = 1.0
 	volume_slider.step = 0.01
