@@ -24,6 +24,7 @@ public partial class SettingsStore : Node
     {
         Load();
         Apply();
+        AddChild(new MouseDebugOverlay());  // F3
     }
 
     public void SetFullscreen(bool value)
@@ -40,9 +41,25 @@ public partial class SettingsStore : Node
         Save();
     }
 
+    /// <summary>
+    /// Applies the settings. The window is only touched when its mode actually
+    /// needs to change, and never while the game runs embedded in the Godot
+    /// editor (the editor owns that window). Leaving fullscreen goes back to
+    /// maximized - the project's start mode, which Windows always fits to the
+    /// screen. Forcing plain "windowed" at the 1920x1080 base size used to make
+    /// the window taller than a 1080p screen once the title bar was added;
+    /// Windows then squeezed it and mouse clicks landed offset vertically.
+    /// </summary>
     void Apply()
     {
-        DisplayServer.WindowSetMode(Fullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed);
+        if (!Engine.IsEmbeddedInEditor())
+        {
+            var want = Fullscreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Maximized;
+            var current = DisplayServer.WindowGetMode();
+            bool isFullscreen = current is DisplayServer.WindowMode.Fullscreen or DisplayServer.WindowMode.ExclusiveFullscreen;
+            if (Fullscreen != isFullscreen)
+                DisplayServer.WindowSetMode(want);
+        }
         int bus = AudioServer.GetBusIndex("Master");
         if (bus != -1)
             AudioServer.SetBusVolumeDb(bus, Mathf.LinearToDb(Mathf.Max(MasterVolume, 0.0001f)));
