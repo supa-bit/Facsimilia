@@ -1,0 +1,83 @@
+# Builds the game and runs every test suite in src/Tests on each push and
+# pull request, on a clean Linux machine with Godot 4.7.2 .NET. A red X on a
+# commit means something is broken; click it to see which test failed.
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: 4.7.2-stable
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_NOLOGO: 1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache Godot
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-mono-linux
+
+      - name: Download Godot .NET
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          name="Godot_v${GODOT_VERSION}_mono_linux_x86_64"
+          mkdir -p ~/godot
+          for url in \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/${name}.zip" \
+            "https://github.com/${GITHUB_REPOSITORY}/releases/download/assets-v1/${name}.zip"; do
+            curl -fsSL --retry 3 -o /tmp/godot.zip "$url" && break
+          done
+          unzip -q /tmp/godot.zip -d ~/godot
+
+      - name: Put Godot on the PATH
+        run: |
+          bin=$(ls ~/godot/Godot_v${GODOT_VERSION}_mono_linux_x86_64/Godot_v${GODOT_VERSION}_mono_linux.x86_64)
+          chmod +x "$bin"
+          sudo ln -sf "$bin" /usr/local/bin/godot
+          godot --version
+
+      - name: Build
+        run: dotnet build -nologo -warnaserror
+
+      - name: Import project
+        run: godot --headless --path . --import < /dev/null || true
+
+      - name: Run tests
+        run: |
+          failed=()
+          for file in src/Tests/*Test.cs; do
+            name=$(basename "$file" .cs)
+            echo "::group::$name"
+            if timeout 900 godot --headless --path . --script "res://src/Tests/$name.cs" < /dev/null; then
+              echo "::endgroup::"
+              echo "PASS $name"
+            else
+              echo "::endgroup::"
+              echo "::error title=$name failed::$name failed; expand its group above for the details"
+              failed+=("$name")
+            fi
+          done
+          echo
+          if [ ${#failed[@]} -gt 0 ]; then
+            echo "Failed: ${failed[*]}"
+            exit 1
+          fi
+          echo "All test suites passed."

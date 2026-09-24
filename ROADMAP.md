@@ -17,8 +17,6 @@ Small, cheap, and they protect everything built after them.
 - [ ] **Merge the work branch into `master`** (pull request
       supa-bit/Facsimilia#1 on GitHub). Also enables the one-click
       "Assets release" button in the Actions tab.
-- [ ] **Automatic tests on GitHub**: every push builds the game and runs all
-      test suites, so breakage is caught even between sessions.
 
 ## Build order (from MECHANICS.md)
 
@@ -120,6 +118,8 @@ These aren't in the design yet. Each one blocks the work listed after it.
       writing (an interrupted save never damages the old one); the old
       single save moves into slot 1 automatically
 - [x] Red on-screen warning when the game runs old compiled code
+- [x] Automatic tests on GitHub: every push builds the game and runs all
+      test suites (the "Tests" workflow; a green check or red X per commit)
 - [x] HYDE population data and the population engine (see step 2)
 - [x] Whole game ported to C# (population tick ~30 ms, world generation
       ~3 s); all GDScript removed
