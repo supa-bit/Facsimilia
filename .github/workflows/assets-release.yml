@@ -1,0 +1,67 @@
+# Builds the assets-v1 release: the HYDE 3.2.1 population grids that
+# tools/build_population_mask.py bakes, and the Godot Linux zip that
+# .claude/hooks/session-start.sh installs. Run it from the Actions tab
+# ("Assets release" -> Run workflow). Safe to rerun: an existing release
+# with the same tag gets its files replaced.
+name: Assets release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag
+        default: assets-v1
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GODOT_VERSION: 4.7.2-stable
+      GODOT_ZIP: Godot_v4.7.2-stable_linux.x86_64.zip
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # The DANS original is Deflate64, which zipfile can't read on its own.
+      - name: Fetch HYDE 3.2.1 popc grids from DANS
+        run: |
+          pip install zipfile-deflate64
+          python tools/fetch_hyde.py assets --from-dans --all
+          ls -la assets
+          test "$(ls assets/popc_*.zip | wc -l)" -eq 75
+
+      - name: Fetch Godot and check it against the official checksums
+        run: |
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}"
+          curl -fsSL --retry 4 -o "assets/${GODOT_ZIP}" "${base}/${GODOT_ZIP}"
+          curl -fsSL --retry 4 -o SHA512-SUMS.txt "${base}/SHA512-SUMS.txt"
+          (cd assets && grep " ${GODOT_ZIP}\$" ../SHA512-SUMS.txt | sha512sum -c -)
+
+      - name: Create or update the release
+        run: |
+          cat > notes.md <<'EOF'
+          Large external files the project builds from, mirrored so sessions and tools don't depend on upstream hosts.
+
+          **HYDE 3.2.1 baseline population counts** (`popc_<year>.zip`, one ESRI ASCII grid each, 5 arcminutes, people per cell, global, 10,000 BCE to 2017 CE). Klein Goldewijk, K., Beusen, A., Doelman, J. and Stehfest, E. (2017), Anthropogenic land use estimates for the Holocene – HYDE 3.2, Earth System Science Data 9, 927–953. PBL Netherlands Environmental Assessment Agency / Utrecht University. Licensed CC BY 3.0.
+          Source: DANS, doi:10.17026/dans-25g-gez3, `HYDE3_2_1-baseline.zip` → `baseline/asc/<year>_pop/popc_<year>.asc`, re-zipped individually with standard Deflate (the original uses Deflate64). `popc_c.txt` / `popc_r.txt` are HYDE's per-country and per-region totals (thousands). Rebuild with `python tools/fetch_hyde.py <dir> --from-dans --all`.
+          HYDE has no 300 BC grid: BCE snapshots are every 1000 years. `tools/build_population_mask.py` derives the 300 BC start keyframe from `popc_1000BC` and `popc_0AD`.
+
+          **Godot 4.7.2-stable, Linux x86_64** (`Godot_v4.7.2-stable_linux.x86_64.zip`), byte-identical to the official godotengine/godot release (checked against its SHA512-SUMS.txt). MIT licensed. Used by `.claude/hooks/session-start.sh`.
+          EOF
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" assets/* --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" assets/* --target "$GITHUB_SHA" \
+              --title "Assets: HYDE 3.2.1 popc + Godot 4.7.2" --notes-file notes.md
+          fi

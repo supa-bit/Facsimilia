@@ -319,7 +319,7 @@ Two consequences worth knowing before tuning:
   ```
 
   `P_world` is the era's world population: HYDE's historical total by
-  default. Growth mechanics (food surplus etc.) can push it off history,
+  default. Growth mechanics (see Growth drivers) can push it off history,
   but only the player's realm can push it *above* history. Bots' growth
   mechanics can only lower it (see Historical ceiling). The total is preserved by construction, `k` still funnels
   people into the hottest nodes, and the output can be checked directly
@@ -474,6 +474,198 @@ late, the closest the pair gets.
   re-enters the naming percentile. Carthage was razed in 146 BC and
   refounded by decree in 44 BC. **(25 years is a starting value)**
 
+### Growth drivers: what makes people, and what moves them
+
+**(proposed: everything in this section needs sign-off before any
+gameplay system writes to the population engine)**
+
+**Why this exists.** The engine is calibrated for how fast population
+*responds* to `drivers`. Nothing yet defines what `drivers` are. Today
+every node's drivers are its historical heat and the gameplay slot
+(`driver_mods`) is zero, so the world simply follows HYDE. The one
+calibrated case is a single site given drivers of 1.0, the best site on
+the map. A stress test on the real 300 BC grid shows what an undefined
+driver formula would do. A contiguous, roughly Greece-sized realm (4,082
+nodes, 2.3 million people) with every node at drivers 1.0 holds **21.0
+million of the map's 39.5 million after 200 years**, and the largest city
+outside it falls from ~108,000 to ~24,000. At drivers 3.0 the rest of the
+map keeps 0.9 million. A single boosted city is harmless; broad, stacked
+drivers across a realm are not, and a player investing everywhere
+produces exactly that. The old toy-world constants break the same way,
+so this is structural, not a calibration problem. Three causes:
+
+- **One map-wide pool.** `P_world` is fixed and heat is normalized by the
+  map-wide maximum, so anything that raises one realm's heat lowers
+  everyone else's. Attraction becomes a vacuum.
+- **Nothing bounds drivers.** If factor effects simply add up, they
+  stack without limit.
+- **"Growth" and "movement" are the same number.** The engine has one
+  heat term that decides both how many people there are and where they
+  live, so it can't tell a baby boom from an exodus. The log-scale step
+  also doesn't conserve people under strong drivers: moving every node a
+  fixed share of its log gap doesn't preserve the sum, and the same
+  stress test lost 2-4 million people that way, with nobody dying.
+
+**Principle: two channels, each bounded. (proposed)**
+
+1. **Natural increase** (births minus deaths) decides *how many* people
+   a region has. It's computed per ancient geographic region (see
+   Geographic regions), from many factors, not just food.
+2. **Attraction and migration** decides *where* they live. It conserves
+   people exactly: moving someone never creates or destroys them.
+
+`P_world` becomes the sum of the regional totals, replacing the single
+historical figure plus `player_world_delta`.
+
+#### Channel 1: natural increase, per region
+
+```
+P_r(t+1) = P_r(t) * (1 + g_r)
+g_r = g_hist_r(year) + Σ_f w_f * s_f,r         (then bounded, below)
+```
+
+`g_hist_r` is the region's own historical growth rate, read from the HYDE
+keyframes. Each factor score `s_f,r` runs from -1 to +1 and is measured
+**against that region's historical baseline**: 0 means "as history had
+it". So a region nobody touches grows exactly as history did, and every
+factor is a deviation from the record, not an absolute rate the designers
+have to guess.
+
+Real pre-modern growth was never one variable. Food mattered, but so did
+disease, violence, cities, burdens and luck. Factors:
+
+| Factor | What feeds it | Direction and shape | Historical grounding |
+|---|---|---|---|
+| **Food security** | Harvest (arable land x agriculture tech x irrigation x climate) against consumption, plus storage (granaries) and food imports along trade routes | Asymmetric: a deficit hurts far more than a surplus helps | Rome fed itself on Egyptian and African grain; famine years spiked mortality, good years barely moved fertility |
+| **Disease burden** | Density, share of people in cities, sanitation (clean water, aqueducts, sewers), marshland and malaria zones, and trade connectivity, which spreads epidemics | Mostly negative; sanitation and medicine reduce it | Antonine Plague (165), Plague of Justinian (541), Black Death (1347) all travelled trade routes; the Pontine marshes and lower Mesopotamia were malarial |
+| **Urban penalty** | Share of the region's people living in large nodes | Negative until sanitation and medicine tech offset it | Pre-modern cities had more deaths than births (the "urban graveyard"); they grew only by migration from the countryside |
+| **Security** | War fought on the region's land, raids, banditry, occupation; peace and strong garrisons | War is strongly negative (burned harvests, flight, famine); long peace is mildly positive | The Pax Romana's growth; the third-century crisis and the Gothic wars in Italy |
+| **Land and living standards** | Land per person against carrying capacity, wages, access to new land | Positive when land is plentiful (earlier marriage, more surviving children); falls to zero as the region nears capacity | Frontier and colonial populations grew fastest; crowded old regions stalled (the Malthusian trap) |
+| **Burden** | Taxes and tribute, forced labor, slavery, serfdom, concentration of land into large estates | Negative, mild to moderate; heavy burden also pushes people to leave (channel 2) | Peasant flight from over-taxed land in the late Roman Empire |
+| **Health and public institutions** | Medicine and public-health tech, famine relief, poor relief | Positive, era-gated; small in antiquity, large in modern eras | The mortality decline of the 1700s-1800s |
+| **Climate and harvest luck** | A random yearly shock per region, not player-controlled; rare large events | Either sign; occasional severe negatives | The volcanic winter of 536; the Little Ice Age |
+
+Epidemics, famines and massacres are **events**, not factor scores. They
+remove a share of a region's people directly (up to ~35% for a Black
+Death-scale plague, spread over a few years) and are outside the rate
+bounds below. Their odds are what factors like disease burden and trade
+connectivity raise. Culture and family structure (for example later
+marriage) could become a small civ trait. **(open)**
+
+**Carrying capacity.** Every positive part of `g_r` is scaled by
+`(1 - P_r / Cap_r)`, where `Cap_r` is the region's arable land times the
+yield its agriculture tech allows (from the Resources density field). A
+region can approach its capacity but never grow past it; only better
+agriculture, irrigation or imported food raise it. That's the Malthusian
+ceiling that held every pre-modern region.
+
+**Bounds, anchored to HYDE. (proposed values)** On this map, HYDE's
+century-averaged regional growth (5-degree regions) before 1700 runs from
+**-0.7% to +0.6% a year**, and the whole map from -0.2% to +0.23%. Only
+from 1700 do regions exceed +0.8%. So:
+
+- **Factor deviation** `Σ w_f s_f,r` is clamped to **-2.0% to +0.5% a
+  year** in the ancient and medieval eras. At +0.5% a year, a region can
+  grow ~2.7x more than history over 200 years, a very strong alternate
+  history but not a runaway. The upper bound rises by era with health
+  tech.
+- **Bots:** natural increase can only fall below history, never exceed
+  it (only the negative part applies), which keeps the Historical ceiling
+  rule. The player's regions get both signs.
+- **Weights `w_f`:** a first proposal is to split the positive range
+  across food 30%, land and living standards 25%, security 20%, health
+  15%, burden 10%. Disease, urban penalty and climate act on the negative
+  side. These are starting values, to be set by the balance tests below.
+  **(open)**
+
+#### Channel 2: attraction and migration (what `drivers` becomes)
+
+`drivers` is redefined as **attractiveness**: how much a place pulls
+people from elsewhere. It's bounded and saturating:
+
+```
+A_i       = Σ_f v_f * a_f,i                           (pull minus push)
+drivers_i = h_hist_i + (cap_era - h_hist_i) * sat(A_i)   if A_i ≥ 0
+drivers_i = h_hist_i * (1 - sat(-A_i))                   if A_i < 0
+sat(x)    = 1 - e^(-x)
+```
+
+With `cap_era = 1.0` in the ancient era, no place can become more
+attractive than the best site on the map, which is exactly the case the
+calibration measured. Stacking has diminishing returns: past a point,
+another road or market adds almost nothing. Pull and push factors:
+
+- **Pull:** economic opportunity (trade routes, markets, ports, crafts,
+  mines and other resource jobs), the seat of government (the existing
+  capital bonus folds in here), security (walls, garrisons), public
+  works (roads, water supply, harbors), open land for colonists (Greek
+  colonies, Roman veteran colonies), and religious draw (sanctuaries,
+  pilgrimage), a small one.
+- **Push:** war and occupation, famine, epidemic, persecution, heavy
+  taxes and tribute, loss of land to large estates.
+
+**Migration conserves people and is limited. (proposed)**
+
+- **Within a region**, attraction redistributes the region's people the
+  way the engine does now, heat to target to the log-scale step, but
+  the region's total is renormalized after every step so it stays
+  exactly `P_r`. That also closes the leak described above.
+- **Between regions**, a net flow runs from regions whose average pull is
+  below the map's toward those above it. It's capped at **0.2% of the
+  source region's people a year**, and only between regions that share a
+  border or a sea lane. Large historical streams (Greek colonization,
+  the Germanic migrations) fit inside that over decades.
+- **Forced movement** (deportation, resettlement of a conquered people,
+  the Assyrian and Babylonian practice) is an explicit player action with
+  its own limit, like the capital resettlement.
+
+Prototype on the same stress test, with 5-degree blocks standing in for
+the regions until the region mask is built:
+
+| Greece-sized realm, maxed drivers, 200 years | Realm (2.3 M at start) | Rest of the map |
+|---|---|---|
+| Today: one map-wide pool | 21.0 M | 8.2 M |
+| Regional totals | 2.9 M | 35.1 M |
+| Regional totals + capped migration | 3.0 M | 35.0 M |
+
+The realm still gains, about 1.3x, but by drawing on its own region and a
+limited stream from its neighbours, not by emptying the map. Anything
+beyond that has to come from channel 1, which is bounded separately.
+
+**Calibration impact.** The founded-city timings were measured with one
+map-wide pool. With regional totals, a new city draws only on its own
+region, so `β` and `μ` get refitted on the regional engine
+(`tools/calibrate_population.py` and `scripts/tests/test_population_hyde.gd`)
+once it exists. **(open)**
+
+#### Balance tests: the contract
+
+Each test runs on the real HYDE grid and must pass whenever a constant,
+weight or factor formula changes. They go into
+`tools/calibrate_population.py` and the headless test suite alongside the
+founded-city calibration. **(proposed bounds)**
+
+| Test | Setup | Must hold |
+|---|---|---|
+| **Do nothing** | Player realm, every factor at its historical baseline, 300 years | Tracks HYDE within ±5% |
+| **Maxed attraction** | Greece-sized realm, every pull factor maxed, 200 years | Realm ≤ 1.5x its historical population from migration alone; no other region loses more than 10% to it |
+| **Maxed growth** | Every natural-increase factor maxed, 200 years | Realm ≤ 2.7x history (the +0.5% a year bound) and never above its carrying capacity |
+| **Stacking** | Double every factor input after saturation | Drivers change by ≤ 10% |
+| **Catastrophe** | Worst war, famine and epidemic together for 10 years | Region loses ≤ 50%, and is back to 90% of its former size within 150 years of peace |
+| **Conservation** | Migration only, natural increase off | Map total unchanged to within one person |
+| **Founded cities** | The existing calibration | Timings stay near the historical targets |
+
+These bounds are what keeps a future economy, tech tree or resource
+system from breaking population: any system can raise a factor score, but
+none can push past what these tests allow.
+
+**Build order.** Channels and tests come before any system feeds them:
+regional totals, conserving migration, and the balance-test harness
+first, with every factor at its historical baseline (which must
+reproduce today's behavior). Then each gameplay system (resources,
+economy, tech, military) is wired to one or more factor scores and must
+pass the whole table before it merges.
+
 ### 3. Settlement naming and spawning (percentile-based)
 
 - **Spawn:** a cluster becomes a named settlement when its population
@@ -596,8 +788,11 @@ which overlay is showing.
 
 ## The five simulation systems (realm/province level)
 
-- **Population** (per province, summed from the density field) — growth
-  driven by food surplus; carries integration/sentiment (freshly conquered
+- **Population** (per province, summed from the density field) — how many
+  people there are comes from natural increase (food security, disease,
+  urban penalty, security, land and living standards, burden, health,
+  climate), and where they live from attraction and bounded migration;
+  see Growth drivers. Carries integration/sentiment (freshly conquered
   = low, decays toward assimilated over years unless suppressed by unrest).
 - **Resources** (per province, summed from the density field) — yield type
   from terrain; gates military unit types and economic output.
@@ -734,6 +929,9 @@ Phase 1 (province generation/seeding), not just an implementation detail.
    verify the 300 BC output against HYDE before adding any dynamics.
    Then the historical ceiling, with a player/non-player split, and
    capital bonuses; rerun `tools/calibrate_population.py` on the real grid.
+   Then the Growth drivers groundwork: regional totals, conserving
+   migration, and the balance-test harness, before any later system
+   writes a factor score.
 3. Unorganized-territory capability gating (the matrix above) + settlements
    (clustering, percentile naming, hysteresis, ruins), plus the region
    mask, regional floor, and the Regions map overlay.
