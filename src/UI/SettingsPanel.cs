@@ -54,7 +54,7 @@ public partial class SettingsPanel : Control
         var autosave = new OptionButton();
         foreach (int years in SaveSystem.AutosaveIntervals)
         {
-            autosave.AddItem(years switch { 0 => "Off", 1 => "Every year", _ => $"Every {years} years" }, years);
+            autosave.AddItem(years == 0 ? "Off" : $"Every {years} years", years);
             if (years == store.AutosaveInterval)
                 autosave.Select(autosave.ItemCount - 1);
         }

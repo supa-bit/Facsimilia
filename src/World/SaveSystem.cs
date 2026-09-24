@@ -44,8 +44,8 @@ public static class SaveSystem
     public static readonly string[] AutosaveSlots = { "autosave1", "autosave2", "autosave3" };
 
     /// <summary>The choices for "autosave every N years" in Settings; 0 turns autosave off.</summary>
-    public static readonly int[] AutosaveIntervals = { 0, 1, 5, 10, 15, 20, 25 };
-    public const int DefaultAutosaveInterval = 10;
+    public static readonly int[] AutosaveIntervals = { 0, 5, 10, 15, 20, 25 };
+    public const int DefaultAutosaveInterval = 5;
 
     public static bool IsAutosave(string slot) => AutosaveSlots.Contains(slot);
 
