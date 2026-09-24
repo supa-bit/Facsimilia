@@ -6,4 +6,25 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <!--
+    Build stamp, shown in the main menu's corner (MainMenu.BuildStamp): the git
+    commit this was compiled from (if git is on the PATH) and when it was
+    compiled, so it's always clear which version is running.
+  -->
+  <Target Name="StampBuild" BeforeTargets="InitializeSourceControlInformation;GetAssemblyAttributes">
+    <Exec Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true"
+          StandardOutputImportance="low" StandardErrorImportance="low" ContinueOnError="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="FacsimiliaCommit" />
+    </Exec>
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>Commit</_Parameter1>
+        <_Parameter2>$(FacsimiliaCommit)</_Parameter2>
+      </AssemblyAttribute>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>BuiltUtc</_Parameter1>
+        <_Parameter2>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd HH:mm"))</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
 </Project>

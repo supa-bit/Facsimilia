@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Facsimilia.World;
 using Godot;
 
@@ -74,7 +75,29 @@ public partial class MainMenu : Control
         footer.Position = new Vector2(140, -44);
         AddChild(footer);
 
+        var stamp = ThemeAncient.Label(BuildStamp(), "SmallLabel", 14, HorizontalAlignment.Right);
+        // Pinned to the bottom-right corner, growing up and left to fit its text.
+        stamp.SetAnchorsPreset(LayoutPreset.BottomRight);
+        stamp.GrowHorizontal = GrowDirection.Begin;
+        stamp.GrowVertical = GrowDirection.Begin;
+        stamp.OffsetLeft = stamp.OffsetRight = -24;
+        stamp.OffsetTop = stamp.OffsetBottom = -30;
+        stamp.TooltipText = "The version you're running. If this doesn't match the latest change, pull again or rebuild.";
+        stamp.MouseFilter = MouseFilterEnum.Pass;
+        AddChild(stamp);
+
         newGame.GrabFocus();
+    }
+
+    /// <summary>"Build a8f0a45 · compiled 2026-09-24 18:02 UTC", from attributes Facsimilia.csproj stamps in.</summary>
+    public static string BuildStamp()
+    {
+        string Meta(string key) => typeof(MainMenu).Assembly
+            .GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false)
+            .Cast<System.Reflection.AssemblyMetadataAttribute>()
+            .FirstOrDefault(a => a.Key == key)?.Value ?? "";
+        string commit = Meta("Commit");
+        return $"Build {(commit == "" ? "(unknown commit)" : commit)} · compiled {Meta("BuiltUtc")} UTC";
     }
 
     static Button MenuButton(string text, string icon, Action onPressed)
