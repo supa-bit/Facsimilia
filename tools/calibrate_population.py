@@ -61,7 +61,7 @@ ORDINARY = targets(False)
 PROVINCE = (even((CAPITAL[0] + ORDINARY[0]) / 2), even((CAPITAL[1] + ORDINARY[1]) / 2))
 
 N, ALPHA, K = 5000, 0.175, 2
-# The engine's current constants (scripts/world/population_engine.gd).
+# The engine's current constants (src/World/PopulationEngine.cs).
 ENGINE_BETA, ENGINE_MU = 5.0, 0.0625
 ENGINE_CAPITALS = {"country": dict(transfer=0.08, bonus=0.05),
                    "province": dict(transfer=0.04, bonus=0.0)}

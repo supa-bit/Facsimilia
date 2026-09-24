@@ -239,7 +239,7 @@ node given drivers matching the world's best site and held there. Ranks
 are within the map's extent, not the whole planet, so the map region's
 rank-size curve is what matters. A coarse-then-fine grid search gives
 **`β = 5.0`, `μ = 0.0625` → top 50 at year 102, top 10 at year 168**,
-the closest fit found. `scripts/tests/test_population_hyde.gd` checks the
+the closest fit found. `src/Tests/PopulationHydeTest.cs` checks the
 engine reproduces it.
 
 HYDE's top is flat: at 300 BC the #10 node holds ~20,000 and the #50
@@ -635,7 +635,7 @@ beyond that has to come from channel 1, which is bounded separately.
 **Calibration impact.** The founded-city timings were measured with one
 map-wide pool. With regional totals, a new city draws only on its own
 region, so `β` and `μ` get refitted on the regional engine
-(`tools/calibrate_population.py` and `scripts/tests/test_population_hyde.gd`)
+(`tools/calibrate_population.py` and `src/Tests/PopulationHydeTest.cs`)
 once it exists. **(open)**
 
 #### Balance tests: the contract
@@ -941,27 +941,30 @@ Phase 1 (province generation/seeding), not just an implementation detail.
 7. Paint-gated annexation (the resolution function tying 2-6 together).
 
 **Status: population engine started.** Built so far:
-`scripts/world/population_engine.gd` (stages 1-2, the historical
+`src/World/PopulationEngine.cs` (stages 1-2, the historical
 ceiling with player legacy fade, capital bonuses and resettlement,
 HYDE-based seeding and 25-year natural resettlement, save/load),
 `tools/build_population_mask.py` (the HYDE import), the engine wired
 into world generation, the yearly tick, saves, and a HUD population
 line, and each real civ's 300 BC capital registered as an existing
-capital. Covered by `scripts/tests/test_population_engine.gd`, which
-reproduces the calibration timings. Not built yet: stage 3 (clusters,
+capital. Covered by `src/Tests/PopulationEngineTest.cs` (toy-world
+mechanics) and `src/Tests/PopulationHydeTest.cs` (the calibration on the
+real grid). Not built yet: stage 3 (clusters,
 percentile naming, ruins' labels), the region mask and Regions overlay,
 real gameplay drivers (the engine exposes `driver_mods` for them; until
 they exist the historical heat stands in as the baseline), player growth
 of the world total, and province capitals, which wait on the province
 layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
 (300 BC to 2017 AD, the 300 BC one derived; see MAP_DATA.md), so the
-engine now runs on the real grid: 284,626 land nodes, loaded in ~0.5 s.
-A yearly tick takes ~0.5 s headless, fine for now since the game is
-turn-based (one tick per player-requested turn). Known issues on the real
+engine now runs on the real grid: 284,626 land nodes, loaded in ~0.4 s.
+The engine is C# (the project is being ported from GDScript; see
+MAP_DATA.md): a yearly tick takes ~35 ms, against ~0.5 s in GDScript,
+with identical results. Known issues on the real
 grid: by 0 AD the non-player world holds 47.7 million against HYDE's
 48.2 million, because inertia lags the rising ceiling.
 
 Each phase should be independently verified against the real headless Godot
-engine (a Godot 4.3 headless build has been used for this in dev sessions;
-see the test scripts under `scripts/tests/` for the existing pattern) before
-moving to the next.
+engine (the Godot 4.7.2 .NET build; the session hook installs it) before
+moving to the next. C# tests are under `src/Tests/` (run with
+`godot --headless --path . --script res://src/Tests/<Name>.cs`); the
+GDScript ones still to be ported are under `scripts/tests/`.

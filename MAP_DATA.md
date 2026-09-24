@@ -46,7 +46,7 @@ than arbitrary noise or a uniform glow around every coastline.
 
 ## Population (HYDE)
 
-The population engine (`scripts/world/population_engine.gd`, design in
+The population engine (`src/World/PopulationEngine.cs`, design in
 MECHANICS.md) reads HYDE 3.2.1 historical population grids, baseline
 estimate, population counts (`popc_*`). HYDE is by PBL Netherlands
 Environmental Assessment Agency / Utrecht University: Klein Goldewijk et
@@ -93,7 +93,12 @@ Python dependencies: Pillow, NumPy, SciPy. From this project directory:
    DANS archive instead; needs `pip install zipfile-deflate64`). Then
    `python tools/build_population_mask.py <dir>` bakes the population
    keyframes (needs NumPy only).
-6. Open `project.godot` in Godot and allow the assets to import.
+6. Open `project.godot` in the Godot 4.7.2 **.NET** build (the C# one;
+   the standard build can't run the project's C# code) and allow the
+   assets to import. Building needs the .NET 10 SDK: `dotnet build`, or
+   the default build task in VS Code (`.vscode/`, which also has Play,
+   Editor and Test launch configurations; set `GODOT` to the Godot .NET
+   executable).
 
 The project includes the completed assets; Python and Node are not required to
 play. Remove stale `.godot` cache only if an existing local editor fails to pick

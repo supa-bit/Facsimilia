@@ -1,5 +1,5 @@
 # Builds the assets-v1 release: the HYDE 3.2.1 population grids that
-# tools/build_population_mask.py bakes, and the Godot Linux zip that
+# tools/build_population_mask.py bakes, and the Godot .NET Linux zip that
 # .claude/hooks/session-start.sh installs. Run it from the Actions tab
 # ("Assets release" -> Run workflow). Safe to rerun: an existing release
 # with the same tag gets its files replaced.
@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 90
     env:
       GODOT_VERSION: 4.7.2-stable
-      GODOT_ZIP: Godot_v4.7.2-stable_linux.x86_64.zip
+      GODOT_ZIP: Godot_v4.7.2-stable_mono_linux_x86_64.zip
       GH_TOKEN: ${{ github.token }}
       TAG: ${{ inputs.tag }}
     steps:
@@ -56,7 +56,7 @@ jobs:
           Source: DANS, doi:10.17026/dans-25g-gez3, `HYDE3_2_1-baseline.zip` → `baseline/asc/<year>_pop/popc_<year>.asc`, re-zipped individually with standard Deflate (the original uses Deflate64). `popc_c.txt` / `popc_r.txt` are HYDE's per-country and per-region totals (thousands). Rebuild with `python tools/fetch_hyde.py <dir> --from-dans --all`.
           HYDE has no 300 BC grid: BCE snapshots are every 1000 years. `tools/build_population_mask.py` derives the 300 BC start keyframe from `popc_1000BC` and `popc_0AD`.
 
-          **Godot 4.7.2-stable, Linux x86_64** (`Godot_v4.7.2-stable_linux.x86_64.zip`), byte-identical to the official godotengine/godot release (checked against its SHA512-SUMS.txt). MIT licensed. Used by `.claude/hooks/session-start.sh`.
+          **Godot 4.7.2-stable .NET, Linux x86_64** (`Godot_v4.7.2-stable_mono_linux_x86_64.zip`, the C# build), byte-identical to the official godotengine/godot release (checked against its SHA512-SUMS.txt). MIT licensed. Used by `.claude/hooks/session-start.sh`.
           EOF
           if gh release view "$TAG" > /dev/null 2>&1; then
             gh release upload "$TAG" assets/* --clobber

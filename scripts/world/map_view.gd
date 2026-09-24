@@ -6,7 +6,10 @@ const OwnershipGrid := preload("res://scripts/world/ownership_grid.gd")
 const CharacterRegistry := preload("res://scripts/dynasty/character_registry.gd")
 const Realm := preload("res://scripts/dynasty/realm.gd")
 const SaveSystem := preload("res://scripts/world/save_system.gd")
-const PopulationEngine := preload("res://scripts/world/population_engine.gd")
+# C# (src/World/PopulationEngine.cs); called by its C# method names until
+# this script is ported too.
+const PopulationEngine := preload("res://src/World/PopulationEngine.cs")
+const COUNTRY_CAPITAL := 0  # PopulationEngine CapitalKind.Country
 
 const GRID_WIDTH := 8192
 const GRID_HEIGHT := 5476  # ~0.59 km^2/cell over the map's real-world extent
@@ -77,7 +80,7 @@ var pending_player_civ := ""
 # Null when the baked HYDE keyframes (data/population/, built by
 # tools/build_population_mask.py) aren't present - the game then runs
 # without population, exactly as before.
-var population: PopulationEngine
+var population: RefCounted  # PopulationEngine, or null without HYDE data
 
 var proposal: PackedInt32Array
 var dirty_proposal_cells: Dictionary = {}  # (y*GRID_WIDTH+x) -> true, cells currently painted
@@ -147,7 +150,7 @@ func generate_world() -> void:
 
 func save_current_game() -> bool:
 	return await SaveSystem.save_game(grid, registry, demo_year, player_realm_id, self,
-		population.to_dict() if population else {})
+		population.ToDict() if population else {})
 
 # Restores a previously-saved world instead of generating a new one: skips
 # the seeding steps (_seed_land_and_sea/_seed_real_civs/_seed_frontier_zones)
@@ -178,10 +181,10 @@ func load_saved_game() -> bool:
 	var saved_population: Dictionary = loaded.get("population", {})
 	if not saved_population.is_empty():
 		var engine := PopulationEngine.new()
-		if engine.load_hyde() and engine.load_from_dict(saved_population):
+		if engine.LoadHyde() and engine.LoadFromDict(saved_population):
 			population = engine
 			_sync_population_ownership()
-	elif PopulationEngine.hyde_available():
+	elif PopulationEngine.new().HasHydeData():
 		# Save from before the population engine existed: start it fresh
 		# from history at the saved year.
 		_start_population(demo_year)
@@ -492,19 +495,19 @@ func advance_year() -> Array:
 	demo_year += 1
 	if population:
 		_sync_population_ownership()
-		population.tick(demo_year)
+		population.Tick(demo_year)
 	return registry.advance_year(demo_year)
 
 # Starts the population engine from HYDE's historical population at
 # start_year, with every real civ's 300 BC capital registered as an
 # existing capital. No-op if the HYDE keyframes aren't baked.
 func _start_population(start_year: int = START_YEAR) -> void:
-	if not PopulationEngine.hyde_available():
+	if not PopulationEngine.new().HasHydeData():
 		print("Population engine off: no HYDE keyframes in data/population/ ",
 			"(run tools/build_population_mask.py - see MAP_DATA.md).")
 		return
 	var engine := PopulationEngine.new()
-	if not engine.load_hyde():
+	if not engine.LoadHyde():
 		return
 	population = engine
 	_sync_population_ownership()
@@ -513,19 +516,19 @@ func _start_population(start_year: int = START_YEAR) -> void:
 		if civ_realm_ids.has(spec.key) and spec.has("capital_lonlat"):
 			var lonlat: Vector2 = spec.capital_lonlat
 			capitals.append({
-				"node": population.node_at_lonlat(lonlat.x, lonlat.y, LON_MIN, LON_MAX, LAT_MIN, LAT_MAX),
-				"kind": PopulationEngine.CapitalKind.COUNTRY,
+				"node": population.NodeAtLonLat(lonlat.x, lonlat.y, LON_MIN, LON_MAX, LAT_MIN, LAT_MAX),
+				"kind": COUNTRY_CAPITAL,
 				"realm": civ_realm_ids[spec.key],
 			})
-	population.start(start_year, capitals)
+	population.StartFromVariant(start_year, capitals)
 
 func _sync_population_ownership() -> void:
-	population.set_ownership(
-		population.ownership_from_grid(grid.cells, GRID_WIDTH, GRID_HEIGHT, SEA_OWNER_ID),
+	population.SetOwnership(
+		population.OwnershipFromGrid(grid.cells, GRID_WIDTH, GRID_HEIGHT, SEA_OWNER_ID),
 		player_realm_id)
 
 func player_population() -> float:
-	return population.realm_population(player_realm_id) if population else 0.0
+	return population.RealmPopulation(player_realm_id) if population else 0.0
 
 func _color_for_owner(owner_id: int) -> Color:
 	if owner_id == 0:
