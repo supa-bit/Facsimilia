@@ -113,7 +113,8 @@ These aren't in the design yet. Each one blocks the work listed after it.
       succession through grandchildren, brothers and cousins, new houses
       when a line ends or a throne is seized; names from eight cultures
 - [x] Save and load
-- [x] Save safety: three save slots plus an autosave every 10 years,
+- [x] Save safety: three save slots plus three rotating autosaves (every
+      0-25 years, set in Settings > Gameplay; default 10),
       a warning before overwriting, Load Game list with delete, crash-safe
       writing (an interrupted save never damages the old one); the old
       single save moves into slot 1 automatically

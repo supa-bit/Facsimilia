@@ -83,10 +83,20 @@ public partial class SaveSystemTest : TestRunner
         Check(SaveSystem.ReadInfo("slot2")!.Year == -278, "overwrite didn't replace the summary");
 
         // Slots are independent; Continue picks the most recently saved.
-        Check(await SaveSystem.SaveGame(SaveSystem.AutosaveSlot, grid, registry, -270, realm.Id), "autosave");
+        Check(await SaveSystem.SaveGame(SaveSystem.NextAutosaveSlot(), grid, registry, -270, realm.Id), "autosave");
         Check(SaveSystem.LoadGame("slot2")!.DemoYear == -278, "the autosave touched slot 2");
         Check(SaveSystem.ListSaves().Count == 2, "expected two saves listed");
-        Check(SaveSystem.MostRecent()?.Slot == SaveSystem.AutosaveSlot, "Continue should pick the newest save");
+        Check(SaveSystem.MostRecent()?.Slot == "autosave1", "Continue should pick the newest save");
+
+        // Autosaves take turns: three slots fill up, then the oldest is replaced.
+        foreach (int year in new[] { -260, -250, -240 })
+            Check(await SaveSystem.SaveGame(SaveSystem.NextAutosaveSlot(), grid, registry, year, realm.Id), "autosave");
+        Check(SaveSystem.ReadInfo("autosave1")?.Year == -240 && SaveSystem.ReadInfo("autosave2")?.Year == -260
+            && SaveSystem.ReadInfo("autosave3")?.Year == -250, "the fourth autosave should replace the oldest");
+        Check(SaveSystem.MostRecent()?.Slot == "autosave1" && SaveSystem.SlotName("autosave3") == "Autosave 3", "autosave names");
+        foreach (string slot in SaveSystem.AutosaveSlots)
+            SaveSystem.DeleteSave(slot);
+        Check(await SaveSystem.SaveGame(SaveSystem.NextAutosaveSlot(), grid, registry, -270, realm.Id), "autosave");
 
         // A save that fails part-way (an owner id that doesn't fit a byte) leaves the old save intact.
         var bad = new OwnershipGrid(20, 15);
@@ -101,17 +111,28 @@ public partial class SaveSystemTest : TestRunner
         SaveSystem.DeleteSave("slot2");
         Check(!SaveSystem.HasSave("slot2") && SaveSystem.ListSaves().Count == 1, "delete");
 
+        // The one autosave folder of the first slot version becomes Autosave 1.
+        SaveSystem.DeleteSave("autosave1");
+        Check(await SaveSystem.SaveGame("autosave", grid, registry, -230, realm.Id), "old-style autosave");
+        SaveSystem.MigrateLegacySave();
+        Check(SaveSystem.ReadInfo("autosave1")?.Year == -230 && !DirAccess.DirExistsAbsolute($"{TestRoot}/saves/autosave"),
+            "the old autosave wasn't moved to Autosave 1");
+        SaveSystem.DeleteSave("autosave1");
+
         // The single save of older versions moves into slot 1, summary included.
-        SaveSystem.DeleteSave(SaveSystem.AutosaveSlot);
         Check(await SaveSystem.SaveGame("slot3", grid, registry, -250, realm.Id), "save for the legacy test");
-        foreach (var (from, to) in new[] { ("state.json", "save_state.json"), ("grid.png", "save_grid.png") })
-            DirAccess.RenameAbsolute($"{TestRoot}/saves/slot3/{from}", $"{TestRoot}/{to}");
+        DirAccess.RenameAbsolute($"{TestRoot}/saves/slot3/state.json", $"{TestRoot}/save_state.json");
+        var png = Image.CreateFromData(grid.Width, grid.Height, false, Image.Format.L8,
+            grid.Cells.Select(c => (byte)c).ToArray());
+        png.SavePng($"{TestRoot}/save_grid.png");  // older versions stored the grid as a PNG
         SaveSystem.DeleteSave("slot3");
         SaveSystem.MigrateLegacySave();
         var migrated = SaveSystem.ReadInfo("slot1");
         Check(migrated != null && migrated.Year == -250 && migrated.RealmName == "Rome", "old save not moved into slot 1");
         Check(!FileAccess.FileExists($"{TestRoot}/save_state.json"), "old save left behind");
-        Check(SaveSystem.LoadGame("slot1")?.Registry.Characters.Count == 3, "moved save doesn't load");
+        var old = SaveSystem.LoadGame("slot1");
+        Check(old?.Registry.Characters.Count == 3 && old.Grid.GetOwner(15, 5) == 2 && old.Grid.GetOwner(5, 12) == 255,
+            "moved save (PNG grid) doesn't load");
 
         SaveSystem.DeleteDir(TestRoot);
         Finish("SaveSystem tests passed: round-trip per slot, slot summaries, overwrite, failed-save safety, " +

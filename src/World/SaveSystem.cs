@@ -26,10 +26,11 @@ public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, i
 
 /// <summary>
 /// Saves and loads games in slots: three the player picks (slot1..slot3)
-/// and one autosave, each a folder under user://saves/ holding
+/// and three autosaves that take turns (autosave1..autosave3), each a folder under user://saves/ holding
 ///   info.json       what the slot lists show: realm, year, ruler, when
 ///   state.json      year, player realm, grid size, and the character registry
-///   grid.png        the ownership grid, one byte per cell (owner ids fit a byte)
+///   grid.bin        the ownership grid, one byte per cell (owner ids fit a
+///                   byte), zlib-compressed; older saves have grid.png
 ///   population.bin  population engine state, zstd-compressed; absent when
 ///                   the game ran without HYDE data
 /// A save is written to a side folder first and swapped in only once
@@ -39,8 +40,19 @@ public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, i
 public static class SaveSystem
 {
     public static readonly string[] ManualSlots = { "slot1", "slot2", "slot3" };
-    public const string AutosaveSlot = "autosave";
-    public const int AutosaveEveryYears = 10;
+    /// <summary>Autosaves take turns: each one goes into an empty autosave slot, or replaces the oldest.</summary>
+    public static readonly string[] AutosaveSlots = { "autosave1", "autosave2", "autosave3" };
+
+    /// <summary>The choices for "autosave every N years" in Settings; 0 turns autosave off.</summary>
+    public static readonly int[] AutosaveIntervals = { 0, 1, 5, 10, 15, 20, 25 };
+    public const int DefaultAutosaveInterval = 10;
+
+    public static bool IsAutosave(string slot) => AutosaveSlots.Contains(slot);
+
+    /// <summary>Where the next autosave goes: the first empty autosave slot, else the oldest one.</summary>
+    public static string NextAutosaveSlot() =>
+        AutosaveSlots.FirstOrDefault(s => !HasSave(s))
+        ?? AutosaveSlots.OrderBy(s => ReadInfo(s)?.SavedUnix ?? 0).First();
 
     /// <summary>
     /// The folder saves live under (the slots in Root/saves, the old single
@@ -55,7 +67,8 @@ public static class SaveSystem
     static string LegacyGrid => InRoot("save_grid.png");
     static string LegacyPopulation => InRoot("save_population.bin");
 
-    const string InfoFile = "info.json", StateFile = "state.json", GridFile = "grid.png", PopulationFile = "population.bin";
+    const string InfoFile = "info.json", StateFile = "state.json", GridFile = "grid.bin", PopulationFile = "population.bin";
+    const string OldGridFile = "grid.png";  // how slot saves stored the grid before grid.bin (read only)
     const string PartialSuffix = ".partial", OldSuffix = ".old";
 
     /// <summary>
@@ -66,7 +79,8 @@ public static class SaveSystem
     public static string? PendingLoadSlot { get; set; }
 
     public static string SlotName(string slot) =>
-        slot == AutosaveSlot ? "Autosave" : slot.StartsWith("slot") ? "Slot " + slot[4..] : slot;
+        IsAutosave(slot) ? "Autosave " + slot["autosave".Length..]
+        : slot.StartsWith("slot") ? "Slot " + slot[4..] : slot;
 
     static string SlotDir(string slot) => $"{SavesDir}/{slot}";
 
@@ -74,12 +88,13 @@ public static class SaveSystem
     {
         RecoverSlot(slot);
         string dir = SlotDir(slot);
-        return FileAccess.FileExists($"{dir}/{StateFile}") && FileAccess.FileExists($"{dir}/{GridFile}");
+        return FileAccess.FileExists($"{dir}/{StateFile}")
+            && (FileAccess.FileExists($"{dir}/{GridFile}") || FileAccess.FileExists($"{dir}/{OldGridFile}"));
     }
 
     /// <summary>Every existing save, newest first.</summary>
     public static List<SaveInfo> ListSaves() =>
-        ManualSlots.Append(AutosaveSlot).Select(ReadInfo).OfType<SaveInfo>()
+        ManualSlots.Concat(AutosaveSlots).Select(ReadInfo).OfType<SaveInfo>()
             .OrderByDescending(i => i.SavedUnix).ToList();
 
     /// <summary>The save "Continue" loads: the most recently written one, autosave included.</summary>
@@ -164,10 +179,18 @@ public static class SaveSystem
             }
             bytes[i] = (byte)owner;
         }
-        var image = Image.CreateFromData(grid.Width, grid.Height, false, Image.Format.L8, bytes);
-        if (image.SavePng($"{dir}/{GridFile}") != Error.Ok)
+        // Raw bytes through .NET's zlib at its fastest level: PNG (and Godot's
+        // own compressed files) took over a second for the 45-million-cell
+        // grid, which paused the game at every autosave.
+        try
         {
-            GD.PushError("SaveSystem: failed to write the grid");
+            using var file = System.IO.File.Create(ProjectSettings.GlobalizePath($"{dir}/{GridFile}"));
+            using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionLevel.Fastest);
+            zlib.Write(bytes);
+        }
+        catch (Exception e)
+        {
+            GD.PushError("SaveSystem: failed to write the grid: " + e.Message);
             return false;
         }
 
@@ -241,22 +264,17 @@ public static class SaveSystem
         }
         var state = parsed.AsGodotDictionary();
 
-        var image = new Image();
-        if (image.Load($"{dir}/{GridFile}") != Error.Ok)
-        {
-            GD.PushError($"SaveSystem: failed to read {dir}/{GridFile}");
+        var data = ReadGrid(dir, out int imageWidth, out int imageHeight);
+        if (data == null)
             return null;
-        }
-        image.Convert(Image.Format.L8);
-        int width = state.TryGetValue("grid_width", out var w) ? w.AsInt32() : image.GetWidth();
-        int height = state.TryGetValue("grid_height", out var h) ? h.AsInt32() : image.GetHeight();
-        if (image.GetWidth() != width || image.GetHeight() != height)
+        int width = state.TryGetValue("grid_width", out var w) ? w.AsInt32() : imageWidth;
+        int height = state.TryGetValue("grid_height", out var h) ? h.AsInt32() : imageHeight;
+        if (data.Length != width * height || (imageWidth > 0 && (imageWidth != width || imageHeight != height)))
         {
-            GD.PushError("SaveSystem: saved grid image size doesn't match saved state");
+            GD.PushError("SaveSystem: saved grid size doesn't match saved state");
             return null;
         }
         var grid = new OwnershipGrid(width, height);
-        byte[] data = image.GetData();
         for (int i = 0; i < data.Length; i++)
             grid.Cells[i] = data[i];
 
@@ -280,18 +298,58 @@ public static class SaveSystem
     }
 
     /// <summary>
+    /// The grid's bytes: grid.bin, or grid.png in saves from before it (whose
+    /// size is then reported; 0 for grid.bin, which stores no size).
+    /// </summary>
+    static byte[]? ReadGrid(string dir, out int width, out int height)
+    {
+        width = height = 0;
+        if (FileAccess.FileExists($"{dir}/{GridFile}"))
+        {
+            try
+            {
+                using var file = System.IO.File.OpenRead(ProjectSettings.GlobalizePath($"{dir}/{GridFile}"));
+                using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionMode.Decompress);
+                using var bytes = new System.IO.MemoryStream();
+                zlib.CopyTo(bytes);
+                return bytes.ToArray();
+            }
+            catch (Exception e)
+            {
+                GD.PushError($"SaveSystem: failed to read {dir}/{GridFile}: {e.Message}");
+                return null;
+            }
+        }
+        var image = new Image();
+        if (image.Load($"{dir}/{OldGridFile}") != Error.Ok)
+        {
+            GD.PushError($"SaveSystem: failed to read {dir}/{OldGridFile}");
+            return null;
+        }
+        image.Convert(Image.Format.L8);
+        width = image.GetWidth();
+        height = image.GetHeight();
+        return image.GetData();
+    }
+
+    /// <summary>
     /// Moves the one save older versions made (user://save_*) into slot 1,
     /// with a slot summary built from it. Does nothing once it's been moved,
     /// or if slot 1 is already used.
     /// </summary>
     public static void MigrateLegacySave()
     {
+        // The single autosave slot of the first slot version becomes Autosave 1.
+        string oneAutosave = SlotDir("autosave");
+        if (DirAccess.DirExistsAbsolute(oneAutosave) && !DirAccess.DirExistsAbsolute(SlotDir(AutosaveSlots[0])))
+            DirAccess.RenameAbsolute(oneAutosave, SlotDir(AutosaveSlots[0]));
+
         if (!FileAccess.FileExists(LegacyState) || !FileAccess.FileExists(LegacyGrid) || HasSave(ManualSlots[0]))
             return;
         string dir = SlotDir(ManualSlots[0]);
         DirAccess.MakeDirRecursiveAbsolute(dir);
         bool moved = DirAccess.RenameAbsolute(LegacyState, $"{dir}/{StateFile}") == Error.Ok
-            && DirAccess.RenameAbsolute(LegacyGrid, $"{dir}/{GridFile}") == Error.Ok;
+            && DirAccess.RenameAbsolute(LegacyGrid, $"{dir}/{OldGridFile}") == Error.Ok;
         if (moved && FileAccess.FileExists(LegacyPopulation))
             DirAccess.RenameAbsolute(LegacyPopulation, $"{dir}/{PopulationFile}");
         if (!moved)

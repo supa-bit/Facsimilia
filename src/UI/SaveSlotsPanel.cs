@@ -6,7 +6,7 @@ namespace Facsimilia.UI;
 
 /// <summary>
 /// The save slot list, as an overlay. Load mode (main menu) lists every
-/// save including the autosave, with Load and Delete. Save mode (pause menu)
+/// save including the autosaves, with Load and Delete. Save mode (pause menu)
 /// lists the three manual slots; picking a used one asks before
 /// overwriting it. Emits SlotChosen (after any confirmation) or Closed and
 /// never loads or saves itself; the owner does that.
@@ -89,7 +89,7 @@ public partial class SaveSlotsPanel : Control
         foreach (var child in _rows.GetChildren())
             child.QueueFree();
         Button? first = null;
-        var slots = _mode == Mode.Save ? SaveSystem.ManualSlots : [.. SaveSystem.ManualSlots, SaveSystem.AutosaveSlot];
+        var slots = _mode == Mode.Save ? SaveSystem.ManualSlots : [.. SaveSystem.ManualSlots, .. SaveSystem.AutosaveSlots];
         foreach (string slot in slots)
         {
             var info = SaveSystem.ReadInfo(slot);

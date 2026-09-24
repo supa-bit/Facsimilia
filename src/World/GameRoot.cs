@@ -9,8 +9,8 @@ namespace Facsimilia.World;
 /// Main.tscn's root: runs a game session. New game: title card, realm
 /// selection, world generation (behind a loading screen), then the HUD.
 /// Continue / Load Game (SaveSystem.PendingLoadSlot): load that save instead.
-/// Escape opens the pause menu, which saves to a slot; every
-/// SaveSystem.AutosaveEveryYears years the game autosaves.
+/// Escape opens the pause menu, which saves to a slot; the game also
+/// autosaves every few years (the interval is a setting).
 /// </summary>
 public partial class GameRoot : Node2D
 {
@@ -69,7 +69,7 @@ public partial class GameRoot : Node2D
             Map = null;
             return false;
         }
-        CurrentSlot = slot == SaveSystem.AutosaveSlot ? null : slot;
+        CurrentSlot = SaveSystem.IsAutosave(slot) ? null : slot;
         ShowHud();
         return true;
     }
@@ -158,16 +158,23 @@ public partial class GameRoot : Node2D
         var events = Map.AdvanceYear();
         Hud.Refresh();
         Hud.LogEvents(events);
-        if (Math.Abs(Map.DemoYear - MapView.StartYear) % SaveSystem.AutosaveEveryYears == 0)
+        int every = SettingsStore.Instance.AutosaveInterval;  // years; 0 = off
+        if (every > 0 && YearsPlayed(Map.DemoYear) % every == 0)
             await Autosave();
     }
 
-    /// <summary>Every few years, into the autosave slot (never over the player's own slots).</summary>
+    /// <summary>Years since 300 BC, allowing for there being no year 0.</summary>
+    static int YearsPlayed(int year) => year - MapView.StartYear - (year > 0 ? 1 : 0);
+
+    /// <summary>
+    /// Every few years (Settings > Gameplay), into the autosave slots in turn
+    /// (never over the player's own slots).
+    /// </summary>
     async Task Autosave()
     {
         _saving = true;
         Hud!.ShowStatus("Autosaving...");
-        bool ok = await Map!.SaveCurrentGame(SaveSystem.AutosaveSlot);
+        bool ok = await Map!.SaveCurrentGame(SaveSystem.NextAutosaveSlot());
         Hud.ShowStatus(ok ? "Autosaved." : "Autosave failed.", fadeAfter: 2.5);
         _saving = false;
     }
