@@ -20,12 +20,14 @@ public sealed class Character
     public int FatherId { get; }
     public int MotherId { get; }
     public int SpouseId { get; set; } = -1;
+    public Culture Culture { get; set; }
     public List<int> ChildrenIds { get; set; } = new();
     public List<string> Traits { get; set; } = new();
 
     public Character(int id, string name, string sex, int birthYear,
-        int dynastyId = -1, int fatherId = -1, int motherId = -1)
+        int dynastyId = -1, int fatherId = -1, int motherId = -1, Culture culture = Culture.Greek)
     {
+        Culture = culture;
         Id = id;
         Name = name;
         Sex = sex;

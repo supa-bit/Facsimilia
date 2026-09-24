@@ -9,11 +9,24 @@ using Godot;
 namespace Facsimilia.World;
 
 /// <summary>A playable civilization at the 300 BC start.</summary>
+/// <param name="Culture">Naming tradition for children born in play, spouses and new houses.</param>
+/// <param name="Family">The ruling family in 300 BC.</param>
 /// <param name="RealmName">Display name; for real civs it comes from data/ancient_bc300.json instead.</param>
 /// <param name="Polygon">Frontier zones only: their hand-placed area on the grid.</param>
 /// <param name="CapitalLonLat">Real civs only: the 300 BC seat, for the population engine.</param>
-public sealed record CivSpec(string Key, string Ruler, string Heir, string Spouse, Color Color,
+public sealed record CivSpec(string Key, Culture Culture, StartFamily Family, Color Color,
     SuccessionLaw Law, string? RealmName = null, Vector2[]? Polygon = null, Vector2? CapitalLonLat = null);
+
+/// <summary>
+/// A realm's ruling family at the start: the ruler and spouse with birth
+/// years (negative = BC), their children, and optionally the children's
+/// own spouses and children. House defaults to "House " + the ruler's name.
+/// </summary>
+public sealed record StartFamily(string Ruler, int RulerBorn, string Spouse, int SpouseBorn, Kin[] Children,
+    string? House = null);
+
+/// <summary>A child in a StartFamily, with their own spouse and children if they have any.</summary>
+public sealed record Kin(string Name, bool Male, int Born, string? Spouse = null, int SpouseBorn = 0, Kin[]? Children = null);
 
 /// <summary>
 /// The world map: an 8192x5476 ownership grid (~0.59 km² per cell) drawn as
@@ -61,15 +74,43 @@ public partial class MapView : Node2D
     /// </summary>
     public static readonly CivSpec[] RealCivs =
     {
-        new("rome", "Numerius", "Marcus", "Cornelia", new Color(0.75f, 0.20f, 0.20f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(12.48f, 41.89f)),
-        new("carthage", "Hasdrubal", "Hamilcar", "Sophoniba", new Color(0.55f, 0.30f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(10.32f, 36.85f)),
-        new("egypt", "Ptolemy", "Ptolemaios", "Berenike", new Color(0.85f, 0.75f, 0.15f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(29.92f, 31.2f)),
-        new("kush", "Arkamani", "Amanislo", "Nahirqo", new Color(0.55f, 0.25f, 0.15f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(33.75f, 16.94f)),
-        new("seleucid", "Seleukos", "Antiochos", "Apama", new Color(0.35f, 0.25f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(44.52f, 33.1f)),
-        new("greek_world", "Kassandros", "Philippos", "Thessalonike", new Color(0.20f, 0.40f, 0.75f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(22.52f, 40.76f)),
-        new("lysimachus", "Lysimachos", "Agathokles", "Nikaia", new Color(0.75f, 0.35f, 0.55f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(26.75f, 40.52f)),
-        new("antigonus", "Antigonos", "Demetrios", "Stratonike", new Color(0.80f, 0.45f, 0.15f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(36.2f, 36.23f)),
-        new("nabatea", "Aretas", "Obodas", "Huldu", new Color(0.70f, 0.55f, 0.30f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(35.44f, 30.33f)),
+        // The Republic had no king; the "ruling family" stands for its leading
+        // house, the Valerii - Marcus Valerius Corvus, six times consul, who by
+        // tradition lived to 100.
+        new("rome", Culture.Latin, new("Marcus", -371, "Claudia", -352, new Kin[]
+            { new("Marcus", true, -332), new("Gaius", true, -326), new("Valeria", false, -322) }, "House Valerius"),
+            new Color(0.75f, 0.20f, 0.20f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(12.48f, 41.89f)),
+        new("carthage", Culture.Punic, new("Hasdrubal", -348, "Arishat", -340, new Kin[]
+            { new("Hamilcar", true, -318), new("Hanno", true, -315), new("Elissa", false, -312) }),
+            new Color(0.55f, 0.30f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(10.32f, 36.85f)),
+        new("egypt", Culture.Greek, new("Ptolemaios", -367, "Berenike", -340, new Kin[]
+            { new("Arsinoe", false, -316), new("Philotera", false, -315), new("Ptolemaios", true, -308) }),
+            new Color(0.85f, 0.75f, 0.15f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(29.92f, 31.2f)),
+        // The Kushite royal line passed through queens as well as kings.
+        new("kush", Culture.Meroitic, new("Arkamani", -340, "Nahirqo", -335, new Kin[]
+            { new("Shanakdakhete", false, -314), new("Amanislo", true, -312) }),
+            new Color(0.55f, 0.25f, 0.15f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(33.75f, 16.94f)),
+        new("seleucid", Culture.Greek, new("Seleukos", -358, "Apama", -345, new Kin[]
+            { new("Antiochos", true, -324), new("Apama", false, -320), new("Achaios", true, -318) }),
+            new Color(0.35f, 0.25f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(44.52f, 33.1f)),
+        new("greek_world", Culture.Greek, new("Kassandros", -355, "Thessalonike", -345, new Kin[]
+            { new("Philippos", true, -315), new("Antipatros", true, -314), new("Alexandros", true, -313) }),
+            new Color(0.20f, 0.40f, 0.75f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(22.52f, 40.76f)),
+        new("lysimachus", Culture.Greek, new("Lysimachos", -360, "Nikaia", -340, new Kin[]
+            { new("Agathokles", true, -320), new("Eurydike", false, -318) }),
+            new Color(0.75f, 0.35f, 0.55f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(26.75f, 40.52f)),
+        // Antigonos the One-Eyed, 82: his son Demetrios and grandson
+        // Antigonos Gonatas are already grown.
+        new("antigonus", Culture.Greek, new("Antigonos", -382, "Stratonike", -370, new Kin[]
+            {
+                new("Demetrios", true, -337, "Phila", -350, new Kin[]
+                    { new("Antigonos", true, -319), new("Stratonike", false, -317) }),
+            }),
+            new Color(0.80f, 0.45f, 0.15f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(36.2f, 36.23f)),
+        // Nabataean queens ruled beside their husbands and appear on the coins.
+        new("nabatea", Culture.Nabataean, new("Aretas", -345, "Huldu", -340, new Kin[]
+            { new("Obodas", true, -320), new("Shaqilat", false, -317), new("Rabbel", true, -313) }),
+            new Color(0.70f, 0.55f, 0.30f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(35.44f, 30.33f)),
     };
 
     /// <summary>
@@ -80,11 +121,18 @@ public partial class MapView : Node2D
     /// </summary>
     public static readonly CivSpec[] FrontierZones =
     {
-        new("iberia", "Indibilis", "Mandonios", "Ilduria", new Color(0.20f, 0.55f, 0.55f), SuccessionLaw.Primogeniture,
+        new("iberia", Culture.Iberian, new("Indibilis", -340, "Ilduria", -335, new Kin[]
+            { new("Mandonios", true, -318), new("Imilce", false, -315) }),
+            new Color(0.20f, 0.55f, 0.55f), SuccessionLaw.Primogeniture,
             "Iberian & Celtiberian Tribes", new Vector2[] { new(0, 304), new(1536, 203), new(1621, 1115), new(1195, 1825), new(341, 1724), new(0, 1217) }),
-        new("gaul", "Brennos", "Bolgios", "Onomaris", new Color(0.25f, 0.65f, 0.30f), SuccessionLaw.Primogeniture,
+        new("gaul", Culture.Celtic, new("Brennos", -338, "Onomaris", -335, new Kin[]
+            { new("Bolgios", true, -316), new("Chiomara", false, -312) }),
+            new Color(0.25f, 0.65f, 0.30f), SuccessionLaw.Primogeniture,
             "Gallic Tribes", new Vector2[] { new(939, 0), new(3669, 0), new(3840, 1014), new(2560, 1176), new(1451, 1055), new(939, 710) }),
-        new("scythia", "Ateas", "Agaros", "Opia", new Color(0.35f, 0.65f, 0.75f), SuccessionLaw.MalePreferencePrimogeniture,
+        // Agaros, a Scythian king named in Diodorus for 309 BC.
+        new("scythia", Culture.Scythian, new("Agaros", -350, "Opia", -340, new Kin[]
+            { new("Kanitos", true, -322), new("Saulios", true, -318), new("Amage", false, -315) }),
+            new Color(0.35f, 0.65f, 0.75f), SuccessionLaw.MalePreferencePrimogeniture,
             "Scythian Peoples", new Vector2[] { new(4949, 0), new(8021, 0), new(8107, 811), new(6827, 1115), new(5461, 913), new(4949, 507) }),
     };
 
@@ -371,21 +419,39 @@ public partial class MapView : Node2D
             PlayerRealmId = id;
     }
 
-    Realm MakeRulerAndRealm(string realmName, CivSpec spec)
+    Realm MakeRulerAndRealm(string realmName, CivSpec spec) => CreateStartingRealm(Registry, realmName, spec);
+
+    /// <summary>Creates a civ's realm with its 300 BC ruling family (tests use it without a map).</summary>
+    public static Realm CreateStartingRealm(CharacterRegistry registry, string realmName, CivSpec spec)
     {
-        var ruler = Registry.CreateCharacter(spec.Ruler, "male", StartYear - 45);
-        Registry.CreateDynasty("House " + spec.Ruler, ruler);
-        var spouse = Registry.CreateCharacter(spec.Spouse, "female", StartYear - 43);
+        var family = spec.Family;
+        var ruler = registry.CreateCharacter(family.Ruler, "male", family.RulerBorn, culture: spec.Culture);
+        registry.CreateDynasty(family.House ?? "House " + family.Ruler, ruler);
+        var spouse = registry.CreateCharacter(family.Spouse, "female", family.SpouseBorn, culture: spec.Culture);
         CharacterRegistry.Marry(ruler, spouse);
-        Registry.HaveChild(spouse, ruler, spec.Heir, "male", StartYear - 22);
-        return Registry.CreateRealm(realmName, ruler, spec.Law, spec.Color);
+        AddChildren(registry, spouse, ruler, family.Children, spec.Culture);
+        return registry.CreateRealm(realmName, ruler, spec.Law, spec.Color, spec.Culture);
+    }
+
+    static void AddChildren(CharacterRegistry registry, Character mother, Character father, Kin[] children, Culture culture)
+    {
+        foreach (var kin in children)
+        {
+            var child = registry.HaveChild(mother, father, kin.Name, kin.Male ? "male" : "female", kin.Born);
+            if (kin.Spouse == null)
+                continue;
+            var spouse = registry.CreateCharacter(kin.Spouse, kin.Male ? "female" : "male", kin.SpouseBorn, culture: culture);
+            CharacterRegistry.Marry(child, spouse);
+            var (wife, husband) = kin.Male ? (spouse, child) : (child, spouse);
+            AddChildren(registry, wife, husband, kin.Children ?? Array.Empty<Kin>(), culture);
+        }
     }
 
     /// <summary>
     /// Succession changes only a realm's ruler, never territory, so there's no
     /// rendering update. Returns the year's events for the chronicle.
     /// </summary>
-    public List<string> AdvanceYear()
+    public List<ChronicleEvent> AdvanceYear()
     {
         DemoYear++;
         if (DemoYear == 0)

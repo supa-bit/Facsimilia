@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Facsimilia.Dynasties;
 using Facsimilia.World;
 using Godot;
 
@@ -189,7 +190,7 @@ public partial class Hud : Control
         if (_map.Registry.Characters.TryGetValue(realm.RulerId, out var ruler) && ruler.IsAlive)
         {
             _rulerLabel.Text = $"{ruler.Name}, {ruler.AgeIn(_map.DemoYear)}";
-            _heirLabel.Text = _map.Registry.LivingChildren(ruler).FirstOrDefault()?.Name ?? "None";
+            _heirLabel.Text = _map.Registry.ResolveHeir(realm)?.Name ?? "None";
         }
         else
         {
@@ -201,14 +202,19 @@ public partial class Hud : Control
             _populationLabel.Text = ThemeAncient.GroupThousands((long)_map.PlayerPopulation());
     }
 
-    public void LogEvents(IReadOnlyList<string> events)
+    /// <summary>
+    /// Adds the year's news: successions anywhere, and births, marriages and
+    /// deaths in the player's own court.
+    /// </summary>
+    public void LogEvents(IReadOnlyList<ChronicleEvent> events)
     {
         string when = ThemeAncient.YearText(_map.DemoYear);
-        if (events.Count == 0)
+        var news = events.Where(e => e.IsNewsFor(_map.PlayerRealmId)).ToList();
+        if (news.Count == 0)
             _entries.Insert(0, $"{when} — A quiet year.");
         else
-            foreach (string e in events)
-                _entries.Insert(0, $"{when} — {e}");
+            foreach (var e in news)
+                _entries.Insert(0, $"{when} — {e.Text}");
         if (_entries.Count > ChronicleLines)
             _entries.RemoveRange(ChronicleLines, _entries.Count - ChronicleLines);
         RenderChronicle();

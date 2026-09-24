@@ -755,6 +755,66 @@ switches the map overlay (see Map overlays, under New concepts) to
 by continent. The regional-floor rule runs all the time regardless of
 which overlay is showing.
 
+## Dynasties and characters **(decided, built)**
+
+Depth for now: enough for ruling families to live, marry, have children and
+succeed each other for the whole game, without traits, events or
+intrigue (those can be layered on later). Code: `src/Dynasties/`
+(`CharacterRegistry.cs` for succession and mortality,
+`CharacterRegistry.Life.cs` for the yearly simulation, `Names.cs`), the
+300 BC families in `MapView.RealCivs` / `FrontierZones`. Tests:
+`DynastyTest`, `DynastyLifeTest`, `TimeTest`.
+
+- **Starting families.** Each realm starts with its real (or, where the
+  record is thin, plausible) 300 BC ruling family with real ages: Antigonos
+  the One-Eyed at 82 with his son Demetrios and grandson Antigonos Gonatas,
+  Ptolemaios I at 67 with Berenike and their children, Seleukos with
+  Antiochos, and so on. Rome, a republic, is represented by its leading
+  house (the Valerii). Rulers range from 38 to 82.
+- **Cultures.** Every realm and character has one of eight naming
+  traditions (Latin, Punic, Greek, Meroitic, Nabataean, Iberian, Celtic,
+  Scythian). Children take the culture of the parent whose house they
+  belong to; a first son is sometimes named for his paternal grandfather
+  and a first daughter for her maternal grandmother.
+- **Mortality.** A pre-modern elite life table: 8% die in the first year,
+  about one in six before five, 0.8% a year from 15 to 39, then a rise
+  from 1% at 40 doubling about every nine years (cap 35%). About 63% of
+  40-year-olds reach 60 and a third reach 70. Average reign comes out
+  around 26 years.
+- **The court.** Only each realm's court marries and has children: the
+  ruler, spouse, children and grandchildren, siblings with their children,
+  and the heir's household. Everyone else lives out their life but the
+  family tree stops branching there, which keeps the world to a few hundred
+  living people however long the game runs.
+- **Marriage.** Unmarried court members (men 17-55, women 15-38) marry
+  with a 35% chance a year; three in ten matches are with another realm's
+  court (the closest in age within 15 years, from another house), the rest
+  with a generated noble of the realm's culture.
+- **Births.** A married woman of 16-42 has a child with a chance of 24% a
+  year in her twenties, falling to 3% after 40; at most nine children.
+  About four or five births per full marriage.
+- **Succession.** Primogeniture with representation: the ruler's
+  descendants in order, the eldest line first, so a dead eldest son's
+  children come before his younger brother (under male preference, sons'
+  lines before daughters' at every level). With no descendants, the search
+  moves up: brothers and nephews, then uncles and cousins, up to four
+  generations. A princess who married outside the great houses keeps her
+  children in her house and line. **No personal unions:** someone already
+  reigning elsewhere is passed over, so realms never merge by inheritance
+  (a later decision could allow it).
+- **New houses.** A realm gets a new ruling house when its family has died
+  out, or when a strongman seizes the throne at a succession: 6% at every
+  succession, plus 25% when the heir is a child under 16, plus 10% when
+  the heir isn't the late ruler's own descendant. The founder (30-50, of
+  the realm's culture) comes with a wife and children. Over two thousand
+  years, houses last about 280 years on average.
+- **The chronicle** shows successions and new houses in every realm, and
+  births, marriages and deaths only in the player's own court.
+- **Known limits.** Dead characters are kept for family history, so the
+  save grows with time (about 7 MB of family records by AD 1700).
+  The HUD shows the heir's name but not why they're heir (a family tree
+  view is future work).
+
 ## New concepts needed
 
 - **`Settlement`** — named populated place: id, name, position, population,

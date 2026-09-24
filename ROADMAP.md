@@ -19,10 +19,6 @@ Small, cheap, and they protect everything built after them.
       "Assets release" button in the Actions tab.
 - [ ] **Automatic tests on GitHub**: every push builds the game and runs all
       test suites, so breakage is caught even between sessions.
-- [ ] **Dynasties keep going**: births, marriages and new heirs each year,
-      and varied starting ages. Today nobody is born after 300 BC, so every
-      realm runs out of heirs within about two generations and freezes in
-      a permanent interregnum.
 - [ ] **Save safety**: several save slots, an autosave, and a warning before
       a save is overwritten. Today there's one slot and a new game's save
       silently replaces the old one.
@@ -60,6 +56,7 @@ Each step is verified on the real game before the next begins.
 - [ ] **Map views**: population heatmap (the data already exists), regions,
       resources, political (today's view)
 - [ ] **Click a realm or place** to see its details
+- [ ] **Family tree view**: the player's ruler, heir and court
 - [ ] **A goal**: whatever is decided below
 - [ ] **Sound and music**
 - [ ] **Tutorial / first-game guidance**
@@ -87,15 +84,22 @@ These aren't in the design yet. Each one blocks the work listed after it.
       *(blocks: integration)*
 - [ ] **Pacing**: one year per turn all the way (~2,300 turns to the
       present), or longer/shorter turns in some eras?
-- [ ] **Characters**: how deep? Marriages, children, traits, events, like
-      Crusader Kings, or just enough for succession? *(affects: dynasty fix)*
+- [x] ~~**Characters**: how deep?~~ Answered "as deep as makes sense for
+      now": births, marriages, deaths, succession and new houses are built;
+      traits, events and intrigue can come later (see MECHANICS.md,
+      Dynasties and characters)
+- [ ] **Personal unions**: should one ruler be able to inherit two realms
+      (and what happens to them then)? Today they can't: a monarch is passed
+      over for a second throne. *(affects: new realms, diplomacy)*
 - [x] ~~Growth drivers~~ drafted in MECHANICS.md, **needs sign-off**, see
       build step 2
 
 ## Known issues
 
-- [ ] Rulers all start at age 45, so many die in the same few years
-      *(fixed with the dynasty work)*
+- [ ] Family records grow with time (about 7 MB in the save by AD 1700):
+      fine for now, trim or compress before the save gets slow
+- [ ] The HUD names the heir but not why (e.g. a newborn grandson because
+      his father already rules elsewhere): wants a family tree view
 - [ ] The brush paints a proposal that is never confirmed or saved
       *(fixed by conquest by painting, step 7)*
 - [ ] By 0 AD the simulated world holds 47.7 million against HYDE's 48.2
@@ -109,6 +113,10 @@ These aren't in the design yet. Each one blocks the work listed after it.
       frontier tribes, terrain, 12 playable realms
 - [x] Dynasties and succession laws (male-preference and plain
       primogeniture)
+- [x] Living dynasties: the real 300 BC ruling families, births,
+      marriages (including between realms), deaths by a real life table,
+      succession through grandchildren, brothers and cousins, new houses
+      when a line ends or a throne is seized; names from eight cultures
 - [x] Save and load
 - [x] HYDE population data and the population engine (see step 2)
 - [x] Whole game ported to C# (population tick ~30 ms, world generation
@@ -122,4 +130,4 @@ These aren't in the design yet. Each one blocks the work listed after it.
 - [x] Build stamp in the main menu corner showing which version is running
 - [x] Session setup (.NET SDK + Godot .NET) and one-click assets release
       workflow
-- [x] 10 automated test suites
+- [x] 11 automated test suites

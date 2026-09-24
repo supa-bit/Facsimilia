@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Facsimilia.Dynasties;
 using Godot;
@@ -10,34 +11,51 @@ public partial class TimeTest : TestRunner
 {
     protected override Task Run()
     {
-        var reg = new CharacterRegistry();
-        Check(CharacterRegistry.DeathChanceForAge(30) == 0.0, "no deaths under 40");
-        Check(Math.Abs(CharacterRegistry.DeathChanceForAge(50) - 0.10) < 1e-9, "10% at 50");
-        Check(Math.Abs(CharacterRegistry.DeathChanceForAge(90) - 0.35) < 1e-9, "35% at 90");
+        // The life table's fixed points.
+        Check(CharacterRegistry.DeathChanceForAge(-5) == 0.0, "the unborn can't die");
+        Check(Math.Abs(CharacterRegistry.DeathChanceForAge(0) - 0.08) < 1e-9, "8% in the first year");
+        Check(Math.Abs(CharacterRegistry.DeathChanceForAge(30) - 0.008) < 1e-9, "0.8% at 30");
+        Check(Math.Abs(CharacterRegistry.DeathChanceForAge(40) - 0.01) < 1e-9, "1% at 40");
         Check(Math.Abs(CharacterRegistry.DeathChanceForAge(200) - 0.35) < 1e-9, "capped at 35%");
+        for (int age = 40; age < 120; age++)
+            Check(CharacterRegistry.DeathChanceForAge(age + 1) >= CharacterRegistry.DeathChanceForAge(age),
+                $"death chance falls from {age} to {age + 1}");
 
-        // A ruler under 40 has exactly 0% death chance, whatever the RNG does.
-        var ruler = reg.CreateCharacter("Young Ruler", "male", 1000);
-        reg.CreateDynasty("House Young", ruler);
-        reg.CreateRealm("Young Realm", ruler, SuccessionLaw.Primogeniture, Colors.Gray);
-        for (int year = 1000; year < 1035; year++)
-            Check(reg.AdvanceYear(year).Count == 0, $"something happened in {year}");
-        Check(ruler.IsAlive, "the young ruler died");
+        // What the curve means: how many 40-year-olds reach 60 and 70, and how
+        // many newborns reach 5 (the doc comment on DeathChanceForAge).
+        double Survive(int from, int to)
+        {
+            double alive = 1;
+            for (int age = from; age < to; age++)
+                alive *= 1 - CharacterRegistry.DeathChanceForAge(age);
+            return alive;
+        }
+        double to60 = Survive(40, 60), to70 = Survive(40, 70), to5 = Survive(0, 5);
+        Check(to60 is > 0.58 and < 0.68, $"{to60:P0} of 40-year-olds reach 60, expected about 63%");
+        Check(to70 is > 0.28 and < 0.40, $"{to70:P0} of 40-year-olds reach 70, expected about a third");
+        Check(to5 is > 0.80 and < 0.86, $"{to5:P0} of newborns reach 5, expected about five in six");
 
-        // An old, childless ruler with an RNG seeded to roll a death: a crisis.
-        var old = reg.CreateCharacter("Old Ruler", "male", 900);
-        reg.CreateDynasty("House Old", old);
-        var oldRealm = reg.CreateRealm("Old Realm", old, SuccessionLaw.Primogeniture, Colors.Gray);
+        // An old, childless ruler dies within a few years; with nobody left a
+        // new house takes the throne, of the realm's own culture.
+        var reg = new CharacterRegistry();
+        var old = reg.CreateCharacter("Ateas", "male", 900, culture: Culture.Scythian);
+        reg.CreateDynasty("House Ateas", old);
+        var realm = reg.CreateRealm("Old Realm", old, SuccessionLaw.Primogeniture, Colors.Gray, Culture.Scythian);
         var rng = new RandomNumberGenerator { Seed = 1 };
-        Check(rng.Randf() < CharacterRegistry.DeathChanceForAge(999 - 900), "seed 1 doesn't force a death");
-        rng.Seed = 1;
-        var events = reg.AdvanceYear(999, rng);
-        Check(events.Count == 1 && events[0].Contains("succession crisis", StringComparison.OrdinalIgnoreCase),
-            "expected one succession-crisis event");
-        Check(!old.IsAlive && oldRealm.RulerId == old.Id, "the old ruler should be dead with no successor");
+        ChronicleEvent? newHouse = null;
+        int year = 990;
+        for (; year < 1030 && old.IsAlive; year++)
+            newHouse = reg.AdvanceYear(year, rng).FirstOrDefault(e => e.Kind == ChronicleKind.NewHouse);
+        Check(!old.IsAlive, "a 90-year-old survived 40 more years");
+        Check(newHouse != null && newHouse.RealmId == realm.Id, "no new-house event when the line ended");
+        var founder = reg.Characters[realm.RulerId];
+        Check(founder.IsAlive && founder.DynastyId != old.DynastyId, "the new ruler isn't alive in a new house");
+        Check(founder.Culture == Culture.Scythian && Names.Pool(Culture.Scythian, true).Contains(founder.Name),
+            $"the new ruler {founder.Name} isn't Scythian");
+        Check(reg.ResolveHeir(realm) != null, "the new house has no heir");
 
-        Finish("Time/mortality tests passed: age-40 threshold holds, curve caps at 35%, and a forced death " +
-            "correctly produced a succession crisis.");
+        Finish($"Time/mortality tests passed: {to60:P0} of 40-year-olds reach 60, {to70:P0} reach 70, " +
+            $"{to5:P0} of newborns reach 5; a line that died out in {year - 1} was replaced by {newHouse!.Text}");
         return Task.CompletedTask;
     }
 }
