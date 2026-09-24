@@ -36,11 +36,14 @@ public partial class MapView : Node2D
     public const float MaxZoom = 16f;
     public const float ZoomStep = 1.2f;       // per mouse-wheel notch / zoom button press
     public const float KeyPanSpeed = 900f;    // screen pixels per second, arrow keys / WASD
-    public const float LabelTopMargin = 64f;  // keep realm names clear of the HUD's top bar
+    public const float HudTopMargin = 64f;    // the HUD's top bar covers this much of the screen
+    public const float FitPadding = 14f;      // screen pixels around the whole-map view, so its frame shows
     public const double LonMin = -10, LonMax = 55, LatMin = 10, LatMax = 48;  // shared with tools/ and the HYDE import
 
     public static readonly Color WildColor = new(0.12f, 0.12f, 0.12f);  // unclaimed land
     public static readonly Color SeaColor = new(0.08f, 0.16f, 0.24f);
+    static readonly Color BeyondMapColor = new(0.06f, 0.05f, 0.04f);  // "edge of the known world" around the map
+    static readonly Color FrameColor = new(0.83f, 0.67f, 0.36f, 0.8f);
 
     const string DataPath = "res://data/ancient_bc300.json";
     const string LandMaskPath = "res://data/land_mask.png";
@@ -212,24 +215,54 @@ public partial class MapView : Node2D
         if (viewport.X <= 0 || viewport.Y <= 0)
             return;
         // Camera2D.Zoom is screen pixels per map pixel. The most-zoomed-out view
-        // fills the window on BOTH axes (the larger ratio), cropping whichever
-        // way the window's shape differs from the map's - never empty bars.
+        // shows the WHOLE map (the smaller of the two ratios) in the space below
+        // the HUD's top bar; spare room on the other axis shows the dark
+        // surround, never a crop of the map.
         bool firstFit = _fitZoom == 0f;
-        _fitZoom = Math.Max(viewport.X / MapSize.X, viewport.Y / MapSize.Y);
+        _fitZoom = Math.Min((viewport.X - 2 * FitPadding) / MapSize.X,
+            (viewport.Y - HudTopMargin - 2 * FitPadding) / MapSize.Y);
         // First time: show the whole map. On later resizes, keep the player's zoom.
         float z = firstFit ? _fitZoom : Math.Clamp(_camera.Zoom.X, _fitZoom, MaxZoom);
         _camera.Zoom = new Vector2(z, z);
         ClampCamera();
     }
 
-    /// <summary>Keeps the view inside the map, then re-places the realm names.</summary>
+    /// <summary>
+    /// Keeps the map in view below the top bar: on an axis where the map is
+    /// smaller than the screen it's centred; otherwise its edges can't be
+    /// panned past. Then redraws the frame and re-places the realm names.
+    /// </summary>
     void ClampCamera()
     {
-        var half = GetViewportRect().Size / (2f * _camera!.Zoom.X);
+        var screen = GetViewportRect().Size;
+        float z = _camera!.Zoom.X;
         _camera.Position = new Vector2(
-            Math.Clamp(_camera.Position.X, half.X, Math.Max(half.X, MapSize.X - half.X)),
-            Math.Clamp(_camera.Position.Y, half.Y, Math.Max(half.Y, MapSize.Y - half.Y)));
+            ClampAxis(_camera.Position.X, 0f, screen.X, screen.X / 2f, MapSize.X, z),
+            ClampAxis(_camera.Position.Y, HudTopMargin, screen.Y, screen.Y / 2f, MapSize.Y, z));
+        QueueRedraw();
         UpdateLabels();
+    }
+
+    /// <summary>
+    /// Camera position on one axis. [from, to] is the usable screen span,
+    /// center the screen's midpoint, map the map's length, zoom screen px per map px.
+    /// </summary>
+    static float ClampAxis(float position, float from, float to, float center, float map, float zoom)
+    {
+        float lowest = -(from - center) / zoom;       // usable edge at map 0
+        float highest = map - (to - center) / zoom;   // other usable edge at the map's end
+        if (lowest >= highest)                        // the whole map fits: centre it
+            return map / 2f - ((from + to) / 2f - center) / zoom;
+        return Math.Clamp(position, lowest, highest);
+    }
+
+    /// <summary>The dark surround beyond the map's edges and a thin gold frame (drawn under the map).</summary>
+    public override void _Draw()
+    {
+        var map = new Rect2(Vector2.Zero, MapSize);
+        DrawRect(map.Grow(Math.Max(MapSize.X, MapSize.Y) * 4f), BeyondMapColor);
+        float px = 1f / (_camera?.Zoom.X ?? 1f);  // one screen pixel, in map units
+        DrawRect(map.Grow(3f * px), FrameColor, filled: false, width: 2f * px);
     }
 
     Vector2 ScreenToWorld(Vector2 screen) =>
@@ -591,23 +624,33 @@ public partial class MapView : Node2D
     }
 
     /// <summary>
-    /// Places every realm name over its anchor for the current camera. Greedy by
-    /// realm size: a name that would overlap a bigger realm's name, or leave the
-    /// screen or go under the top bar, is hidden until zooming makes room.
+    /// Places every realm name over its anchor for the current camera, kept on
+    /// the visible part of the map (below the top bar): a name that would run
+    /// past an edge slides inward. Greedy by realm size: a name that would
+    /// overlap a bigger realm's name is hidden until zooming makes room.
     /// </summary>
     void UpdateLabels()
     {
         if (_mapLabels.Count == 0 || _camera == null || !IsInsideTree())
             return;  // offscreen MapViews (tests) have no camera or viewport
         var screen = GetViewportRect().Size;
-        var bounds = new Rect2(0, LabelTopMargin, screen.X, screen.Y - LabelTopMargin);
+        float z = _camera.Zoom.X;
+        var mapOnScreen = new Rect2((Vector2.Zero - _camera.Position) * z + screen / 2f, MapSize * z);
+        var bounds = new Rect2(0, HudTopMargin, screen.X, screen.Y - HudTopMargin).Intersection(mapOnScreen);
         var placed = new List<Rect2>();
         foreach (var (label, world, _) in _mapLabels)
         {
             var size = label.GetMinimumSize();
-            var center = (world - _camera.Position) * _camera.Zoom.X + screen / 2f;
+            var center = (world - _camera.Position) * z + screen / 2f;
             var rect = new Rect2(center - size / 2f, size);
-            bool fits = bounds.Encloses(rect) && !placed.Any(other => rect.Grow(6).Intersects(other));
+            bool fits = size.X <= bounds.Size.X && size.Y <= bounds.Size.Y && bounds.HasPoint(center);
+            if (fits)
+            {
+                rect.Position = new Vector2(
+                    Math.Clamp(rect.Position.X, bounds.Position.X, bounds.End.X - size.X),
+                    Math.Clamp(rect.Position.Y, bounds.Position.Y, bounds.End.Y - size.Y));
+                fits = !placed.Any(other => rect.Grow(6).Intersects(other));
+            }
             label.Visible = fits;
             if (fits)
             {
