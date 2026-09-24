@@ -187,6 +187,8 @@ public partial class GameRoot : Node2D
             if (await SaveFromPauseMenu())
                 GetTree().Quit();
         };
+        PauseMenu.ReturnToMenuWithoutSavingRequested += () => GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
+        PauseMenu.QuitWithoutSavingRequested += () => GetTree().Quit();
     }
 
     async Task<bool> SaveFromPauseMenu()
