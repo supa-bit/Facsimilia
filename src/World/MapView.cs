@@ -204,17 +204,17 @@ public partial class MapView : Node2D
         GD.Print($"Facsimilia map view ready: {GridWidth}x{GridHeight} cells, year {DemoYear}.");
     }
 
-    public Task<bool> SaveCurrentGame() =>
-        SaveSystem.SaveGame(Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict());
+    public Task<bool> SaveCurrentGame(string slot) =>
+        SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict());
 
     /// <summary>
     /// Restores a saved world instead of generating one: skips seeding and
     /// re-runs only the rendering tail GenerateWorld() ends with. Returns false
     /// (leaving this MapView unchanged) if there's no usable save.
     /// </summary>
-    public async Task<bool> LoadSavedGame()
+    public async Task<bool> LoadSavedGame(string slot)
     {
-        var loaded = SaveSystem.LoadGame();
+        var loaded = SaveSystem.LoadGame(slot);
         if (loaded == null)
             return false;
         if (loaded.Grid.Width != GridWidth || loaded.Grid.Height != GridHeight)

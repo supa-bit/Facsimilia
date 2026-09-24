@@ -8,7 +8,7 @@ public partial class SaveFullWorldTest : TestRunner
 {
     protected override async Task Run()
     {
-        SaveSystemTest.DeleteSave();
+        SaveSystemTest.UseCleanTestFolder();
         var map = await WorldFixture.Seeded();
         map.StartPopulation();
         map.AdvanceYear();  // a year of dynasty and population state, not just a fresh start
@@ -16,12 +16,12 @@ public partial class SaveFullWorldTest : TestRunner
         int rome = map.CivRealmIds["rome"];
         int romeBefore = WorldFixture.CountCells(map, rome);
         Check(romeBefore > 0, "Rome has no territory");
-        Check(await map.SaveCurrentGame(), "save failed");
-        Check(SaveSystem.HasSave(), "no save written");
+        Check(await map.SaveCurrentGame("slot1"), "save failed");
+        Check(SaveSystem.HasSave("slot1"), "no save written");
 
         // Load into a second, independent instance: not the same in-memory objects.
         var map2 = new MapView();
-        Check(await map2.LoadSavedGame(), "load failed");
+        Check(await map2.LoadSavedGame("slot1"), "load failed");
         Check(map2.DemoYear == -290, $"year {map2.DemoYear}, expected -290");
         Check(map2.PlayerRealmId == map.PlayerRealmId, "player realm differs");
         Check(map2.Registry.Characters.Count == map.Registry.Characters.Count, "character count differs");

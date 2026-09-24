@@ -7,8 +7,9 @@ namespace Facsimilia.UI;
 
 /// <summary>
 /// The boot scene (project.godot run/main_scene). "New Game" goes to Main.tscn,
-/// whose GameRoot runs the intro and realm selection; "Continue" sets
-/// SaveSystem.ContinueRequested so GameRoot loads the save instead.
+/// whose GameRoot runs the intro and realm selection; "Continue" (the most
+/// recent save) and "Load Game" (any slot) set SaveSystem.PendingLoadSlot so
+/// GameRoot loads that save instead.
 /// </summary>
 public partial class MainMenu : Control
 {
@@ -56,15 +57,23 @@ public partial class MainMenu : Control
         column.AddChild(buttons);
         var newGame = MenuButton("New Game", "new_game", () => GetTree().ChangeSceneToFile("res://scenes/Main.tscn"));
         buttons.AddChild(newGame);
-        var continueButton = MenuButton("Continue", "continue", () =>
-        {
-            SaveSystem.ContinueRequested = true;
-            GetTree().ChangeSceneToFile("res://scenes/Main.tscn");
-        });
-        continueButton.Disabled = !SaveSystem.HasSave();
-        if (continueButton.Disabled)
-            continueButton.TooltipText = "No saved game yet.";
+        SaveSystem.MigrateLegacySave();
+        var latest = SaveSystem.MostRecent();
+        var continueButton = MenuButton("Continue", "continue", () => LoadSlot(latest!.Slot));
+        continueButton.Disabled = latest == null;
+        continueButton.TooltipText = latest == null
+            ? "No saved game yet."
+            : $"Your most recent save: {SaveSystem.SlotName(latest.Slot)}, saved {latest.SavedText()}.";
         buttons.AddChild(continueButton);
+        if (latest != null)
+        {
+            var summary = ThemeAncient.Label($"{latest.RealmName} · {ThemeAncient.YearText(latest.Year)} · {SaveSystem.SlotName(latest.Slot)}",
+                "SubtleLabel", 17);
+            buttons.AddChild(summary);
+        }
+        var loadButton = MenuButton("Load Game", "log", OpenLoadPanel);
+        loadButton.Disabled = latest == null;
+        buttons.AddChild(loadButton);
         buttons.AddChild(MenuButton("Settings", "settings", OpenSettings));
         buttons.AddChild(MenuButton("Quit to Desktop", "quit", () => GetTree().Quit()));
 
@@ -95,12 +104,34 @@ public partial class MainMenu : Control
     /// <summary>"Build a8f0a45 · compiled 2026-09-24 18:02 UTC", from attributes Facsimilia.csproj stamps in.</summary>
     public static string BuildStamp()
     {
-        string Meta(string key) => typeof(MainMenu).Assembly
-            .GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false)
-            .Cast<System.Reflection.AssemblyMetadataAttribute>()
-            .FirstOrDefault(a => a.Key == key)?.Value ?? "";
-        string commit = Meta("Commit");
+        string commit = BuildCommit();
         return $"Build {(commit == "" ? "(unknown commit)" : commit)} · compiled {Meta("BuiltUtc")} UTC";
+    }
+
+    /// <summary>The commit this code was compiled from, or "" if unknown.</summary>
+    public static string BuildCommit() => Meta("Commit");
+
+    static string Meta(string key) => typeof(MainMenu).Assembly
+        .GetCustomAttributes(typeof(System.Reflection.AssemblyMetadataAttribute), false)
+        .Cast<System.Reflection.AssemblyMetadataAttribute>()
+        .FirstOrDefault(a => a.Key == key)?.Value ?? "";
+
+    void LoadSlot(string slot)
+    {
+        SaveSystem.PendingLoadSlot = slot;
+        GetTree().ChangeSceneToFile("res://scenes/Main.tscn");
+    }
+
+    void OpenLoadPanel()
+    {
+        var panel = new SaveSlotsPanel(SaveSlotsPanel.Mode.Load) { Theme = Theme };
+        AddChild(panel);
+        panel.SlotChosen += LoadSlot;
+        panel.Closed += () =>
+        {
+            panel.QueueFree();
+            GetTree().ReloadCurrentScene();  // saves may have been deleted: refresh Continue
+        };
     }
 
     static Button MenuButton(string text, string icon, Action onPressed)

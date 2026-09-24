@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Facsimilia.World;
 using Godot;
 
 namespace Facsimilia.UI;
@@ -12,8 +13,17 @@ namespace Facsimilia.UI;
 public partial class PauseMenu : Control
 {
     [Signal] public delegate void ResumeRequestedEventHandler();
-    [Signal] public delegate void SaveAndReturnToMenuRequestedEventHandler();
-    [Signal] public delegate void SaveAndQuitRequestedEventHandler();
+    /// <summary>Save to this slot, then: 0 stay in the pause menu, 1 return to the main menu, 2 quit.</summary>
+    [Signal] public delegate void SaveRequestedEventHandler(string slot, int then);
+
+    public const int ThenStay = 0, ThenMainMenu = 1, ThenQuit = 2;
+
+    /// <summary>
+    /// The slot this game was loaded from or last saved to, set by GameRoot;
+    /// "Save and ..." saves there without asking. Null for a new game (or one
+    /// loaded from the autosave): they ask for a slot first.
+    /// </summary>
+    public string? CurrentSlot { get; set; }
     [Signal] public delegate void ReturnToMenuWithoutSavingRequestedEventHandler();
     [Signal] public delegate void QuitWithoutSavingRequestedEventHandler();
 
@@ -29,6 +39,9 @@ public partial class PauseMenu : Control
     Button _confirmCancel = null!;
     StringName? _pendingLeave;  // the signal the confirmation page will emit
     SettingsPanel? _settingsPanel;
+    SaveSlotsPanel? _slotsPanel;
+    Button _saveAndMenu = null!;
+    Button _saveAndQuit = null!;
 
     public override void _Ready()
     {
@@ -44,10 +57,11 @@ public partial class PauseMenu : Control
         panel.AddChild(pages);
         _mainPage = Page(pages, "Paused");
         AddButton(_mainPage, "Resume", "end_turn", () => EmitSignal(SignalName.ResumeRequested)).GrabFocus();
+        AddButton(_mainPage, "Save Game...", "save", () => ChooseSlot(ThenStay));
         AddButton(_mainPage, "Settings", "settings", OpenSettings);
         _mainPage.AddChild(new HSeparator());
-        AddButton(_mainPage, "Save and Return to Main Menu", "save", () => EmitSignal(SignalName.SaveAndReturnToMenuRequested));
-        AddButton(_mainPage, "Save and Quit to Desktop", "save", () => EmitSignal(SignalName.SaveAndQuitRequested));
+        _saveAndMenu = AddButton(_mainPage, "Save and Return to Main Menu", "save", () => SaveThen(ThenMainMenu));
+        _saveAndQuit = AddButton(_mainPage, "Save and Quit to Desktop", "save", () => SaveThen(ThenQuit));
         _mainPage.AddChild(new HSeparator());
         AddButton(_mainPage, "Return to Main Menu Without Saving", "quit",
             () => AskToLeave(SignalName.ReturnToMenuWithoutSavingRequested, "Return to the main menu without saving?"));
@@ -127,6 +141,42 @@ public partial class PauseMenu : Control
             _settingsPanel = null;
             _center.Visible = true;
         };
+    }
+
+    public override void _Process(double delta)
+    {
+        string where = CurrentSlot == null ? "" : $" ({SaveSystem.SlotName(CurrentSlot)})";
+        _saveAndMenu.Text = "Save and Return to Main Menu" + where;
+        _saveAndQuit.Text = "Save and Quit to Desktop" + where;
+    }
+
+    void SaveThen(int then)
+    {
+        if (CurrentSlot != null)
+            EmitSignal(SignalName.SaveRequested, CurrentSlot, then);
+        else
+            ChooseSlot(then);
+    }
+
+    void ChooseSlot(int then)
+    {
+        if (_slotsPanel != null)
+            return;
+        _slotsPanel = new SaveSlotsPanel(SaveSlotsPanel.Mode.Save) { Theme = Theme };
+        AddChild(_slotsPanel);
+        _center.Visible = false;
+        void Close()
+        {
+            _slotsPanel!.QueueFree();
+            _slotsPanel = null;
+            _center.Visible = true;
+        }
+        _slotsPanel.SlotChosen += slot =>
+        {
+            Close();
+            EmitSignal(SignalName.SaveRequested, slot, then);
+        };
+        _slotsPanel.Closed += Close;
     }
 
     /// <summary>Called by GameRoot while a save is in flight, so it can't be triggered twice.</summary>

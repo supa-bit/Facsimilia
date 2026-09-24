@@ -19,9 +19,6 @@ Small, cheap, and they protect everything built after them.
       "Assets release" button in the Actions tab.
 - [ ] **Automatic tests on GitHub**: every push builds the game and runs all
       test suites, so breakage is caught even between sessions.
-- [ ] **Save safety**: several save slots, an autosave, and a warning before
-      a save is overwritten. Today there's one slot and a new game's save
-      silently replaces the old one.
 
 ## Build order (from MECHANICS.md)
 
@@ -118,6 +115,11 @@ These aren't in the design yet. Each one blocks the work listed after it.
       succession through grandchildren, brothers and cousins, new houses
       when a line ends or a throne is seized; names from eight cultures
 - [x] Save and load
+- [x] Save safety: three save slots plus an autosave every 10 years,
+      a warning before overwriting, Load Game list with delete, crash-safe
+      writing (an interrupted save never damages the old one); the old
+      single save moves into slot 1 automatically
+- [x] Red on-screen warning when the game runs old compiled code
 - [x] HYDE population data and the population engine (see step 2)
 - [x] Whole game ported to C# (population tick ~30 ms, world generation
       ~3 s); all GDScript removed

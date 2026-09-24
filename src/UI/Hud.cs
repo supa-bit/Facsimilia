@@ -23,6 +23,7 @@ public partial class Hud : Control
     ColorRect _realmBanner = null!;
     Control _populationItem = null!;
     VBoxContainer _chronicle = null!;
+    Label _status = null!;
     readonly List<string> _entries = new();
 
     public override void _Ready()
@@ -121,6 +122,10 @@ public partial class Hud : Control
         box.AddThemeConstantOverride("separation", 12);
         AddChild(box);
 
+        _status = ThemeAncient.Label("", "SubtleLabel", 17, HorizontalAlignment.Right);
+        _status.Visible = false;
+        box.AddChild(_status);
+
         var zoomRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.End };
         zoomRow.AddThemeConstantOverride("separation", 6);
         box.AddChild(zoomRow);
@@ -179,6 +184,18 @@ public partial class Hud : Control
         _entries.Clear();
         _entries.Add($"{ThemeAncient.YearText(map.DemoYear)} — The reign of {map.GetPlayerRealm().Name} begins.");
         RenderChronicle();
+    }
+
+    /// <summary>A short note above the turn button ("Autosaving..."); hidden again after fadeAfter seconds if given.</summary>
+    public async void ShowStatus(string text, double fadeAfter = 0)
+    {
+        _status.Text = text;
+        _status.Visible = true;
+        if (fadeAfter <= 0)
+            return;
+        await ToSignal(GetTree().CreateTimer(fadeAfter), SceneTreeTimer.SignalName.Timeout);
+        if (IsInstanceValid(this) && _status.Text == text)
+            _status.Visible = false;
     }
 
     public void Refresh()

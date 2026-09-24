@@ -228,7 +228,7 @@ public static class ThemeAncient
             box.AddChild(new ColorRect
             {
                 Color = new Color(Gold, 0.6f),
-                CustomMinimumSize = new Vector2(width / 2f - 16, 1),
+                CustomMinimumSize = new Vector2(width / 2f - 16, 2),  // 2px: 1px vanishes when the window is smaller than 1920x1080
                 SizeFlagsVertical = Control.SizeFlags.ShrinkCenter,
                 MouseFilter = Control.MouseFilterEnum.Ignore,
             });

@@ -8,8 +8,9 @@ namespace Facsimilia.World;
 /// <summary>
 /// Main.tscn's root: runs a game session. New game: title card, realm
 /// selection, world generation (behind a loading screen), then the HUD.
-/// Continue (SaveSystem.ContinueRequested): load the save instead. Escape
-/// opens the pause menu, which can save and leave.
+/// Continue / Load Game (SaveSystem.PendingLoadSlot): load that save instead.
+/// Escape opens the pause menu, which saves to a slot; every
+/// SaveSystem.AutosaveEveryYears years the game autosaves.
 /// </summary>
 public partial class GameRoot : Node2D
 {
@@ -26,6 +27,9 @@ public partial class GameRoot : Node2D
     public Hud? Hud { get; private set; }
     public CivSelect? CivSelect { get; private set; }
     public PauseMenu? PauseMenu { get; private set; }
+    /// <summary>The manual slot this game was loaded from or last saved to; null for a new game.</summary>
+    public string? CurrentSlot { get; private set; }
+    bool _saving;
     CanvasLayer _uiLayer = null!;  // keeps UI in screen space, unaffected by the map camera
     Control? _loadingScreen;
     Label? _loadingLabel;
@@ -34,10 +38,10 @@ public partial class GameRoot : Node2D
     {
         _uiLayer = new CanvasLayer { Layer = 1 };
         AddChild(_uiLayer);
-        if (SaveSystem.ContinueRequested)
+        if (SaveSystem.PendingLoadSlot is { } slot)
         {
-            SaveSystem.ContinueRequested = false;
-            if (await StartContinuedGame())
+            SaveSystem.PendingLoadSlot = null;
+            if (await StartContinuedGame(slot))
                 return;
             // No save, or it couldn't be read: start fresh rather than a dead screen.
         }
@@ -53,18 +57,19 @@ public partial class GameRoot : Node2D
         CivSelect.CivChosen += OnCivChosen;
     }
 
-    async Task<bool> StartContinuedGame()
+    async Task<bool> StartContinuedGame(string slot)
     {
         Map = NewMap();
         bool loaded = false;
-        await RunLoadingScreen("300 BC", "Loading your realm...", ContinueMinSeconds,
-            async () => loaded = await Map.LoadSavedGame());
+        await RunLoadingScreen("FACSIMILIA", "Loading your realm...", ContinueMinSeconds,
+            async () => loaded = await Map.LoadSavedGame(slot));
         if (!loaded)
         {
             Map.QueueFree();
             Map = null;
             return false;
         }
+        CurrentSlot = slot == SaveSystem.AutosaveSlot ? null : slot;
         ShowHud();
         return true;
     }
@@ -146,13 +151,25 @@ public partial class GameRoot : Node2D
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 
-    void OnAdvanceRequested()
+    async void OnAdvanceRequested()
     {
-        if (PauseMenu != null || _loadingScreen != null || Map == null || Hud == null)
+        if (PauseMenu != null || _loadingScreen != null || _saving || Map == null || Hud == null)
             return;
         var events = Map.AdvanceYear();
         Hud.Refresh();
         Hud.LogEvents(events);
+        if (Math.Abs(Map.DemoYear - MapView.StartYear) % SaveSystem.AutosaveEveryYears == 0)
+            await Autosave();
+    }
+
+    /// <summary>Every few years, into the autosave slot (never over the player's own slots).</summary>
+    async Task Autosave()
+    {
+        _saving = true;
+        Hud!.ShowStatus("Autosaving...");
+        bool ok = await Map!.SaveCurrentGame(SaveSystem.AutosaveSlot);
+        Hud.ShowStatus(ok ? "Autosaved." : "Autosave failed.", fadeAfter: 2.5);
+        _saving = false;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -177,26 +194,35 @@ public partial class GameRoot : Node2D
             PauseMenu.QueueFree();
             PauseMenu = null;
         };
-        PauseMenu.SaveAndReturnToMenuRequested += async () =>
+        PauseMenu.CurrentSlot = CurrentSlot;
+        PauseMenu.SaveRequested += async (slot, then) =>
         {
-            if (await SaveFromPauseMenu())
+            if (!await SaveFromPauseMenu(slot))
+                return;
+            if (then == PauseMenu.ThenMainMenu)
                 GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
-        };
-        PauseMenu.SaveAndQuitRequested += async () =>
-        {
-            if (await SaveFromPauseMenu())
+            else if (then == PauseMenu.ThenQuit)
                 GetTree().Quit();
+            else
+            {
+                PauseMenu.ShowMessage($"Saved to {SaveSystem.SlotName(slot)}.");
+                PauseMenu.SetBusy(false);
+            }
         };
         PauseMenu.ReturnToMenuWithoutSavingRequested += () => GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
         PauseMenu.QuitWithoutSavingRequested += () => GetTree().Quit();
     }
 
-    async Task<bool> SaveFromPauseMenu()
+    async Task<bool> SaveFromPauseMenu(string slot)
     {
         PauseMenu!.SetBusy(true);
         PauseMenu.ShowMessage("Saving...");
-        if (await Map!.SaveCurrentGame())
+        if (await Map!.SaveCurrentGame(slot))
+        {
+            CurrentSlot = slot;
+            PauseMenu.CurrentSlot = slot;
             return true;
+        }
         PauseMenu.ShowMessage("Save failed - try again.");
         PauseMenu.SetBusy(false);
         return false;
