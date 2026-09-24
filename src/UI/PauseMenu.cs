@@ -55,6 +55,7 @@ public partial class PauseMenu : Control
             () => AskToLeave(SignalName.QuitWithoutSavingRequested, "Quit to the desktop without saving?"));
         _status = new Label { AutowrapMode = TextServer.AutowrapMode.Word, CustomMinimumSize = new Vector2(380, 0), Visible = false };
         _mainPage.AddChild(_status);
+        _mainPage.AddChild(ThemeAncient.Label(MainMenu.BuildStamp(), "SubtleLabel", 15, HorizontalAlignment.Center));
 
         _confirmPage = Page(pages, "Leave Without Saving");
         _confirmPage.Visible = false;

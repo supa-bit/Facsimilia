@@ -75,13 +75,16 @@ public partial class MainMenu : Control
         footer.Position = new Vector2(140, -44);
         AddChild(footer);
 
-        var stamp = ThemeAncient.Label(BuildStamp(), "SmallLabel", 14, HorizontalAlignment.Right);
+        var stamp = ThemeAncient.Label(BuildStamp(), fontSize: 18, align: HorizontalAlignment.Right);
+        stamp.AddThemeColorOverride("font_color", new Color(0.93f, 0.84f, 0.62f));
+        stamp.AddThemeColorOverride("font_outline_color", new Color(0, 0, 0, 0.85f));
+        stamp.AddThemeConstantOverride("outline_size", 4);
         // Pinned to the bottom-right corner, growing up and left to fit its text.
         stamp.SetAnchorsPreset(LayoutPreset.BottomRight);
         stamp.GrowHorizontal = GrowDirection.Begin;
         stamp.GrowVertical = GrowDirection.Begin;
         stamp.OffsetLeft = stamp.OffsetRight = -24;
-        stamp.OffsetTop = stamp.OffsetBottom = -30;
+        stamp.OffsetTop = stamp.OffsetBottom = -34;
         stamp.TooltipText = "The version you're running. If this doesn't match the latest change, pull again or rebuild.";
         stamp.MouseFilter = MouseFilterEnum.Pass;
         AddChild(stamp);
