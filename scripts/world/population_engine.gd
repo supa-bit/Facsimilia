@@ -24,20 +24,24 @@ extends RefCounted
 # historical start is a fixed point, and nothing drifts until play
 # changes the drivers.
 #
-# Constants are calibrated in tools/calibrate_population.py against how
-# long real founded cities took to reach the world top 50 / top 10.
+# Constants are calibrated in tools/calibrate_population.py --hyde, on the
+# real 300 BC grid, against how long real founded cities took to reach the
+# world top 50 / top 10.
 
 const ALPHA := 0.175   # historical pull on H_final
-const BETA := 0.25     # how strongly existing population attracts more
-const MU := 0.0115     # share of the log gap to target closed per year
+const BETA := 5.0      # how strongly existing population attracts more
+const MU := 0.0625     # share of the log gap to target closed per year
 const K := 2.0         # urbanization exponent (ancient/agrarian eras)
+# Rate a lost player city's excess fades back to history: ~60 years to
+# halve it on a log scale. Kept apart from MU, which the growth fit set.
+const LEGACY_MU := 0.0115
 
 enum CapitalKind { COUNTRY, PROVINCE }
 # One-time resettlement when a city first becomes a capital, as a share of
 # the largest node's population, drawn from the realm's other nodes.
-const CAPITAL_TRANSFER := [0.05, 0.01]
+const CAPITAL_TRANSFER := [0.08, 0.04]
 # Added to the capital node's drivers for as long as it stays capital.
-const CAPITAL_DRIVER_BONUS := [0.20, 0.15]
+const CAPITAL_DRIVER_BONUS := [0.05, 0.0]
 
 const RESETTLE_YEARS := 25   # an emptied node resettles on its own after a generation
 const TARGET_FLOOR := 0.5    # log-scale math needs a positive target; below 1 person rounds to 0
@@ -300,7 +304,7 @@ func _allowance(i: int) -> float:
 	return maxf(hist_pop[i], legacy[i])
 
 # Player-built excess on nodes the player no longer holds relaxes toward
-# the ceiling on the normal log-scale MU curve (~60 years to halve).
+# the ceiling on a log-scale LEGACY_MU curve (~60 years to halve).
 func _update_legacy() -> void:
 	var lg := legacy
 	var owners := node_owner
@@ -310,7 +314,7 @@ func _update_legacy() -> void:
 		if l <= 0.0 or owners[i] == pid:
 			continue
 		var ceiling := maxf(hist_pop[i], TARGET_FLOOR)
-		lg[i] = 0.0 if l <= ceiling else l * pow(ceiling / l, MU)
+		lg[i] = 0.0 if l <= ceiling else l * pow(ceiling / l, LEGACY_MU)
 	legacy = lg
 
 func _apply_ceiling_to_targets(target: PackedFloat32Array) -> void:

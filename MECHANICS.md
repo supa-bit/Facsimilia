@@ -186,8 +186,9 @@ history" behavior. Explicit relaxation of `H_sim` toward `H_hist` was the
 alternative. It was rejected because it drags on the simulation directly
 instead of acting through population.
 
-**`β = 0.25`, together with population inertia `μ = 0.0115` (stage 2).
-Both are calibrated to real founded cities. (decided)** Feedback alone
+**`β = 5.0`, together with population inertia `μ = 0.0625` (stage 2).
+Both are calibrated to real founded cities on the real HYDE grid.
+(decided)** Feedback alone
 can't make history slow to bend. The update is a contraction whose
 per-tick factor is at most `1 - α`, so any change in drivers settles
 within a few years whatever `β` is. A simulation showed a barren node
@@ -231,59 +232,54 @@ different populations: capitals founded by decree and organically grown
 commercial cities. So the base engine is now fitted to **non-capitals
 (100/166)**, and capitals reach **24/78** through their own bonus.
 
-**Fit.** A toy simulation: 5,000 nodes, a rural background plus 300
-cities on an ancient-style rank-size curve (population ∝ rank^-0.6, i.e.
-flatter than modern Zipf), `k = 2`, yearly ticks. It measures a median
-rural node given drivers matching the world's best site and held there.
-A grid search (`tools/calibrate_population.py`, rerunnable) gives **`β =
-0.25`, `μ = 0.0115` → top 50 at year 96, top 10 at year 166.** That's the
-closest fit available. The model's growth curve can't quite reproduce
-non-capitals' short 1.66x gap between the two milestones, so top 50 lands
-four years early. Behavior at these values:
+**Fit.** `python3 tools/calibrate_population.py --hyde` simulates every
+land node of the real baked 300 BC keyframe (284,626 nodes), `k = 2`,
+yearly ticks, history held at 300 BC. It measures the median populated
+node given drivers matching the world's best site and held there. Ranks
+are within the map's extent, not the whole planet, so the map region's
+rank-size curve is what matters. A coarse-then-fine grid search gives
+**`β = 5.0`, `μ = 0.0625` → top 50 at year 102, top 10 at year 168**,
+the closest fit found. `scripts/tests/test_population_hyde.gd` checks the
+engine reproduces it.
+
+HYDE's top is flat: at 300 BC the #10 node holds ~20,000 and the #50
+~15,000, so a city that passes #50 is close to #10. Getting the historical
+66-year gap between the two needs a city whose growth slows sharply as it
+nears the top. A large `β` does that: existing population, not drivers,
+dominates heat, so a newcomer's pull weakens against the established
+giants. The fast `μ` then gets it to the top 50 on time.
+
+The constants were first fitted on a synthetic toy world (5,000 nodes on
+an ancient rank-size curve, population ∝ rank^-0.6): `β = 0.25`,
+`μ = 0.0115`, 96/166 there, but 143/165 on the real grid. The toy world
+is kept only as a fast test fixture.
+
+Behavior at these values, measured on the real grid (the old toy-fit
+values in brackets):
 
 | Scenario | Result |
 |---|---|
-| Barren median node, drivers maxed and held indefinitely (player only; see Historical ceiling) | Top 50 at **96 years**, top 10 at **166 years**. Levels off at ~64% of the largest city's population, the world's #3, after a few centuries |
-| Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~92 years, and it drops out of the top 20% and loses its name after ~260 years |
-| 6th-largest historical city loses **all** its drivers for 30 years | Loses ~49% of its population but keeps its name. Back to 90% of its former size ~190 years after the war ends. Harsh, but this is total loss of food, trade, and infrastructure for a generation, the Rome-after-the-sack scale of disaster |
+| Barren median node, drivers maxed and held indefinitely (player only; see Historical ceiling) | Top 50 at **102 years**, top 10 at **168 years**. Levels off at ~21% of the largest city's population, the map's #8 [62%, #2] |
+| Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~73 years [104] |
+| 6th-largest historical city loses **all** its drivers for 30 years | Loses ~37% of its population [49%] and is back to 90% of its former size ~72 years after the war ends [191]. Established cities are sturdier: their own population holds their heat up |
 
-History's pull at these values comes from `α`, from the slow `μ`, and,
-for everyone except the player, from the hard Historical ceiling below.
-These values were fitted on a synthetic toy city distribution.
-`python3 tools/calibrate_population.py --hyde` reruns the same fits on
-every land node of the real baked 300 BC keyframe. (Ranks there are within
-the map's extent, not the whole planet, so the rank-size curve of the map
-region is what matters.) Result on the real grid:
-
-| Test node | Current constants (top 50 / top 10) | Best refit | Target |
-|---|---|---|---|
-| Ordinary | 143y / 165y | 139y / 163y (β 0.75, μ 0.0145) | 100 / 166 |
-| Country capital | 42y / 59y | 38y / 62y (transfer 7%, no bonus) | 24 / 78 |
-| Province capital | 85y / 103y | 80y / 104y (transfer 2%, no bonus) | 62 / 122 |
-
-No constants fit both times, and the refit barely improves on the current
-values, so they stay as they are for now. **(open)** The cause is the
-shape of HYDE's curve, not the constants. HYDE's top is flat: at 300 BC
-the #10 node holds ~20,000 and the #50 ~15,000, so a growing city that
-passes #50 is almost at #10. Every combination tried lands the two about
-25 years apart, against the 55-65 years the historical founded cities
-took. Options: target only one of the two ranks, measure ranks on the
-largest nodes of a settlement cluster (stage 3) rather than single nodes,
-or take the historical times as world ranks rather than map ranks.
+History's pull at these values comes from `α`, from the large `β`
+(established places keep their weight), and, for everyone except the
+player, from the hard Historical ceiling below.
 
 ### 2. Heatmap-to-population translation
 
 ```
 Target_node   = C * H_final ^ k
-Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0115 / year
+Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0625 / year
 ```
 
 Population is a **stock**, not recomputed from scratch each tick. People
-can only be born, die, and migrate so fast. Each year a node closes ~1.2%
+can only be born, die, and migrate so fast. Each year a node closes ~6%
 of the gap to its target, **measured on a log scale**: growth and decline
 are percentage rates, like real demography. A town 100x below its target
-grows ~5% a year, a boomtown rate. A city 10% below its target grows
-~0.1% a year. The log-scale form is required, not stylistic. A linear
+grows ~33% a year, a gold-rush boom that fades fast as it closes in. A
+city 10% below its target grows ~0.7% a year. The log-scale form is required, not stylistic. A linear
 step (`Pop += μ(Target - Pop)`) grows fastest at the very start, which
 makes a founded city's climb from top 50 to top 10 take at least ~2.6x as
 long as reaching the top 50, versus ~1.8x historically. Compounding growth
@@ -369,8 +365,10 @@ point of the historical pull.) Rules:
 - **Player legacy fades instead of snapping:** when a node the player
   held above its ceiling passes out of player ownership (conquest, or
   abandoning the land), `Allowance_i` starts at the node's population at
-  that moment and relaxes toward `Ceiling_i` on the normal log-scale `μ`
-  curve: about 60 years to halve the excess on a log scale. The city
+  that moment and relaxes toward `Ceiling_i` on a log-scale curve of its
+  own, `μ_legacy = 0.0115`: about 60 years to halve the excess on a log
+  scale. It's kept apart from `μ`, which the growth fit set to 0.0625;
+  at that rate a lost city would be back to history within a generation. The city
   shrinks back to history gradually rather than overnight. Once
   `Allowance_i` reaches the ceiling, the node is an ordinary capped node
   again.
@@ -407,15 +405,20 @@ Two parts, both historically grounded, fitted to the targets above:
 
 | | One-time resettlement when designated | Ongoing driver bonus | → top 50 | → top 10 | Historical target |
 |---|---|---|---|---|---|
-| Country capital | **5%** of the largest city's population | **+0.20** | 22y | 77y | 24 / 78 |
-| Province capital | **1%** of the largest city's population | **+0.15** | 62y | 119y | 62 / 122 |
-| Ordinary city | — | — | 96y | 166y | 100 / 166 |
+| Country capital | **8%** of the largest city's population | **+0.05** | 33y | 78y | 24 / 78 |
+| Province capital | **4%** of the largest city's population | none | 62y | 128y | 62 / 122 |
+| Ordinary city | — | — | 102y | 168y | 100 / 166 |
+
+Fitted on the real HYDE grid with the base `β`, `μ` above (see Fit).
+The country capital's top-10 time is exact; its top 50 lands 9 years
+late, the closest the pair gets.
 
 - **Resettlement** reproduces the founding decree. Seleucia was populated
   from Babylon, Samarra from Baghdad, and Antioch started with ~5,300
-  Athenian settlers from Antigonia plus their families. At 300 BC, 5% of
-  the largest city is ~15,000 people for a country capital and 1% is
-  ~3,000 for a province capital, the size of a Roman veteran colony. The
+  Athenian settlers from Antigonia plus their families. At 300 BC the
+  largest node holds ~108,000, so 8% is ~8,600 people for a country
+  capital and 4% is ~4,300 for a province capital, the size of a Roman
+  veteran colony. The
   settlers are **moved, not created**: they're drawn from the realm's other
   nodes in proportion to their population. It happens only the first time a
   given city becomes that realm's capital of that kind, so toggling
@@ -425,7 +428,9 @@ Two parts, both historically grounded, fitted to the targets above:
   tribute spent at the seat. It's added to the node's `drivers` in the
   `H_sim` feedback formula for as long as the city stays capital. When it
   stops being capital, the bonus goes away and the city declines along
-  the normal `μ` curve, which is the Samarra and Pataliputra arc.
+  the normal `μ` curve, which is the Samarra and Pataliputra arc. On the
+  real grid the fit wants it small (+0.05 for a country capital, none for
+  a province capital): resettlement does nearly all the work.
 - A faster growth rate (a `μ` multiplier) was tested as the bonus
   instead. It can't reproduce capitals' fast start: its best fit was 45
   years to the top 50 against a target of 24. Resettlement is what
@@ -755,9 +760,8 @@ layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
 engine now runs on the real grid: 284,626 land nodes, loaded in ~0.5 s.
 A yearly tick takes ~0.5 s headless, fine for now since the game is
 turn-based (one tick per player-requested turn). Known issues on the real
-grid: by 0 AD the non-player world holds 45.6 million
-against HYDE's 48.2 million, because inertia lags the rising ceiling.
-The calibration doesn't fit (see above).
+grid: by 0 AD the non-player world holds 47.7 million against HYDE's
+48.2 million, because inertia lags the rising ceiling.
 
 Each phase should be independently verified against the real headless Godot
 engine (a Godot 4.3 headless build has been used for this in dev sessions;

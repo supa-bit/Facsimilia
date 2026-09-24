@@ -62,9 +62,9 @@ PROVINCE = (even((CAPITAL[0] + ORDINARY[0]) / 2), even((CAPITAL[1] + ORDINARY[1]
 
 N, ALPHA, K = 5000, 0.175, 2
 # The engine's current constants (scripts/world/population_engine.gd).
-ENGINE_BETA, ENGINE_MU = 0.25, 0.0115
-ENGINE_CAPITALS = {"country": dict(transfer=0.05, bonus=0.20),
-                   "province": dict(transfer=0.01, bonus=0.15)}
+ENGINE_BETA, ENGINE_MU = 5.0, 0.0625
+ENGINE_CAPITALS = {"country": dict(transfer=0.08, bonus=0.05),
+                   "province": dict(transfer=0.04, bonus=0.0)}
 
 def toy_world():
     """Rural background + 300 cities on an ancient rank-size curve."""
@@ -157,11 +157,16 @@ def main():
     if args.check_only:
         return
 
-    base = best(ORDINARY, [dict(beta=b, mu=m) for b in np.arange(0.25, 1.01, 0.25)
-                           for m in np.arange(0.009, 0.016, 0.0005)])
+    # Coarse over a wide range, then fine around the best: on the real grid
+    # the fit sits far from the toy world's (beta 5, mu 0.0625 vs 0.25, 0.0115).
+    coarse = best(ORDINARY, [dict(beta=b, mu=m) for b in np.arange(0.25, 8.01, 0.5)
+                             for m in np.arange(0.005, 0.0801, 0.005)])
+    b0, m0 = coarse[0][1]["beta"], coarse[0][1]["mu"]
+    base = best(ORDINARY, [dict(beta=b, mu=m) for b in np.arange(max(0.05, b0 - 0.5), b0 + 0.51, 0.25)
+                           for m in np.arange(max(0.001, m0 - 0.005), m0 + 0.0051, 0.0025)])
     show("ordinary cities (beta, mu)", ORDINARY, base)
     fixed = {k: float(v) for k, v in base[0][1].items()}
-    grid = [dict(transfer=t, bonus=b) for t in np.arange(0, 0.101, 0.01) for b in np.arange(0, 0.51, 0.05)]
+    grid = [dict(transfer=t, bonus=b) for t in np.arange(0, 0.201, 0.01) for b in np.arange(0, 1.01, 0.05)]
     show("country capitals", CAPITAL, best(CAPITAL, grid, **fixed))
     show("province capitals", PROVINCE, best(PROVINCE, grid, **fixed))
 

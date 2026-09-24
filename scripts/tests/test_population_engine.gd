@@ -2,10 +2,13 @@ extends SceneTree
 
 # Population engine tests on a deterministic 100x50 toy world: rural
 # background ~1,000 people per node plus 300 cities on an ancient-style
-# rank-size curve (300,000 * rank^-0.6). Expected calibration timings
-# come from an independent numpy implementation of the same rules on the
-# same fixture, and match tools/calibrate_population.py (96/166 ordinary,
-# 22/77 country capital, 61/119 province capital).
+# rank-size curve (300,000 * rank^-0.6). The climb timings pin the engine
+# to tools/calibrate_population.py's numpy model of the same rules, which
+# gives the same numbers on its toy world (--check-only): 59 years to the
+# top 50 for an ordinary city, 6 for a country capital, 28 for a province
+# capital, and none reaches the top 10. The constants are fitted on the
+# real HYDE grid instead, where that fit is checked:
+# test_population_hyde.gd.
 
 const PopulationEngine := preload("res://scripts/world/population_engine.gd")
 
@@ -89,13 +92,13 @@ func _init() -> void:
 	assert(worst < 1e-3, "historical start drifted by %f" % worst)
 	assert(absf(e.total_population() - total0) / total0 < 1e-4)
 
-	# 2. Calibration: an ordinary player city with best-in-world drivers.
+	# 2. Climb: an ordinary player city with best-in-world drivers.
 	e = _engine([START], [hist], _owners([barren]))
 	e.driver_mods[barren] = 1.0 - h_barren
 	var ordinary := _climb(e, barren, 400)
-	assert(_near(ordinary.x, 96) and _near(ordinary.y, 166), "ordinary city climb %s, expected (96, 166)" % ordinary)
+	assert(_near(ordinary.x, 59) and ordinary.y == 0, "ordinary city climb %s, expected (59, never)" % ordinary)
 
-	# 3. Calibration: country and province capitals, settlers drawn from a
+	# 3. Climb: country and province capitals, settlers drawn from a
 	#    small player realm (nodes 0-399, 19 cities).
 	var realm := range(0, 400)
 	realm.append(barren)
@@ -109,8 +112,8 @@ func _init() -> void:
 		caps[kind] = _climb(e, barren, 400)
 	var country: Vector2i = caps[PopulationEngine.CapitalKind.COUNTRY]
 	var province: Vector2i = caps[PopulationEngine.CapitalKind.PROVINCE]
-	assert(_near(country.x, 22) and _near(country.y, 77), "country capital climb %s, expected (22, 77)" % country)
-	assert(_near(province.x, 61) and _near(province.y, 119), "province capital climb %s, expected (61, 119)" % province)
+	assert(_near(country.x, 6) and country.y == 0, "country capital climb %s, expected (6, never)" % country)
+	assert(_near(province.x, 28) and province.y == 0, "province capital climb %s, expected (28, never)" % province)
 
 	# 4. Resettlement happens only the first time: re-designating after
 	#    losing capital status moves nobody.
