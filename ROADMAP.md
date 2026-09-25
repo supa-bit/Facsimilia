@@ -22,8 +22,9 @@ Small, cheap, and they protect everything built after them.
 
 Each step is verified on the real game before the next begins.
 
-1. [ ] **Provinces**: the `province_id` layer, brush-editable boundaries,
-       drawn on the map. No stats yet.
+1. [x] **Provinces**: the `province_id` layer, ~290 provinces from real
+       300 BC regions, drawn on the map with names, click to inspect (area,
+       people), province brush to redraw your own, new provinces, rename
 2. [~] **Density fields and population**
    - [x] HYDE 3.2.1 population data imported (300 BC derived, 0 AD–2017 AD)
    - [x] Population engine: history blend, historical ceiling, player legacy
@@ -50,7 +51,8 @@ Each step is verified on the real game before the next begins.
       Blocked on the "how do other realms behave" decision below.
 - [ ] **Map views**: population heatmap (the data already exists), regions,
       resources, political (today's view)
-- [ ] **Click a realm or place** to see its details
+- [~] **Click a realm or place** to see its details (provinces done;
+      realms and cities still to come)
 - [ ] **Family tree view**: the player's ruler, heir and court
 - [ ] **A goal**: whatever is decided below
 - [ ] **Sound and music**
@@ -83,6 +85,9 @@ These aren't in the design yet. Each one blocks the work listed after it.
       now": births, marriages, deaths, succession and new houses are built;
       traits, events and intrigue can come later (see MECHANICS.md,
       Dynasties and characters)
+- [ ] **Frontier tribes**: they start with provinces (tribal lands) like
+      every realm. Should they start unorganized instead (weaker, per the
+      design's rules for unorganized land)?
 - [ ] **Personal unions**: should one ruler be able to inherit two realms
       (and what happens to them then)? Today they can't: a monarch is passed
       over for a second throne. *(affects: new realms, diplomacy)*
@@ -133,4 +138,4 @@ These aren't in the design yet. Each one blocks the work listed after it.
 - [x] Build stamp in the main menu corner showing which version is running
 - [x] Session setup (.NET SDK + Godot .NET) and one-click assets release
       workflow
-- [x] 11 automated test suites
+- [x] 12 automated test suites

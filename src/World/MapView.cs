@@ -145,6 +145,8 @@ public partial class MapView : Node2D
     public int PlayerRealmId { get; set; }
     public int DemoYear { get; set; } = StartYear;
     public Dictionary<string, int> CivRealmIds { get; } = new();  // civ key -> realm id
+    /// <summary>The province of every cell; null only until world generation or loading has run.</summary>
+    public ProvinceMap? Provinces { get; private set; }
     /// <summary>Null when the baked HYDE keyframes aren't present; the game then runs without population.</summary>
     public PopulationEngine? Population { get; private set; }
 
@@ -159,7 +161,7 @@ public partial class MapView : Node2D
     CanvasLayer? _labelLayer;
     readonly List<(Label Label, Vector2 World, int Cells)> _mapLabels = new();  // biggest realm first
     Dictionary<int, int> _realmCells = new();  // realm id -> land cells, sizes the realm names
-    bool _painting, _panning;
+    bool _panning;
 
     public override void _Ready()
     {
@@ -195,6 +197,8 @@ public partial class MapView : Node2D
         await SeedFrontierZones();
         if (CivRealmIds.TryGetValue(_pendingPlayerCiv, out int chosen))
             PlayerRealmId = chosen;
+        EmitSignal(SignalName.LoadingStatusChanged, "Drawing the provinces...");
+        await GenerateProvinces();
         EmitSignal(SignalName.LoadingStatusChanged, "Counting the people...");
         StartPopulation();
         EmitSignal(SignalName.LoadingStatusChanged, "Drawing the map...");
@@ -205,7 +209,7 @@ public partial class MapView : Node2D
     }
 
     public Task<bool> SaveCurrentGame(string slot) =>
-        SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict());
+        SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict(), Provinces);
 
     /// <summary>
     /// Restores a saved world instead of generating one: skips seeding and
@@ -226,6 +230,12 @@ public partial class MapView : Node2D
         }
         Grid = loaded.Grid;
         Registry = loaded.Registry;
+        Provinces = loaded.Provinces;
+        if (Provinces == null)
+        {
+            EmitSignal(SignalName.LoadingStatusChanged, "Drawing the provinces...");
+            await GenerateProvinces();  // a save from before provinces
+        }
         DemoYear = loaded.DemoYear;
         PlayerRealmId = loaded.PlayerRealmId;
         Population = null;
@@ -289,6 +299,7 @@ public partial class MapView : Node2D
             ClampAxis(_camera.Position.Y, HudTopMargin, screen.Y, screen.Y / 2f, MapSize.Y, z));
         QueueRedraw();
         UpdateLabels();
+        UpdateProvinceStrength();
     }
 
     /// <summary>
@@ -348,6 +359,7 @@ public partial class MapView : Node2D
     /// <summary>Arrow keys / WASD pan.</summary>
     public override void _Process(double delta)
     {
+        UpdateBrushCursor();
         if (_camera == null || GetViewport().GuiGetFocusOwner() is LineEdit)
             return;
         var dir = Vector2.Zero;
@@ -367,13 +379,9 @@ public partial class MapView : Node2D
         {
             case InputEventMouseButton mb:
                 if (mb.ButtonIndex == MouseButton.Left)
-                {
-                    _painting = mb.Pressed;
-                    if (_painting)
-                        PaintAt(GetGlobalMousePosition());
-                }
-                else if (mb.ButtonIndex == MouseButton.Right && mb.Pressed)
-                    ClearProposal();
+                    HandleLeftButton(mb);
+                else if (mb.ButtonIndex == MouseButton.Right)
+                    HandleRightButton(mb);
                 else if (mb.ButtonIndex == MouseButton.Middle)
                     _panning = mb.Pressed;
                 else if (mb.ButtonIndex == MouseButton.WheelUp && mb.Pressed)
@@ -390,8 +398,10 @@ public partial class MapView : Node2D
                     ZoomToFit();
                 break;
             case InputEventMouseMotion motion:
-                if (_painting)
-                    PaintAt(GetGlobalMousePosition());
+                if (_leftDown)
+                    HandleLeftDrag(motion);
+                else if (_rightDown && Mode == MapMode.EditProvinces)
+                    ProvinceBrushAt(GetGlobalMousePosition(), erase: true);
                 else if (_panning && _camera != null)
                 {
                     // A screen-pixel drag moves the camera less far the more zoomed in it is.
@@ -465,6 +475,14 @@ public partial class MapView : Node2D
     }
 
     // --- World generation -----------------------------------------------------------
+
+    /// <summary>The 300 BC provinces (ProvinceGenerator), computed off the main thread so the window stays responsive.</summary>
+    internal async Task GenerateProvinces()
+    {
+        var seeds = ProvinceGenerator.LoadSeeds();
+        var grid = Grid;
+        Provinces = await Task.Run(() => ProvinceGenerator.Generate(grid, seeds));
+    }
 
     /// <summary>
     /// Yields a frame if (and only if) this node is inside a running tree. Tests
@@ -686,6 +704,7 @@ public partial class MapView : Node2D
             _mapLabels.Add((label, LabelAnchor(realmId, centroid) * CellPixels, cells));
         }
         _mapLabels.Sort((a, b) => b.Cells.CompareTo(a.Cells));
+        BuildProvinceLabels();
         UpdateLabels();
     }
 
@@ -724,6 +743,7 @@ public partial class MapView : Node2D
                 placed.Add(rect);
             }
         }
+        PlaceProvinceLabels(bounds, placed, screen, z);
     }
 
     /// <summary>
@@ -845,6 +865,7 @@ public partial class MapView : Node2D
         _mapTexture = ImageTexture.CreateFromImage(MapImage);
         if (MapSprite != null)
             MapSprite.Texture = _mapTexture;
+        BuildProvinceTexture();
     }
 
     static uint Rgba(Color c) =>

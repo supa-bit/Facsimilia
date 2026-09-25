@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Facsimilia.World;
 
@@ -10,6 +11,7 @@ public partial class SaveFullWorldTest : TestRunner
     {
         SaveSystemTest.UseCleanTestFolder();
         var map = await WorldFixture.Seeded();
+        await map.GenerateProvinces();
         map.StartPopulation();
         map.AdvanceYear();  // a year of dynasty and population state, not just a fresh start
         map.DemoYear = -290;
@@ -28,6 +30,8 @@ public partial class SaveFullWorldTest : TestRunner
         Check(map2.Registry.Realms.Count == map.Registry.Realms.Count, "realm count differs");
         int romeAfter = WorldFixture.CountCells(map2, rome);
         Check(romeAfter == romeBefore, $"Rome had {romeBefore} cells, now {romeAfter}");
+        Check(map2.Provinces != null && map2.Provinces.Cells.AsSpan().SequenceEqual(map.Provinces!.Cells)
+            && map2.Provinces.Provinces.Count == map.Provinces.Provinces.Count, "provinces weren't restored");
         if (map.Population != null)
         {
             Check(map2.Population != null, "population wasn't restored");
@@ -36,7 +40,7 @@ public partial class SaveFullWorldTest : TestRunner
         }
 
         Finish($"Full-world save/load round-trip passed: {romeBefore:N0} Rome cells preserved, " +
-            $"{map2.Registry.Characters.Count} characters and {map2.Registry.Realms.Count} realms restored.");
+            $"{map2.Registry.Characters.Count} characters, {map2.Registry.Realms.Count} realms and {map2.Provinces!.Provinces.Count} provinces restored.");
         map.Free();
         map2.Free();
     }

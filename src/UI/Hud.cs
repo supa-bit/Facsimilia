@@ -33,6 +33,7 @@ public partial class Hud : Control
         BuildTopBar();
         BuildChronicle();
         BuildTurnControls();
+        BuildProvincePanel();
     }
 
     void BuildTopBar()
@@ -126,6 +127,8 @@ public partial class Hud : Control
         _status.Visible = false;
         box.AddChild(_status);
 
+        box.AddChild(BuildModeRow());
+
         var zoomRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.End };
         zoomRow.AddThemeConstantOverride("separation", 6);
         box.AddChild(zoomRow);
@@ -143,7 +146,7 @@ public partial class Hud : Control
         };
         advance.Pressed += () => EmitSignal(SignalName.AdvanceRequested);
         box.AddChild(advance);
-        box.AddChild(ThemeAncient.Label("Scroll to zoom · Middle-drag or WASD to pan · Esc for menu", "SmallLabel", 14,
+        box.AddChild(ThemeAncient.Label("Scroll to zoom · Drag or WASD to pan · 1-3 map modes · Esc for menu", "SmallLabel", 14,
             HorizontalAlignment.Right));
     }
 
@@ -169,21 +172,14 @@ public partial class Hud : Control
         return b;
     }
 
-    public override void _UnhandledKeyInput(InputEvent @event)
-    {
-        if (@event is InputEventKey { Pressed: true, Echo: false } key && key.Keycode is Key.Enter or Key.KpEnter)
-        {
-            EmitSignal(SignalName.AdvanceRequested);
-            GetViewport().SetInputAsHandled();
-        }
-    }
-
     public void Setup(MapView map)
     {
         _map = map;
         _entries.Clear();
         _entries.Add($"{ThemeAncient.YearText(map.DemoYear)} — The reign of {map.GetPlayerRealm().Name} begins.");
         RenderChronicle();
+        ConnectProvinceSignals();
+        RefreshProvincePanel();
     }
 
     /// <summary>A short note above the turn button ("Autosaving..."); hidden again after fadeAfter seconds if given.</summary>
@@ -214,6 +210,7 @@ public partial class Hud : Control
             _rulerLabel.Text = "Interregnum";
             _heirLabel.Text = "—";
         }
+        RefreshProvincePanel();  // its population changes every year
         _populationItem.Visible = _map.Population != null;
         if (_map.Population != null)
             _populationLabel.Text = ThemeAncient.GroupThousands((long)_map.PlayerPopulation());

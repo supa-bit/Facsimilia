@@ -5,6 +5,10 @@
     <RootNamespace>Facsimilia</RootNamespace>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <!-- Optimized code even in the editor's Debug builds: the map work (tens of
+         millions of cells) runs several times faster, at the cost of less
+         precise line-by-line debugging. -->
+    <Optimize>true</Optimize>
   </PropertyGroup>
   <!--
     Build stamp, shown in the main menu's corner (MainMenu.BuildStamp): the git

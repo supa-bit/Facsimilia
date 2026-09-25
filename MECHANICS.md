@@ -61,6 +61,46 @@ For unorganized land (`province_id == 0`), there's no province to defer to:
 works today. Ownership there still changes cell-by-cell via the brush,
 independent of any province. **(decided)**
 
+### Provinces as built **(decided, built — build step 1)**
+
+Code: `src/World/Provinces.cs` (the layer and records),
+`src/World/ProvinceGenerator.cs` (the 300 BC provinces),
+`src/World/MapView.Provinces.cs` / `MapView.ProvinceBrush.cs` (drawing,
+selection, brush), `src/UI/Hud.Provinces.cs` (panel and map modes). Test:
+`ProvinceTest`.
+
+- **Layer.** One province id per cell (`ushort`, 0 = unorganized), saved as
+  `provinces.bin` beside the grid; names and owners go in `state.json`.
+  Stats are always summed over cells (area now; population from the engine).
+- **The 300 BC provinces.** `data/province_seeds.json` lists 245 historical
+  regions c. 300 BC (Latium, Campania, Attica, Babylonia, Media, the
+  Egyptian Delta, Meroe, Celtiberia, Arvernia, Taurica...). Each one on a
+  realm's land becomes a province of that realm; provinces grow from their
+  seeds over the realm's own land until they meet, then their shared
+  borders get a gentle meander. Wherever land is more than ~150 km from
+  any region, an extra province is added and named from the nearest
+  region ("Northern Media"). Unseeded islands under ~1,500 km² join the
+  nearest province. Result: about 290 provinces, two-thirds of them
+  historical names, median ~22,500 km². Every realm starts fully
+  organized, including the frontier tribes (their "provinces" are tribal
+  lands).
+- **On the map.** Province borders are thin and fainter than realm
+  borders, getting stronger as you zoom in; province names appear from
+  about 2x zoom. Unorganized owned land shows paler. The selected
+  province is lightened and outlined in gold.
+- **Map modes** (HUD buttons or keys 1-3): *Inspect* (click selects a
+  province, drag pans), *Provinces* (the province brush), *Conquest* (the
+  old proposal brush, not yet playable).
+- **Province brush.** Same round brush as conquest, a constant size on
+  screen. Left-drag adds the player's own land under it to the selected
+  province (one of the player's); right-drag takes land out of any
+  province, leaving it unorganized. It never touches other realms' land.
+  *New Province* founds an empty one to paint into; a province whose
+  last cell is painted away disappears. The player can rename their own
+  provinces in the panel.
+- **Invariant.** `ProvinceMap.SetRealm` hands a whole province to another
+  realm and rewrites every member cell's ownership in one pass.
+
 ## Unclaimed vs. unorganized land — two different things
 
 Easy to conflate, so pinning it down: **unclaimed** land (`owner_id == 0` in

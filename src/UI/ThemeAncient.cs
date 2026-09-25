@@ -172,6 +172,7 @@ public static class ThemeAncient
     };
 
     public static Font HeadingFont(int weight = 600) => Font(HeadingFontPath, weight);
+    public static Font BodyFont(int weight = 450) => Font(BodyFontPath, weight);
 
     /// <summary>"300 BC", "AD 14". There's no year 0 (1 BC is followed by AD 1); MapView.AdvanceYear() skips it.</summary>
     public static string YearText(int year) => year < 0 ? $"{-year} BC" : $"AD {year}";

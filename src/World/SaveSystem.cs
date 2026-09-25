@@ -10,7 +10,7 @@ namespace Facsimilia.World;
 
 /// <summary>What LoadGame() restores.</summary>
 public sealed record LoadedGame(OwnershipGrid Grid, CharacterRegistry Registry, int DemoYear,
-    int PlayerRealmId, GDictionary Population);
+    int PlayerRealmId, GDictionary Population, ProvinceMap? Provinces);
 
 /// <summary>A save's summary for the slot lists, read without loading the whole game.</summary>
 public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, int Year, string Ruler,
@@ -31,6 +31,8 @@ public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, i
 ///   state.json      year, player realm, grid size, and the character registry
 ///   grid.bin        the ownership grid, one byte per cell (owner ids fit a
 ///                   byte), zlib-compressed; older saves have grid.png
+///   provinces.bin   the province of every cell, two bytes each, zlib-compressed
+///                   (the province names and owners are in state.json)
 ///   population.bin  population engine state, zstd-compressed; absent when
 ///                   the game ran without HYDE data
 /// A save is written to a side folder first and swapped in only once
@@ -67,7 +69,8 @@ public static class SaveSystem
     static string LegacyGrid => InRoot("save_grid.png");
     static string LegacyPopulation => InRoot("save_population.bin");
 
-    const string InfoFile = "info.json", StateFile = "state.json", GridFile = "grid.bin", PopulationFile = "population.bin";
+    const string InfoFile = "info.json", StateFile = "state.json", GridFile = "grid.bin", PopulationFile = "population.bin",
+        ProvincesFile = "provinces.bin";
     const string OldGridFile = "grid.png";  // how slot saves stored the grid before grid.bin (read only)
     const string PartialSuffix = ".partial", OldSuffix = ".old";
 
@@ -129,7 +132,7 @@ public static class SaveSystem
     /// frame first so a "Saving..." message gets drawn before the work starts.
     /// </summary>
     public static async Task<bool> SaveGame(string slot, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
-        int playerRealmId, Node? host = null, GDictionary? population = null)
+        int playerRealmId, Node? host = null, GDictionary? population = null, ProvinceMap? provinces = null)
     {
         if (host != null && host.IsInsideTree())
             await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -141,7 +144,7 @@ public static class SaveSystem
             GD.PushError("SaveSystem: couldn't create " + partial);
             return false;
         }
-        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population))
+        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population, provinces))
         {
             DeleteDir(partial);
             return false;
@@ -166,7 +169,7 @@ public static class SaveSystem
     }
 
     static bool WriteFiles(string dir, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
-        int playerRealmId, GDictionary? population)
+        int playerRealmId, GDictionary? population, ProvinceMap? provinces)
     {
         var bytes = new byte[grid.Cells.Length];
         for (int i = 0; i < bytes.Length; i++)
@@ -179,20 +182,10 @@ public static class SaveSystem
             }
             bytes[i] = (byte)owner;
         }
-        // Raw bytes through .NET's zlib at its fastest level: PNG (and Godot's
-        // own compressed files) took over a second for the 45-million-cell
-        // grid, which paused the game at every autosave.
-        try
-        {
-            using var file = System.IO.File.Create(ProjectSettings.GlobalizePath($"{dir}/{GridFile}"));
-            using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionLevel.Fastest);
-            zlib.Write(bytes);
-        }
-        catch (Exception e)
-        {
-            GD.PushError("SaveSystem: failed to write the grid: " + e.Message);
+        if (!WriteZlib($"{dir}/{GridFile}", bytes))
             return false;
-        }
+        if (provinces != null && !WriteZlib($"{dir}/{ProvincesFile}", provinces.CellBytes()))
+            return false;
 
         var state = new GDictionary
         {
@@ -202,6 +195,8 @@ public static class SaveSystem
             ["player_realm_id"] = playerRealmId,
             ["registry"] = registry.ToDict(),
         };
+        if (provinces != null)
+            state["provinces"] = provinces.ToDict();
         if (!WriteText($"{dir}/{StateFile}", Json.Stringify(state)))
             return false;
 
@@ -291,10 +286,56 @@ public static class SaveSystem
                 population = value.AsGodotDictionary();
         }
 
+        // Saves from before provinces have none; the game then draws the 300 BC ones.
+        ProvinceMap? provinces = null;
+        if (state.TryGetValue("provinces", out var provinceData) && FileAccess.FileExists($"{dir}/{ProvincesFile}"))
+        {
+            var cellBytes = ReadZlib($"{dir}/{ProvincesFile}");
+            provinces = cellBytes == null ? null : ProvinceMap.FromSave(width, height, provinceData.AsGodotDictionary(), cellBytes);
+        }
+
         return new LoadedGame(grid, registry,
             state.TryGetValue("demo_year", out var y) ? y.AsInt32() : 0,
             state.TryGetValue("player_realm_id", out var p) ? p.AsInt32() : 0,
-            population);
+            population, provinces);
+    }
+
+    /// <summary>
+    /// Raw bytes through .NET's zlib at its fastest level: PNG (and Godot's
+    /// own compressed files) took over a second for the 45-million-cell grid,
+    /// which paused the game at every autosave.
+    /// </summary>
+    static bool WriteZlib(string path, byte[] bytes)
+    {
+        try
+        {
+            using var file = System.IO.File.Create(ProjectSettings.GlobalizePath(path));
+            using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionLevel.Fastest);
+            zlib.Write(bytes);
+            return true;
+        }
+        catch (Exception e)
+        {
+            GD.PushError($"SaveSystem: failed to write {path}: {e.Message}");
+            return false;
+        }
+    }
+
+    static byte[]? ReadZlib(string path)
+    {
+        try
+        {
+            using var file = System.IO.File.OpenRead(ProjectSettings.GlobalizePath(path));
+            using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionMode.Decompress);
+            using var bytes = new System.IO.MemoryStream();
+            zlib.CopyTo(bytes);
+            return bytes.ToArray();
+        }
+        catch (Exception e)
+        {
+            GD.PushError($"SaveSystem: failed to read {path}: {e.Message}");
+            return null;
+        }
     }
 
     /// <summary>
@@ -306,19 +347,7 @@ public static class SaveSystem
         width = height = 0;
         if (FileAccess.FileExists($"{dir}/{GridFile}"))
         {
-            try
-            {
-                using var file = System.IO.File.OpenRead(ProjectSettings.GlobalizePath($"{dir}/{GridFile}"));
-                using var zlib = new System.IO.Compression.ZLibStream(file, System.IO.Compression.CompressionMode.Decompress);
-                using var bytes = new System.IO.MemoryStream();
-                zlib.CopyTo(bytes);
-                return bytes.ToArray();
-            }
-            catch (Exception e)
-            {
-                GD.PushError($"SaveSystem: failed to read {dir}/{GridFile}: {e.Message}");
-                return null;
-            }
+            return ReadZlib($"{dir}/{GridFile}");
         }
         var image = new Image();
         if (image.Load($"{dir}/{OldGridFile}") != Error.Ok)
