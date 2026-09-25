@@ -47,7 +47,11 @@ Each step is verified on the real game before the next begins.
    - [ ] Carrying capacity from real arable land and yield (today a
          stand-in: 3x each region's historical population), needs the
          resource field
-   - [ ] Resource presence per cell (coal, ores, water, flora/fauna)
+   - [ ] Resources (proposal in MECHANICS.md, "Resources and the land";
+         decisions waiting in the Ledger): the land layer from real data,
+         then raw-resource potentials and carrying capacity from food,
+         then renewable stocks and weather, then goods and recipes with
+         the economy
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
        the Regions map overlay
@@ -77,8 +81,10 @@ Each step is verified on the real game before the next begins.
 
 ## Decisions
 
-All answered in the Facsimilia Ledger on 25 Sep 2026 (the full reasoning is
-in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
+The first nine were answered in the Facsimilia Ledger on 25 Sep 2026 (the
+full reasoning is in MECHANICS.md, "Design decisions"). New, for
+resources, waiting in the Ledger: how detailed goods are, bots and
+history for resources, seasons, labour, and real data for the land.
 
 - [x] **Goal**: sandbox with optional goals (play forever; a score and
       goals to chase if you want)

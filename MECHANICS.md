@@ -947,6 +947,151 @@ province panel also names the region a province lies in. The
 regional-floor rule runs all the time regardless of which overlay is
 showing.
 
+## Resources and the land **(proposed, 25 Sep 2026)**
+
+The designer's resource plan, with suggestions folded in. Nothing here is
+built yet; the questions marked **(open)** are in the Ledger.
+
+### Three tiers, not one list
+
+1. **The land** (what a place *is*): soil, water, climate, terrain,
+   living habitat, geology. Stored per population node (~9 km, 284,626
+   land nodes), the same grid as population and regions. That's fine
+   enough for fields, forests and ore bodies and small enough to simulate:
+   40 numbers per node is ~45 MB. The 45-million-cell ownership grid is
+   too fine to simulate and has no finer data behind it.
+2. **Raw resources** (what a place *can yield*): crops, orchards, herds,
+   fish, timber, stone, clay, ores, salt. Each is a *potential* per node,
+   computed from the land layer by a suitability profile, times how much
+   of it is actually worked (people, tools, tech).
+3. **Goods** (what people *make*): flour, bread, beer, olive oil, wine,
+   yarn, cloth, charcoal, bricks, pottery, bronze, iron, tools, weapons,
+   ships, and the prestige goods. These aren't on the map at all: they're
+   **recipes** (inputs, labour, fuel, a workshop or skill) run where the
+   inputs and the people are. That keeps the map data small and makes the
+   full goods list cheap to add to.
+
+Provinces and realms sum all three, as they already do for population
+(see Layers: stats are always summed, never stored on the province).
+
+### The land layer
+
+The designer's six parts, each a handful of numbers per node:
+
+| Part | Numbers per node | Drives |
+|---|---|---|
+| Soil | depth, texture, drainage, organic matter, N/P/K reserve, salinity, acidity, erosion, compaction | which crops thrive, yields, how fast farming wears a field out, whether drainage or manure helps |
+| Water | seasonal rainfall, river flow, floodplain moisture, springs, groundwater depth, water quality, irrigation supply | crop survival, herd size, gardens and orchards, settlement capacity, mills, river transport |
+| Climate | growing season, heat, frost, drought frequency, prevailing winds, storm exposure | crop suitability, harvest reliability, animal survival, sailing seasons |
+| Terrain | slope, elevation, aspect, flood risk, passability | usable farmland, terracing cost, grazing, roads, mines, transport |
+| Living habitat | shares of grassland, woodland (with species mix and age), scrub, wetland, river habitat, coastal nursery grounds | forage, timber, reeds, honey, medicinal plants, fish and shellfish |
+| Geology | ore bodies (grade, size, depth), workable stone, clay beds by use, salt, sand, minerals | mining, building, metalworking, pottery, glass, pigments |
+
+**Suggestion: bake it from real data**, the way HYDE gives population,
+so the map is history, not invention. Candidates: soils from
+HWSD/SoilGrids; climate from WorldClim or CHELSA (with CHELSA's
+palaeoclimate for 300 BC); elevation and slope from the relief data the
+terrain already uses; rivers from HydroSHEDS; 300 BC forest cover from
+the KK10 reconstruction (which models ancient deforestation); ores from
+the USGS mineral database plus the archaeological atlases of ancient
+mines and Roman quarries. HYDE itself has cropland and pasture grids for
+300 BC: a direct check that the farming model puts fields where history
+had them. Each becomes a `tools/build_*.py` step, like the region mask.
+
+### Each crop and herd its own profile
+
+As the designer's additions say: no generic "farmland". Each crop, tree
+and animal has a suitability profile over the land numbers (e.g. olive:
+no hard frost, deep well-drained soil, tolerates drought and slope; date:
+heat plus a reachable water table even under a desert sky; emmer tolerates poorer soil than bread wheat). A node's
+yield for a crop = best-case yield x suitability x the share of land
+worked, lowered by nutrient depletion, raised by manure, fallow,
+irrigation and tools. Herds eat forage, and overgrazing lowers next
+year's capacity; dung goes to fields *or* to the fire, a real choice.
+
+### Change over time: four speeds
+
+The designer's three, plus one:
+
+- **Fixed** on game timescales: bedrock, slope, ore body locations, the
+  shape of a natural harbour.
+- **Renewable but vulnerable**: soil nutrients, standing timber, forage,
+  fish stocks, groundwater. Each has a stock and a regrowth rate, and
+  can be run down.
+- **Seasonal**: rainfall, river level, soil moisture, grass, navigability.
+  Suggestion: with years (or more) per turn, seasons aren't simulated one
+  by one; each year draws its weather from the node's climate (drought
+  frequency, flood risk), so harvests vary and a run of bad years is
+  possible. Sailing seasons become a cap on how much sea trade a year
+  can carry.
+- **Slowly altered by people** (added): deforestation (Lebanon's cedars,
+  the Greek hills), salinisation from irrigation (southern Mesopotamia),
+  harbours silting up (Ephesus, Miletus, Ostia), marshes drained or
+  spreading. These change the "fixed" layer over centuries.
+
+### History as the guide, here too
+
+Like population's historical ceiling, bots' land and extraction should
+follow history: Laurion's silver fading, Spanish mines booming under
+Rome, Mesopotamia's soils salting, forests shrinking where they did. The
+player alone can do better (or worse) than history. **(open)**
+
+### Goods list: additions and grouping
+
+Suggested additions, all historically important on this map in 300 BC:
+sesame and sesame oil (Mesopotamia's oil, not olive), fodder crops
+(vetch, lucerne), cotton (a little, Egypt and beyond), natron (Egypt:
+glass, washing, embalming), bitumen (Dead Sea and Mesopotamia: caulking,
+mortar), alum (dyeing), cinnabar (red pigment, mercury), silphium
+(Cyrene's famous and later extinct export: a perfect vulnerable
+resource), cedar as its own ship and temple timber, garum (fish sauce),
+leather, war elephants (North African and Syrian herds, captured, not
+bred), ivory as a raw good, and goods from beyond the map edge (amber,
+silk, pepper and spices, Indian steel) arriving only by trade.
+
+Suggestion: keep the designer's full list as the *goods*, but show and
+simulate them through ~12 **families** (the designer's own headings:
+field crops, orchards, animals, fish and gathering, grain products, oil
+and drink, fibre and cloth, wood and fuel, stone and earth, metals,
+metalwork, construction, prestige). The engine tracks every good; the
+screens lead with families and open to detail. Timber should have a few
+grades (fuel, building, long straight ship timber), since the designer
+notes that woodland good for fuel isn't ship timber.
+
+Labour: in antiquity much work was done by enslaved people. Suggestion:
+model labour as a population input (free, dependent, enslaved), not as a
+tradeable good, so the history is represented without the game treating
+people as a commodity. **(open)**
+
+### What it feeds
+
+- **Carrying capacity**: the growth drivers' stand-in (3x historical
+  population) becomes the food a region's land can grow: calories from
+  crops, herds and fish at its current tech. This is the first link to
+  build.
+- **Growth factors**: food security (harvest against need), land and
+  living standards (land per person), disease (marshes, malaria zones).
+- **Attraction**: mines, ports, markets and quarries pull people.
+- **Economy, military and Might** (later build steps): output, what can
+  be built, which units can be raised.
+
+### Suggested build order within step 2
+
+1. The land layer: bake the six parts per node from real data, show each
+   as a map view, and check it against known history (fields where HYDE
+   has cropland, forests where KK10 has them).
+2. Raw-resource potentials from the suitability profiles, and carrying
+   capacity from food, replacing the 3x stand-in. Re-run the population
+   balance tests.
+3. Renewable stocks (soil nutrients, forests, forage, fish) with
+   depletion and regrowth, and the yearly weather draw.
+4. Goods and recipes, with the economy (build step 4), where they're
+   first needed.
+
+Each part gets balance tests like population's: a realm doing nothing
+tracks history, maxed effort stays within bounds, a depleted stock can
+recover.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and
