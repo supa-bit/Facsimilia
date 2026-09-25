@@ -14,9 +14,9 @@ block the work that depends on them.
 
 Small, cheap, and they protect everything built after them.
 
-- [ ] **Merge the work branch into `master`** (pull request
-      supa-bit/Facsimilia#1 on GitHub). Also enables the one-click
-      "Assets release" button in the Actions tab.
+- [x] **Merge the work branch into `master`** (pull request
+      supa-bit/Facsimilia#1, merged 25 Sep 2026). The one-click
+      "Assets release" button in the Actions tab now works too.
 
 ## Build order (from MECHANICS.md)
 
