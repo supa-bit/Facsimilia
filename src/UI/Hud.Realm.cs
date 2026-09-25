@@ -180,7 +180,8 @@ public partial class Hud
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
         _manpower.Text = $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}" +
-            $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c))})";
+            $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c, s.ManpowerMultiplier))})." +
+            "\nBeyond them, mercenaries can be hired at twice the price.";
         for (int t = 0; t < UnitTypes.Count; t++)
         {
             var (name, count, raise, disband) = _unitRows[t];

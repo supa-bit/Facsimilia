@@ -1,17 +1,155 @@
 {
- "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade).",
+ "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more).",
  "realms": {
-  "rome":        {"units": [8, 4, 0, 4, 0, 0, 2],   "treasury_years": 0.5},
-  "carthage":    {"units": [20, 10, 4, 8, 0, 0, 15], "treasury_years": 1.5},
-  "egypt":       {"units": [25, 8, 3, 8, 0, 2, 20], "treasury_years": 2.0},
-  "kush":        {"units": [3, 3, 8, 2, 0, 0, 0],   "treasury_years": 1.0},
-  "seleucid":    {"units": [30, 10, 5, 12, 0, 20, 3], "treasury_years": 1.0, "elephant_source": true},
-  "greek_world": {"units": [20, 6, 2, 6, 0, 0, 5],  "treasury_years": 0.5},
-  "lysimachus":  {"units": [20, 6, 3, 6, 0, 0, 5],  "treasury_years": 1.5},
-  "antigonus":   {"units": [10, 4, 2, 3, 0, 0, 30], "treasury_years": 0.5},
-  "nabatea":     {"units": [0, 2, 2, 6, 0, 0, 0],   "treasury_years": 1.5},
-  "iberia":      {"units": [5, 10, 2, 4, 0, 0, 0],  "treasury_years": 0.3},
-  "gaul":        {"units": [10, 10, 0, 6, 0, 0, 0], "treasury_years": 0.3},
-  "scythia":     {"units": [0, 4, 0, 6, 20, 0, 0],  "treasury_years": 0.3}
+  "rome": {
+   "units": [
+    8,
+    4,
+    0,
+    4,
+    0,
+    0,
+    2
+   ],
+   "treasury_years": 0.5,
+   "manpower": 3.0,
+   "army_share": 0.85
+  },
+  "carthage": {
+   "units": [
+    20,
+    10,
+    4,
+    8,
+    0,
+    0,
+    15
+   ],
+   "treasury_years": 1.5
+  },
+  "egypt": {
+   "units": [
+    25,
+    8,
+    3,
+    8,
+    0,
+    2,
+    20
+   ],
+   "treasury_years": 2.0
+  },
+  "kush": {
+   "units": [
+    3,
+    3,
+    8,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.0
+  },
+  "seleucid": {
+   "units": [
+    30,
+    10,
+    5,
+    12,
+    0,
+    20,
+    3
+   ],
+   "treasury_years": 1.0,
+   "elephant_source": true
+  },
+  "greek_world": {
+   "units": [
+    20,
+    6,
+    2,
+    6,
+    0,
+    0,
+    5
+   ],
+   "treasury_years": 0.5
+  },
+  "lysimachus": {
+   "units": [
+    20,
+    6,
+    3,
+    6,
+    0,
+    0,
+    5
+   ],
+   "treasury_years": 1.5
+  },
+  "antigonus": {
+   "units": [
+    10,
+    4,
+    2,
+    3,
+    0,
+    0,
+    30
+   ],
+   "treasury_years": 0.5
+  },
+  "nabatea": {
+   "units": [
+    0,
+    2,
+    2,
+    6,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.5
+  },
+  "iberia": {
+   "units": [
+    5,
+    10,
+    2,
+    4,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "gaul": {
+   "units": [
+    10,
+    10,
+    0,
+    6,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "scythia": {
+   "units": [
+    0,
+    4,
+    0,
+    6,
+    20,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  }
  }
 }

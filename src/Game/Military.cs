@@ -11,6 +11,12 @@ namespace Facsimilia.Game;
 /// </summary>
 public static class Military
 {
+    /// <summary>Hiring mercenaries instead of calling up your own men costs this many times more.</summary>
+    public const double MercenaryPremium = 2.0;
+
+    /// <summary>Whether a unit would have to be hired as mercenaries (not enough men of your own).</summary>
+    public static bool NeedsMercenaries(RealmState r, int type) => r.Manpower < UnitTypes.All[type].Men;
+
     /// <summary>Why a unit can't be raised now, or null if it can; and what it would cost.</summary>
     public static (string? Problem, double Cost) CanRecruit(RealmState r, RealmCensus c, Culture culture, int type,
         bool elephantSource = false)
@@ -25,8 +31,8 @@ public static class Military
         double cost = u.Raise;
         if (u.Needs != null && !c.Resources.Contains(u.Needs) && !(type == UnitTypes.Elephants && elephantSource))
             cost *= UnitTypes.ImportPremium;
-        if (r.Manpower < u.Men)
-            return ($"Not enough men: {u.Men:N0} needed, {r.Manpower:N0} available.", cost);
+        if (NeedsMercenaries(r, type))
+            cost *= MercenaryPremium;   // Carthage and the Hellenistic kings hired whole armies
         if (r.Treasury < cost)
             return ($"Not enough silver: {cost:0} talents needed.", cost);
         return (null, cost);
@@ -38,7 +44,8 @@ public static class Military
         if (problem != null)
             return false;
         r.Treasury -= cost;
-        r.Manpower -= UnitTypes.All[type].Men;
+        if (!NeedsMercenaries(r, type))
+            r.Manpower -= UnitTypes.All[type].Men;
         r.Units[type]++;
         return true;
     }

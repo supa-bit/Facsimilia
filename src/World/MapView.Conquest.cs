@@ -219,7 +219,10 @@ public partial class MapView
             if (t.Won)
             {
                 if (t.ProvinceId != 0)
+                {
                     Provinces!.SetRealm(t.ProvinceId, t.Attacker, Grid);
+                    Game.Wars.Between(t.Attacker, t.Owner)?.RecordTaken(t.Attacker, t.ProvinceId);
+                }
                 else
                     foreach (int idx in t.Cells)
                         if (Grid.Cells[idx] == t.Owner)

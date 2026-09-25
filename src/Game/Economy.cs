@@ -32,6 +32,8 @@ public static class Economy
     public const double InterestRate = 0.10;
     /// <summary>Beyond this many years of income in debt, lenders stop and soldiers go unpaid.</summary>
     public const double DebtLimitYears = 3.0;
+    /// <summary>Beyond this many years of income, the realm defaults: lenders write off the rest.</summary>
+    public const double DefaultYears = 5.0;
     /// <summary>Share of each unit type that deserts in a year of unpaid wages.</summary>
     public const double DesertionRate = 0.15;
     /// <summary>Manpower: the sustainable share of people who can serve (decision "Playable 11").</summary>
@@ -58,8 +60,8 @@ public static class Economy
     }
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
-    public static double SustainableManpower(RealmCensus c) =>
-        ManpowerShare * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
+    public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>
+        ManpowerShare * multiplier * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
 
     /// <summary>
     /// One year for one realm. Returns what happened worth a chronicle line
@@ -90,11 +92,13 @@ public static class Economy
             r.Treasury -= repay;
         }
 
-        double target = SustainableManpower(c);
+        double target = SustainableManpower(c, r.ManpowerMultiplier);
         r.Manpower += (target - r.Manpower) * ManpowerRefill;
         r.Fatigue = Math.Max(0, r.Fatigue - 0.25);   // armies rest
 
         double income = tax + tribute;
+        if (r.Debt > DefaultYears * Math.Max(income, 1))
+            r.Debt = DefaultYears * Math.Max(income, 1);   // default: lenders write off the rest
         if (r.Debt > DebtLimitYears * Math.Max(income, 1))
         {
             int lost = 0;

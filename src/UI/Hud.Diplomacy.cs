@@ -114,6 +114,28 @@ public partial class Hud
                 declare.Pressed += () => DeclareWarOn(id);
                 row.AddChild(declare);
             }
+            else if (_map.Game.PeaceOffers.Contains(id))
+            {
+                var accept = new Button { Text = "Accept their offer", FocusMode = FocusModeEnum.None,
+                    TooltipText = "They sue for peace: each keeps what it holds." };
+                accept.Pressed += () =>
+                {
+                    string? text = _map.AcceptPeaceOffer(id);
+                    if (text != null)
+                        LogEvents(new List<ChronicleEvent> { new(ChronicleKind.Peace, _map.PlayerRealmId, text) });
+                    RefreshDiplomacyPanel();
+                    RefreshConquestPanel();
+                };
+                row.AddChild(accept);
+                var tribute = new Button
+                {
+                    Text = "Demand tribute", FocusMode = FocusModeEnum.None,
+                    Disabled = war.ScoreFor(me) < Diplomacy.TributeScore,
+                    TooltipText = $"Peace, and they pay silver. Needs a war score of +{Diplomacy.TributeScore:0}.",
+                };
+                tribute.Pressed += () => OfferPeaceTo(id, true);
+                row.AddChild(tribute);
+            }
             else
             {
                 var peace = new Button { Text = "Offer peace", FocusMode = FocusModeEnum.None,

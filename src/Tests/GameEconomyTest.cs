@@ -40,12 +40,15 @@ public partial class GameEconomyTest : TestRunner
         Check(scTax < scTribute * 5 + 1, "the Scythians have no provinces, so they should live on tribute, not tax");
         Check(map.Game.Realm(map.CivRealmIds["seleucid"]).Units[UnitTypes.Elephants] >= 10, "Seleucus had hundreds of elephants");
 
-        // A year passes: accounts are kept, and the treasury moves by the balance.
+        // A year passes: accounts are kept, and the treasury moves by the
+        // balance, less whatever Egypt (run by the AI) spent raising troops.
         double before = eg.Treasury;
+        int unitsBefore = eg.Units.Sum();
         var events = map.AdvanceYear();
         Check(eg.LastTax > 0, "Egypt collected no tax");
         double expected = before + eg.LastNet;
-        Check(Math.Abs(eg.Treasury + eg.Debt * 0 - expected) < 1 || eg.Debt > 0,
+        double recruited = (eg.Units.Sum() - unitsBefore) * 200.0;   // at most ~200 talents a unit, mercenaries included
+        Check(eg.Treasury <= expected + 1 && eg.Treasury >= expected - Math.Max(recruited, 0) - 1,
             $"Egypt's treasury {eg.Treasury:0} doesn't match {before:0} + balance {eg.LastNet:0}");
 
         // Heavier taxes: more silver, and a burden on growth in the realm's regions.

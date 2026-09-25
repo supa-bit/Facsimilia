@@ -23,6 +23,11 @@ public sealed class RealmState
     public int[] Units { get; } = new int[UnitTypes.Count];   // how many of each (see UnitTypes)
     public double Manpower { get; set; }   // men available to recruit
     public double Fatigue { get; set; }    // 0 rested .. 1 exhausted: campaigning wears armies down
+    public string CivKey { get; set; } = "";
+    /// <summary>How much more of its people a realm can call up (Rome's Italian allies: 3x; tribal levies: 2x).</summary>
+    public double ManpowerMultiplier { get; set; } = 1;
+    /// <summary>Share of income a realm is willing to spend on its army in peace (Rome, militarised: more).</summary>
+    public double ArmyShare { get; set; } = 0.5;   // which historical realm this is (data/start_realms.json, history_goals.json)
     public bool ElephantSource { get; set; }   // can raise elephants without elephant country (Seleucid India trade)
 
     // Last year's accounts, for the treasury panel.
@@ -43,7 +48,7 @@ public sealed class RealmState
         return new GDictionary
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
-            ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource,
+            ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest },
         };
     }
@@ -58,6 +63,9 @@ public sealed class RealmState
             Manpower = d.TryGetValue("manpower", out var m) ? m.AsDouble() : 0,
             Fatigue = d.TryGetValue("fatigue", out var f) ? f.AsDouble() : 0,
             ElephantSource = d.TryGetValue("elephant_source", out var e) && e.AsBool(),
+            CivKey = d.TryGetValue("civ", out var k) ? k.AsString() : "",
+            ManpowerMultiplier = d.TryGetValue("manpower_mult", out var mm) ? mm.AsDouble() : 1,
+            ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
         };
         if (d.TryGetValue("units", out var units))
         {
@@ -91,6 +99,8 @@ public sealed class GameState
     public Dictionary<int, RealmState> Realms { get; } = new();
     public int YearsPerTurn { get; set; } = 1;
     public Wars Wars { get; } = new();
+    /// <summary>Realms at war with the player that have sued for peace.</summary>
+    public HashSet<int> PeaceOffers { get; } = new();
 
     public RealmState Realm(int id)
     {
@@ -104,7 +114,13 @@ public sealed class GameState
         var realms = new GArray();
         foreach (var r in Realms.Values)
             realms.Add(r.ToDict());
-        return new GDictionary { ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray() };
+        var offers = new GArray();
+        foreach (int o in PeaceOffers)
+            offers.Add(o);
+        return new GDictionary
+        {
+            ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
+        };
     }
 
     public static GameState FromDict(GDictionary d)
@@ -120,6 +136,9 @@ public sealed class GameState
             g.YearsPerTurn = y.AsInt32();
         if (d.TryGetValue("wars", out var w))
             g.Wars.Load(w.AsGodotArray());
+        if (d.TryGetValue("peace_offers", out var po))
+            foreach (Variant v in po.AsGodotArray())
+                g.PeaceOffers.Add(v.AsInt32());
         return g;
     }
 }

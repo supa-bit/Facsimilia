@@ -50,8 +50,8 @@ public partial class MapView
         foreach (var (key, realmId) in CivRealmIds)
         {
             var state = Game.Realm(realmId);
+            state.CivKey = key;
             var c = CensusOf(realmId);
-            state.Manpower = Economy.SustainableManpower(c);
             double years = 1;
             if (starts.TryGetValue(key, out var s))
             {
@@ -61,6 +61,8 @@ public partial class MapView
                         state.Units[t++] = u.GetInt32();
                 years = s.TryGetProperty("treasury_years", out var y) ? y.GetDouble() : 1;
                 state.ElephantSource = s.TryGetProperty("elephant_source", out var e) && e.GetBoolean();
+                state.ManpowerMultiplier = s.TryGetProperty("manpower", out var m) ? m.GetDouble() : 1;
+                state.ArmyShare = s.TryGetProperty("army_share", out var a) ? a.GetDouble() : 0.5;
             }
             else
             {
@@ -70,6 +72,7 @@ public partial class MapView
                 state.Units[UnitTypes.LightInfantry] = (int)Math.Max(1, c.People / 300000);
                 state.Units[UnitTypes.Cavalry] = (int)(c.People / 1000000);
             }
+            state.Manpower = Economy.SustainableManpower(c, state.ManpowerMultiplier);
             var (tax, tribute) = Economy.Revenue(c, state.Tax);
             state.Treasury = Math.Round((tax + tribute) * years);
         }
@@ -79,6 +82,9 @@ public partial class MapView
     internal List<ChronicleEvent> GameYear()
     {
         var events = new List<ChronicleEvent>();
+        _census = null;
+        events.AddRange(BotsYear(new Random(HashCode.Combine(DemoYear, 7919))));
+        Game.PeaceOffers.RemoveWhere(o => !Game.Wars.AtWar(o, PlayerRealmId));
         _census = null;
         var census = RealmCensus();
         foreach (var realm in Registry.Realms.Values)

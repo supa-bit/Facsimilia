@@ -22,6 +22,18 @@ public sealed class War
     public double Score { get; set; }
     public double AttackerLosses { get; set; }   // men
     public double DefenderLosses { get; set; }
+    /// <summary>Provinces each side has taken from the other in this war (realm id -> province ids).</summary>
+    public Dictionary<int, HashSet<int>> Taken { get; } = new();
+
+    public void RecordTaken(int realm, int province)
+    {
+        if (!Taken.TryGetValue(realm, out var set))
+            Taken[realm] = set = new HashSet<int>();
+        set.Add(province);
+    }
+
+    /// <summary>What this realm's enemy took from it in this war.</summary>
+    public IEnumerable<int> LostBy(int realm) => Taken.TryGetValue(Enemy(realm), out var set) ? set : Enumerable.Empty<int>();
 
     public War(int attacker, int defender, int since, bool pretext)
     {
@@ -41,15 +53,24 @@ public sealed class War
     {
         ["a"] = Attacker, ["d"] = Defender, ["since"] = Since, ["pretext"] = Pretext, ["score"] = Score,
         ["al"] = AttackerLosses, ["dl"] = DefenderLosses,
+        ["taken_a"] = new GArray(Taken.GetValueOrDefault(Attacker)?.Select(p => (Variant)p).ToArray() ?? Array.Empty<Variant>()),
+        ["taken_d"] = new GArray(Taken.GetValueOrDefault(Defender)?.Select(p => (Variant)p).ToArray() ?? Array.Empty<Variant>()),
     };
 
-    public static War FromDict(GDictionary d) =>
-        new(d["a"].AsInt32(), d["d"].AsInt32(), d["since"].AsInt32(), d["pretext"].AsBool())
+    public static War FromDict(GDictionary d)
+    {
+        var w = new War(d["a"].AsInt32(), d["d"].AsInt32(), d["since"].AsInt32(), d["pretext"].AsBool())
         {
             Score = d["score"].AsDouble(),
             AttackerLosses = d.TryGetValue("al", out var al) ? al.AsDouble() : 0,
             DefenderLosses = d.TryGetValue("dl", out var dl) ? dl.AsDouble() : 0,
         };
+        foreach (var (key, realm) in new[] { ("taken_a", w.Attacker), ("taken_d", w.Defender) })
+            if (d.TryGetValue(key, out var list))
+                foreach (Variant p in list.AsGodotArray())
+                    w.RecordTaken(realm, p.AsInt32());
+        return w;
+    }
 }
 
 /// <summary>Every war going on, and the truces after past ones.</summary>

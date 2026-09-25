@@ -18,8 +18,11 @@ public static class Diplomacy
     public const int WearyYears = 8;
     /// <summary>Score needed to demand tribute.</summary>
     public const double TributeScore = 40;
-    /// <summary>Tribute: this share of the loser's treasury, or of a year's income if more.</summary>
+    /// <summary>Tribute: this share of the loser's treasury, but never more than half a year's income.</summary>
     public const double TributeShare = 0.3;
+    public const double TributeMaxYears = 0.5;
+    /// <summary>A side this far ahead after two years is content with what it has won.</summary>
+    public const double VictorContent = 20;
 
     /// <summary>Why a war can't be declared now, or null.</summary>
     public static string? CanDeclare(GameState game, int attacker, int defender, int year)
@@ -47,7 +50,8 @@ public static class Diplomacy
         int years = year - war.Since;
         if (demandTribute)
             return theirScore <= -TributeScore;
-        return theirScore <= AcceptLosing || (years >= WearyYears && theirScore <= 10) || years >= 3 * WearyYears;
+        return theirScore <= AcceptLosing || (theirScore >= VictorContent && years >= 2)
+            || (years >= WearyYears && theirScore <= 10) || years >= 3 * WearyYears;
     }
 
     /// <summary>Makes peace; with tribute, silver passes from the loser. Returns the tribute paid.</summary>
@@ -57,7 +61,7 @@ public static class Diplomacy
         if (tribute)
         {
             var loser = game.Realm(war.Enemy(winner));
-            paid = Math.Max(loser.Treasury * TributeShare, loserIncome * TributeShare);
+            paid = Math.Min(Math.Max(loser.Treasury * TributeShare, loserIncome * TributeShare), loserIncome * TributeMaxYears);
             loser.Treasury -= paid;
             if (loser.Treasury < 0)
             {
