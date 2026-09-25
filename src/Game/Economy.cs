@@ -40,8 +40,13 @@ public static class Economy
     public const double ManpowerShare = 0.01;
     public const double ManpowerRefill = 0.1;   // share of the gap to the sustainable pool refilled each year
 
-    public static double Output(RealmCensus c) =>
-        OutputPerPerson * (c.People + (UrbanMultiplier - 1) * c.UrbanPeople);
+    /// <summary>
+    /// What a realm's people make in a year, in talents: the value of its
+    /// goods (GoodsEngine) when known, else a flat amount per person.
+    /// </summary>
+    public static double Output(RealmCensus c) => c.Goods != null
+        ? c.Goods.Value / 6000.0
+        : OutputPerPerson * (c.People + (UrbanMultiplier - 1) * c.UrbanPeople);
 
     /// <summary>Tax and tribute a realm collects this year.</summary>
     public static (double Tax, double Tribute) Revenue(RealmCensus c, TaxRate rate)

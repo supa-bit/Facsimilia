@@ -24,10 +24,37 @@ public partial class MapView
     public Dictionary<int, RealmCensus> RealmCensus()
     {
         if (_census == null)
+        {
             _census = Population != null
                 ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land, ProvinceYield)
                 : new Dictionary<int, RealmCensus>();
+            var cat = GoodsCatalog();
+            if (cat != null && Population != null && Land != null && Crops != null)
+            {
+                // Production is counted once a year (it takes a tenth of a second).
+                if (_goodsYear != DemoYear || _realmGoods == null)
+                {
+                    _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null);
+                    _goodsYear = DemoYear;
+                }
+                foreach (var (realm, goods) in _realmGoods)
+                    if (_census.TryGetValue(realm, out var c))
+                        c.Goods = goods;
+            }
+        }
         return _census;
+    }
+
+    GoodsCatalog? _goods;
+    Dictionary<int, RealmGoods>? _realmGoods;
+    int _goodsYear = int.MinValue;
+
+    /// <summary>The goods and their recipes (data/goods.json), or null if missing.</summary>
+    public GoodsCatalog? GoodsCatalog()
+    {
+        if (_goods == null && Godot.FileAccess.FileExists(Facsimilia.Game.GoodsCatalog.Path))
+            _goods = Facsimilia.Game.GoodsCatalog.Parse(Godot.FileAccess.GetFileAsString(Facsimilia.Game.GoodsCatalog.Path));
+        return _goods;
     }
 
     public RealmCensus CensusOf(int realmId) =>

@@ -213,6 +213,8 @@ public partial class Hud
             _map.SetMapView(_map.CurrentView == MapView.RegionsView ? MapView.PoliticalView : MapView.RegionsView);
         else if (key.Keycode == Key.V)
             _map.SetMapView(MapView.PoliticalView);
+        else if (key.Keycode == Key.G)
+            ToggleGoodsPanel();
         else
             return;
         GetViewport().SetInputAsHandled();

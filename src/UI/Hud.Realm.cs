@@ -146,6 +146,7 @@ public partial class Hud
         if (_realmPanel.Visible)
         {
             _diplomacyPanel.Visible = false;
+            _goodsPanel.Visible = false;
             RefreshRealmPanel();
         }
         RefreshMapView();   // the land legend shares the top-left corner

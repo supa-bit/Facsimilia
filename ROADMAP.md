@@ -10,6 +10,14 @@ block the work that depends on them.
 
 ---
 
+## The next five sections (agreed 25 Sep 2026)
+
+1. [x] Goods and recipes
+2. [ ] Harvests, weather and renewable stocks
+3. [ ] Trade
+4. [ ] Labour and people
+5. [ ] Score, goals and first-game polish
+
 ## Right now
 
 Small, cheap, and they protect everything built after them.
@@ -55,8 +63,10 @@ Each step is verified on the real game before the next begins.
          growth factor
    - [ ] Renewable stocks (soil nutrients, forests, forage, fish) and the
          yearly weather draw
-   - [ ] Goods and recipes, shown by family, with the economy (step 4);
-         labour from the population, as history had it
+   - [x] Goods and recipes: 148 goods in 13 families, raw from the land,
+         made by recipe, needs and shortages; taxes are a share of their
+         value; Goods panel (G)
+   - [ ] Labour from the population, as history had it (section 4)
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
        the Regions map overlay

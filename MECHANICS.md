@@ -1087,6 +1087,44 @@ Labour comes from the population, split as history had it; the slave
 trade exists as it did, and slavery is abolished as history abolished
 it.)**
 
+### Goods and recipes **(built, 25 Sep 2026)**
+
+`data/goods.json` holds 148 goods in the designer's 13 families. Amounts
+are **loads**: what one person makes in a year of full work on ideal land.
+
+- **Raw goods** come from the land layer: each crop and herd from its
+  suitability map, metals, stone and prestige goods from the resource
+  maps, logs from woodland, reeds from wetland. Country people spend a
+  fixed share of their work in each kind of production (fields 42%,
+  herds 16%, orchards 10%, gathering 5%, forests 6%, mines 3%, clay
+  pits 3%), spread over what their place yields, favouring what grows
+  best there.
+- **By-products** come with their source: wool and cheese with sheep,
+  hides, horn, tallow and dung with cattle, straw with wheat, beeswax
+  with honey.
+- **Made goods** follow recipes, in order (inputs first): grain is
+  threshed, milled and baked; grapes and amphorae make wine; ore and
+  charcoal make bloom iron, then wrought iron, tools and weapons; copper
+  and tin make bronze. Some recipes take any one of their inputs
+  (threshed grain from wheat, barley, emmer or rye; fuel from wood,
+  brushwood, dung, straw or reeds, so dung burned is dung not spread).
+  How much is made follows what people need and what craftsmen sell,
+  passed back up each chain; people's needs come first, and inputs
+  are shared fairly among the recipes that use them.
+- **Needs**: each person uses bread, grain, pulses, vegetables, milk,
+  cheese, fish, salt, fuel, pottery, oil, wine, cloth and tools each
+  year. What a realm can't make shows as a shortage (trade will cover
+  it, section 3).
+- **Value and taxes**: every good has a price in drachmae (a made
+  good's is its inputs plus its labour at 200 drachmae a year). The
+  realm's output is the value of all it makes, less what was used up
+  making it, plus the townspeople's trade and services. Taxes and
+  tribute are a share of this output (it replaces the flat 100
+  drachmae a person).
+- **On screen**: the Goods button (or G key) opens the panel: value by
+  family, each opening to its goods (made, used, needed, spare or
+  short).
+
 ### What it feeds
 
 - **Carrying capacity**: the food a region's land can grow: calories from

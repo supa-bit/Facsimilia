@@ -1,0 +1,1471 @@
+{
+ "about": "Every good in the game (the designer's list, MECHANICS.md 'Goods and recipes'), by family. Quantities are loads: one load of a raw good is what one person working a full year on ideal land produces; a by-product comes with 'per' loads for each load of its source; made goods take inputs (loads per load; with any_input, any one of them will do) and labour (person-years per load), and are listed after their inputs. price: drachmae per load for raw goods and by-products; a made good's price is its inputs plus its labour at the wage. need: loads each person uses a year. work: share of country people working in each kind of production; household_crafts: share of country people's time spent making goods (townspeople all make goods). Our own data, free for any use.",
+ "wage": 200,
+ "work": {
+  "field": 0.42,
+  "orchard": 0.1,
+  "herd": 0.16,
+  "gather": 0.05,
+  "forest": 0.06,
+  "mine": 0.03,
+  "earth": 0.03
+ },
+ "household_crafts": 0.12,
+ "families": [
+  {
+   "id": "field",
+   "name": "Field crops"
+  },
+  {
+   "id": "orchard",
+   "name": "Orchards and gardens"
+  },
+  {
+   "id": "animal",
+   "name": "Animal products"
+  },
+  {
+   "id": "gather",
+   "name": "Fishing and gathering"
+  },
+  {
+   "id": "grain",
+   "name": "Grain processing"
+  },
+  {
+   "id": "oil",
+   "name": "Oil and drink"
+  },
+  {
+   "id": "fibre",
+   "name": "Fibre and clothing"
+  },
+  {
+   "id": "wood",
+   "name": "Wood and fuel"
+  },
+  {
+   "id": "stone",
+   "name": "Stone and earth"
+  },
+  {
+   "id": "metal",
+   "name": "Metals and minerals"
+  },
+  {
+   "id": "metalwork",
+   "name": "Metalworking"
+  },
+  {
+   "id": "build",
+   "name": "Construction and transport"
+  },
+  {
+   "id": "prestige",
+   "name": "Prestige and specialised trade"
+  }
+ ],
+ "goods": [
+  {
+   "id": "emmer",
+   "name": "Emmer",
+   "family": "field",
+   "source": "crop:emmer",
+   "work": "field",
+   "price": 165
+  },
+  {
+   "id": "durum_wheat",
+   "name": "Durum wheat",
+   "family": "field",
+   "source": "crop:wheat",
+   "work": "field",
+   "price": 195,
+   "share": 0.4
+  },
+  {
+   "id": "wheat",
+   "name": "Other wheat",
+   "family": "field",
+   "source": "crop:wheat",
+   "work": "field",
+   "price": 180,
+   "share": 0.6
+  },
+  {
+   "id": "barley",
+   "name": "Barley",
+   "family": "field",
+   "source": "crop:barley",
+   "work": "field",
+   "price": 150
+  },
+  {
+   "id": "millet",
+   "name": "Millet",
+   "family": "field",
+   "source": "crop:millet",
+   "work": "field",
+   "price": 135
+  },
+  {
+   "id": "rye",
+   "name": "Rye",
+   "family": "field",
+   "source": "crop:rye",
+   "work": "field",
+   "price": 135
+  },
+  {
+   "id": "oats",
+   "name": "Oats",
+   "family": "field",
+   "source": "crop:oats",
+   "work": "field",
+   "price": 120
+  },
+  {
+   "id": "lentils",
+   "name": "Lentils",
+   "family": "field",
+   "source": "crop:lentils",
+   "work": "field",
+   "price": 180,
+   "need": 0.01
+  },
+  {
+   "id": "chickpeas",
+   "name": "Chickpeas",
+   "family": "field",
+   "source": "crop:chickpeas",
+   "work": "field",
+   "price": 180
+  },
+  {
+   "id": "peas",
+   "name": "Peas",
+   "family": "field",
+   "source": "crop:peas",
+   "work": "field",
+   "price": 165
+  },
+  {
+   "id": "broad_beans",
+   "name": "Broad beans",
+   "family": "field",
+   "source": "crop:broad_beans",
+   "work": "field",
+   "price": 165
+  },
+  {
+   "id": "sesame",
+   "name": "Sesame",
+   "family": "field",
+   "source": "crop:sesame",
+   "work": "field",
+   "price": 240
+  },
+  {
+   "id": "flax",
+   "name": "Flax",
+   "family": "field",
+   "source": "crop:flax",
+   "work": "field",
+   "price": 210
+  },
+  {
+   "id": "hemp",
+   "name": "Hemp",
+   "family": "field",
+   "source": "crop:hemp",
+   "work": "field",
+   "price": 180
+  },
+  {
+   "id": "olives",
+   "name": "Olives",
+   "family": "orchard",
+   "source": "crop:olives",
+   "work": "orchard",
+   "price": 240
+  },
+  {
+   "id": "grapes",
+   "name": "Grapes",
+   "family": "orchard",
+   "source": "crop:grapes",
+   "work": "orchard",
+   "price": 225
+  },
+  {
+   "id": "figs",
+   "name": "Figs",
+   "family": "orchard",
+   "source": "crop:figs",
+   "work": "orchard",
+   "price": 180
+  },
+  {
+   "id": "dates",
+   "name": "Dates",
+   "family": "orchard",
+   "source": "crop:dates",
+   "work": "orchard",
+   "price": 195
+  },
+  {
+   "id": "pomegranates",
+   "name": "Pomegranates",
+   "family": "orchard",
+   "source": "crop:pomegranates",
+   "work": "orchard",
+   "price": 210
+  },
+  {
+   "id": "almonds",
+   "name": "Almonds",
+   "family": "orchard",
+   "source": "crop:almonds",
+   "work": "orchard",
+   "price": 270
+  },
+  {
+   "id": "walnuts",
+   "name": "Walnuts",
+   "family": "orchard",
+   "source": "crop:walnuts",
+   "work": "orchard",
+   "price": 240
+  },
+  {
+   "id": "vegetables",
+   "name": "Vegetables",
+   "family": "orchard",
+   "source": "crop:vegetables",
+   "work": "orchard",
+   "price": 165,
+   "need": 0.01
+  },
+  {
+   "id": "herbs",
+   "name": "Herbs",
+   "family": "orchard",
+   "source": "crop:vegetables",
+   "work": "orchard",
+   "price": 210,
+   "share": 0.2
+  },
+  {
+   "id": "cattle",
+   "name": "Cattle",
+   "family": "animal",
+   "source": "crop:cattle",
+   "work": "herd",
+   "price": 270
+  },
+  {
+   "id": "sheep",
+   "name": "Sheep",
+   "family": "animal",
+   "source": "crop:sheep",
+   "work": "herd",
+   "price": 180
+  },
+  {
+   "id": "goats",
+   "name": "Goats",
+   "family": "animal",
+   "source": "crop:goats",
+   "work": "herd",
+   "price": 165
+  },
+  {
+   "id": "pigs",
+   "name": "Pigs",
+   "family": "animal",
+   "source": "crop:pigs",
+   "work": "herd",
+   "price": 180
+  },
+  {
+   "id": "horses",
+   "name": "Horses",
+   "family": "animal",
+   "source": "crop:horses",
+   "work": "herd",
+   "price": 450
+  },
+  {
+   "id": "donkeys",
+   "name": "Donkeys",
+   "family": "animal",
+   "source": "crop:donkeys",
+   "work": "herd",
+   "price": 270
+  },
+  {
+   "id": "camels",
+   "name": "Camels",
+   "family": "animal",
+   "source": "crop:camels",
+   "work": "herd",
+   "price": 360
+  },
+  {
+   "id": "poultry",
+   "name": "Poultry",
+   "family": "animal",
+   "source": "crop:poultry",
+   "work": "herd",
+   "price": 150
+  },
+  {
+   "id": "mules",
+   "name": "Mules",
+   "family": "animal",
+   "by": "donkeys",
+   "per": 0.3,
+   "price": 450
+  },
+  {
+   "id": "milk",
+   "name": "Milk",
+   "family": "animal",
+   "by": "goats",
+   "per": 0.6,
+   "price": 90,
+   "need": 0.01
+  },
+  {
+   "id": "cheese",
+   "name": "Cheese",
+   "family": "animal",
+   "by": "sheep",
+   "per": 0.3,
+   "price": 240,
+   "need": 0.005
+  },
+  {
+   "id": "wool",
+   "name": "Wool",
+   "family": "animal",
+   "by": "sheep",
+   "per": 0.5,
+   "price": 210
+  },
+  {
+   "id": "hides",
+   "name": "Hides",
+   "family": "animal",
+   "by": "cattle",
+   "per": 0.3,
+   "price": 180
+  },
+  {
+   "id": "horn",
+   "name": "Horn",
+   "family": "animal",
+   "by": "cattle",
+   "per": 0.05,
+   "price": 150
+  },
+  {
+   "id": "bone",
+   "name": "Bone",
+   "family": "animal",
+   "by": "pigs",
+   "per": 0.1,
+   "price": 60
+  },
+  {
+   "id": "tallow",
+   "name": "Tallow",
+   "family": "animal",
+   "by": "cattle",
+   "per": 0.1,
+   "price": 150
+  },
+  {
+   "id": "dung",
+   "name": "Dung",
+   "family": "animal",
+   "by": "cattle",
+   "per": 0.8,
+   "price": 15
+  },
+  {
+   "id": "fish",
+   "name": "Fresh fish",
+   "family": "gather",
+   "source": "crop:fishing",
+   "work": "gather",
+   "price": 165,
+   "need": 0.002
+  },
+  {
+   "id": "shellfish",
+   "name": "Shellfish",
+   "family": "gather",
+   "source": "land:shallows",
+   "work": "gather",
+   "price": 180,
+   "share": 0.3
+  },
+  {
+   "id": "honey",
+   "name": "Honey",
+   "family": "gather",
+   "source": "crop:bees",
+   "work": "gather",
+   "price": 360,
+   "share": 0.3
+  },
+  {
+   "id": "beeswax",
+   "name": "Beeswax",
+   "family": "gather",
+   "by": "honey",
+   "per": 0.2,
+   "price": 450
+  },
+  {
+   "id": "reeds",
+   "name": "Reeds",
+   "family": "gather",
+   "source": "land:wetland",
+   "work": "gather",
+   "price": 60
+  },
+  {
+   "id": "medicinal_plants",
+   "name": "Medicinal plants",
+   "family": "gather",
+   "source": "land:scrub",
+   "work": "gather",
+   "price": 360,
+   "share": 0.2
+  },
+  {
+   "id": "resin",
+   "name": "Resin",
+   "family": "gather",
+   "source": "land:conifer",
+   "work": "gather",
+   "price": 270,
+   "share": 0.3
+  },
+  {
+   "id": "logs",
+   "name": "Logs",
+   "family": "wood",
+   "source": "land:woodland",
+   "work": "forest",
+   "price": 105
+  },
+  {
+   "id": "brushwood",
+   "name": "Brushwood",
+   "family": "wood",
+   "source": "land:scrub",
+   "work": "forest",
+   "price": 45
+  },
+  {
+   "id": "straw",
+   "name": "Straw",
+   "family": "field",
+   "by": "wheat",
+   "per": 0.8,
+   "price": 15
+  },
+  {
+   "id": "ship_timber",
+   "name": "Long ship timber",
+   "family": "wood",
+   "source": "land:res_ship_timber",
+   "work": "forest",
+   "price": 270
+  },
+  {
+   "id": "cedar",
+   "name": "Cedar",
+   "family": "wood",
+   "source": "land:res_cedar",
+   "work": "forest",
+   "price": 450
+  },
+  {
+   "id": "pitch",
+   "name": "Pitch",
+   "family": "wood",
+   "source": "land:res_pitch",
+   "work": "forest",
+   "price": 270
+  },
+  {
+   "id": "marble",
+   "name": "Marble",
+   "family": "stone",
+   "source": "land:res_marble",
+   "work": "mine",
+   "price": 360
+  },
+  {
+   "id": "granite",
+   "name": "Granite",
+   "family": "stone",
+   "source": "land:res_granite",
+   "work": "mine",
+   "price": 240
+  },
+  {
+   "id": "porphyry",
+   "name": "Porphyry",
+   "family": "stone",
+   "source": "land:res_porphyry",
+   "work": "mine",
+   "price": 600
+  },
+  {
+   "id": "sandstone",
+   "name": "Sandstone",
+   "family": "stone",
+   "source": "land:res_sandstone",
+   "work": "mine",
+   "price": 90
+  },
+  {
+   "id": "fine_clay",
+   "name": "Fine clay",
+   "family": "stone",
+   "source": "land:res_fine_clay",
+   "work": "mine",
+   "price": 120
+  },
+  {
+   "id": "glass_sand",
+   "name": "Glass sand",
+   "family": "stone",
+   "source": "land:res_glass_sand",
+   "work": "mine",
+   "price": 90
+  },
+  {
+   "id": "clay",
+   "name": "Clay",
+   "family": "stone",
+   "source": "land:clay",
+   "work": "earth",
+   "price": 45
+  },
+  {
+   "id": "limestone",
+   "name": "Limestone",
+   "family": "stone",
+   "source": "land:ph",
+   "work": "mine",
+   "price": 90,
+   "share": 0.5
+  },
+  {
+   "id": "sand",
+   "name": "Sand and gravel",
+   "family": "stone",
+   "source": "land:river",
+   "work": "mine",
+   "price": 30,
+   "share": 0.3
+  },
+  {
+   "id": "iron_ore",
+   "name": "Iron ore",
+   "family": "metal",
+   "source": "land:res_iron",
+   "work": "mine",
+   "price": 120
+  },
+  {
+   "id": "copper_ore",
+   "name": "Copper ore",
+   "family": "metal",
+   "source": "land:res_copper",
+   "work": "mine",
+   "price": 180
+  },
+  {
+   "id": "tin_ore",
+   "name": "Tin ore",
+   "family": "metal",
+   "source": "land:res_tin",
+   "work": "mine",
+   "price": 450
+  },
+  {
+   "id": "lead_ore",
+   "name": "Lead ore",
+   "family": "metal",
+   "source": "land:res_lead",
+   "work": "mine",
+   "price": 150
+  },
+  {
+   "id": "silver_ore",
+   "name": "Silver-bearing ore",
+   "family": "metal",
+   "source": "land:res_silver",
+   "work": "mine",
+   "price": 600
+  },
+  {
+   "id": "gold_ore",
+   "name": "Gold-bearing sand and ore",
+   "family": "metal",
+   "source": "land:res_gold",
+   "work": "mine",
+   "price": 1800
+  },
+  {
+   "id": "salt",
+   "name": "Salt",
+   "family": "metal",
+   "source": "land:res_salt",
+   "work": "mine",
+   "price": 180,
+   "need": 0.0005
+  },
+  {
+   "id": "sulfur",
+   "name": "Sulfur",
+   "family": "metal",
+   "source": "land:res_sulfur",
+   "work": "mine",
+   "price": 180
+  },
+  {
+   "id": "cinnabar",
+   "name": "Cinnabar (red pigment)",
+   "family": "metal",
+   "source": "land:res_cinnabar",
+   "work": "mine",
+   "price": 900
+  },
+  {
+   "id": "alum",
+   "name": "Alum",
+   "family": "metal",
+   "source": "land:res_alum",
+   "work": "mine",
+   "price": 360
+  },
+  {
+   "id": "natron",
+   "name": "Natron",
+   "family": "metal",
+   "source": "land:res_natron",
+   "work": "mine",
+   "price": 180
+  },
+  {
+   "id": "bitumen",
+   "name": "Bitumen",
+   "family": "metal",
+   "source": "land:res_bitumen",
+   "work": "mine",
+   "price": 150
+  },
+  {
+   "id": "turquoise",
+   "name": "Turquoise",
+   "family": "metal",
+   "source": "land:res_turquoise",
+   "work": "mine",
+   "price": 1500
+  },
+  {
+   "id": "frankincense",
+   "name": "Frankincense",
+   "family": "prestige",
+   "source": "land:res_frankincense",
+   "work": "gather",
+   "price": 2100
+  },
+  {
+   "id": "myrrh",
+   "name": "Myrrh",
+   "family": "prestige",
+   "source": "land:res_myrrh",
+   "work": "gather",
+   "price": 2400
+  },
+  {
+   "id": "balsam",
+   "name": "Balsam",
+   "family": "prestige",
+   "source": "land:res_balsam",
+   "work": "gather",
+   "price": 2700
+  },
+  {
+   "id": "silphium",
+   "name": "Silphium",
+   "family": "prestige",
+   "source": "land:res_silphium",
+   "work": "gather",
+   "price": 3600
+  },
+  {
+   "id": "ivory",
+   "name": "Ivory",
+   "family": "prestige",
+   "source": "land:res_ivory",
+   "work": "gather",
+   "price": 1800
+  },
+  {
+   "id": "murex",
+   "name": "Murex shells",
+   "family": "prestige",
+   "source": "land:res_murex",
+   "work": "gather",
+   "price": 450
+  },
+  {
+   "id": "papyrus_reeds",
+   "name": "Papyrus reeds",
+   "family": "prestige",
+   "source": "land:res_papyrus",
+   "work": "gather",
+   "price": 120
+  },
+  {
+   "id": "firewood",
+   "name": "Fuel (wood, brushwood, dung, straw, reeds)",
+   "family": "wood",
+   "inputs": {
+    "logs": 1,
+    "brushwood": 1,
+    "dung": 1,
+    "straw": 1,
+    "reeds": 1
+   },
+   "labour": 0.3,
+   "weight": 4,
+   "any_input": true,
+   "need": 0.01
+  },
+  {
+   "id": "ash",
+   "name": "Ash",
+   "family": "wood",
+   "by": "firewood",
+   "per": 0.1,
+   "price": 30
+  },
+  {
+   "id": "planks",
+   "name": "Planks",
+   "family": "wood",
+   "inputs": {
+    "logs": 1
+   },
+   "labour": 0.5,
+   "weight": 2
+  },
+  {
+   "id": "beams",
+   "name": "Beams",
+   "family": "wood",
+   "inputs": {
+    "logs": 1.2
+   },
+   "labour": 0.4,
+   "weight": 1
+  },
+  {
+   "id": "charcoal",
+   "name": "Charcoal",
+   "family": "wood",
+   "inputs": {
+    "logs": 2
+   },
+   "labour": 0.5,
+   "weight": 2
+  },
+  {
+   "id": "preserved_fish",
+   "name": "Preserved fish (and garum)",
+   "family": "gather",
+   "inputs": {
+    "fish": 1,
+    "salt": 0.2
+   },
+   "labour": 0.5,
+   "weight": 2
+  },
+  {
+   "id": "threshed_grain",
+   "name": "Threshed grain",
+   "family": "grain",
+   "inputs": {
+    "wheat": 1,
+    "durum_wheat": 1,
+    "emmer": 1,
+    "barley": 1,
+    "rye": 1
+   },
+   "labour": 0.1,
+   "weight": 10,
+   "any_input": true,
+   "need": 0.03
+  },
+  {
+   "id": "flour",
+   "name": "Flour",
+   "family": "grain",
+   "inputs": {
+    "threshed_grain": 1
+   },
+   "labour": 0.15,
+   "weight": 6
+  },
+  {
+   "id": "meal",
+   "name": "Meal",
+   "family": "grain",
+   "inputs": {
+    "millet": 1,
+    "barley": 1,
+    "oats": 1
+   },
+   "labour": 0.1,
+   "weight": 2,
+   "any_input": true
+  },
+  {
+   "id": "bread",
+   "name": "Bread",
+   "family": "grain",
+   "inputs": {
+    "flour": 1
+   },
+   "labour": 0.2,
+   "weight": 5,
+   "need": 0.05
+  },
+  {
+   "id": "beer",
+   "name": "Beer",
+   "family": "grain",
+   "inputs": {
+    "barley": 1
+   },
+   "labour": 0.3,
+   "weight": 2
+  },
+  {
+   "id": "fodder",
+   "name": "Animal fodder",
+   "family": "grain",
+   "inputs": {
+    "oats": 1,
+    "barley": 1,
+    "broad_beans": 1
+   },
+   "labour": 0.05,
+   "weight": 2,
+   "any_input": true
+  },
+  {
+   "id": "pottery",
+   "name": "Pottery",
+   "family": "stone",
+   "inputs": {
+    "clay": 1,
+    "firewood": 0.3
+   },
+   "labour": 0.6,
+   "weight": 3,
+   "need": 0.001
+  },
+  {
+   "id": "bricks",
+   "name": "Bricks",
+   "family": "stone",
+   "inputs": {
+    "clay": 1,
+    "firewood": 0.3
+   },
+   "labour": 0.4,
+   "weight": 2
+  },
+  {
+   "id": "roof_tiles",
+   "name": "Roof tiles",
+   "family": "stone",
+   "inputs": {
+    "clay": 1,
+    "firewood": 0.3
+   },
+   "labour": 0.5,
+   "weight": 1
+  },
+  {
+   "id": "amphorae",
+   "name": "Amphorae",
+   "family": "stone",
+   "inputs": {
+    "clay": 1,
+    "firewood": 0.3
+   },
+   "labour": 0.6,
+   "weight": 2
+  },
+  {
+   "id": "lime",
+   "name": "Lime",
+   "family": "stone",
+   "inputs": {
+    "limestone": 1,
+    "firewood": 0.5
+   },
+   "labour": 0.4,
+   "weight": 1
+  },
+  {
+   "id": "plaster",
+   "name": "Plaster",
+   "family": "stone",
+   "inputs": {
+    "lime": 0.5,
+    "sand": 0.5
+   },
+   "labour": 0.2,
+   "weight": 0.5
+  },
+  {
+   "id": "olive_oil",
+   "name": "Olive oil",
+   "family": "oil",
+   "inputs": {
+    "olives": 1
+   },
+   "labour": 0.3,
+   "weight": 3,
+   "need": 0.003
+  },
+  {
+   "id": "olive_waste",
+   "name": "Pressed olive waste",
+   "family": "oil",
+   "by": "olive_oil",
+   "per": 0.5,
+   "price": 15
+  },
+  {
+   "id": "sesame_oil",
+   "name": "Sesame oil",
+   "family": "oil",
+   "inputs": {
+    "sesame": 1
+   },
+   "labour": 0.3,
+   "weight": 1
+  },
+  {
+   "id": "wine",
+   "name": "Wine",
+   "family": "oil",
+   "inputs": {
+    "grapes": 1,
+    "amphorae": 0.1
+   },
+   "labour": 0.4,
+   "weight": 3,
+   "need": 0.004
+  },
+  {
+   "id": "vinegar",
+   "name": "Vinegar",
+   "family": "oil",
+   "inputs": {
+    "wine": 1
+   },
+   "labour": 0.1,
+   "weight": 0.3
+  },
+  {
+   "id": "fruit_preserves",
+   "name": "Fruit preserves",
+   "family": "oil",
+   "inputs": {
+    "figs": 1,
+    "dates": 1,
+    "pomegranates": 1
+   },
+   "labour": 0.3,
+   "weight": 1,
+   "any_input": true
+  },
+  {
+   "id": "flax_fibre",
+   "name": "Flax fibre",
+   "family": "fibre",
+   "inputs": {
+    "flax": 1
+   },
+   "labour": 0.3,
+   "weight": 2
+  },
+  {
+   "id": "hemp_fibre",
+   "name": "Hemp fibre",
+   "family": "fibre",
+   "inputs": {
+    "hemp": 1
+   },
+   "labour": 0.3,
+   "weight": 1
+  },
+  {
+   "id": "linen_yarn",
+   "name": "Spun linen yarn",
+   "family": "fibre",
+   "inputs": {
+    "flax_fibre": 1
+   },
+   "labour": 0.8,
+   "weight": 2
+  },
+  {
+   "id": "wool_yarn",
+   "name": "Wool yarn",
+   "family": "fibre",
+   "inputs": {
+    "wool": 1
+   },
+   "labour": 0.8,
+   "weight": 3
+  },
+  {
+   "id": "linen",
+   "name": "Woven linen",
+   "family": "fibre",
+   "inputs": {
+    "linen_yarn": 1
+   },
+   "labour": 0.8,
+   "weight": 2,
+   "need": 0.004
+  },
+  {
+   "id": "woollen_cloth",
+   "name": "Woven wool",
+   "family": "fibre",
+   "inputs": {
+    "wool_yarn": 1
+   },
+   "labour": 0.8,
+   "weight": 3,
+   "need": 0.006
+  },
+  {
+   "id": "felt",
+   "name": "Felt",
+   "family": "fibre",
+   "inputs": {
+    "wool": 1
+   },
+   "labour": 0.4,
+   "weight": 0.5
+  },
+  {
+   "id": "rope",
+   "name": "Rope",
+   "family": "fibre",
+   "inputs": {
+    "hemp_fibre": 1
+   },
+   "labour": 0.4,
+   "weight": 1
+  },
+  {
+   "id": "sailcloth",
+   "name": "Sailcloth",
+   "family": "fibre",
+   "inputs": {
+    "linen_yarn": 1.2
+   },
+   "labour": 0.8,
+   "weight": 0.5
+  },
+  {
+   "id": "dyed_cloth",
+   "name": "Dyed cloth",
+   "family": "fibre",
+   "inputs": {
+    "woollen_cloth": 1,
+    "alum": 0.05
+   },
+   "labour": 0.5,
+   "weight": 0.5
+  },
+  {
+   "id": "bloom_iron",
+   "name": "Bloom iron",
+   "family": "metalwork",
+   "inputs": {
+    "iron_ore": 2,
+    "charcoal": 2
+   },
+   "labour": 1.0,
+   "weight": 3
+  },
+  {
+   "id": "wrought_iron",
+   "name": "Wrought iron",
+   "family": "metalwork",
+   "inputs": {
+    "bloom_iron": 1,
+    "charcoal": 0.5
+   },
+   "labour": 0.8,
+   "weight": 3
+  },
+  {
+   "id": "steel",
+   "name": "Carburised iron",
+   "family": "metalwork",
+   "inputs": {
+    "wrought_iron": 1,
+    "charcoal": 1
+   },
+   "labour": 1.0,
+   "weight": 1
+  },
+  {
+   "id": "copper",
+   "name": "Copper",
+   "family": "metalwork",
+   "inputs": {
+    "copper_ore": 2,
+    "charcoal": 1
+   },
+   "labour": 0.8,
+   "weight": 2
+  },
+  {
+   "id": "tin",
+   "name": "Tin",
+   "family": "metalwork",
+   "inputs": {
+    "tin_ore": 2,
+    "charcoal": 1
+   },
+   "labour": 0.8,
+   "weight": 1
+  },
+  {
+   "id": "bronze",
+   "name": "Bronze",
+   "family": "metalwork",
+   "inputs": {
+    "copper": 0.9,
+    "tin": 0.1,
+    "charcoal": 0.5
+   },
+   "labour": 0.8,
+   "weight": 2
+  },
+  {
+   "id": "lead",
+   "name": "Lead",
+   "family": "metalwork",
+   "inputs": {
+    "lead_ore": 2,
+    "charcoal": 0.5
+   },
+   "labour": 0.5,
+   "weight": 1
+  },
+  {
+   "id": "silver",
+   "name": "Silver",
+   "family": "metalwork",
+   "inputs": {
+    "silver_ore": 3,
+    "lead": 0.2,
+    "charcoal": 1
+   },
+   "labour": 1.0,
+   "weight": 2
+  },
+  {
+   "id": "gold",
+   "name": "Gold",
+   "family": "metalwork",
+   "inputs": {
+    "gold_ore": 2
+   },
+   "labour": 1.0,
+   "weight": 1
+  },
+  {
+   "id": "nails",
+   "name": "Nails and fittings",
+   "family": "metalwork",
+   "inputs": {
+    "wrought_iron": 1
+   },
+   "labour": 0.8,
+   "weight": 1
+  },
+  {
+   "id": "tools",
+   "name": "Farm tools",
+   "family": "metalwork",
+   "inputs": {
+    "wrought_iron": 0.8,
+    "logs": 0.2
+   },
+   "labour": 0.8,
+   "weight": 2,
+   "need": 0.0003
+  },
+  {
+   "id": "weapons",
+   "name": "Weapons",
+   "family": "metalwork",
+   "inputs": {
+    "wrought_iron": 0.6,
+    "bronze": 0.2,
+    "logs": 0.2
+   },
+   "labour": 1.2,
+   "weight": 1
+  },
+  {
+   "id": "armour",
+   "name": "Armour",
+   "family": "metalwork",
+   "inputs": {
+    "bronze": 0.6,
+    "wrought_iron": 0.3,
+    "hides": 0.3
+   },
+   "labour": 1.5,
+   "weight": 1
+  },
+  {
+   "id": "dressed_stone",
+   "name": "Dressed stone",
+   "family": "build",
+   "inputs": {
+    "limestone": 1,
+    "marble": 1,
+    "granite": 1,
+    "sandstone": 1,
+    "porphyry": 1
+   },
+   "labour": 0.8,
+   "weight": 2,
+   "any_input": true
+  },
+  {
+   "id": "timber_frames",
+   "name": "Timber frames",
+   "family": "build",
+   "inputs": {
+    "beams": 1,
+    "nails": 0.1
+   },
+   "labour": 0.6,
+   "weight": 1
+  },
+  {
+   "id": "carts",
+   "name": "Carts",
+   "family": "build",
+   "inputs": {
+    "planks": 1,
+    "wrought_iron": 0.1
+   },
+   "labour": 1.0,
+   "weight": 1
+  },
+  {
+   "id": "wheels",
+   "name": "Wheels",
+   "family": "build",
+   "inputs": {
+    "planks": 0.6,
+    "wrought_iron": 0.2
+   },
+   "labour": 0.8,
+   "weight": 1
+  },
+  {
+   "id": "harnesses",
+   "name": "Harnesses",
+   "family": "build",
+   "inputs": {
+    "hides": 1,
+    "rope": 0.2
+   },
+   "labour": 0.6,
+   "weight": 1
+  },
+  {
+   "id": "ship_planks",
+   "name": "Ship planks",
+   "family": "build",
+   "inputs": {
+    "ship_timber": 1
+   },
+   "labour": 0.6,
+   "weight": 1
+  },
+  {
+   "id": "hulls",
+   "name": "Hulls",
+   "family": "build",
+   "inputs": {
+    "ship_planks": 2,
+    "cedar": 0.3,
+    "pitch": 0.3,
+    "nails": 0.2
+   },
+   "labour": 2.0,
+   "weight": 0.5
+  },
+  {
+   "id": "sails",
+   "name": "Sails",
+   "family": "build",
+   "inputs": {
+    "sailcloth": 1
+   },
+   "labour": 0.3,
+   "weight": 0.3
+  },
+  {
+   "id": "rigging",
+   "name": "Rigging",
+   "family": "build",
+   "inputs": {
+    "rope": 1
+   },
+   "labour": 0.3,
+   "weight": 0.3
+  },
+  {
+   "id": "anchors",
+   "name": "Anchors",
+   "family": "build",
+   "inputs": {
+    "wrought_iron": 0.5,
+    "lead": 0.2
+   },
+   "labour": 0.5,
+   "weight": 0.2
+  },
+  {
+   "id": "incense",
+   "name": "Incense",
+   "family": "prestige",
+   "inputs": {
+    "frankincense": 1,
+    "myrrh": 1
+   },
+   "labour": 0.3,
+   "weight": 1,
+   "any_input": true
+  },
+  {
+   "id": "perfume",
+   "name": "Perfumes",
+   "family": "prestige",
+   "inputs": {
+    "olive_oil": 0.5,
+    "balsam": 0.2,
+    "myrrh": 0.1
+   },
+   "labour": 0.8,
+   "weight": 1
+  },
+  {
+   "id": "purple_dye",
+   "name": "Purple dye",
+   "family": "prestige",
+   "inputs": {
+    "murex": 3
+   },
+   "labour": 1.5,
+   "weight": 1
+  },
+  {
+   "id": "glass",
+   "name": "Glass",
+   "family": "prestige",
+   "inputs": {
+    "glass_sand": 1,
+    "natron": 0.5,
+    "firewood": 0.5
+   },
+   "labour": 1.0,
+   "weight": 1
+  },
+  {
+   "id": "papyrus",
+   "name": "Papyrus",
+   "family": "prestige",
+   "inputs": {
+    "papyrus_reeds": 1
+   },
+   "labour": 0.8,
+   "weight": 1
+  },
+  {
+   "id": "parchment",
+   "name": "Parchment",
+   "family": "prestige",
+   "inputs": {
+    "hides": 1
+   },
+   "labour": 1.0,
+   "weight": 0.5
+  },
+  {
+   "id": "jewellery",
+   "name": "Jewellery",
+   "family": "prestige",
+   "inputs": {
+    "gold": 0.1,
+    "silver": 0.3,
+    "turquoise": 0.1
+   },
+   "labour": 2.0,
+   "weight": 1
+  },
+  {
+   "id": "worked_ivory",
+   "name": "Worked ivory",
+   "family": "prestige",
+   "inputs": {
+    "ivory": 1
+   },
+   "labour": 2.0,
+   "weight": 0.5
+  },
+  {
+   "id": "fine_ceramics",
+   "name": "Fine ceramics",
+   "family": "prestige",
+   "inputs": {
+    "fine_clay": 1,
+    "firewood": 0.3
+   },
+   "labour": 1.2,
+   "weight": 1
+  }
+ ]
+}

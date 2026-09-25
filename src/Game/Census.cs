@@ -13,6 +13,7 @@ public sealed class RealmCensus
     public int Provinces { get; set; }
     public int Nodes { get; set; }
     public bool Coastal { get; set; }
+    public RealmGoods? Goods { get; set; }   // this year's production (GoodsEngine)
     public HashSet<string> Resources { get; } = new();   // land fields (res_*) the realm holds a good source of
 }
 
