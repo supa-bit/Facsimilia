@@ -839,7 +839,7 @@ public partial class MapView : Node2D
         engine.Start(startYear, capitals);
     }
 
-    void SyncPopulationOwnership() =>
+    internal void SyncPopulationOwnership() =>
         Population!.SetOwnership(Population.OwnershipFromGrid(Grid.Cells, GridWidth, GridHeight, SeaOwnerId), PlayerRealmId);
 
     public double PlayerPopulation() => Population?.RealmPopulation(PlayerRealmId) ?? 0.0;

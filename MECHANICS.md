@@ -1235,6 +1235,31 @@ Still to come in this step: yearly harvests from the weather draw (the
 land's drought risk), and the growth factors' food security read from
 harvest against need.
 
+## Cultures and loyalty **(built, 25 Sep 2026)**
+
+Every province has a people (culture) and a religion, as in 300 BC
+(`data/cultures.json`: a default for each geographic region, with
+provinces that differed, such as Latin Latium, Etruscan Etruria, Jewish
+Judaea, Punic western Sicily). Each playable realm has its ruling culture
+(the Ptolemies and Seleucids are Macedonian); kin cultures (Latin and
+Italic, Greek and Macedonian, Punic and Phoenician, ...) count as close.
+
+- **Integration** (0 to 100%): how fully a province is part of the realm.
+  Provinces held at the start begin at 100% if they share the ruler's
+  culture, 80% otherwise. A conquered province starts at 0% (50% if it
+  is the conqueror's own people) and rises each year: fully in about 10
+  years among one's own people, 40 among kin, 100 among foreigners; half
+  as fast while the realm is at war or taxing heavily.
+- **What it changes:** a province pays tax and gives levies at
+  50% + 50% x integration; the rest of its people count as unorganized
+  (tribute only).
+- **Unrest:** 0.6 x (1 - integration), plus tax (-10% low, +15% heavy,
+  +35% crushing), +10% for a different religion, +30% for each 100% the
+  realm's province count exceeds the court's capacity of 15.
+- **Revolt:** only in the player's realm (other realms' revolts follow
+  history, decided). Above 50% unrest, a province has a yearly chance of
+  (unrest - 50%) x 0.3 to rise and break away as unclaimed land.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

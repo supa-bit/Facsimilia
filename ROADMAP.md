@@ -60,16 +60,25 @@ Each step is verified on the real game before the next begins.
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
        the Regions map overlay
-4. [ ] **Economy**: realm treasury from province sums, taxes, upkeep
-5. [ ] **Military and technology**: armies, Might score, basic tech
-6. [ ] **Integration**: how conquered people come to accept a new ruler
-7. [ ] **Conquest by painting**: the floating Might panel while painting,
-       confirm, win or lose per province. This is where it becomes a game.
+4. [x] **Economy**: treasury in silver talents, four tax rates, tribute
+       from unorganized land, administration, army upkeep, debt at 10%,
+       desertion and default; turn length 1/5/10/25 years
+5. [~] **Military and technology**: seven unit types, manpower,
+       mercenaries, Might and fatigue (done); basic tech still to come
+6. [x] **Cultures and integration**: every province has its 300 BC people
+       and religion (data/cultures.json); conquered provinces integrate
+       over ~10/40/100 years (own/kin/foreign people), pay less until then,
+       and grow restless from heavy tax, a different religion and ruling
+       more than 15 provinces; the player's restless provinces can revolt
+7. [x] **Conquest by painting**: declare war, paint within your army's
+       reach, see the odds, fight it out at the turn's end; peace by war
+       score, truces. This is where it becomes a game.
 
 ## Also needed before it's a full game
 
-- [ ] **Other realms act** (AI): their own choices with history as a pull;
-      expand, go to war, react to the player
+- [x] **Other realms act** (AI): they follow history's campaigns
+      (data/history_goals.json), recruit, go to war, make peace and
+      react to the player
 - [~] **Map views**: regions and 84 land and crop views (done), population heatmap
       (the data already exists), political (today's view)
 - [~] **Click a realm or place** to see its details (provinces done;

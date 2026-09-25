@@ -174,7 +174,9 @@ public partial class Hud
             $"Treasury: {T(s.Treasury)} talents" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
             $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}\n" +
-            $"   Administration −{T(admin)} ({c.Provinces} provinces)   Army −{T(upkeep)}" +
+            $"   Administration −{T(admin)} ({c.Provinces} provinces; your court manages {Loyalty.AdminCapacity} well" +
+            (c.Provinces > Loyalty.AdminCapacity ? ", so every province is restless" : "") + ")\n" +
+            $"     Army −{T(upkeep)}" +
             (interest > 0.5 ? $"   Interest −{T(interest)}" : "") + "\n" +
             $"   Balance {(net >= 0 ? "+" : "−")}{T(Math.Abs(net))} talents a year";
         for (int i = 0; i < 4; i++)

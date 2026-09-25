@@ -32,7 +32,7 @@ public static class Census
         { "res_iron", "res_horses", "res_elephants", "res_ship_timber", "res_copper", "res_tin", "res_silver", "res_gold", "res_salt" };
 
     public static Dictionary<int, RealmCensus> Take(PopulationEngine pop, ProvinceMap? provinces, int gridWidth,
-        int gridHeight, LandLayer? land)
+        int gridHeight, LandLayer? land, Func<int, double>? provinceYield = null)
     {
         var result = new Dictionary<int, RealmCensus>();
         float[] people = pop.Pop;
@@ -67,7 +67,10 @@ public static class Census
                 int prov = provinces.Cells[cy * gridWidth + cx];
                 if (prov != ProvinceMap.None && provinces.Provinces.TryGetValue(prov, out var province)
                     && province.RealmId == owner)
-                    c.OrganizedPeople += p;
+                {
+                    double y = provinceYield?.Invoke(prov) ?? 1;
+                    c.OrganizedPeople += p * y;   // unintegrated provinces pay tribute, not full tax, on the rest
+                }
             }
             if (coast != null && coastField!.Min + coast[i] / 255.0 * (coastField.Max - coastField.Min) < 15)
                 c.Coastal = true;

@@ -1,3 +1,4 @@
+using Facsimilia.Game;
 using System;
 using Facsimilia.World;
 using Godot;
@@ -179,6 +180,13 @@ public partial class Hud
                 : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}";
             var region = _map.RegionAtWorld(p.LabelCell * MapView.CellPixels);
             _provinceRegion.Text = region == null ? "" : $"Region: {region.Name}, {region.Continent}";
+            var ps = _map.ProvinceStateOf(p.Id);
+            if (ps.Culture != "")
+                _provinceRegion.Text += $"\nPeople: {_map.CultureName(ps.Culture)}; worship: {_map.ReligionName(ps.Religion)}";
+            if (p.RealmId > 0)
+                _provinceRegion.Text += $"\nIntegration: {ps.Integration:P0} (pays {Loyalty.Yield(ps.Integration):P0} of full tax)" +
+                    $"\nUnrest: {ps.Unrest:P0}" + (ps.Unrest > Loyalty.RevoltThreshold
+                        ? (mine ? "  - may revolt! Lower taxes or wait for integration." : "  - restless") : "");
         }
         _provinceRealm.Visible = _provinceRealm.Text != "";
         _provinceArea.Visible = _provinceArea.Text != "";

@@ -25,7 +25,7 @@ public partial class MapView
     {
         if (_census == null)
             _census = Population != null
-                ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land)
+                ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land, ProvinceYield)
                 : new Dictionary<int, RealmCensus>();
         return _census;
     }
@@ -76,6 +76,8 @@ public partial class MapView
             var (tax, tribute) = Economy.Revenue(c, state.Tax);
             state.Treasury = Math.Round((tax + tribute) * years);
         }
+        StartLoyalty();
+        _census = null;
     }
 
     /// <summary>The game's yearly step, after population: census, then every realm's economy.</summary>
@@ -85,6 +87,7 @@ public partial class MapView
         _census = null;
         events.AddRange(BotsYear(new Random(HashCode.Combine(DemoYear, 7919))));
         Game.PeaceOffers.RemoveWhere(o => !Game.Wars.AtWar(o, PlayerRealmId));
+        events.AddRange(LoyaltyYear(new Random(HashCode.Combine(DemoYear, 104729))));
         _census = null;
         var census = RealmCensus();
         foreach (var realm in Registry.Realms.Values)
@@ -114,6 +117,8 @@ public partial class MapView
                     CivRealmIds[realm.Id.ToString()] = realm.Id;
             StartGame();
         }
+        if (Game.Provinces.Count == 0)
+            StartLoyalty();   // a save from before cultures
     }
 
     public Culture CultureOf(int realmId) =>

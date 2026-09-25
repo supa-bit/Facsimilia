@@ -101,6 +101,8 @@ public sealed class GameState
     public Wars Wars { get; } = new();
     /// <summary>Realms at war with the player that have sued for peace.</summary>
     public HashSet<int> PeaceOffers { get; } = new();
+    /// <summary>Every province's culture, religion, integration and unrest, by province id.</summary>
+    public Dictionary<int, ProvinceState> Provinces { get; } = new();
 
     public RealmState Realm(int id)
     {
@@ -117,8 +119,12 @@ public sealed class GameState
         var offers = new GArray();
         foreach (int o in PeaceOffers)
             offers.Add(o);
+        var provinces = new GDictionary();
+        foreach (var (id, p) in Provinces)
+            provinces[id.ToString()] = p.ToDict();
         return new GDictionary
         {
+            ["provinces"] = provinces,
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
         };
     }
@@ -139,6 +145,9 @@ public sealed class GameState
         if (d.TryGetValue("peace_offers", out var po))
             foreach (Variant v in po.AsGodotArray())
                 g.PeaceOffers.Add(v.AsInt32());
+        if (d.TryGetValue("provinces", out var pr))
+            foreach (var (k, v) in pr.AsGodotDictionary())
+                g.Provinces[int.Parse(k.AsString())] = ProvinceState.FromDict(v.AsGodotDictionary());
         return g;
     }
 }
