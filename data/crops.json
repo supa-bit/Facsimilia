@@ -1,0 +1,884 @@
+{
+ "about": "Suitability profiles for crops, orchards, herds and fisheries (MECHANICS.md, 'Crop yields and carrying capacity'). Yields are for good land with ancient methods, per hectare actually sown or planted, of the edible product: grain for cereals, dry seed for pulses, oil for olives, fresh fruit for grapes, figs and pomegranates, dried dates, kernels for nuts. Ranges follow FAO crop ecology (ECOCROP) limits narrowed to ancient practice; yields follow ancient-agriculture estimates (e.g. Garnsey, Famine and Food Supply; Hopkins and Jongman on Roman yields; Columella's seed ratios of about 4-10 to 1). Ranges are [dead, full, full, dead]: suitability rises from 0 at the first to 1 at the second, stays 1 to the third, and falls to 0 at the fourth. winter_min is the coldest month's average nightly low (°C) the plant survives; summer_min the hottest month's average high it needs to ripen. salt_tol is the soil salinity index that halves the yield. fertility is how much the yield depends on soil nutrients (legumes fix their own nitrogen). water 'rain' uses rain or irrigation; 'summer' is a summer crop, needing rain in summer or irrigation; 'groundwater' (dates) needs a reachable water table or irrigation whatever the rain. food false: not eaten (fibre crops).",
+ "kcal_per_person_year": 730000,
+ "losses": 0.15,
+ "crops": [
+  {
+   "id": "wheat",
+   "label": "Wheat (durum and bread)",
+   "kind": "field",
+   "yield_t_ha": 1.1,
+   "kcal_per_kg": 3400,
+   "seed_share": 0.2,
+   "rain": [
+    280,
+    450,
+    850,
+    1300
+   ],
+   "temp_mean": [
+    4,
+    9,
+    19,
+    26
+   ],
+   "winter_min": -12,
+   "ph": [
+    5.8,
+    8.6
+   ],
+   "salt_tol": 0.35,
+   "fertility": 0.6,
+   "drainage": 0.3,
+   "depth": 0.35,
+   "water": "rain"
+  },
+  {
+   "id": "emmer",
+   "label": "Emmer",
+   "kind": "field",
+   "yield_t_ha": 0.9,
+   "kcal_per_kg": 3350,
+   "seed_share": 0.2,
+   "rain": [
+    250,
+    400,
+    850,
+    1400
+   ],
+   "temp_mean": [
+    2,
+    7,
+    18,
+    25
+   ],
+   "winter_min": -16,
+   "ph": [
+    5.3,
+    8.6
+   ],
+   "salt_tol": 0.35,
+   "fertility": 0.35,
+   "drainage": 0.25,
+   "depth": 0.3,
+   "water": "rain"
+  },
+  {
+   "id": "barley",
+   "label": "Barley",
+   "kind": "field",
+   "yield_t_ha": 1.1,
+   "kcal_per_kg": 3350,
+   "seed_share": 0.18,
+   "rain": [
+    180,
+    300,
+    650,
+    1200
+   ],
+   "temp_mean": [
+    2,
+    7,
+    21,
+    28
+   ],
+   "winter_min": -15,
+   "ph": [
+    5.8,
+    9.0
+   ],
+   "salt_tol": 0.6,
+   "fertility": 0.4,
+   "drainage": 0.25,
+   "depth": 0.25,
+   "water": "rain"
+  },
+  {
+   "id": "millet",
+   "label": "Millet",
+   "kind": "field",
+   "yield_t_ha": 0.8,
+   "kcal_per_kg": 3600,
+   "seed_share": 0.04,
+   "rain": [
+    300,
+    450,
+    900,
+    1600
+   ],
+   "temp_mean": [
+    8,
+    14,
+    30,
+    34
+   ],
+   "summer_min": 26,
+   "ph": [
+    5.0,
+    8.3
+   ],
+   "salt_tol": 0.35,
+   "fertility": 0.4,
+   "drainage": 0.3,
+   "depth": 0.3,
+   "water": "summer"
+  },
+  {
+   "id": "rye",
+   "label": "Rye",
+   "kind": "field",
+   "yield_t_ha": 1.0,
+   "kcal_per_kg": 3300,
+   "seed_share": 0.2,
+   "rain": [
+    350,
+    500,
+    950,
+    1600
+   ],
+   "temp_mean": [
+    -1,
+    4,
+    12,
+    18
+   ],
+   "winter_min": -30,
+   "ph": [
+    4.5,
+    7.8
+   ],
+   "salt_tol": 0.3,
+   "fertility": 0.3,
+   "drainage": 0.25,
+   "depth": 0.25,
+   "water": "rain"
+  },
+  {
+   "id": "oats",
+   "label": "Oats",
+   "kind": "field",
+   "yield_t_ha": 0.9,
+   "kcal_per_kg": 3800,
+   "seed_share": 0.2,
+   "rain": [
+    450,
+    600,
+    1100,
+    1700
+   ],
+   "temp_mean": [
+    1,
+    5,
+    13,
+    19
+   ],
+   "winter_min": -15,
+   "ph": [
+    5.0,
+    7.8
+   ],
+   "salt_tol": 0.3,
+   "fertility": 0.4,
+   "drainage": 0.2,
+   "depth": 0.3,
+   "water": "rain"
+  },
+  {
+   "id": "lentils",
+   "label": "Lentils",
+   "kind": "field",
+   "yield_t_ha": 0.6,
+   "kcal_per_kg": 3500,
+   "seed_share": 0.12,
+   "rain": [
+    220,
+    330,
+    600,
+    950
+   ],
+   "temp_mean": [
+    5,
+    9,
+    20,
+    27
+   ],
+   "winter_min": -10,
+   "ph": [
+    6.0,
+    8.6
+   ],
+   "salt_tol": 0.2,
+   "fertility": 0.1,
+   "drainage": 0.45,
+   "depth": 0.3,
+   "water": "rain"
+  },
+  {
+   "id": "chickpeas",
+   "label": "Chickpeas",
+   "kind": "field",
+   "yield_t_ha": 0.6,
+   "kcal_per_kg": 3600,
+   "seed_share": 0.12,
+   "rain": [
+    250,
+    400,
+    650,
+    1000
+   ],
+   "temp_mean": [
+    8,
+    12,
+    22,
+    29
+   ],
+   "winter_min": -8,
+   "ph": [
+    6.0,
+    9.0
+   ],
+   "salt_tol": 0.2,
+   "fertility": 0.1,
+   "drainage": 0.45,
+   "depth": 0.35,
+   "water": "rain"
+  },
+  {
+   "id": "peas",
+   "label": "Peas",
+   "kind": "field",
+   "yield_t_ha": 0.7,
+   "kcal_per_kg": 3400,
+   "seed_share": 0.15,
+   "rain": [
+    350,
+    500,
+    850,
+    1300
+   ],
+   "temp_mean": [
+    3,
+    7,
+    17,
+    23
+   ],
+   "winter_min": -10,
+   "ph": [
+    5.5,
+    8.0
+   ],
+   "salt_tol": 0.2,
+   "fertility": 0.1,
+   "drainage": 0.4,
+   "depth": 0.3,
+   "water": "rain"
+  },
+  {
+   "id": "broad_beans",
+   "label": "Broad beans",
+   "kind": "field",
+   "yield_t_ha": 0.9,
+   "kcal_per_kg": 3400,
+   "seed_share": 0.15,
+   "rain": [
+    330,
+    500,
+    950,
+    1400
+   ],
+   "temp_mean": [
+    5,
+    9,
+    18,
+    25
+   ],
+   "winter_min": -8,
+   "ph": [
+    5.5,
+    8.6
+   ],
+   "salt_tol": 0.3,
+   "fertility": 0.1,
+   "drainage": 0.25,
+   "depth": 0.35,
+   "water": "rain"
+  },
+  {
+   "id": "sesame",
+   "label": "Sesame",
+   "kind": "field",
+   "yield_t_ha": 0.4,
+   "kcal_per_kg": 5700,
+   "seed_share": 0.02,
+   "rain": [
+    400,
+    550,
+    900,
+    1500
+   ],
+   "temp_mean": [
+    14,
+    20,
+    30,
+    35
+   ],
+   "summer_min": 30,
+   "ph": [
+    5.5,
+    8.3
+   ],
+   "salt_tol": 0.25,
+   "fertility": 0.5,
+   "drainage": 0.45,
+   "depth": 0.35,
+   "water": "summer"
+  },
+  {
+   "id": "flax",
+   "label": "Flax",
+   "kind": "field",
+   "yield_t_ha": 0.5,
+   "kcal_per_kg": 5300,
+   "seed_share": 0.1,
+   "food": false,
+   "rain": [
+    400,
+    600,
+    950,
+    1400
+   ],
+   "temp_mean": [
+    4,
+    9,
+    19,
+    25
+   ],
+   "winter_min": -12,
+   "ph": [
+    5.5,
+    8.0
+   ],
+   "salt_tol": 0.3,
+   "fertility": 0.6,
+   "drainage": 0.2,
+   "depth": 0.3,
+   "water": "rain"
+  },
+  {
+   "id": "hemp",
+   "label": "Hemp",
+   "kind": "field",
+   "yield_t_ha": 0.5,
+   "kcal_per_kg": 5000,
+   "seed_share": 0.05,
+   "food": false,
+   "rain": [
+    500,
+    650,
+    1100,
+    1700
+   ],
+   "temp_mean": [
+    3,
+    8,
+    17,
+    23
+   ],
+   "winter_min": -25,
+   "ph": [
+    5.5,
+    8.0
+   ],
+   "salt_tol": 0.25,
+   "fertility": 0.7,
+   "drainage": 0.3,
+   "depth": 0.4,
+   "water": "rain"
+  },
+  {
+   "id": "olives",
+   "label": "Olives",
+   "kind": "orchard",
+   "yield_t_ha": 0.25,
+   "kcal_per_kg": 8840,
+   "years_to_bear": 15,
+   "rain": [
+    200,
+    400,
+    850,
+    1300
+   ],
+   "temp_mean": [
+    11,
+    15,
+    21,
+    26
+   ],
+   "winter_min": -3,
+   "summer_min": 25,
+   "ph": [
+    5.5,
+    8.8
+   ],
+   "salt_tol": 0.5,
+   "fertility": 0.2,
+   "drainage": 0.45,
+   "depth": 0.15,
+   "water": "rain"
+  },
+  {
+   "id": "grapes",
+   "label": "Grapes",
+   "kind": "orchard",
+   "yield_t_ha": 3.0,
+   "kcal_per_kg": 690,
+   "years_to_bear": 4,
+   "rain": [
+    250,
+    400,
+    850,
+    1400
+   ],
+   "temp_mean": [
+    9,
+    13,
+    21,
+    26
+   ],
+   "winter_min": -12,
+   "summer_min": 24,
+   "ph": [
+    5.0,
+    8.6
+   ],
+   "salt_tol": 0.35,
+   "fertility": 0.2,
+   "drainage": 0.45,
+   "depth": 0.15,
+   "water": "rain",
+   "south_slopes": true
+  },
+  {
+   "id": "figs",
+   "label": "Figs",
+   "kind": "orchard",
+   "yield_t_ha": 2.0,
+   "kcal_per_kg": 740,
+   "years_to_bear": 5,
+   "rain": [
+    250,
+    400,
+    900,
+    1400
+   ],
+   "temp_mean": [
+    12,
+    16,
+    24,
+    29
+   ],
+   "winter_min": -4,
+   "summer_min": 26,
+   "ph": [
+    5.5,
+    8.8
+   ],
+   "salt_tol": 0.45,
+   "fertility": 0.3,
+   "drainage": 0.35,
+   "depth": 0.2,
+   "water": "rain"
+  },
+  {
+   "id": "dates",
+   "label": "Date palms",
+   "kind": "orchard",
+   "yield_t_ha": 3.0,
+   "kcal_per_kg": 2800,
+   "years_to_bear": 7,
+   "temp_mean": [
+    18,
+    22,
+    32,
+    36
+   ],
+   "winter_min": 2,
+   "summer_min": 38,
+   "ph": [
+    6.0,
+    9.2
+   ],
+   "salt_tol": 0.75,
+   "fertility": 0.3,
+   "drainage": 0.2,
+   "depth": 0.3,
+   "water": "groundwater"
+  },
+  {
+   "id": "pomegranates",
+   "label": "Pomegranates",
+   "kind": "orchard",
+   "yield_t_ha": 3.0,
+   "kcal_per_kg": 830,
+   "years_to_bear": 4,
+   "rain": [
+    250,
+    400,
+    800,
+    1300
+   ],
+   "temp_mean": [
+    11,
+    15,
+    24,
+    30
+   ],
+   "winter_min": -5,
+   "summer_min": 28,
+   "ph": [
+    5.5,
+    8.8
+   ],
+   "salt_tol": 0.5,
+   "fertility": 0.3,
+   "drainage": 0.35,
+   "depth": 0.25,
+   "water": "rain"
+  },
+  {
+   "id": "almonds",
+   "label": "Almonds",
+   "kind": "orchard",
+   "yield_t_ha": 0.3,
+   "kcal_per_kg": 5800,
+   "years_to_bear": 5,
+   "rain": [
+    220,
+    350,
+    700,
+    1000
+   ],
+   "temp_mean": [
+    10,
+    14,
+    21,
+    26
+   ],
+   "winter_min": -6,
+   "summer_min": 26,
+   "ph": [
+    6.0,
+    8.8
+   ],
+   "salt_tol": 0.3,
+   "fertility": 0.3,
+   "drainage": 0.5,
+   "depth": 0.25,
+   "water": "rain"
+  },
+  {
+   "id": "walnuts",
+   "label": "Walnuts",
+   "kind": "orchard",
+   "yield_t_ha": 0.35,
+   "kcal_per_kg": 6500,
+   "years_to_bear": 10,
+   "rain": [
+    500,
+    700,
+    1200,
+    1900
+   ],
+   "temp_mean": [
+    5,
+    9,
+    16,
+    20
+   ],
+   "winter_min": -15,
+   "ph": [
+    5.5,
+    8.2
+   ],
+   "salt_tol": 0.25,
+   "fertility": 0.5,
+   "drainage": 0.4,
+   "depth": 0.45,
+   "water": "rain"
+  },
+  {
+   "id": "vegetables",
+   "label": "Vegetables and herbs",
+   "kind": "orchard",
+   "yield_t_ha": 4.0,
+   "kcal_per_kg": 350,
+   "years_to_bear": 0,
+   "rain": [
+    350,
+    550,
+    1000,
+    1600
+   ],
+   "temp_mean": [
+    4,
+    9,
+    25,
+    32
+   ],
+   "winter_min": -20,
+   "ph": [
+    5.5,
+    8.5
+   ],
+   "salt_tol": 0.35,
+   "fertility": 0.7,
+   "drainage": 0.3,
+   "depth": 0.3,
+   "water": "rain",
+   "garden": true
+  },
+  {
+   "id": "sheep",
+   "label": "Sheep",
+   "kind": "herd",
+   "forage": {
+    "grassland": 1.0,
+    "scrub": 0.6,
+    "farmed": 0.4,
+    "woodland": 0.15,
+    "desert": 0.08
+   },
+   "rain": [
+    80,
+    250,
+    900,
+    1800
+   ],
+   "temp_mean": [
+    -2,
+    4,
+    24,
+    32
+   ],
+   "winter_min": -35,
+   "wet_penalty": true
+  },
+  {
+   "id": "goats",
+   "label": "Goats",
+   "kind": "herd",
+   "forage": {
+    "scrub": 1.0,
+    "grassland": 0.6,
+    "woodland": 0.5,
+    "farmed": 0.3,
+    "desert": 0.12
+   },
+   "rain": [
+    50,
+    200,
+    1000,
+    2000
+   ],
+   "temp_mean": [
+    0,
+    6,
+    28,
+    34
+   ],
+   "winter_min": -25,
+   "rugged": true
+  },
+  {
+   "id": "cattle",
+   "label": "Cattle",
+   "kind": "herd",
+   "forage": {
+    "grassland": 1.0,
+    "farmed": 0.5,
+    "marsh": 0.7,
+    "woodland": 0.3,
+    "scrub": 0.2
+   },
+   "rain": [
+    300,
+    550,
+    1500,
+    2500
+   ],
+   "temp_mean": [
+    -2,
+    4,
+    26,
+    32
+   ],
+   "winter_min": -30,
+   "needs_water": true
+  },
+  {
+   "id": "pigs",
+   "label": "Pigs",
+   "kind": "herd",
+   "forage": {
+    "woodland": 1.0,
+    "farmed": 0.4,
+    "marsh": 0.4,
+    "grassland": 0.2
+   },
+   "rain": [
+    400,
+    600,
+    1500,
+    2500
+   ],
+   "temp_mean": [
+    -2,
+    5,
+    22,
+    28
+   ],
+   "winter_min": -30
+  },
+  {
+   "id": "horses",
+   "label": "Horses",
+   "kind": "herd",
+   "forage": {
+    "grassland": 1.0,
+    "farmed": 0.3,
+    "scrub": 0.2
+   },
+   "rain": [
+    200,
+    350,
+    900,
+    1600
+   ],
+   "temp_mean": [
+    -5,
+    2,
+    22,
+    30
+   ],
+   "winter_min": -40
+  },
+  {
+   "id": "donkeys",
+   "label": "Donkeys and mules",
+   "kind": "herd",
+   "forage": {
+    "scrub": 1.0,
+    "grassland": 0.8,
+    "farmed": 0.4,
+    "desert": 0.15
+   },
+   "rain": [
+    80,
+    200,
+    800,
+    1400
+   ],
+   "temp_mean": [
+    4,
+    10,
+    30,
+    35
+   ],
+   "winter_min": -12
+  },
+  {
+   "id": "camels",
+   "label": "Camels",
+   "kind": "herd",
+   "forage": {
+    "desert": 1.0,
+    "scrub": 0.8,
+    "grassland": 0.5
+   },
+   "rain": [
+    5,
+    40,
+    250,
+    500
+   ],
+   "temp_mean": [
+    12,
+    18,
+    34,
+    38
+   ],
+   "winter_min": -8
+  },
+  {
+   "id": "poultry",
+   "label": "Poultry",
+   "kind": "herd",
+   "forage": {
+    "farmed": 1.0,
+    "grassland": 0.2,
+    "marsh": 0.3
+   },
+   "rain": [
+    150,
+    300,
+    1500,
+    2500
+   ],
+   "temp_mean": [
+    0,
+    6,
+    28,
+    34
+   ],
+   "winter_min": -25
+  },
+  {
+   "id": "bees",
+   "label": "Bees (honey, wax)",
+   "kind": "herd",
+   "forage": {
+    "scrub": 1.0,
+    "woodland": 0.6,
+    "grassland": 0.5,
+    "farmed": 0.3
+   },
+   "rain": [
+    200,
+    350,
+    1100,
+    1800
+   ],
+   "temp_mean": [
+    4,
+    10,
+    24,
+    30
+   ],
+   "winter_min": -20
+  },
+  {
+   "id": "fishing",
+   "label": "Fishing",
+   "kind": "fish"
+  }
+ ],
+ "pasture": {
+  "about": "Food from herds: milk, cheese and meat per hectare grazed, from how much the land grows (plant_growth, g C/m²/year). Ancient pastoral densities run from under 1 person per km² in deserts to about 10 on good steppe.",
+  "kcal_per_ha_per_npp": 100
+ },
+ "fishing": {
+  "about": "Yearly food from fishing per node: the coastal shallows and the river, lake and marsh within it.",
+  "kcal_coast_shallows": 900000000.0,
+  "kcal_river": 200000000.0,
+  "kcal_lake": 400000000.0,
+  "kcal_marsh": 300000000.0
+ },
+ "land_use": {
+  "about": "How much of a place can be farmed at most with ancient methods. Rain-fed farming needs woodland for fuel and pasture for the plough oxen, so pre-industrial arable land rarely passed 30-50% of the land; irrigated valleys like the Nile's were sown almost wall to wall. Slopes take orchards, vines and terraces; the rest grazes. Rain-fed fields lie fallow every other year. The ancient ard struggles with heavy clay: its yield falls by heavy_clay_penalty on the heaviest soils until the mouldboard plough (a later technology).",
+  "field_max": 0.4,
+  "field_max_irrigated": 0.85,
+  "terrace_share": 0.2,
+  "fallow_rainfed": 0.5,
+  "heavy_clay_penalty": 0.35
+ }
+}

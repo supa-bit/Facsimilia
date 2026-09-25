@@ -1,0 +1,38 @@
+{
+  // Set GODOT to the Godot 4.7.2 .NET executable (the "mono" build), e.g.
+  // in your shell profile, or replace ${env:GODOT} with its path.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Play",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${env:GODOT}",
+      "args": ["--path", "${workspaceFolder}"],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Editor",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${env:GODOT}",
+      "args": ["--path", "${workspaceFolder}", "--editor"],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Test (current C# test file)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${env:GODOT}",
+      "args": ["--headless", "--path", "${workspaceFolder}", "--script", "res://src/Tests/${fileBasename}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "stopAtEntry": false
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<Project Sdk="Godot.NET.Sdk/4.7.2">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>Facsimilia</RootNamespace>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- Optimized code even in the editor's Debug builds: the map work (tens of
+         millions of cells) runs several times faster, at the cost of less
+         precise line-by-line debugging. -->
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <!--
+    Build stamp, shown in the main menu's corner (MainMenu.BuildStamp): the git
+    commit this was compiled from (if git is on the PATH) and when it was
+    compiled, so it's always clear which version is running.
+  -->
+  <Target Name="StampBuild" BeforeTargets="InitializeSourceControlInformation;GetAssemblyAttributes">
+    <!-- Read the commit straight from the .git folder, so it works without git
+         installed (GitHub Desktop on Windows doesn't put git on the PATH);
+         fall back to the git command for packed refs. -->
+    <PropertyGroup>
+      <_GitDir>$(MSBuildProjectDirectory)/.git</_GitDir>
+      <_GitHead Condition="Exists('$(_GitDir)/HEAD')">$([System.IO.File]::ReadAllText('$(_GitDir)/HEAD').Trim())</_GitHead>
+      <_GitRef Condition="$(_GitHead.StartsWith('ref: '))">$(_GitHead.Substring(5))</_GitRef>
+      <_GitSha Condition="'$(_GitRef)' != '' And Exists('$(_GitDir)/$(_GitRef)')">$([System.IO.File]::ReadAllText('$(_GitDir)/$(_GitRef)').Trim())</_GitSha>
+      <_GitSha Condition="'$(_GitRef)' == '' And '$(_GitHead)' != ''">$(_GitHead)</_GitSha>
+      <FacsimiliaCommit Condition="$(_GitSha.Length) &gt;= 7">$(_GitSha.Substring(0, 7))</FacsimiliaCommit>
+    </PropertyGroup>
+    <Exec Condition="'$(FacsimiliaCommit)' == ''" Command="git rev-parse --short HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true"
+          StandardOutputImportance="low" StandardErrorImportance="low" ContinueOnError="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="FacsimiliaCommit" />
+    </Exec>
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>Commit</_Parameter1>
+        <_Parameter2>$(FacsimiliaCommit)</_Parameter2>
+      </AssemblyAttribute>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+        <_Parameter1>BuiltUtc</_Parameter1>
+        <_Parameter2>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd HH:mm"))</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+</Project>
