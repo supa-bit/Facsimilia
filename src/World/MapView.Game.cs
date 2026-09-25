@@ -28,6 +28,7 @@ public partial class MapView
             _census = Population != null
                 ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land, ProvinceYield)
                 : new Dictionary<int, RealmCensus>();
+            CountLabour(_census);
             var cat = GoodsCatalog();
             if (cat != null && Population != null && Land != null && Crops != null)
             {
@@ -131,6 +132,7 @@ public partial class MapView
             if (news != null)
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, realm.Id, $"{realm.Name}: {news}"));
         }
+        events.AddRange(LabourYear());
         if (Population != null)
             Economy.ApplyBurden(Population, Game.Realms);
         return events;

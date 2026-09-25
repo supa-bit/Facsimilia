@@ -52,7 +52,7 @@ public partial class MapView
     /// <summary>How each kind of work does in each region this year (index = region id), for the goods.</summary>
     Dictionary<string, double[]>? WorkFactors()
     {
-        if (Population == null || Game.Nature.Count == 0)
+        if (Population == null)
             return null;
         int count = Population.RegionCount + 1;
         var f = new Dictionary<string, double[]>
@@ -60,6 +60,9 @@ public partial class MapView
             ["field"] = new double[count], ["orchard"] = new double[count], ["herd"] = new double[count],
             ["gather"] = new double[count], ["forest"] = new double[count],
         };
+        var mines = MineFactors();
+        if (mines != null && mines.Length == count)
+            f["mine"] = mines;
         for (int r = 0; r < count; r++)
         {
             var n = NatureOf(r);

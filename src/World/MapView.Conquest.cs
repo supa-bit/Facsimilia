@@ -220,7 +220,9 @@ public partial class MapView
             {
                 if (t.ProvinceId != 0)
                 {
-                    Provinces!.SetRealm(t.ProvinceId, t.Attacker, Grid);
+                    if (Provinces!.Provinces.TryGetValue(t.ProvinceId, out var taken))
+                        TakeCaptives(t.Attacker, taken);
+                    Provinces.SetRealm(t.ProvinceId, t.Attacker, Grid);
                     Game.Wars.Between(t.Attacker, t.Owner)?.RecordTaken(t.Attacker, t.ProvinceId);
                 }
                 else

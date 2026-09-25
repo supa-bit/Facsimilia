@@ -66,7 +66,7 @@ public static class Economy
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
     public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>
-        ManpowerShare * multiplier * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
+        ManpowerShare * multiplier * c.LevyShare * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
 
     /// <summary>
     /// One year for one realm. Returns what happened worth a chronicle line

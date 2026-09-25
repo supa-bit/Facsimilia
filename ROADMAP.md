@@ -15,7 +15,7 @@ block the work that depends on them.
 1. [x] Goods and recipes
 2. [x] Harvests, weather and renewable stocks
 3. [x] Trade
-4. [ ] Labour and people
+4. [x] Labour and people
 5. [ ] Score, goals and first-game polish
 
 ## Right now
@@ -64,7 +64,9 @@ Each step is verified on the real game before the next begins.
    - [x] Goods and recipes: 148 goods in 13 families, raw from the land,
          made by recipe, needs and shortages; taxes are a share of their
          value; Goods panel (G)
-   - [ ] Labour from the population, as history had it (section 4)
+   - [x] Labour from the population, as history had it: free,
+         dependent and enslaved by region and century, levies, mines,
+         captives and the slave trade, abolition
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
        the Regions map overlay

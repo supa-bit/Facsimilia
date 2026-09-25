@@ -37,7 +37,11 @@ public sealed class RealmState
     public double LastUpkeep { get; set; }
     public double LastInterest { get; set; }
     public double LastCustoms { get; set; }
-    public double LastNet => LastTax + LastTribute + LastCustoms - LastAdmin - LastUpkeep - LastInterest;
+    /// <summary>Talents from selling captives as slaves last year.</summary>
+    public double LastCaptiveSales { get; set; }
+    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales - LastAdmin - LastUpkeep - LastInterest;
+    /// <summary>People taken in war and held as slaves.</summary>
+    public double Captives { get; set; }
 
     public RealmState(int realmId) => RealmId = realmId;
 
@@ -50,7 +54,7 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms },
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives,
         };
     }
 
@@ -67,6 +71,7 @@ public sealed class RealmState
             CivKey = d.TryGetValue("civ", out var k) ? k.AsString() : "",
             ManpowerMultiplier = d.TryGetValue("manpower_mult", out var mm) ? mm.AsDouble() : 1,
             ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
+            Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
         };
         if (d.TryGetValue("units", out var units))
         {
@@ -81,6 +86,8 @@ public sealed class RealmState
             {
                 if (a.Count >= 6)
                     r.LastCustoms = a[5].AsDouble();
+                if (a.Count >= 7)
+                    r.LastCaptiveSales = a[6].AsDouble();
                 r.LastTax = a[0].AsDouble(); r.LastTribute = a[1].AsDouble(); r.LastAdmin = a[2].AsDouble();
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }

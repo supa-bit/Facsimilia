@@ -73,7 +73,7 @@ public static class Loyalty
     public const double WantUnrest = 0.4;
 
     public static void Tick(ProvinceState p, Kinship rel, bool sameReligion, bool atWar, TaxRate tax, int realmProvinces,
-        double satisfaction = 1)
+        double satisfaction = 1, double enslavedShare = 0)
     {
         double years = rel switch { Kinship.Same => SameCultureYears, Kinship.Kin => KinYears, _ => ForeignYears };
         double rate = 1 / years;
@@ -84,7 +84,8 @@ public static class Loyalty
         p.Integration = Math.Min(1, p.Integration + rate);
         p.Unrest = Math.Max(0, 0.6 * (1 - p.Integration) + TaxUnrest[(int)tax]
             + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces)
-            + WantUnrest * Math.Max(0, 0.8 - satisfaction) / 0.8);
+            + WantUnrest * Math.Max(0, 0.8 - satisfaction) / 0.8
+            + Labour.ServileUnrest(enslavedShare));
     }
 
     public static double ChanceOfRevolt(double unrest) =>

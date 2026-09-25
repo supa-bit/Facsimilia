@@ -13,7 +13,12 @@ public sealed class RealmCensus
     public int Provinces { get; set; }
     public int Nodes { get; set; }
     public bool Coastal { get; set; }
-    public RealmGoods? Goods { get; set; }   // this year's production (GoodsEngine)
+    public RealmGoods? Goods { get; set; }
+    // Who does the work (Labour): free, dependent and enslaved, captives included.
+    public double Free { get; set; }
+    public double Dependent { get; set; }
+    public double Enslaved { get; set; }
+    public double LevyShare => People > 0 && Free + Dependent + Enslaved > 0 ? Labour.LevyShare(Free, Dependent, People) : 1;   // this year's production (GoodsEngine)
     public HashSet<string> Resources { get; } = new();   // land fields (res_*) the realm holds a good source of
 }
 

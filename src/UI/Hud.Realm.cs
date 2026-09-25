@@ -180,12 +180,20 @@ public partial class Hud
             (c.Provinces > Loyalty.AdminCapacity ? ", so every province is restless" : "") + ")\n" +
             $"     Army −{T(upkeep)}" +
             (interest > 0.5 ? $"   Interest −{T(interest)}" : "") + "\n" +
+            (s.LastCaptiveSales > 0.5 ? $"   Last year's sale of captives +{T(s.LastCaptiveSales)}\n" : "") +
             $"   Balance {(net >= 0 ? "+" : "−")}{T(Math.Abs(net))} talents a year";
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
         _manpower.Text = $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}" +
             $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c, s.ManpowerMultiplier))})." +
-            "\nBeyond them, mercenaries can be hired at twice the price.";
+            "\nBeyond them, mercenaries can be hired at twice the price." +
+            (c.Free + c.Dependent + c.Enslaved > 0
+                ? $"\nYour people: {c.Free / (c.Free + c.Dependent + c.Enslaved):P0} free, " +
+                  $"{c.Dependent / (c.Free + c.Dependent + c.Enslaved):P0} dependent, " +
+                  $"{c.Enslaved / (c.Free + c.Dependent + c.Enslaved):P0} enslaved" +
+                  (s.Captives >= 1 ? $" ({ThemeAncient.GroupThousands((long)s.Captives)} of them captives of war)" : "") +
+                  ".\nLevies come from free men; dependents give half as many."
+                : "");
         for (int t = 0; t < UnitTypes.Count; t++)
         {
             var (name, count, raise, disband) = _unitRows[t];

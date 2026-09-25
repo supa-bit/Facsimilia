@@ -1177,6 +1177,34 @@ are **loads**: what one person makes in a year of full work on ideal land.
 - **Slaves**: the slave trade comes with labour (section 4), since
   people are counted by the population, not as goods.
 
+### Labour and people **(built, 25 Sep 2026)**
+
+Decided: history is king. `data/labour.json` gives, for every geographic
+region, the shares of its people who were **dependent** (bound tenants,
+serfs, Egypt's royal farmers, helots, clients) and **enslaved**, at points
+through time (Italy's enslaved share grows from about 10% in 300 BC to a
+quarter in the late Republic, then falls as tenancy and serfdom rise),
+interpolated between them, and the year slavery was abolished in law in
+each region's lands (from then the enslaved share is 0). The rest are
+free. The figures are approximate (Scheidel 2008; the Cambridge Economic
+History of the Greco-Roman World) and meant to be refined.
+
+- **Levies**: only free men serve in full; dependents give half as
+  many; the enslaved none. A realm's manpower is scaled by this.
+- **Mines**: the enslaved worked the mines (Laurion, the Spanish silver
+  mines): a region's mine output is multiplied by 1 + 2 x its enslaved
+  share.
+- **Unrest**: where more than 15% are enslaved, unrest rises (the risk
+  of servile war).
+- **Captives and the slave trade**: a conqueror carries off 5% of a
+  taken province's people as captives (not after abolition there).
+  Captives count among the realm's enslaved; 5% a year die or are
+  freed; beyond 5% of the realm's people, they are sold in the slave
+  markets at 300 drachmae each, and the silver reaches the treasury.
+- **On screen**: the Treasury and Army panel shows the realm's free,
+  dependent and enslaved shares and its captives, and the sale of
+  captives in the accounts.
+
 ### What it feeds
 
 - **Carrying capacity**: the food a region's land can grow: calories from
