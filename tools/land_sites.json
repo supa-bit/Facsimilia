@@ -1,0 +1,1287 @@
+{
+ "about": "Hand-authored historical sites for the land layer: mines, quarries, salt, and special habitats that no global dataset records for antiquity. Positions are approximate (lon, lat, to ~10 km). 'from'/'to' are the years the site was worked or existed (negative = BC); omitted means throughout the game's span. 'strength' 0-1 is how important the site was. These are historical facts compiled from standard reference works (e.g. Healy, Mining and Metallurgy in the Greek and Roman World; the Barrington Atlas; Pliny, Natural History; Strabo); facts carry no copyright. Hand fixes to the gridded data go in 'fixes'.",
+ "sites": [
+  {
+   "name": "Laurion",
+   "kind": "mine",
+   "goods": [
+    "silver",
+    "lead"
+   ],
+   "lon": 24.05,
+   "lat": 37.72,
+   "strength": 1.0,
+   "from": -600,
+   "to": -100
+  },
+  {
+   "name": "Rio Tinto",
+   "kind": "mine",
+   "goods": [
+    "copper",
+    "silver",
+    "gold"
+   ],
+   "lon": -6.59,
+   "lat": 37.7,
+   "strength": 1.0
+  },
+  {
+   "name": "Carthago Nova mines",
+   "kind": "mine",
+   "goods": [
+    "silver",
+    "lead"
+   ],
+   "lon": -0.98,
+   "lat": 37.6,
+   "strength": 1.0,
+   "from": -230,
+   "to": 100
+  },
+  {
+   "name": "Sierra Morena (Castulo)",
+   "kind": "mine",
+   "goods": [
+    "silver",
+    "lead",
+    "copper"
+   ],
+   "lon": -3.63,
+   "lat": 38.03,
+   "strength": 0.9
+  },
+  {
+   "name": "Las Medulas",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": -6.76,
+   "lat": 42.46,
+   "strength": 1.0,
+   "from": -20,
+   "to": 250
+  },
+  {
+   "name": "Almaden",
+   "kind": "mine",
+   "goods": [
+    "cinnabar"
+   ],
+   "lon": -4.83,
+   "lat": 38.77,
+   "strength": 1.0
+  },
+  {
+   "name": "Moncayo (Celtiberian iron)",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": -1.8,
+   "lat": 41.8,
+   "strength": 0.8
+  },
+  {
+   "name": "Galician tin",
+   "kind": "mine",
+   "goods": [
+    "tin"
+   ],
+   "lon": -8.0,
+   "lat": 42.1,
+   "strength": 0.8
+  },
+  {
+   "name": "Siphnos",
+   "kind": "mine",
+   "goods": [
+    "gold",
+    "silver"
+   ],
+   "lon": 24.7,
+   "lat": 36.97,
+   "strength": 0.6,
+   "to": -500
+  },
+  {
+   "name": "Mount Pangaion",
+   "kind": "mine",
+   "goods": [
+    "gold",
+    "silver"
+   ],
+   "lon": 24.0,
+   "lat": 40.9,
+   "strength": 1.0,
+   "from": -360
+  },
+  {
+   "name": "Thasos",
+   "kind": "mine",
+   "goods": [
+    "gold",
+    "silver"
+   ],
+   "lon": 24.7,
+   "lat": 40.7,
+   "strength": 0.7
+  },
+  {
+   "name": "Damastion",
+   "kind": "mine",
+   "goods": [
+    "silver"
+   ],
+   "lon": 20.4,
+   "lat": 42.0,
+   "strength": 0.6
+  },
+  {
+   "name": "Pactolus",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": 28.0,
+   "lat": 38.5,
+   "strength": 0.5
+  },
+  {
+   "name": "Taurus silver (Bolkar)",
+   "kind": "mine",
+   "goods": [
+    "silver",
+    "lead"
+   ],
+   "lon": 34.6,
+   "lat": 37.4,
+   "strength": 0.8
+  },
+  {
+   "name": "Kestel tin",
+   "kind": "mine",
+   "goods": [
+    "tin"
+   ],
+   "lon": 34.6,
+   "lat": 37.5,
+   "strength": 0.2
+  },
+  {
+   "name": "Ergani",
+   "kind": "mine",
+   "goods": [
+    "copper"
+   ],
+   "lon": 39.75,
+   "lat": 38.27,
+   "strength": 0.8
+  },
+  {
+   "name": "Chalybes (Pontic iron)",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": 37.5,
+   "lat": 41.0,
+   "strength": 0.9
+  },
+  {
+   "name": "Colchian gold",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": 42.0,
+   "lat": 42.3,
+   "strength": 0.6
+  },
+  {
+   "name": "Troodos (Cyprus copper)",
+   "kind": "mine",
+   "goods": [
+    "copper"
+   ],
+   "lon": 32.9,
+   "lat": 35.0,
+   "strength": 1.0
+  },
+  {
+   "name": "Faynan",
+   "kind": "mine",
+   "goods": [
+    "copper"
+   ],
+   "lon": 35.45,
+   "lat": 30.63,
+   "strength": 0.8
+  },
+  {
+   "name": "Timna",
+   "kind": "mine",
+   "goods": [
+    "copper"
+   ],
+   "lon": 34.95,
+   "lat": 29.78,
+   "strength": 0.5
+  },
+  {
+   "name": "Serabit el-Khadim",
+   "kind": "mine",
+   "goods": [
+    "copper",
+    "turquoise"
+   ],
+   "lon": 33.46,
+   "lat": 29.03,
+   "strength": 0.4
+  },
+  {
+   "name": "Eastern Desert gold (Fawakhir)",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": 33.6,
+   "lat": 26.0,
+   "strength": 0.8
+  },
+  {
+   "name": "Nubian gold (Wadi Allaqi)",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": 33.0,
+   "lat": 22.5,
+   "strength": 1.0
+  },
+  {
+   "name": "Meroe iron",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": 33.75,
+   "lat": 16.94,
+   "strength": 1.0
+  },
+  {
+   "name": "Elba",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": 10.3,
+   "lat": 42.8,
+   "strength": 1.0
+  },
+  {
+   "name": "Colline Metallifere (Etruria)",
+   "kind": "mine",
+   "goods": [
+    "copper",
+    "iron",
+    "lead"
+   ],
+   "lon": 10.8,
+   "lat": 43.1,
+   "strength": 0.8
+  },
+  {
+   "name": "Noric iron (Erzberg)",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": 14.9,
+   "lat": 47.53,
+   "strength": 1.0
+  },
+  {
+   "name": "Rosia Montana (Alburnus Maior)",
+   "kind": "mine",
+   "goods": [
+    "gold"
+   ],
+   "lon": 23.13,
+   "lat": 46.31,
+   "strength": 1.0
+  },
+  {
+   "name": "Sardinian lead and silver",
+   "kind": "mine",
+   "goods": [
+    "lead",
+    "silver"
+   ],
+   "lon": 8.55,
+   "lat": 39.3,
+   "strength": 0.7
+  },
+  {
+   "name": "Laconian iron",
+   "kind": "mine",
+   "goods": [
+    "iron"
+   ],
+   "lon": 22.4,
+   "lat": 36.9,
+   "strength": 0.4
+  },
+  {
+   "name": "Dead Sea salt and bitumen",
+   "kind": "salt",
+   "goods": [
+    "salt",
+    "bitumen"
+   ],
+   "lon": 35.5,
+   "lat": 31.45,
+   "strength": 1.0
+  },
+  {
+   "name": "Hit bitumen springs",
+   "kind": "mine",
+   "goods": [
+    "bitumen"
+   ],
+   "lon": 42.8,
+   "lat": 33.64,
+   "strength": 1.0
+  },
+  {
+   "name": "Zakynthos pitch springs",
+   "kind": "mine",
+   "goods": [
+    "bitumen"
+   ],
+   "lon": 20.8,
+   "lat": 37.75,
+   "strength": 0.4
+  },
+  {
+   "name": "Hallstatt salt",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 13.64,
+   "lat": 47.56,
+   "strength": 1.0
+  },
+  {
+   "name": "Salinae of Ostia",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 12.3,
+   "lat": 41.75,
+   "strength": 0.8
+  },
+  {
+   "name": "Trapani salt pans",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 12.5,
+   "lat": 38.0,
+   "strength": 0.6
+  },
+  {
+   "name": "Cardona rock salt",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 1.68,
+   "lat": 41.91,
+   "strength": 0.7
+  },
+  {
+   "name": "Lake Tatta (Tuz)",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 33.4,
+   "lat": 38.8,
+   "strength": 0.8
+  },
+  {
+   "name": "Transylvanian salt (Turda)",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 23.8,
+   "lat": 46.57,
+   "strength": 0.7
+  },
+  {
+   "name": "Chott el Djerid",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 8.4,
+   "lat": 33.7,
+   "strength": 0.5
+  },
+  {
+   "name": "Bilma",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": 12.9,
+   "lat": 18.7,
+   "strength": 0.6
+  },
+  {
+   "name": "Taoudenni",
+   "kind": "salt",
+   "goods": [
+    "salt"
+   ],
+   "lon": -3.9,
+   "lat": 22.7,
+   "strength": 0.6
+  },
+  {
+   "name": "Wadi Natrun",
+   "kind": "salt",
+   "goods": [
+    "natron"
+   ],
+   "lon": 30.3,
+   "lat": 30.4,
+   "strength": 1.0
+  },
+  {
+   "name": "Sicilian sulfur",
+   "kind": "mine",
+   "goods": [
+    "sulfur"
+   ],
+   "lon": 13.6,
+   "lat": 37.4,
+   "strength": 1.0
+  },
+  {
+   "name": "Melos",
+   "kind": "mine",
+   "goods": [
+    "sulfur",
+    "alum"
+   ],
+   "lon": 24.4,
+   "lat": 36.7,
+   "strength": 0.8
+  },
+  {
+   "name": "Lipari alum",
+   "kind": "mine",
+   "goods": [
+    "alum"
+   ],
+   "lon": 14.95,
+   "lat": 38.48,
+   "strength": 0.7
+  },
+  {
+   "name": "Paros",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 25.15,
+   "lat": 37.07,
+   "strength": 1.0
+  },
+  {
+   "name": "Pentelikon",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 23.9,
+   "lat": 38.08,
+   "strength": 1.0
+  },
+  {
+   "name": "Luna (Carrara)",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 10.1,
+   "lat": 44.08,
+   "strength": 1.0,
+   "from": -50
+  },
+  {
+   "name": "Proconnesus",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 27.6,
+   "lat": 40.6,
+   "strength": 1.0
+  },
+  {
+   "name": "Docimium",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 30.75,
+   "lat": 38.9,
+   "strength": 0.8
+  },
+  {
+   "name": "Simitthus (Chemtou)",
+   "kind": "quarry",
+   "goods": [
+    "marble"
+   ],
+   "lon": 8.57,
+   "lat": 36.5,
+   "strength": 0.8
+  },
+  {
+   "name": "Aswan granite",
+   "kind": "quarry",
+   "goods": [
+    "granite"
+   ],
+   "lon": 32.9,
+   "lat": 24.08,
+   "strength": 1.0
+  },
+  {
+   "name": "Mons Porphyrites",
+   "kind": "quarry",
+   "goods": [
+    "porphyry"
+   ],
+   "lon": 33.3,
+   "lat": 27.25,
+   "strength": 0.8,
+   "from": 20
+  },
+  {
+   "name": "Gebel el-Silsila",
+   "kind": "quarry",
+   "goods": [
+    "sandstone"
+   ],
+   "lon": 32.93,
+   "lat": 24.64,
+   "strength": 0.8
+  },
+  {
+   "name": "Tura limestone",
+   "kind": "quarry",
+   "goods": [
+    "limestone"
+   ],
+   "lon": 31.3,
+   "lat": 29.93,
+   "strength": 0.9
+  },
+  {
+   "name": "Attic clay (Kerameikos)",
+   "kind": "clay",
+   "goods": [
+    "fine_clay"
+   ],
+   "lon": 23.72,
+   "lat": 37.98,
+   "strength": 1.0
+  },
+  {
+   "name": "Corinthian clay",
+   "kind": "clay",
+   "goods": [
+    "fine_clay"
+   ],
+   "lon": 22.9,
+   "lat": 37.9,
+   "strength": 0.8
+  },
+  {
+   "name": "Arretium clay",
+   "kind": "clay",
+   "goods": [
+    "fine_clay"
+   ],
+   "lon": 11.88,
+   "lat": 43.46,
+   "strength": 0.9,
+   "from": -50
+  },
+  {
+   "name": "Belus sand",
+   "kind": "sand",
+   "goods": [
+    "glass_sand"
+   ],
+   "lon": 35.08,
+   "lat": 32.93,
+   "strength": 1.0
+  },
+  {
+   "name": "Volturnus sand",
+   "kind": "sand",
+   "goods": [
+    "glass_sand"
+   ],
+   "lon": 13.95,
+   "lat": 41.02,
+   "strength": 0.6
+  },
+  {
+   "name": "Nile Delta papyrus",
+   "kind": "habitat",
+   "goods": [
+    "papyrus"
+   ],
+   "lon": 31.0,
+   "lat": 30.9,
+   "strength": 1.0,
+   "radius_km": 90
+  },
+  {
+   "name": "Syracusan papyrus (Cyane)",
+   "kind": "habitat",
+   "goods": [
+    "papyrus"
+   ],
+   "lon": 15.25,
+   "lat": 37.05,
+   "strength": 0.2
+  },
+  {
+   "name": "Tyre murex",
+   "kind": "habitat",
+   "goods": [
+    "murex"
+   ],
+   "lon": 35.2,
+   "lat": 33.27,
+   "strength": 1.0
+  },
+  {
+   "name": "Sidon murex",
+   "kind": "habitat",
+   "goods": [
+    "murex"
+   ],
+   "lon": 35.37,
+   "lat": 33.56,
+   "strength": 0.9
+  },
+  {
+   "name": "Meninx (Djerba) murex",
+   "kind": "habitat",
+   "goods": [
+    "murex"
+   ],
+   "lon": 10.9,
+   "lat": 33.8,
+   "strength": 0.7
+  },
+  {
+   "name": "Laconian murex (Gytheion)",
+   "kind": "habitat",
+   "goods": [
+    "murex"
+   ],
+   "lon": 22.56,
+   "lat": 36.76,
+   "strength": 0.5
+  },
+  {
+   "name": "Dhofar frankincense",
+   "kind": "habitat",
+   "goods": [
+    "frankincense"
+   ],
+   "lon": 54.0,
+   "lat": 17.1,
+   "strength": 1.0,
+   "radius_km": 80
+  },
+  {
+   "name": "Hadramawt frankincense",
+   "kind": "habitat",
+   "goods": [
+    "frankincense"
+   ],
+   "lon": 48.5,
+   "lat": 15.9,
+   "strength": 0.9,
+   "radius_km": 80
+  },
+  {
+   "name": "Yemeni myrrh",
+   "kind": "habitat",
+   "goods": [
+    "myrrh"
+   ],
+   "lon": 44.5,
+   "lat": 14.5,
+   "strength": 0.9,
+   "radius_km": 80
+  },
+  {
+   "name": "Somali myrrh and frankincense",
+   "kind": "habitat",
+   "goods": [
+    "myrrh",
+    "frankincense"
+   ],
+   "lon": 47.5,
+   "lat": 10.6,
+   "strength": 0.8,
+   "radius_km": 100
+  },
+  {
+   "name": "Ein Gedi balsam",
+   "kind": "habitat",
+   "goods": [
+    "balsam"
+   ],
+   "lon": 35.39,
+   "lat": 31.46,
+   "strength": 1.0
+  },
+  {
+   "name": "Jericho balsam and dates",
+   "kind": "habitat",
+   "goods": [
+    "balsam"
+   ],
+   "lon": 35.44,
+   "lat": 31.87,
+   "strength": 1.0
+  },
+  {
+   "name": "Cyrenaican silphium",
+   "kind": "habitat",
+   "goods": [
+    "silphium"
+   ],
+   "lon": 21.8,
+   "lat": 32.6,
+   "strength": 1.0,
+   "radius_km": 70,
+   "to": 60
+  },
+  {
+   "name": "Cedars of Lebanon",
+   "kind": "habitat",
+   "goods": [
+    "cedar"
+   ],
+   "lon": 35.9,
+   "lat": 34.2,
+   "strength": 1.0,
+   "radius_km": 60
+  },
+  {
+   "name": "Taurus cedars",
+   "kind": "habitat",
+   "goods": [
+    "cedar"
+   ],
+   "lon": 33.0,
+   "lat": 37.2,
+   "strength": 0.8,
+   "radius_km": 80
+  },
+  {
+   "name": "Cyprus cedars",
+   "kind": "habitat",
+   "goods": [
+    "cedar"
+   ],
+   "lon": 32.85,
+   "lat": 34.95,
+   "strength": 0.5
+  },
+  {
+   "name": "Macedonian ship timber",
+   "kind": "habitat",
+   "goods": [
+    "ship_timber"
+   ],
+   "lon": 22.0,
+   "lat": 40.6,
+   "strength": 1.0,
+   "radius_km": 90
+  },
+  {
+   "name": "Mount Ida timber",
+   "kind": "habitat",
+   "goods": [
+    "ship_timber"
+   ],
+   "lon": 26.8,
+   "lat": 39.7,
+   "strength": 0.7
+  },
+  {
+   "name": "Pontic timber",
+   "kind": "habitat",
+   "goods": [
+    "ship_timber"
+   ],
+   "lon": 35.0,
+   "lat": 41.3,
+   "strength": 0.8,
+   "radius_km": 120
+  },
+  {
+   "name": "Sila forest (Bruttium)",
+   "kind": "habitat",
+   "goods": [
+    "ship_timber",
+    "pitch"
+   ],
+   "lon": 16.5,
+   "lat": 39.3,
+   "strength": 0.8
+  },
+  {
+   "name": "North African elephants",
+   "kind": "habitat",
+   "goods": [
+    "elephants"
+   ],
+   "lon": -5.0,
+   "lat": 33.5,
+   "strength": 0.8,
+   "radius_km": 250,
+   "to": 400
+  },
+  {
+   "name": "Red Sea elephant grounds (Ptolemais Theron)",
+   "kind": "habitat",
+   "goods": [
+    "elephants",
+    "ivory"
+   ],
+   "lon": 37.3,
+   "lat": 17.5,
+   "strength": 1.0,
+   "radius_km": 250
+  },
+  {
+   "name": "Kushite ivory",
+   "kind": "habitat",
+   "goods": [
+    "ivory"
+   ],
+   "lon": 33.5,
+   "lat": 13.5,
+   "strength": 0.9,
+   "radius_km": 250
+  },
+  {
+   "name": "Nisaean horse plain",
+   "kind": "habitat",
+   "goods": [
+    "horses"
+   ],
+   "lon": 47.5,
+   "lat": 34.3,
+   "strength": 1.0,
+   "radius_km": 80
+  },
+  {
+   "name": "Thessalian horse plain",
+   "kind": "habitat",
+   "goods": [
+    "horses"
+   ],
+   "lon": 22.3,
+   "lat": 39.5,
+   "strength": 0.8
+  },
+  {
+   "name": "Numidian horses",
+   "kind": "habitat",
+   "goods": [
+    "horses"
+   ],
+   "lon": 6.5,
+   "lat": 35.8,
+   "strength": 0.8,
+   "radius_km": 150
+  }
+ ],
+ "imports": [
+  {
+   "good": "tin",
+   "from": "Britain and Brittany (Cassiterides)",
+   "enters": [
+    -9.5,
+    43.0
+   ]
+  },
+  {
+   "good": "amber",
+   "from": "the Baltic",
+   "enters": [
+    20.0,
+    48.0
+   ]
+  },
+  {
+   "good": "silk",
+   "from": "Serica, by the Silk Road",
+   "enters": [
+    55.0,
+    37.0
+   ]
+  },
+  {
+   "good": "pepper and spices",
+   "from": "India",
+   "enters": [
+    55.0,
+    25.0
+   ]
+  },
+  {
+   "good": "Indian steel",
+   "from": "India",
+   "enters": [
+    55.0,
+    25.0
+   ]
+  }
+ ],
+ "fixes": [
+  {
+   "name": "Southern Mesopotamian salinity",
+   "field": "salinity",
+   "value": 0.55,
+   "lon": 46.0,
+   "lat": 31.3,
+   "radius_km": 150,
+   "why": "Irrigation had salted the southern alluvium since the third millennium BC (Jacobsen and Adams 1958)."
+  },
+  {
+   "name": "Nile irrigation",
+   "field": "irrigation",
+   "value": 1.0,
+   "lon": 31.3,
+   "lat": 27.5,
+   "radius_km": 25,
+   "along": [
+    [
+     32.9,
+     24.1
+    ],
+    [
+     32.6,
+     25.7
+    ],
+    [
+     32.7,
+     26.2
+    ],
+    [
+     31.6,
+     26.9
+    ],
+    [
+     31.2,
+     28.0
+    ],
+    [
+     31.25,
+     29.9
+    ],
+    [
+     31.1,
+     30.6
+    ],
+    [
+     31.0,
+     31.3
+    ]
+   ],
+   "why": "Basin irrigation along the whole valley."
+  },
+  {
+   "name": "Nile flood",
+   "field": "floodplain",
+   "value": 1.0,
+   "lon": 31.3,
+   "lat": 27.5,
+   "radius_km": 25,
+   "along": [
+    [
+     32.9,
+     24.1
+    ],
+    [
+     32.6,
+     25.7
+    ],
+    [
+     32.7,
+     26.2
+    ],
+    [
+     31.6,
+     26.9
+    ],
+    [
+     31.2,
+     28.0
+    ],
+    [
+     31.25,
+     29.9
+    ],
+    [
+     31.1,
+     30.6
+    ],
+    [
+     31.0,
+     31.3
+    ]
+   ],
+   "why": "The whole Nile valley flooded yearly; Natural Earth draws the river but not the floodplain."
+  },
+  {
+   "name": "Mesopotamian alluvium",
+   "field": "floodplain",
+   "value": 0.9,
+   "lon": 44.5,
+   "lat": 32.5,
+   "radius_km": 30,
+   "along": [
+    [
+     43.6,
+     33.9
+    ],
+    [
+     44.4,
+     33.3
+    ],
+    [
+     44.8,
+     32.5
+    ],
+    [
+     45.6,
+     31.8
+    ],
+    [
+     46.4,
+     31.2
+    ],
+    [
+     47.4,
+     30.9
+    ],
+    [
+     48.0,
+     30.4
+    ]
+   ],
+   "why": "The Tigris-Euphrates plain between Baghdad and the Gulf was one great irrigated floodplain; the river data is too thin to show it."
+  },
+  {
+   "name": "Mesopotamian irrigation",
+   "field": "irrigation",
+   "value": 1.0,
+   "lon": 44.5,
+   "lat": 32.5,
+   "radius_km": 35,
+   "along": [
+    [
+     43.6,
+     33.9
+    ],
+    [
+     44.4,
+     33.3
+    ],
+    [
+     44.8,
+     32.5
+    ],
+    [
+     45.6,
+     31.8
+    ],
+    [
+     46.4,
+     31.2
+    ],
+    [
+     47.4,
+     30.9
+    ],
+    [
+     48.0,
+     30.4
+    ]
+   ],
+   "why": "Canal irrigation fed the whole alluvium in antiquity."
+  },
+  {
+   "name": "Lake Moeris (Faiyum)",
+   "field": "wetland",
+   "value": 0.8,
+   "lon": 30.6,
+   "lat": 29.45,
+   "radius_km": 25,
+   "why": "Much larger in 300 BC than today's Lake Qarun."
+  },
+  {
+   "name": "Pontine marshes",
+   "field": "wetland",
+   "value": 0.9,
+   "lon": 13.0,
+   "lat": 41.45,
+   "radius_km": 25,
+   "why": "Undrained until the 20th century; malarial."
+  },
+  {
+   "name": "Copais basin",
+   "field": "wetland",
+   "value": 0.8,
+   "lon": 23.1,
+   "lat": 38.45,
+   "radius_km": 15,
+   "why": "Lake Copais, drained only in the 19th century."
+  },
+  {
+   "name": "Mesopotamian marshes",
+   "field": "wetland",
+   "value": 0.9,
+   "lon": 47.0,
+   "lat": 31.0,
+   "radius_km": 80,
+   "why": "The great southern marshes, drained in the 1990s."
+  },
+  {
+   "name": "Nile delta lagoons and marsh",
+   "field": "wetland",
+   "value": 0.5,
+   "lon": 31.4,
+   "lat": 31.25,
+   "radius_km": 30,
+   "why": "Lakes Mareotis, Burullus and Manzala and the delta's northern marshes, far larger before modern drainage."
+  },
+  {
+   "name": "Nile valley farmland",
+   "field": "farmed",
+   "value": 0.85,
+   "lon": 31.3,
+   "lat": 27.5,
+   "radius_km": 12,
+   "along": [
+    [
+     32.9,
+     24.1
+    ],
+    [
+     32.6,
+     25.7
+    ],
+    [
+     32.7,
+     26.2
+    ],
+    [
+     31.6,
+     26.9
+    ],
+    [
+     31.2,
+     28.0
+    ],
+    [
+     31.25,
+     29.9
+    ]
+   ],
+   "why": "The valley floor was almost wholly cultivated; KK10 models farming from rainfall and misses Nile irrigation."
+  },
+  {
+   "name": "Nile delta farmland",
+   "field": "farmed",
+   "value": 0.7,
+   "lon": 31.0,
+   "lat": 30.7,
+   "radius_km": 45,
+   "why": "The delta fed Egypt and Rome; KK10 puts it near 4%."
+  },
+  {
+   "name": "Nile delta floodplain",
+   "field": "floodplain",
+   "value": 0.9,
+   "lon": 31.0,
+   "lat": 30.7,
+   "radius_km": 45,
+   "why": "The whole delta flooded yearly."
+  },
+  {
+   "name": "Faiyum farmland",
+   "field": "farmed",
+   "value": 0.75,
+   "lon": 30.8,
+   "lat": 29.3,
+   "radius_km": 20,
+   "why": "Ptolemaic reclamation made the Faiyum one of Egypt's richest farmlands in the 3rd century BC."
+  },
+  {
+   "name": "Mesopotamian farmland",
+   "field": "farmed",
+   "value": 0.6,
+   "lon": 44.5,
+   "lat": 32.5,
+   "radius_km": 25,
+   "along": [
+    [
+     43.6,
+     33.9
+    ],
+    [
+     44.4,
+     33.3
+    ],
+    [
+     44.8,
+     32.5
+    ],
+    [
+     45.6,
+     31.8
+    ],
+    [
+     46.4,
+     31.2
+    ]
+   ],
+   "why": "Canal-irrigated grain land of Babylonia and Seleucia; KK10 misses irrigation."
+  }
+ ]
+}

@@ -47,11 +47,17 @@ Each step is verified on the real game before the next begins.
    - [ ] Carrying capacity from real arable land and yield (today a
          stand-in: 3x each region's historical population), needs the
          resource field
-   - [ ] Resources (proposal in MECHANICS.md, "Resources and the land";
-         decisions waiting in the Ledger): the land layer from real data,
-         then raw-resource potentials and carrying capacity from food,
-         then renewable stocks and weather, then goods and recipes with
-         the economy
+   - [x] The land layer: terrain, climate, soil, water, 300 BC habitat
+         and resources for every place, from real data cleared for a
+         commercial game, with hand fixes for 300 BC; shown in the Map
+         view menu with a legend
+   - [ ] Raw-resource potentials (a suitability profile per crop, tree
+         and herd) and carrying capacity from food, replacing the 3x
+         stand-in
+   - [ ] Renewable stocks (soil nutrients, forests, forage, fish) and the
+         yearly weather draw
+   - [ ] Goods and recipes, shown by family, with the economy (step 4);
+         labour from the population, as history had it
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
        the Regions map overlay
@@ -65,8 +71,8 @@ Each step is verified on the real game before the next begins.
 
 - [ ] **Other realms act** (AI): their own choices with history as a pull;
       expand, go to war, react to the player
-- [~] **Map views**: regions (done), population heatmap (the data already
-      exists), resources, political (today's view)
+- [~] **Map views**: regions and 52 land views (done), population heatmap
+      (the data already exists), political (today's view)
 - [~] **Click a realm or place** to see its details (provinces done;
       realms and cities still to come)
 - [ ] **Family tree view**: the player's ruler, heir and court
@@ -81,10 +87,8 @@ Each step is verified on the real game before the next begins.
 
 ## Decisions
 
-The first nine were answered in the Facsimilia Ledger on 25 Sep 2026 (the
-full reasoning is in MECHANICS.md, "Design decisions"). New, for
-resources, waiting in the Ledger: how detailed goods are, bots and
-history for resources, seasons, labour, and real data for the land.
+All answered in the Facsimilia Ledger on 25 Sep 2026 (the full reasoning is
+in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
 
 - [x] **Goal**: sandbox with optional goals (play forever; a score and
       goals to chase if you want)
@@ -104,6 +108,11 @@ history for resources, seasons, labour, and real data for the land.
       separate unless history merged them; names change if history did;
       splits only when the player is involved or history split them)
 - [x] **Growth drivers**: approved as drafted
+- [x] **Resources**: every good simulated, shown by family; other realms'
+      resources follow history; seasons as a yearly weather draw; labour
+      from the population as history had it (slave trade included,
+      abolished as history abolished it); real data with hand fixes, only
+      sources that allow selling the game
 
 ## Known issues
 
@@ -147,7 +156,7 @@ history for resources, seasons, labour, and real data for the land.
 - [x] Build stamp in the main menu corner showing which version is running
 - [x] Session setup (.NET SDK + Godot .NET) and one-click assets release
       workflow
-- [x] 13 automated test suites (the population balance tests added)
+- [x] 14 automated test suites (population balance and land layer tests added)
 - [x] Fixed: the simulated world no longer lags HYDE's total (was 47.7
       million against 48.2 million by 0 AD); regional totals now follow
       HYDE exactly

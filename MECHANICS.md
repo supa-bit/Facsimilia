@@ -43,6 +43,24 @@ unless the player is involved.
   (Not built yet: until it is, a monarch is still passed over for a
   second throne.)
 - **Growth drivers: approved as drafted** (see Growth drivers).
+- **Resources: every good simulated, shown by family.** All the goods are
+  tracked; screens lead with about 12 families and open to the detail.
+- **Resources follow history for other realms.** Mines, forests and soils
+  under bots change the way they really did (Laurion's silver fading,
+  Lebanon's cedars cut, Mesopotamia's soils salting); only the player can
+  do better or worse than history.
+- **Seasons: a yearly weather draw.** Each year draws its weather from
+  each place's climate (good and bad harvests, droughts, floods); the
+  sailing season limits sea trade.
+- **Labour comes from the population, following history in full.** Workers
+  are free, dependent or enslaved, as history had them. "History is
+  king": people were traded, so the slave trade exists as it did, and
+  slavery is outlawed when and where history outlawed it.
+- **Land data: real datasets, with hand fixes** where they're wrong for
+  300 BC. Every source must allow the game to be sold: CC0, CC BY or
+  public domain only, never "non-commercial" or "share-alike" (a test
+  enforces it). The data is fetched by a script and the baked result is
+  in the repository.
 
 ## Core interaction principle: the brush stays authoritative
 
@@ -947,10 +965,11 @@ province panel also names the region a province lies in. The
 regional-floor rule runs all the time regardless of which overlay is
 showing.
 
-## Resources and the land **(proposed, 25 Sep 2026)**
+## Resources and the land **(decided, 25 Sep 2026; land layer built)**
 
-The designer's resource plan, with suggestions folded in. Nothing here is
-built yet; the questions marked **(open)** are in the Ledger.
+The designer's resource plan, with suggestions folded in; the designer's
+answers are in Design decisions. Step 1, the land layer, is built (see
+The land layer as built, below).
 
 ### Three tiers, not one list
 
@@ -1034,7 +1053,9 @@ The designer's three, plus one:
 Like population's historical ceiling, bots' land and extraction should
 follow history: Laurion's silver fading, Spanish mines booming under
 Rome, Mesopotamia's soils salting, forests shrinking where they did. The
-player alone can do better (or worse) than history. **(open)**
+player alone can do better (or worse) than history. **(decided)** Each
+historical site carries the years it was worked (Laurion to about
+100 BC, Las Médulas from about 20 BC), ready for that.
 
 ### Goods list: additions and grouping
 
@@ -1060,8 +1081,10 @@ notes that woodland good for fuel isn't ship timber.
 
 Labour: in antiquity much work was done by enslaved people. Suggestion:
 model labour as a population input (free, dependent, enslaved), not as a
-tradeable good, so the history is represented without the game treating
-people as a commodity. **(open)**
+tradeable good. **(decided, with the designer's note: history is king.
+Labour comes from the population, split as history had it; the slave
+trade exists as it did, and slavery is abolished as history abolished
+it.)**
 
 ### What it feeds
 
@@ -1091,6 +1114,53 @@ people as a commodity. **(open)**
 Each part gets balance tests like population's: a realm doing nothing
 tracks history, maxed effort stays within bounds, a depleted stock can
 recover.
+
+### The land layer as built (25 Sep 2026)
+
+83 values for every one of the 284,626 land nodes, in `data/land/`
+(6.4 MB), baked by `tools/build_land_layer.py` from sources fetched by
+`tools/fetch_land_sources.py`, plus `tools/land_sites.json` (88
+historical sites and the hand fixes). Every source allows selling the
+game:
+
+| Part | What's in it | Source (licence) |
+|---|---|---|
+| Terrain | elevation, steepness, ploughable flat share, ruggedness, which way slopes face, distance to sea, coastal shallows | ETOPO 2022, NOAA (public domain) |
+| Climate | average, summer-high and winter-low temperature, rainfall and its seasonality, growing season, frost days, dryness, wind, storms, plant growth; derived drought risk and year-to-year rain variability | CHELSA V2.1, 1981-2010 (CC0) |
+| Soil | clay, sand, silt, organic matter, nitrogen, pH, nutrient holding, stones; derived depth, drainage, fertility, salinity, erosion, compaction | SoilGrids 2.0, ISRIC (CC BY 4.0) |
+| Water | largest river, distance to a river, lakes; derived floodplain, marsh, groundwater, irrigation water, springs, water quality | Natural Earth (public domain) |
+| Habitat, 300 BC | farmed and grazed, forest (and its conifer share), scrub, grassland, marsh, desert; shares add up to one | KK10, Kaplan et al. (CC BY 3.0), with natural cover derived from climate |
+| Resources | 39 goods: metals, salt, sulfur, bitumen, natron, marble and other stone, fine clay, glass sand, cedar, ship timber, papyrus, murex, frankincense, myrrh, balsam, silphium, horses, elephants, ivory... | USGS MRDS (public domain) and the historical sites |
+
+Choices made while building it:
+
+- **Modern climate, not ancient.** The ancient-climate version of CHELSA
+  (TraCE21k) is licensed CC BY-SA: "share-alike" would bind the game's
+  own data files to that licence. The CC0 modern averages are used
+  instead; the Roman Warm Period was close to them, and known
+  differences are hand fixes.
+- **Hand fixes where modern data is wrong for 300 BC:** KK10 models
+  farming from rainfall, so it put Egypt's Nile valley at ~1% farmed; the
+  fixes set the Nile valley, the delta, the Faiyum and Babylonia as
+  farmland and floodplain. Also the Mesopotamian marshes, the Pontine
+  marshes, Lake Copais, Lake Moeris and the delta lagoons (all drained or
+  shrunk since), and the salting of southern Mesopotamia.
+- **Growing season** is CHELSA's rain-fed one, so irrigated Egypt shows
+  a short season: irrigation extends it, which the crop model will use.
+- **Deposits** from USGS are modern knowledge, counted at half strength
+  as potential; the historical sites are what antiquity actually worked,
+  each with its years.
+
+**Map views** show it in the game: the Map view menu (bottom right) lists
+Political, Regions and 52 land views grouped by part; a legend top-left
+explains the view, names its source, and shows the value under the mouse.
+`src/Tests/LandLayerTest.cs` checks known places (the Nile floodplain,
+Alpine frost, Laurion's silver, Tyre's murex...), that habitat shares add
+up to one, that farmland follows where HYDE puts people (r = 0.61), and
+that every source's licence is cleared for a commercial game.
+
+Next: raw-resource potentials from per-crop suitability profiles, and
+carrying capacity from food, replacing the growth drivers' 3x stand-in.
 
 ## Dynasties and characters **(decided, built)**
 

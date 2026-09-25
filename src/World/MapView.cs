@@ -741,7 +741,7 @@ public partial class MapView : Node2D
         PlaceRegionLabels(bounds, placed, screen, z);
         foreach (var (label, world, _) in _mapLabels)
         {
-            if (RegionsOverlay)
+            if (CurrentView != PoliticalView)
             {
                 label.Visible = false;
                 continue;
@@ -764,7 +764,7 @@ public partial class MapView : Node2D
                 placed.Add(rect);
             }
         }
-        if (!RegionsOverlay)
+        if (CurrentView == PoliticalView)
             PlaceProvinceLabels(bounds, placed, screen, z);
         else
             foreach (var (label, _) in _provinceLabels)
@@ -892,6 +892,7 @@ public partial class MapView : Node2D
             MapSprite.Texture = _mapTexture;
         BuildProvinceTexture();
         BuildRegionOverlay();
+        LoadLand();
     }
 
     static uint Rgba(Color c) =>

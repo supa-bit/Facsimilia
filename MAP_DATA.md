@@ -100,6 +100,32 @@ what's folded into each, where its name goes, neighbours). Run
 coloured check image. The population engine loads the regions with the
 HYDE data; without them it treats the whole map as one region.
 
+## Land layer
+
+`tools/fetch_land_sources.py` downloads the sources into a cache outside
+the repository (`~/.cache/facsimilia-land`, about 2.5 GB; soils come
+already cropped from ISRIC's server, and KK10's 300 BC slice is read out
+of its 17 GB file without downloading the rest). `tools/build_land_layer.py`
+bakes 83 values per population node into `data/land/` (6.4 MB), with
+`tools/land_sites.json` adding historical sites and hand fixes. Sources
+and licences, all cleared for a commercial game:
+
+- CHELSA V2.1 climatologies 1981-2010: CC0. Karger, D.N. et al. (2017)
+  Climatologies at high resolution for the earth's land surface areas.
+  Scientific Data 4, 170122.
+- SoilGrids 2.0, ISRIC World Soil Information: CC BY 4.0. Poggio, L. et
+  al. (2021) SoilGrids 2.0. SOIL 7, 217-240.
+- ETOPO 2022 60 arc-second global relief, NOAA NCEI: public domain.
+- KK10 anthropogenic land cover change: CC BY 3.0. Kaplan, J.O. and
+  Krumhardt, K.M. (2011), PANGAEA, doi:10.1594/PANGAEA.871369.
+- Natural Earth 10m rivers and lakes: public domain.
+- USGS Mineral Resources Data System: public domain.
+
+The CC BY sources are credited on the main menu, as their licences
+require. CHELSA's ancient-climate series (TraCE21k) is CC BY-SA and is
+deliberately not used. `src/Tests/LandLayerTest.cs` fails if a source
+with another licence is ever added.
+
 ## Rebuild
 
 Python dependencies: Pillow, NumPy, SciPy. From this project directory:
@@ -115,7 +141,10 @@ Python dependencies: Pillow, NumPy, SciPy. From this project directory:
    keyframes (needs NumPy only).
 6. `python tools/build_region_mask.py` bakes the geographic regions onto
    the population grid (needs NumPy and SciPy; run after step 5).
-7. Open `project.godot` in the Godot 4.7.2 **.NET** build (the C# one;
+7. `python tools/fetch_land_sources.py`, then
+   `python tools/build_land_layer.py` bakes the land layer (needs
+   rasterio, netCDF4, h5py, fsspec, aiohttp, requests and pyshp too).
+8. Open `project.godot` in the Godot 4.7.2 **.NET** build (the C# one;
    the standard build can't run the project's C# code) and allow the
    assets to import. Building needs the .NET 10 SDK: `dotnet build`, or
    the default build task in VS Code (`.vscode/`, which also has Play,

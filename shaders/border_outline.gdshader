@@ -14,6 +14,11 @@ uniform int selected_province = 0;
 uniform sampler2D region_texture : filter_nearest, repeat_disable;
 uniform sampler2D region_palette : filter_nearest, repeat_disable;
 uniform float region_strength = 0.0;
+// Land views: one value per population node (0-255) coloured by a ramp
+// whose alpha lets the terrain show through; 0 (off) or 1 (on).
+uniform sampler2D land_texture : filter_linear, repeat_disable;
+uniform sampler2D land_ramp : filter_linear, repeat_disable;
+uniform float land_strength = 0.0;
 
 int region_at(vec2 uv) {
 	return int(round(texture(region_texture, uv).r * 255.0));
@@ -43,6 +48,8 @@ void fragment() {
 		fill = mix(fill, terrain, 0.45);
 	int region = region_at(UV);
 	bool show_regions = region_strength > 0.0;
+	bool show_land = land_strength > 0.0;
+	bool overlay = show_regions || show_land;
 	// With the Regions overlay on, land shows its region's colour over the
 	// terrain instead of the realms'.
 	if (show_regions && !sea) {
@@ -51,7 +58,13 @@ void fragment() {
 		vec3 shown = region > 0 ? mix(terrain, rc * (0.40 + relief), 0.58) : terrain;
 		fill = mix(fill, shown, region_strength);
 	}
-	if (selected && !show_regions)
+	if (show_land && !sea) {
+		// Land views show bare terrain under the ramp, not realm colours.
+		float v = texture(land_texture, UV).r;
+		vec4 rc = texture(land_ramp, vec2(v, 0.5));
+		fill = mix(fill, mix(terrain, rc.rgb * (0.55 + 0.6 * relief), rc.a), land_strength);
+	}
+	if (selected && !overlay)
 		fill = mix(fill, vec3(1.0, 0.93, 0.75), 0.22);
 	// Border sample offset uses whichever is larger of a fixed texel
 	// distance or the screen-space derivative (fwidth) of UV - the
@@ -69,10 +82,12 @@ void fragment() {
 		vec2 uv = UV + offsets[i];
 		vec3 other = texture(TEXTURE, uv).rgb;
 		float owner_change = step(0.02, distance(owner.rgb, other));
-		if (show_regions) {
-			// Only coasts stay; realm borders give way to region borders.
+		if (overlay) {
+			// Only coasts stay; realm borders give way to the overlay.
 			bool other_sea = distance(other, sea_owner_color) < 0.015;
 			owner_change = (sea != other_sea) ? 1.0 : 0.0;
+		}
+		if (show_regions) {
 			int other_region = region_at(uv);
 			if (!sea && other_region != region && other_region > 0 && region > 0)
 				region_edge += 1.0;
@@ -89,11 +104,11 @@ void fragment() {
 	// Accumulating a soft step per direction (0-4) instead of a hard
 	// boolean OR gives an anti-aliased border instead of a stark
 	// single-texel black line. Province borders are fainter than realm ones.
-	float provinces_shown = province_strength * (1.0 - region_strength);
+	float provinces_shown = province_strength * (1.0 - max(region_strength, land_strength));
 	vec3 color = mix(fill, ink, min(province_edge * 0.16 * provinces_shown, 0.4));
 	color = mix(color, ink, min(edge * 0.26, 0.72));
 	color = mix(color, ink, min(region_edge * 0.3 * region_strength, 0.75));
-	if (!show_regions)
+	if (!overlay)
 		color = mix(color, vec3(1.0, 0.86, 0.45), min(selected_edge * 0.45, 0.9));
 	COLOR = vec4(color, owner.a);
 }

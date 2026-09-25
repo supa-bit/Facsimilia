@@ -19,7 +19,6 @@ public partial class Hud
     Label _provinceRealm = null!, _provinceArea = null!, _provincePeople = null!, _provinceHint = null!;
     Button _editBorders = null!, _newProvince = null!;
     readonly Button[] _modeButtons = new Button[3];
-    Button _regionsButton = null!;
     Label _provinceRegion = null!;
 
     static readonly (MapMode Mode, string Text, string Tip)[] Modes =
@@ -51,17 +50,7 @@ public partial class Hud
             row.AddChild(b);
             _modeButtons[i] = b;
         }
-        _regionsButton = new Button
-        {
-            Text = "Regions",
-            ToggleMode = true,
-            TooltipText = "Show the ancient geographers' regions  (R)",
-            FocusMode = FocusModeEnum.None,
-            CustomMinimumSize = new Vector2(96, 40),
-            Visible = false,  // shown once the map is set up with region data (ConnectProvinceSignals)
-        };
-        _regionsButton.Toggled += on => _map.SetRegionsOverlay(on);
-        row.AddChild(_regionsButton);
+        row.AddChild(BuildMapViewMenu());
         return row;
     }
 
@@ -135,8 +124,7 @@ public partial class Hud
     {
         _map.ProvinceSelected += _ => RefreshProvincePanel();
         _map.ProvincesChanged += RefreshProvincePanel;
-        _regionsButton.Visible = _map.RegionsAvailable;
-        _map.RegionsOverlayChanged += on => _regionsButton.SetPressedNoSignal(on);
+        ConnectMapViewSignals();
         _map.MapModeChanged += mode =>
         {
             for (int i = 0; i < Modes.Length; i++)
@@ -212,7 +200,9 @@ public partial class Hud
         else if (key.Keycode is >= Key.Key1 and <= Key.Key3)
             _map.SetMode(Modes[key.Keycode - Key.Key1].Mode);
         else if (key.Keycode == Key.R && _map.RegionsAvailable)
-            _map.SetRegionsOverlay(!_map.RegionsOverlay);
+            _map.SetMapView(_map.CurrentView == MapView.RegionsView ? MapView.PoliticalView : MapView.RegionsView);
+        else if (key.Keycode == Key.V)
+            _map.SetMapView(MapView.PoliticalView);
         else
             return;
         GetViewport().SetInputAsHandled();

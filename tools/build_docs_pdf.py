@@ -49,6 +49,10 @@ SUMMARIES = {
         "biggest places get names on the map. The growth drivers are built: each of the 38 ancient regions "
         "grows at its own historical rate unless play changes it, and people drift toward the most attractive "
         "places, within limits the balance tests enforce.",
+    "Resources and the land": "What every place is (terrain, climate, soil, water, 300 BC forests and "
+        "farms, mines and special goods), baked from real scientific data that allows the game to be sold, "
+        "with hand fixes where it's wrong for 300 BC. You can see each on the map. Next: what each crop, tree "
+        "and herd can yield there, and how many people the land can feed.",
     "Dynasties and characters": "Ruling families live, marry, have children and die. The crown passes by "
         "real inheritance rules, and a new house takes over when a line dies out or a throne is seized. "
         "Built and in the game.",

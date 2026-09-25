@@ -78,10 +78,12 @@ public partial class MainMenu : Control
         buttons.AddChild(MenuButton("Quit to Desktop", "quit", () => GetTree().Quit()));
 
         var footer = ThemeAncient.Label(
-            "Map data: Natural Earth, historical-basemaps · Population: HYDE 3.2.1 (PBL / Utrecht University)", "SmallLabel");
+            "Map data: Natural Earth, historical-basemaps · Population: HYDE 3.2.1 (PBL / Utrecht University)\n" +
+            "Land: CHELSA climate (Karger et al.), SoilGrids (ISRIC, CC BY 4.0), ETOPO 2022 (NOAA), " +
+            "KK10 land use (Kaplan et al., CC BY 3.0), USGS MRDS", "SmallLabel");
         footer.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft);
         footer.GrowVertical = GrowDirection.Begin;
-        footer.Position = new Vector2(140, -44);
+        footer.Position = new Vector2(140, -62);
         AddChild(footer);
 
         var stamp = ThemeAncient.Label(BuildStamp(), fontSize: 18, align: HorizontalAlignment.Right);
