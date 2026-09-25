@@ -50,7 +50,7 @@ public partial class MapView
         _brushCursor.Visible = painting;
         if (!painting)
             return;
-        _brushCursor.Radius = (Mode == MapMode.EditProvinces ? ProvinceBrushRadius : PaintRadius) * CellPixels;
+        _brushCursor.Radius = (Mode == MapMode.EditProvinces ? ProvinceBrushRadius : ConquestRadius) * CellPixels;
         _brushCursor.Position = GetGlobalMousePosition();
         _brushCursor.QueueRedraw();
     }

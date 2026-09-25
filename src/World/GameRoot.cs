@@ -180,6 +180,11 @@ public partial class GameRoot : Node2D
             if (y < years - 1 && events.Exists(e => StopsTurn(e, Map.PlayerRealmId)))
                 break;
         }
+        if (Map.TerritoryChanged)
+        {
+            Hud.ShowStatus("Redrawing the map...");
+            await Map.RedrawTerritory();
+        }
         Hud.ShowStatus("", 0.01);
         Hud.Refresh();
         Hud.LogEvents(all);

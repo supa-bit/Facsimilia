@@ -476,6 +476,7 @@ public partial class MapView : Node2D
             Population.Tick(DemoYear);
         }
         var events = Registry.AdvanceYear(DemoYear);
+        events.AddRange(ResolvePlayerPlan());
         events.AddRange(GameYear());
         return events;
     }
@@ -705,8 +706,13 @@ public partial class MapView : Node2D
     /// </summary>
     void BuildLabels(Dictionary<int, Vector2> centroids)
     {
-        _labelLayer = new CanvasLayer { Layer = 0 };  // above the map, below the HUD
-        AddChild(_labelLayer);
+        if (_labelLayer == null)
+        {
+            _labelLayer = new CanvasLayer { Layer = 0 };  // above the map, below the HUD
+            AddChild(_labelLayer);
+        }
+        foreach (var (old, _, _) in _mapLabels)
+            old.QueueFree();   // redrawn after conquests: the realm names move
         var font = ThemeAncient.HeadingFont(700);
         _mapLabels.Clear();
         foreach (var (realmId, realm) in Registry.Realms)
@@ -918,12 +924,16 @@ public partial class MapView : Node2D
         int cx = (int)(worldPos.X / CellPixels), cy = (int)(worldPos.Y / CellPixels);
         if (!Grid.InBounds(cx, cy))
             return;
-        for (int dy = -PaintRadius; dy <= PaintRadius; dy++)
+        bool conquest = Mode == MapMode.PlanConquest;
+        int radius = conquest ? ConquestRadius : PaintRadius;
+        for (int dy = -radius; dy <= radius; dy++)
         {
-            for (int dx = -PaintRadius; dx <= PaintRadius; dx++)
+            for (int dx = -radius; dx <= radius; dx++)
             {
                 int x = cx + dx, y = cy + dy;
-                if (!Grid.InBounds(x, y) || IsSea(x, y) || dx * dx + dy * dy > PaintRadius * PaintRadius)
+                if (!Grid.InBounds(x, y) || IsSea(x, y) || dx * dx + dy * dy > radius * radius)
+                    continue;
+                if (conquest && !CanPlanConquest(x, y))
                     continue;
                 int idx = y * GridWidth + x;
                 if (_proposal[idx] == PlayerRealmId)
@@ -947,5 +957,6 @@ public partial class MapView : Node2D
         }
         _dirtyProposalCells.Clear();
         _mapTexture!.Update(MapImage);
+        EmitSignal(SignalName.ConquestPlanChanged);
     }
 }

@@ -52,10 +52,27 @@ public sealed class War
         };
 }
 
-/// <summary>Every war going on.</summary>
+/// <summary>Every war going on, and the truces after past ones.</summary>
 public sealed class Wars
 {
+    /// <summary>Years after a peace before the same two realms may fight again.</summary>
+    public const int TruceYears = 10;
+
     readonly List<War> _wars = new();
+    readonly Dictionary<(int, int), int> _truceUntil = new();
+
+    static (int, int) Pair(int a, int b) => a < b ? (a, b) : (b, a);
+
+    /// <summary>The last year of a truce between two realms, or null.</summary>
+    public int? TruceUntil(int a, int b, int year) =>
+        _truceUntil.TryGetValue(Pair(a, b), out int until) && until >= year ? until : null;
+
+    /// <summary>Ends a war with a truce.</summary>
+    public void MakePeace(War war, int year)
+    {
+        _wars.Remove(war);
+        _truceUntil[Pair(war.Attacker, war.Defender)] = year + TruceYears;
+    }
     public IReadOnlyList<War> All => _wars;
 
     public War? Between(int a, int b) => _wars.FirstOrDefault(w => w.Involves(a) && w.Involves(b));
@@ -83,13 +100,25 @@ public sealed class Wars
         var a = new GArray();
         foreach (var w in _wars)
             a.Add(w.ToDict());
+        foreach (var ((x, y), until) in _truceUntil)
+            a.Add(new GDictionary { ["truce"] = new GArray { x, y, until } });
         return a;
     }
 
     public void Load(GArray a)
     {
         _wars.Clear();
+        _truceUntil.Clear();
         foreach (Variant v in a)
-            _wars.Add(War.FromDict(v.AsGodotDictionary()));
+        {
+            var d = v.AsGodotDictionary();
+            if (d.TryGetValue("truce", out var t))
+            {
+                var p = t.AsGodotArray();
+                _truceUntil[(p[0].AsInt32(), p[1].AsInt32())] = p[2].AsInt32();
+            }
+            else
+                _wars.Add(War.FromDict(d));
+        }
     }
 }

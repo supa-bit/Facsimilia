@@ -25,7 +25,7 @@ public partial class Hud
     {
         (MapMode.Inspect, "Inspect", "Click a province to see it; drag to move the map  (1)"),
         (MapMode.EditProvinces, "Provinces", "Redraw your provinces with the brush  (2)"),
-        (MapMode.PlanConquest, "Conquest", "Sketch land you'd like to take (not yet playable)  (3)"),
+        (MapMode.PlanConquest, "Conquest", "Paint land to attack; fights are decided when the turn ends  (3)"),
     };
 
     HBoxContainer BuildModeRow()
@@ -125,11 +125,13 @@ public partial class Hud
         _map.ProvinceSelected += _ => RefreshProvincePanel();
         _map.ProvincesChanged += RefreshProvincePanel;
         ConnectMapViewSignals();
+        _map.ConquestPlanChanged += RefreshConquestPanel;
         _map.MapModeChanged += mode =>
         {
             for (int i = 0; i < Modes.Length; i++)
                 _modeButtons[i].SetPressedNoSignal(Modes[i].Mode == (MapMode)mode);
             RefreshProvincePanel();
+            RefreshConquestPanel();
         };
     }
 
@@ -147,7 +149,7 @@ public partial class Hud
     {
         var p = _map.SelectedProvince;
         bool editing = _map.Mode == MapMode.EditProvinces;
-        _provincePanel.Visible = p != null || editing;
+        _provincePanel.Visible = (p != null || editing) && _map.Mode != MapMode.PlanConquest;
         if (!_provincePanel.Visible)
             return;
         bool mine = p != null && p.RealmId == _map.PlayerRealmId;

@@ -43,9 +43,8 @@ public partial class MapView
     {
         if (Mode == mode)
             return;
-        if (Mode == MapMode.PlanConquest)
-            ClearProposal();
-        Mode = mode;
+        Mode = mode;   // a conquest plan stays painted until the turn ends or it's cleared
+        ShowReach(mode == MapMode.PlanConquest);
         EmitSignal(SignalName.MapModeChanged, (int)mode);
     }
 
@@ -191,6 +190,8 @@ public partial class MapView
             SelectProvince(ProvinceAtWorld(GetGlobalMousePosition())?.Id ?? 0);
         else if (Mode == MapMode.EditProvinces)
             FinishProvinceStroke();
+        else if (Mode == MapMode.PlanConquest)
+            EmitSignal(SignalName.ConquestPlanChanged);
         return true;
     }
 

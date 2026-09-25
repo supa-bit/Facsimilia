@@ -35,6 +35,8 @@ public partial class Hud : Control
         BuildTurnControls();
         BuildProvincePanel();
         BuildRealmPanel();
+        BuildConquestPanel();
+        BuildDiplomacyPanel();
     }
 
     void BuildTopBar()
@@ -61,6 +63,7 @@ public partial class Hud : Control
         _populationItem = _populationLabel.GetParent<Control>();
 
         BuildTreasuryStat(row);
+        BuildDiplomacyButton(row);
         row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore });
         _dateLabel = ThemeAncient.Label("", "DateLabel");
         _dateLabel.TooltipText = "Current year";
@@ -220,6 +223,9 @@ public partial class Hud : Control
         RefreshProvincePanel();  // its population changes every year
         RefreshTreasury();
         RefreshAdvanceText();
+        RefreshConquestPanel();
+        RefreshDiplomacyPanel();
+        _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         _populationItem.Visible = _map.Population != null;
         if (_map.Population != null)
             _populationLabel.Text = ThemeAncient.GroupThousands((long)_map.PlayerPopulation());

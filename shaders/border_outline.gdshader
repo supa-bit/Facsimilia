@@ -19,6 +19,10 @@ uniform float region_strength = 0.0;
 uniform sampler2D land_texture : filter_linear, repeat_disable;
 uniform sampler2D land_ramp : filter_linear, repeat_disable;
 uniform float land_strength = 0.0;
+// Conquest mode: which population nodes the player's army can reach this
+// year (1) or not (0); land out of reach is dimmed while reach_strength is 1.
+uniform sampler2D reach_texture : filter_nearest, repeat_disable;
+uniform float reach_strength = 0.0;
 
 int region_at(vec2 uv) {
 	return int(round(texture(region_texture, uv).r * 255.0));
@@ -64,6 +68,8 @@ void fragment() {
 		vec4 rc = texture(land_ramp, vec2(v, 0.5));
 		fill = mix(fill, mix(terrain, rc.rgb * (0.55 + 0.6 * relief), rc.a), land_strength);
 	}
+	if (reach_strength > 0.0 && !sea && texture(reach_texture, UV).r < 0.5)
+		fill = mix(fill, fill * 0.45, reach_strength);
 	if (selected && !overlay)
 		fill = mix(fill, vec3(1.0, 0.93, 0.75), 0.22);
 	// Border sample offset uses whichever is larger of a fixed texel
