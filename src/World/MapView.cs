@@ -481,7 +481,21 @@ public partial class MapView : Node2D
     {
         var seeds = ProvinceGenerator.LoadSeeds();
         var grid = Grid;
-        Provinces = await Task.Run(() => ProvinceGenerator.Generate(grid, seeds));
+        var tribal = TribalRealmIds();
+        Provinces = await Task.Run(() => ProvinceGenerator.Generate(grid, seeds, tribal));
+    }
+
+    /// <summary>
+    /// The frontier peoples (Iberian, Gallic, Scythian) were confederations of
+    /// tribes, not administered states, so they start unorganized: no
+    /// provinces (decided in the Ledger, Sep 2026).
+    /// </summary>
+    internal List<int> TribalRealmIds()
+    {
+        var ids = FrontierZones.Where(z => CivRealmIds.ContainsKey(z.Key)).Select(z => CivRealmIds[z.Key]).ToList();
+        if (ids.Count == 0)  // a loaded save: CivRealmIds isn't rebuilt, so match the realm names instead
+            ids = Registry.Realms.Values.Where(r => FrontierZones.Any(z => z.RealmName == r.Name)).Select(r => r.Id).ToList();
+        return ids;
     }
 
     /// <summary>

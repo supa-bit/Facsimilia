@@ -31,7 +31,7 @@ Each step is verified on the real game before the next begins.
          fade, capital bonuses, resettlement, save/load
    - [x] Calibrated to real founded-city growth on the real grid
    - [ ] Growth drivers (natural increase + migration channels, per region):
-         **needs your sign-off** on the draft in MECHANICS.md
+         approved, ready to build
    - [ ] Region mask (the 38 ancient geographic regions), needed by the
          growth drivers
    - [ ] Balance-test harness (the contract in MECHANICS.md)
@@ -47,8 +47,8 @@ Each step is verified on the real game before the next begins.
 
 ## Also needed before it's a full game
 
-- [ ] **Other realms act** (AI): expand, go to war, react to the player.
-      Blocked on the "how do other realms behave" decision below.
+- [ ] **Other realms act** (AI): their own choices with history as a pull;
+      expand, go to war, react to the player
 - [ ] **Map views**: population heatmap (the data already exists), regions,
       resources, political (today's view)
 - [~] **Click a realm or place** to see its details (provinces done;
@@ -63,36 +63,29 @@ Each step is verified on the real game before the next begins.
       aren't specified; the population engine's era constants (C, k) exist
       only for the ancient era
 
-## Needs your decision
+## Decisions
 
-These aren't in the design yet. Each one blocks the work listed after it.
+All answered in the Facsimilia Ledger on 25 Sep 2026 (the full reasoning is
+in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
 
-- [ ] **What's the goal?** Sandbox with no end, a score, victory
-      conditions, or reaching a certain year? *(blocks: the goal, end-game)*
-- [ ] **How do other realms behave?** Follow history on rails (Rome
-      expands roughly as it really did), make their own decisions, or a mix?
-      *(blocks: AI)*
-- [ ] **War and diplomacy**: can the player paint into a neighbour at any
-      time, or is war declared first? Treaties, alliances, vassals?
-      *(blocks: conquest by painting, AI)*
-- [ ] **New realms**: how do new states appear (Parthia in 247 BC,
-      rebellions, breakaways)? Can realms split in civil wars?
-- [ ] **Culture and religion**: are they in? They'd drive integration.
-      *(blocks: integration)*
-- [ ] **Pacing**: one year per turn all the way (~2,300 turns to the
-      present), or longer/shorter turns in some eras?
-- [x] ~~**Characters**: how deep?~~ Answered "as deep as makes sense for
-      now": births, marriages, deaths, succession and new houses are built;
-      traits, events and intrigue can come later (see MECHANICS.md,
-      Dynasties and characters)
-- [ ] **Frontier tribes**: they start with provinces (tribal lands) like
-      every realm. Should they start unorganized instead (weaker, per the
-      design's rules for unorganized land)?
-- [ ] **Personal unions**: should one ruler be able to inherit two realms
-      (and what happens to them then)? Today they can't: a monarch is passed
-      over for a second throne. *(affects: new realms, diplomacy)*
-- [x] ~~Growth drivers~~ drafted in MECHANICS.md, **needs sign-off**, see
-      build step 2
+- [x] **Goal**: sandbox with optional goals (play forever; a score and
+      goals to chase if you want)
+- [x] **Other realms**: their own choices, with history as a pull
+- [x] **War and diplomacy**: declared wars, peace deals, alliances and
+      vassals
+- [x] **New realms**: historical arrivals plus revolts and civil wars;
+      revolts follow history unless the player is involved or causes them
+- [x] **Culture and religion**: both, with conversion and assimilation
+- [x] **Pacing**: the player chooses years per turn; games are meant to be
+      long (weeks or months per playthrough)
+- [x] **Characters**: births, marriages, deaths, succession, new houses
+      (built); traits and events later
+- [x] **Frontier tribes**: start unorganized, as is historically accurate
+      (built)
+- [x] **Personal unions**: allowed, guided by history (realms stay
+      separate unless history merged them; names change if history did;
+      splits only when the player is involved or history split them)
+- [x] **Growth drivers**: approved as drafted
 
 ## Known issues
 

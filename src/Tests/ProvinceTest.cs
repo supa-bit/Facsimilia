@@ -19,7 +19,9 @@ public partial class ProvinceTest : TestRunner
         var world = await WorldFixture.Seeded();
         var seeds = ProvinceGenerator.LoadSeeds();
         var clock = System.Diagnostics.Stopwatch.StartNew();
-        var map = ProvinceGenerator.Generate(world.Grid, seeds);
+        var tribal = world.TribalRealmIds().ToHashSet();
+        Check(tribal.Count == 3, $"expected 3 tribal realms, found {tribal.Count}");
+        var map = ProvinceGenerator.Generate(world.Grid, seeds, tribal);
         long ms = clock.ElapsedMilliseconds;
         int total = map.Provinces.Count;
         int[] owner = world.Grid.Cells;
@@ -28,7 +30,7 @@ public partial class ProvinceTest : TestRunner
         for (int i = 0; i < owner.Length; i++)
         {
             int o = owner[i], p = map.Cells[i];
-            bool isRealm = o > 0 && o != MapView.SeaOwnerId;
+            bool isRealm = o > 0 && o != MapView.SeaOwnerId && !tribal.Contains(o);
             if (!isRealm)
             {
                 if (p != 0) strayOnSea++;
@@ -48,14 +50,15 @@ public partial class ProvinceTest : TestRunner
         Check(names.Distinct().Count() == names.Count, "two provinces share a name: " +
             string.Join(", ", names.GroupBy(n => n).Where(g => g.Count() > 1).Select(g => g.Key)));
         foreach (var (key, realmId) in world.CivRealmIds)
-            Check(map.Provinces.Values.Any(p => p.RealmId == realmId), $"{key} has no provinces");
+            Check(map.Provinces.Values.Any(p => p.RealmId == realmId) != tribal.Contains(realmId),
+                tribal.Contains(realmId) ? $"{key} is tribal and should start unorganized" : $"{key} has no provinces");
         int historical = map.Provinces.Values.Count(p => seeds.Any(s => s.Name == p.Name));
         Check(historical > map.Provinces.Count / 2, $"only {historical} of {map.Provinces.Count} provinces are historical regions");
         foreach (var p in map.Provinces.Values)
             Check(map.At((int)p.LabelCell.X, (int)p.LabelCell.Y) == p.Id, $"{p.Name}'s name is placed outside it");
 
         // Deterministic.
-        var again = ProvinceGenerator.Generate(world.Grid, seeds);
+        var again = ProvinceGenerator.Generate(world.Grid, seeds, tribal);
         Check(again.Cells.AsSpan().SequenceEqual(map.Cells), "generation isn't deterministic");
 
         // Handing a province to another realm moves all its cells with it.

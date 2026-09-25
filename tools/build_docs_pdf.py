@@ -29,6 +29,10 @@ CHROMIUM_CANDIDATES = [
 
 # Plain-English summaries, keyed by the start of each "## " chapter title.
 SUMMARIES = {
+    "Design decisions": "Your answers to the big design questions: sandbox with optional goals, realms "
+        "that make their own choices but lean on history, full war and diplomacy, historical new realms plus "
+        "revolts, culture and religion, player-chosen pacing for long games, tribes that start unorganized, "
+        "and personal unions guided by history.",
     "Core interaction principle": "You shape the world with one tool: a round brush. Conquest, provinces and "
         "anything added later all use that same brush, instead of menus or separate editors.",
     "Layers": "The map is stored as stacked layers over the same 45-million-cell grid: who owns each spot, "

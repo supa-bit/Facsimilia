@@ -47,12 +47,22 @@ public static class ProvinceGenerator
         Math.Clamp((int)((lon - MapView.LonMin) / (MapView.LonMax - MapView.LonMin) * width), 0, width - 1),
         Math.Clamp((int)((MapView.LatMax - lat) / (MapView.LatMax - MapView.LatMin) * height), 0, height - 1));
 
-    static bool IsRealm(int owner) => owner > 0 && owner != MapView.SeaOwnerId;
+    // Realms left without provinces this run (see Generate). Generate isn't
+    // re-entrant, so a static is enough.
+    static readonly bool[] Unorganized = new bool[256];
+
+    static bool IsRealm(int owner) => owner > 0 && owner != MapView.SeaOwnerId && !Unorganized[owner & 0xFF];
 
     sealed record Placed(int Cell, int Realm, string Name, bool Historical);
 
-    public static ProvinceMap Generate(OwnershipGrid grid, IReadOnlyList<ProvinceSeed> seeds)
+    /// <param name="unorganizedRealms">Realms that start with no provinces at all (the tribal
+    /// confederations: loose alliances, not administered states).</param>
+    public static ProvinceMap Generate(OwnershipGrid grid, IReadOnlyList<ProvinceSeed> seeds,
+        IEnumerable<int>? unorganizedRealms = null)
     {
+        Array.Clear(Unorganized);
+        foreach (int realm in unorganizedRealms ?? Array.Empty<int>())
+            Unorganized[realm & 0xFF] = true;
         int w = grid.Width, h = grid.Height;
         int[] owner = grid.Cells;
 
@@ -62,6 +72,8 @@ public static class ProvinceGenerator
         foreach (var seed in seeds)
         {
             var (x, y) = CellOf(seed.Lon, seed.Lat, w, h);
+            if (Unorganized[owner[y * w + x] & 0xFF] && owner[y * w + x] != MapView.SeaOwnerId)
+                continue;  // a tribal region: it names no province, and mustn't slide onto a neighbour
             int cell = Snap(owner, w, h, x, y, SnapRadius, realm: -1);
             if (cell < 0 || !used.Add(cell))
                 continue;

@@ -6,6 +6,44 @@ updated as design decisions get made, before or alongside implementation, the
 same way MAP_DATA.md documents the map generation pipeline. Sections marked
 **(decided)** are settled; sections marked **(open)** still need a call.
 
+## Design decisions **(decided, 25 Sep 2026)**
+
+Answered by the designer in the Facsimilia Ledger. History is the guiding
+factor throughout: where these leave room, follow what really happened
+unless the player is involved.
+
+- **Goal: sandbox with optional goals.** The game never has to end. It
+  tracks a score and offers goals (hold a region, outlast rivals, rebuild
+  Alexander's empire...) that the player may chase.
+- **Other realms: their own choices, with history as a pull.** Realms
+  decide for themselves but lean toward what they historically did, more
+  strongly where the player isn't involved. (This matches the population
+  engine's design: bots follow history, the player can bend it.)
+- **War and diplomacy: full.** War must be declared before painting into
+  a realm; peace deals end it; alliances and vassals exist. Conquest by
+  painting (build step 7) works inside a declared war.
+- **New realms: historical arrivals, revolts and civil wars.** New realms
+  appear at their real dates and places (Galatia 278 BC, Parthia 247 BC,
+  ...). Revolts and civil wars follow history too, *unless* they happen in
+  the player's lands or the player causes them; there the simulation
+  decides.
+- **Culture and religion: both**, with conversion and assimilation over
+  time; together they drive integration (build step 6). Characters
+  already carry naming cultures.
+- **Pacing: the player chooses years per turn.** Games are meant to be
+  long: a playthrough taking weeks or months is the target, not a
+  problem. Design for depth over speed.
+- **Frontier tribes start unorganized** (built): the Iberian, Gallic and
+  Scythian peoples were confederations, not administered states, so their
+  land starts with no provinces and follows the unorganized-land rules.
+- **Personal unions: allowed, guided by history.** One ruler may inherit
+  a second throne. The realms stay separate unless history merged them;
+  if history renamed the realm on inheritance, the game does too. A union
+  only splits again when the player is involved or history split it.
+  (Not built yet: until it is, a monarch is still passed over for a
+  second throne.)
+- **Growth drivers: approved as drafted** (see Growth drivers).
+
 ## Core interaction principle: the brush stays authoritative
 
 The existing left-drag-to-paint / right-click-to-clear ownership brush
@@ -80,10 +118,10 @@ selection, brush), `src/UI/Hud.Provinces.cs` (panel and map modes). Test:
   borders get a gentle meander. Wherever land is more than ~150 km from
   any region, an extra province is added and named from the nearest
   region ("Northern Media"). Unseeded islands under ~1,500 km² join the
-  nearest province. Result: about 290 provinces, two-thirds of them
-  historical names, median ~22,500 km². Every realm starts fully
-  organized, including the frontier tribes (their "provinces" are tribal
-  lands).
+  nearest province. Result: two-thirds of them
+  historical names, median ~21,500 km², about 190 provinces in all. The
+  frontier tribes (Iberia, Gaul, Scythia) start unorganized, with no
+  provinces (see Design decisions).
 - **On the map.** Province borders are thin and fainter than realm
   borders, getting stronger as you zoom in; province names appear from
   about 2x zoom. Unorganized owned land shows paler. The selected
@@ -516,8 +554,7 @@ late, the closest the pair gets.
 
 ### Growth drivers: what makes people, and what moves them
 
-**(proposed: everything in this section needs sign-off before any
-gameplay system writes to the population engine)**
+**(decided: approved as drafted, 25 Sep 2026)**
 
 **Why this exists.** The engine is calibrated for how fast population
 *responds* to `drivers`. Nothing yet defines what `drivers` are. Today
@@ -546,7 +583,7 @@ so this is structural, not a calibration problem. Three causes:
   fixed share of its log gap doesn't preserve the sum, and the same
   stress test lost 2-4 million people that way, with nobody dying.
 
-**Principle: two channels, each bounded. (proposed)**
+**Principle: two channels, each bounded. (decided)**
 
 1. **Natural increase** (births minus deaths) decides *how many* people
    a region has. It's computed per ancient geographic region (see
@@ -599,7 +636,7 @@ region can approach its capacity but never grow past it; only better
 agriculture, irrigation or imported food raise it. That's the Malthusian
 ceiling that held every pre-modern region.
 
-**Bounds, anchored to HYDE. (proposed values)** On this map, HYDE's
+**Bounds, anchored to HYDE. (decided; values retuned in balance tests)** On this map, HYDE's
 century-averaged regional growth (5-degree regions) before 1700 runs from
 **-0.7% to +0.6% a year**, and the whole map from -0.2% to +0.23%. Only
 from 1700 do regions exceed +0.8%. So:
@@ -644,7 +681,7 @@ another road or market adds almost nothing. Pull and push factors:
 - **Push:** war and occupation, famine, epidemic, persecution, heavy
   taxes and tribute, loss of land to large estates.
 
-**Migration conserves people and is limited. (proposed)**
+**Migration conserves people and is limited. (decided)**
 
 - **Within a region**, attraction redistributes the region's people the
   way the engine does now, heat to target to the log-scale step, but
@@ -683,7 +720,7 @@ once it exists. **(open)**
 Each test runs on the real HYDE grid and must pass whenever a constant,
 weight or factor formula changes. They go into
 `tools/calibrate_population.py` and the headless test suite alongside the
-founded-city calibration. **(proposed bounds)**
+founded-city calibration. **(decided; bounds retuned in balance tests)**
 
 | Test | Setup | Must hold |
 |---|---|---|
