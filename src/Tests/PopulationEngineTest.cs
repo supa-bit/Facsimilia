@@ -9,12 +9,13 @@ namespace Facsimilia.Tests;
 /// <summary>
 /// Population engine tests on a deterministic 100x50 toy world: rural
 /// background ~1,000 people per node plus 300 cities on an ancient-style
-/// rank-size curve (300,000 * rank^-0.6). The climb timings pin the engine
-/// to tools/calibrate_population.py's numpy model of the same rules, which
-/// gives the same numbers on its toy world (--check-only): 59 years to the
-/// top 50 for an ordinary city, 6 for a country capital, 28 for a province
-/// capital, and none reaches the top 10. The constants are fitted on the
-/// real HYDE grid instead, where that fit is checked: PopulationHydeTest.
+/// rank-size curve (300,000 * rank^-0.6), all one region (no region mask),
+/// so it's a single map-wide pool. The climb timings pin the engine to
+/// tools/calibrate_population.py's numpy model of the same rules on its toy
+/// world (--check-only): 57 years to the top 50 for an ordinary city, 6 for
+/// a country capital, 27 for a province capital, and none reaches the top
+/// 10. The constants are fitted on the real HYDE grid instead, where that
+/// fit is checked: PopulationHydeTest.
 /// </summary>
 public partial class PopulationEngineTest : TestRunner
 {
@@ -81,7 +82,6 @@ public partial class PopulationEngineTest : TestRunner
     {
         float[] hist = Fixture();
         int barren = Barren(hist);
-        double hBarren = Math.Sqrt(hist[barren] / 300000.0);
 
         // 1. The historical start is a fixed point: nothing drifts, the world
         //    total holds, and nobody exceeds the ceiling.
@@ -97,9 +97,9 @@ public partial class PopulationEngineTest : TestRunner
 
         // 2. Climb: an ordinary player city with best-in-world drivers.
         e = Engine(hist, Owners(new[] { barren }));
-        e.DriverMods[barren] = (float)(1.0 - hBarren);
+        e.DriverMods[barren] = PopulationEngine.FullAttraction;
         var ordinary = Climb(e, barren, 400);
-        Check(Near(ordinary.Top50, 59) && ordinary.Top10 == 0, $"ordinary city climb {ordinary}, expected (59, never)");
+        Check(Near(ordinary.Top50, 57) && ordinary.Top10 == 0, $"ordinary city climb {ordinary}, expected (57, never)");
 
         // 3. Climb: country and province capitals, settlers drawn from a
         //    small player realm (nodes 0-399, 19 cities).
@@ -108,7 +108,7 @@ public partial class PopulationEngineTest : TestRunner
         foreach (var kind in new[] { CapitalKind.Country, CapitalKind.Province })
         {
             e = Engine(hist, Owners(realm));
-            e.DriverMods[barren] = (float)(1.0 - hBarren);
+            e.DriverMods[barren] = PopulationEngine.FullAttraction;
             double before = e.TotalPopulation();
             e.DesignateCapital(barren, kind, Player);
             Check(Math.Abs(e.TotalPopulation() - before) < 1.0, "resettlement must move people, not create them");
@@ -117,7 +117,7 @@ public partial class PopulationEngineTest : TestRunner
         var country = caps[CapitalKind.Country];
         var province = caps[CapitalKind.Province];
         Check(Near(country.Top50, 6) && country.Top10 == 0, $"country capital climb {country}, expected (6, never)");
-        Check(Near(province.Top50, 28) && province.Top10 == 0, $"province capital climb {province}, expected (28, never)");
+        Check(Near(province.Top50, 27) && province.Top10 == 0, $"province capital climb {province}, expected (27, never)");
 
         // 4. Resettlement happens only the first time: re-designating after
         //    losing capital status moves nobody.
@@ -158,7 +158,7 @@ public partial class PopulationEngineTest : TestRunner
         //    it fades back gradually (no snap), about 60 years per halving of
         //    the log excess.
         e = Engine(hist, Owners(new[] { barren }));
-        e.DriverMods[barren] = (float)(1.0 - hBarren);
+        e.DriverMods[barren] = PopulationEngine.FullAttraction;
         for (int t = 1; t <= 300; t++)
             e.Tick(Start + t);
         float peak = e.Pop[barren];
@@ -193,7 +193,7 @@ public partial class PopulationEngineTest : TestRunner
 
         // 9. Save/load round-trip continues identically.
         e = Engine(hist, Owners(realm));
-        e.DriverMods[barren] = (float)(1.0 - hBarren);
+        e.DriverMods[barren] = PopulationEngine.FullAttraction;
         e.DesignateCapital(barren, CapitalKind.Province, Player);
         for (int t = 1; t <= 10; t++)
             e.Tick(Start + t);

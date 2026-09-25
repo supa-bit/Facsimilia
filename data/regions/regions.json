@@ -1,0 +1,750 @@
+{
+ "source": "tools/build_region_mask.py: the ancient geographers' regions, see MECHANICS.md",
+ "width": 780,
+ "height": 456,
+ "lon_min": -10,
+ "lon_max": 55,
+ "lat_min": 10,
+ "lat_max": 48,
+ "file": "region_nodes.u8.gz",
+ "regions": [
+  {
+   "id": 1,
+   "name": "Hispania",
+   "continent": "Europa",
+   "includes": "with the Balearic islands",
+   "label_lon": -5.042,
+   "label_lat": 40.042,
+   "nodes": 9212,
+   "neighbours": [
+    2,
+    13,
+    14
+   ],
+   "sea_lanes": [
+    13,
+    14
+   ]
+  },
+  {
+   "id": 2,
+   "name": "Gallia",
+   "continent": "Europa",
+   "includes": "with the Helvetii",
+   "label_lon": 1.542,
+   "label_lat": 45.292,
+   "nodes": 6846,
+   "neighbours": [
+    1,
+    3,
+    4
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 3,
+   "name": "Raetia",
+   "continent": "Europa",
+   "includes": "with Noricum and the land north of the upper Rhine",
+   "label_lon": 14.458,
+   "label_lat": 47.208,
+   "nodes": 1485,
+   "neighbours": [
+    2,
+    4,
+    6
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 4,
+   "name": "Italia",
+   "continent": "Europa",
+   "includes": "with Cisalpine Gaul, Istria, Sardinia and Corsica",
+   "label_lon": 11.125,
+   "label_lat": 44.458,
+   "nodes": 5027,
+   "neighbours": [
+    2,
+    3,
+    5,
+    6,
+    7,
+    10,
+    11,
+    14,
+    15
+   ],
+   "sea_lanes": [
+    10,
+    11,
+    14,
+    15
+   ]
+  },
+  {
+   "id": 5,
+   "name": "Sicilia",
+   "continent": "Europa",
+   "includes": "with Malta and the small islands around it",
+   "label_lon": 14.542,
+   "label_lat": 37.458,
+   "nodes": 438,
+   "neighbours": [
+    4,
+    14,
+    15
+   ],
+   "sea_lanes": [
+    14,
+    15
+   ]
+  },
+  {
+   "id": 6,
+   "name": "Pannonia",
+   "continent": "Europa",
+   "includes": "the land between the Alps, the Danube and the Sava",
+   "label_lon": 17.042,
+   "label_lat": 46.458,
+   "nodes": 1410,
+   "neighbours": [
+    3,
+    4,
+    7,
+    8
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 7,
+   "name": "Illyricum",
+   "continent": "Europa",
+   "includes": "with Dalmatia, Dardania and Upper Moesia",
+   "label_lon": 20.208,
+   "label_lat": 43.375,
+   "nodes": 3046,
+   "neighbours": [
+    4,
+    6,
+    8,
+    9,
+    10,
+    11
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 8,
+   "name": "Dacia",
+   "continent": "Europa",
+   "includes": "with the Tisza plain and the land to the Tyras (Dniester)",
+   "label_lon": 24.542,
+   "label_lat": 45.875,
+   "nodes": 5314,
+   "neighbours": [
+    6,
+    7,
+    9,
+    12
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 9,
+   "name": "Thracia",
+   "continent": "Europa",
+   "includes": "with Lower Moesia and the Dobruja",
+   "label_lon": 26.208,
+   "label_lat": 42.292,
+   "nodes": 2558,
+   "neighbours": [
+    7,
+    8,
+    10,
+    11,
+    12,
+    22,
+    23,
+    25
+   ],
+   "sea_lanes": [
+    25
+   ]
+  },
+  {
+   "id": 10,
+   "name": "Macedonia",
+   "continent": "Europa",
+   "includes": "with Paeonia, Upper Macedonia and Chalcidice",
+   "label_lon": 21.792,
+   "label_lat": 41.125,
+   "nodes": 1083,
+   "neighbours": [
+    4,
+    7,
+    9,
+    11,
+    22
+   ],
+   "sea_lanes": [
+    4,
+    22
+   ]
+  },
+  {
+   "id": 11,
+   "name": "Hellas",
+   "continent": "Europa",
+   "includes": "with Epirus, Crete and the Aegean islands",
+   "label_lon": 21.875,
+   "label_lat": 39.125,
+   "nodes": 1765,
+   "neighbours": [
+    4,
+    7,
+    9,
+    10,
+    17,
+    22,
+    23,
+    24
+   ],
+   "sea_lanes": [
+    4,
+    17,
+    23,
+    24
+   ]
+  },
+  {
+   "id": 12,
+   "name": "Scythia",
+   "continent": "Europa",
+   "includes": "from the Tyras to the Tanais (Don), with the Tauric Chersonese (Crimea)",
+   "label_lon": 33.125,
+   "label_lat": 47.042,
+   "nodes": 3064,
+   "neighbours": [
+    8,
+    9,
+    25,
+    26,
+    38
+   ],
+   "sea_lanes": [
+    25,
+    26
+   ]
+  },
+  {
+   "id": 13,
+   "name": "Mauretania",
+   "continent": "Libya",
+   "includes": "the land of the Mauri, west of the Mulucha",
+   "label_lon": -4.708,
+   "label_lat": 32.458,
+   "nodes": 6015,
+   "neighbours": [
+    1,
+    14,
+    20
+   ],
+   "sea_lanes": [
+    1
+   ]
+  },
+  {
+   "id": 14,
+   "name": "Numidia",
+   "continent": "Libya",
+   "includes": "the Masaesyli and Massyli, from the Mulucha to the Tusca",
+   "label_lon": 3.875,
+   "label_lat": 35.542,
+   "nodes": 3676,
+   "neighbours": [
+    1,
+    4,
+    5,
+    13,
+    15,
+    20
+   ],
+   "sea_lanes": [
+    1,
+    4,
+    5
+   ]
+  },
+  {
+   "id": 15,
+   "name": "Africa",
+   "continent": "Libya",
+   "includes": "the Carthaginian heartland",
+   "label_lon": 9.792,
+   "label_lat": 35.292,
+   "nodes": 1034,
+   "neighbours": [
+    4,
+    5,
+    14,
+    16,
+    20
+   ],
+   "sea_lanes": [
+    4,
+    5
+   ]
+  },
+  {
+   "id": 16,
+   "name": "Syrtica",
+   "continent": "Libya",
+   "includes": "the coast between the two Syrtes, with Djerba",
+   "label_lon": 10.458,
+   "label_lat": 32.042,
+   "nodes": 3848,
+   "neighbours": [
+    15,
+    17,
+    20
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 17,
+   "name": "Cyrenaica",
+   "continent": "Libya",
+   "includes": "the Greek Pentapolis",
+   "label_lon": 21.625,
+   "label_lat": 30.542,
+   "nodes": 1764,
+   "neighbours": [
+    11,
+    16,
+    18,
+    20
+   ],
+   "sea_lanes": [
+    11
+   ]
+  },
+  {
+   "id": 18,
+   "name": "Marmarica",
+   "continent": "Libya",
+   "includes": "from the Chersonese to Mareotis, with the oasis of Ammon",
+   "label_lon": 24.542,
+   "label_lat": 30.292,
+   "nodes": 2173,
+   "neighbours": [
+    17,
+    19,
+    20
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 19,
+   "name": "Aegyptus",
+   "continent": "Libya",
+   "includes": "the Nile valley and delta, the western oases and the eastern desert",
+   "label_lon": 30.792,
+   "label_lat": 26.792,
+   "nodes": 5776,
+   "neighbours": [
+    18,
+    20,
+    21,
+    28,
+    31,
+    33
+   ],
+   "sea_lanes": [
+    28,
+    33
+   ]
+  },
+  {
+   "id": 20,
+   "name": "Libya Interior",
+   "continent": "Libya",
+   "includes": "the Sahara, with the Garamantes",
+   "label_lon": 3.625,
+   "label_lat": 24.542,
+   "nodes": 75890,
+   "neighbours": [
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    21
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 21,
+   "name": "Aethiopia",
+   "continent": "Libya",
+   "includes": "everything south of Egypt and of the Sahara, Kush included",
+   "label_lon": 30.708,
+   "label_lat": 16.708,
+   "nodes": 61762,
+   "neighbours": [
+    19,
+    20,
+    31,
+    33
+   ],
+   "sea_lanes": [
+    31,
+    33
+   ]
+  },
+  {
+   "id": 22,
+   "name": "Lydia",
+   "continent": "Asia",
+   "includes": "with Ionia, Aeolis, Mysia, the Troad, Caria and Lycia",
+   "label_lon": 28.208,
+   "label_lat": 38.708,
+   "nodes": 1688,
+   "neighbours": [
+    9,
+    10,
+    11,
+    23,
+    24,
+    25
+   ],
+   "sea_lanes": [
+    10,
+    25
+   ]
+  },
+  {
+   "id": 23,
+   "name": "Phrygia",
+   "continent": "Asia",
+   "includes": "with Bithynia, Galatia, Pisidia and Lycaonia",
+   "label_lon": 31.958,
+   "label_lat": 39.875,
+   "nodes": 2287,
+   "neighbours": [
+    9,
+    11,
+    22,
+    24,
+    25
+   ],
+   "sea_lanes": [
+    11
+   ]
+  },
+  {
+   "id": 24,
+   "name": "Cilicia",
+   "continent": "Asia",
+   "includes": "with Pamphylia and Cyprus",
+   "label_lon": 32.792,
+   "label_lat": 36.708,
+   "nodes": 1024,
+   "neighbours": [
+    11,
+    22,
+    23,
+    25,
+    28
+   ],
+   "sea_lanes": [
+    11
+   ]
+  },
+  {
+   "id": 25,
+   "name": "Cappadocia",
+   "continent": "Asia",
+   "includes": "with Pontus and Paphlagonia",
+   "label_lon": 35.458,
+   "label_lat": 39.542,
+   "nodes": 3430,
+   "neighbours": [
+    9,
+    12,
+    22,
+    23,
+    24,
+    26,
+    27,
+    28,
+    29
+   ],
+   "sea_lanes": [
+    9,
+    12,
+    22
+   ]
+  },
+  {
+   "id": 26,
+   "name": "Colchis",
+   "continent": "Asia",
+   "includes": "the Caucasus: Colchis, Iberia and Albania",
+   "label_lon": 43.625,
+   "label_lat": 42.375,
+   "nodes": 3116,
+   "neighbours": [
+    12,
+    25,
+    27,
+    34,
+    37,
+    38
+   ],
+   "sea_lanes": [
+    12,
+    37
+   ]
+  },
+  {
+   "id": 27,
+   "name": "Armenia",
+   "continent": "Asia",
+   "includes": "with Sophene",
+   "label_lon": 42.292,
+   "label_lat": 40.042,
+   "nodes": 3168,
+   "neighbours": [
+    25,
+    26,
+    28,
+    29,
+    34,
+    38
+   ],
+   "sea_lanes": [
+    38
+   ]
+  },
+  {
+   "id": 28,
+   "name": "Syria",
+   "continent": "Asia",
+   "includes": "with Commagene, Phoenicia and Judaea",
+   "label_lon": 37.458,
+   "label_lat": 34.542,
+   "nodes": 2808,
+   "neighbours": [
+    19,
+    24,
+    25,
+    27,
+    29,
+    31,
+    32
+   ],
+   "sea_lanes": [
+    19
+   ]
+  },
+  {
+   "id": 29,
+   "name": "Mesopotamia",
+   "continent": "Asia",
+   "includes": "with Assyria",
+   "label_lon": 41.292,
+   "label_lat": 36.458,
+   "nodes": 3266,
+   "neighbours": [
+    25,
+    27,
+    28,
+    30,
+    32,
+    34
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 30,
+   "name": "Babylonia",
+   "continent": "Asia",
+   "includes": "with Chaldaea and the Sealand",
+   "label_lon": 45.292,
+   "label_lat": 32.792,
+   "nodes": 1645,
+   "neighbours": [
+    29,
+    32,
+    34,
+    35,
+    36
+   ],
+   "sea_lanes": [
+    36
+   ]
+  },
+  {
+   "id": 31,
+   "name": "Arabia Petraea",
+   "continent": "Asia",
+   "includes": "with Sinai, the Negev and Nabataea",
+   "label_lon": 36.708,
+   "label_lat": 29.042,
+   "nodes": 3433,
+   "neighbours": [
+    19,
+    21,
+    28,
+    32,
+    33
+   ],
+   "sea_lanes": [
+    21
+   ]
+  },
+  {
+   "id": 32,
+   "name": "Arabia Deserta",
+   "continent": "Asia",
+   "includes": "the Syrian desert and the Nafud",
+   "label_lon": 41.375,
+   "label_lat": 30.542,
+   "nodes": 7354,
+   "neighbours": [
+    28,
+    29,
+    30,
+    31,
+    33,
+    35,
+    36
+   ],
+   "sea_lanes": [
+    35,
+    36
+   ]
+  },
+  {
+   "id": 33,
+   "name": "Arabia Felix",
+   "continent": "Asia",
+   "includes": "the rest of the peninsula, with Socotra",
+   "label_lon": 47.375,
+   "label_lat": 20.042,
+   "nodes": 26167,
+   "neighbours": [
+    19,
+    21,
+    31,
+    32,
+    35,
+    36
+   ],
+   "sea_lanes": [
+    19,
+    21,
+    35,
+    36
+   ]
+  },
+  {
+   "id": 34,
+   "name": "Media",
+   "continent": "Asia",
+   "includes": "with Atropatene and the Caspian Gates",
+   "label_lon": 47.792,
+   "label_lat": 35.792,
+   "nodes": 6966,
+   "neighbours": [
+    26,
+    27,
+    29,
+    30,
+    35,
+    36,
+    37
+   ],
+   "sea_lanes": []
+  },
+  {
+   "id": 35,
+   "name": "Susiana",
+   "continent": "Asia",
+   "includes": "Elam",
+   "label_lon": 48.875,
+   "label_lat": 31.458,
+   "nodes": 1094,
+   "neighbours": [
+    30,
+    32,
+    33,
+    34,
+    36
+   ],
+   "sea_lanes": [
+    32,
+    33
+   ]
+  },
+  {
+   "id": 36,
+   "name": "Persis",
+   "continent": "Asia",
+   "includes": "with Carmania",
+   "label_lon": 52.792,
+   "label_lat": 29.958,
+   "nodes": 3081,
+   "neighbours": [
+    30,
+    32,
+    33,
+    34,
+    35
+   ],
+   "sea_lanes": [
+    30,
+    32,
+    33
+   ]
+  },
+  {
+   "id": 37,
+   "name": "Hyrcania",
+   "continent": "Asia",
+   "includes": "with Parthia and the Dahae east of the Caspian",
+   "label_lon": 53.875,
+   "label_lat": 42.375,
+   "nodes": 2532,
+   "neighbours": [
+    26,
+    34,
+    38
+   ],
+   "sea_lanes": [
+    26
+   ]
+  },
+  {
+   "id": 38,
+   "name": "Sarmatia",
+   "continent": "Asia",
+   "includes": "beyond the Tanais: the steppe north of the Caucasus and the Caspian",
+   "label_lon": 44.542,
+   "label_lat": 45.792,
+   "nodes": 8381,
+   "neighbours": [
+    12,
+    26,
+    27,
+    37
+   ],
+   "sea_lanes": [
+    27
+   ]
+  }
+ ]
+}

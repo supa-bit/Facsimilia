@@ -80,6 +80,26 @@ allocation, not an artifact of the crop.
 Without `data/population/` the game runs without population: the engine
 switches itself off, and saves and the HUD simply omit it.
 
+## Geographic regions
+
+`tools/build_region_mask.py` bakes the 38 regions of the ancient
+geographers (Europa, Libya, Asia; see MECHANICS.md, "Geographic regions")
+onto the same 780 x 456 population nodes. Land is exactly the population
+grid's land (every node the 300 BC keyframe doesn't mark as sea). Each
+region is a hand-drawn longitude/latitude outline in the script; where
+outlines overlap, the earlier one in its priority list wins, and land no
+outline covers takes its nearest region. Islands go whole to a named
+region; small boxes cover the east Aegean islands that the 9 km grid
+joins to Asia's coast. Neighbours are regions whose land touches or whose
+coasts are within 300 km across water.
+
+Output goes to `data/regions/`: `region_nodes.u8.gz` (one byte per node,
+the region id 1-38; 0 = sea) and `regions.json` (names, continents,
+what's folded into each, where its name goes, neighbours). Run
+`python tools/build_region_mask.py --preview regions.png` to also draw a
+coloured check image. The population engine loads the regions with the
+HYDE data; without them it treats the whole map as one region.
+
 ## Rebuild
 
 Python dependencies: Pillow, NumPy, SciPy. From this project directory:
@@ -93,7 +113,9 @@ Python dependencies: Pillow, NumPy, SciPy. From this project directory:
    DANS archive instead; needs `pip install zipfile-deflate64`). Then
    `python tools/build_population_mask.py <dir>` bakes the population
    keyframes (needs NumPy only).
-6. Open `project.godot` in the Godot 4.7.2 **.NET** build (the C# one;
+6. `python tools/build_region_mask.py` bakes the geographic regions onto
+   the population grid (needs NumPy and SciPy; run after step 5).
+7. Open `project.godot` in the Godot 4.7.2 **.NET** build (the C# one;
    the standard build can't run the project's C# code) and allow the
    assets to import. Building needs the .NET 10 SDK: `dotnet build`, or
    the default build task in VS Code (`.vscode/`, which also has Play,

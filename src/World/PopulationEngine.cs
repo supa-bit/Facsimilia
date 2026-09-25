@@ -22,13 +22,18 @@ public readonly record struct StartCapital(int Node, CapitalKind Kind, int Realm
 /// population truth there is to compute against.
 ///
 /// Each yearly tick:
+///   0. Growth drivers (PopulationEngine.Growth.cs): each geographic region's
+///      new total P_r from natural increase, then migration between
+///      neighbouring regions.
 ///   1. Blend simulated heat with historical heat:
 ///        H_sim   = normalize(drivers + Beta * (Pop / max Pop)^(1/K))
 ///        H_final = (1 - Alpha) * H_sim + Alpha * H_hist
-///   2. Turn heat into a target population, world total preserved:
-///        Target_i = P_world * H_final_i^K / sum_j H_final_j^K
+///      where drivers saturate with the node's attraction (DriverMods).
+///   2. Turn heat into a target population, each region's total preserved:
+///        Target_i = P_r * H_final_i^K / sum_(j in r) H_final_j^K
 ///      then move each node a limited step toward it, on a log scale:
 ///        Pop_i &lt;- Pop_i * (Target_i / Pop_i)^Mu
+///      and rescale the region so it holds exactly P_r again.
 ///   3. Historical ceiling: every node not owned by the player's realm is
 ///      clamped to what HYDE says that place held in the current year.
 ///
@@ -51,7 +56,7 @@ public partial class PopulationEngine : RefCounted
 {
     public const double Alpha = 0.175;   // historical pull on H_final
     public const double Beta = 5.0;      // how strongly existing population attracts more
-    public const double Mu = 0.0625;     // share of the log gap to target closed per year
+    public const double Mu = 0.065;      // share of the log gap to target closed per year (refitted on the regional engine)
     public const double K = 2.0;         // urbanization exponent (ancient/agrarian eras)
     // Rate a lost player city's excess fades back to history: ~60 years to
     // halve it on a log scale. Kept apart from Mu, which the growth fit set.
@@ -86,13 +91,12 @@ public partial class PopulationEngine : RefCounted
     public float[] Pop { get; private set; } = Array.Empty<float>();
     public float[] Legacy { get; private set; } = Array.Empty<float>();      // player-built excess that fades after the player loses a node
     public int[] EmptySince { get; private set; } = Array.Empty<int>();      // year a node emptied, or NotEmpty
-    public float[] DriverMods { get; private set; } = Array.Empty<float>();  // gameplay driver modifiers, written by future systems
+    public float[] DriverMods { get; private set; } = Array.Empty<float>();  // attraction per node (pull minus push), written by gameplay systems
     public float[] StartBonus { get; private set; } = Array.Empty<float>();  // capital bonus already baked into the 300 BC history
     public int[] NodeOwner { get; private set; } = Array.Empty<int>();       // realm id per node (0 = unclaimed)
     public int PlayerRealmId { get; private set; }
     readonly Dictionary<int, (CapitalKind Kind, int Realm)> _capitals = new();
     readonly HashSet<string> _designated = new();  // "realm:node:kind"; resettlement happens once
-    public double PlayerWorldDelta { get; set; }   // player-driven change to the world total (growth mechanics, later)
     public double SeedFallback { get; private set; }  // median rural node population, for player foundings on empty land
 
     // Per-tick scratch buffers, reused so a tick allocates nothing.
@@ -148,6 +152,7 @@ public partial class PopulationEngine : RefCounted
             arrays.Add(values);
         }
         SetKeyframes(meta.width, meta.height, years, arrays);
+        LoadRegions();
         return true;
     }
 
@@ -189,6 +194,7 @@ public partial class PopulationEngine : RefCounted
         EmptySince = new int[n];
         NodeOwner = new int[n];
         _heat = new float[n]; _target = new float[n]; _bonus = new float[n];
+        DefaultRegions();
     }
 
     /// <summary>
@@ -208,7 +214,7 @@ public partial class PopulationEngine : RefCounted
         Array.Fill(EmptySince, NotEmpty);
         _capitals.Clear();
         _designated.Clear();
-        PlayerWorldDelta = 0.0;
+        Array.Clear(RegionFactors);
         foreach (int i in LandNodes)
         {
             Pop[i] = HistPop[i] >= 1f ? HistPop[i] : 0f;
@@ -278,12 +284,19 @@ public partial class PopulationEngine : RefCounted
     /// <summary>Advances the simulation to newYear (normally Year + 1).</summary>
     public void Tick(int newYear)
     {
+        Array.Copy(_histRegion, _histRegionPrev, _histRegion.Length);
         Year = newYear;
         UpdateHistory();
         int[] nodes = LandNodes;
         float[] hh = HHist, hp = HistPop, pop = Pop, heat = _heat, target = _target;
         int[] owners = NodeOwner;
+        byte[] reg = NodeRegion;
         int pid = PlayerOrNone;
+
+        // Stage 0: each region's total for the new year.
+        SumRegions();
+        NaturalIncrease();
+        MigrateBetweenRegions();
 
         // Stage 1: blend simulated and historical heat.
         double maxPop = MaxPop();
@@ -292,41 +305,55 @@ public partial class PopulationEngine : RefCounted
         double heatMax = 0.0;
         foreach (int i in nodes)
         {
-            double v = Math.Max(0.0, (double)hh[i] - sb[i]) + mods[i] + bonus[i] + Beta * HeatOfShare(pop[i] * invMax);
+            double drivers = DriversOf(Math.Max(0.0, (double)hh[i] - sb[i]), mods[i]) + bonus[i];
+            double v = drivers + Beta * HeatOfShare(pop[i] * invMax);
             heat[i] = (float)v;
             heatMax = Math.Max(heatMax, v);
         }
 
-        // Stage 2: heat -> target population, world total preserved.
+        // Stage 2: heat -> target population, each region's total preserved.
         double invHeat = heatMax > 0.0 ? 1.0 / heatMax : 0.0;
-        double weightSum = 0.0, histTotal = 0.0;
+        Array.Clear(_regionWeight);
         foreach (int i in nodes)
         {
             double hf = (1.0 - Alpha) * heat[i] * invHeat + Alpha * hh[i];
             double w = K == 2.0 ? hf * hf : Math.Pow(hf, K);
             heat[i] = (float)w;  // reuse: now holds the target weight
-            weightSum += w;
-            histTotal += hp[i];
+            _regionWeight[reg[i]] += w;
         }
-        double pWorld = Math.Max(0.0, histTotal + PlayerWorldDelta);
-        double scale = weightSum > 0.0 ? pWorld / weightSum : 0.0;
+        // An empty node takes a share only if it's due to resettle and its
+        // share would be at least one person; otherwise the share would be
+        // people nobody can hold, and the region would lose them.
+        int[] es = EmptySince;
+        int y = Year;
+        for (int r = 1; r <= RegionCount; r++)
+            _regionWeight[r] = _regionWeight[r] > 0.0 ? _regionGoal[r] / _regionWeight[r] : 0.0;
         foreach (int i in nodes)
-            target[i] = (float)(heat[i] * scale);
+        {
+            if (pop[i] > 0f)
+                continue;
+            if (y - es[i] < ResettleYears || heat[i] * _regionWeight[reg[i]] < 1.0)
+                heat[i] = 0f;
+        }
+        Array.Clear(_regionWeight);
+        foreach (int i in nodes)
+            _regionWeight[reg[i]] += heat[i];
+        for (int r = 1; r <= RegionCount; r++)
+            _regionWeight[r] = _regionWeight[r] > 0.0 ? _regionGoal[r] / _regionWeight[r] : 0.0;
+        foreach (int i in nodes)
+            target[i] = (float)(heat[i] * _regionWeight[reg[i]]);
 
         // Historical ceiling on targets, excess redistributed among other
-        // non-player nodes with headroom (the player's own targets untouched).
+        // non-player nodes of the region with headroom.
         UpdateLegacy();
         float[] lg = Legacy;
         ApplyCeilingToTargets(target);
 
         // Log-scale step toward target; empty nodes resettle after a generation.
-        int[] es = EmptySince;
-        int y = Year;
         foreach (int i in nodes)
         {
             double p = pop[i];
             double t = target[i];
-            bool mine = owners[i] == pid;
             if (p > 0.0)
             {
                 p *= Math.Pow(Math.Max(t, TargetFloor) / p, Mu);
@@ -346,12 +373,17 @@ public partial class PopulationEngine : RefCounted
             }
             // The ceiling applies to the population itself, not just the
             // target - otherwise bot-held places would lag history's declines.
-            if (mine)
-                lg[i] = (float)p;  // starts fading from here if the player loses it
-            else
+            if (owners[i] != pid)
                 p = Math.Min(p, Math.Max(hp[i], lg[i]));
             pop[i] = (float)p;
         }
+
+        // The step moves each node a share of its gap, which doesn't keep a
+        // sum: rescale each region back to the total its targets add up to.
+        Renormalize(target);
+        foreach (int i in nodes)
+            if (owners[i] == pid)
+                lg[i] = pop[i];  // starts fading from here if the player loses it
     }
 
     /// <summary>Population share of the largest node -> heat, the inverse of Target's H^K.</summary>
@@ -405,52 +437,133 @@ public partial class PopulationEngine : RefCounted
         }
     }
 
+    /// <summary>
+    /// Caps non-player targets at their allowance. The excess goes first to
+    /// other non-player nodes of the same region with headroom, in
+    /// proportion to their targets; what still doesn't fit goes to the
+    /// player's nodes in the region, but only as far as the region is above
+    /// history - growth only the player can cause. The rest is never born.
+    /// </summary>
     void ApplyCeilingToTargets(float[] target)
     {
-        int[] nodes = LandNodes, owners = NodeOwner;
+        int[] owners = NodeOwner;
         float[] hp = HistPop, lg = Legacy;
         int pid = PlayerOrNone;
-        double excess = 0.0;
-        foreach (int i in nodes)
+        for (int r = 1; r <= RegionCount; r++)
         {
-            if (owners[i] == pid)
-                continue;
-            double cap = Math.Max(hp[i], lg[i]);
-            if (target[i] > cap)
-            {
-                excess += target[i] - cap;
-                target[i] = (float)cap;
-            }
-        }
-        for (int pass = 0; pass < RedistributePasses; pass++)
-        {
-            if (excess < 1.0)
-                return;
-            double roomWeight = 0.0;
-            foreach (int i in nodes)
-                if (owners[i] != pid && target[i] < Math.Max(hp[i], lg[i]))
-                    roomWeight += target[i];
-            if (roomWeight <= 0.0)
-                return;  // every non-player node is at its ceiling: the excess is never born
-            double leftover = 0.0;
-            double k = excess / roomWeight;
+            int[] nodes = _regionNodes[r];
+            double excess = 0.0;
             foreach (int i in nodes)
             {
                 if (owners[i] == pid)
                     continue;
                 double cap = Math.Max(hp[i], lg[i]);
-                if (target[i] < cap)
+                if (target[i] > cap)
                 {
-                    double t = target[i] * (1.0 + k);
-                    if (t > cap)
-                    {
-                        leftover += t - cap;
-                        t = cap;
-                    }
-                    target[i] = (float)t;
+                    excess += target[i] - cap;
+                    target[i] = (float)cap;
                 }
             }
-            excess = leftover;
+            for (int pass = 0; pass < RedistributePasses && excess >= 1.0; pass++)
+            {
+                double roomWeight = 0.0;
+                foreach (int i in nodes)
+                    if (owners[i] != pid && target[i] < Math.Max(hp[i], lg[i]))
+                        roomWeight += target[i];
+                if (roomWeight <= 0.0)
+                    break;
+                double leftover = 0.0;
+                double k = excess / roomWeight;
+                foreach (int i in nodes)
+                {
+                    if (owners[i] == pid)
+                        continue;
+                    double cap = Math.Max(hp[i], lg[i]);
+                    if (target[i] < cap)
+                    {
+                        double t = target[i] * (1.0 + k);
+                        if (t > cap)
+                        {
+                            leftover += t - cap;
+                            t = cap;
+                        }
+                        target[i] = (float)t;
+                    }
+                }
+                excess = leftover;
+            }
+            double surplus = Math.Min(excess, Math.Max(0.0, _regionGoal[r] - _histRegion[r]));
+            if (surplus >= 1.0 && _regionPlayerPop[r] > 0.0)
+            {
+                double playerWeight = 0.0;
+                foreach (int i in nodes)
+                    if (owners[i] == pid)
+                        playerWeight += target[i];
+                if (playerWeight > 0.0)
+                {
+                    double k = surplus / playerWeight;
+                    foreach (int i in nodes)
+                        if (owners[i] == pid)
+                            target[i] = (float)(target[i] * (1.0 + k));
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Rescales each region's nodes so the region holds what its targets add
+    /// up to. Growth goes to nodes with room (non-player nodes stop at their
+    /// allowance); shrinking scales everyone. Empty nodes stay empty.
+    /// </summary>
+    void Renormalize(float[] target)
+    {
+        int[] owners = NodeOwner;
+        float[] pop = Pop, hp = HistPop, lg = Legacy;
+        int pid = PlayerOrNone;
+        for (int r = 1; r <= RegionCount; r++)
+        {
+            int[] nodes = _regionNodes[r];
+            double goal = 0.0;
+            foreach (int i in nodes)
+                goal += target[i];
+            for (int pass = 0; pass < RedistributePasses; pass++)
+            {
+                double sum = 0.0, free = 0.0;
+                foreach (int i in nodes)
+                {
+                    double p = pop[i];
+                    sum += p;
+                    if (p > 0.0 && (owners[i] == pid || p < Math.Max(hp[i], lg[i])))
+                        free += p;
+                }
+                double diff = goal - sum;
+                if (Math.Abs(diff) < 0.01 || sum <= 0.0)
+                    break;
+                if (diff < 0.0)
+                {
+                    double f = goal / sum;
+                    foreach (int i in nodes)
+                        pop[i] = (float)(pop[i] * f);
+                    break;
+                }
+                if (free <= 0.0)
+                    break;  // every node is at its ceiling: the rest is never born
+                double g = 1.0 + diff / free;
+                foreach (int i in nodes)
+                {
+                    double p = pop[i];
+                    if (p <= 0.0)
+                        continue;
+                    if (owners[i] == pid)
+                        pop[i] = (float)(p * g);
+                    else
+                    {
+                        double cap = Math.Max(hp[i], lg[i]);
+                        if (p < cap)
+                            pop[i] = (float)Math.Min(p * g, cap);
+                    }
+                }
+            }
         }
     }
 
@@ -484,6 +597,14 @@ public partial class PopulationEngine : RefCounted
         double invMax = maxHist > 0.0 ? 1.0 / maxHist : 0.0;
         foreach (int i in LandNodes)
             hh[i] = (float)HeatOfShare(hp[i] * invMax);
+        // Regional history counts whole people only: a node HYDE gives less
+        // than one person starts empty (see Start), and counting its
+        // fraction would make sparse regions look under-populated forever.
+        Array.Clear(_histRegion);
+        byte[] reg = NodeRegion;
+        foreach (int i in LandNodes)
+            if (hp[i] >= 1f)
+                _histRegion[reg[i]] += hp[i];
     }
 
     double MaxPop()
@@ -574,7 +695,7 @@ public partial class PopulationEngine : RefCounted
         var designated = new GArray();
         foreach (string key in _designated)
             designated.Add(key);
-        return new GDictionary
+        var d = new GDictionary
         {
             ["year"] = Year,
             ["pop"] = Pop,
@@ -584,8 +705,9 @@ public partial class PopulationEngine : RefCounted
             ["start_bonus"] = StartBonus,
             ["capitals"] = caps,
             ["designated"] = designated,
-            ["player_world_delta"] = PlayerWorldDelta,
         };
+        SaveGrowth(d);
+        return d;
     }
 
     /// <summary>Requires SetKeyframes()/LoadHyde() first, with the same grid size.</summary>
@@ -616,7 +738,7 @@ public partial class PopulationEngine : RefCounted
         _designated.Clear();
         foreach (Variant k in data["designated"].AsGodotArray())
             _designated.Add(k.AsString());
-        PlayerWorldDelta = data.TryGetValue("player_world_delta", out Variant delta) ? delta.AsDouble() : 0.0;
+        LoadGrowth(data);
         UpdateHistory();
         return true;
     }

@@ -719,6 +719,7 @@ public partial class MapView : Node2D
         }
         _mapLabels.Sort((a, b) => b.Cells.CompareTo(a.Cells));
         BuildProvinceLabels();
+        BuildRegionLabels();
         UpdateLabels();
     }
 
@@ -737,8 +738,14 @@ public partial class MapView : Node2D
         var mapOnScreen = new Rect2((Vector2.Zero - _camera.Position) * z + screen / 2f, MapSize * z);
         var bounds = new Rect2(0, HudTopMargin, screen.X, screen.Y - HudTopMargin).Intersection(mapOnScreen);
         var placed = new List<Rect2>();
+        PlaceRegionLabels(bounds, placed, screen, z);
         foreach (var (label, world, _) in _mapLabels)
         {
+            if (RegionsOverlay)
+            {
+                label.Visible = false;
+                continue;
+            }
             var size = label.GetMinimumSize();
             var center = (world - _camera.Position) * z + screen / 2f;
             var rect = new Rect2(center - size / 2f, size);
@@ -757,7 +764,11 @@ public partial class MapView : Node2D
                 placed.Add(rect);
             }
         }
-        PlaceProvinceLabels(bounds, placed, screen, z);
+        if (!RegionsOverlay)
+            PlaceProvinceLabels(bounds, placed, screen, z);
+        else
+            foreach (var (label, _) in _provinceLabels)
+                label.Visible = false;
     }
 
     /// <summary>
@@ -880,6 +891,7 @@ public partial class MapView : Node2D
         if (MapSprite != null)
             MapSprite.Texture = _mapTexture;
         BuildProvinceTexture();
+        BuildRegionOverlay();
     }
 
     static uint Rgba(Color c) =>

@@ -15,6 +15,13 @@ Two node distributions:
         node is the median populated land node.
 Ranks are within the map, as in the game.
 
+This script models one map-wide pool. The game's engine now keeps each of
+the 38 geographic regions' totals (see MECHANICS.md, "Growth drivers"), so
+the final (beta, mu) were refitted on the regional engine itself, on the
+real grid: src/Tests/PopulationHydeTest.cs holds that fit. Use this script
+for the single-pool model and the toy world, which the engine still matches
+when it has no region mask (src/Tests/PopulationEngineTest.cs).
+
 Usage: python3 tools/calibrate_population.py [--hyde [DIR]] [--year -300]
                                              [--check-only]   (needs numpy)
   --check-only  skip the grid searches; just report the timings at the
@@ -62,7 +69,7 @@ PROVINCE = (even((CAPITAL[0] + ORDINARY[0]) / 2), even((CAPITAL[1] + ORDINARY[1]
 
 N, ALPHA, K = 5000, 0.175, 2
 # The engine's current constants (src/World/PopulationEngine.cs).
-ENGINE_BETA, ENGINE_MU = 5.0, 0.0625
+ENGINE_BETA, ENGINE_MU = 5.0, 0.065
 ENGINE_CAPITALS = {"country": dict(transfer=0.08, bonus=0.05),
                    "province": dict(transfer=0.04, bonus=0.0)}
 

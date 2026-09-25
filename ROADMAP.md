@@ -30,11 +30,23 @@ Each step is verified on the real game before the next begins.
    - [x] Population engine: history blend, historical ceiling, player legacy
          fade, capital bonuses, resettlement, save/load
    - [x] Calibrated to real founded-city growth on the real grid
-   - [ ] Growth drivers (natural increase + migration channels, per region):
-         approved, ready to build
-   - [ ] Region mask (the 38 ancient geographic regions), needed by the
-         growth drivers
-   - [ ] Balance-test harness (the contract in MECHANICS.md)
+   - [x] Region mask: the 38 ancient geographic regions baked onto the
+         population grid, with neighbours and sea lanes; the Regions map
+         overlay (button or R key) and each province's region in its panel
+   - [x] Growth drivers groundwork: each region grows at its own
+         historical rate plus bounded factor effects, people move between
+         neighbouring regions (capped, never created or destroyed), and
+         the calibration was refitted on it (`μ` 0.0625 → 0.065)
+   - [x] Balance-test harness: all six tests from MECHANICS.md pass on the
+         real grid (plus the founded-city calibration)
+   - [ ] Wire gameplay into the growth factors and attraction as each
+         system is built (economy, tech, war, resources); each must pass
+         the balance tests
+   - [ ] Events that strike a region (epidemics, famines): the engine can
+         apply them; nothing triggers them yet
+   - [ ] Carrying capacity from real arable land and yield (today a
+         stand-in: 3x each region's historical population), needs the
+         resource field
    - [ ] Resource presence per cell (coal, ores, water, flora/fauna)
 3. [ ] **Settlements and territory rules**: population clusters, city names
        by percentile (with hysteresis and ruins), unorganized-land limits,
@@ -49,8 +61,8 @@ Each step is verified on the real game before the next begins.
 
 - [ ] **Other realms act** (AI): their own choices with history as a pull;
       expand, go to war, react to the player
-- [ ] **Map views**: population heatmap (the data already exists), regions,
-      resources, political (today's view)
+- [~] **Map views**: regions (done), population heatmap (the data already
+      exists), resources, political (today's view)
 - [~] **Click a realm or place** to see its details (provinces done;
       realms and cities still to come)
 - [ ] **Family tree view**: the player's ruler, heir and court
@@ -95,8 +107,6 @@ in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
       his father already rules elsewhere): wants a family tree view
 - [ ] The brush paints a proposal that is never confirmed or saved
       *(fixed by conquest by painting, step 7)*
-- [ ] By 0 AD the simulated world holds 47.7 million against HYDE's 48.2
-      million (population inertia lags the rising historical ceiling)
 - [ ] Mouse offset on Windows: fixed by starting maximized; press F3 in
       game to check the crosshair sits under the pointer
 
@@ -131,4 +141,7 @@ in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
 - [x] Build stamp in the main menu corner showing which version is running
 - [x] Session setup (.NET SDK + Godot .NET) and one-click assets release
       workflow
-- [x] 12 automated test suites
+- [x] 13 automated test suites (the population balance tests added)
+- [x] Fixed: the simulated world no longer lags HYDE's total (was 47.7
+      million against 48.2 million by 0 AD); regional totals now follow
+      HYDE exactly

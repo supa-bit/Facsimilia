@@ -264,9 +264,10 @@ history" behavior. Explicit relaxation of `H_sim` toward `H_hist` was the
 alternative. It was rejected because it drags on the simulation directly
 instead of acting through population.
 
-**`β = 5.0`, together with population inertia `μ = 0.0625` (stage 2).
+**`β = 5.0`, together with population inertia `μ = 0.065` (stage 2).
 Both are calibrated to real founded cities on the real HYDE grid.
-(decided)** Feedback alone
+(decided; `μ` refitted from 0.0625 once regional totals were built, see
+Fit)** Feedback alone
 can't make history slow to bend. The update is a contraction whose
 per-tick factor is at most `1 - α`, so any change in drivers settles
 within a few years whatever `β` is. A simulation showed a barren node
@@ -317,8 +318,17 @@ node given drivers matching the world's best site and held there. Ranks
 are within the map's extent, not the whole planet, so the map region's
 rank-size curve is what matters. A coarse-then-fine grid search gives
 **`β = 5.0`, `μ = 0.0625` → top 50 at year 102, top 10 at year 168**,
-the closest fit found. `src/Tests/PopulationHydeTest.cs` checks the
-engine reproduces it.
+the closest fit found on one map-wide pool.
+
+**Refit on the regional engine (built, 25 Sep 2026).** Once each
+geographic region kept its own total (see Growth drivers), a new city drew
+only on its own region, and the same constants gave 102/172 years. A grid
+search on the regional engine itself, on the real grid with the 38
+regions, kept `β = 5.0` and moved `μ` to **0.065**: **top 50 at year 98,
+top 10 at year 165**, against the historical 100/166, closer than before.
+`src/Tests/PopulationHydeTest.cs` holds this fit and checks the engine
+reproduces it. `tools/calibrate_population.py` still models the single
+pool and the toy world.
 
 HYDE's top is flat: at 300 BC the #10 node holds ~20,000 and the #50
 ~15,000, so a city that passes #50 is close to #10. Getting the historical
@@ -337,7 +347,7 @@ values in brackets):
 
 | Scenario | Result |
 |---|---|
-| Barren median node, drivers maxed and held indefinitely (player only; see Historical ceiling) | Top 50 at **102 years**, top 10 at **168 years**. Levels off at ~21% of the largest city's population, the map's #8 [62%, #2] |
+| Barren median node, drivers maxed and held indefinitely (player only; see Historical ceiling) | Top 50 at **102 years**, top 10 at **168 years** (98 and 165 on today's regional engine). Levels off at ~21% of the largest city's population, the map's #8 [62%, #2] |
 | Same city, investment abandoned after it matures | Half its growth (measured on a log scale) is gone in ~73 years [104] |
 | 6th-largest historical city loses **all** its drivers for 30 years | Loses ~37% of its population [49%] and is back to 90% of its former size ~72 years after the war ends [191]. Established cities are sturdier: their own population holds their heat up |
 
@@ -349,11 +359,11 @@ player, from the hard Historical ceiling below.
 
 ```
 Target_node   = C * H_final ^ k
-Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.0625 / year
+Pop_node(t+1) = Pop_node(t) * (Target_node / Pop_node(t)) ^ μ        μ = 0.065 / year
 ```
 
 Population is a **stock**, not recomputed from scratch each tick. People
-can only be born, die, and migrate so fast. Each year a node closes ~6%
+can only be born, die, and migrate so fast. Each year a node closes ~6.5%
 of the gap to its target, **measured on a log scale**: growth and decline
 are percentage rates, like real demography. A town 100x below its target
 grows ~33% a year, a gold-rush boom that fades fast as it closes in. A
@@ -445,7 +455,7 @@ point of the historical pull.) Rules:
   abandoning the land), `Allowance_i` starts at the node's population at
   that moment and relaxes toward `Ceiling_i` on a log-scale curve of its
   own, `μ_legacy = 0.0115`: about 60 years to halve the excess on a log
-  scale. It's kept apart from `μ`, which the growth fit set to 0.0625;
+  scale. It's kept apart from `μ`, which the growth fit set to 0.065;
   at that rate a lost city would be back to history within a generation. The city
   shrinks back to history gradually rather than overnight. Once
   `Allowance_i` reaches the ceiling, the node is an ordinary capped node
@@ -483,13 +493,13 @@ Two parts, both historically grounded, fitted to the targets above:
 
 | | One-time resettlement when designated | Ongoing driver bonus | → top 50 | → top 10 | Historical target |
 |---|---|---|---|---|---|
-| Country capital | **8%** of the largest city's population | **+0.05** | 33y | 78y | 24 / 78 |
-| Province capital | **4%** of the largest city's population | none | 62y | 128y | 62 / 122 |
-| Ordinary city | — | — | 102y | 168y | 100 / 166 |
+| Country capital | **8%** of the largest city's population | **+0.05** | 32y | 76y | 24 / 78 |
+| Province capital | **4%** of the largest city's population | none | 60y | 126y | 62 / 122 |
+| Ordinary city | — | — | 98y | 165y | 100 / 166 |
 
-Fitted on the real HYDE grid with the base `β`, `μ` above (see Fit).
-The country capital's top-10 time is exact; its top 50 lands 9 years
-late, the closest the pair gets.
+Fitted on the real HYDE grid with the base `β`, `μ` above (see Fit),
+measured on the regional engine. The country capital's top-10 time is 2
+years early; its top 50 lands 8 years late, the closest the pair gets.
 
 - **Resettlement** reproduces the founding decree. Seleucia was populated
   from Babylon, Samarra from Baghdad, and Antioch started with ~5,300
@@ -554,7 +564,8 @@ late, the closest the pair gets.
 
 ### Growth drivers: what makes people, and what moves them
 
-**(decided: approved as drafted, 25 Sep 2026)**
+**(decided: approved as drafted, 25 Sep 2026; built, with every factor
+at its historical baseline: see As built, below)**
 
 **Why this exists.** The engine is calibrated for how fast population
 *responds* to `drivers`. Nothing yet defines what `drivers` are. Today
@@ -592,7 +603,7 @@ so this is structural, not a calibration problem. Three causes:
    people exactly: moving someone never creates or destroys them.
 
 `P_world` becomes the sum of the regional totals, replacing the single
-historical figure plus `player_world_delta`.
+historical figure plus `player_world_delta` (removed).
 
 #### Channel 1: natural increase, per region
 
@@ -711,9 +722,8 @@ beyond that has to come from channel 1, which is bounded separately.
 
 **Calibration impact.** The founded-city timings were measured with one
 map-wide pool. With regional totals, a new city draws only on its own
-region, so `β` and `μ` get refitted on the regional engine
-(`tools/calibrate_population.py` and `src/Tests/PopulationHydeTest.cs`)
-once it exists. **(open)**
+region, so `β` and `μ` were refitted on the regional engine: `μ` is now
+0.065 (see Fit). **(done)**
 
 #### Balance tests: the contract
 
@@ -735,6 +745,77 @@ founded-city calibration. **(decided; bounds retuned in balance tests)**
 These bounds are what keeps a future economy, tech tree or resource
 system from breaking population: any system can raise a factor score, but
 none can push past what these tests allow.
+
+#### As built (25 Sep 2026)
+
+The groundwork is in: regional totals, conserving migration and the
+balance-test harness, with every factor at its historical baseline. No
+gameplay system writes a factor score yet; each will be wired in as it's
+built, and must pass the balance tests first. Code:
+`src/World/PopulationEngine.Growth.cs` (both channels) and
+`src/World/PopulationEngine.Regions.cs` (the region layer). A few details
+the draft left open were settled while building it:
+
+- **History as the baseline, exactly.** A region's natural increase is
+  HYDE's own year-on-year change for that region, times
+  `(1 + deviation + recovery)`. With nothing changed, every region follows
+  HYDE: over 300 years the worst region is within 0.12% of it.
+- **Factor weights** are the proposal's: the +0.5% a year is split food
+  30%, land and living standards 25%, security 20%, health 15%, burden
+  10%. The -2% a year is split food 25%, security 25%, disease 20%, urban
+  penalty 10%, burden 10%, land 5%, climate 5%. **(starting values, open)**
+- **Mixed regions.** A region can hold the player and bots. Only the
+  player's share of its people gets the positive part of the deviation.
+  Bot-held nodes are still capped at history; growth that doesn't fit
+  under their caps goes to the player's nodes in the region, but only as
+  far as the region is above history.
+- **Carrying capacity** is provisional: 3x the region's historical
+  population, until the Resources density field gives each region its
+  arable land and yield. Positive growth fades to zero as a region
+  approaches it. **(open: replace with arable land x yield)**
+- **Recovery (new).** A region knocked below history regrows toward it at
+  1.5% of the log gap a year, never faster than +1% a year: empty land
+  and plentiful food after a catastrophe, the land-and-living-standards
+  factor's baseline. Without it a region halved by a plague would stay
+  halved forever, since its historical rate only preserves the ratio.
+- **Migration between regions** runs from a region toward neighbours
+  with stronger pull (a shared border or a sea lane within 300 km).
+  A region's pull is its people's average attraction. People keep moving
+  until crowding balances the pull: at full pull a region settles at
+  about 1.4x the people-to-history ratio of its neighbours
+  (`MigrationPull` = 0.35). A region without the player can't take in
+  more than its historical ceiling has room for.
+- **Attraction and drivers.** Each node's attraction (`DriverMods`, pull
+  minus push) saturates as drafted: `drivers = base + (1 - base) *
+  sat(A)`. The capital bonus is added after that, so the calibrated
+  capital timings still hold.
+- **Whole people only.** HYDE gives many desert and steppe nodes less
+  than one person. Those start empty, so regional history counts whole
+  people only; otherwise sparse regions (Libya Interior, Sarmatia) looked
+  permanently under-populated, drew people in, and couldn't hold them.
+  An empty node gets a share of its region's people only once it's due
+  to resettle.
+- **Events** (epidemic, famine, massacre) remove up to 35% of a region's
+  people per call (`ApplyShock`), outside the rate bounds. Nothing
+  triggers them yet.
+
+**Balance tests, first results** (`src/Tests/PopulationBalanceTest.cs`,
+real grid, all pass; founded cities are `PopulationHydeTest`):
+
+| Test | Result | Limit |
+|---|---|---|
+| Do nothing (300 years) | Worst region 0.12% off HYDE, map total 0.008% | ±5% |
+| Maxed attraction (Hellas, 200 years, migration only) | Hellas 1.37x; hardest-hit neighbour (Phrygia) lost 3.0% | ≤ 1.5x; ≤ 10% |
+| Maxed growth (200 years) | Hellas 1.73x; a bot region with the same factors 1.0000x | ≤ 2.7x and capacity; bots never above history |
+| Stacking | Doubling a saturated attraction changes drivers by ≤ 5.0% | ≤ 10% |
+| Catastrophe (Italia: every factor at worst plus a 34% plague, 10 years) | Lost 39.4%; back to 90% 62 years after peace | ≤ 50%; ≤ 150 years |
+| Conservation (migration only, 100 years) | 39.4 million held to within 6 people | one person per million (32-bit storage) |
+| Founded cities | Ordinary 98/165, country capital 32/76, province capital 60/126 | near 100/166, 24/78, 62/122 |
+
+The conservation limit is one person per million rather than one person:
+each node stores its people as a 32-bit number, like HYDE and the saves,
+and adding 285,000 of them can't be exact to the person. The engine's own
+bookkeeping moves people exactly.
 
 **Build order.** Channels and tests come before any system feeds them:
 regional totals, conserving migration, and the balance-test harness
@@ -797,7 +878,7 @@ its single largest cluster named. Hysteresis and ruin rules apply to
 floor-named settlements too. Regions are a fixed geographic partition, not
 political borders, so conquest never changes which floor applies.
 
-### Geographic regions — the ancient geographers' map
+### Geographic regions — the ancient geographers' map **(built)**
 
 The partition uses the regions the Greco-Roman geographers themselves
 drew (Hecataeus, Herodotus, Eratosthenes, Strabo, Ptolemy), grouped under
@@ -817,20 +898,54 @@ line between Libya and Asia. **(decided)**
 That makes 38 regions. Smaller neighbours are folded into the larger unit
 named above rather than given their own entry. As with Europa, several of
 these names are the ancient roots of modern ones (Africa, Arabia,
-Armenia, Syria, Libya). Boundaries follow the ancient descriptions snapped
-to physical features (rivers, ranges, coasts). They get baked as a
-`region_id` per node by a `tools/build_region_mask.py` step, following the
-same pattern as the land and political masks. **(exact boundary polygons
-open, drawn when this is built; regions beyond the current extent, if the
-map grows, get names the same way, from the geographers who described
-those lands)**
+Armenia, Syria, Libya).
 
-**Display: only on the "Regions" map overlay. (decided)** Region names
-never appear on the default map view. They show only when the player
-switches the map overlay (see Map overlays, under New concepts) to
-**Regions**, which draws each region's name and a faint boundary, grouped
-by continent. The regional-floor rule runs all the time regardless of
-which overlay is showing.
+**As built (25 Sep 2026).** `tools/build_region_mask.py` bakes a region
+id for every population node into `data/regions/` (`region_nodes.u8.gz`
+and `regions.json`, which lists each region's continent, what's folded
+into it, where its name goes, and its neighbours). Each region is a
+hand-drawn outline in longitude/latitude whose borders follow the ancient
+descriptions snapped to physical features: the Pyrenees, the Alpine
+crest, the Danube and Sava, the Nestos, the Tanais (Don), the Caucasus,
+the Taurus, the Euphrates, the Zagros, and the Nile/Isthmus line. The
+coastline comes from the land data, not the outlines. Islands go whole to
+their region (Lesbos, Rhodes and the other east Aegean islands to Hellas
+although they lie off Asia's coast; Cyprus to Cilicia; Sardinia and
+Corsica to Italia). What each region takes in, where the table above
+doesn't say:
+
+- Raetia takes Noricum and the strip north of the upper Rhine (the map's
+  only bit of Germania); Gallia takes the Helvetii.
+- Illyricum takes Dalmatia, Dardania and Upper Moesia; Thracia takes Lower
+  Moesia and the Dobruja; Dacia runs to the Tyras (Dniester) and takes the
+  Tisza plain; Hellas takes Epirus.
+- Lydia takes Ionia, Aeolis, Mysia, the Troad, Caria and Lycia; Phrygia
+  takes Bithynia, Galatia, Pisidia and Lycaonia; Cilicia takes Pamphylia;
+  Cappadocia takes Paphlagonia; Colchis is the whole Caucasus (Colchis,
+  Iberia, Albania).
+- Hyrcania takes Parthia and the Dahae east of the Caspian; Sarmatia is
+  everything beyond the Tanais north of the Caucasus and the Caspian;
+  Persis takes Carmania.
+- Aethiopia is everything south of Egypt, and the Sahel south of the
+  16th parallel; Libya Interior is the Sahara between.
+
+Two regions are neighbours if their land touches or a sea lane joins them
+(coasts within 300 km across water); migration only runs between
+neighbours. Borders are exact to the population grid (~9 km), which is
+the finest data the regions are used on. **(boundaries can be redrawn in
+the tool and re-baked; regions beyond the current extent, if the map
+grows, get names the same way, from the geographers who described those
+lands)**
+
+**Display: only on the "Regions" map overlay. (decided, built)** Region
+names never appear on the default map view. They show only when the
+player switches on the **Regions** overlay (the Regions button, or the R
+key), which tints each region in its continent's colours (Europa blues,
+Libya ochres, Asia reds), draws a faint boundary between regions and
+their names, and hides realm borders and names while it's on. The
+province panel also names the region a province lies in. The
+regional-floor rule runs all the time regardless of which overlay is
+showing.
 
 ## Dynasties and characters **(decided, built)**
 
@@ -918,8 +1033,8 @@ intrigue (those can be layered on later). Code: `src/Dynasties/`
 - **Map overlays** (UI) — a control to switch what the map draws on top
   of the terrain: Political (today's ownership view, the default),
   **Regions** (the ancient geographic regions and their names, the only
-  place those names appear), and later the population heatmap and
-  resource overlays. One overlay active at a time.
+  place those names appear; built as a toggle), and later the population
+  heatmap and resource overlays. One overlay active at a time.
 - **Floating confirmation panel** (UI) — live Might + resource-icon readout
   while painting; see Annexation UX, below.
 
@@ -1070,35 +1185,39 @@ Phase 1 (province generation/seeding), not just an implementation detail.
    migration, and the balance-test harness, before any later system
    writes a factor score.
 3. Unorganized-territory capability gating (the matrix above) + settlements
-   (clustering, percentile naming, hysteresis, ruins), plus the region
-   mask, regional floor, and the Regions map overlay.
+   (clustering, percentile naming, hysteresis, ruins), plus the regional
+   floor. (The region mask and Regions overlay were built with the growth
+   drivers, which needed them.)
 4. Economy (realm treasury from province sums).
 5. Military + tech (army/power score, minimal tech multipliers).
 6. Integration/sentiment (decay-toward-assimilated stat).
 7. Paint-gated annexation (the resolution function tying 2-6 together).
 
-**Status: population engine started.** Built so far:
-`src/World/PopulationEngine.cs` (stages 1-2, the historical
+**Status: population engine and growth-driver groundwork built.** Built
+so far: `src/World/PopulationEngine.cs` (stages 1-2, the historical
 ceiling with player legacy fade, capital bonuses and resettlement,
-HYDE-based seeding and 25-year natural resettlement, save/load),
-`tools/build_population_mask.py` (the HYDE import), the engine wired
-into world generation, the yearly tick, saves, and a HUD population
-line, and each real civ's 300 BC capital registered as an existing
-capital. Covered by `src/Tests/PopulationEngineTest.cs` (toy-world
-mechanics) and `src/Tests/PopulationHydeTest.cs` (the calibration on the
-real grid). Not built yet: stage 3 (clusters,
-percentile naming, ruins' labels), the region mask and Regions overlay,
-real gameplay drivers (the engine exposes `driver_mods` for them; until
-they exist the historical heat stands in as the baseline), player growth
-of the world total, and province capitals, which wait on the province
-layer. The HYDE 3.2.1 keyframes are baked into `data/population/`
-(300 BC to 2017 AD, the 300 BC one derived; see MAP_DATA.md), so the
-engine now runs on the real grid: 284,626 land nodes, loaded in ~0.4 s.
-The whole game is C# (ported from GDScript with identical results):
-a yearly population tick takes ~30 ms, against ~0.5 s in GDScript, and
-generating the world ~3 s, against ~25-35 s. Known issues on the real
-grid: by 0 AD the non-player world holds 47.7 million against HYDE's
-48.2 million, because inertia lags the rising ceiling.
+HYDE-based seeding and 25-year natural resettlement, save/load), the
+growth drivers' two channels with every factor at its baseline
+(`PopulationEngine.Growth.cs`), the 38 geographic regions
+(`tools/build_region_mask.py`, `PopulationEngine.Regions.cs`) and the
+Regions overlay (`MapView.Regions.cs`), `tools/build_population_mask.py`
+(the HYDE import), the engine wired into world generation, the yearly
+tick, saves, and a HUD population line, and each real civ's 300 BC
+capital registered as an existing capital. Covered by
+`src/Tests/PopulationEngineTest.cs` (toy-world mechanics),
+`src/Tests/PopulationHydeTest.cs` (the calibration on the real grid) and
+`src/Tests/PopulationBalanceTest.cs` (the growth drivers' balance tests).
+Not built yet: stage 3 (clusters, percentile naming, ruins' labels, the
+regional floor), gameplay systems that write factor scores and
+attraction (the engine exposes `SetFactor` and `DriverMods` for them;
+until they exist the world follows history), events that trigger
+`ApplyShock`, and province capitals. The HYDE 3.2.1 keyframes are baked
+into `data/population/` (300 BC to 2017 AD, the 300 BC one derived; see
+MAP_DATA.md), so the engine runs on the real grid: 284,626 land nodes,
+loaded in ~0.5 s. The whole game is C# (ported from GDScript with
+identical results): a yearly population tick takes ~30 ms and generating
+the world ~3 s. The old known issue (the non-player world lagging HYDE's
+total as history rose) is gone: regional totals now follow HYDE exactly.
 
 Each phase should be independently verified against the real headless Godot
 engine (the Godot 4.7.2 .NET build; the session hook installs it) before

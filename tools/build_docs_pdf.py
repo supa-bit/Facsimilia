@@ -46,7 +46,9 @@ SUMMARIES = {
         "historical estimates (HYDE). Your realm can grow beyond real history; other realms can never hold "
         "more people in a place than really lived there at that date. Cities grow at realistic speeds, "
         "checked against real cities such as Alexandria and Baghdad, and capitals get a head start. The "
-        "biggest places get names on the map. “Growth drivers” is a proposal waiting for your approval.",
+        "biggest places get names on the map. The growth drivers are built: each of the 38 ancient regions "
+        "grows at its own historical rate unless play changes it, and people drift toward the most attractive "
+        "places, within limits the balance tests enforce.",
     "Dynasties and characters": "Ruling families live, marry, have children and die. The crown passes by "
         "real inheritance rules, and a new house takes over when a line dies out or a throne is seized. "
         "Built and in the game.",
