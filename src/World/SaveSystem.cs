@@ -10,7 +10,7 @@ namespace Facsimilia.World;
 
 /// <summary>What LoadGame() restores.</summary>
 public sealed record LoadedGame(OwnershipGrid Grid, CharacterRegistry Registry, int DemoYear,
-    int PlayerRealmId, GDictionary Population, ProvinceMap? Provinces);
+    int PlayerRealmId, GDictionary Population, ProvinceMap? Provinces, GDictionary? Game = null);
 
 /// <summary>A save's summary for the slot lists, read without loading the whole game.</summary>
 public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, int Year, string Ruler,
@@ -132,7 +132,8 @@ public static class SaveSystem
     /// frame first so a "Saving..." message gets drawn before the work starts.
     /// </summary>
     public static async Task<bool> SaveGame(string slot, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
-        int playerRealmId, Node? host = null, GDictionary? population = null, ProvinceMap? provinces = null)
+        int playerRealmId, Node? host = null, GDictionary? population = null, ProvinceMap? provinces = null,
+        GDictionary? game = null)
     {
         if (host != null && host.IsInsideTree())
             await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
@@ -144,7 +145,7 @@ public static class SaveSystem
             GD.PushError("SaveSystem: couldn't create " + partial);
             return false;
         }
-        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population, provinces))
+        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population, provinces, game))
         {
             DeleteDir(partial);
             return false;
@@ -169,7 +170,7 @@ public static class SaveSystem
     }
 
     static bool WriteFiles(string dir, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
-        int playerRealmId, GDictionary? population, ProvinceMap? provinces)
+        int playerRealmId, GDictionary? population, ProvinceMap? provinces, GDictionary? game = null)
     {
         var bytes = new byte[grid.Cells.Length];
         for (int i = 0; i < bytes.Length; i++)
@@ -197,6 +198,8 @@ public static class SaveSystem
         };
         if (provinces != null)
             state["provinces"] = provinces.ToDict();
+        if (game != null)
+            state["game"] = game;
         if (!WriteText($"{dir}/{StateFile}", Json.Stringify(state)))
             return false;
 
@@ -297,7 +300,8 @@ public static class SaveSystem
         return new LoadedGame(grid, registry,
             state.TryGetValue("demo_year", out var y) ? y.AsInt32() : 0,
             state.TryGetValue("player_realm_id", out var p) ? p.AsInt32() : 0,
-            population, provinces);
+            population, provinces,
+            state.TryGetValue("game", out var game) ? game.AsGodotDictionary() : null);
     }
 
     /// <summary>

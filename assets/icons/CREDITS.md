@@ -17,3 +17,10 @@ From [game-icons.net](https://game-icons.net), licensed [CC BY 3.0](https://crea
 | settings.svg | cog | Lorc |
 | world.svg | world | Lorc |
 | zoom.svg | magnifying-glass | Lorc |
+| army.svg | crossed-swords | Lorc |
+| coins.svg | coins | Delapouite |
+| peace.svg | dove | Lorc |
+| scales.svg | scales | Lorc |
+| ship.svg | galley | Delapouite |
+| tax.svg | receive-money | Delapouite |
+| war.svg | battle-gear | Lorc |

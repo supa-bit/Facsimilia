@@ -111,7 +111,7 @@ public partial class Hud
             if (_mapViewMenu.GetItemId(i) == id && !_mapViewMenu.IsItemSeparator(i))
                 _mapViewMenu.Select(i);
         var view = MapView.FindLandView(_map.CurrentView);
-        _legend.Visible = view != null && _map.LandAvailable;
+        _legend.Visible = view != null && _map.LandAvailable && !_realmPanel.Visible;
         SetProcess(_legend.Visible);
         if (!_legend.Visible)
             return;

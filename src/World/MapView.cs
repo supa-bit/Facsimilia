@@ -203,13 +203,16 @@ public partial class MapView : Node2D
         StartPopulation();
         EmitSignal(SignalName.LoadingStatusChanged, "Drawing the map...");
         await BuildFullMapImage();
+        EmitSignal(SignalName.LoadingStatusChanged, "Mustering the armies...");
+        StartGame();
         EmitSignal(SignalName.LoadingStatusChanged, "Naming the realms...");
         BuildLabels(await ComputeCentroids());
         GD.Print($"Facsimilia map view ready: {GridWidth}x{GridHeight} cells, year {DemoYear}.");
     }
 
     public Task<bool> SaveCurrentGame(string slot) =>
-        SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict(), Provinces);
+        SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict(), Provinces,
+            Game.ToDict());
 
     /// <summary>
     /// Restores a saved world instead of generating one: skips seeding and
@@ -255,6 +258,7 @@ public partial class MapView : Node2D
 
         EmitSignal(SignalName.LoadingStatusChanged, "Drawing the map...");
         await BuildFullMapImage();
+        LoadGameState(loaded.Game);
         EmitSignal(SignalName.LoadingStatusChanged, "Naming the realms...");
         BuildLabels(await ComputeCentroids());
         return true;
@@ -471,7 +475,9 @@ public partial class MapView : Node2D
             SyncPopulationOwnership();
             Population.Tick(DemoYear);
         }
-        return Registry.AdvanceYear(DemoYear);
+        var events = Registry.AdvanceYear(DemoYear);
+        events.AddRange(GameYear());
+        return events;
     }
 
     // --- World generation -----------------------------------------------------------

@@ -34,6 +34,7 @@ public partial class Hud : Control
         BuildChronicle();
         BuildTurnControls();
         BuildProvincePanel();
+        BuildRealmPanel();
     }
 
     void BuildTopBar()
@@ -59,6 +60,7 @@ public partial class Hud : Control
         _populationLabel = Stat(row, "population", "People living in your realm's territory (HYDE historical estimate, then simulated)");
         _populationItem = _populationLabel.GetParent<Control>();
 
+        BuildTreasuryStat(row);
         row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore });
         _dateLabel = ThemeAncient.Label("", "DateLabel");
         _dateLabel.TooltipText = "Current year";
@@ -145,7 +147,12 @@ public partial class Hud : Control
             TooltipText = "End this year's turn  (Enter)",
         };
         advance.Pressed += () => EmitSignal(SignalName.AdvanceRequested);
-        box.AddChild(advance);
+        _advanceButton = advance;
+        var turnRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.End };
+        turnRow.AddThemeConstantOverride("separation", 8);
+        box.AddChild(turnRow);
+        turnRow.AddChild(BuildTurnLength());
+        turnRow.AddChild(advance);
         box.AddChild(ThemeAncient.Label("Scroll to zoom · Drag or WASD to pan · 1-3 map modes · Esc for menu", "SmallLabel", 14,
             HorizontalAlignment.Right));
     }
@@ -211,6 +218,8 @@ public partial class Hud : Control
             _heirLabel.Text = "—";
         }
         RefreshProvincePanel();  // its population changes every year
+        RefreshTreasury();
+        RefreshAdvanceText();
         _populationItem.Visible = _map.Population != null;
         if (_map.Population != null)
             _populationLabel.Text = ThemeAncient.GroupThousands((long)_map.PlayerPopulation());

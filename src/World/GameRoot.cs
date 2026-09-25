@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Facsimilia.Dynasties;
 using Facsimilia.UI;
 using Godot;
 
@@ -151,17 +153,46 @@ public partial class GameRoot : Node2D
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 
+    bool _advancing;
+
+    /// <summary>
+    /// Plays one turn: as many years as the player chose (decision "Playable
+    /// 2"), stopping early at a major event that concerns them ("Playable 3").
+    /// The window redraws between years, so a long turn doesn't freeze it.
+    /// </summary>
     async void OnAdvanceRequested()
     {
-        if (PauseMenu != null || _loadingScreen != null || _saving || Map == null || Hud == null)
+        if (PauseMenu != null || _loadingScreen != null || _saving || _advancing || Map == null || Hud == null)
             return;
-        var events = Map.AdvanceYear();
+        _advancing = true;
+        int years = Map.Game.YearsPerTurn;
+        int startPlayed = YearsPlayed(Map.DemoYear);
+        var all = new List<ChronicleEvent>();
+        for (int y = 0; y < years; y++)
+        {
+            if (years > 1)
+            {
+                Hud.ShowStatus($"{ThemeAncient.YearText(Map.DemoYear)}... ({y + 1} of {years})");
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
+            var events = Map.AdvanceYear();
+            all.AddRange(events);
+            if (y < years - 1 && events.Exists(e => StopsTurn(e, Map.PlayerRealmId)))
+                break;
+        }
+        Hud.ShowStatus("", 0.01);
         Hud.Refresh();
-        Hud.LogEvents(events);
+        Hud.LogEvents(all);
+        _advancing = false;
         int every = SettingsStore.Instance.AutosaveInterval;  // years; 0 = off
-        if (every > 0 && YearsPlayed(Map.DemoYear) % every == 0)
+        if (every > 0 && YearsPlayed(Map.DemoYear) / every > startPlayed / every)
             await Autosave();
     }
+
+    /// <summary>Major events that end a long turn early: they concern the player and may need an answer.</summary>
+    static bool StopsTurn(ChronicleEvent e, int player) =>
+        e.RealmId == player && e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War
+            or ChronicleKind.Conquest or ChronicleKind.Revolt or ChronicleKind.Economy;
 
     /// <summary>Years since 300 BC, allowing for there being no year 0.</summary>
     static int YearsPlayed(int year) => year - MapView.StartYear - (year > 0 ? 1 : 0);
