@@ -13,7 +13,7 @@ block the work that depends on them.
 ## The next five sections (agreed 25 Sep 2026)
 
 1. [x] Goods and recipes
-2. [ ] Harvests, weather and renewable stocks
+2. [x] Harvests, weather and renewable stocks
 3. [ ] Trade
 4. [ ] Labour and people
 5. [ ] Score, goals and first-game polish
@@ -59,10 +59,8 @@ Each step is verified on the real game before the next begins.
    - [x] Crop yields: a suitability profile for each of 31 crops, trees,
          herds and fisheries; carrying capacity from food replaces the 3x
          stand-in; "Crops and food" map views
-   - [ ] Yearly harvests from the weather draw, feeding the food-security
-         growth factor
-   - [ ] Renewable stocks (soil nutrients, forests, forage, fish) and the
-         yearly weather draw
+   - [x] Yearly harvests from the weather draw, feeding the growth factors
+   - [x] Renewable stocks (soil nutrients, forests, forage, fish)
    - [x] Goods and recipes: 148 goods in 13 families, raw from the land,
          made by recipe, needs and shortages; taxes are a share of their
          value; Goods panel (G)

@@ -34,7 +34,8 @@ public partial class MapView
                 // Production is counted once a year (it takes a tenth of a second).
                 if (_goodsYear != DemoYear || _realmGoods == null)
                 {
-                    _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null);
+                    _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null,
+                        workFactor: WorkFactors());
                     _goodsYear = DemoYear;
                 }
                 foreach (var (realm, goods) in _realmGoods)
@@ -111,6 +112,7 @@ public partial class MapView
     internal List<ChronicleEvent> GameYear()
     {
         var events = new List<ChronicleEvent>();
+        events.AddRange(NatureYear());
         _census = null;
         events.AddRange(BotsYear(new Random(HashCode.Combine(DemoYear, 7919))));
         Game.PeaceOffers.RemoveWhere(o => !Game.Wars.AtWar(o, PlayerRealmId));

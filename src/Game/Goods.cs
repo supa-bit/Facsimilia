@@ -149,12 +149,12 @@ public static class GoodsEngine
     public const double ServiceShare = 0.5;
 
     public static Dictionary<int, RealmGoods> Compute(GoodsCatalog cat, PopulationEngine pop, Func<string, byte[]?> field,
-        double urbanThreshold = Census.UrbanThreshold, Func<int, double>? productivity = null)
+        double urbanThreshold = Census.UrbanThreshold, IReadOnlyDictionary<string, double[]>? workFactor = null)
     {
         int n = cat.Goods.Count;
         var byWork = cat.Goods.Where(g => g.Source == GoodSource.Land)
             .GroupBy(g => g.Work)
-            .Select(grp => (Share: cat.WorkShare.GetValueOrDefault(grp.Key), Goods: grp
+            .Select(grp => (Share: cat.WorkShare.GetValueOrDefault(grp.Key), Factor: workFactor?.GetValueOrDefault(grp.Key), Goods: grp
                 .Select(g => (g.Index, Bytes: field(g.Field), g.Share)).Where(x => x.Bytes != null).ToArray()))
             .ToArray();
         var result = new Dictionary<int, RealmGoods>();
@@ -180,8 +180,8 @@ public static class GoodsEngine
             double country = p - town;
             urban[owner] += town;
             rural[owner] += country;
-            double prod = productivity?.Invoke(i) ?? 1;
-            foreach (var (share, goods) in byWork)
+            int region = pop.RegionOf(i);
+            foreach (var (share, factor, goods) in byWork)
             {
                 double sum = 0;
                 foreach (var (g, bytes, gs) in goods)
@@ -192,7 +192,7 @@ public static class GoodsEngine
                 }
                 if (sum <= 0)
                     continue;
-                double labour = country * share * prod / sum;
+                double labour = country * share * (factor != null ? factor[region] : 1) / sum;
                 foreach (var (g, _, _) in goods)
                     rg.Produced[g] += labour * s[g] * s[g];
             }

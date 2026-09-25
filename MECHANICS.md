@@ -1125,6 +1125,30 @@ are **loads**: what one person makes in a year of full work on ideal land.
   family, each opening to its goods (made, used, needed, spare or
   short).
 
+### Harvests, weather and renewable stocks **(built, 25 Sep 2026)**
+
+- **Weather** (decided: a yearly draw). Each geographic region draws its
+  harvest every year: 1 is an ordinary year. The draw mixes a shared part
+  (a bad year across the whole map) with the region's own, and swings
+  more where rain is unreliable (the land layer's rain variability) and
+  less where rivers and irrigation water the fields. The same year always
+  has the same weather. Below 75% is a famine, above 120% a bumper year;
+  both make the chronicle in the player's lands.
+- **Stocks** per region, each 100% as nature left it: soil nutrients,
+  standing forest, pasture forage and fish. They wear down when the
+  region's people press on what its land can feed (above half its
+  carrying capacity) and recover when rested: fish within a few years,
+  pasture in a decade or two, soil in decades, forests in a century.
+  Dung spread on the fields speeds the soil's recovery; dung burned as
+  fuel doesn't (the designer's trade-off).
+- **Effects**: field crops yield harvest x (50% + 50% x soil); orchards
+  feel the weather less; herds follow pasture; fishing follows fish;
+  timber follows forest. Carrying capacity follows soil and pasture.
+  The growth drivers' Climate factor takes the harvest and the Food
+  factor the state of the land (bounded, so history stays on course).
+- **On screen**: the province panel shows its region's harvest this
+  year and its soil, forests, pasture and fish.
+
 ### What it feeds
 
 - **Carrying capacity**: the food a region's land can grow: calories from

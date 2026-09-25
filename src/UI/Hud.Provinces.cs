@@ -180,6 +180,14 @@ public partial class Hud
                 : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}";
             var region = _map.RegionAtWorld(p.LabelCell * MapView.CellPixels);
             _provinceRegion.Text = region == null ? "" : $"Region: {region.Name}, {region.Continent}";
+            if (region != null && _map.Game.Nature.ContainsKey(region.Id))
+            {
+                var n = _map.NatureOf(region.Id);
+                string year = n.Harvest < Nature.FamineHarvest ? "famine" : n.Harvest < 0.93 ? "poor"
+                    : n.Harvest > Nature.BumperHarvest ? "bumper" : n.Harvest > 1.07 ? "good" : "ordinary";
+                _provinceRegion.Text += $"\nThis year's harvest in {region.Name}: {year} ({n.Harvest:P0})" +
+                    $"\nLand: soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}";
+            }
             var ps = _map.ProvinceStateOf(p.Id);
             if (ps.Culture != "")
                 _provinceRegion.Text += $"\nPeople: {_map.CultureName(ps.Culture)}; worship: {_map.ReligionName(ps.Religion)}";

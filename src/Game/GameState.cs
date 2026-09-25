@@ -103,6 +103,8 @@ public sealed class GameState
     public HashSet<int> PeaceOffers { get; } = new();
     /// <summary>Every province's culture, religion, integration and unrest, by province id.</summary>
     public Dictionary<int, ProvinceState> Provinces { get; } = new();
+    /// <summary>Every geographic region's soil, forest, pasture and fish, and this year's harvest, by region id.</summary>
+    public Dictionary<int, RegionNature> Nature { get; } = new();
 
     public RealmState Realm(int id)
     {
@@ -119,12 +121,15 @@ public sealed class GameState
         var offers = new GArray();
         foreach (int o in PeaceOffers)
             offers.Add(o);
+        var nature = new GDictionary();
+        foreach (var (id, n) in Nature)
+            nature[id.ToString()] = n.ToDict();
         var provinces = new GDictionary();
         foreach (var (id, p) in Provinces)
             provinces[id.ToString()] = p.ToDict();
         return new GDictionary
         {
-            ["provinces"] = provinces,
+            ["provinces"] = provinces, ["nature"] = nature,
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
         };
     }
@@ -145,6 +150,9 @@ public sealed class GameState
         if (d.TryGetValue("peace_offers", out var po))
             foreach (Variant v in po.AsGodotArray())
                 g.PeaceOffers.Add(v.AsInt32());
+        if (d.TryGetValue("nature", out var na))
+            foreach (var (k, v) in na.AsGodotDictionary())
+                g.Nature[int.Parse(k.AsString())] = RegionNature.FromDict(v.AsGodotDictionary());
         if (d.TryGetValue("provinces", out var pr))
             foreach (var (k, v) in pr.AsGodotDictionary())
                 g.Provinces[int.Parse(k.AsString())] = ProvinceState.FromDict(v.AsGodotDictionary());
