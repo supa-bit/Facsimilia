@@ -43,6 +43,13 @@ Collections:
 Always pass `if_version` (from your last read) when updating an existing
 document, and batch several writes into one call.
 
+## Branches (the designer's choice)
+
+Work on one branch, `claude/facsimilia-game-dev-bq0sed`, all the time. The
+designer merges into `master` only when they want a milestone snapshot (or
+never). After a merge, do not restart or reset the branch and do not ask the
+designer to do anything: just keep committing and pushing to the same branch.
+
 ## Building and testing
 
 - Build: `dotnet build` (the session hook installs .NET and Godot).

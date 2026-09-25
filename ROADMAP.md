@@ -86,8 +86,15 @@ Each step is verified on the real game before the next begins.
 
 ## Decisions
 
-All answered in the Facsimilia Ledger on 25 Sep 2026 (the full reasoning is
-in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
+The first fourteen were answered in the Facsimilia Ledger on 25 Sep 2026
+(the full reasoning is in MECHANICS.md, "Design decisions"). **Waiting:
+32 decisions for a first playable version** ("Playable 1-32" in the
+Ledger): the borders' licence, turns, money, taxes, debt, goods, trade,
+armies, units, manpower, conquest, the sea, war and peace, alliances, how
+bots follow history and treat the player, cultures and religions,
+integration, revolts, city names, technology, empire size, score, goals,
+disasters, difficulty, playable realms, the province panel and buildings.
+Until each is answered, the build uses its suggested option.
 
 - [x] **Goal**: sandbox with optional goals (play forever; a score and
       goals to chase if you want)
@@ -114,6 +121,9 @@ in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
       sources that allow selling the game
 
 ## Known issues
+
+- [ ] **Licence:** the 300 BC borders (historical-basemaps) are GPL-3.0,
+      which could bind a commercial game; see decision "Playable 1"
 
 - [ ] Family records grow with time (about 7 MB in the save by AD 1700):
       fine for now, trim or compress before the save gets slow
