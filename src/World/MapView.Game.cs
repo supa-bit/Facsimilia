@@ -35,7 +35,8 @@ public partial class MapView
                 if (_goodsYear != DemoYear || _realmGoods == null)
                 {
                     _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null,
-                        workFactor: WorkFactors());
+                        workFactor: WorkFactors(), fieldYield: Crops.FieldKcalPerHa);
+                    PriceFactors = RunTrade(cat, _realmGoods, _census);
                     _goodsYear = DemoYear;
                 }
                 foreach (var (realm, goods) in _realmGoods)
@@ -47,6 +48,8 @@ public partial class MapView
     }
 
     GoodsCatalog? _goods;
+    /// <summary>This year's price of each good against its usual price (trade).</summary>
+    public double[] PriceFactors { get; private set; } = Array.Empty<double>();
     Dictionary<int, RealmGoods>? _realmGoods;
     int _goodsYear = int.MinValue;
 

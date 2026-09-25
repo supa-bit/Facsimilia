@@ -1,11 +1,11 @@
 {
- "about": "Every good in the game (the designer's list, MECHANICS.md 'Goods and recipes'), by family. Quantities are loads: one load of a raw good is what one person working a full year on ideal land produces; a by-product comes with 'per' loads for each load of its source; made goods take inputs (loads per load; with any_input, any one of them will do) and labour (person-years per load), and are listed after their inputs. price: drachmae per load for raw goods and by-products; a made good's price is its inputs plus its labour at the wage. need: loads each person uses a year. work: share of country people working in each kind of production; household_crafts: share of country people's time spent making goods (townspeople all make goods). Our own data, free for any use.",
+ "about": "Every good (beyond: arrives from outside the map in the realms holding those regions, supply loads a year) in the game (the designer's list, MECHANICS.md 'Goods and recipes'), by family. Quantities are loads: one load of a raw good is what one person working a full year on ideal land produces; a by-product comes with 'per' loads for each load of its source; made goods take inputs (loads per load; with any_input, any one of them will do) and labour (person-years per load), and are listed after their inputs. price: drachmae per load for raw goods and by-products; a made good's price is its inputs plus its labour at the wage. need: loads each person uses a year. work: share of country people working in each kind of production; household_crafts: share of country people's time spent making goods (townspeople all make goods). Our own data, free for any use.",
  "wage": 200,
  "work": {
   "field": 0.42,
   "orchard": 0.1,
   "herd": 0.16,
-  "gather": 0.05,
+  "gather": 0.07,
   "forest": 0.06,
   "mine": 0.03,
   "earth": 0.03
@@ -334,7 +334,7 @@
    "by": "goats",
    "per": 0.6,
    "price": 90,
-   "need": 0.01
+   "need": 0.004
   },
   {
    "id": "cheese",
@@ -343,7 +343,7 @@
    "by": "sheep",
    "per": 0.3,
    "price": 240,
-   "need": 0.005
+   "need": 0.003
   },
   {
    "id": "wool",
@@ -400,7 +400,7 @@
    "source": "crop:fishing",
    "work": "gather",
    "price": 165,
-   "need": 0.002
+   "need": 0.0008
   },
   {
    "id": "shellfish",
@@ -563,7 +563,7 @@
    "name": "Limestone",
    "family": "stone",
    "source": "land:ph",
-   "work": "mine",
+   "work": "earth",
    "price": 90,
    "share": 0.5
   },
@@ -572,7 +572,7 @@
    "name": "Sand and gravel",
    "family": "stone",
    "source": "land:river",
-   "work": "mine",
+   "work": "earth",
    "price": 30,
    "share": 0.3
   },
@@ -631,7 +631,7 @@
    "source": "land:res_salt",
    "work": "mine",
    "price": 180,
-   "need": 0.0005
+   "need": 0.0001
   },
   {
    "id": "sulfur",
@@ -736,6 +736,55 @@
    "source": "land:res_papyrus",
    "work": "gather",
    "price": 120
+  },
+  {
+   "id": "amber",
+   "name": "Amber (Baltic, by the Amber Road)",
+   "family": "prestige",
+   "beyond": [
+    "Pannonia",
+    "Scythia"
+   ],
+   "supply": 300,
+   "price": 1500,
+   "need": 5e-05
+  },
+  {
+   "id": "silk",
+   "name": "Silk (China, by the Silk Road)",
+   "family": "prestige",
+   "beyond": [
+    "Hyrcania",
+    "Media"
+   ],
+   "supply": 40,
+   "price": 8000,
+   "need": 1e-05
+  },
+  {
+   "id": "spices",
+   "name": "Pepper and spices (India and Arabia)",
+   "family": "prestige",
+   "beyond": [
+    "Arabia Felix",
+    "Persis",
+    "Aethiopia"
+   ],
+   "supply": 400,
+   "price": 2500,
+   "need": 0.0001
+  },
+  {
+   "id": "indian_steel",
+   "name": "Indian steel",
+   "family": "prestige",
+   "beyond": [
+    "Persis",
+    "Hyrcania"
+   ],
+   "supply": 30,
+   "price": 3000,
+   "need": 1e-05
   },
   {
    "id": "firewood",
@@ -1229,7 +1278,7 @@
    },
    "labour": 0.8,
    "weight": 2,
-   "need": 0.0003
+   "need": 3e-05
   },
   {
    "id": "weapons",

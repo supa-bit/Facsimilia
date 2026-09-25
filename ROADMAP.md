@@ -14,7 +14,7 @@ block the work that depends on them.
 
 1. [x] Goods and recipes
 2. [x] Harvests, weather and renewable stocks
-3. [ ] Trade
+3. [x] Trade
 4. [ ] Labour and people
 5. [ ] Score, goals and first-game polish
 

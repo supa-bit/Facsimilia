@@ -6,7 +6,7 @@ using Facsimilia.World;
 
 namespace Facsimilia.Game;
 
-public enum GoodSource { Land, ByProduct, Made }
+public enum GoodSource { Land, ByProduct, Made, Beyond }
 
 /// <summary>One good (data/goods.json): where it comes from, what it is worth, how much people need.</summary>
 public sealed class GoodDef
@@ -31,6 +31,9 @@ public sealed class GoodDef
     public double Price { get; set; }
     /// <summary>Loads each person uses a year.</summary>
     public double Need { get; init; }
+    /// <summary>Goods from beyond the map: the regions where they arrive, and loads a year.</summary>
+    public string[] EntryRegions { get; init; } = Array.Empty<string>();
+    public double Supply { get; init; }
 }
 
 /// <summary>The catalogue of goods and families (data/goods.json).</summary>
@@ -64,7 +67,8 @@ public sealed class GoodsCatalog
         {
             string id = g.GetProperty("id").GetString()!;
             GoodSource kind = g.TryGetProperty("inputs", out _) ? GoodSource.Made
-                : g.TryGetProperty("by", out _) ? GoodSource.ByProduct : GoodSource.Land;
+                : g.TryGetProperty("by", out _) ? GoodSource.ByProduct
+                : g.TryGetProperty("beyond", out _) ? GoodSource.Beyond : GoodSource.Land;
             string field = "";
             if (kind == GoodSource.Land)
             {
@@ -89,6 +93,8 @@ public sealed class GoodsCatalog
                 Weight = g.TryGetProperty("weight", out var wt) ? wt.GetDouble() : 0,
                 Price = g.TryGetProperty("price", out var pr) ? pr.GetDouble() : 0,
                 Need = g.TryGetProperty("need", out var nd) ? nd.GetDouble() : 0,
+                EntryRegions = g.TryGetProperty("beyond", out var by) ? by.EnumerateArray().Select(x => x.GetString()!).ToArray() : Array.Empty<string>(),
+                Supply = g.TryGetProperty("supply", out var su) ? su.GetDouble() : 0,
             };
             if (kind == GoodSource.Made)
                 def.Price = (def.AnyInput ? def.Inputs.Average(x => c.Goods[x.Good].Price * x.Qty)
@@ -115,15 +121,30 @@ public sealed class RealmGoods
     public double Services { get; set; }
     public double Craftsmen { get; set; }
 
+    /// <summary>Bought from other realms this year, and sold to them.</summary>
+    public double[] Imported { get; }
+    public double[] Exported { get; }
+    /// <summary>Silver paid for imports and earned from exports, drachmae.</summary>
+    public double ImportCost { get; set; }
+    public double ExportIncome { get; set; }
+    /// <summary>Share of people's needs met, by value (1 = everything they need).</summary>
+    public double Satisfaction { get; set; } = 1;
+    public HashSet<int> Partners { get; } = new();
+
     public RealmGoods(int count)
     {
+        Imported = new double[count];
+        Exported = new double[count];
         Produced = new double[count];
         Used = new double[count];
         Needed = new double[count];
     }
 
     /// <summary>What is left after making other goods and meeting people's needs (negative: a shortage).</summary>
-    public double Surplus(int good) => Produced[good] - Used[good] - Needed[good];
+    public double Surplus(int good) => Produced[good] + Imported[good] - Exported[good] - Used[good] - Needed[good];
+
+    /// <summary>Loads of a good available to the realm after trade (made plus bought, less sold and used as inputs).</summary>
+    public double Available(int good) => Produced[good] + Imported[good] - Exported[good] - Used[good];
 
     public double FamilyValue(GoodsCatalog cat, string family)
     {
@@ -149,14 +170,30 @@ public static class GoodsEngine
     public const double ServiceShare = 0.5;
 
     public static Dictionary<int, RealmGoods> Compute(GoodsCatalog cat, PopulationEngine pop, Func<string, byte[]?> field,
-        double urbanThreshold = Census.UrbanThreshold, IReadOnlyDictionary<string, double[]>? workFactor = null)
+        double urbanThreshold = Census.UrbanThreshold, IReadOnlyDictionary<string, double[]>? workFactor = null,
+        float[]? fieldYield = null)
     {
         int n = cat.Goods.Count;
         var byWork = cat.Goods.Where(g => g.Source == GoodSource.Land)
             .GroupBy(g => g.Work)
-            .Select(grp => (Share: cat.WorkShare.GetValueOrDefault(grp.Key), Factor: workFactor?.GetValueOrDefault(grp.Key), Goods: grp
+            .Select(grp => (Share: cat.WorkShare.GetValueOrDefault(grp.Key), Factor: workFactor?.GetValueOrDefault(grp.Key),
+                OnLand: grp.Key is "field", Goods: grp
                 .Select(g => (g.Index, Bytes: field(g.Field), g.Share)).Where(x => x.Bytes != null).ToArray()))
             .ToArray();
+        // The yield per hectare of the fields where the typical person lives.
+        double typicalYield = 0;
+        if (fieldYield != null)
+        {
+            var sample = pop.LandNodes.Where(i => pop.Pop[i] > 0 && fieldYield[i] > 0)
+                .Select(i => (Yield: (double)fieldYield[i], Count: (double)pop.Pop[i])).OrderBy(x => x.Yield).ToList();
+            double half = sample.Sum(x => x.Count) / 2, run = 0;
+            foreach (var (y, count) in sample)
+                if ((run += count) >= half)
+                {
+                    typicalYield = y;
+                    break;
+                }
+        }
         var result = new Dictionary<int, RealmGoods>();
         var urban = new Dictionary<int, double>();
         var rural = new Dictionary<int, double>();
@@ -181,7 +218,9 @@ public static class GoodsEngine
             urban[owner] += town;
             rural[owner] += country;
             int region = pop.RegionOf(i);
-            foreach (var (share, factor, goods) in byWork)
+            // Where the fields yield more (the watered Nile valley), each farmer grows more.
+            double richness = fieldYield != null && typicalYield > 0 ? Math.Clamp(fieldYield[i] / typicalYield, 0.5, 2.5) : 1;
+            foreach (var (share, factor, onLand, goods) in byWork)
             {
                 double sum = 0;
                 foreach (var (g, bytes, gs) in goods)
@@ -192,7 +231,7 @@ public static class GoodsEngine
                 }
                 if (sum <= 0)
                     continue;
-                double labour = country * share * (factor != null ? factor[region] : 1) / sum;
+                double labour = country * share * (factor != null ? factor[region] : 1) * (onLand ? richness : 1) / sum;
                 foreach (var (g, _, _) in goods)
                     rg.Produced[g] += labour * s[g] * s[g];
             }

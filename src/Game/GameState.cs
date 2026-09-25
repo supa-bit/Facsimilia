@@ -36,7 +36,8 @@ public sealed class RealmState
     public double LastAdmin { get; set; }
     public double LastUpkeep { get; set; }
     public double LastInterest { get; set; }
-    public double LastNet => LastTax + LastTribute - LastAdmin - LastUpkeep - LastInterest;
+    public double LastCustoms { get; set; }
+    public double LastNet => LastTax + LastTribute + LastCustoms - LastAdmin - LastUpkeep - LastInterest;
 
     public RealmState(int realmId) => RealmId = realmId;
 
@@ -49,7 +50,7 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest },
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms },
         };
     }
 
@@ -76,8 +77,10 @@ public sealed class RealmState
         if (d.TryGetValue("last", out var last))
         {
             var a = last.AsGodotArray();
-            if (a.Count == 5)
+            if (a.Count >= 5)
             {
+                if (a.Count >= 6)
+                    r.LastCustoms = a[5].AsDouble();
                 r.LastTax = a[0].AsDouble(); r.LastTribute = a[1].AsDouble(); r.LastAdmin = a[2].AsDouble();
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }

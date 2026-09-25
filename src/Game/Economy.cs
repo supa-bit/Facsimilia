@@ -78,13 +78,15 @@ public static class Economy
         double admin = AdminPerProvince * c.Provinces;
         double upkeep = Upkeep(r);
         double interest = r.Debt * InterestRate;
+        double customs = c.Goods != null ? Trade.Customs(c.Goods) : 0;
+        r.LastCustoms = customs;
         r.LastTax = tax;
         r.LastTribute = tribute;
         r.LastAdmin = admin;
         r.LastUpkeep = upkeep;
         r.LastInterest = interest;
 
-        r.Treasury += tax + tribute - admin - upkeep - interest;
+        r.Treasury += tax + tribute + customs - admin - upkeep - interest;
         if (r.Treasury < 0)
         {
             r.Debt += -r.Treasury;   // temples and bankers lend the shortfall
@@ -101,7 +103,7 @@ public static class Economy
         r.Manpower += (target - r.Manpower) * ManpowerRefill;
         r.Fatigue = Math.Max(0, r.Fatigue - 0.25);   // armies rest
 
-        double income = tax + tribute;
+        double income = tax + tribute + customs;
         if (r.Debt > DefaultYears * Math.Max(income, 1))
             r.Debt = DefaultYears * Math.Max(income, 1);   // default: lenders write off the rest
         if (r.Debt > DebtLimitYears * Math.Max(income, 1))

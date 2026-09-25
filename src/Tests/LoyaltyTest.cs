@@ -66,18 +66,18 @@ public partial class LoyaltyTest : TestRunner
         map.SyncPopulationOwnership();
         map.AdvanceYear();
         var gs = map.ProvinceStateOf(gift.Id);
-        Check(gs.Owner == rome || gift.RealmId == 0, $"the province's owner should be tracked: owner {gs.Owner}, realm {gift.RealmId}, rome {rome}, same {ReferenceEquals(gift, map.Provinces.Provinces[gift.Id])}");
-        Check(gift.RealmId == 0 || gs.Integration < 0.05, $"a foreign conquest should start unintegrated, got {gs.Integration:P0}");
+        Check(gs.Owner == rome || gift.RealmId != rome, $"the province's owner should be tracked: owner {gs.Owner}, realm {gift.RealmId}, rome {rome}, same {ReferenceEquals(gift, map.Provinces.Provinces[gift.Id])}");
+        Check(gift.RealmId != rome || gs.Integration < 0.05, $"a foreign conquest should start unintegrated, got {gs.Integration:P0}");
         double gained = map.CensusOf(rome).OrganizedPeople - organizedBefore;
-        Check(gift.RealmId == 0 || gained < map.ProvincePopulation(gift.Id) * 0.6,
+        Check(gift.RealmId != rome || gained < map.ProvincePopulation(gift.Id) * 0.6,
             "an unintegrated province should count for only about half its people in taxes");
 
-        // Revolt: keep it at crushing taxes for a while.
+        // Revolt: keep it at crushing taxes for a while (once free, a neighbour may take it).
         map.PlayerState.Tax = TaxRate.Crushing;
         int years = 0;
         while (gift.RealmId == rome && years++ < 40)
             map.AdvanceYear();
-        Check(gift.RealmId == 0, $"a restless, crushed foreign province should eventually revolt: realm {gift.RealmId}, unrest {gs.Unrest:0.00}, integration {gs.Integration:0.00}, years {years}");
+        Check(gift.RealmId != rome, $"a restless, crushed foreign province should eventually revolt: realm {gift.RealmId}, unrest {gs.Unrest:0.00}, integration {gs.Integration:0.00}, years {years}");
         map.PlayerState.Tax = TaxRate.Normal;
 
         // Save and load.

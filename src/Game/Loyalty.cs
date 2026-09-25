@@ -35,7 +35,8 @@ public sealed class ProvinceState
 /// about 10 years if its people share the ruler's culture, 40 if kin, 100 if
 /// foreign; war and heavy taxes slow it. Unintegrated provinces pay less and
 /// give fewer men. Unrest comes from low integration, heavy taxes, a
-/// different religion and ruling more provinces than the court can manage;
+/// different religion, want of bread, cloth and the like, and ruling more
+/// provinces than the court can manage;
 /// in the player's realm, high unrest can end in revolt.
 /// </summary>
 public static class Loyalty
@@ -68,7 +69,11 @@ public static class Loyalty
     public static double Overreach(int provinces) => Math.Max(0, (double)provinces / AdminCapacity - 1);
 
     /// <summary>One year for one province.</summary>
-    public static void Tick(ProvinceState p, Kinship rel, bool sameReligion, bool atWar, TaxRate tax, int realmProvinces)
+    /// <summary>Unrest when people lack what they need: this much at nothing, none from 80% of needs met.</summary>
+    public const double WantUnrest = 0.4;
+
+    public static void Tick(ProvinceState p, Kinship rel, bool sameReligion, bool atWar, TaxRate tax, int realmProvinces,
+        double satisfaction = 1)
     {
         double years = rel switch { Kinship.Same => SameCultureYears, Kinship.Kin => KinYears, _ => ForeignYears };
         double rate = 1 / years;
@@ -78,7 +83,8 @@ public static class Loyalty
             rate *= 0.5;
         p.Integration = Math.Min(1, p.Integration + rate);
         p.Unrest = Math.Max(0, 0.6 * (1 - p.Integration) + TaxUnrest[(int)tax]
-            + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces));
+            + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces)
+            + WantUnrest * Math.Max(0, 0.8 - satisfaction) / 0.8);
     }
 
     public static double ChanceOfRevolt(double unrest) =>

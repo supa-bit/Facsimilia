@@ -94,13 +94,18 @@ public partial class Hud
             _goodsSummary.Text = "No goods yet: the land data isn't loaded.";
             return;
         }
-        var shortages = cat.Goods.Where(g => g.Need > 0 && goods.Surplus(g.Index) < -0.05 * goods.Needed[g.Index])
+        var shortages = cat.Goods.Where(g => g.Need > 0 && g.Source != GoodSource.Beyond && goods.Surplus(g.Index) < -0.05 * goods.Needed[g.Index])
             .Select(g => g.Name.ToLowerInvariant()).ToList();
         _goodsSummary.Text =
-            $"Your people make goods worth {T(goods.Value / 6000)} talents a year " +
-            $"(of it, townspeople's trade and services {T(goods.Services / 6000)}). Taxes are a share of this.\n" +
-            "Amounts are in loads: what one person makes in a year of full work." +
-            (shortages.Count > 0 ? $"\nShort of: {string.Join(", ", shortages)} (trade will bring these later)." : "");
+            $"Your people make goods worth {T(goods.Value / 6000)} talents a year" +
+            (goods.Services > 6000 ? $" (of it, townspeople's trade and services {T(goods.Services / 6000)})" : "") +
+            ". Taxes are a share of this.\n" +
+            $"Trade: you sell goods worth {T(goods.ExportIncome / 6000)} and buy {T(goods.ImportCost / 6000)} talents a year " +
+            $"with {goods.Partners.Count} realms (your tolls and customs take {Trade.CustomsRate:P0}).\n" +
+            $"Your people have {goods.Satisfaction:P0} of what they need" +
+            (goods.Satisfaction < 0.8 ? " - want breeds unrest." : ".") +
+            (shortages.Count > 0 ? $"\nStill short of: {string.Join(", ", shortages)}." : "") +
+            "\nAmounts are in loads: what one person makes in a year of full work.";
         foreach (var (famId, famName) in cat.Families)
         {
             double value = goods.FamilyValue(cat, famId) / 6000;
@@ -126,16 +131,21 @@ public partial class Hud
             foreach (var g in cat.Goods.Where(g => g.Family == famId))
             {
                 double made = goods.Produced[g.Index], used = goods.Used[g.Index], need = goods.Needed[g.Index];
-                double spare = made - used - need;
-                string text = $"      {g.Name}: made {Loads(made)}" +
+                double bought = goods.Imported[g.Index], sold = goods.Exported[g.Index];
+                double spare = goods.Surplus(g.Index);
+                double pf = g.Index < _map.PriceFactors.Length ? _map.PriceFactors[g.Index] : 1;
+                string text = $"      {g.Name}: " + (g.Source == GoodSource.Beyond ? $"arrived {Loads(made)}" : $"made {Loads(made)}") +
                     (used > 0.05 ? $", used {Loads(used)}" : "") + (need > 0.05 ? $", people need {Loads(need)}" : "") +
-                    (spare < -0.05 ? $", SHORT {Loads(-spare)}" : $", spare {Loads(spare)}");
+                    (bought > 0.05 ? $", bought {Loads(bought)}" : "") + (sold > 0.05 ? $", sold {Loads(sold)}" : "") +
+                    (spare < -0.05 ? $", SHORT {Loads(-spare)}" : $", spare {Loads(spare)}") +
+                    (Math.Abs(pf - 1) > 0.1 ? $"  (price {pf:0.0}x)" : "");
                 var label = ThemeAncient.Label(text, fontSize: 16);
                 label.TooltipText = g.Source switch
                 {
                     GoodSource.Made => "Made from " + string.Join(g.AnyInput ? " or " : " and ", g.Inputs.Select(x => cat.Goods[x.Good].Name.ToLowerInvariant())) +
                         $"; worth {g.Price:0} drachmae a load",
                     GoodSource.ByProduct => $"Comes with {cat.Goods[g.By].Name.ToLowerInvariant()}; worth {g.Price:0} drachmae a load",
+                    GoodSource.Beyond => $"From beyond the map, arriving in {string.Join(", ", g.EntryRegions)}; worth {g.Price:0} drachmae a load",
                     _ => $"From the land (map view: {g.Field}); worth {g.Price:0} drachmae a load",
                 };
                 label.MouseFilter = MouseFilterEnum.Pass;

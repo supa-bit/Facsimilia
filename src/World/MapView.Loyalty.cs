@@ -157,7 +157,7 @@ public partial class MapView
                 continue;
             var state = Game.Realm(p.RealmId);
             Loyalty.Tick(s, rel, s.Religion == ruler.Religion || s.Religion == "", Game.Wars.Of(p.RealmId).Any(),
-                state.Tax, counts[p.RealmId]);
+                state.Tax, counts[p.RealmId], CensusOf(p.RealmId).Goods?.Satisfaction ?? 1);
             if (p.RealmId == PlayerRealmId && rng.NextDouble() < Loyalty.ChanceOfRevolt(s.Unrest))
                 revolts.Add(p);
         }

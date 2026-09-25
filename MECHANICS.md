@@ -1149,6 +1149,34 @@ are **loads**: what one person makes in a year of full work on ideal land.
 - **On screen**: the province panel shows its region's harvest this
   year and its soil, forests, pasture and fish.
 
+### Trade **(built, 25 Sep 2026)**
+
+- **Who trades**: each realm with the realms it borders by land and, if
+  it has a coast, with every other coastal realm by sea. Realms at war
+  don't trade.
+- **What**: once a year each realm offers what it can spare (after its
+  own people and crafts) and asks for what its people lack. A seller
+  shares its spare goods among its partners in proportion to what they
+  lack.
+- **Prices**: one price per good, its usual price times the square
+  root of want over supply, between half and three times.
+- **Money**: buyers pay and sellers earn at that price. Merchants keep
+  10% of what they carry (added to the realm's output), and the state
+  takes 5% in tolls and customs, a new line in the treasury.
+- **Needs and unrest**: the share of people's needs met (by value) is
+  shown in the Goods panel. Below 80%, want adds unrest in every
+  province of the realm (up to 40% at nothing).
+- **From beyond the map**: amber (by the Amber Road, arriving in
+  Pannonia and Scythia), silk (Hyrcania, Media), pepper and spices
+  (Arabia Felix, Persis, Aethiopia) and Indian steel (Persis, Hyrcania)
+  arrive each year in whoever holds those regions, and travel on only by
+  trade. They are wanted, not needed.
+- **Farming richness**: where the fields yield more per hectare than
+  the typical farmer's (the watered Nile valley), each farmer grows more
+  (up to 2.5x), so Egypt sells grain.
+- **Slaves**: the slave trade comes with labour (section 4), since
+  people are counted by the population, not as goods.
+
 ### What it feeds
 
 - **Carrying capacity**: the food a region's land can grow: calories from

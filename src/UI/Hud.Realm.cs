@@ -170,11 +170,12 @@ public partial class Hud
         var culture = _map.CultureOf(_map.PlayerRealmId);
         var (tax, tribute) = Economy.Revenue(c, s.Tax);
         double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces, interest = s.Debt * Economy.InterestRate;
-        double net = tax + tribute - upkeep - admin - interest;
+        double net = tax + tribute + (c.Goods != null ? Trade.Customs(c.Goods) : 0) - upkeep - admin - interest;
         _accounts.Text =
             $"Treasury: {T(s.Treasury)} talents" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
-            $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}\n" +
+            $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}" +
+            (c.Goods != null ? $"   Tolls and customs +{T(Trade.Customs(c.Goods))}" : "") + "\n" +
             $"   Administration −{T(admin)} ({c.Provinces} provinces; your court manages {Loyalty.AdminCapacity} well" +
             (c.Provinces > Loyalty.AdminCapacity ? ", so every province is restless" : "") + ")\n" +
             $"     Army −{T(upkeep)}" +
