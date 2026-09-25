@@ -238,13 +238,31 @@ public partial class MapView
     }
 
     /// <summary>Recruits up to the army a realm can pay for; builds ships when a campaign needs to cross the sea.</summary>
+    /// <summary>With this many years' income saved, a realm lowers its taxes.</summary>
+    const double BotRichYears = 3;
+    /// <summary>At war, a realm spends its savings over about this many years.</summary>
+    const double BotWarChestYears = 10;
+    /// <summary>Share of a rich realm's savings above BotRichYears spent each year on building and largesse.</summary>
+    const double BotLargesse = 0.2;
+
     void BotRecruit(Realm realm, RealmState s, RealmCensus c, bool needsFleet)
     {
+        // Rulers didn't hoard without end: a full treasury lightens the taxes, debt raises them.
+        var (normalTax, normalTribute) = Economy.Revenue(c, TaxRate.Normal);
+        double normalIncome = normalTax + normalTribute;
+        s.Tax = s.Debt > normalIncome ? TaxRate.Heavy
+            : s.Treasury > BotRichYears * normalIncome ? TaxRate.Low : TaxRate.Normal;
         var (tax, tribute) = Economy.Revenue(c, s.Tax);
         double income = tax + tribute;
+        // Beyond that, the silver goes on temples, palaces, games and gifts, as it did.
+        double excess = s.Treasury - BotRichYears * normalIncome;
+        if (excess > 0)
+            s.Treasury -= BotLargesse * excess;
         bool atWar = Game.Wars.Of(realm.Id).Any();
         double share = atWar || s.Treasury > 2 * income ? Math.Max(BotWarArmyShare, s.ArmyShare) : s.ArmyShare;
         double budget = share * income - Economy.AdminPerProvince * c.Provinces;
+        if (atWar)
+            budget += s.Treasury / BotWarChestYears;   // a war chest is spent in war
         var culture = realm.Culture;
         int[] mix = culture == Culture.Scythian
             ? new[] { UnitTypes.HorseArchers, UnitTypes.HorseArchers, UnitTypes.Cavalry, UnitTypes.LightInfantry }
@@ -257,7 +275,7 @@ public partial class MapView
         {
             int type = mix[(s.Units.Sum() + k) % mix.Length];
             var u = UnitTypes.All[type];
-            if (Economy.Upkeep(s) + u.Upkeep > budget || s.Treasury < u.Raise * 2)
+            if (Economy.Upkeep(s) + u.Upkeep * s.UpkeepShare > budget || s.Treasury < u.Raise * 2)
                 break;
             if (!Military.Recruit(s, c, culture, type, s.ElephantSource))
                 break;

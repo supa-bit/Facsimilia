@@ -61,7 +61,7 @@ public static class Economy
         double s = 0;
         for (int t = 0; t < UnitTypes.Count; t++)
             s += r.Units[t] * UnitTypes.All[t].Upkeep;
-        return s;
+        return s * r.UpkeepShare;
     }
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>

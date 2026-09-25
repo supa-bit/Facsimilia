@@ -74,6 +74,8 @@ public partial class Hud
         {
             ToggleRealmPanel(false);
             _diplomacyPanel.Visible = false;
+            _goalsPanel.Visible = false;
+            _guidePanel.Visible = false;
             RefreshGoodsPanel();
         }
         RefreshMapView();

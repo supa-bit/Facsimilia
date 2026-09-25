@@ -269,7 +269,7 @@ public partial class MapView
             return events;
         EnsurePlayerReach();
         var targets = PlayerConquestTargets();
-        events.AddRange(ResolveConquests(targets, new Random(HashCode.Combine(DemoYear, PlayerRealmId, _dirtyProposalCells.Count))));
+        events.AddRange(ResolveConquests(targets, new Random(StableHash.Of(DemoYear, PlayerRealmId, _dirtyProposalCells.Count))));
         foreach (int idx in _dirtyProposalCells)
             _proposal[idx] = 0;
         _dirtyProposalCells.Clear();

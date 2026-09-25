@@ -1,0 +1,395 @@
+{
+ "about": "Optional goals (decided: a sandbox with optional goals). Each realm has its history's ambitions plus common ones. Kinds: region (hold at least 'share' of the people living in each named region, default 60%), people_growth (people at 'factor' times the start), provinces, treasury (talents, no debt), survive (the realm still holds land in 'year'). Points add to the score.",
+ "score": {
+  "people_per_point": 100000,
+  "province_points": 1,
+  "talents_per_point": 1000,
+  "region_share": 0.6
+ },
+ "common": [
+  {
+   "id": "people_2x",
+   "text": "Double your people",
+   "kind": "people_growth",
+   "points": 20,
+   "factor": 2
+  },
+  {
+   "id": "provinces_30",
+   "text": "Rule 30 provinces",
+   "kind": "provinces",
+   "points": 20,
+   "target": 30
+  },
+  {
+   "id": "treasury",
+   "text": "Fill the treasury: 10,000 talents and no debt",
+   "kind": "treasury",
+   "points": 15,
+   "target": 10000
+  },
+  {
+   "id": "ad1",
+   "text": "Your realm still stands in AD 1",
+   "kind": "survive",
+   "points": 25,
+   "year": 1
+  }
+ ],
+ "realms": {
+  "rome": [
+   {
+    "id": "italia",
+    "text": "Unite Italy under Rome",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "sicilia",
+    "text": "Take Sicily, as Rome did in the First Punic War (264-241 BC)",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Sicilia"
+    ]
+   },
+   {
+    "id": "carthage",
+    "text": "Destroy Carthage's power in Africa (146 BC)",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Africa"
+    ]
+   },
+   {
+    "id": "mare_nostrum",
+    "text": "Our Sea: hold Hispania, Gallia, Hellas, Aegyptus and Syria",
+    "kind": "region",
+    "points": 60,
+    "regions": [
+     "Hispania",
+     "Gallia",
+     "Hellas",
+     "Aegyptus",
+     "Syria"
+    ]
+   }
+  ],
+  "carthage": [
+   {
+    "id": "sicilia",
+    "text": "Win all Sicily, the Punic dream",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Sicilia"
+    ]
+   },
+   {
+    "id": "hispania",
+    "text": "Build a Punic empire in Spain, as the Barcids did",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Hispania"
+    ]
+   },
+   {
+    "id": "italia",
+    "text": "Hannibal's dream: break Rome in Italy",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Italia"
+    ]
+   }
+  ],
+  "egypt": [
+   {
+    "id": "syria",
+    "text": "Hold Coele-Syria against the Seleucids",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Syria"
+    ]
+   },
+   {
+    "id": "cyrenaica",
+    "text": "Keep Cyrene",
+    "kind": "region",
+    "points": 10,
+    "regions": [
+     "Cyrenaica"
+    ]
+   },
+   {
+    "id": "aegean",
+    "text": "Rule the Aegean: Lydia and Hellas",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Lydia",
+     "Hellas"
+    ]
+   },
+   {
+    "id": "treasury_ptolemy",
+    "text": "The riches of the Ptolemies: 30,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 30000
+   }
+  ],
+  "seleucid": [
+   {
+    "id": "syria",
+    "text": "Take Coele-Syria from the Ptolemies",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Syria"
+    ]
+   },
+   {
+    "id": "asia_minor",
+    "text": "Win Asia Minor: Lydia, Phrygia and Cilicia",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Lydia",
+     "Phrygia",
+     "Cilicia"
+    ]
+   },
+   {
+    "id": "egypt",
+    "text": "Conquer Egypt, as Antiochus IV nearly did (168 BC)",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Aegyptus"
+    ]
+   }
+  ],
+  "greek_world": [
+   {
+    "id": "hellas",
+    "text": "Free and unite the Greeks",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Hellas"
+    ]
+   },
+   {
+    "id": "macedonia",
+    "text": "Take Macedon",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Macedonia"
+    ]
+   },
+   {
+    "id": "sicilia",
+    "text": "The western Greeks: hold Sicily",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Sicilia"
+    ]
+   }
+  ],
+  "lysimachus": [
+   {
+    "id": "thracia",
+    "text": "Hold Thrace",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Thracia"
+    ]
+   },
+   {
+    "id": "macedonia",
+    "text": "Win the throne of Macedon (288 BC)",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Macedonia"
+    ]
+   },
+   {
+    "id": "asia_minor",
+    "text": "Keep Asia Minor: Lydia and Phrygia",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Lydia",
+     "Phrygia"
+    ]
+   }
+  ],
+  "antigonus": [
+   {
+    "id": "macedonia",
+    "text": "Win Macedon, as Demetrius did (294 BC)",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Macedonia"
+    ]
+   },
+   {
+    "id": "hellas",
+    "text": "Master of Greece",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Hellas"
+    ]
+   },
+   {
+    "id": "syria",
+    "text": "Restore Antigonus' empire in Syria",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Syria"
+    ]
+   }
+  ],
+  "kush": [
+   {
+    "id": "aegyptus",
+    "text": "The Kushite pharaohs return: rule Egypt",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Aegyptus"
+    ]
+   },
+   {
+    "id": "aethiopia",
+    "text": "Hold all of Nubia",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Aethiopia"
+    ]
+   }
+  ],
+  "nabatea": [
+   {
+    "id": "petra",
+    "text": "Hold Arabia Petraea and its incense roads",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Arabia Petraea"
+    ]
+   },
+   {
+    "id": "felix",
+    "text": "Reach the incense lands of Arabia Felix",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Arabia Felix"
+    ]
+   },
+   {
+    "id": "syria",
+    "text": "Rule Damascus, as Aretas III did (85 BC)",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Syria"
+    ]
+   }
+  ],
+  "iberia": [
+   {
+    "id": "hispania",
+    "text": "Unite Iberia",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Hispania"
+    ]
+   },
+   {
+    "id": "gallia",
+    "text": "Push north into Gaul",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Gallia"
+    ]
+   }
+  ],
+  "gaul": [
+   {
+    "id": "gallia",
+    "text": "Unite the Gauls",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Gallia"
+    ]
+   },
+   {
+    "id": "italia",
+    "text": "Sack Rome again (390 BC)",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "galatia",
+    "text": "Found Galatia in Asia Minor (278 BC)",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Phrygia"
+    ]
+   }
+  ],
+  "scythia": [
+   {
+    "id": "scythia",
+    "text": "Hold the Pontic steppe",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Scythia"
+    ]
+   },
+   {
+    "id": "thracia",
+    "text": "Raid and rule Thrace",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Thracia"
+    ]
+   },
+   {
+    "id": "sarmatia",
+    "text": "Master the Sarmatians",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Sarmatia"
+    ]
+   }
+  ]
+ }
+}

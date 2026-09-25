@@ -38,6 +38,7 @@ public partial class Hud : Control
         BuildConquestPanel();
         BuildDiplomacyPanel();
         BuildGoodsPanel();
+        BuildGoalsPanel();
     }
 
     void BuildTopBar()
@@ -66,6 +67,7 @@ public partial class Hud : Control
         BuildTreasuryStat(row);
         BuildDiplomacyButton(row);
         BuildGoodsButton(row);
+        BuildGoalsButton(row);
         row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore });
         _dateLabel = ThemeAncient.Label("", "DateLabel");
         _dateLabel.TooltipText = "Current year";
@@ -192,6 +194,7 @@ public partial class Hud : Control
         RenderChronicle();
         ConnectProvinceSignals();
         RefreshProvincePanel();
+        ShowGuideFirstTime();
     }
 
     /// <summary>A short note above the turn button ("Autosaving..."); hidden again after fadeAfter seconds if given.</summary>
@@ -228,6 +231,7 @@ public partial class Hud : Control
         RefreshConquestPanel();
         RefreshDiplomacyPanel();
         RefreshGoodsPanel();
+        RefreshGoalsPanel();
         _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         _populationItem.Visible = _map.Population != null;
         if (_map.Population != null)

@@ -60,7 +60,7 @@ public static class Nature
     /// <summary>A standard normal number fixed by (year, key).</summary>
     public static double Normal(int year, int key)
     {
-        var rng = new Random(HashCode.Combine(year, key, 424243));
+        var rng = new Random(StableHash.Of(year, key, 424243));
         double u1 = 1 - rng.NextDouble(), u2 = rng.NextDouble();
         return Math.Sqrt(-2 * Math.Log(u1)) * Math.Cos(2 * Math.PI * u2);
     }

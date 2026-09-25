@@ -1378,6 +1378,37 @@ Italic, Greek and Macedonian, Punic and Phoenician, ...) count as close.
   history, decided). Above 50% unrest, a province has a yearly chance of
   (unrest - 50%) x 0.3 to rise and break away as unclaimed land.
 
+## Score and goals **(built, 25 Sep 2026)**
+
+Decided: a sandbox with optional goals. `data/goals.json` gives every
+playable realm history's ambitions for it (Rome: unite Italy, take Sicily,
+break Carthage in Africa, rule "our sea"; Egypt: hold Coele-Syria, keep
+Cyrene, rule the Aegean, the riches of the Ptolemies; and so on) plus
+common goals (double your people, rule 30 provinces, 10,000 talents and no
+debt, still standing in AD 1). A region goal needs 60% of the region's
+people in your land. Reaching a goal is checked every year, marked with
+the year, and makes the chronicle.
+
+**Score** = people / 100,000 + 1 a province + (treasury - debt) / 1,000 +
+the points of every goal reached. The Goals button in the top bar shows
+the score; its panel lists each goal with how near you are.
+
+**First-game guide**: a "How to play" panel opens the first time the game
+is played (and from the Goals panel any time).
+
+**Balance fixes with it**:
+- Rome's Italian allies paid their own contingents, so Rome pays half its
+  army's upkeep (start_realms.json, upkeep_share 0.5). With it the AI's
+  Rome fights the Pyrrhic War (281 BC), both Punic Wars (264 and 218 BC)
+  and Cisalpine Gaul (225 BC) on history's timetable.
+- Other realms no longer hoard: with three years' income saved they
+  lower their taxes and spend a fifth of the excess each year on temples,
+  palaces and largesse; at war they spend their war chest over about ten
+  years; in debt they raise taxes.
+- Random draws (weather, battles, revolts) now come from a hash that is
+  the same on every run, so a saved game and the tests always play out
+  the same way.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

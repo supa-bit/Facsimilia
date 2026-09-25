@@ -16,7 +16,7 @@ block the work that depends on them.
 2. [x] Harvests, weather and renewable stocks
 3. [x] Trade
 4. [x] Labour and people
-5. [ ] Score, goals and first-game polish
+5. [x] Score, goals and first-game polish
 
 ## Right now
 
@@ -94,9 +94,9 @@ Each step is verified on the real game before the next begins.
 - [~] **Click a realm or place** to see its details (provinces done;
       realms and cities still to come)
 - [ ] **Family tree view**: the player's ruler, heir and court
-- [ ] **A goal**: whatever is decided below
+- [x] **A goal**: score and optional history goals for every realm (Goals panel)
 - [ ] **Sound and music**
-- [ ] **Tutorial / first-game guidance**
+- [~] **Tutorial / first-game guidance**: a "How to play" guide on first start (a fuller tutorial later)
 - [ ] **Export setup** so the game can be built as a standalone program to
       share (Windows .exe first)
 - [ ] **Later eras**: the design names eras (ancient → modern) but they

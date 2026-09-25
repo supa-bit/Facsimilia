@@ -25,3 +25,4 @@ From [game-icons.net](https://game-icons.net), licensed [CC BY 3.0](https://crea
 | tax.svg | receive-money | Delapouite |
 | war.svg | battle-gear | Lorc |
 | goods.svg | amphora | Delapouite |
+| laurels.svg | laurels | Lorc |

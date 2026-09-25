@@ -28,7 +28,9 @@ public sealed class RealmState
     public double ManpowerMultiplier { get; set; } = 1;
     /// <summary>Share of income a realm is willing to spend on its army in peace (Rome, militarised: more).</summary>
     public double ArmyShare { get; set; } = 0.5;   // which historical realm this is (data/start_realms.json, history_goals.json)
-    public bool ElephantSource { get; set; }   // can raise elephants without elephant country (Seleucid India trade)
+    public bool ElephantSource { get; set; }
+    /// <summary>Share of its army's upkeep the realm pays (Rome's allies paid their own contingents: 0.5).</summary>
+    public double UpkeepShare { get; set; } = 1;   // can raise elephants without elephant country (Seleucid India trade)
 
     // Last year's accounts, for the treasury panel.
     public double LastTax { get; set; }
@@ -42,6 +44,10 @@ public sealed class RealmState
     public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales - LastAdmin - LastUpkeep - LastInterest;
     /// <summary>People taken in war and held as slaves.</summary>
     public double Captives { get; set; }
+    /// <summary>The realm's people when the game began (for the goals).</summary>
+    public double StartPeople { get; set; }
+    /// <summary>Goals reached: goal id -> the year.</summary>
+    public Dictionary<string, int> GoalsDone { get; } = new();
 
     public RealmState(int realmId) => RealmId = realmId;
 
@@ -53,9 +59,17 @@ public sealed class RealmState
         return new GDictionary
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
-            ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives,
+            ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
         };
+    }
+
+    GDictionary GoalsDict()
+    {
+        var g = new GDictionary();
+        foreach (var (id, year) in GoalsDone)
+            g[id] = year;
+        return g;
     }
 
     public static RealmState FromDict(GDictionary d)
@@ -71,8 +85,13 @@ public sealed class RealmState
             CivKey = d.TryGetValue("civ", out var k) ? k.AsString() : "",
             ManpowerMultiplier = d.TryGetValue("manpower_mult", out var mm) ? mm.AsDouble() : 1,
             ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
+            UpkeepShare = d.TryGetValue("upkeep_share", out var ush) ? ush.AsDouble() : 1,
             Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
+            StartPeople = d.TryGetValue("start_people", out var sp) ? sp.AsDouble() : 0,
         };
+        if (d.TryGetValue("goals", out var goals))
+            foreach (var (goal, year) in goals.AsGodotDictionary())
+                r.GoalsDone[goal.AsString()] = year.AsInt32();
         if (d.TryGetValue("units", out var units))
         {
             var a = units.AsGodotArray();
