@@ -5,7 +5,7 @@ using Godot;
 namespace Facsimilia.World;
 
 /// <summary>How a land view colours its values, low to high.</summary>
-public enum LandRamp { Height, Heat, Wet, Good, Bad, Water, Forest, Farm, Scrub, Sand, Gold }
+public enum LandRamp { Height, Heat, Wet, Good, Bad, Water, Forest, Farm, Scrub, Sand, Gold, Food }
 
 /// <summary>One entry of the Map view menu that shows a land field.</summary>
 public sealed record LandView(string Field, string Label, LandRamp Ramp);
@@ -71,6 +71,41 @@ public partial class MapView
             new LandView("grassland", "Grassland", LandRamp.Farm),
             new LandView("marsh", "Marsh", LandRamp.Water),
             new LandView("desert", "Desert", LandRamp.Sand),
+        }),
+        ("Crops and food", new[]
+        {
+            new LandView("food_capacity", "Food capacity (people/km²)", LandRamp.Food),
+            new LandView("crop_wheat", "Wheat", LandRamp.Forest),
+            new LandView("crop_emmer", "Emmer", LandRamp.Forest),
+            new LandView("crop_barley", "Barley", LandRamp.Forest),
+            new LandView("crop_millet", "Millet", LandRamp.Forest),
+            new LandView("crop_rye", "Rye", LandRamp.Forest),
+            new LandView("crop_oats", "Oats", LandRamp.Forest),
+            new LandView("crop_lentils", "Lentils", LandRamp.Forest),
+            new LandView("crop_chickpeas", "Chickpeas", LandRamp.Forest),
+            new LandView("crop_peas", "Peas", LandRamp.Forest),
+            new LandView("crop_broad_beans", "Broad beans", LandRamp.Forest),
+            new LandView("crop_sesame", "Sesame", LandRamp.Forest),
+            new LandView("crop_flax", "Flax", LandRamp.Forest),
+            new LandView("crop_hemp", "Hemp", LandRamp.Forest),
+            new LandView("crop_olives", "Olives", LandRamp.Forest),
+            new LandView("crop_grapes", "Grapes", LandRamp.Forest),
+            new LandView("crop_figs", "Figs", LandRamp.Forest),
+            new LandView("crop_dates", "Date palms", LandRamp.Forest),
+            new LandView("crop_pomegranates", "Pomegranates", LandRamp.Forest),
+            new LandView("crop_almonds", "Almonds", LandRamp.Forest),
+            new LandView("crop_walnuts", "Walnuts", LandRamp.Forest),
+            new LandView("crop_vegetables", "Vegetables and herbs", LandRamp.Forest),
+            new LandView("crop_sheep", "Sheep", LandRamp.Scrub),
+            new LandView("crop_goats", "Goats", LandRamp.Scrub),
+            new LandView("crop_cattle", "Cattle", LandRamp.Scrub),
+            new LandView("crop_pigs", "Pigs", LandRamp.Scrub),
+            new LandView("crop_horses", "Horses", LandRamp.Scrub),
+            new LandView("crop_donkeys", "Donkeys and mules", LandRamp.Scrub),
+            new LandView("crop_camels", "Camels", LandRamp.Scrub),
+            new LandView("crop_poultry", "Poultry", LandRamp.Scrub),
+            new LandView("crop_bees", "Bees", LandRamp.Scrub),
+            new LandView("crop_fishing", "Fishing", LandRamp.Water),
         }),
         ("Resources", new[]
         {
@@ -150,14 +185,28 @@ public partial class MapView
         return (Land.Field(CurrentView), Land.Value(CurrentView, node));
     }
 
+    public CropModel? Crops { get; private set; }
+
+    /// <summary>
+    /// Loads the land layer, runs the crop model on it, adds the crop views,
+    /// and gives the population engine each region's food capacity.
+    /// </summary>
     internal void LoadLand()
     {
         Land = LandLayer.Load();
+        Crops = null;
         if (Land != null && Population != null && (Land.Width != Population.Width || Land.Height != Population.Height))
         {
             GD.PushError("MapView: the land layer doesn't match the population grid; land views are off");
             Land = null;
         }
+        if (Land == null || Population == null)
+            return;
+        Crops = CropModel.Build(Land, Population.LandNodes);
+        if (Crops == null)
+            return;
+        Crops.RegisterViews(Land);
+        Population.SetFoodCapacity(Crops.RegionCapacity(Population));
     }
 
     /// <summary>A ramp's colour at a position 0..1, alpha included (transparent lets the terrain show).</summary>
@@ -183,6 +232,9 @@ public partial class MapView
                 (0.5f, C(0.85f, 0.70f, 0.25f, 0.75f)), (1f, C(0.60f, 0.42f, 0.10f, 0.9f)) },
             LandRamp.Scrub => new[] { (0f, C(1f, 1f, 1f, 0f)), (0.1f, C(0.80f, 0.80f, 0.55f, 0.4f)),
                 (0.5f, C(0.55f, 0.58f, 0.25f, 0.75f)), (1f, C(0.35f, 0.40f, 0.12f, 0.9f)) },
+            LandRamp.Food => new[] { (0f, C(1f, 1f, 1f, 0f)), (0.01f, C(0.95f, 0.90f, 0.60f, 0.45f)),
+                (0.06f, C(0.93f, 0.72f, 0.30f, 0.7f)), (0.2f, C(0.55f, 0.65f, 0.20f, 0.8f)),
+                (0.5f, C(0.15f, 0.48f, 0.18f, 0.88f)), (1f, C(0.03f, 0.25f, 0.10f, 0.95f)) },
             LandRamp.Sand => new[] { (0f, C(1f, 1f, 1f, 0f)), (0.3f, C(0.95f, 0.85f, 0.60f, 0.45f)),
                 (1f, C(0.90f, 0.70f, 0.35f, 0.85f)) },
             _ => new[] { (0f, C(1f, 1f, 1f, 0f)), (0.08f, C(1f, 0.92f, 0.55f, 0.35f)),

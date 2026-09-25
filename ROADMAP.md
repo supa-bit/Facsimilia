@@ -44,16 +44,15 @@ Each step is verified on the real game before the next begins.
          the balance tests
    - [ ] Events that strike a region (epidemics, famines): the engine can
          apply them; nothing triggers them yet
-   - [ ] Carrying capacity from real arable land and yield (today a
-         stand-in: 3x each region's historical population), needs the
-         resource field
    - [x] The land layer: terrain, climate, soil, water, 300 BC habitat
          and resources for every place, from real data cleared for a
          commercial game, with hand fixes for 300 BC; shown in the Map
          view menu with a legend
-   - [ ] Raw-resource potentials (a suitability profile per crop, tree
-         and herd) and carrying capacity from food, replacing the 3x
-         stand-in
+   - [x] Crop yields: a suitability profile for each of 31 crops, trees,
+         herds and fisheries; carrying capacity from food replaces the 3x
+         stand-in; "Crops and food" map views
+   - [ ] Yearly harvests from the weather draw, feeding the food-security
+         growth factor
    - [ ] Renewable stocks (soil nutrients, forests, forage, fish) and the
          yearly weather draw
    - [ ] Goods and recipes, shown by family, with the economy (step 4);
@@ -71,7 +70,7 @@ Each step is verified on the real game before the next begins.
 
 - [ ] **Other realms act** (AI): their own choices with history as a pull;
       expand, go to war, react to the player
-- [~] **Map views**: regions and 52 land views (done), population heatmap
+- [~] **Map views**: regions and 84 land and crop views (done), population heatmap
       (the data already exists), political (today's view)
 - [~] **Click a realm or place** to see its details (provinces done;
       realms and cities still to come)
@@ -156,7 +155,7 @@ in MECHANICS.md, "Design decisions"). Nothing is waiting on a decision.
 - [x] Build stamp in the main menu corner showing which version is running
 - [x] Session setup (.NET SDK + Godot .NET) and one-click assets release
       workflow
-- [x] 14 automated test suites (population balance and land layer tests added)
+- [x] 15 automated test suites (population balance, land layer and crop model tests added)
 - [x] Fixed: the simulated world no longer lags HYDE's total (was 47.7
       million against 48.2 million by 0 AD); regional totals now follow
       HYDE exactly

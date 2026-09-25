@@ -51,8 +51,9 @@ SUMMARIES = {
         "places, within limits the balance tests enforce.",
     "Resources and the land": "What every place is (terrain, climate, soil, water, 300 BC forests and "
         "farms, mines and special goods), baked from real scientific data that allows the game to be sold, "
-        "with hand fixes where it's wrong for 300 BC. You can see each on the map. Next: what each crop, tree "
-        "and herd can yield there, and how many people the land can feed.",
+        "with hand fixes where it's wrong for 300 BC. Each crop, tree and herd has its own needs, and from "
+        "them the game knows how many people every place could feed; that limits how far a region can grow. "
+        "You can see all of it on the map.",
     "Dynasties and characters": "Ruling families live, marry, have children and die. The crown passes by "
         "real inheritance rules, and a new house takes over when a line dies out or a throne is seized. "
         "Built and in the game.",

@@ -86,6 +86,23 @@ public sealed class LandLayer
 
     public bool Has(string name) => _byName.ContainsKey(name);
 
+    /// <summary>
+    /// Adds (or replaces) a field computed in the game - the crop model's
+    /// results - stored like the baked ones, one byte per node.
+    /// </summary>
+    public void AddComputed(LandField field, float[] values)
+    {
+        var bytes = new byte[Width * Height];
+        double span = field.Max - field.Min;
+        for (int i = 0; i < bytes.Length && i < values.Length; i++)
+            bytes[i] = (byte)Math.Round(Math.Clamp((values[i] - field.Min) / span, 0, 1) * 255);
+        if (_byName.ContainsKey(field.Name))
+            _fields.RemoveAll(f => f.Name == field.Name);
+        _fields.Add(field);
+        _byName[field.Name] = field;
+        _bytes[field.Name] = bytes;
+    }
+
     public LandField Field(string name) =>
         _byName.TryGetValue(name, out var f) ? f : throw new KeyNotFoundException($"no land field '{name}'");
 
@@ -128,6 +145,7 @@ public sealed class LandLayer
         "index" or "class" => $"{v:0.00}",
         "-1..1" => v >= 0.15 ? "faces south" : v <= -0.15 ? "faces north" : "mixed",
         "°C" => $"{v:0.0} °C",
+        "people/km²" => $"{v:#,0} people/km²",
         "pH" => $"pH {v:0.0}",
         _ => $"{v:#,0.#} {f.Unit}",
     };

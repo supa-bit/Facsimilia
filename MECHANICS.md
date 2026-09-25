@@ -787,10 +787,10 @@ the draft left open were settled while building it:
   Bot-held nodes are still capped at history; growth that doesn't fit
   under their caps goes to the player's nodes in the region, but only as
   far as the region is above history.
-- **Carrying capacity** is provisional: 3x the region's historical
-  population, until the Resources density field gives each region its
-  arable land and yield. Positive growth fades to zero as a region
-  approaches it. **(open: replace with arable land x yield)**
+- **Carrying capacity** is the region's food capacity from the crop model
+  (see Crop yields and carrying capacity), never less than 5% above its
+  historical population. Positive growth fades to zero as a region
+  approaches it. (It was a 3x-history stand-in until the crop model.)
 - **Recovery (new).** A region knocked below history regrows toward it at
   1.5% of the log gap a year, never faster than +1% a year: empty land
   and plentiful food after a catastrophe, the land-and-living-standards
@@ -824,7 +824,8 @@ real grid, all pass; founded cities are `PopulationHydeTest`):
 |---|---|---|
 | Do nothing (300 years) | Worst region 0.12% off HYDE, map total 0.008% | ±5% |
 | Maxed attraction (Hellas, 200 years, migration only) | Hellas 1.37x; hardest-hit neighbour (Phrygia) lost 3.0% | ≤ 1.5x; ≤ 10% |
-| Maxed growth (200 years) | Hellas 1.73x; a bot region with the same factors 1.0000x | ≤ 2.7x and capacity; bots never above history |
+| Maxed growth (200 years) | Hellas 2.10x (its land feeds 5.9x); a bot region with the same factors 1.0000x | ≤ 2.7x and capacity; bots never above history |
+| Capacity binds (Syria, 400 years maxed) | Reaches 82% of the 6.3 million its land feeds, never more | ≤ capacity |
 | Stacking | Doubling a saturated attraction changes drivers by ≤ 5.0% | ≤ 10% |
 | Catastrophe (Italia: every factor at worst plus a 34% plague, 10 years) | Lost 39.4%; back to 90% 62 years after peace | ≤ 50%; ≤ 150 years |
 | Conservation (migration only, 100 years) | 39.4 million held to within 6 people | one person per million (32-bit storage) |
@@ -1088,10 +1089,9 @@ it.)**
 
 ### What it feeds
 
-- **Carrying capacity**: the growth drivers' stand-in (3x historical
-  population) becomes the food a region's land can grow: calories from
-  crops, herds and fish at its current tech. This is the first link to
-  build.
+- **Carrying capacity**: the food a region's land can grow: calories from
+  crops, herds and fish at its current tech (built; see Crop yields and
+  carrying capacity).
 - **Growth factors**: food security (harvest against need), land and
   living standards (land per person), disease (marshes, malaria zones).
 - **Attraction**: mines, ports, markets and quarries pull people.
@@ -1160,7 +1160,80 @@ up to one, that farmland follows where HYDE puts people (r = 0.61), and
 that every source's licence is cleared for a commercial game.
 
 Next: raw-resource potentials from per-crop suitability profiles, and
-carrying capacity from food, replacing the growth drivers' 3x stand-in.
+carrying capacity from food, replacing the growth drivers' 3x stand-in
+(built: see below).
+
+### Crop yields and carrying capacity **(built, 25 Sep 2026)**
+
+`src/World/CropModel.cs` reads 31 profiles from `data/crops.json` - 13
+field crops (wheat, emmer, barley, millet, rye, oats, lentils, chickpeas,
+peas, broad beans, sesame, flax, hemp), 8 orchards and gardens (olives,
+grapes, figs, dates, pomegranates, almonds, walnuts, vegetables), 9 herds
+(sheep, goats, cattle, pigs, horses, donkeys and mules, camels, poultry,
+bees) and fishing - and scores every place 0-1 for each from the land
+layer. Each profile has its own needs, as the designer asked: rain (or
+irrigation) in a range, temperature, the winter cold it survives, the
+summer heat it needs to ripen, pH, salt tolerance, drainage, soil depth,
+and how much it depends on fertility (legumes make their own nitrogen).
+Some needs are particular: dates need a water table or irrigation whatever
+the rain; millet and sesame are summer crops, so north of the Sahara's
+dry summers they need irrigation; winter-sown grain is judged on the cool
+season it grows in (Egypt's winter wheat and barley); grapes like
+south-facing slopes; goats like rugged ground; cattle need water. Yields
+are ancient ones on good land (wheat 1.1 t/ha, barley 1.1, emmer 0.9,
+olive oil 0.25, dates 3...). The numbers are data, so they can be
+adjusted without touching code.
+
+**Carrying capacity** of a place = the food it could grow at most with
+ancient methods, in people fed (2,000 kcal a day, less 15% lost):
+
+- **Fields**: the best food crop on the flat land. Rain-fed farming sows
+  at most 40% of the flat land (the rest is woodland for fuel and pasture
+  for the plough oxen) and lies fallow every other year; irrigated land is
+  sown up to 85% and cropped yearly.
+- **Orchards and terraces**: the best orchard on 20% of the slopes.
+- **Herds**: milk and meat from the rest, by how much it grows and what
+  it is (grass, scrub, forest, fallow, marsh, desert).
+- **Fish**: coastal shallows, rivers, lakes and marshes.
+- **The ancient plough**: yields on heavy clay are up to 35% lower: the
+  ard scratches light soils, and heavy clay waits for the mouldboard
+  plough, a technology to unlock later (the Po valley stays modest until
+  it's drained and ploughed deep, as happened).
+
+It computes in about a second at load. Against history (HYDE), in
+people:
+
+| Region | Food capacity | 300 BC | Peak before 1700 |
+|---|---|---|---|
+| Italia | 18.2 M | 4.4 M | 12.6 M (69%) |
+| Aegyptus | 11.7 M | 3.2 M | 4.9 M (42%) |
+| Syria | 6.3 M | 2.4 M | 5.9 M (94%) |
+| Gallia | 29.2 M | 2.4 M | 14.2 M (48%) |
+| Hellas | 7.3 M | 1.2 M | 1.5 M (21%) |
+| Sarmatia | 19.8 M | 0.1 M | 0.8 M (4%) |
+| Whole map | 479 M | 39.4 M | |
+
+Every region held fewer people in 300 BC than its land could feed;
+long-settled farming lands came close to their capacity by 1700, while
+the steppes and frontiers stayed far below it, as history had them.
+
+**It replaces the growth drivers' stand-in.** A region's carrying
+capacity is now its food capacity - but never less than 5% above what
+history actually had there, since history proves that food existed
+(grown, herded or imported). Positive growth fades to zero as a region
+nears it. A new balance test checks it binds: a player-held Syria with
+every growth factor maxed for 400 years reaches 82% of the 6.3 million
+its land can feed, and never more.
+
+**Map views**: a "Crops and food" group - food capacity (people per km²)
+and each crop, tree, herd and fishery's suitability.
+`src/Tests/CropModelTest.cs` checks crops grow where history grew them
+(olives at Athens, not in the Alps; dates on the Nile, not in Greece;
+camels in Arabia; millet in the Sahel) and the capacities against HYDE.
+
+Still to come in this step: yearly harvests from the weather draw (the
+land's drought risk), and the growth factors' food security read from
+harvest against need.
 
 ## Dynasties and characters **(decided, built)**
 

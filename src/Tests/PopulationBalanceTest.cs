@@ -23,6 +23,7 @@ public partial class PopulationBalanceTest : TestRunner
     const int Player = 1, Bot = 2, Start = -300;
 
     PopulationEngine _loaded = null!;
+    double[]? _foodCapacity;
     int _hellas, _italia;
     readonly List<string> _report = new();
 
@@ -36,6 +37,7 @@ public partial class PopulationBalanceTest : TestRunner
         else
             e.SetKeyframes(_loaded.Width, _loaded.Height, new[] { Start }, new[] { _loaded.Keyframes[0].Pop });
         e.SetRegions(_loaded.NodeRegion, _loaded.Regions);
+        e.SetFoodCapacity(_foodCapacity);
         var owners = new int[e.Width * e.Height];
         var mine = new HashSet<int>(playerRegions);
         foreach (int i in e.LandNodes)
@@ -61,15 +63,21 @@ public partial class PopulationBalanceTest : TestRunner
         }
         _loaded = new PopulationEngine();
         _loaded.LoadHyde();
+        // Carrying capacity from the crop model on the land layer, as in the game.
+        var land = LandLayer.Load();
+        var crops = land != null ? CropModel.Build(land, _loaded.LandNodes) : null;
+        Check(crops != null, "needs data/land/ and data/crops.json for the food capacity");
+        _foodCapacity = crops?.RegionCapacity(_loaded);
         Check(_loaded.RegionCount == 38, $"expected 38 regions, got {_loaded.RegionCount}");
         _hellas = RegionId("Hellas");
         _italia = RegionId("Italia");
 
-DoNothing();
-MaxedAttraction();
-MaxedGrowth();
+        DoNothing();
+        MaxedAttraction();
+        MaxedGrowth();
+        CapacityBinds();
         Stacking();
-Catastrophe();
+        Catastrophe();
         Conservation();
 
         Finish("Population balance tests passed on the real grid with 38 regions:\n  " + string.Join("\n  ", _report));
@@ -149,11 +157,36 @@ Catastrophe();
             botPeak = Math.Max(botPeak, e.RegionPopulation(_italia) / before[_italia]);
         }
         Check(peakRatio <= 2.7, $"maxed growth: realm reached {peakRatio:F3}x history (limit 2.7x)");
-        Check(peakRatio <= PopulationEngine.CapacityMultiple, "maxed growth: realm passed its carrying capacity");
+        double capacityRatio = e.RegionCapacity(_hellas) / before[_hellas];
+        Check(peakRatio <= capacityRatio, $"maxed growth: realm passed its carrying capacity ({capacityRatio:F2}x)");
         Check(peakRatio > 1.3, $"maxed growth: realm only reached {peakRatio:F3}x - growth factors do nothing");
         Check(botPeak <= 1.0 + 1e-4, $"maxed growth: a bot region rose to {botPeak:F4}x history");
-        _report.Add($"Maxed growth: Hellas {peakRatio:F2}x after 200 years (capacity {PopulationEngine.CapacityMultiple}x); " +
+        _report.Add($"Maxed growth: Hellas {peakRatio:F2}x after 200 years (food capacity {capacityRatio:F1}x); " +
             $"a bot region with the same factors stayed at {botPeak:F4}x.");
+    }
+
+    /// <summary>
+    /// Food capacity binds: a player-held Syria (its land feeds about 2.6
+    /// times its 300 BC people) with every growth factor maxed for 400
+    /// years levels off at its capacity and never passes it.
+    /// </summary>
+    void CapacityBinds()
+    {
+        int syria = RegionId("Syria");
+        var e = Engine(new[] { syria });
+        for (int f = 0; f < PopulationEngine.FactorCount; f++)
+            e.SetFactor(syria, (GrowthFactor)f, 1.0);
+        double cap = e.RegionCapacity(syria);
+        double peak = 0;
+        for (int t = 1; t <= 400; t++)
+        {
+            e.Tick(Start + t);
+            peak = Math.Max(peak, e.RegionPopulation(syria));
+        }
+        double end = e.RegionPopulation(syria);
+        Check(peak <= cap * 1.001, $"capacity: Syria reached {peak:N0}, over its capacity of {cap:N0}");
+        Check(end >= cap * 0.75, $"capacity: Syria only reached {end / cap:P0} of its capacity - growth isn't approaching it");
+        _report.Add($"Capacity binds: Syria, every factor maxed for 400 years, reached {end / cap:P0} of the {cap / 1e6:F1} million its land can feed, never more.");
     }
 
     /// <summary>Doubling a saturated attraction changes drivers by 10% at most.</summary>

@@ -54,10 +54,29 @@ public partial class PopulationEngine
     public static readonly double[] FactorUp = { 0.30, 0.00, 0.00, 0.20, 0.25, 0.10, 0.15, 0.00 };
     public static readonly double[] FactorDown = { 0.25, 0.20, 0.10, 0.25, 0.05, 0.10, 0.00, 0.05 };
 
-    // Carrying capacity: provisional, a multiple of the region's historical
-    // population until the Resources density field gives each region its
-    // arable land and yield.
+    // Carrying capacity without a crop model (the toy-world tests): a
+    // multiple of the region's historical population.
     public const double CapacityMultiple = 3.0;
+    // What history had is never above capacity: the food existed (grown,
+    // herded or imported), so a region's capacity is at least this much
+    // above its historical population.
+    public const double HistoryCapacityMargin = 1.05;
+
+    /// <summary>
+    /// People each region's land can feed (index = region id), from the crop
+    /// model; null until set, and CapacityMultiple x history is used.
+    /// </summary>
+    public double[]? FoodCapacity { get; private set; }
+
+    public void SetFoodCapacity(double[]? perRegion) =>
+        FoodCapacity = perRegion != null && perRegion.Length == RegionCount + 1 ? perRegion : null;
+
+    /// <summary>The carrying capacity used for region r this year.</summary>
+    public double RegionCapacity(int r)
+    {
+        double hist = _histRegion[r];
+        return FoodCapacity != null ? Math.Max(FoodCapacity[r], HistoryCapacityMargin * hist) : CapacityMultiple * hist;
+    }
 
     // A region below history regrows toward it: this share of the log gap
     // a year (a catastrophe's half-loss is back to 90% in ~120 years),
@@ -200,7 +219,7 @@ public partial class PopulationEngine
             }
             double hist = _histRegion[r], prev = _histRegionPrev[r];
             double ratio = prev > 0.0 && hist > 0.0 ? hist / prev : 1.0;
-            double cap = CapacityMultiple * hist;
+            double cap = RegionCapacity(r);
             double dev = FactorDeviation(r);
             double growth;
             if (dev > 0.0)
