@@ -104,11 +104,11 @@ public static class Trade
                 met += Math.Min(need, Math.Max(0, rg.Available(g.Index))) * g.Price;
             }
             rg.Satisfaction = needed > 0 ? met / needed : 1;
-            rg.Value += (rg.ExportIncome + rg.ImportCost) * MerchantMargin;
+            rg.Value += (rg.ExportIncome + rg.ImportCost) * MerchantMargin * (1 + rg.TradeBonus);
         }
         return priceFactor;
     }
 
     /// <summary>What the state takes from a realm's trade this year, talents.</summary>
-    public static double Customs(RealmGoods g) => (g.ExportIncome + g.ImportCost) * CustomsRate / 6000.0;
+    public static double Customs(RealmGoods g) => (g.ExportIncome + g.ImportCost) * CustomsRate * (1 + g.TradeBonus) / 6000.0;
 }

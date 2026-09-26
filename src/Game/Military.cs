@@ -30,7 +30,7 @@ public static class Military
             return ("You have no coast to build ships on.", 0);
         if (u.Role == UnitRoles.Elephants && !c.Resources.Contains("res_elephants") && !elephantSource)
             return ("You hold no elephant country to capture them in.", 0);
-        double cost = u.Raise;
+        double cost = u.Raise * (u.Role == UnitRoles.Warships ? 1 - r.ShipDiscount : 1);
         if (u.Needs != null && !c.Resources.Contains(u.Needs) && !(u.Role == UnitRoles.Elephants && elephantSource))
             cost *= ImportPremium;
         if (NeedsMercenaries(r, u))

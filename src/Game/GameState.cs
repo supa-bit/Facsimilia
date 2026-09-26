@@ -48,6 +48,10 @@ public sealed class RealmState
     public double Aggression { get; set; }
     /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
     public double LastVassalTribute { get; set; }
+    /// <summary>Remedies for an empty treasury still being felt: id -> years left.</summary>
+    public Dictionary<string, int> RemedyYears { get; } = new();
+    /// <summary>Harbours make warships this much cheaper (not saved: set each year from the buildings).</summary>
+    public double ShipDiscount { get; set; }
     /// <summary>People taken in war and held as slaves.</summary>
     public double Captives { get; set; }
     /// <summary>The realm's people when the game began (for the goals).</summary>
@@ -82,8 +86,16 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
         };
+    }
+
+    GDictionary RemedyDict()
+    {
+        var g = new GDictionary();
+        foreach (var (id, y) in RemedyYears)
+            g[id] = y;
+        return g;
     }
 
     GDictionary GoalsDict()
@@ -112,6 +124,9 @@ public sealed class RealmState
             LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,
             StartPeople = d.TryGetValue("start_people", out var sp) ? sp.AsDouble() : 0,
         };
+        if (d.TryGetValue("remedies", out var rem))
+            foreach (var (id, y) in rem.AsGodotDictionary())
+                r.RemedyYears[id.AsString()] = y.AsInt32();
         if (d.TryGetValue("goals", out var goals))
             foreach (var (goal, year) in goals.AsGodotDictionary())
                 r.GoalsDone[goal.AsString()] = year.AsInt32();

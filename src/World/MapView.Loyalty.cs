@@ -156,9 +156,10 @@ public partial class MapView
             if (p.RealmId <= 0)
                 continue;
             var state = Game.Realm(p.RealmId);
+            var bc = BuildingCatalog.Instance;
             Loyalty.Tick(s, rel, s.Religion == ruler.Religion || s.Religion == "", Game.Wars.Of(p.RealmId).Any(),
-                state.Tax, counts[p.RealmId], CensusOf(p.RealmId).Goods?.Satisfaction ?? 1,
-                EnslavedShareOfRegion(RegionOfProvince(p)));
+                s.Tax ?? state.Tax, counts[p.RealmId], CensusOf(p.RealmId).Goods?.Satisfaction ?? 1,
+                EnslavedShareOfRegion(RegionOfProvince(p)), bc.Effect(s, "integration"), bc.Effect(s, "unrest") + Remedies.Unrest(state));
             if (p.RealmId == PlayerRealmId && rng.NextDouble() < Loyalty.ChanceOfRevolt(s.Unrest))
                 revolts.Add(p);
         }

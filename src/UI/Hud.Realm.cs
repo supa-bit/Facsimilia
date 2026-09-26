@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Facsimilia.Game;
 using Facsimilia.World;
@@ -21,6 +22,7 @@ public partial class Hud
     Button _advanceButton = null!;
 
     static readonly string[] TaxNames = { "Low", "Normal", "Heavy", "Crushing" };
+    VBoxContainer _remedies = null!;
     static readonly string[] TaxTips =
     {
         "6% of output. Families grow faster; people are drawn to your land.",
@@ -95,6 +97,9 @@ public partial class Hud
             _taxButtons[i] = b;
         }
 
+        _remedies = new VBoxContainer();
+        _remedies.AddThemeConstantOverride("separation", 4);
+        box.AddChild(_remedies);
         _manpower = ThemeAncient.Label("", fontSize: 16);
         box.AddChild(_manpower);
         _might = ThemeAncient.Label("", fontSize: 16);
@@ -153,6 +158,7 @@ public partial class Hud
             $"   Balance {(net >= 0 ? "+" : "−")}{T(Math.Abs(net))} talents a year";
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
+        RefreshRemedies();
         _manpower.Text = $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}" +
             $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c, s.ManpowerMultiplier))})." +
             "\nBeyond them, mercenaries can be hired at twice the price." +
@@ -168,6 +174,44 @@ public partial class Hud
             $"\nUnder arms: {ThemeAncient.GroupThousands(Military.Soldiers(s))} men";
         _realmHint.Text = "Your armies, their units and where they stand are in the Armies panel.";
         _treasuryButton.Text = s.Debt > 0.5 ? $"{T(s.Treasury)}  (debt {T(s.Debt)})" : T(s.Treasury);
+    }
+
+    /// <summary>Historical remedies, offered only when the treasury is in trouble (decision "Playable 6").</summary>
+    void RefreshRemedies()
+    {
+        foreach (Node child in _remedies.GetChildren())
+            child.QueueFree();
+        var s = _map.PlayerState;
+        var active = Remedies.All.Where(r => Remedies.Active(s, r.Id)).Select(r => $"{r.Name.ToLowerInvariant()} ({s.RemedyYears[r.Id]} more years)").ToList();
+        if (active.Count > 0)
+            _remedies.AddChild(ThemeAncient.Label("Still felt: " + string.Join(", ", active), "SubtleLabel", 14));
+        if (!Remedies.InTrouble(s))
+            return;
+        _remedies.AddChild(ThemeAncient.Label("The treasury is in trouble. Remedies:", "HeaderLabel", 16));
+        var row = new HFlowContainer();
+        row.AddThemeConstantOverride("h_separation", 6);
+        _remedies.AddChild(row);
+        foreach (var (remedy, problem, silver) in _map.RemediesNow())
+        {
+            var b = new Button
+            {
+                Text = $"{remedy.Name} (+{silver:0})",
+                Disabled = problem != null,
+                FocusMode = FocusModeEnum.None,
+                TooltipText = remedy.Description + (problem != null ? "\n" + problem : ""),
+            };
+            b.AddThemeFontSizeOverride("font_size", 14);
+            string id = remedy.Id;
+            b.Pressed += () =>
+            {
+                string? text = _map.TakeRemedy(id);
+                if (text != null)
+                    LogEvents(new List<Facsimilia.Dynasties.ChronicleEvent> { new(Facsimilia.Dynasties.ChronicleKind.Economy, _map.PlayerRealmId, text) });
+                RefreshRealmPanel();
+                RefreshTreasury();
+            };
+            row.AddChild(b);
+        }
     }
 
     /// <summary>Turn length choice, beside the turn button.</summary>

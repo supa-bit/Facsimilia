@@ -34,6 +34,8 @@ public partial class MapView
     double Garrison(int owner, int provinceId, double people, int node)
     {
         double g = Conquest.Militia(people, provinceId != 0);
+        if (provinceId != 0 && Game.Provinces.TryGetValue(provinceId, out var ps))
+            g += BuildingCatalog.Instance.Effect(ps, "garrison");
         if (owner > 0)
             foreach (var a in Game.Realm(owner).Armies)
                 if (a.Node >= 0 && (provinceId != 0 ? ProvinceOfNode(a.Node) == provinceId : a.Node == node))

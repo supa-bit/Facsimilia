@@ -1558,6 +1558,41 @@ Decisions "Playable 15, 16, 17, 19".
   a year, and press where they can reach when history's regions are out
   of reach.
 
+## Buildings, province tabs, province taxes and remedies **(built, 26 Sep 2026)**
+
+Decisions "Playable 5, 6, 31, 32".
+
+- **Buildings** (`data/buildings.json`, the core set): irrigation works
+  (+25% field crops; needs a river or floodplain), granary (a bad
+  harvest hurts half as much), terraces (+30% orchards; needs hills),
+  mines (+50% ore and stone; needs a deposit), workshops (+15% made
+  goods, weighted by the province's share of the realm's people), market
+  and fora (+10% trade profits and customs, likewise), harbour (+30%
+  fishing, +10% trade, warships a quarter cheaper for the realm; needs a
+  coast), roads (+25% integration speed, +5% trade), city walls (+4
+  garrison Might, can be built twice), barracks (+20% levies from the
+  province), great temple (-10% unrest, +20% integration speed), aqueduct
+  and baths (-5% unrest, better health for the region's growth; needs a
+  town). Each costs silver, takes years (halted while besieged) and has
+  upkeep (added to administration). One building at a time per province.
+  Other realms with silver to spare and at peace build too.
+- **Province panel** (essentials plus detail tabs): name, realm, area,
+  people and region at the top; tabs for People (culture, worship, who
+  works, integration, unrest, the province's own tax rate), Land
+  (harvest, soil, forests, pasture, fish, resources), Buildings (built,
+  under way, what can be built with costs and reasons) and Military
+  (sieges, armies there, the garrison).
+- **Province taxes**: any of your provinces can have its own tax rate
+  instead of the realm's; its unrest follows its own rate.
+- **Remedies for an empty treasury**, offered only when it is in trouble
+  (in debt, or short of a year's army and administration): debase the
+  coin (a year's income now; customs -20% and +5% unrest for ten years),
+  borrow the temple treasures (half a year's income; +15% unrest for
+  five years), sell the tax farms (40% of a year's income; taxes -10% for
+  five years; needs three provinces), a levy on the rich (30%; +10%
+  unrest for a year), or ask a friend (an ally or overlord at +30 opinion
+  may send silver). The silver pays off debt first.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

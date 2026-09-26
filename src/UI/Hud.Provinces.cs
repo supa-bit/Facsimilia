@@ -22,6 +22,7 @@ public partial class Hud
     Button _editBorders = null!, _newProvince = null!;
     readonly Button[] _modeButtons = new Button[3];
     Label _provinceRegion = null!;
+    TabContainer _provinceTabs = null!;
 
     static readonly (MapMode Mode, string Text, string Tip)[] Modes =
     {
@@ -61,7 +62,7 @@ public partial class Hud
         _provincePanel = new PanelContainer
         {
             ThemeTypeVariation = "GlassPanel",
-            CustomMinimumSize = new Vector2(340, 0),
+            CustomMinimumSize = new Vector2(440, 0),
             MouseFilter = MouseFilterEnum.Stop,
             Visible = false,
         };
@@ -104,6 +105,14 @@ public partial class Hud
         box.AddChild(_provincePeople);
         _provinceRegion = ThemeAncient.Label("", "SubtleLabel", 16);
         box.AddChild(_provinceRegion);
+        _provinceTabs = new TabContainer { CustomMinimumSize = new Vector2(420, 0) };
+        box.AddChild(_provinceTabs);
+        foreach (var name in new[] { "People", "Land", "Buildings", "Military" })
+        {
+            var page = new VBoxContainer { Name = name };
+            page.AddThemeConstantOverride("separation", 3);
+            _provinceTabs.AddChild(page);
+        }
 
         var buttons = new HBoxContainer();
         buttons.AddThemeConstantOverride("separation", 8);
@@ -173,7 +182,7 @@ public partial class Hud
             _provincePeople.Text = "";
             _provinceRegion.Text = "";
         }
-        else
+        if (p != null)
         {
             var realm = _map.GetRealm(p.RealmId);
             _provinceBanner.Color = realm.Color;
@@ -188,26 +197,9 @@ public partial class Hud
                 : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}";
             var region = _map.RegionAtWorld(p.LabelCell * MapView.CellPixels);
             _provinceRegion.Text = region == null ? "" : $"Region: {region.Name}, {region.Continent}";
-            if (region != null && _map.Game.Nature.ContainsKey(region.Id))
-            {
-                var n = _map.NatureOf(region.Id);
-                string year = n.Harvest < Nature.FamineHarvest ? "famine" : n.Harvest < 0.93 ? "poor"
-                    : n.Harvest > Nature.BumperHarvest ? "bumper" : n.Harvest > 1.07 ? "good" : "ordinary";
-                _provinceRegion.Text += $"\nThis year's harvest in {region.Name}: {year} ({n.Harvest:P0})" +
-                    $"\nLand: soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}";
-            }
-            foreach (var siege in _map.Game.Sieges.Where(x => x.ProvinceId == p.Id))
-                _provinceRegion.Text += $"\nUnder siege by {_map.RealmName(siege.Attacker)}: {Math.Min(siege.Progress, 0.99):P0} done";
-            foreach (var (realmId, army) in _map.ArmiesInProvince(p.Id))
-                _provinceRegion.Text += $"\nHere: {army.Name} of {_map.RealmName(realmId)} ({Military.Might(army, Domain.Land):0.0} land Might)";
-            var ps = _map.ProvinceStateOf(p.Id);
-            if (ps.Culture != "")
-                _provinceRegion.Text += $"\nPeople: {_map.CultureName(ps.Culture)}; worship: {_map.ReligionName(ps.Religion)}";
-            if (p.RealmId > 0)
-                _provinceRegion.Text += $"\nIntegration: {ps.Integration:P0} (pays {Loyalty.Yield(ps.Integration):P0} of full tax)" +
-                    $"\nUnrest: {ps.Unrest:P0}" + (ps.Unrest > Loyalty.RevoltThreshold
-                        ? (mine ? "  - may revolt! Lower taxes or wait for integration." : "  - restless") : "");
+            FillProvinceTabs(p, region, mine);
         }
+        _provinceTabs.Visible = p != null;
         _provinceRealm.Visible = _provinceRealm.Text != "";
         _provinceArea.Visible = _provinceArea.Text != "";
         _provincePeople.Visible = _provincePeople.Text != "";
@@ -219,6 +211,129 @@ public partial class Hud
             ? (_map.ProvinceBrushProblem() ?? $"Left-drag: add your land to {p!.Name}. Right-drag: take land out of any province (unorganized).")
             : "";
         _provinceHint.Visible = _provinceHint.Text != "";
+    }
+
+    static void Clear(Node n)
+    {
+        foreach (Node c in n.GetChildren())
+            c.QueueFree();
+    }
+
+    Label Line(Node page, string text, int size = 15)
+    {
+        var l = ThemeAncient.Label(text, "SubtleLabel", size);
+        l.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        l.CustomMinimumSize = new Vector2(400, 0);
+        page.AddChild(l);
+        return l;
+    }
+
+    /// <summary>The province panel's detail tabs (decision "Playable 31": essentials plus detail tabs).</summary>
+    void FillProvinceTabs(Province p, RegionInfo? region, bool mine)
+    {
+        var people = _provinceTabs.GetNode<VBoxContainer>("People");
+        var land = _provinceTabs.GetNode<VBoxContainer>("Land");
+        var buildings = _provinceTabs.GetNode<VBoxContainer>("Buildings");
+        var military = _provinceTabs.GetNode<VBoxContainer>("Military");
+        foreach (var page in new Node[] { people, land, buildings, military })
+            Clear(page);
+        var ps = _map.ProvinceStateOf(p.Id);
+
+        // People.
+        if (ps.Culture != "")
+            Line(people, $"People: {_map.CultureName(ps.Culture)}; worship: {_map.ReligionName(ps.Religion)}");
+        if (region != null)
+        {
+            var (dep, ens) = (_map.LabourHistory()?.Shares(region.Name, _map.DemoYear)) ?? (0, 0);
+            Line(people, $"Who works (in {region.Name}): {1 - dep - ens:P0} free, {dep:P0} dependent, {ens:P0} enslaved");
+        }
+        if (p.RealmId > 0)
+        {
+            Line(people, $"Integration: {ps.Integration:P0} (pays {Loyalty.Yield(ps.Integration):P0} of full tax)");
+            var unrest = Line(people, $"Unrest: {ps.Unrest:P0}" + (ps.Unrest > Loyalty.RevoltThreshold
+                ? (mine ? "  - may revolt! Lower taxes, build a temple, or wait for integration." : "  - restless") : ""));
+            if (ps.Unrest > Loyalty.RevoltThreshold)
+                unrest.Modulate = new Color(1f, 0.7f, 0.6f);
+        }
+        if (mine)
+        {
+            var taxRow = new HBoxContainer();
+            people.AddChild(taxRow);
+            taxRow.AddChild(ThemeAncient.Label("Taxes here:", fontSize: 15));
+            var tax = new OptionButton { FocusMode = FocusModeEnum.None, TooltipText = "A rate for this province only; the realm's rate is set in the Treasury panel." };
+            tax.AddItem($"The realm's ({TaxNames[(int)_map.PlayerState.Tax]})", -1);
+            for (int i = 0; i < 4; i++)
+                tax.AddItem(TaxNames[i], i);
+            tax.Select(ps.Tax is { } t ? (int)t + 1 : 0);
+            int pid = p.Id;
+            tax.ItemSelected += index =>
+            {
+                int id = tax.GetItemId((int)index);
+                _map.ProvinceStateOf(pid).Tax = id < 0 ? null : (TaxRate)id;
+                _map.InvalidateCensus();
+                RefreshProvincePanel();
+                RefreshTreasury();
+            };
+            taxRow.AddChild(tax);
+        }
+
+        // Land.
+        if (region != null && _map.Game.Nature.ContainsKey(region.Id))
+        {
+            var n = _map.NatureOf(region.Id);
+            string year = n.Harvest < Nature.FamineHarvest ? "famine" : n.Harvest < 0.93 ? "poor"
+                : n.Harvest > Nature.BumperHarvest ? "bumper" : n.Harvest > 1.07 ? "good" : "ordinary";
+            Line(land, $"This year's harvest in {region.Name}: {year} ({n.Harvest:P0})");
+            Line(land, $"Soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}");
+        }
+        var resources = _map.ProvinceResources(p.Id);
+        Line(land, resources.Count > 0 ? "Resources: " + string.Join(", ", resources) : "No notable resources.");
+
+        // Buildings.
+        var cat = BuildingCatalog.Instance;
+        var built = ps.Buildings.Where(kv => kv.Value > 0).Select(kv => (cat[kv.Key]?.Name ?? kv.Key) + (kv.Value > 1 ? $" ×{kv.Value}" : "")).ToList();
+        Line(buildings, built.Count > 0 ? "Built: " + string.Join(", ", built) : "Nothing built yet.");
+        if (ps.Building != "")
+            Line(buildings, $"Building: {cat[ps.Building]?.Name}, {ps.BuildingYearsLeft} year{(ps.BuildingYearsLeft == 1 ? "" : "s")} left" +
+                (_map.Game.Sieges.Any(x => x.ProvinceId == p.Id) ? " (halted by the siege)" : ""));
+        if (mine)
+        {
+            var grid = new GridContainer { Columns = 2 };
+            grid.AddThemeConstantOverride("h_separation", 6);
+            grid.AddThemeConstantOverride("v_separation", 4);
+            buildings.AddChild(grid);
+            foreach (var b in cat.All)
+            {
+                string? problem = _map.CanBuild(p, b);
+                if (problem is "Already built." or "Built as far as it goes.")
+                    continue;
+                var button = new Button
+                {
+                    Text = $"{b.Name} ({b.Cost:0})",
+                    Disabled = problem != null,
+                    FocusMode = FocusModeEnum.None,
+                    TooltipText = $"{b.Description}\n{b.Cost:0} talents, {b.Years} years, upkeep {b.Upkeep:0} a year." + (problem != null ? "\n" + problem : ""),
+                };
+                button.AddThemeFontSizeOverride("font_size", 14);
+                var def = b;
+                button.Pressed += () =>
+                {
+                    _map.StartBuilding(p, def);
+                    RefreshProvincePanel();
+                    RefreshTreasury();
+                };
+                grid.AddChild(button);
+            }
+        }
+
+        // Military.
+        foreach (var siege in _map.Game.Sieges.Where(x => x.ProvinceId == p.Id))
+            Line(military, $"Under siege by {_map.RealmName(siege.Attacker)}: {Math.Min(siege.Progress, 0.99):P0} done");
+        foreach (var (realmId, army) in _map.ArmiesInProvince(p.Id))
+            Line(military, $"{army.Name} of {_map.RealmName(realmId)}: {Military.Might(army, Domain.Land):0.0} land Might");
+        Line(military, $"Walls and garrison hold with about {_map.GarrisonOf(p):0.0} Might.");
+        if (military.GetChildCount() == 1)
+            Line(military, "No armies here, and no sieges.");
     }
 
     public override void _UnhandledKeyInput(InputEvent @event)

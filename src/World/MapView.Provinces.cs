@@ -77,20 +77,36 @@ public partial class MapView
         Provinces?.ProvinceAt((int)(world.X / CellPixels), (int)(world.Y / CellPixels));
 
     /// <summary>People living in a province now, from the population engine (0 without HYDE data).</summary>
+    Dictionary<int, double>? _provincePeople;
+    int _provincePeopleYear = int.MinValue;
+
+    /// <summary>People living in a province (counted for every province at once, once a year or after borders change).</summary>
     public double ProvincePopulation(int provinceId)
     {
         if (Population == null || Provinces == null)
             return 0;
-        double total = 0;
-        foreach (int node in Population.LandNodes)
+        if (_provincePeople == null || _provincePeopleYear != DemoYear)
         {
-            int nx = node % Population.Width, ny = node / Population.Width;
-            int cx = (int)((nx + 0.5) * GridWidth / Population.Width);
-            int cy = (int)((ny + 0.5) * GridHeight / Population.Height);
-            if (Provinces.Cells[cy * GridWidth + cx] == provinceId)
-                total += Population.Pop[node];
+            _provincePeople = new Dictionary<int, double>();
+            foreach (int node in Population.LandNodes)
+            {
+                int nx = node % Population.Width, ny = node / Population.Width;
+                int cx = (int)((nx + 0.5) * GridWidth / Population.Width);
+                int cy = (int)((ny + 0.5) * GridHeight / Population.Height);
+                int prov = Provinces.Cells[cy * GridWidth + cx];
+                if (prov != ProvinceMap.None)
+                    _provincePeople[prov] = _provincePeople.GetValueOrDefault(prov) + Population.Pop[node];
+            }
+            _provincePeopleYear = DemoYear;
         }
-        return total;
+        return _provincePeople.GetValueOrDefault(provinceId);
+    }
+
+    /// <summary>Borders or people changed within the year: count again.</summary>
+    internal void InvalidateProvincePeople()
+    {
+        _provincePeopleYear = int.MinValue;
+        _nodeProvinceYear = int.MinValue;
     }
 
     /// <summary>Uploads the province layer for the map shader; call after building the map image.</summary>

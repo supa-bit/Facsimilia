@@ -111,6 +111,7 @@ public partial class MapView
         BuildProvinceLabels();
         if (SelectedProvince == null)
             SelectProvince(0);
+        InvalidateProvincePeople();
         EmitSignal(SignalName.ProvincesChanged);
     }
 
@@ -128,6 +129,7 @@ public partial class MapView
         var province = Provinces.Create(name, PlayerRealmId);
         SelectProvince(province.Id);
         SetMode(MapMode.EditProvinces);
+        InvalidateProvincePeople();
         EmitSignal(SignalName.ProvincesChanged);
         return province;
     }
@@ -143,6 +145,7 @@ public partial class MapView
             if (id == provinceId)
                 label.Text = name;
         UpdateLabels();
+        InvalidateProvincePeople();
         EmitSignal(SignalName.ProvincesChanged);
         return true;
     }

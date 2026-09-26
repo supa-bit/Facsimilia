@@ -54,14 +54,25 @@ public static class Economy
     {
         double output = Output(c);
         double organized = c.People > 0 ? Math.Clamp(c.OrganizedPeople / c.People, 0, 1) : 0;
-        return (output * organized * TaxShare[(int)rate], output * (1 - organized) * TributeShare);
+        // Provinces with their own rate pay it; the rest pay the realm's.
+        double own = 0, ownTax = 0;
+        for (int r = 0; r < 4; r++)
+        {
+            own += c.OrganizedAtRate[r];
+            ownTax += c.OrganizedAtRate[r] * TaxShare[r];
+        }
+        double perPerson = c.People > 0 ? output / c.People : 0;
+        double tax = c.People > 0
+            ? perPerson * (Math.Max(0, c.OrganizedPeople - own) * TaxShare[(int)rate] + ownTax)
+            : 0;
+        return (tax, output * (1 - organized) * TributeShare);
     }
 
     public static double Upkeep(RealmState r) => r.Armies.Sum(Military.Upkeep) * r.UpkeepShare;
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
     public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>
-        ManpowerShare * multiplier * c.LevyShare * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
+        ManpowerShare * multiplier * c.LevyShare * (1 + c.ManpowerBonus) * (c.OrganizedPeople + 0.5 * (c.People - c.OrganizedPeople));
 
     /// <summary>
     /// One year for one realm. Returns what happened worth a chronicle line
@@ -70,10 +81,12 @@ public static class Economy
     public static string? Tick(RealmState r, RealmCensus c)
     {
         var (tax, tribute) = Revenue(c, r.Tax);
-        double admin = AdminPerProvince * c.Provinces;
+        tax *= Remedies.TaxKept(r);
+        double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
         double upkeep = Upkeep(r);
         double interest = r.Debt * InterestRate;
-        double customs = c.Goods != null ? Trade.Customs(c.Goods) : 0;
+        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
+        Remedies.Tick(r);
         r.LastCustoms = customs;
         r.LastTax = tax;
         r.LastTribute = tribute;

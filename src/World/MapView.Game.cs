@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using Facsimilia.Dynasties;
 using Facsimilia.Game;
@@ -26,17 +27,25 @@ public partial class MapView
         if (_census == null)
         {
             _census = Population != null
-                ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land, ProvinceYield)
+                ? Facsimilia.Game.Census.Take(Population, Provinces, GridWidth, GridHeight, Land, ProvinceYield,
+                    prov => Game.Provinces.TryGetValue(prov, out var ps) ? ps.Tax : null)
                 : new Dictionary<int, RealmCensus>();
             CountLabour(_census);
+            ApplyBuildingsToCensus(_census);
             var cat = GoodsCatalog();
             if (cat != null && Population != null && Land != null && Crops != null)
             {
                 // Production is counted once a year (it takes a tenth of a second).
                 if (_goodsYear != DemoYear || _realmGoods == null)
                 {
+                    var census = _census;
+                    var crafts = census.ToDictionary(kv => kv.Key, kv => RealmBuildingEffects(kv.Key, kv.Value.People).Crafts);
                     _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null,
-                        workFactor: WorkFactors(), fieldYield: Crops.FieldKcalPerHa);
+                        workFactor: WorkFactors(), fieldYield: Crops.FieldKcalPerHa, nodeFactor: BuildingNodeFactors(),
+                        craftBoost: crafts);
+                    foreach (var (realm, goods) in _realmGoods)
+                        if (census.TryGetValue(realm, out var rc))
+                            goods.TradeBonus = RealmBuildingEffects(realm, rc.People).Trade;
                     PriceFactors = RunTrade(cat, _realmGoods, _census);
                     _goodsYear = DemoYear;
                 }
@@ -143,6 +152,9 @@ public partial class MapView
         Lap("sieges");
         events.AddRange(DiplomacyYear(new Random(StableHash.Of(DemoYear, 2903))));
         Lap("diplomacy");
+        events.AddRange(BuildingsYear(new Random(StableHash.Of(DemoYear, 6007))));
+        ApplyBuildingGrowth();
+        Lap("buildings");
         events.AddRange(LoyaltyYear(new Random(StableHash.Of(DemoYear, 104729))));
         Lap("loyalty");
         _census = null;

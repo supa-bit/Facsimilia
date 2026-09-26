@@ -16,17 +16,43 @@ public sealed class ProvinceState
     public double Unrest { get; set; }
     /// <summary>The realm that held it last year: a change means it was conquered.</summary>
     public int Owner { get; set; }
+    /// <summary>Finished buildings: id -> how many (walls can be built twice).</summary>
+    public Dictionary<string, int> Buildings { get; } = new();
+    /// <summary>The building under way, if any, and the years left.</summary>
+    public string Building { get; set; } = "";
+    public int BuildingYearsLeft { get; set; }
+    /// <summary>A tax rate for this province only (decision "Playable 5": optional province rates), or null for the realm's.</summary>
+    public TaxRate? Tax { get; set; }
 
-    public GDictionary ToDict() => new()
-    {
-        ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner,
-    };
+    public int Level(string building) => Buildings.TryGetValue(building, out int n) ? n : 0;
 
-    public static ProvinceState FromDict(GDictionary d) => new()
+    public GDictionary ToDict()
     {
-        Culture = d["culture"].AsString(), Religion = d["religion"].AsString(),
-        Integration = d["integration"].AsDouble(), Unrest = d["unrest"].AsDouble(), Owner = d["owner"].AsInt32(),
-    };
+        var b = new GDictionary();
+        foreach (var (id, n) in Buildings)
+            b[id] = n;
+        return new GDictionary
+        {
+            ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner,
+            ["buildings"] = b, ["building"] = Building, ["building_left"] = BuildingYearsLeft, ["tax"] = Tax is { } t ? (int)t : -1,
+        };
+    }
+
+    public static ProvinceState FromDict(GDictionary d)
+    {
+        var p = new ProvinceState
+        {
+            Culture = d["culture"].AsString(), Religion = d["religion"].AsString(),
+            Integration = d["integration"].AsDouble(), Unrest = d["unrest"].AsDouble(), Owner = d["owner"].AsInt32(),
+            Building = d.TryGetValue("building", out var bu) ? bu.AsString() : "",
+            BuildingYearsLeft = d.TryGetValue("building_left", out var bl) ? bl.AsInt32() : 0,
+            Tax = d.TryGetValue("tax", out var t) && t.AsInt32() >= 0 ? (TaxRate)t.AsInt32() : null,
+        };
+        if (d.TryGetValue("buildings", out var b))
+            foreach (var (k, v) in b.AsGodotDictionary())
+                p.Buildings[k.AsString()] = v.AsInt32();
+        return p;
+    }
 }
 
 /// <summary>
@@ -73,7 +99,7 @@ public static class Loyalty
     public const double WantUnrest = 0.4;
 
     public static void Tick(ProvinceState p, Kinship rel, bool sameReligion, bool atWar, TaxRate tax, int realmProvinces,
-        double satisfaction = 1, double enslavedShare = 0)
+        double satisfaction = 1, double enslavedShare = 0, double integrationBoost = 0, double unrestAdded = 0)
     {
         double years = rel switch { Kinship.Same => SameCultureYears, Kinship.Kin => KinYears, _ => ForeignYears };
         double rate = 1 / years;
@@ -81,11 +107,12 @@ public static class Loyalty
             rate *= 0.5;
         if (tax >= TaxRate.Heavy)
             rate *= 0.5;
+        rate *= 1 + integrationBoost;
         p.Integration = Math.Min(1, p.Integration + rate);
         p.Unrest = Math.Max(0, 0.6 * (1 - p.Integration) + TaxUnrest[(int)tax]
             + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces)
             + WantUnrest * Math.Max(0, 0.8 - satisfaction) / 0.8
-            + Labour.ServileUnrest(enslavedShare));
+            + Labour.ServileUnrest(enslavedShare) + unrestAdded);
     }
 
     public static double ChanceOfRevolt(double unrest) =>

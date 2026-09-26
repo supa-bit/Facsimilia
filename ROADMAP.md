@@ -29,7 +29,7 @@ block the work that depends on them.
        war exhaustion that can force peace; terms by war score (provinces,
        tribute, vassalage); appeasement offers; defensive alliances and
        vassals; other realms reacting as history would.
-8. [ ] **Buildings, province tabs, province taxes, debt remedies**
+8. [x] **Buildings, province tabs, province taxes, debt remedies**
        (Playable 5, 6, 31, 32): a core set of buildings; the province
        panel with detail tabs; optional per-province tax rates; historical
        remedies offered when the treasury runs dry.

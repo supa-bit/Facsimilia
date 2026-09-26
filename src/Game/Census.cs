@@ -14,6 +14,11 @@ public sealed class RealmCensus
     public int Nodes { get; set; }
     public bool Coastal { get; set; }
     public RealmGoods? Goods { get; set; }
+    /// <summary>Organized people in provinces with their own tax rate, by rate (decision "Playable 5").</summary>
+    public double[] OrganizedAtRate { get; } = new double[4];
+    // Buildings (MapView.Buildings): upkeep, and bonuses as shares.
+    public double BuildingUpkeep { get; set; }
+    public double ManpowerBonus { get; set; }
     // Who does the work (Labour): free, dependent and enslaved, captives included.
     public double Free { get; set; }
     public double Dependent { get; set; }
@@ -38,7 +43,7 @@ public static class Census
         { "res_iron", "res_horses", "res_elephants", "res_ship_timber", "res_copper", "res_tin", "res_silver", "res_gold", "res_salt" };
 
     public static Dictionary<int, RealmCensus> Take(PopulationEngine pop, ProvinceMap? provinces, int gridWidth,
-        int gridHeight, LandLayer? land, Func<int, double>? provinceYield = null)
+        int gridHeight, LandLayer? land, Func<int, double>? provinceYield = null, Func<int, TaxRate?>? provinceTax = null)
     {
         var result = new Dictionary<int, RealmCensus>();
         float[] people = pop.Pop;
@@ -76,6 +81,8 @@ public static class Census
                 {
                     double y = provinceYield?.Invoke(prov) ?? 1;
                     c.OrganizedPeople += p * y;   // unintegrated provinces pay tribute, not full tax, on the rest
+                    if (provinceTax?.Invoke(prov) is TaxRate own)
+                        c.OrganizedAtRate[(int)own] += p * y;
                 }
             }
             if (coast != null && coastField!.Min + coast[i] / 255.0 * (coastField.Max - coastField.Min) < 15)
