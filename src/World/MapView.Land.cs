@@ -22,6 +22,7 @@ public partial class MapView
 
     public const string PoliticalView = "political";
     public const string RegionsView = "regions";
+    public const string TradeView = "trade";
 
     public LandLayer? Land { get; private set; }
     public string CurrentView { get; private set; } = PoliticalView;
@@ -152,13 +153,14 @@ public partial class MapView
     {
         if (view == CurrentView)
             return;
-        bool isLand = view != PoliticalView && view != RegionsView;
+        bool isLand = view != PoliticalView && view != RegionsView && view != TradeView;
         if (isLand && (!LandAvailable || FindLandView(view) == null || !Land!.Has(view)))
             return;
         if (view == RegionsView && !RegionsAvailable)
             return;
         CurrentView = view;
         SetRegionsOverlay(view == RegionsView);
+        ShowTradeRoutes(view == TradeView);
         if (MapSprite?.Material is ShaderMaterial material)
         {
             if (isLand)

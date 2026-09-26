@@ -1,0 +1,1270 @@
+{
+ "about": "Historical trade routes (decision 'Playable 8': trade along routes, not a pooled market). Each is a chain of real ports and towns (lon, lat); realms holding places on the same route trade with each other, and realms holding the places between them take a toll on what passes. Routes open in their year (and some close). Places from the Barrington Atlas of the Greek and Roman World (Talbert, 2000) and the standard histories of ancient trade (Young, 'Rome's Eastern Trade', 2001; McLaughlin, 'The Roman Empire and the Indian Ocean', 2014). Our own summary, free for any use.",
+ "routes": [
+  {
+   "id": "western_sea",
+   "name": "The western sea lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Gades",
+     -6.29,
+     36.53
+    ],
+    [
+     "Malaca",
+     -4.42,
+     36.72
+    ],
+    [
+     "Carthago Nova",
+     -0.98,
+     37.6
+    ],
+    [
+     "Ebusus",
+     1.43,
+     38.9
+    ],
+    [
+     "Carthage",
+     10.32,
+     36.85
+    ],
+    [
+     "Lilybaeum",
+     12.44,
+     37.8
+    ],
+    [
+     "Syracuse",
+     15.29,
+     37.07
+    ]
+   ]
+  },
+  {
+   "id": "tyrrhenian",
+   "name": "The Tyrrhenian lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Emporion",
+     3.12,
+     42.13
+    ],
+    [
+     "Massalia",
+     5.37,
+     43.3
+    ],
+    [
+     "Antipolis",
+     7.12,
+     43.58
+    ],
+    [
+     "Genua",
+     8.93,
+     44.4
+    ],
+    [
+     "Pisae",
+     10.4,
+     43.72
+    ],
+    [
+     "Ostia",
+     12.29,
+     41.75
+    ],
+    [
+     "Puteoli",
+     14.12,
+     40.82
+    ],
+    [
+     "Rhegion",
+     15.65,
+     38.11
+    ],
+    [
+     "Syracuse",
+     15.29,
+     37.07
+    ]
+   ]
+  },
+  {
+   "id": "sardinian",
+   "name": "The Sardinian crossing",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Carthage",
+     10.32,
+     36.85
+    ],
+    [
+     "Caralis",
+     9.11,
+     39.22
+    ],
+    [
+     "Olbia",
+     9.5,
+     40.92
+    ],
+    [
+     "Aleria",
+     9.51,
+     42.1
+    ],
+    [
+     "Populonia",
+     10.49,
+     42.99
+    ]
+   ]
+  },
+  {
+   "id": "sicilian",
+   "name": "The Sicilian channel",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Ostia",
+     12.29,
+     41.75
+    ],
+    [
+     "Panormus",
+     13.36,
+     38.12
+    ],
+    [
+     "Lilybaeum",
+     12.44,
+     37.8
+    ],
+    [
+     "Carthage",
+     10.32,
+     36.85
+    ]
+   ]
+  },
+  {
+   "id": "ionian",
+   "name": "The Ionian crossing",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Syracuse",
+     15.29,
+     37.07
+    ],
+    [
+     "Locri",
+     16.26,
+     38.24
+    ],
+    [
+     "Tarentum",
+     17.24,
+     40.47
+    ],
+    [
+     "Corcyra",
+     19.92,
+     39.62
+    ],
+    [
+     "Leucas",
+     20.7,
+     38.83
+    ],
+    [
+     "Patrae",
+     21.73,
+     38.25
+    ],
+    [
+     "Corinth",
+     22.93,
+     37.9
+    ]
+   ]
+  },
+  {
+   "id": "aegean",
+   "name": "The Aegean and Egypt lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Piraeus",
+     23.64,
+     37.94
+    ],
+    [
+     "Delos",
+     25.27,
+     37.4
+    ],
+    [
+     "Kos",
+     27.29,
+     36.89
+    ],
+    [
+     "Rhodes",
+     28.23,
+     36.44
+    ],
+    [
+     "Alexandria",
+     29.9,
+     31.2
+    ]
+   ]
+  },
+  {
+   "id": "levant_sea",
+   "name": "The Levantine lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Rhodes",
+     28.23,
+     36.44
+    ],
+    [
+     "Patara",
+     29.32,
+     36.26
+    ],
+    [
+     "Salamis in Cyprus",
+     33.9,
+     35.18
+    ],
+    [
+     "Seleucia Pieria",
+     35.93,
+     36.12
+    ],
+    [
+     "Arados",
+     35.86,
+     34.86
+    ],
+    [
+     "Sidon",
+     35.37,
+     33.56
+    ],
+    [
+     "Tyre",
+     35.2,
+     33.27
+    ],
+    [
+     "Gaza",
+     34.46,
+     31.5
+    ],
+    [
+     "Pelusium",
+     32.57,
+     31.04
+    ],
+    [
+     "Alexandria",
+     29.9,
+     31.2
+    ]
+   ]
+  },
+  {
+   "id": "straits",
+   "name": "The Straits and the Pontic lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Piraeus",
+     23.64,
+     37.94
+    ],
+    [
+     "Chios",
+     26.14,
+     38.37
+    ],
+    [
+     "Abydos",
+     26.4,
+     40.2
+    ],
+    [
+     "Byzantium",
+     28.98,
+     41.01
+    ],
+    [
+     "Heraclea Pontica",
+     31.5,
+     41.28
+    ],
+    [
+     "Sinope",
+     35.15,
+     42.02
+    ],
+    [
+     "Amisos",
+     36.33,
+     41.29
+    ],
+    [
+     "Trapezus",
+     39.72,
+     41.0
+    ],
+    [
+     "Phasis",
+     41.67,
+     42.15
+    ]
+   ]
+  },
+  {
+   "id": "north_pontic",
+   "name": "The north Pontic lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Byzantium",
+     28.98,
+     41.01
+    ],
+    [
+     "Apollonia Pontica",
+     27.7,
+     42.43
+    ],
+    [
+     "Odessos",
+     27.91,
+     43.2
+    ],
+    [
+     "Istros",
+     28.7,
+     44.55
+    ],
+    [
+     "Tyras",
+     30.35,
+     46.2
+    ],
+    [
+     "Olbia",
+     31.9,
+     46.69
+    ],
+    [
+     "Chersonesos",
+     33.49,
+     44.61
+    ],
+    [
+     "Theodosia",
+     35.38,
+     45.03
+    ],
+    [
+     "Panticapaeum",
+     36.47,
+     45.35
+    ],
+    [
+     "Tanais",
+     39.26,
+     47.27
+    ]
+   ]
+  },
+  {
+   "id": "adriatic",
+   "name": "The Adriatic lane",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Corcyra",
+     19.92,
+     39.62
+    ],
+    [
+     "Apollonia",
+     19.47,
+     40.72
+    ],
+    [
+     "Epidamnos",
+     19.45,
+     41.32
+    ],
+    [
+     "Issa",
+     16.18,
+     43.06
+    ],
+    [
+     "Ancona",
+     13.5,
+     43.62
+    ],
+    [
+     "Atria",
+     12.05,
+     45.05
+    ]
+   ]
+  },
+  {
+   "id": "cyrenaic",
+   "name": "The African coast",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Carthage",
+     10.32,
+     36.85
+    ],
+    [
+     "Hadrumetum",
+     10.64,
+     35.83
+    ],
+    [
+     "Oea",
+     13.18,
+     32.9
+    ],
+    [
+     "Leptis Magna",
+     14.29,
+     32.64
+    ],
+    [
+     "Euesperides",
+     20.07,
+     32.12
+    ],
+    [
+     "Apollonia of Cyrene",
+     21.97,
+     32.9
+    ],
+    [
+     "Paraetonium",
+     27.23,
+     31.35
+    ],
+    [
+     "Alexandria",
+     29.9,
+     31.2
+    ]
+   ]
+  },
+  {
+   "id": "red_sea",
+   "name": "The Red Sea route",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Arsinoe",
+     32.55,
+     29.97
+    ],
+    [
+     "Myos Hormos",
+     34.24,
+     26.16
+    ],
+    [
+     "Berenike",
+     35.47,
+     23.91
+    ],
+    [
+     "Ptolemais Theron",
+     37.3,
+     18.7
+    ],
+    [
+     "Adulis",
+     39.65,
+     15.26
+    ],
+    [
+     "Muza",
+     43.25,
+     13.32
+    ],
+    [
+     "Eudaimon Arabia",
+     45.03,
+     12.79
+    ]
+   ]
+  },
+  {
+   "id": "gulf",
+   "name": "The Gulf route",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Charax Spasinou",
+     47.9,
+     30.5
+    ],
+    [
+     "Ikaros",
+     48.35,
+     29.43
+    ],
+    [
+     "Gerrha",
+     50.0,
+     25.9
+    ],
+    [
+     "Tylos",
+     50.55,
+     26.2
+    ],
+    [
+     "Omana",
+     54.9,
+     25.3
+    ]
+   ]
+  },
+  {
+   "id": "atlantic",
+   "name": "The Atlantic coast",
+   "kind": "sea",
+   "from": -300,
+   "points": [
+    [
+     "Gades",
+     -6.29,
+     36.53
+    ],
+    [
+     "Lixus",
+     -6.11,
+     35.2
+    ],
+    [
+     "Olisipo",
+     -9.14,
+     38.72
+    ],
+    [
+     "Cale",
+     -8.61,
+     41.14
+    ],
+    [
+     "Brigantium",
+     -8.4,
+     43.37
+    ]
+   ]
+  },
+  {
+   "id": "incense",
+   "name": "The Incense Road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Shabwa",
+     47.0,
+     14.9
+    ],
+    [
+     "Timna",
+     45.9,
+     14.6
+    ],
+    [
+     "Marib",
+     45.33,
+     15.42
+    ],
+    [
+     "Najran",
+     44.13,
+     17.5
+    ],
+    [
+     "Yathrib",
+     39.61,
+     24.47
+    ],
+    [
+     "Dedan",
+     37.9,
+     26.6
+    ],
+    [
+     "Petra",
+     35.44,
+     30.33
+    ],
+    [
+     "Gaza",
+     34.46,
+     31.5
+    ]
+   ]
+  },
+  {
+   "id": "royal_road",
+   "name": "The Royal Road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Ephesos",
+     27.34,
+     37.94
+    ],
+    [
+     "Sardis",
+     28.04,
+     38.49
+    ],
+    [
+     "Gordion",
+     31.99,
+     39.65
+    ],
+    [
+     "Ancyra",
+     32.86,
+     39.93
+    ],
+    [
+     "Mazaca",
+     35.49,
+     38.72
+    ],
+    [
+     "Melitene",
+     38.3,
+     38.35
+    ],
+    [
+     "Nisibis",
+     41.22,
+     37.07
+    ],
+    [
+     "Arbela",
+     44.0,
+     36.19
+    ],
+    [
+     "Susa",
+     48.26,
+     32.19
+    ]
+   ]
+  },
+  {
+   "id": "great_road",
+   "name": "The Great Road to the east",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Antioch",
+     36.16,
+     36.2
+    ],
+    [
+     "Zeugma",
+     37.87,
+     37.06
+    ],
+    [
+     "Dura-Europos",
+     40.73,
+     34.75
+    ],
+    [
+     "Seleucia on the Tigris",
+     44.52,
+     33.1
+    ],
+    [
+     "Ecbatana",
+     48.52,
+     34.8
+    ],
+    [
+     "Rhagae",
+     51.43,
+     35.6
+    ],
+    [
+     "Hecatompylos",
+     54.3,
+     36.2
+    ],
+    [
+     "Towards Bactria and China",
+     55.0,
+     36.6
+    ]
+   ]
+  },
+  {
+   "id": "palmyra",
+   "name": "The Palmyrene desert road",
+   "kind": "land",
+   "from": -50,
+   "points": [
+    [
+     "Damascus",
+     36.3,
+     33.51
+    ],
+    [
+     "Palmyra",
+     38.27,
+     34.55
+    ],
+    [
+     "Dura-Europos",
+     40.73,
+     34.75
+    ]
+   ]
+  },
+  {
+   "id": "tigris",
+   "name": "The Tigris and Euphrates",
+   "kind": "river",
+   "from": -300,
+   "points": [
+    [
+     "Seleucia on the Tigris",
+     44.52,
+     33.1
+    ],
+    [
+     "Babylon",
+     44.42,
+     32.54
+    ],
+    [
+     "Uruk",
+     45.64,
+     31.32
+    ],
+    [
+     "Charax Spasinou",
+     47.9,
+     30.5
+    ]
+   ]
+  },
+  {
+   "id": "nile",
+   "name": "The Nile",
+   "kind": "river",
+   "from": -300,
+   "points": [
+    [
+     "Alexandria",
+     29.9,
+     31.2
+    ],
+    [
+     "Memphis",
+     31.25,
+     29.85
+    ],
+    [
+     "Hermopolis",
+     30.8,
+     27.78
+    ],
+    [
+     "Thebes",
+     32.65,
+     25.7
+    ],
+    [
+     "Syene",
+     32.9,
+     24.09
+    ],
+    [
+     "Napata",
+     31.82,
+     18.53
+    ],
+    [
+     "Meroe",
+     33.75,
+     16.94
+    ]
+   ]
+  },
+  {
+   "id": "coptos",
+   "name": "The desert road to the Red Sea",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Coptos",
+     32.81,
+     26.0
+    ],
+    [
+     "Myos Hormos",
+     34.24,
+     26.16
+    ]
+   ]
+  },
+  {
+   "id": "amber",
+   "name": "The Amber Road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Aquileia",
+     13.37,
+     45.77
+    ],
+    [
+     "Emona",
+     14.5,
+     46.05
+    ],
+    [
+     "Poetovio",
+     15.87,
+     46.42
+    ],
+    [
+     "Carnuntum",
+     16.86,
+     47.9
+    ]
+   ]
+  },
+  {
+   "id": "tin",
+   "name": "The Rhône tin road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Massalia",
+     5.37,
+     43.3
+    ],
+    [
+     "Arelate",
+     4.63,
+     43.68
+    ],
+    [
+     "Lugdunum",
+     4.83,
+     45.76
+    ],
+    [
+     "Vesontio",
+     6.02,
+     47.24
+    ],
+    [
+     "Towards Britain",
+     5.0,
+     47.95
+    ]
+   ]
+  },
+  {
+   "id": "aquitaine",
+   "name": "The Aude and Garonne road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Narbo",
+     3.0,
+     43.18
+    ],
+    [
+     "Tolosa",
+     1.44,
+     43.6
+    ],
+    [
+     "Burdigala",
+     -0.58,
+     44.84
+    ]
+   ]
+  },
+  {
+   "id": "danube",
+   "name": "The Danube",
+   "kind": "river",
+   "from": -300,
+   "points": [
+    [
+     "Carnuntum",
+     16.86,
+     47.9
+    ],
+    [
+     "Aquincum",
+     19.04,
+     47.56
+    ],
+    [
+     "Singidunum",
+     20.46,
+     44.8
+    ],
+    [
+     "Oescus",
+     24.47,
+     43.7
+    ],
+    [
+     "Istros",
+     28.7,
+     44.55
+    ]
+   ]
+  },
+  {
+   "id": "garamantes",
+   "name": "The Garamantian road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Oea",
+     13.18,
+     32.9
+    ],
+    [
+     "Garama",
+     13.1,
+     26.6
+    ],
+    [
+     "Towards Lake Chad",
+     13.5,
+     13.0
+    ]
+   ]
+  },
+  {
+   "id": "caucasus",
+   "name": "The Caucasus road",
+   "kind": "land",
+   "from": -300,
+   "points": [
+    [
+     "Phasis",
+     41.67,
+     42.15
+    ],
+    [
+     "Armazi",
+     44.6,
+     41.84
+    ],
+    [
+     "Kabala",
+     47.85,
+     40.97
+    ],
+    [
+     "The Caspian shore",
+     49.5,
+     40.4
+    ]
+   ]
+  },
+  {
+   "id": "via_appia",
+   "name": "The Via Appia",
+   "kind": "land",
+   "from": -312,
+   "points": [
+    [
+     "Rome",
+     12.48,
+     41.89
+    ],
+    [
+     "Capua",
+     14.25,
+     41.08
+    ],
+    [
+     "Beneventum",
+     14.78,
+     41.13
+    ],
+    [
+     "Venusia",
+     15.81,
+     40.96
+    ],
+    [
+     "Tarentum",
+     17.24,
+     40.47
+    ],
+    [
+     "Brundisium",
+     17.94,
+     40.63
+    ]
+   ]
+  },
+  {
+   "id": "via_egnatia",
+   "name": "The Via Egnatia",
+   "kind": "land",
+   "from": -146,
+   "points": [
+    [
+     "Epidamnos",
+     19.45,
+     41.32
+    ],
+    [
+     "Lychnidos",
+     20.8,
+     41.12
+    ],
+    [
+     "Pella",
+     22.52,
+     40.76
+    ],
+    [
+     "Thessalonike",
+     22.94,
+     40.64
+    ],
+    [
+     "Amphipolis",
+     23.84,
+     40.82
+    ],
+    [
+     "Byzantium",
+     28.98,
+     41.01
+    ]
+   ]
+  },
+  {
+   "id": "via_domitia",
+   "name": "The Via Domitia",
+   "kind": "land",
+   "from": -118,
+   "points": [
+    [
+     "Arelate",
+     4.63,
+     43.68
+    ],
+    [
+     "Nemausus",
+     4.36,
+     43.84
+    ],
+    [
+     "Narbo",
+     3.0,
+     43.18
+    ],
+    [
+     "Emporion",
+     3.12,
+     42.13
+    ]
+   ]
+  },
+  {
+   "id": "west_sahara",
+   "name": "The western Sahara crossing",
+   "kind": "land",
+   "from": 750,
+   "points": [
+    [
+     "Fes",
+     -5.0,
+     34.03
+    ],
+    [
+     "Sijilmasa",
+     -4.3,
+     31.3
+    ],
+    [
+     "Towards Awdaghust",
+     -9.9,
+     22.0
+    ]
+   ]
+  },
+  {
+   "id": "hajj",
+   "name": "The pilgrim road of Zubaida",
+   "kind": "land",
+   "from": 780,
+   "points": [
+    [
+     "Kufa",
+     44.4,
+     32.0
+    ],
+    [
+     "Fayd",
+     41.5,
+     27.1
+    ],
+    [
+     "Medina",
+     39.61,
+     24.47
+    ],
+    [
+     "Mecca",
+     39.83,
+     21.42
+    ]
+   ]
+  },
+  {
+   "id": "venetian",
+   "name": "The Venetian galley route",
+   "kind": "sea",
+   "from": 1000,
+   "points": [
+    [
+     "Venice",
+     12.33,
+     45.44
+    ],
+    [
+     "Ragusa",
+     18.09,
+     42.65
+    ],
+    [
+     "Modon",
+     21.7,
+     36.8
+    ],
+    [
+     "Candia",
+     25.13,
+     35.34
+    ],
+    [
+     "Acre",
+     35.07,
+     32.92
+    ]
+   ]
+  },
+  {
+   "id": "genoese",
+   "name": "The Genoese Black Sea route",
+   "kind": "sea",
+   "from": 1261,
+   "points": [
+    [
+     "Genoa",
+     8.93,
+     44.4
+    ],
+    [
+     "Chios",
+     26.14,
+     38.37
+    ],
+    [
+     "Pera",
+     28.97,
+     41.03
+    ],
+    [
+     "Caffa",
+     35.38,
+     45.03
+    ],
+    [
+     "Tana",
+     39.26,
+     47.27
+    ]
+   ]
+  },
+  {
+   "id": "suez",
+   "name": "The Suez Canal",
+   "kind": "sea",
+   "from": 1869,
+   "points": [
+    [
+     "Port Said",
+     32.3,
+     31.26
+    ],
+    [
+     "Suez",
+     32.55,
+     29.97
+    ]
+   ]
+  }
+ ]
+}

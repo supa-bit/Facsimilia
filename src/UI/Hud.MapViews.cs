@@ -41,6 +41,7 @@ public partial class Hud
         _mapViewMenu.Clear();
         _mapViewKeys.Clear();
         AddView("Political map", MapView.PoliticalView);
+        AddView("Trade routes", MapView.TradeView);
         if (_map.RegionsAvailable)
             AddView("Regions", MapView.RegionsView);
         if (_map.LandAvailable)

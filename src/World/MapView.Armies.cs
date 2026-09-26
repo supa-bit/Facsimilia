@@ -161,6 +161,7 @@ public partial class MapView
     /// <summary>Keeps army markers the same size on screen at any zoom.</summary>
     void ScaleArmyMarkers()
     {
+        ScaleRouteLines();
         if (_armyLayer == null || _camera == null)
             return;
         float s = 0.09f / Math.Max(_camera.Zoom.X, 0.05f);

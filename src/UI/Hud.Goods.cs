@@ -85,6 +85,14 @@ public partial class Hud
 
     static string Loads(double x) => Math.Abs(x) >= 100 ? ThemeAncient.GroupThousands((long)Math.Round(x)) : x.ToString("0.#");
 
+    string RoutesLine(RealmGoods goods)
+    {
+        var mine = _map.RouteHolders().Where(r => r.Owners.Contains(_map.PlayerRealmId)).Select(r => r.Route.Name).ToList();
+        return (mine.Count > 0 ? $"Your trade routes: {string.Join(", ", mine)}." : "You hold no place on a trade route: you trade only through your neighbours.") +
+            (goods.TransitIncome > 0 ? $" Goods passing through your lands pay {_map.Money(goods.TransitIncome / 6000)} a year in tolls." : "") +
+            " (See them on the map: Trade routes.)\n";
+    }
+
     void RefreshGoodsPanel()
     {
         if (!_goodsPanel.Visible)
@@ -106,6 +114,7 @@ public partial class Hud
             ". Taxes are a share of this.\n" +
             $"Trade: you sell goods worth {_map.Money(goods.ExportIncome / 6000)} and buy {_map.Money(goods.ImportCost / 6000)} a year " +
             $"with {goods.Partners.Count} realms (your tolls and customs take {Trade.CustomsRate:P0}).\n" +
+            RoutesLine(goods) +
             $"Your people have {goods.Satisfaction:P0} of what they need" +
             (goods.Satisfaction < 0.8 ? " - want breeds unrest." : ".") +
             (shortages.Count > 0 ? $"\nStill short of: {string.Join(", ", shortages)}." : "") +

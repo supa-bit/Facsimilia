@@ -7,8 +7,8 @@ namespace Facsimilia.Game;
 /// <summary>
 /// Trade between realms (MECHANICS.md, "Trade"): once a year, each realm
 /// offers what it has spare and asks for what its people lack, and buys it
-/// from its trading partners: realms it borders by land, and, for coastal
-/// realms, every other coastal realm by sea. Realms at war don't trade.
+/// from its trading partners: realms it borders by land, and realms on the
+/// same trade route (decision "Playable 8"). Realms at war don't trade.
 /// Each good has one price, higher where it is scarce. Goods from beyond
 /// the map arrive in the realms holding the regions where their routes
 /// enter, and travel on only by trade.
@@ -28,7 +28,8 @@ public static class Trade
     /// beyond the map. Returns each good's price factor (1 = its usual price).
     /// </summary>
     public static double[] Run(GoodsCatalog cat, Dictionary<int, RealmGoods> realms,
-        Func<int, IEnumerable<int>> partners, Func<GoodDef, int, double>? beyondShare = null)
+        Func<int, IEnumerable<int>> partners, Func<GoodDef, int, double>? beyondShare = null,
+        List<(int From, int To, double Value)>? flows = null)
     {
         int n = cat.Goods.Count;
         var priceFactor = new double[n];
@@ -36,7 +37,7 @@ public static class Trade
         {
             Array.Clear(rg.Imported);
             Array.Clear(rg.Exported);
-            rg.ImportCost = rg.ExportIncome = 0;
+            rg.ImportCost = rg.ExportIncome = rg.TransitIncome = 0;
             rg.Partners.Clear();
             foreach (int p in partners(id))
                 if (p != id && realms.ContainsKey(p))
@@ -90,6 +91,7 @@ public static class Trade
                 realms[to].Imported[k] += q;
                 realms[from].ExportIncome += q * price;
                 realms[to].ImportCost += q * price;
+                flows?.Add((from, to, q * price));
             }
         }
         foreach (var rg in realms.Values)
@@ -110,5 +112,6 @@ public static class Trade
     }
 
     /// <summary>What the state takes from a realm's trade this year, talents.</summary>
-    public static double Customs(RealmGoods g) => (g.ExportIncome + g.ImportCost) * CustomsRate * (1 + g.TradeBonus) / 6000.0;
+    public static double Customs(RealmGoods g) =>
+        ((g.ExportIncome + g.ImportCost) * CustomsRate + g.TransitIncome) * (1 + g.TradeBonus) / 6000.0;
 }

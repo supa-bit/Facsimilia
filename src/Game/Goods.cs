@@ -127,6 +127,8 @@ public sealed class RealmGoods
     /// <summary>Silver paid for imports and earned from exports, drachmae.</summary>
     public double ImportCost { get; set; }
     public double ExportIncome { get; set; }
+    /// <summary>Tolls taken on goods passing along a route through the realm, same units as ExportIncome.</summary>
+    public double TransitIncome { get; set; }
     /// <summary>Share of people's needs met, by value (1 = everything they need).</summary>
     public double Satisfaction { get; set; } = 1;
     public HashSet<int> Partners { get; } = new();

@@ -1647,6 +1647,31 @@ Decisions "Playable 4" and "28".
   drachms; Gallic gold staters; Kushite gold by weight. The Treasury
   panel shows the silver in each coin so sums can be compared.
 
+## Trade routes **(built, 26 Sep 2026)**
+
+Decision "Playable 8".
+
+- **Routes** (`data/trade_routes.json`): 35 historical routes, each a
+  chain of real ports and towns: sea lanes (the western lane, the
+  Tyrrhenian lane, the Sicilian channel, the Aegean, the Levant, the
+  Straits and the Black Sea, the Adriatic, the Red Sea, the Gulf, the
+  Atlantic coast), roads (the Incense Road, the Royal Road, the Great
+  Road to the east, the Amber Road, the Rhone tin road, the Via Appia),
+  and rivers (the Nile, the Tigris and Euphrates, the Danube). Later
+  routes open in their year: the Via Egnatia (146 BC), the Venetian
+  galleys (1000), the Genoese Black Sea route (1261), the Suez Canal
+  (1869).
+- **Who trades with whom**: a realm holds a place on a route if its land
+  lies within 45 km of it. Realms linked by a shared border or a shared
+  route trade directly; goods also pass along chains of up to three
+  links through middlemen. Realms at war don't trade.
+- **Tolls**: each realm that goods pass through (a middleman, or the
+  holder of the places between buyer and seller on a route) takes 2% of
+  their value. Holding a busy crossroads pays.
+- **On the map**: the "Trade routes" map view draws them: sea lanes
+  pale blue, roads gold, rivers blue-green. The Goods panel lists your
+  routes and your tolls.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

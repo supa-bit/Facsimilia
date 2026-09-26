@@ -36,8 +36,16 @@ public partial class TradeTest : TestRunner
             Check(realms.All(r => r.Exported[g.Index] <= r.Produced[g.Index] - r.Used[g.Index] + 1e-6),
                 $"someone sells more {g.Id} than it made");
         }
-        Check(realms.All(r => r.Satisfaction > 0.75), "trade should meet most of every realm's needs");
+        Check(realms.All(r => r.Satisfaction > 0.75), "trade should meet most of every realm's needs: " +
+            string.Join(", ", map.CivRealmIds.Select(kv => $"{kv.Key} {map.CensusOf(kv.Value).Goods!.Satisfaction:P0} ({map.CensusOf(kv.Value).Goods!.Partners.Count} partners)")) +
+            "; routes: " + string.Join("; ", map.RouteHolders().Select(r => r.Route.Id + " " + string.Join(",", r.Owners))));
         Check(realms.Sum(r => r.ExportIncome) > 0, "no trade happened");
+        var holders = map.RouteHolders();
+        Check(holders.Any(r => r.Route.Id == "nile" && r.Owners.Contains(map.CivRealmIds["egypt"]) && r.Owners.Contains(map.CivRealmIds["kush"])),
+            "Egypt and Kush should share the Nile");
+        Check(holders.All(r => r.Route.From <= map.DemoYear) && !holders.Any(r => r.Route.Id == "suez"), "only routes open in 300 BC");
+        Check(realms.Any(r => r.TransitIncome > 0), "middlemen should take tolls on goods passing through");
+        Check(map.CensusOf(map.CivRealmIds["kush"]).Goods!.Partners.Count > 1, "Kush should reach beyond Egypt through Egyptian middlemen");
         var silk = cat["silk"].Index;
         Check(map.CensusOf(seleucid).Goods!.Produced[silk] > 0, "silk should arrive in the Seleucid east");
         Check(map.CensusOf(rome).Goods!.Produced[silk] == 0, "no silk grows in Italy");
