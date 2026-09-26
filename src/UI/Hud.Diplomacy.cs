@@ -51,6 +51,7 @@ public partial class Hud
         _diplomacyPanel.OffsetLeft = _diplomacyPanel.OffsetRight = 20;
         _diplomacyPanel.OffsetTop = _diplomacyPanel.OffsetBottom = 80;
         AddChild(_diplomacyPanel);
+        Float(_diplomacyPanel, "Diplomacy");
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 8);
         _diplomacyPanel.AddChild(box);

@@ -55,6 +55,7 @@ public partial class Hud
         label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         header.AddChild(label);
         header.AddChild(IconButton(null, "×", "Close", close));
+        Float(panel, title);
         return panel;
     }
 

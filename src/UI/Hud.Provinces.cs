@@ -72,6 +72,7 @@ public partial class Hud
         _provincePanel.OffsetLeft = _provincePanel.OffsetRight = -20;
         _provincePanel.OffsetTop = _provincePanel.OffsetBottom = 80;
         AddChild(_provincePanel);
+        Float(_provincePanel, "Province");
 
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 8);

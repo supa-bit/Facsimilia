@@ -47,6 +47,7 @@ public partial class Hud
         _goodsPanel.OffsetLeft = _goodsPanel.OffsetRight = 20;
         _goodsPanel.OffsetTop = _goodsPanel.OffsetBottom = 80;
         AddChild(_goodsPanel);
+        Float(_goodsPanel, "Goods");
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 8);
         _goodsPanel.AddChild(box);

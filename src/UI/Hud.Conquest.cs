@@ -34,6 +34,7 @@ public partial class Hud
         _conquestPanel.OffsetLeft = _conquestPanel.OffsetRight = -20;
         _conquestPanel.OffsetTop = _conquestPanel.OffsetBottom = 80;
         AddChild(_conquestPanel);
+        Float(_conquestPanel, "Conquest");
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 8);
         _conquestPanel.AddChild(box);

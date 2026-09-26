@@ -61,6 +61,7 @@ public partial class Hud
         _realmPanel.OffsetLeft = _realmPanel.OffsetRight = 20;
         _realmPanel.OffsetTop = _realmPanel.OffsetBottom = 80;
         AddChild(_realmPanel);
+        Float(_realmPanel, "Treasury");
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 8);
         _realmPanel.AddChild(box);

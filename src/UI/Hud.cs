@@ -121,6 +121,7 @@ public partial class Hud : Control
         _chronicle = new VBoxContainer();
         _chronicle.AddThemeConstantOverride("separation", 4);
         vbox.AddChild(_chronicle);
+        Float(panel, "Chronicle");
     }
 
     void BuildTurnControls()
@@ -164,7 +165,7 @@ public partial class Hud : Control
         box.AddChild(turnRow);
         turnRow.AddChild(BuildTurnLength());
         turnRow.AddChild(advance);
-        box.AddChild(ThemeAncient.Label("Scroll to zoom · Drag or WASD to pan · 1-3 map modes · Esc for menu", "SmallLabel", 14,
+        box.AddChild(ThemeAncient.Label("Scroll to zoom · Drag or WASD to pan · Drag any panel to move it · Esc for menu", "SmallLabel", 14,
             HorizontalAlignment.Right));
     }
 

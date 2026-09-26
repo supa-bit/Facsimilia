@@ -1703,6 +1703,12 @@ Decisions "Playable 1", "20" and "30".
   neighbour or runs out of reach. Land no one reaches (the Sahara, inner
   Arabia, the high Alps) stays unclaimed. The old third-party (GPL)
   border data is gone.
+  The race runs on a coarse grid, then each realm's share is blurred
+  slightly and scaled up smoothly, so borders are curves, not stairs.
+- **Floating panels**: every panel (the chronicle, the province panel,
+  the treasury, goods, diplomacy, research, armies, goals...) can be
+  dragged by any empty spot to anywhere on the screen, comes to the
+  front when clicked, and keeps its place between games.
 - **The world after Ipsus (301 BC)**: Antigonos is dead; his son
   Demetrios keeps a sea kingdom (Cyprus, Tyre, Sidon, Corinth, the
   Peloponnese garrisons, the islands). Lysimachos holds Thrace and

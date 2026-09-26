@@ -91,7 +91,9 @@ public partial class MapView
             if (info != null && c.Regions.TryGetValue(info.Name, out var r))
                 return r;
         }
-        return ("", "");
+        // Outside every region (a small island, a coastal sliver): the people of the realm that holds it.
+        string key = CivRealmIds.FirstOrDefault(kv => kv.Value == p.RealmId).Key ?? "";
+        return c.RealmCulture.TryGetValue(key, out var rc) ? (rc, "") : ("", "");
     }
 
     public ProvinceState ProvinceStateOf(int provinceId)

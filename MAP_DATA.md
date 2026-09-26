@@ -13,7 +13,8 @@ historical districts each held in 300 BC (613 places with longitude and
 latitude, from the Barrington Atlas and the standard histories).
 `tools/build_realm_mask.py` grows every district over the land at once,
 slowed by mountains, marsh and desert and barely crossing narrow straits,
-until it meets a neighbour or runs out of reach, and bakes
+until it meets a neighbour or runs out of reach (on a quarter-size grid,
+then blurred slightly and scaled up smoothly so borders are curves), and bakes
 `data/political_mask.png` on the 8192 x 5476 grid (longitude -10 to 55,
 latitude 48 to 10). Land no district reaches (the Sahara, the Arabian
 interior, the high Alps) stays unclaimed. The cell counts per realm are

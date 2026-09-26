@@ -83,9 +83,32 @@ def main():
                     heapq.heappush(heap, (nc, j, code, di))
     owner = owner.reshape(h, w)
     owner[~land] = 0
-    # Scale up and fit to the full-resolution coastline: coastal land left out takes its nearest owner.
+    # Scale up smoothly: each realm's share of the land is blurred a little at
+    # the coarse size, enlarged with smooth (bilinear) scaling, and every
+    # fine cell goes to the realm with the largest share there. Borders come
+    # out as curves instead of four-cell stairs.
+    from scipy.ndimage import gaussian_filter, map_coordinates
+    ys = (np.arange(H) + 0.5) / SCALE - 0.5
+    xs = (np.arange(W) + 0.5) / SCALE - 0.5
+    best_val = np.zeros((H, W), dtype=np.float32)
     big = np.zeros((H, W), dtype=np.int32)
-    big[:h * SCALE, :w * SCALE] = np.repeat(np.repeat(owner, SCALE, axis=0), SCALE, axis=1)
+    codes = [c for c in np.unique(owner) if c != 0]
+    for code in codes:
+        m = (owner == code)
+        ys_i, xs_i = np.nonzero(m)
+        y0, y1 = max(0, ys_i.min() - 4), min(h, ys_i.max() + 5)
+        x0, x1 = max(0, xs_i.min() - 4), min(w, xs_i.max() + 5)
+        share = gaussian_filter(m[y0:y1, x0:x1].astype(np.float32), 0.9)
+        fy0, fy1 = max(0, y0 * SCALE - SCALE), min(H, y1 * SCALE + SCALE)
+        fx0, fx1 = max(0, x0 * SCALE - SCALE), min(W, x1 * SCALE + SCALE)
+        gy, gx = np.meshgrid(ys[fy0:fy1] - y0, xs[fx0:fx1] - x0, indexing='ij')
+        v = map_coordinates(share, [gy, gx], order=1, mode='constant', cval=0).astype(np.float32)
+        region = best_val[fy0:fy1, fx0:fx1]
+        win = v > region
+        region[win] = v[win]
+        big[fy0:fy1, fx0:fx1][win] = code
+    big[best_val < 0.2] = 0          # the edge of claimed land, where no realm has a real share
+    # Fit to the full-resolution coastline: coastal land left out takes its nearest owner.
     missing = full & (big == 0)
     dist, (iy, ix) = distance_transform_edt(big == 0, return_indices=True)
     fill = missing & (dist <= 3 * SCALE)
