@@ -1205,9 +1205,10 @@ are **loads**: what one person makes in a year of full work on ideal land.
 
 ### Trade **(built, 25 Sep 2026)**
 
-- **Who trades**: each realm with the realms it borders by land and, if
-  it has a coast, with every other coastal realm by sea. Realms at war
-  don't trade.
+- **Who trades**: realms linked by a border or a trade route, and
+  through middlemen (see "Trade routes" below; this replaced the first
+  rule, where every coastal realm traded with every other). Realms at
+  war don't trade.
 - **What**: once a year each realm offers what it can spare (after its
   own people and crafts) and asks for what its people lack. A seller
   shares its spare goods among its partners in proportion to what they
