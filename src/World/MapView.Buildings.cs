@@ -59,7 +59,7 @@ public partial class MapView
                 _ => "Can't be built here.",
             };
         if (realm.Treasury < b.Cost)
-            return $"Not enough silver: {b.Cost:0} talents needed.";
+            return $"Not enough silver: {Money(b.Cost)} needed.";
         return null;
     }
 
@@ -357,7 +357,7 @@ public partial class MapView
             int friend = BestFriend();
             Game.Realm(friend).Treasury -= silver;
             s.Treasury += silver;
-            return $"{RealmName(friend)} sends {silver:N0} talents to help.";
+            return $"{RealmName(friend)} sends {Money(silver)} to help.";
         }
         s.Treasury += silver;
         if (s.Debt > 0)
@@ -367,6 +367,6 @@ public partial class MapView
             s.Treasury -= repay;
         }
         s.RemedyYears[remedy.Id] = remedy.Years;
-        return $"{RealmName(PlayerRealmId)}: {remedy.Name.ToLowerInvariant()} ({silver:N0} talents).";
+        return $"{RealmName(PlayerRealmId)}: {remedy.Name.ToLowerInvariant()} ({Money(silver)}).";
     }
 }

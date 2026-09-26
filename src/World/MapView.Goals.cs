@@ -68,7 +68,7 @@ public partial class MapView
                 return (Math.Min(1, c.Provinces / g.Target), $"{c.Provinces} of {g.Target:0} provinces");
             case "treasury":
                 return (s.Debt > 0.5 ? Math.Min(0.99, s.Treasury / g.Target) : Math.Min(1, s.Treasury / g.Target),
-                    $"{s.Treasury:N0} of {g.Target:N0} talents" + (s.Debt > 0.5 ? $", but {s.Debt:N0} in debt" : ""));
+                    $"{Money(s.Treasury)} of {Money(g.Target)}" + (s.Debt > 0.5 ? $", but {Money(s.Debt)} in debt" : ""));
             case "survive":
                 bool alive = c.Nodes > 0;
                 if (!alive)
@@ -96,7 +96,7 @@ public partial class MapView
         list.Add(("Land", c.Provinces + area / 20000, $"{c.Provinces} provinces, {area:N0} km²"));
         var (tax, trib) = Economy.Revenue(c, s.Tax);
         list.Add(("Wealth", Math.Max(0, s.Treasury - s.Debt) / 1000 + (tax + trib) / 500,
-            $"{Math.Max(0, s.Treasury - s.Debt):N0} talents saved, {tax + trib:N0} a year"));
+            $"{Money(Math.Max(0, s.Treasury - s.Debt))} saved, {Money(tax + trib)} a year"));
         int buildings = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => ProvinceStateOf(p.Id).Buildings.Values.Sum()) ?? 0;
         var mine = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).ToList() ?? new List<Province>();
         double integration = mine.Count > 0 ? mine.Average(p => ProvinceStateOf(p.Id).Integration) : 0;
@@ -130,7 +130,7 @@ public partial class MapView
             if (s.GoalsDone.ContainsKey(g.Id) || GoalProgress(PlayerRealmId, g).Progress < 1)
                 continue;
             s.GoalsDone[g.Id] = DemoYear;
-            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"Goal reached: {g.Text} (+{g.Points} points)."));
+            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"Goal reached: {GoalText(g)} (+{g.Points} points)."));
         }
         return events;
     }

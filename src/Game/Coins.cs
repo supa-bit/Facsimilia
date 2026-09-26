@@ -47,6 +47,12 @@ public sealed class CoinCatalog
     /// <summary>How many of a coin a sum in talents of silver makes.</summary>
     public double Coins(double talents, Coin coin) => talents * TalentGrams / coin.Grams;
 
+    /// <summary>Kilograms of silver in a sum (the base every coin is measured against).</summary>
+    public double Kg(double talents) => talents * TalentGrams / 1000;
+
+    /// <summary>How many of coin b one of coin a is worth, by the silver in each.</summary>
+    public static double Rate(Coin a, Coin b) => a.Grams / b.Grams;
+
     /// <summary>A short count: 4.7M, 47k, 470.</summary>
     public static string Short(double n)
     {

@@ -312,7 +312,7 @@ public partial class MapView
         if (parts.Count > 0)
             what.Add($"{RealmName(loser)} cedes {string.Join(", ", parts)}");
         if (paid > 0)
-            what.Add($"pays {paid:N0} talents");
+            what.Add($"pays {Money(paid)}");
         if (terms.Vassal)
             what.Add($"{RealmName(loser)} becomes a vassal of {RealmName(winner)}");
         return text + (what.Count > 0 ? ": " + string.Join("; ", what) + "." : ". Each keeps what it holds.");
@@ -339,7 +339,7 @@ public partial class MapView
                 {
                     PlayerState.Treasury += offer.Silver;
                     Game.Realm(offer.From).Treasury = Math.Max(0, Game.Realm(offer.From).Treasury - offer.Silver);
-                    text += $" They pay {offer.Silver:N0} talents.";
+                    text += $" They pay {Money(offer.Silver)}.";
                 }
                 return text;
             }
@@ -349,7 +349,7 @@ public partial class MapView
                 PlayerState.Treasury += offer.Silver;
                 Game.Realm(offer.From).Treasury = Math.Max(0, Game.Realm(offer.From).Treasury - offer.Silver);
                 string name = Provinces?.Provinces.TryGetValue(offer.SiegeProvince, out var p) == true ? p.Name : "the city";
-                return $"You take {offer.Silver:N0} talents from {name} and lift the siege.";
+                return $"You take {Money(offer.Silver)} from {name} and lift the siege.";
             }
             case "alliance":
                 Game.Treaties.Add(new Treaty(TreatyKind.Alliance, PlayerRealmId, offer.From, DemoYear));
@@ -487,7 +487,7 @@ public partial class MapView
                 offer.Provinces.Add(s.ProvinceId);
             Game.Offers.Add(offer);
             events.Add(new ChronicleEvent(ChronicleKind.Peace, me,
-                $"{RealmName(enemy)} sues for peace" + (offer.Silver > 0 ? $", offering {offer.Silver:N0} talents" : "") +
+                $"{RealmName(enemy)} sues for peace" + (offer.Silver > 0 ? $", offering {Money(offer.Silver)}" : "") +
                 (offer.Provinces.Count > 0 ? " and the places you besiege" : "") + ". (Diplomacy: accept or fight on.)"));
         }
         // A city under siege may buy you off.
@@ -499,8 +499,8 @@ public partial class MapView
             if (ransom < 10 || Game.Realm(s.Owner).Treasury < ransom)
                 continue;
             Game.Offers.Add(new Offer { Kind = "ransom", From = s.Owner, Year = DemoYear, Silver = ransom, SiegeProvince = s.ProvinceId,
-                Text = $"The people of {s.Name} offer {ransom:N0} talents if you lift the siege" });
-            events.Add(new ChronicleEvent(ChronicleKind.War, me, $"The people of {s.Name} offer {ransom:N0} talents if you lift the siege. (Diplomacy.)"));
+                Text = $"The people of {s.Name} offer {Money(ransom)} if you lift the siege" });
+            events.Add(new ChronicleEvent(ChronicleKind.War, me, $"The people of {s.Name} offer {Money(ransom)} if you lift the siege. (Diplomacy.)"));
         }
         // Friends facing a common enemy offer an alliance.
         foreach (int other in census.Keys.Where(r => r != me && !Game.Treaties.Allied(r, me) && !Game.Wars.AtWar(r, me)))

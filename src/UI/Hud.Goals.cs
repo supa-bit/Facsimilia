@@ -162,8 +162,8 @@ public partial class Hud
             bool done = s.GoalsDone.TryGetValue(g.Id, out int year);
             var (progress, detail) = _map.GoalProgress(_map.PlayerRealmId, g);
             var label = ThemeAncient.Label(
-                (done ? $"✓ {g.Text} (+{g.Points}, reached {ThemeAncient.YearText(year)})"
-                      : $"○ {g.Text} (+{g.Points}): {progress:P0} - {detail}"), fontSize: 17);
+                (done ? $"✓ {_map.GoalText(g)} (+{g.Points}, reached {ThemeAncient.YearText(year)})"
+                      : $"○ {_map.GoalText(g)} (+{g.Points}): {progress:P0} - {detail}"), fontSize: 17);
             label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
             label.CustomMinimumSize = new Vector2(580, 0);
             if (done)

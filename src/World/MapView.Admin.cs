@@ -19,7 +19,27 @@ public partial class MapView
     public Coin CoinOf(int realmId) =>
         CoinCatalog.Instance.For(CivRealmIds.FirstOrDefault(kv => kv.Value == realmId).Key, DemoYear);
 
-    /// <summary>A sum in talents of silver, told in the player's coin: "4.7M denarii".</summary>
+    /// <summary>A goal's text, with its silver shown in the player's coin.</summary>
+    public string GoalText(GoalDef g) => g.Text.Replace("{silver}", Money(g.Target));
+
+    /// <summary>Silver by weight: "20,600 kg of silver".</summary>
+    public string SilverKg(double talents) => $"{CoinCatalog.Instance.Kg(talents):N0} kg of silver";
+
+    /// <summary>
+    /// What the player's coin is worth in the coins of the realms it deals
+    /// with, by the silver in each: "1 didrachm = 0.42 tetradrachms (Seleucid Kingdom)".
+    /// </summary>
+    public List<string> ExchangeRates(IEnumerable<int> realms)
+    {
+        var mine = CoinOf(PlayerRealmId);
+        return realms.Where(r => r != PlayerRealmId && Game.Realms.ContainsKey(r))
+            .GroupBy(r => CoinOf(r))
+            .Where(g => g.Key != mine)
+            .Select(g => $"{CoinCatalog.Rate(mine, g.Key):0.##} {g.Key.Name} ({string.Join(", ", g.Take(3).Select(RealmName))}{(g.Count() > 3 ? "..." : "")})")
+            .ToList();
+    }
+
+    /// <summary>A sum of silver, told in the player's coin: "4.7M denarii".</summary>
     public string Money(double talents)
     {
         var coin = CoinOf(PlayerRealmId);
@@ -134,7 +154,7 @@ public partial class MapView
             return null;
         s.Treasury -= cost;
         s.RivalStrength = Math.Max(0, s.RivalStrength - 30);
-        return $"Gifts and offices win over the rival's followers ({cost:N0} talents).";
+        return $"Gifts and offices win over the rival's followers ({Money(cost)}).";
     }
 
     public double RivalAppeaseCost()

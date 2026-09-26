@@ -1,5 +1,5 @@
 {
- "about": "Optional goals (decided: a sandbox with optional goals). Each realm has its history's ambitions plus common ones. Kinds: region (hold at least 'share' of the people living in each named region, default 60%), people_growth (people at 'factor' times the start), provinces, treasury (talents, no debt), survive (the realm still holds land in 'year'). Points add to the score.",
+ "about": "Optional goals (decided: a sandbox with optional goals). Each realm has its history's ambitions plus common ones. Kinds: region (hold at least 'share' of the people living in each named region, default 60%), people_growth (people at 'factor' times the start), provinces, treasury (silver, as talents of 26.2 kg, no debt; {silver} in a goal's text is shown in the realm's own coin), survive (the realm still holds land in 'year'). Points add to the score.",
  "score": {
   "people_per_point": 100000,
   "province_points": 1,
@@ -23,7 +23,7 @@
   },
   {
    "id": "treasury",
-   "text": "Fill the treasury: 10,000 talents and no debt",
+   "text": "Fill the treasury: {silver} and no debt",
    "kind": "treasury",
    "points": 15,
    "target": 10000
@@ -139,7 +139,7 @@
    },
    {
     "id": "treasury_ptolemy",
-    "text": "The riches of the Ptolemies: 30,000 talents",
+    "text": "The riches of the Ptolemies: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 30000
@@ -455,7 +455,7 @@
    },
    {
     "id": "amber",
-    "text": "Grow rich on the amber trade: 3,000 talents",
+    "text": "Grow rich on the amber trade: {silver}",
     "kind": "treasury",
     "points": 15,
     "target": 3000
@@ -507,7 +507,7 @@
    },
    {
     "id": "rich",
-    "text": "Grow rich on the Adriatic trade: 3,000 talents",
+    "text": "Grow rich on the Adriatic trade: {silver}",
     "kind": "treasury",
     "points": 15,
     "target": 3000
@@ -525,7 +525,7 @@
    },
    {
     "id": "rich",
-    "text": "The wealth of Taras: 8,000 talents",
+    "text": "The wealth of Taras: {silver}",
     "kind": "treasury",
     "points": 15,
     "target": 8000
@@ -554,7 +554,7 @@
   "massalia": [
    {
     "id": "rich",
-    "text": "The richest port of the west: 10,000 talents",
+    "text": "The richest port of the west: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 10000
@@ -759,7 +759,7 @@
   "rhodes": [
    {
     "id": "rich",
-    "text": "The merchant republic: 10,000 talents",
+    "text": "The merchant republic: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 10000
@@ -782,7 +782,7 @@
    },
    {
     "id": "rich",
-    "text": "Grow rich by trade and war: 3,000 talents",
+    "text": "Grow rich by trade and war: {silver}",
     "kind": "treasury",
     "points": 15,
     "target": 3000
@@ -885,7 +885,7 @@
   "byzantium": [
    {
     "id": "rich",
-    "text": "The tolls of the Bosporus: 8,000 talents",
+    "text": "The tolls of the Bosporus: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 8000
@@ -919,7 +919,7 @@
   "heraclea": [
    {
     "id": "rich",
-    "text": "The wealth of Heraclea: 5,000 talents",
+    "text": "The wealth of Heraclea: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 5000
@@ -1040,7 +1040,7 @@
    },
    {
     "id": "gold",
-    "text": "The golden fleece: 5,000 talents",
+    "text": "The golden fleece: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 5000
@@ -1067,7 +1067,7 @@
   "bosporus": [
    {
     "id": "grain",
-    "text": "Feed Greece with grain: 8,000 talents",
+    "text": "Feed Greece with grain: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 8000
@@ -1105,7 +1105,7 @@
   "lihyan": [
    {
     "id": "incense",
-    "text": "Rich from the incense road: 5,000 talents",
+    "text": "Rich from the incense road: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 5000
@@ -1130,7 +1130,7 @@
    },
    {
     "id": "incense",
-    "text": "The riches of Sheba: 10,000 talents",
+    "text": "The riches of Sheba: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 10000
@@ -1139,7 +1139,7 @@
   "main": [
    {
     "id": "incense",
-    "text": "The Minaean caravans: 5,000 talents",
+    "text": "The Minaean caravans: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 5000
@@ -1164,7 +1164,7 @@
    },
    {
     "id": "incense",
-    "text": "The riches of Qataban: 5,000 talents",
+    "text": "The riches of Qataban: {silver}",
     "kind": "treasury",
     "points": 15,
     "target": 5000
@@ -1182,7 +1182,7 @@
    },
    {
     "id": "frankincense",
-    "text": "The frankincense trade: 8,000 talents",
+    "text": "The frankincense trade: {silver}",
     "kind": "treasury",
     "points": 20,
     "target": 8000

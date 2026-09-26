@@ -125,7 +125,7 @@ public partial class MapView
             s.Treasury += s.LastCaptiveSales;
             if (id == PlayerRealmId && sold >= 1000)
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, id,
-                    $"{ThemeGroup(sold)} captives are sold in the slave markets for {s.LastCaptiveSales:N0} talents."));
+                    $"{ThemeGroup(sold)} captives are sold in the slave markets for {Money(s.LastCaptiveSales)}."));
         }
         return events;
     }

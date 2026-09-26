@@ -38,7 +38,7 @@ public static class Military
         if (NeedsMercenaries(r, u))
             cost *= MercenaryPremium;   // Carthage and the Hellenistic kings hired whole armies
         if (r.Treasury < cost)
-            return ($"Not enough silver: {cost:0} talents needed.", cost);
+            return ($"Not enough silver: {CoinCatalog.Instance.Kg(cost):N0} kg needed.", cost);
         return (null, cost);
     }
 

@@ -131,6 +131,16 @@ public partial class Hud
     string T(double talents) => CoinCatalog.Short(CoinCatalog.Instance.Coins(talents, _map.CoinOf(_map.PlayerRealmId)));
     string M(double talents) => _map.Money(talents);
 
+    /// <summary>What your coin buys in your trading partners' coins, by the silver in each.</summary>
+    string ExchangeLine()
+    {
+        var partners = _map.CensusOf(_map.PlayerRealmId).Goods?.Partners ?? new HashSet<int>();
+        var rates = _map.ExchangeRates(partners).Take(6).ToList();
+        return rates.Count == 0 ? "" :
+            $"\nExchange by the silver in each coin, 1 {_map.CoinOf(_map.PlayerRealmId).One} =" +
+            string.Concat(rates.Select(r => "\n   " + r));
+    }
+
     void RefreshTreasury()
     {
         var s = _map.PlayerState;
@@ -149,7 +159,7 @@ public partial class Hud
         double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces + c.BuildingUpkeep, interest = s.Debt * Economy.InterestRate;
         double net = tax + tribute + (c.Goods != null ? Trade.Customs(c.Goods) : 0) - upkeep - admin - interest;
         _accounts.Text =
-            $"Treasury: {M(s.Treasury)} ({s.Treasury:N0} talents of silver)" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
+            $"Treasury: {M(s.Treasury)} ({_map.SilverKg(s.Treasury)})" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
             $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}" +
             (c.Goods != null ? $"   Tolls and customs +{T(Trade.Customs(c.Goods))}" : "") + "\n" +
@@ -158,7 +168,8 @@ public partial class Hud
             (interest > 0.5 ? $"   Interest −{T(interest)}" : "") + "\n" +
             (s.LastCaptiveSales > 0.5 ? $"   Last year's sale of captives +{T(s.LastCaptiveSales)}\n" : "") +
             $"   Balance {(net >= 0 ? "+" : "−")}{M(Math.Abs(net))} a year\n" +
-            $"   (1 {_map.CoinOf(_map.PlayerRealmId).One} = {_map.CoinOf(_map.PlayerRealmId).Grams:0.#} g of silver; a talent of silver is 26.2 kg)";
+            $"   (1 {_map.CoinOf(_map.PlayerRealmId).One} = {_map.CoinOf(_map.PlayerRealmId).Grams:0.#} g of silver)" +
+            ExchangeLine();
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
         RefreshRemedies();

@@ -1641,12 +1641,16 @@ Decisions "Playable 4" and "28".
   technologies.
 - The dead are taken from the map's people; the land fills again over
   the following decades. A disaster in your lands stops a long turn.
-- **Coins** (`data/coins.json`): the treasury is kept in talents of
-  silver but shown in your realm's own coin: Roman didrachms, then
-  denarii from 211 BC (lighter over time), antoniniani, gold solidi;
-  Punic shekels; Ptolemaic and Seleucid tetradrachms; Nabataean
-  drachms; Gallic gold staters; Kushite gold by weight. The Treasury
-  panel shows the silver in each coin so sums can be compared.
+- **Coins** (`data/coins.json`): money is silver by weight, and no
+  talents appear anywhere in the game. Every sum shows in your realm's
+  own coin: Roman didrachms, then denarii from 211 BC (lighter over
+  time), antoniniani, gold solidi; Punic shekels; Ptolemaic (14.2 g) and
+  Attic-weight (17.2 g) tetradrachms; Nabataean drachms; Gallic gold
+  staters; Kushite gold by weight. The Treasury panel shows the silver
+  in kg, what one of your coins holds in grams, and what it is worth in
+  your trading partners' coins by the silver in each: if a didrachm
+  holds 7.3 g and a tetradrachm 17.2 g, 1 didrachm = 0.42
+  tetradrachms. Gold coins count at 12 times their weight in silver.
 
 ## Trade routes **(built, 26 Sep 2026)**
 
