@@ -62,6 +62,60 @@ unless the player is involved.
   enforces it). The data is fetched by a script and the baked result is
   in the repository.
 
+## Playable decisions **(answered by the designer, 26 Sep 2026)**
+
+The 32 "Playable" questions in the Ledger. Where the designer's note adds
+to the chosen option, the note wins.
+
+1. **Borders' licence: redraw the 300 BC borders ourselves** from open
+   sources, so no GPL data ships with the game.
+2. **Turns: 1, 5, 10 or 25 years**, default 1 (built).
+3. **Long turns stop at major events** concerning the player (built).
+4. **Money: each realm's own coin** (denarii, drachmae, shekels...), with
+   silver weight behind them for comparison.
+5. **Taxes: one rate you set**, with optional per-province rates.
+6. **Running out of money: historical remedies**, offered according to
+   the realm's situation at the time (borrow from temples, debase the
+   coin, confiscate, sell offices or land...).
+7. **Goods: every good matters from the start** (built).
+8. **Trade: trade routes from the start**, not a pooled market.
+9. **Armies: named armies based in provinces**, each with its own list of
+   units (so many elephants, so many pikemen, so many scout ships).
+10. **Units: every culture's own units.**
+11. **Manpower: historical shares** of people who could serve (built).
+12. **Conquest: sieges over years**, decided by the defending troops in
+    the province and the realm's overall Might against the attacker's
+    troops in its provinces and overall Might.
+13. **Limit per turn: reach and supply** (built: reach).
+14. **Sea: ships needed to cross** (built).
+15. **War: declare on anyone, but pretexts matter.** Inspired by
+    Stellaris' casus belli system, without copying it.
+16. **Peace: terms by war score**, plus war exhaustion so peace can be
+    forced. Defenders (realms and even single provinces) may offer
+    things to appease an attacker, but only when the attacker is the
+    player or history allows it.
+17. **Alliances and vassals: in the first playable version.**
+18. **History's pull on other realms: both** events at their dates and
+    goals they pursue (built: goals).
+19. **Other realms treat the player as history would** (react to threats,
+    rivals, opportunity).
+20. **Cultures: every people**, finely divided.
+21. **Integration: historical pace** (built).
+22. **Revolts: unrest builds, then revolt** (built).
+23. **City names: the Pleiades gazetteer** (CC BY).
+24. **Technology: a tech tree you choose from**: an advanced, complex web
+    of techs that unlock as time passes but must still be researched.
+25. **Empire size: administrative reach**, plus corruption and rivals, in
+    a historical but playable way.
+26. **Score: people, land, wealth, culture and dynasty**, shown separated
+    by category (like Stellaris' final score).
+27. **Goals: a starter set** (built).
+28. **Plagues, famines and disasters: history's own plus chance.**
+29. **Difficulty: none.**
+30. **Playable realms: any realm on the map.**
+31. **Province panel: essentials plus detail tabs.**
+32. **Buildings: a core set** to begin with.
+
 ## Core interaction principle: the brush stays authoritative
 
 The existing left-drag-to-paint / right-click-to-clear ownership brush

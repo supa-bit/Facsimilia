@@ -18,6 +18,27 @@ block the work that depends on them.
 4. [x] Labour and people
 5. [x] Score, goals and first-game polish
 
+## Sections 6-10 (planned 26 Sep 2026, from the Playable answers)
+
+6. [ ] **Named armies and sieges** (Playable 9, 10, 12): armies with names,
+       a home province and their own unit lists; every culture's own
+       units; conquest as sieges over years, decided by the troops in the
+       provinces and each realm's Might. Playtested through the window.
+7. [ ] **Pretexts, war exhaustion, peace terms, alliances and vassals**
+       (Playable 15, 16, 17, 19): casus belli in the spirit of Stellaris;
+       war exhaustion that can force peace; terms by war score (provinces,
+       tribute, vassalage); appeasement offers; defensive alliances and
+       vassals; other realms reacting as history would.
+8. [ ] **Buildings, province tabs, province taxes, debt remedies**
+       (Playable 5, 6, 31, 32): a core set of buildings; the province
+       panel with detail tabs; optional per-province tax rates; historical
+       remedies offered when the treasury runs dry.
+9. [ ] **Technology tree, administrative reach, corruption and rivals,
+       score by category** (Playable 24, 25, 26).
+10. [ ] **Redrawn 300 BC borders, any realm playable, trade routes, city
+       names, disasters, each realm's coin, finer cultures** (Playable 1,
+       4, 8, 20, 23, 28, 30).
+
 ## Right now
 
 Small, cheap, and they protect everything built after them.
@@ -106,14 +127,8 @@ Each step is verified on the real game before the next begins.
 ## Decisions
 
 The first fourteen were answered in the Facsimilia Ledger on 25 Sep 2026
-(the full reasoning is in MECHANICS.md, "Design decisions"). **Waiting:
-32 decisions for a first playable version** ("Playable 1-32" in the
-Ledger): the borders' licence, turns, money, taxes, debt, goods, trade,
-armies, units, manpower, conquest, the sea, war and peace, alliances, how
-bots follow history and treat the player, cultures and religions,
-integration, revolts, city names, technology, empire size, score, goals,
-disasters, difficulty, playable realms, the province panel and buildings.
-Until each is answered, the build uses its suggested option.
+(MECHANICS.md, "Design decisions"); the 32 "Playable" decisions on 26 Sep
+2026 (MECHANICS.md, "Playable decisions").
 
 - [x] **Goal**: sandbox with optional goals (play forever; a score and
       goals to chase if you want)
