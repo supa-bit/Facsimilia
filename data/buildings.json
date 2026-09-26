@@ -153,8 +153,7 @@
     "unrest": -0.05,
     "growth": 0.3
    },
-   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size.",
-   "requires": "aqueducts"
+   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size."
   }
  ]
 }

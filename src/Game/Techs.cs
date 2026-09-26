@@ -30,10 +30,17 @@ public sealed class TechCatalog
     public TechDef? this[string id] => All.FirstOrDefault(t => t.Id == id);
 
     public static readonly string[] Branches =
-        { "agriculture", "crafts", "engineering", "war", "governance", "sea", "transport", "learning", "medicine", "culture" };
+        { "agriculture", "industry", "materials", "energy", "construction", "transport", "commerce", "communication",
+          "land_war", "naval", "governance", "society", "science", "medicine", "belief" };
     public static readonly string[] BranchNames =
-        { "Agriculture", "Crafts and industry", "Engineering", "War", "Governance", "Seafaring and trade", "Transport",
-          "Learning", "Medicine", "Religion and culture" };
+        { "Agriculture and food", "Crafts and industry", "Metals and chemistry", "Power and energy", "Building and cities",
+          "Transport", "Trade and finance", "Writing and communication", "Land and air warfare", "Seafaring and navies",
+          "Government and law", "Society and ideas", "Science", "Medicine and health", "Religion and the arts" };
+
+    /// <summary>Short branch names for buttons.</summary>
+    public static readonly string[] BranchShort =
+        { "Farming", "Industry", "Metals", "Energy", "Cities", "Transport", "Trade", "Communication",
+          "Land war", "Navies", "Government", "Society", "Science", "Medicine", "Religion, arts" };
 
     public static TechCatalog Parse(string json)
     {

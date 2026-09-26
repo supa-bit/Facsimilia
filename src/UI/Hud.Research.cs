@@ -41,7 +41,22 @@ public partial class Hud
         _researchSummary.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _researchSummary.CustomMinimumSize = new Vector2(860, 0);
         box.AddChild(_researchSummary);
-        _researchTabs = new TabContainer { CustomMinimumSize = new Vector2(880, 620) };
+        // 15 branches don't fit as tabs: a grid of branch buttons picks the page instead.
+        var grid = new GridContainer { Columns = 5 };
+        grid.AddThemeConstantOverride("h_separation", 4);
+        grid.AddThemeConstantOverride("v_separation", 4);
+        box.AddChild(grid);
+        var group = new ButtonGroup();
+        for (int i = 0; i < TechCatalog.Branches.Length; i++)
+        {
+            int page = i;
+            var b = new Button { Text = TechCatalog.BranchShort[i], TooltipText = TechCatalog.BranchNames[i], ToggleMode = true, ButtonGroup = group,
+                ButtonPressed = i == 0, CustomMinimumSize = new Vector2(170, 30), ClipText = true };
+            b.AddThemeFontSizeOverride("font_size", 13);
+            b.Pressed += () => _researchTabs.CurrentTab = page;
+            grid.AddChild(b);
+        }
+        _researchTabs = new TabContainer { CustomMinimumSize = new Vector2(880, 540), TabsVisible = false };
         box.AddChild(_researchTabs);
         for (int i = 0; i < TechCatalog.Branches.Length; i++)
         {

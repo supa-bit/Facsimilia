@@ -11,8 +11,7 @@ namespace Facsimilia.Tests;
 /// consistent (every prerequisite exists); realms start knowing what their
 /// people knew in 300 BC (the Successors more than the Gauls); a tech opens
 /// only in its time and after its prerequisites; research is paid in points
-/// and changes the game (polyremes open the quinqueremes Rome lacked in 300
-/// BC); other realms research by themselves; corruption and a rival grow
+/// and changes the game (a unit opens with its tech); other realms research by themselves; corruption and a rival grow
 /// with overreach; the score is split by category; and it all survives a save.
 /// </summary>
 public partial class TechTest : TestRunner
@@ -35,22 +34,24 @@ public partial class TechTest : TestRunner
         int rome = map.PlayerRealmId, seleucid = map.CivRealmIds["seleucid"], gaul = map.CivRealmIds["gaul"];
         var r = map.PlayerState;
         Check(map.Game.Realm(seleucid).Techs.Count > map.Game.Realm(gaul).Techs.Count, "the Successors should know more than the Gauls");
-        Check(r.Techs.Contains("manipular") && !r.Techs.Contains("polyremes"), "Rome has the manipular legion but not yet the polyremes");
+        Check(cat.All.All(t => t.AvailableFrom >= -300), "nothing older than 300 BC is a technology: it is already known");
 
         // Gating by time and prerequisites.
         Check(cat.CanResearch(r, cat["steam_engine"]!, map.DemoYear) != null, "no steam engine in 300 BC");
-        Check(cat.CanResearch(r, cat["polyremes"]!, map.DemoYear) == null, "polyremes are open to Rome");
-        var quinquereme = UnitCatalog.Instance["quinqueremes"];
-        var c = map.CensusOf(rome);
-        r.Treasury = 10000;
-        Check(Military.CanRecruit(r, c, map.CulturesOf(rome), quinquereme).Problem?.Contains("technology") == true,
-            "without polyremes Rome can't build quinqueremes");
-        Check(map.ChooseResearch("polyremes") == null && r.Researching == "polyremes", "choosing research");
-        r.ResearchPoints = cat["polyremes"]!.Cost;
+        Check(cat.CanResearch(r, cat["cataphract_armour"]!, map.DemoYear) != null, "cataphract armour is not known until 250 BC");
+        var cataphracts = UnitCatalog.Instance.Units.First(u => u.Requires == "cataphract_armour");
+        var sel = map.Game.Realm(seleucid);
+        sel.Treasury = 100000;
+        Check(Military.CanRecruit(sel, map.CensusOf(seleucid), map.CulturesOf(seleucid), cataphracts).Problem?.Contains("technology") == true,
+            "without cataphract armour the Seleucids can't raise cataphracts");
+        var open = cat.All.First(t => cat.CanResearch(r, t, map.DemoYear) == null);
+        Check(map.ChooseResearch(open.Id) == null && r.Researching == open.Id, "choosing research");
+        r.ResearchPoints = open.Cost;
         map.AdvanceYear();
-        Check(r.Techs.Contains("polyremes") && r.Researching == "", "polyremes should be learnt when paid for");
-        Check(Military.CanRecruit(r, map.CensusOf(rome), map.CulturesOf(rome), quinquereme).Problem == null,
-            "with polyremes Rome can build quinqueremes (as in 261 BC)");
+        Check(r.Techs.Contains(open.Id) && r.Researching == "", "a tech should be learnt when paid for");
+        sel.Techs.Add("cataphract_armour");
+        Check(Military.CanRecruit(sel, map.CensusOf(seleucid), map.CulturesOf(seleucid), cataphracts).Problem?.Contains("technology") != true,
+            "with cataphract armour the unit opens");
 
         // Effects: more field output with a new farming tech.
         var goods = map.GoodsCatalog()!;
@@ -83,8 +84,8 @@ public partial class TechTest : TestRunner
         Check(await map2.LoadSavedGame("slot1"), "load failed");
         Check(map2.PlayerState.Techs.SetEquals(r.Techs), "technologies didn't survive the save");
 
-        Finish($"Tech tests passed: {cat.All.Count} technologies in {TechCatalog.Branches.Length} branches; Rome learnt polyremes and " +
-            $"built quinqueremes; farming techs grow more; the Seleucids learnt {map.Game.Realm(seleucid).Techs.Count - before} in 15 years; " +
+        Finish($"Tech tests passed: {cat.All.Count} technologies in {TechCatalog.Branches.Length} branches; nothing older than 300 BC; " +
+            $"units open with their techs; farming techs grow more; the Seleucids learnt {map.Game.Realm(seleucid).Techs.Count - before} in 15 years; " +
             $"score by category; saves.");
         map.Free();
         map2.Free();

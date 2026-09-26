@@ -181,8 +181,7 @@
     "greek"
    ],
    "description": "Ten 'fives': the heavy warships of the age.",
-   "needs": "res_ship_timber",
-   "requires": "polyremes"
+   "needs": "res_ship_timber"
   },
   {
    "id": "hoplites",

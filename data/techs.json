@@ -1,110 +1,33 @@
 {
- "about": "The technology tree (decision 'Playable 24': an advanced, complex web of techs, unlocking as time goes by but still to be researched; from the Hellenistic age to the modern world). cost: research points. available_from: the year it can first be researched (history's date of invention or spread). requires: techs needed first. effects: shares added (field, orchard, herd, mine, crafts, trade, tax, manpower, integration, growth, research, siege; unrest and corruption and interest as shares added; admin as provinces; garrison as Might; reach_km in km; sea_cost as a share of sea travel cost; might_<role> as a share of that role's Might). unlocks: buildings or units that need it. Dates from the histories of ancient technology (Oleson, 'The Oxford Handbook of Engineering and Technology in the Classical World', 2008; White, 'Medieval Technology and Social Change'). Our own data, free for any use.",
+ "about": "The technology tree (decision 'Playable 24': an advanced, complex web of techs, unlocking as time goes by but still to be researched; from 300 BC (anything older is already part of the world at the start) to the modern world). cost: research points. available_from: the year it can first be researched (history's date of invention or spread). requires: techs needed first. effects: shares added (field, orchard, herd, mine, crafts, trade, tax, manpower, integration, growth, research, siege; unrest and corruption and interest as shares added; admin as provinces; garrison as Might; reach_km in km; sea_cost as a share of sea travel cost; might_<role> as a share of that role's Might). unlocks: buildings or units that need it. Dates from the histories of ancient technology (Oleson, 'The Oxford Handbook of Engineering and Technology in the Classical World', 2008; White, 'Medieval Technology and Social Change'). Our own data, free for any use.",
  "start": {
-  "*": [
-   "crop_rotation",
-   "manuring",
-   "iron_working",
-   "coinage",
-   "drilled_infantry",
-   "writing_schools"
-  ],
+  "*": [],
   "macedonian": [
-   "siegecraft",
-   "torsion_artillery",
-   "elephant_warfare",
-   "heavy_cavalry",
-   "polyremes",
-   "census",
-   "bureaucracy",
-   "fortification",
-   "roman_law",
-   "banking",
-   "philosophy",
-   "postal_roads"
+   "bureaucracy"
   ],
-  "greek": [
-   "siegecraft",
-   "torsion_artillery",
-   "polyremes",
-   "census",
-   "fortification",
-   "roman_law",
-   "banking",
-   "philosophy"
-  ],
-  "punic": [
-   "siegecraft",
-   "polyremes",
-   "census",
-   "fortification",
-   "banking",
-   "elephant_warfare"
-  ],
-  "latin": [
-   "census",
-   "roman_law",
-   "manipular",
-   "aqueducts",
-   "siegecraft"
-  ],
+  "greek": [],
+  "punic": [],
+  "latin": [],
   "egyptian": [
-   "census",
    "bureaucracy"
   ],
   "persian": [
-   "census",
-   "bureaucracy",
-   "postal_roads",
-   "heavy_cavalry"
+   "bureaucracy"
   ],
-  "kushite": [
-   "elephant_warfare"
-  ],
-  "nabataean": [
-   "banking"
-  ],
+  "kushite": [],
+  "nabataean": [],
   "celtic": [],
   "iberian": [],
-  "scythian": [
-   "heavy_cavalry"
-  ]
+  "scythian": []
  },
  "techs": [
-  {
-   "id": "crop_rotation",
-   "name": "Crop rotation with legumes",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "field": 0.05
-   },
-   "description": "Beans and vetch between the grain restore the soil (Theophrastus, Cato)."
-  },
-  {
-   "id": "manuring",
-   "name": "Systematic manuring",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "field": 0.04,
-    "herd": 0.04
-   },
-   "description": "Dung, ash and green manure spread by rule, as the agricultural writers taught."
-  },
   {
    "id": "olive_press",
    "name": "Screw and lever presses",
    "branch": "agriculture",
    "cost": 80,
    "available_from": -200,
-   "requires": [
-    "crop_rotation"
-   ],
+   "requires": [],
    "effects": {
     "orchard": 0.08
    },
@@ -116,9 +39,7 @@
    "branch": "agriculture",
    "cost": 90,
    "available_from": -230,
-   "requires": [
-    "crop_rotation"
-   ],
+   "requires": [],
    "effects": {
     "field": 0.05
    },
@@ -127,7 +48,7 @@
   {
    "id": "water_mill",
    "name": "The water mill",
-   "branch": "agriculture",
+   "branch": "energy",
    "cost": 120,
    "available_from": -250,
    "requires": [
@@ -145,9 +66,7 @@
    "branch": "agriculture",
    "cost": 200,
    "available_from": 500,
-   "requires": [
-    "manuring"
-   ],
+   "requires": [],
    "effects": {
     "field": 0.12
    },
@@ -183,27 +102,12 @@
    "description": "Winter grain, spring grain, fallow: a third more land in crop."
   },
   {
-   "id": "iron_working",
-   "name": "Improved ironworking",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "mine": 0.05,
-    "might_heavy_infantry": 0.03
-   },
-   "description": "Better furnaces and quenched steel."
-  },
-  {
    "id": "glassblowing",
    "name": "Glassblowing",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 120,
    "available_from": -50,
-   "requires": [
-    "iron_working"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.06,
     "trade": 0.03
@@ -213,12 +117,10 @@
   {
    "id": "concrete",
    "name": "Roman concrete",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 120,
    "available_from": -200,
-   "requires": [
-    "iron_working"
-   ],
+   "requires": [],
    "effects": {
     "garrison": 1,
     "growth": 0.05
@@ -226,29 +128,12 @@
    "description": "Lime and volcanic ash that sets under water: harbours, vaults, aqueducts."
   },
   {
-   "id": "aqueducts",
-   "name": "Aqueducts",
-   "branch": "crafts",
-   "cost": 90,
-   "available_from": -312,
-   "requires": [],
-   "effects": {
-    "growth": 0.05
-   },
-   "description": "Channels carrying springs to the city (the Aqua Appia, 312 BC).",
-   "unlocks": [
-    "aqueduct"
-   ]
-  },
-  {
    "id": "mining_pumps",
    "name": "Mine drainage",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 120,
    "available_from": -100,
-   "requires": [
-    "iron_working"
-   ],
+   "requires": [],
    "effects": {
     "mine": 0.15
    },
@@ -257,7 +142,7 @@
   {
    "id": "textile_looms",
    "name": "Better looms",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 100,
    "available_from": -100,
    "requires": [],
@@ -267,80 +152,12 @@
    "description": "The two-beam vertical loom speeds weaving."
   },
   {
-   "id": "drilled_infantry",
-   "name": "Drill and discipline",
-   "branch": "war",
-   "cost": 80,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "might_heavy_infantry": 0.05,
-    "might_light_infantry": 0.05
-   },
-   "description": "Soldiers who train in formation fight as one."
-  },
-  {
-   "id": "siegecraft",
-   "name": "Siegecraft",
-   "branch": "war",
-   "cost": 100,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "siege": 0.2
-   },
-   "description": "Towers, rams and the torsion catapult (Dionysius of Syracuse, Demetrius the Besieger)."
-  },
-  {
-   "id": "torsion_artillery",
-   "name": "Torsion artillery",
-   "branch": "war",
-   "cost": 140,
-   "available_from": -350,
-   "requires": [
-    "siegecraft"
-   ],
-   "effects": {
-    "siege": 0.2,
-    "garrison": 1
-   },
-   "description": "Sinew-sprung catapults hurl stones and bolts."
-  },
-  {
-   "id": "elephant_warfare",
-   "name": "Elephant warfare",
-   "branch": "war",
-   "cost": 100,
-   "available_from": -320,
-   "requires": [],
-   "effects": {
-    "might_elephants": 0.1
-   },
-   "description": "Towers on their backs and mahouts who can steer them."
-  },
-  {
-   "id": "heavy_cavalry",
-   "name": "Heavy cavalry",
-   "branch": "war",
-   "cost": 120,
-   "available_from": -330,
-   "requires": [
-    "drilled_infantry"
-   ],
-   "effects": {
-    "might_cavalry": 0.1
-   },
-   "description": "Armoured horsemen charging with the lance."
-  },
-  {
    "id": "cataphract_armour",
    "name": "Cataphract armour",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 160,
    "available_from": -250,
-   "requires": [
-    "heavy_cavalry"
-   ],
+   "requires": [],
    "effects": {
     "might_cavalry": 0.05
    },
@@ -350,28 +167,12 @@
    ]
   },
   {
-   "id": "manipular",
-   "name": "The manipular legion",
-   "branch": "war",
-   "cost": 100,
-   "available_from": -340,
-   "requires": [
-    "drilled_infantry"
-   ],
-   "effects": {
-    "might_heavy_infantry": 0.08
-   },
-   "description": "Small, flexible lines that bend without breaking."
-  },
-  {
    "id": "professional_army",
    "name": "A professional army",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 180,
    "available_from": -107,
-   "requires": [
-    "manipular"
-   ],
+   "requires": [],
    "effects": {
     "might_heavy_infantry": 0.08,
     "manpower": 0.1
@@ -379,59 +180,16 @@
    "description": "Long-service soldiers paid by the state (Marius, 107 BC)."
   },
   {
-   "id": "fortification",
-   "name": "Great fortifications",
-   "branch": "war",
-   "cost": 120,
-   "available_from": -400,
-   "requires": [
-    "siegecraft"
-   ],
-   "effects": {
-    "garrison": 2
-   },
-   "description": "Thick walls, towers and ditches (the walls of Syracuse and Rhodes)."
-  },
-  {
    "id": "stirrup",
    "name": "The stirrup",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 250,
    "available_from": 600,
-   "requires": [
-    "heavy_cavalry"
-   ],
+   "requires": [],
    "effects": {
     "might_cavalry": 0.15
    },
    "description": "A rider who can stand and strike."
-  },
-  {
-   "id": "coinage",
-   "name": "Coined money",
-   "branch": "governance",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "trade": 0.05
-   },
-   "description": "Coins of known weight make taxes and trade simple."
-  },
-  {
-   "id": "census",
-   "name": "The census",
-   "branch": "governance",
-   "cost": 80,
-   "available_from": -400,
-   "requires": [
-    "coinage"
-   ],
-   "effects": {
-    "tax": 0.05,
-    "manpower": 0.05
-   },
-   "description": "Count the people and their property, and tax them fairly."
   },
   {
    "id": "bureaucracy",
@@ -439,9 +197,7 @@
    "branch": "governance",
    "cost": 120,
    "available_from": -300,
-   "requires": [
-    "census"
-   ],
+   "requires": [],
    "effects": {
     "admin": 3
    },
@@ -463,48 +219,16 @@
    "description": "Each province under a governor answerable to the capital."
   },
   {
-   "id": "roman_law",
-   "name": "Written law",
-   "branch": "governance",
-   "cost": 140,
-   "available_from": -450,
-   "requires": [
-    "census"
-   ],
-   "effects": {
-    "unrest": -0.03,
-    "integration": 0.1
-   },
-   "description": "Laws written down and known to all (the Twelve Tables)."
-  },
-  {
    "id": "citizenship",
    "name": "Grants of citizenship",
-   "branch": "governance",
+   "branch": "society",
    "cost": 160,
    "available_from": -90,
-   "requires": [
-    "roman_law"
-   ],
+   "requires": [],
    "effects": {
     "integration": 0.25
    },
    "description": "Make the conquered your citizens (the Italians after 89 BC)."
-  },
-  {
-   "id": "postal_roads",
-   "name": "Royal roads and couriers",
-   "branch": "governance",
-   "cost": 140,
-   "available_from": -500,
-   "requires": [
-    "bureaucracy"
-   ],
-   "effects": {
-    "reach_km": 50,
-    "admin": 2
-   },
-   "description": "Stations a day's ride apart: orders travel fast."
   },
   {
    "id": "anti_corruption",
@@ -512,38 +236,19 @@
    "branch": "governance",
    "cost": 160,
    "available_from": -149,
-   "requires": [
-    "roman_law"
-   ],
+   "requires": [],
    "effects": {
     "corruption": -0.05
    },
    "description": "Governors who plunder their provinces can be tried (Rome's first extortion court, 149 BC)."
   },
   {
-   "id": "polyremes",
-   "name": "Polyremes",
-   "branch": "sea",
-   "cost": 100,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "might_warships": 0.1
-   },
-   "description": "Fours, fives and bigger: the heavy warships of the Successors and Carthage (Rome learned them in 261 BC).",
-   "unlocks": [
-    "quinqueremes"
-   ]
-  },
-  {
    "id": "lighthouse",
    "name": "Lighthouses",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 100,
    "available_from": -280,
-   "requires": [
-    "polyremes"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.05,
     "sea_cost": -0.05
@@ -553,7 +258,7 @@
   {
    "id": "monsoon",
    "name": "The monsoon route",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 180,
    "available_from": -116,
    "requires": [
@@ -565,55 +270,24 @@
    "description": "Sail straight across the Arabian Sea with the monsoon (Eudoxus, 116 BC)."
   },
   {
-   "id": "banking",
-   "name": "Banking and bills",
-   "branch": "sea",
-   "cost": 120,
-   "available_from": -350,
-   "requires": [
-    "coinage"
-   ],
-   "effects": {
-    "trade": 0.06,
-    "interest": -0.02
-   },
-   "description": "Bankers on Delos and Rhodes lend and change money."
-  },
-  {
    "id": "maritime_law",
    "name": "Sea law",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 120,
    "available_from": -300,
-   "requires": [
-    "banking"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.05
    },
    "description": "The Rhodian sea law settles disputes at sea."
   },
   {
-   "id": "writing_schools",
-   "name": "Schools",
-   "branch": "learning",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "research": 0.1
-   },
-   "description": "Teachers of letters in every town."
-  },
-  {
    "id": "library",
    "name": "Great libraries",
-   "branch": "learning",
+   "branch": "science",
    "cost": 120,
    "available_from": -290,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.2
    },
@@ -622,12 +296,10 @@
   {
    "id": "astronomy",
    "name": "Astronomy and the calendar",
-   "branch": "learning",
+   "branch": "science",
    "cost": 120,
    "available_from": -300,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "field": 0.02,
     "sea_cost": -0.03
@@ -637,7 +309,7 @@
   {
    "id": "geography",
    "name": "Geography",
-   "branch": "learning",
+   "branch": "science",
    "cost": 120,
    "available_from": -240,
    "requires": [
@@ -652,12 +324,10 @@
   {
    "id": "medicine",
    "name": "Medicine",
-   "branch": "learning",
+   "branch": "science",
    "cost": 140,
    "available_from": -280,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "growth": 0.05
    },
@@ -666,7 +336,7 @@
   {
    "id": "mechanics",
    "name": "Mechanics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 160,
    "available_from": -250,
    "requires": [
@@ -679,54 +349,12 @@
    "description": "Archimedes, Ctesibius and Philo: gears, pumps and engines."
   },
   {
-   "id": "philosophy",
-   "name": "Philosophy",
-   "branch": "learning",
-   "cost": 120,
-   "available_from": -400,
-   "requires": [
-    "writing_schools"
-   ],
-   "effects": {
-    "unrest": -0.03
-   },
-   "description": "The schools of Athens teach how to live and rule."
-  },
-  {
-   "id": "seed_selection",
-   "name": "Seed selection",
-   "branch": "agriculture",
-   "cost": 64,
-   "available_from": -350,
-   "requires": [
-    "crop_rotation"
-   ],
-   "effects": {
-    "field": 0.03
-   },
-   "description": "Keep the best ears for sowing (Theophrastus on plants)."
-  },
-  {
-   "id": "grafting",
-   "name": "Grafting fruit trees",
-   "branch": "agriculture",
-   "cost": 64,
-   "available_from": -350,
-   "requires": [],
-   "effects": {
-    "orchard": 0.05
-   },
-   "description": "Graft good varieties onto hardy stock."
-  },
-  {
    "id": "vine_training",
    "name": "Vine training on trellises",
    "branch": "agriculture",
    "cost": 83,
    "available_from": -250,
-   "requires": [
-    "grafting"
-   ],
+   "requires": [],
    "effects": {
     "orchard": 0.04
    },
@@ -738,10 +366,7 @@
    "branch": "agriculture",
    "cost": 109,
    "available_from": -160,
-   "requires": [
-    "seed_selection",
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "field": 0.03,
     "orchard": 0.03,
@@ -797,8 +422,7 @@
    "cost": 130,
    "available_from": -100,
    "requires": [
-    "stock_breeding",
-    "crop_rotation"
+    "stock_breeding"
    ],
    "effects": {
     "herd": 0.05,
@@ -851,20 +475,6 @@
    "description": "Rice, cotton, sugar cane, citrus and summer irrigation spread west."
   },
   {
-   "id": "qanat",
-   "name": "Qanats",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [
-    "water_lifting"
-   ],
-   "effects": {
-    "field": 0.03
-   },
-   "description": "Underground channels bring groundwater to desert fields."
-  },
-  {
    "id": "noria",
    "name": "The noria",
    "branch": "agriculture",
@@ -881,7 +491,7 @@
   {
    "id": "windmill",
    "name": "The windmill",
-   "branch": "agriculture",
+   "branch": "energy",
    "cost": 1053,
    "available_from": 1180,
    "requires": [
@@ -1097,38 +707,12 @@
    "description": "Dwarf wheat and rice double yields."
   },
   {
-   "id": "bronze_casting",
-   "name": "Lost-wax bronze casting",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "crafts": 0.03
-   },
-   "description": "Statues and fittings cast in bronze."
-  },
-  {
-   "id": "pottery_wheel",
-   "name": "The fast potter's wheel",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "crafts": 0.03
-   },
-   "description": "Fine wares thrown in large numbers."
-  },
-  {
    "id": "terra_sigillata",
    "name": "Terra sigillata",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 153,
    "available_from": -40,
-   "requires": [
-    "pottery_wheel"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.04,
     "trade": 0.02
@@ -1138,7 +722,7 @@
   {
    "id": "fulling",
    "name": "Fulling and dyeing works",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 96,
    "available_from": -200,
    "requires": [
@@ -1152,12 +736,10 @@
   {
    "id": "crucible_steel",
    "name": "Crucible steel",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 330,
    "available_from": 300,
-   "requires": [
-    "iron_working"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.03,
     "might_heavy_infantry": 0.03
@@ -1167,7 +749,7 @@
   {
    "id": "water_powered_saw",
    "name": "Water-powered saws",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 330,
    "available_from": 300,
    "requires": [
@@ -1181,7 +763,7 @@
   {
    "id": "silk_weaving",
    "name": "Silk weaving",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 500,
    "available_from": 550,
    "requires": [
@@ -1196,12 +778,10 @@
   {
    "id": "paper",
    "name": "Paper",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 657,
    "available_from": 750,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.1,
     "crafts": 0.02
@@ -1211,7 +791,7 @@
   {
    "id": "cotton_textiles",
    "name": "Cotton textiles",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 787,
    "available_from": 900,
    "requires": [
@@ -1226,7 +806,7 @@
   {
    "id": "tidal_mill",
    "name": "Tide mills",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 878,
    "available_from": 1000,
    "requires": [
@@ -1240,7 +820,7 @@
   {
    "id": "blast_furnace",
    "name": "The blast furnace",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -1255,7 +835,7 @@
   {
    "id": "spinning_wheel",
    "name": "The spinning wheel",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1156,
    "available_from": 1280,
    "requires": [
@@ -1269,7 +849,7 @@
   {
    "id": "mechanical_clock",
    "name": "The mechanical clock",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -1283,7 +863,7 @@
   {
    "id": "printing_press",
    "name": "The printing press",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1338,
    "available_from": 1450,
    "requires": [
@@ -1299,7 +879,7 @@
   {
    "id": "wire_drawing",
    "name": "Wire drawing",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1230,
    "available_from": 1350,
    "requires": [
@@ -1313,7 +893,7 @@
   {
    "id": "gunpowder_manufacture",
    "name": "Gunpowder mills",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1230,
    "available_from": 1350,
    "requires": [
@@ -1327,7 +907,7 @@
   {
    "id": "coke_smelting",
    "name": "Coke smelting",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1637,
    "available_from": 1709,
    "requires": [
@@ -1342,7 +922,7 @@
   {
    "id": "flying_shuttle",
    "name": "The flying shuttle",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1665,
    "available_from": 1733,
    "requires": [
@@ -1356,7 +936,7 @@
   {
    "id": "spinning_jenny",
    "name": "The spinning jenny",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1703,
    "available_from": 1764,
    "requires": [
@@ -1370,7 +950,7 @@
   {
    "id": "steam_engine",
    "name": "The steam engine",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1640,
    "available_from": 1712,
    "requires": [
@@ -1386,7 +966,7 @@
   {
    "id": "watt_engine",
    "name": "Watt's engine",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1717,
    "available_from": 1776,
    "requires": [
@@ -1401,7 +981,7 @@
   {
    "id": "factory_system",
    "name": "The factory system",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1711,
    "available_from": 1771,
    "requires": [
@@ -1417,7 +997,7 @@
   {
    "id": "puddling",
    "name": "Puddled iron",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1727,
    "available_from": 1784,
    "requires": [
@@ -1432,7 +1012,7 @@
   {
    "id": "machine_tools",
    "name": "Machine tools",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -1446,7 +1026,7 @@
   {
    "id": "interchangeable_parts",
    "name": "Interchangeable parts",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -1461,7 +1041,7 @@
   {
    "id": "bessemer_steel",
    "name": "Bessemer steel",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1816,
    "available_from": 1856,
    "requires": [
@@ -1477,7 +1057,7 @@
   {
    "id": "chemistry",
    "name": "Modern chemistry",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1733,
    "available_from": 1789,
    "requires": [
@@ -1492,7 +1072,7 @@
   {
    "id": "electricity",
    "name": "Electric power",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1846,
    "available_from": 1880,
    "requires": [
@@ -1508,7 +1088,7 @@
   {
    "id": "internal_combustion",
    "name": "The internal combustion engine",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1841,
    "available_from": 1876,
    "requires": [
@@ -1523,7 +1103,7 @@
   {
    "id": "petroleum",
    "name": "Petroleum",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1820,
    "available_from": 1859,
    "requires": [
@@ -1537,7 +1117,7 @@
   {
    "id": "assembly_line",
    "name": "The assembly line",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1888,
    "available_from": 1913,
    "requires": [
@@ -1552,7 +1132,7 @@
   {
    "id": "plastics",
    "name": "Plastics",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1880,
    "available_from": 1907,
    "requires": [
@@ -1566,7 +1146,7 @@
   {
    "id": "computers",
    "name": "Computers",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1929,
    "available_from": 1946,
    "requires": [
@@ -1581,7 +1161,7 @@
   {
    "id": "electronics",
    "name": "Electronics",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1879,
    "available_from": 1906,
    "requires": [
@@ -1595,7 +1175,7 @@
   {
    "id": "automation",
    "name": "Automation",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1960,
    "available_from": 1970,
    "requires": [
@@ -1610,7 +1190,7 @@
   {
    "id": "arch_vault",
    "name": "Arch and vault",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 72,
    "available_from": -300,
    "requires": [],
@@ -1623,7 +1203,7 @@
   {
    "id": "surveying",
    "name": "Surveying with the groma",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 72,
    "available_from": -300,
    "requires": [
@@ -1636,30 +1216,13 @@
    "description": "Straight roads and fields laid out by instrument."
   },
   {
-   "id": "paved_roads",
-   "name": "Paved roads",
-   "branch": "engineering",
-   "cost": 70,
-   "available_from": -312,
-   "requires": [
-    "surveying"
-   ],
-   "effects": {
-    "reach_km": 30,
-    "trade": 0.03,
-    "integration": 0.05
-   },
-   "description": "The Via Appia, begun 312 BC."
-  },
-  {
    "id": "bridges",
    "name": "Stone bridges",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 96,
    "available_from": -200,
    "requires": [
-    "arch_vault",
-    "paved_roads"
+    "arch_vault"
    ],
    "effects": {
     "reach_km": 20,
@@ -1670,7 +1233,7 @@
   {
    "id": "insulae",
    "name": "Apartment blocks",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 112,
    "available_from": -150,
    "requires": [
@@ -1684,7 +1247,7 @@
   {
    "id": "domes",
    "name": "The dome",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 228,
    "available_from": 120,
    "requires": [
@@ -1696,23 +1259,9 @@
    "description": "The Pantheon's dome, unmatched for a thousand years."
   },
   {
-   "id": "sewers",
-   "name": "Sewers",
-   "branch": "engineering",
-   "cost": 60,
-   "available_from": -600,
-   "requires": [
-    "arch_vault"
-   ],
-   "effects": {
-    "growth": 0.03
-   },
-   "description": "The Cloaca Maxima drains Rome's forum."
-  },
-  {
    "id": "hypocaust",
    "name": "Heated floors",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 130,
    "available_from": -100,
    "requires": [
@@ -1726,7 +1275,7 @@
   {
    "id": "cranes",
    "name": "Treadwheel cranes",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 130,
    "available_from": -100,
    "requires": [
@@ -1738,28 +1287,12 @@
    "description": "Great weights lifted by men walking in a wheel."
   },
   {
-   "id": "canals",
-   "name": "Canals",
-   "branch": "engineering",
-   "cost": 60,
-   "available_from": -600,
-   "requires": [
-    "surveying"
-   ],
-   "effects": {
-    "trade": 0.04
-   },
-   "description": "Canals join rivers (the Nile-Red Sea canal, rebuilt by Ptolemy II)."
-  },
-  {
    "id": "pound_lock",
    "name": "The pound lock",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1254,
    "available_from": 1373,
-   "requires": [
-    "canals"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.04
    },
@@ -1768,7 +1301,7 @@
   {
    "id": "gothic_vault",
    "name": "Ribbed vaults and buttresses",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1013,
    "available_from": 1140,
    "requires": [
@@ -1782,11 +1315,10 @@
   {
    "id": "star_fort",
    "name": "The star fort",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1394,
    "available_from": 1500,
    "requires": [
-    "fortification",
     "cannon"
    ],
    "effects": {
@@ -1797,12 +1329,10 @@
   {
    "id": "turnpikes",
    "name": "Turnpike roads",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1626,
    "available_from": 1700,
-   "requires": [
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.04,
     "reach_km": 20
@@ -1812,7 +1342,7 @@
   {
    "id": "macadam",
    "name": "Macadam roads",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1771,
    "available_from": 1820,
    "requires": [
@@ -1827,7 +1357,7 @@
   {
    "id": "iron_bridges",
    "name": "Iron bridges",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1721,
    "available_from": 1779,
    "requires": [
@@ -1842,7 +1372,7 @@
   {
    "id": "railways",
    "name": "Railways",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1778,
    "available_from": 1825,
    "requires": [
@@ -1859,7 +1389,7 @@
   {
    "id": "suez",
    "name": "Great ship canals",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1832,
    "available_from": 1869,
    "requires": [
@@ -1874,7 +1404,7 @@
   {
    "id": "skyscrapers",
    "name": "Steel-frame buildings",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1852,
    "available_from": 1885,
    "requires": [
@@ -1888,7 +1418,7 @@
   {
    "id": "highways",
    "name": "Motorways",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1909,
    "available_from": 1930,
    "requires": [
@@ -1902,57 +1432,12 @@
    "description": "Roads for motor traffic."
   },
   {
-   "id": "peltast_tactics",
-   "name": "Peltast tactics",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -390,
-   "requires": [
-    "drilled_infantry"
-   ],
-   "effects": {
-    "might_light_infantry": 0.08
-   },
-   "description": "Iphicrates' light troops rout a Spartan regiment (390 BC)."
-  },
-  {
-   "id": "combined_arms",
-   "name": "Combined arms",
-   "branch": "war",
-   "cost": 66,
-   "available_from": -338,
-   "requires": [
-    "heavy_cavalry",
-    "drilled_infantry"
-   ],
-   "effects": {
-    "might_heavy_infantry": 0.03,
-    "might_cavalry": 0.03
-   },
-   "description": "Philip's hammer and anvil."
-  },
-  {
-   "id": "war_galleys_ram",
-   "name": "The bronze ram",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "might_warships": 0.05
-   },
-   "description": "Ships that sink ships."
-  },
-  {
    "id": "corvus",
    "name": "The corvus",
-   "branch": "war",
+   "branch": "naval",
    "cost": 81,
    "available_from": -260,
-   "requires": [
-    "polyremes",
-    "manipular"
-   ],
+   "requires": [],
    "effects": {
     "might_warships": 0.08
    },
@@ -1961,12 +1446,10 @@
   {
    "id": "scorpions",
    "name": "Field artillery",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 96,
    "available_from": -200,
-   "requires": [
-    "torsion_artillery"
-   ],
+   "requires": [],
    "effects": {
     "might_missile": 0.05
    },
@@ -1975,12 +1458,10 @@
   {
    "id": "cohort",
    "name": "The cohort",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 126,
    "available_from": -110,
-   "requires": [
-    "manipular"
-   ],
+   "requires": [],
    "effects": {
     "might_heavy_infantry": 0.06
    },
@@ -1989,40 +1470,22 @@
   {
    "id": "limes",
    "name": "Frontier works",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 208,
    "available_from": 80,
-   "requires": [
-    "fortification",
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "garrison": 1.5
    },
    "description": "Walls, forts and roads along the frontier."
   },
   {
-   "id": "composite_bow",
-   "name": "Composite bows",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "might_missile": 0.05,
-    "might_horse_archers": 0.05
-   },
-   "description": "Horn, wood and sinew: bows of great power."
-  },
-  {
    "id": "horse_archer_tactics",
    "name": "Horse archer tactics",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 83,
    "available_from": -250,
-   "requires": [
-    "composite_bow"
-   ],
+   "requires": [],
    "effects": {
     "might_horse_archers": 0.1
    },
@@ -2031,7 +1494,7 @@
   {
    "id": "clibanarii",
    "name": "Clibanarii",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 300,
    "available_from": 250,
    "requires": [
@@ -2045,7 +1508,7 @@
   {
    "id": "comitatenses",
    "name": "Field armies",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 330,
    "available_from": 300,
    "requires": [
@@ -2061,7 +1524,7 @@
   {
    "id": "greek_fire",
    "name": "Greek fire",
-   "branch": "war",
+   "branch": "naval",
    "cost": 594,
    "available_from": 672,
    "requires": [
@@ -2075,7 +1538,7 @@
   {
    "id": "feudal_levy",
    "name": "Feudal levies",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 700,
    "available_from": 800,
    "requires": [
@@ -2090,7 +1553,7 @@
   {
    "id": "knights",
    "name": "Knights",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 878,
    "available_from": 1000,
    "requires": [
@@ -2105,12 +1568,10 @@
   {
    "id": "castles",
    "name": "Castles",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 832,
    "available_from": 950,
-   "requires": [
-    "fortification"
-   ],
+   "requires": [],
    "effects": {
     "garrison": 3
    },
@@ -2119,7 +1580,7 @@
   {
    "id": "crossbow",
    "name": "The crossbow",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 878,
    "available_from": 1000,
    "requires": [
@@ -2133,12 +1594,10 @@
   {
    "id": "counterweight_trebuchet",
    "name": "The trebuchet",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1023,
    "available_from": 1150,
-   "requires": [
-    "siegecraft"
-   ],
+   "requires": [],
    "effects": {
     "siege": 0.25
    },
@@ -2147,21 +1606,19 @@
   {
    "id": "longbow",
    "name": "The longbow",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1156,
    "available_from": 1280,
-   "requires": [
-    "composite_bow"
-   ],
+   "requires": [],
    "effects": {
     "might_missile": 0.1
    },
-   "description": "Yew bows massed at Cr\u00e9cy (1346)."
+   "description": "Yew bows massed at Crécy (1346)."
   },
   {
    "id": "plate_armour",
    "name": "Plate armour",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1230,
    "available_from": 1350,
    "requires": [
@@ -2177,7 +1634,7 @@
   {
    "id": "pike_squares",
    "name": "Pike squares",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1367,
    "available_from": 1476,
    "requires": [
@@ -2191,7 +1648,7 @@
   {
    "id": "gunpowder",
    "name": "Gunpowder",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1125,
    "available_from": 1250,
    "requires": [
@@ -2205,7 +1662,7 @@
   {
    "id": "cannon",
    "name": "Cannon",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1219,
    "available_from": 1340,
    "requires": [
@@ -2220,7 +1677,7 @@
   {
    "id": "arquebus",
    "name": "The arquebus",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1338,
    "available_from": 1450,
    "requires": [
@@ -2234,7 +1691,7 @@
   {
    "id": "musket",
    "name": "The musket and bayonet",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1614,
    "available_from": 1690,
    "requires": [
@@ -2250,7 +1707,7 @@
   {
    "id": "line_infantry",
    "name": "Linear tactics",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1626,
    "available_from": 1700,
    "requires": [
@@ -2264,7 +1721,7 @@
   {
    "id": "ship_of_the_line",
    "name": "The ship of the line",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1567,
    "available_from": 1650,
    "requires": [
@@ -2279,7 +1736,7 @@
   {
    "id": "standing_army",
    "name": "A standing army",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1567,
    "available_from": 1650,
    "requires": [
@@ -2295,7 +1752,7 @@
   {
    "id": "field_artillery",
    "name": "Mobile field artillery",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1686,
    "available_from": 1750,
    "requires": [
@@ -2309,7 +1766,7 @@
   {
    "id": "levee_en_masse",
    "name": "Mass conscription",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1738,
    "available_from": 1793,
    "requires": [
@@ -2324,7 +1781,7 @@
   {
    "id": "rifles",
    "name": "Rifles",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1809,
    "available_from": 1850,
    "requires": [
@@ -2334,12 +1791,12 @@
    "effects": {
     "might_heavy_infantry": 0.2
    },
-   "description": "The Mini\u00e9 ball and the breech-loader."
+   "description": "The Minié ball and the breech-loader."
   },
   {
    "id": "ironclads",
    "name": "Ironclads",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1821,
    "available_from": 1860,
    "requires": [
@@ -2354,7 +1811,7 @@
   {
    "id": "machine_gun",
    "name": "The machine gun",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1851,
    "available_from": 1884,
    "requires": [
@@ -2369,7 +1826,7 @@
   {
    "id": "tanks",
    "name": "Tanks",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1891,
    "available_from": 1916,
    "requires": [
@@ -2384,7 +1841,7 @@
   {
    "id": "aircraft",
    "name": "Military aircraft",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1889,
    "available_from": 1914,
    "requires": [
@@ -2395,35 +1852,6 @@
     "might_missile": 0.2
    },
    "description": "War from the air."
-  },
-  {
-   "id": "satrapies",
-   "name": "Satrapies",
-   "branch": "governance",
-   "cost": 60,
-   "available_from": -520,
-   "requires": [
-    "census"
-   ],
-   "effects": {
-    "admin": 2
-   },
-   "description": "Great provinces under royal governors (Darius)."
-  },
-  {
-   "id": "hellenistic_monarchy",
-   "name": "Hellenistic kingship",
-   "branch": "governance",
-   "cost": 71,
-   "available_from": -305,
-   "requires": [
-    "bureaucracy"
-   ],
-   "effects": {
-    "integration": 0.05,
-    "tax": 0.03
-   },
-   "description": "Kings who rule Greeks and natives alike."
   },
   {
    "id": "tax_registers",
@@ -2440,43 +1868,13 @@
    "description": "Every field and household written down (the Revenue Laws of Ptolemy II)."
   },
   {
-   "id": "municipia",
-   "name": "Municipal self-government",
-   "branch": "governance",
-   "cost": 66,
-   "available_from": -338,
-   "requires": [
-    "roman_law"
-   ],
-   "effects": {
-    "integration": 0.1,
-    "admin": 1
-   },
-   "description": "Conquered towns govern themselves as partners of Rome."
-  },
-  {
-   "id": "colonies",
-   "name": "Colonies of settlers",
-   "branch": "governance",
-   "cost": 66,
-   "available_from": -338,
-   "requires": [
-    "municipia"
-   ],
-   "effects": {
-    "integration": 0.1
-   },
-   "description": "Settlers planted in conquered land."
-  },
-  {
    "id": "provincial_system",
    "name": "The provincial system",
    "branch": "governance",
    "cost": 89,
    "available_from": -227,
    "requires": [
-    "provincial_governors",
-    "municipia"
+    "provincial_governors"
    ],
    "effects": {
     "admin": 2,
@@ -2502,7 +1900,7 @@
   {
    "id": "roman_citizenship_all",
    "name": "Universal citizenship",
-   "branch": "governance",
+   "branch": "society",
    "cost": 278,
    "available_from": 212,
    "requires": [
@@ -2537,7 +1935,6 @@
    "cost": 485,
    "available_from": 529,
    "requires": [
-    "roman_law",
     "dominate"
    ],
    "effects": {
@@ -2657,7 +2054,7 @@
   {
    "id": "mercantilism",
    "name": "Mercantilism",
-   "branch": "governance",
+   "branch": "commerce",
    "cost": 1508,
    "available_from": 1600,
    "requires": [
@@ -2735,7 +2132,7 @@
   {
    "id": "nationalism",
    "name": "Nationalism",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -2751,7 +2148,7 @@
   {
    "id": "welfare_state",
    "name": "The welfare state",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1850,
    "available_from": 1883,
    "requires": [
@@ -2781,11 +2178,10 @@
   {
    "id": "central_bank",
    "name": "A central bank",
-   "branch": "governance",
+   "branch": "commerce",
    "cost": 1619,
    "available_from": 1694,
    "requires": [
-    "banking",
     "joint_stock"
    ],
    "effects": {
@@ -2810,28 +2206,12 @@
    "description": "Counting the state."
   },
   {
-   "id": "amphora_trade",
-   "name": "Bulk trade in amphorae",
-   "branch": "sea",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "coinage"
-   ],
-   "effects": {
-    "trade": 0.03
-   },
-   "description": "Wine and oil shipped by the shipload."
-  },
-  {
    "id": "merchant_galleys",
    "name": "Great merchant ships",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 83,
    "available_from": -250,
-   "requires": [
-    "polyremes"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.03
    },
@@ -2840,7 +2220,7 @@
   {
    "id": "harbour_works",
    "name": "Harbour works",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 130,
    "available_from": -100,
    "requires": [
@@ -2855,7 +2235,7 @@
   {
    "id": "annona",
    "name": "The grain fleet",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 146,
    "available_from": -58,
    "requires": [
@@ -2870,7 +2250,7 @@
   {
    "id": "lateen_sail",
    "name": "The lateen sail",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 464,
    "available_from": 500,
    "requires": [
@@ -2885,7 +2265,7 @@
   {
    "id": "dhows",
    "name": "Dhows of the monsoon",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 616,
    "available_from": 700,
    "requires": [
@@ -2900,12 +2280,10 @@
   {
    "id": "commenda",
    "name": "Partnerships and credit",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 787,
    "available_from": 900,
-   "requires": [
-    "banking"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.05
    },
@@ -2914,7 +2292,7 @@
   {
    "id": "magnetic_compass",
    "name": "The magnetic compass",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1063,
    "available_from": 1190,
    "requires": [
@@ -2928,7 +2306,7 @@
   {
    "id": "stern_rudder",
    "name": "The stern rudder",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1073,
    "available_from": 1200,
    "requires": [
@@ -2942,7 +2320,7 @@
   {
    "id": "cog",
    "name": "The cog",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1073,
    "available_from": 1200,
    "requires": [
@@ -2956,7 +2334,7 @@
   {
    "id": "double_entry",
    "name": "Double-entry bookkeeping",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1219,
    "available_from": 1340,
    "requires": [
@@ -2971,7 +2349,7 @@
   {
    "id": "portolan_charts",
    "name": "Portolan charts",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1145,
    "available_from": 1270,
    "requires": [
@@ -2986,7 +2364,7 @@
   {
    "id": "caravel",
    "name": "The caravel",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1327,
    "available_from": 1440,
    "requires": [
@@ -3002,7 +2380,7 @@
   {
    "id": "full_rigger",
    "name": "The full-rigged ship",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1338,
    "available_from": 1450,
    "requires": [
@@ -3017,7 +2395,7 @@
   {
    "id": "oceanic_navigation",
    "name": "Oceanic navigation",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1372,
    "available_from": 1480,
    "requires": [
@@ -3032,7 +2410,7 @@
   {
    "id": "joint_stock",
    "name": "Joint-stock companies",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1508,
    "available_from": 1600,
    "requires": [
@@ -3047,7 +2425,7 @@
   {
    "id": "marine_chronometer",
    "name": "The marine chronometer",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1699,
    "available_from": 1761,
    "requires": [
@@ -3062,7 +2440,7 @@
   {
    "id": "clipper",
    "name": "Clipper ships",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1796,
    "available_from": 1840,
    "requires": [
@@ -3077,7 +2455,7 @@
   {
    "id": "steamship",
    "name": "The steamship",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1770,
    "available_from": 1819,
    "requires": [
@@ -3093,7 +2471,7 @@
   {
    "id": "telegraph",
    "name": "The telegraph",
-   "branch": "sea",
+   "branch": "communication",
    "cost": 1801,
    "available_from": 1844,
    "requires": [
@@ -3108,7 +2486,7 @@
   {
    "id": "containers",
    "name": "Container shipping",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1942,
    "available_from": 1956,
    "requires": [
@@ -3123,12 +2501,10 @@
   {
    "id": "geometry",
    "name": "Geometry",
-   "branch": "learning",
+   "branch": "science",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.05
    },
@@ -3137,7 +2513,7 @@
   {
    "id": "museum",
    "name": "The Museum of Alexandria",
-   "branch": "learning",
+   "branch": "science",
    "cost": 74,
    "available_from": -290,
    "requires": [
@@ -3151,7 +2527,7 @@
   {
    "id": "alchemy",
    "name": "Alchemy",
-   "branch": "learning",
+   "branch": "materials",
    "cost": 218,
    "available_from": 100,
    "requires": [
@@ -3165,7 +2541,7 @@
   {
    "id": "trigonometry",
    "name": "Trigonometry",
-   "branch": "learning",
+   "branch": "science",
    "cost": 112,
    "available_from": -150,
    "requires": [
@@ -3181,7 +2557,7 @@
   {
    "id": "encyclopaedias",
    "name": "Encyclopaedias",
-   "branch": "learning",
+   "branch": "science",
    "cost": 206,
    "available_from": 77,
    "requires": [
@@ -3195,7 +2571,7 @@
   {
    "id": "house_of_wisdom",
    "name": "The House of Wisdom",
-   "branch": "learning",
+   "branch": "science",
    "cost": 725,
    "available_from": 830,
    "requires": [
@@ -3210,7 +2586,7 @@
   {
    "id": "algebra",
    "name": "Algebra",
-   "branch": "learning",
+   "branch": "science",
    "cost": 717,
    "available_from": 820,
    "requires": [
@@ -3225,7 +2601,7 @@
   {
    "id": "hindu_numerals",
    "name": "Hindu-Arabic numerals",
-   "branch": "learning",
+   "branch": "science",
    "cost": 721,
    "available_from": 825,
    "requires": [
@@ -3240,7 +2616,7 @@
   {
    "id": "optics",
    "name": "Optics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 889,
    "available_from": 1011,
    "requires": [
@@ -3254,7 +2630,7 @@
   {
    "id": "universities",
    "name": "Universities",
-   "branch": "learning",
+   "branch": "science",
    "cost": 962,
    "available_from": 1088,
    "requires": [
@@ -3269,12 +2645,10 @@
   {
    "id": "scholasticism",
    "name": "Scholasticism",
-   "branch": "learning",
+   "branch": "science",
    "cost": 926,
    "available_from": 1050,
-   "requires": [
-    "philosophy"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.05,
     "unrest": -0.02
@@ -3284,7 +2658,7 @@
   {
    "id": "humanism",
    "name": "Humanism",
-   "branch": "learning",
+   "branch": "society",
    "cost": 1284,
    "available_from": 1400,
    "requires": [
@@ -3299,7 +2673,7 @@
   {
    "id": "heliocentrism",
    "name": "Heliocentrism",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1443,
    "available_from": 1543,
    "requires": [
@@ -3315,7 +2689,7 @@
   {
    "id": "scientific_method",
    "name": "The scientific method",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1531,
    "available_from": 1620,
    "requires": [
@@ -3329,7 +2703,7 @@
   {
    "id": "scientific_societies",
    "name": "Scientific societies",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1578,
    "available_from": 1660,
    "requires": [
@@ -3338,12 +2712,12 @@
    "effects": {
     "research": 0.2
    },
-   "description": "The Royal Society and the Acad\u00e9mie."
+   "description": "The Royal Society and the Académie."
   },
   {
    "id": "calculus",
    "name": "Calculus",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1610,
    "available_from": 1687,
    "requires": [
@@ -3357,7 +2731,7 @@
   {
    "id": "enlightenment",
    "name": "The Enlightenment",
-   "branch": "learning",
+   "branch": "society",
    "cost": 1644,
    "available_from": 1715,
    "requires": [
@@ -3372,7 +2746,7 @@
   {
    "id": "electromagnetism",
    "name": "Electromagnetism",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1785,
    "available_from": 1831,
    "requires": [
@@ -3387,7 +2761,7 @@
   {
    "id": "evolution",
    "name": "Evolution",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1820,
    "available_from": 1859,
    "requires": [
@@ -3401,7 +2775,7 @@
   {
    "id": "genetics",
    "name": "Genetics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1871,
    "available_from": 1900,
    "requires": [
@@ -3416,7 +2790,7 @@
   {
    "id": "relativity",
    "name": "Modern physics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1877,
    "available_from": 1905,
    "requires": [
@@ -3430,7 +2804,7 @@
   {
    "id": "public_schooling",
    "name": "Public schooling",
-   "branch": "learning",
+   "branch": "society",
    "cost": 1784,
    "available_from": 1830,
    "requires": [
@@ -3444,25 +2818,12 @@
    "description": "Every child in school."
   },
   {
-   "id": "hippocratic_medicine",
-   "name": "Hippocratic medicine",
-   "branch": "medicine",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "growth": 0.02
-   },
-   "description": "Diet, rest and observation."
-  },
-  {
    "id": "anatomy",
    "name": "Anatomy",
    "branch": "medicine",
    "cost": 76,
    "available_from": -280,
    "requires": [
-    "hippocratic_medicine",
     "medicine"
    ],
    "effects": {
@@ -3506,8 +2867,7 @@
    "cost": 96,
    "available_from": -200,
    "requires": [
-    "hypocaust",
-    "aqueducts"
+    "hypocaust"
    ],
    "effects": {
     "growth": 0.02,
@@ -3638,8 +2998,7 @@
    "cost": 1806,
    "available_from": 1848,
    "requires": [
-    "vaccination",
-    "sewers"
+    "vaccination"
    ],
    "effects": {
     "growth": 0.1
@@ -3692,78 +3051,33 @@
    "description": "Penicillin."
   },
   {
-   "id": "oracles",
-   "name": "Great oracles",
-   "branch": "culture",
-   "cost": 60,
-   "available_from": -600,
-   "requires": [],
-   "effects": {
-    "unrest": -0.02
-   },
-   "description": "Delphi, Dodona and Siwa guide kings."
-  },
-  {
    "id": "mystery_cults",
    "name": "Mystery cults",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "oracles"
-   ],
+   "requires": [],
    "effects": {
     "unrest": -0.02
    },
    "description": "Isis, Dionysus and Mithras promise salvation."
   },
   {
-   "id": "ruler_cult",
-   "name": "Ruler cult",
-   "branch": "culture",
-   "cost": 71,
-   "available_from": -305,
-   "requires": [
-    "hellenistic_monarchy"
-   ],
-   "effects": {
-    "integration": 0.05,
-    "unrest": -0.02
-   },
-   "description": "The king honoured as a god."
-  },
-  {
    "id": "hellenization",
    "name": "Greek culture spread",
-   "branch": "culture",
+   "branch": "society",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "integration": 0.05
    },
    "description": "Gymnasia and theatres in every city."
   },
   {
-   "id": "theatres",
-   "name": "Theatres and games",
-   "branch": "culture",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "oracles"
-   ],
-   "effects": {
-    "unrest": -0.03
-   },
-   "description": "Bread and circuses."
-  },
-  {
    "id": "koine",
    "name": "A common tongue",
-   "branch": "culture",
+   "branch": "communication",
    "cost": 72,
    "available_from": -300,
    "requires": [
@@ -3778,7 +3092,7 @@
   {
    "id": "latin_letters",
    "name": "Latin literature",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 85,
    "available_from": -240,
    "requires": [
@@ -3792,12 +3106,10 @@
   {
    "id": "imperial_cult",
    "name": "Imperial cult",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 159,
    "available_from": -27,
-   "requires": [
-    "ruler_cult"
-   ],
+   "requires": [],
    "effects": {
     "integration": 0.05
    },
@@ -3806,7 +3118,7 @@
   {
    "id": "monotheism",
    "name": "Universal faith",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 338,
    "available_from": 313,
    "requires": [
@@ -3821,7 +3133,7 @@
   {
    "id": "monasticism",
    "name": "Monasteries",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 485,
    "available_from": 529,
    "requires": [
@@ -3836,7 +3148,7 @@
   {
    "id": "church_hierarchy",
    "name": "Church organisation",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 381,
    "available_from": 380,
    "requires": [
@@ -3851,7 +3163,7 @@
   {
    "id": "islam_law",
    "name": "Sharia and the madrasa",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 700,
    "available_from": 800,
    "requires": [
@@ -3866,7 +3178,7 @@
   {
    "id": "cathedral_schools",
    "name": "Cathedral schools",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 700,
    "available_from": 800,
    "requires": [
@@ -3880,7 +3192,7 @@
   {
    "id": "pilgrimage",
    "name": "Pilgrimage",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 878,
    "available_from": 1000,
    "requires": [
@@ -3894,7 +3206,7 @@
   {
    "id": "vernacular_literature",
    "name": "Vernacular literature",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -3908,7 +3220,7 @@
   {
    "id": "reformation",
    "name": "Religious reform",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1413,
    "available_from": 1517,
    "requires": [
@@ -3923,7 +3235,7 @@
   {
    "id": "toleration",
    "name": "Toleration",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1613,
    "available_from": 1689,
    "requires": [
@@ -3938,7 +3250,7 @@
   {
    "id": "newspapers",
    "name": "Newspapers",
-   "branch": "culture",
+   "branch": "communication",
    "cost": 1514,
    "available_from": 1605,
    "requires": [
@@ -3953,7 +3265,7 @@
   {
    "id": "romanticism",
    "name": "Romanticism",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -3967,7 +3279,7 @@
   {
    "id": "mass_media",
    "name": "Mass media",
-   "branch": "culture",
+   "branch": "communication",
    "cost": 1896,
    "available_from": 1920,
    "requires": [
@@ -3979,18 +3291,6 @@
     "unrest": -0.02
    },
    "description": "Radio and cinema."
-  },
-  {
-   "id": "wheeled_carts",
-   "name": "Four-wheeled wagons",
-   "branch": "transport",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "trade": 0.02
-   },
-   "description": "Heavy wagons for heavy loads."
   },
   {
    "id": "pack_camels",
@@ -4008,12 +3308,11 @@
   {
    "id": "post_stations",
    "name": "Relay stations",
-   "branch": "transport",
+   "branch": "communication",
    "cost": 72,
    "available_from": -300,
    "requires": [
-    "pack_camels",
-    "postal_roads"
+    "pack_camels"
    ],
    "effects": {
     "admin": 1,
@@ -4027,9 +3326,7 @@
    "branch": "transport",
    "cost": 787,
    "available_from": 900,
-   "requires": [
-    "wheeled_carts"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.02,
     "might_cavalry": 0.03
@@ -4039,7 +3336,7 @@
   {
    "id": "caravanserai",
    "name": "Caravanserais",
-   "branch": "transport",
+   "branch": "commerce",
    "cost": 616,
    "available_from": 700,
    "requires": [
@@ -4111,44 +3408,6 @@
    "description": "The Wright brothers fly."
   },
   {
-   "id": "olive_groves_planned",
-   "name": "Planned olive groves",
-   "branch": "agriculture",
-   "cost": 64,
-   "available_from": -350,
-   "requires": [
-    "grafting"
-   ],
-   "effects": {
-    "orchard": 0.03
-   },
-   "description": "Groves laid out in rows on the hills of Attica and Africa."
-  },
-  {
-   "id": "date_palm_pollination",
-   "name": "Hand-pollinated date palms",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "orchard": 0.03
-   },
-   "description": "Pollen carried to the female palms by hand, as in Babylonia."
-  },
-  {
-   "id": "beekeeping_hives",
-   "name": "Horizontal hives",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "herd": 0.02
-   },
-   "description": "Clay and cork hives that can be opened without killing the bees."
-  },
-  {
    "id": "poultry_keeping",
    "name": "Poultry yards",
    "branch": "agriculture",
@@ -4218,18 +3477,6 @@
    "description": "The Nisaean horses of Media, bred for kings."
   },
   {
-   "id": "camel_herding",
-   "name": "Camel herding",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "herd": 0.03
-   },
-   "description": "Dromedaries bred across the deserts."
-  },
-  {
    "id": "cheese_making",
    "name": "Hard cheeses",
    "branch": "agriculture",
@@ -4244,38 +3491,12 @@
    "description": "Cheese that keeps for a year and travels."
   },
   {
-   "id": "garum_making",
-   "name": "Fish sauce works",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "crafts": 0.02
-   },
-   "description": "Salting vats along the coasts of Spain and Africa."
-  },
-  {
-   "id": "salt_pans",
-   "name": "Salt pans",
-   "branch": "agriculture",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "mine": 0.02
-   },
-   "description": "Sea water evaporated in shallow pans."
-  },
-  {
    "id": "orchard_irrigation",
    "name": "Garden irrigation",
    "branch": "agriculture",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "qanat"
-   ],
+   "requires": [],
    "effects": {
     "orchard": 0.03
    },
@@ -4374,9 +3595,7 @@
    "branch": "agriculture",
    "cost": 1230,
    "available_from": 1350,
-   "requires": [
-    "salt_pans"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.02,
     "trade": 0.02
@@ -4605,7 +3824,7 @@
   {
    "id": "glass_casting",
    "name": "Cast glass",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 72,
    "available_from": -300,
    "requires": [],
@@ -4615,80 +3834,12 @@
    "description": "Glass bowls cast in moulds."
   },
   {
-   "id": "purple_dyeing",
-   "name": "Purple dyeing",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "crafts": 0.02,
-    "trade": 0.02
-   },
-   "description": "Tyrian purple from murex shells."
-  },
-  {
-   "id": "tanning",
-   "name": "Tanning",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "crafts": 0.02
-   },
-   "description": "Hides tanned with oak bark."
-  },
-  {
-   "id": "coin_minting",
-   "name": "Mints",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [
-    "coinage"
-   ],
-   "effects": {
-    "tax": 0.02
-   },
-   "description": "Coins struck by the state."
-  },
-  {
-   "id": "jewellery_filigree",
-   "name": "Filigree and granulation",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "bronze_casting"
-   ],
-   "effects": {
-    "trade": 0.02
-   },
-   "description": "Fine goldwork of Etruria and Greece."
-  },
-  {
-   "id": "marble_carving",
-   "name": "Marble sculpture workshops",
-   "branch": "crafts",
-   "cost": 60,
-   "available_from": -450,
-   "requires": [],
-   "effects": {
-    "trade": 0.01,
-    "unrest": -0.01
-   },
-   "description": "Workshops that make statues to order."
-  },
-  {
    "id": "bronze_mirrors",
    "name": "Mirrors and fine bronzes",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "bronze_casting"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.01
    },
@@ -4697,12 +3848,10 @@
   {
    "id": "parchment_making",
    "name": "Parchment",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 99,
    "available_from": -190,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.03
    },
@@ -4711,7 +3860,7 @@
   {
    "id": "papyrus_workshops",
    "name": "Papyrus factories",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 72,
    "available_from": -300,
    "requires": [
@@ -4726,7 +3875,7 @@
   {
    "id": "soap",
    "name": "Soap",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 218,
    "available_from": 100,
    "requires": [
@@ -4740,12 +3889,10 @@
   {
    "id": "chemistry_early",
    "name": "Dyes and pigments",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "purple_dyeing"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.02
    },
@@ -4754,12 +3901,10 @@
   {
    "id": "brass",
    "name": "Brass",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 149,
    "available_from": -50,
-   "requires": [
-    "bronze_casting"
-   ],
+   "requires": [],
    "effects": {
     "crafts": 0.02
    },
@@ -4768,12 +3913,10 @@
   {
    "id": "lead_pipes",
    "name": "Lead pipes",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 130,
    "available_from": -100,
-   "requires": [
-    "aqueducts"
-   ],
+   "requires": [],
    "effects": {
     "growth": 0.01
    },
@@ -4782,7 +3925,7 @@
   {
    "id": "window_glass",
    "name": "Window glass",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 193,
    "available_from": 50,
    "requires": [
@@ -4796,7 +3939,7 @@
   {
    "id": "damascus_steel",
    "name": "Damascus steel",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 787,
    "available_from": 900,
    "requires": [
@@ -4810,11 +3953,10 @@
   {
    "id": "tile_glazing",
    "name": "Glazed tiles",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 743,
    "available_from": 850,
    "requires": [
-    "pottery_wheel",
     "alchemy"
    ],
    "effects": {
@@ -4825,7 +3967,7 @@
   {
    "id": "carpets",
    "name": "Knotted carpets",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 464,
    "available_from": 500,
    "requires": [
@@ -4839,7 +3981,7 @@
   {
    "id": "porcelain_imitation",
    "name": "Tin-glazed earthenware",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -4853,7 +3995,7 @@
   {
    "id": "eyeglasses",
    "name": "Spectacles",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1162,
    "available_from": 1286,
    "requires": [
@@ -4867,7 +4009,7 @@
   {
    "id": "stained_glass",
    "name": "Stained glass",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 974,
    "available_from": 1100,
    "requires": [
@@ -4881,7 +4023,7 @@
   {
    "id": "silk_throwing",
    "name": "Silk throwing mills",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -4896,7 +4038,7 @@
   {
    "id": "paper_mills",
    "name": "Water-powered paper mills",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1151,
    "available_from": 1276,
    "requires": [
@@ -4911,7 +4053,7 @@
   {
    "id": "gunsmithing",
    "name": "Gunsmithing",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1394,
    "available_from": 1500,
    "requires": [
@@ -4925,7 +4067,7 @@
   {
    "id": "knitting_frame",
    "name": "The knitting frame",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1495,
    "available_from": 1589,
    "requires": [
@@ -4939,7 +4081,7 @@
   {
    "id": "porcelain",
    "name": "European porcelain",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1638,
    "available_from": 1710,
    "requires": [
@@ -4954,7 +4096,7 @@
   {
    "id": "sulfuric_acid",
    "name": "Sulphuric acid",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1681,
    "available_from": 1746,
    "requires": [
@@ -4968,7 +4110,7 @@
   {
    "id": "soda_process",
    "name": "Soda ash",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1736,
    "available_from": 1791,
    "requires": [
@@ -4982,7 +4124,7 @@
   {
    "id": "power_loom",
    "name": "The power loom",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1728,
    "available_from": 1785,
    "requires": [
@@ -4997,7 +4139,7 @@
   {
    "id": "cotton_gin",
    "name": "The cotton gin",
-   "branch": "crafts",
+   "branch": "industry",
    "cost": 1738,
    "available_from": 1793,
    "requires": [
@@ -5011,7 +4153,7 @@
   {
    "id": "gas_lighting",
    "name": "Gas lighting",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1755,
    "available_from": 1807,
    "requires": [
@@ -5026,7 +4168,7 @@
   {
    "id": "photography",
    "name": "Photography",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1795,
    "available_from": 1839,
    "requires": [
@@ -5041,7 +4183,7 @@
   {
    "id": "rubber",
    "name": "Vulcanised rubber",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1801,
    "available_from": 1844,
    "requires": [
@@ -5055,7 +4197,7 @@
   {
    "id": "synthetic_dyes",
    "name": "Synthetic dyes",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1816,
    "available_from": 1856,
    "requires": [
@@ -5069,7 +4211,7 @@
   {
    "id": "dynamite",
    "name": "Dynamite",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1830,
    "available_from": 1867,
    "requires": [
@@ -5083,7 +4225,7 @@
   {
    "id": "aluminium",
    "name": "Aluminium",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1854,
    "available_from": 1886,
    "requires": [
@@ -5092,12 +4234,12 @@
    "effects": {
     "crafts": 0.02
    },
-   "description": "The Hall-H\u00e9roult process."
+   "description": "The Hall-Héroult process."
   },
   {
    "id": "telephone",
    "name": "The telephone",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1841,
    "available_from": 1876,
    "requires": [
@@ -5112,7 +4254,7 @@
   {
    "id": "radio",
    "name": "Radio",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1872,
    "available_from": 1901,
    "requires": [
@@ -5127,7 +4269,7 @@
   {
    "id": "nitrogen_fixation",
    "name": "Nitrogen fixation",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1888,
    "available_from": 1913,
    "requires": [
@@ -5141,7 +4283,7 @@
   {
    "id": "synthetic_fibres",
    "name": "Synthetic fibres",
-   "branch": "crafts",
+   "branch": "materials",
    "cost": 1915,
    "available_from": 1935,
    "requires": [
@@ -5155,7 +4297,7 @@
   {
    "id": "semiconductors",
    "name": "Semiconductors",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1931,
    "available_from": 1947,
    "requires": [
@@ -5169,7 +4311,7 @@
   {
    "id": "nuclear_power",
    "name": "Nuclear power",
-   "branch": "crafts",
+   "branch": "energy",
    "cost": 1940,
    "available_from": 1954,
    "requires": [
@@ -5184,7 +4326,7 @@
   {
    "id": "internet",
    "name": "The internet",
-   "branch": "crafts",
+   "branch": "communication",
    "cost": 1977,
    "available_from": 1983,
    "requires": [
@@ -5197,35 +4339,9 @@
    "description": "Computers joined across the world."
   },
   {
-   "id": "walls_ashlar",
-   "name": "Ashlar walls",
-   "branch": "engineering",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "garrison": 0.5
-   },
-   "description": "Walls of dressed, fitted stone."
-  },
-  {
-   "id": "hippodamian_plan",
-   "name": "Grid-planned cities",
-   "branch": "engineering",
-   "cost": 60,
-   "available_from": -450,
-   "requires": [
-    "surveying"
-   ],
-   "effects": {
-    "growth": 0.02
-   },
-   "description": "Hippodamus lays out streets at right angles."
-  },
-  {
    "id": "water_clocks",
    "name": "Water clocks",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 78,
    "available_from": -270,
    "requires": [
@@ -5239,7 +4355,7 @@
   {
    "id": "dams",
    "name": "Dams and reservoirs",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 72,
    "available_from": -300,
    "requires": [
@@ -5251,24 +4367,9 @@
    "description": "Earth and stone dams store water."
   },
   {
-   "id": "tunnels",
-   "name": "Tunnels",
-   "branch": "engineering",
-   "cost": 60,
-   "available_from": -530,
-   "requires": [
-    "surveying"
-   ],
-   "effects": {
-    "trade": 0.01,
-    "growth": 0.01
-   },
-   "description": "The Eupalinos tunnel on Samos, dug from both ends."
-  },
-  {
    "id": "lighthouse_engineering",
    "name": "Great lighthouses",
-   "branch": "engineering",
+   "branch": "naval",
    "cost": 76,
    "available_from": -280,
    "requires": [
@@ -5282,12 +4383,11 @@
   {
    "id": "amphitheatres",
    "name": "Amphitheatres",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 141,
    "available_from": -70,
    "requires": [
-    "concrete",
-    "theatres"
+    "concrete"
    ],
    "effects": {
     "unrest": -0.02
@@ -5297,11 +4397,10 @@
   {
    "id": "siphons",
    "name": "Inverted siphons",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 102,
    "available_from": -180,
    "requires": [
-    "aqueducts",
     "lead_pipes"
    ],
    "effects": {
@@ -5312,7 +4411,7 @@
   {
    "id": "harbour_moles",
    "name": "Concrete moles",
-   "branch": "engineering",
+   "branch": "naval",
    "cost": 162,
    "available_from": -20,
    "requires": [
@@ -5326,12 +4425,10 @@
   {
    "id": "military_roads",
    "name": "Military roads",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 96,
    "available_from": -200,
-   "requires": [
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "reach_km": 30
    },
@@ -5340,11 +4437,10 @@
   {
    "id": "walls_theodosian",
    "name": "Great city walls",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 403,
    "available_from": 413,
    "requires": [
-    "fortification",
     "concrete"
    ],
    "effects": {
@@ -5355,7 +4451,7 @@
   {
    "id": "cisterns",
    "name": "Great cisterns",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 464,
    "available_from": 500,
    "requires": [
@@ -5370,7 +4466,7 @@
   {
    "id": "windcatchers",
    "name": "Windcatchers",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 787,
    "available_from": 900,
    "requires": [
@@ -5384,7 +4480,7 @@
   {
    "id": "covered_bazaars",
    "name": "Covered bazaars",
-   "branch": "engineering",
+   "branch": "commerce",
    "cost": 878,
    "available_from": 1000,
    "requires": [
@@ -5398,7 +4494,7 @@
   {
    "id": "canal_locks_china",
    "name": "Mitre gates",
-   "branch": "engineering",
+   "branch": "transport",
    "cost": 1372,
    "available_from": 1480,
    "requires": [
@@ -5412,7 +4508,7 @@
   {
    "id": "dikes",
    "name": "Sea dikes",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1177,
    "available_from": 1300,
    "requires": [
@@ -5426,7 +4522,7 @@
   {
    "id": "windpump",
    "name": "Wind-driven pumps",
-   "branch": "engineering",
+   "branch": "energy",
    "cost": 1299,
    "available_from": 1414,
    "requires": [
@@ -5441,7 +4537,7 @@
   {
    "id": "cast_iron_architecture",
    "name": "Cast-iron building",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -5455,7 +4551,7 @@
   {
    "id": "tunnel_shield",
    "name": "The tunnelling shield",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1778,
    "available_from": 1825,
    "requires": [
@@ -5469,7 +4565,7 @@
   {
    "id": "reinforced_concrete",
    "name": "Reinforced concrete",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1830,
    "available_from": 1867,
    "requires": [
@@ -5484,7 +4580,7 @@
   {
    "id": "elevators",
    "name": "The safety elevator",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1812,
    "available_from": 1853,
    "requires": [
@@ -5498,7 +4594,7 @@
   {
    "id": "sewer_networks",
    "name": "City sewer networks",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1820,
    "available_from": 1859,
    "requires": [
@@ -5512,7 +4608,7 @@
   {
    "id": "water_treatment",
    "name": "Water filtration",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1809,
    "available_from": 1850,
    "requires": [
@@ -5526,7 +4622,7 @@
   {
    "id": "hydroelectric",
    "name": "Hydroelectric power",
-   "branch": "engineering",
+   "branch": "energy",
    "cost": 1848,
    "available_from": 1882,
    "requires": [
@@ -5541,7 +4637,7 @@
   {
    "id": "electric_grid",
    "name": "The electric grid",
-   "branch": "engineering",
+   "branch": "energy",
    "cost": 1884,
    "available_from": 1910,
    "requires": [
@@ -5556,7 +4652,7 @@
   {
    "id": "air_conditioning",
    "name": "Air conditioning",
-   "branch": "engineering",
+   "branch": "construction",
    "cost": 1896,
    "available_from": 1920,
    "requires": [
@@ -5568,117 +4664,12 @@
    "description": "Cool air for hot cities."
   },
   {
-   "id": "hoplite_phalanx",
-   "name": "The hoplite phalanx",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -650,
-   "requires": [],
-   "effects": {
-    "might_heavy_infantry": 0.03
-   },
-   "description": "Shield to shield."
-  },
-  {
-   "id": "oblique_order",
-   "name": "The oblique order",
-   "branch": "war",
-   "cost": 62,
-   "available_from": -371,
-   "requires": [
-    "hoplite_phalanx"
-   ],
-   "effects": {
-    "might_heavy_infantry": 0.04
-   },
-   "description": "Epaminondas at Leuctra: strike with a strong wing."
-  },
-  {
-   "id": "sarissa",
-   "name": "The sarissa",
-   "branch": "war",
-   "cost": 63,
-   "available_from": -359,
-   "requires": [
-    "oblique_order"
-   ],
-   "effects": {
-    "might_heavy_infantry": 0.05
-   },
-   "description": "Pikes of 5 to 6 metres."
-  },
-  {
-   "id": "war_chariots_scythed",
-   "name": "Scythed chariots",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "might_cavalry": 0.02
-   },
-   "description": "Chariots with blades on the wheels."
-  },
-  {
-   "id": "mercenary_captains",
-   "name": "Mercenary captains",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "manpower": 0.05
-   },
-   "description": "Condottieri of the ancient world."
-  },
-  {
-   "id": "slingers_lead",
-   "name": "Lead sling bullets",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "might_missile": 0.04
-   },
-   "description": "Cast bullets with a slogan: 'take this'."
-  },
-  {
-   "id": "naval_boarding",
-   "name": "Marines",
-   "branch": "war",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "war_galleys_ram"
-   ],
-   "effects": {
-    "might_warships": 0.04
-   },
-   "description": "Soldiers on every warship."
-  },
-  {
-   "id": "siege_towers",
-   "name": "Great siege towers",
-   "branch": "war",
-   "cost": 71,
-   "available_from": -305,
-   "requires": [
-    "siegecraft"
-   ],
-   "effects": {
-    "siege": 0.1
-   },
-   "description": "The Helepolis at Rhodes."
-  },
-  {
    "id": "military_engineering",
    "name": "Military engineers",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 96,
    "available_from": -200,
    "requires": [
-    "siege_towers",
     "surveying"
    ],
    "effects": {
@@ -5689,12 +4680,10 @@
   {
    "id": "legion_camps",
    "name": "Fortified camps",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 96,
    "available_from": -200,
-   "requires": [
-    "manipular"
-   ],
+   "requires": [],
    "effects": {
     "might_heavy_infantry": 0.03
    },
@@ -5703,7 +4692,7 @@
   {
    "id": "auxilia",
    "name": "Auxiliaries",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 159,
    "available_from": -27,
    "requires": [
@@ -5719,12 +4708,11 @@
   {
    "id": "veteran_colonies",
    "name": "Veteran colonies",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 130,
    "available_from": -100,
    "requires": [
-    "cohort",
-    "colonies"
+    "cohort"
    ],
    "effects": {
     "manpower": 0.03,
@@ -5735,7 +4723,7 @@
   {
    "id": "praetorians",
    "name": "A guard corps",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 159,
    "available_from": -27,
    "requires": [
@@ -5749,7 +4737,7 @@
   {
    "id": "naval_ports",
    "name": "Naval bases",
-   "branch": "war",
+   "branch": "naval",
    "cost": 157,
    "available_from": -30,
    "requires": [
@@ -5763,7 +4751,7 @@
   {
    "id": "frontier_legions",
    "name": "Legions on the frontier",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 177,
    "available_from": 14,
    "requires": [
@@ -5777,12 +4765,10 @@
   {
    "id": "stirrup_saddle",
    "name": "The horned saddle",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 130,
    "available_from": -100,
-   "requires": [
-    "heavy_cavalry"
-   ],
+   "requires": [],
    "effects": {
     "might_cavalry": 0.04
    },
@@ -5791,7 +4777,7 @@
   {
    "id": "horse_armour",
    "name": "Horse armour",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 271,
    "available_from": 200,
    "requires": [
@@ -5805,7 +4791,7 @@
   {
    "id": "foederati",
    "name": "Barbarian federates",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 382,
    "available_from": 382,
    "requires": [
@@ -5820,12 +4806,11 @@
   {
    "id": "strategikon",
    "name": "Military manuals",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 538,
    "available_from": 600,
    "requires": [
-    "comitatenses",
-    "writing_schools"
+    "comitatenses"
    ],
    "effects": {
     "might_cavalry": 0.03,
@@ -5836,7 +4821,7 @@
   {
    "id": "mamluks",
    "name": "Slave soldiers",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 728,
    "available_from": 833,
    "requires": [
@@ -5850,7 +4835,7 @@
   {
    "id": "longships",
    "name": "Longships",
-   "branch": "war",
+   "branch": "naval",
    "cost": 691,
    "available_from": 790,
    "requires": [
@@ -5865,7 +4850,7 @@
   {
    "id": "motte_bailey",
    "name": "Motte and bailey",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 832,
    "available_from": 950,
    "requires": [
@@ -5879,7 +4864,7 @@
   {
    "id": "concentric_castles",
    "name": "Concentric castles",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1145,
    "available_from": 1270,
    "requires": [
@@ -5894,7 +4879,7 @@
   {
    "id": "military_orders",
    "name": "Military orders",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 993,
    "available_from": 1119,
    "requires": [
@@ -5909,7 +4894,7 @@
   {
    "id": "gunpowder_bombards",
    "name": "Bombards",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1284,
    "available_from": 1400,
    "requires": [
@@ -5923,7 +4908,7 @@
   {
    "id": "janissaries",
    "name": "Janissaries",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1262,
    "available_from": 1380,
    "requires": [
@@ -5938,7 +4923,7 @@
   {
    "id": "tercio",
    "name": "The tercio",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1432,
    "available_from": 1534,
    "requires": [
@@ -5953,7 +4938,7 @@
   {
    "id": "wheellock_pistol",
    "name": "Pistols",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1417,
    "available_from": 1520,
    "requires": [
@@ -5967,7 +4952,7 @@
   {
    "id": "volley_fire",
    "name": "Volley fire",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1501,
    "available_from": 1594,
    "requires": [
@@ -5981,7 +4966,7 @@
   {
    "id": "dragoons",
    "name": "Dragoons",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1531,
    "available_from": 1620,
    "requires": [
@@ -5995,7 +4980,7 @@
   {
    "id": "flintlock",
    "name": "The flintlock",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1578,
    "available_from": 1660,
    "requires": [
@@ -6009,7 +4994,7 @@
   {
    "id": "frigates",
    "name": "Frigates",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1626,
    "available_from": 1700,
    "requires": [
@@ -6023,7 +5008,7 @@
   {
    "id": "light_infantry_skirmishers",
    "name": "Skirmishing light infantry",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1698,
    "available_from": 1760,
    "requires": [
@@ -6032,12 +5017,12 @@
    "effects": {
     "might_light_infantry": 0.1
    },
-   "description": "J\u00e4gers and riflemen."
+   "description": "Jägers and riflemen."
   },
   {
    "id": "corps_system",
    "name": "The corps system",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -6052,7 +5037,7 @@
   {
    "id": "general_staff",
    "name": "A general staff",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1754,
    "available_from": 1806,
    "requires": [
@@ -6067,7 +5052,7 @@
   {
    "id": "military_railways",
    "name": "Military railways",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1820,
    "available_from": 1859,
    "requires": [
@@ -6081,7 +5066,7 @@
   {
    "id": "breech_artillery",
    "name": "Breech-loading artillery",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1821,
    "available_from": 1860,
    "requires": [
@@ -6096,7 +5081,7 @@
   {
    "id": "torpedoes",
    "name": "Torpedoes",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1828,
    "available_from": 1866,
    "requires": [
@@ -6110,7 +5095,7 @@
   {
    "id": "dreadnought",
    "name": "The dreadnought",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1879,
    "available_from": 1906,
    "requires": [
@@ -6125,7 +5110,7 @@
   {
    "id": "submarines",
    "name": "Submarines",
-   "branch": "war",
+   "branch": "naval",
    "cost": 1871,
    "available_from": 1900,
    "requires": [
@@ -6139,7 +5124,7 @@
   {
    "id": "combined_arms_modern",
    "name": "Modern combined arms",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1922,
    "available_from": 1940,
    "requires": [
@@ -6155,7 +5140,7 @@
   {
    "id": "radar",
    "name": "Radar",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1915,
    "available_from": 1935,
    "requires": [
@@ -6170,7 +5155,7 @@
   {
    "id": "rockets",
    "name": "Rockets",
-   "branch": "war",
+   "branch": "land_war",
    "cost": 1924,
    "available_from": 1942,
    "requires": [
@@ -6182,26 +5167,12 @@
    "description": "Guided missiles."
   },
   {
-   "id": "city_leagues",
-   "name": "Leagues of cities",
-   "branch": "governance",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [],
-   "effects": {
-    "admin": 1
-   },
-   "description": "The Achaean and Aetolian Leagues."
-  },
-  {
    "id": "sympoliteia",
    "name": "Federal citizenship",
    "branch": "governance",
    "cost": 76,
    "available_from": -280,
-   "requires": [
-    "city_leagues"
-   ],
+   "requires": [],
    "effects": {
     "integration": 0.05
    },
@@ -6213,9 +5184,7 @@
    "branch": "governance",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "hellenistic_monarchy"
-   ],
+   "requires": [],
    "effects": {
     "tax": 0.03
    },
@@ -6224,7 +5193,7 @@
   {
    "id": "monopolies",
    "name": "Royal monopolies",
-   "branch": "governance",
+   "branch": "commerce",
    "cost": 81,
    "available_from": -260,
    "requires": [
@@ -6242,9 +5211,7 @@
    "branch": "governance",
    "cost": 96,
    "available_from": -200,
-   "requires": [
-    "census"
-   ],
+   "requires": [],
    "effects": {
     "tax": 0.03,
     "corruption": 0.02
@@ -6284,13 +5251,10 @@
   {
    "id": "cursus_publicus",
    "name": "The imperial post",
-   "branch": "governance",
+   "branch": "communication",
    "cost": 162,
    "available_from": -20,
-   "requires": [
-    "postal_roads",
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "admin": 2,
     "reach_km": 20
@@ -6304,8 +5268,7 @@
    "cost": 162,
    "available_from": -20,
    "requires": [
-    "surveying",
-    "census"
+    "surveying"
    ],
    "effects": {
     "tax": 0.04
@@ -6349,7 +5312,6 @@
    "cost": 336,
    "available_from": 309,
    "requires": [
-    "coinage",
     "dominate"
    ],
    "effects": {
@@ -6450,7 +5412,7 @@
   {
    "id": "guilds",
    "name": "Guilds",
-   "branch": "governance",
+   "branch": "commerce",
    "cost": 974,
    "available_from": 1100,
    "requires": [
@@ -6494,11 +5456,10 @@
   {
    "id": "public_debt",
    "name": "Public debt",
-   "branch": "governance",
+   "branch": "commerce",
    "cost": 1137,
    "available_from": 1262,
    "requires": [
-    "banking",
     "free_cities"
    ],
    "effects": {
@@ -6567,7 +5528,7 @@
   {
    "id": "toleration_early",
    "name": "Protected communities",
-   "branch": "governance",
+   "branch": "society",
    "cost": 569,
    "available_from": 640,
    "requires": [
@@ -6581,7 +5542,7 @@
   {
    "id": "postal_service",
    "name": "A public postal service",
-   "branch": "governance",
+   "branch": "communication",
    "cost": 1412,
    "available_from": 1516,
    "requires": [
@@ -6640,7 +5601,7 @@
   {
    "id": "universal_suffrage",
    "name": "Universal suffrage",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1806,
    "available_from": 1848,
    "requires": [
@@ -6684,7 +5645,7 @@
   {
    "id": "labour_laws",
    "name": "Labour laws",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1787,
    "available_from": 1833,
    "requires": [
@@ -6699,7 +5660,7 @@
   {
    "id": "abolition_movement",
    "name": "The abolition movement",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1731,
    "available_from": 1787,
    "requires": [
@@ -6727,7 +5688,7 @@
   {
    "id": "social_insurance",
    "name": "Social insurance",
-   "branch": "governance",
+   "branch": "society",
    "cost": 1885,
    "available_from": 1911,
    "requires": [
@@ -6740,63 +5701,9 @@
    "description": "Health and unemployment insurance."
   },
   {
-   "id": "sewn_boats",
-   "name": "Plank ships",
-   "branch": "sea",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "trade": 0.02
-   },
-   "description": "Mortise-and-tenon hulls."
-  },
-  {
-   "id": "coastal_pilotage",
-   "name": "Periploi",
-   "branch": "sea",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [
-    "sewn_boats"
-   ],
-   "effects": {
-    "sea_cost": -0.02
-   },
-   "description": "Books of coasts and harbours (the Periplus)."
-  },
-  {
-   "id": "round_ships",
-   "name": "Round merchantmen",
-   "branch": "sea",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [
-    "sewn_boats"
-   ],
-   "effects": {
-    "trade": 0.02
-   },
-   "description": "Broad ships for cargo."
-  },
-  {
-   "id": "maritime_loans",
-   "name": "Maritime loans",
-   "branch": "sea",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "banking"
-   ],
-   "effects": {
-    "trade": 0.03
-   },
-   "description": "Loans repaid only if the ship comes home."
-  },
-  {
    "id": "grain_trade_egypt",
    "name": "The Egyptian grain trade",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 72,
    "available_from": -300,
    "requires": [
@@ -6811,12 +5718,10 @@
   {
    "id": "red_sea_ports",
    "name": "Red Sea ports",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 78,
    "available_from": -270,
-   "requires": [
-    "canals"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.03
    },
@@ -6825,7 +5730,7 @@
   {
    "id": "free_ports",
    "name": "Free ports",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 107,
    "available_from": -166,
    "requires": [
@@ -6839,7 +5744,7 @@
   {
    "id": "trade_fairs",
    "name": "Trade fairs",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 974,
    "available_from": 1100,
    "requires": [
@@ -6853,7 +5758,7 @@
   {
    "id": "hanse",
    "name": "Trading leagues",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1125,
    "available_from": 1250,
    "requires": [
@@ -6868,7 +5773,7 @@
   {
    "id": "marine_insurance",
    "name": "Marine insurance",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1230,
    "available_from": 1350,
    "requires": [
@@ -6882,7 +5787,7 @@
   {
    "id": "bills_of_exchange",
    "name": "Bills of exchange",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1073,
    "available_from": 1200,
    "requires": [
@@ -6896,7 +5801,7 @@
   {
    "id": "stock_exchange",
    "name": "The stock exchange",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1511,
    "available_from": 1602,
    "requires": [
@@ -6911,7 +5816,7 @@
   {
    "id": "fluyt",
    "name": "The fluyt",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1502,
    "available_from": 1595,
    "requires": [
@@ -6925,7 +5830,7 @@
   {
    "id": "sextant",
    "name": "The sextant",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1663,
    "available_from": 1731,
    "requires": [
@@ -6940,7 +5845,7 @@
   {
    "id": "copper_sheathing",
    "name": "Copper sheathing",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1699,
    "available_from": 1761,
    "requires": [
@@ -6955,7 +5860,7 @@
   {
    "id": "screw_propeller",
    "name": "The screw propeller",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1796,
    "available_from": 1840,
    "requires": [
@@ -6969,7 +5874,7 @@
   {
    "id": "steel_hulls",
    "name": "Steel ships",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1846,
    "available_from": 1880,
    "requires": [
@@ -6984,7 +5889,7 @@
   {
    "id": "wireless_navigation",
    "name": "Radio navigation",
-   "branch": "sea",
+   "branch": "naval",
    "cost": 1884,
    "available_from": 1910,
    "requires": [
@@ -6998,7 +5903,7 @@
   {
    "id": "free_trade",
    "name": "Free trade",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1804,
    "available_from": 1846,
    "requires": [
@@ -7013,7 +5918,7 @@
   {
    "id": "gold_standard",
    "name": "The gold standard",
-   "branch": "sea",
+   "branch": "commerce",
    "cost": 1773,
    "available_from": 1821,
    "requires": [
@@ -7031,9 +5936,7 @@
    "branch": "transport",
    "cost": 96,
    "available_from": -200,
-   "requires": [
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "trade": 0.02
    },
@@ -7071,9 +5974,7 @@
    "branch": "transport",
    "cost": 83,
    "available_from": -250,
-   "requires": [
-    "paved_roads"
-   ],
+   "requires": [],
    "effects": {
     "admin": 1
    },
@@ -7082,7 +5983,7 @@
   {
    "id": "travel_maps",
    "name": "Itinerary maps",
-   "branch": "transport",
+   "branch": "communication",
    "cost": 330,
    "available_from": 300,
    "requires": [
@@ -7093,20 +5994,6 @@
     "reach_km": 10
    },
    "description": "The Peutinger map."
-  },
-  {
-   "id": "pack_mules",
-   "name": "Pack trains",
-   "branch": "transport",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "mule_breeding"
-   ],
-   "effects": {
-    "trade": 0.02
-   },
-   "description": "Mule trains over the mountains."
   },
   {
    "id": "hump_bridges",
@@ -7253,37 +6140,9 @@
    "description": "Whittle and von Ohain."
   },
   {
-   "id": "rhetoric",
-   "name": "Rhetoric",
-   "branch": "learning",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "writing_schools"
-   ],
-   "effects": {
-    "integration": 0.02
-   },
-   "description": "The art of persuasion."
-  },
-  {
-   "id": "history_writing",
-   "name": "History-writing",
-   "branch": "learning",
-   "cost": 60,
-   "available_from": -430,
-   "requires": [
-    "writing_schools"
-   ],
-   "effects": {
-    "research": 0.02
-   },
-   "description": "Herodotus and Thucydides."
-  },
-  {
    "id": "mathematics_archimedes",
    "name": "Archimedean mathematics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 83,
    "available_from": -250,
    "requires": [
@@ -7298,7 +6157,7 @@
   {
    "id": "conic_sections",
    "name": "Conic sections",
-   "branch": "learning",
+   "branch": "science",
    "cost": 96,
    "available_from": -200,
    "requires": [
@@ -7312,12 +6171,10 @@
   {
    "id": "botany",
    "name": "Botany",
-   "branch": "learning",
+   "branch": "science",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "writing_schools"
-   ],
+   "requires": [],
    "effects": {
     "field": 0.01,
     "growth": 0.01
@@ -7325,65 +6182,21 @@
    "description": "Theophrastus' Enquiry into Plants."
   },
   {
-   "id": "zoology",
-   "name": "Natural history",
-   "branch": "learning",
-   "cost": 65,
-   "available_from": -340,
-   "requires": [
-    "philosophy"
-   ],
-   "effects": {
-    "herd": 0.01
-   },
-   "description": "Aristotle's History of Animals."
-  },
-  {
-   "id": "logic",
-   "name": "Logic",
-   "branch": "learning",
-   "cost": 64,
-   "available_from": -350,
-   "requires": [
-    "philosophy"
-   ],
-   "effects": {
-    "research": 0.03
-   },
-   "description": "Aristotle's Organon."
-  },
-  {
    "id": "stoicism",
    "name": "Stoicism",
-   "branch": "learning",
+   "branch": "society",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "philosophy"
-   ],
+   "requires": [],
    "effects": {
     "unrest": -0.02
    },
    "description": "Zeno's philosophy of duty."
   },
   {
-   "id": "epicureanism",
-   "name": "Epicureanism",
-   "branch": "learning",
-   "cost": 71,
-   "available_from": -307,
-   "requires": [
-    "philosophy"
-   ],
-   "effects": {
-    "unrest": -0.01
-   },
-   "description": "The garden of Epicurus."
-  },
-  {
    "id": "grammar",
    "name": "Grammar",
-   "branch": "learning",
+   "branch": "communication",
    "cost": 96,
    "available_from": -200,
    "requires": [
@@ -7397,7 +6210,7 @@
   {
    "id": "latin_translation",
    "name": "Greek works in Latin",
-   "branch": "learning",
+   "branch": "science",
    "cost": 130,
    "available_from": -100,
    "requires": [
@@ -7412,7 +6225,7 @@
   {
    "id": "ptolemaic_astronomy",
    "name": "Ptolemy's Almagest",
-   "branch": "learning",
+   "branch": "science",
    "cost": 244,
    "available_from": 150,
    "requires": [
@@ -7427,7 +6240,7 @@
   {
    "id": "cartography",
    "name": "Ptolemy's Geography",
-   "branch": "learning",
+   "branch": "science",
    "cost": 244,
    "available_from": 150,
    "requires": [
@@ -7441,12 +6254,10 @@
   {
    "id": "neoplatonism",
    "name": "Neoplatonism",
-   "branch": "learning",
+   "branch": "science",
    "cost": 300,
    "available_from": 250,
-   "requires": [
-    "philosophy"
-   ],
+   "requires": [],
    "effects": {
     "research": 0.01
    },
@@ -7455,7 +6266,7 @@
   {
    "id": "translation_movement",
    "name": "The translation movement",
-   "branch": "learning",
+   "branch": "science",
    "cost": 700,
    "available_from": 800,
    "requires": [
@@ -7469,7 +6280,7 @@
   {
    "id": "observatories",
    "name": "Observatories",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1134,
    "available_from": 1259,
    "requires": [
@@ -7485,7 +6296,7 @@
   {
    "id": "toledo_translations",
    "name": "The Toledo translators",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1023,
    "available_from": 1150,
    "requires": [
@@ -7500,7 +6311,7 @@
   {
    "id": "renaissance_art",
    "name": "Renaissance art",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1305,
    "available_from": 1420,
    "requires": [
@@ -7514,7 +6325,7 @@
   {
    "id": "logarithms",
    "name": "Logarithms",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1524,
    "available_from": 1614,
    "requires": [
@@ -7529,7 +6340,7 @@
   {
    "id": "telescope",
    "name": "The telescope",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1517,
    "available_from": 1608,
    "requires": [
@@ -7545,7 +6356,7 @@
   {
    "id": "microscope",
    "name": "The microscope",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1590,
    "available_from": 1670,
    "requires": [
@@ -7559,8 +6370,8 @@
   },
   {
    "id": "encyclopedie",
-   "name": "The Encyclop\u00e9die",
-   "branch": "learning",
+   "name": "The Encyclopédie",
+   "branch": "society",
    "cost": 1687,
    "available_from": 1751,
    "requires": [
@@ -7574,7 +6385,7 @@
   {
    "id": "economics",
    "name": "Political economy",
-   "branch": "learning",
+   "branch": "society",
    "cost": 1717,
    "available_from": 1776,
    "requires": [
@@ -7589,7 +6400,7 @@
   {
    "id": "geology",
    "name": "Geology",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1741,
    "available_from": 1795,
    "requires": [
@@ -7603,7 +6414,7 @@
   {
    "id": "archaeology",
    "name": "Archaeology",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1747,
    "available_from": 1800,
    "requires": [
@@ -7618,7 +6429,7 @@
   {
    "id": "thermodynamics",
    "name": "Thermodynamics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1809,
    "available_from": 1850,
    "requires": [
@@ -7633,7 +6444,7 @@
   {
    "id": "research_universities",
    "name": "Research universities",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1759,
    "available_from": 1810,
    "requires": [
@@ -7648,7 +6459,7 @@
   {
    "id": "periodic_table",
    "name": "The periodic table",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1832,
    "available_from": 1869,
    "requires": [
@@ -7662,7 +6473,7 @@
   {
    "id": "sociology",
    "name": "Social science",
-   "branch": "learning",
+   "branch": "society",
    "cost": 1859,
    "available_from": 1890,
    "requires": [
@@ -7676,7 +6487,7 @@
   {
    "id": "quantum_mechanics",
    "name": "Quantum mechanics",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1903,
    "available_from": 1925,
    "requires": [
@@ -7685,12 +6496,12 @@
    "effects": {
     "research": 0.1
    },
-   "description": "Heisenberg, Schr\u00f6dinger, Dirac."
+   "description": "Heisenberg, Schrödinger, Dirac."
   },
   {
    "id": "dna",
    "name": "The structure of DNA",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1938,
    "available_from": 1953,
    "requires": [
@@ -7705,7 +6516,7 @@
   {
    "id": "space_flight",
    "name": "Space flight",
-   "branch": "learning",
+   "branch": "science",
    "cost": 1943,
    "available_from": 1957,
    "requires": [
@@ -7758,20 +6569,6 @@
     "growth": 0.01
    },
    "description": "Herophilus counts the pulse."
-  },
-  {
-   "id": "public_physicians",
-   "name": "Public physicians",
-   "branch": "medicine",
-   "cost": 60,
-   "available_from": -400,
-   "requires": [
-    "hippocratic_medicine"
-   ],
-   "effects": {
-    "growth": 0.01
-   },
-   "description": "Cities pay doctors to stay."
   },
   {
    "id": "leprosaria",
@@ -7842,7 +6639,7 @@
    "effects": {
     "manpower": 0.02
    },
-   "description": "Par\u00e9 ties arteries instead of burning them."
+   "description": "Paré ties arteries instead of burning them."
   },
   {
    "id": "quinine",
@@ -7913,7 +6710,7 @@
    "effects": {
     "growth": 0.01
    },
-   "description": "R\u00f6ntgen."
+   "description": "Röntgen."
   },
   {
    "id": "vaccines_modern",
@@ -7960,68 +6757,24 @@
    "description": "Smallpox eradicated (1980)."
   },
   {
-   "id": "epic_poetry",
-   "name": "Epic poetry",
-   "branch": "culture",
-   "cost": 60,
-   "available_from": -700,
-   "requires": [],
-   "effects": {
-    "integration": 0.01
-   },
-   "description": "Homer recited at every festival."
-  },
-  {
-   "id": "olympic_games",
-   "name": "Panhellenic games",
-   "branch": "culture",
-   "cost": 60,
-   "available_from": -776,
-   "requires": [
-    "oracles"
-   ],
-   "effects": {
-    "unrest": -0.01
-   },
-   "description": "Olympia, Delphi, Isthmia and Nemea."
-  },
-  {
-   "id": "comedy",
-   "name": "New Comedy",
-   "branch": "culture",
-   "cost": 68,
-   "available_from": -320,
-   "requires": [
-    "theatres"
-   ],
-   "effects": {
-    "unrest": -0.01
-   },
-   "description": "Menander's plays."
-  },
-  {
    "id": "greek_sculpture",
    "name": "Hellenistic sculpture",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "marble_carving"
-   ],
+   "requires": [],
    "effects": {
     "unrest": -0.01
    },
-   "description": "The Laoco\u00f6n and the Victory of Samothrace."
+   "description": "The Laocoön and the Victory of Samothrace."
   },
   {
    "id": "serapis",
    "name": "Syncretic gods",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 72,
    "available_from": -300,
-   "requires": [
-    "ruler_cult"
-   ],
+   "requires": [],
    "effects": {
     "integration": 0.04
    },
@@ -8030,7 +6783,7 @@
   {
    "id": "synagogues",
    "name": "Synagogues",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 83,
    "available_from": -250,
    "requires": [],
@@ -8042,7 +6795,7 @@
   {
    "id": "septuagint",
    "name": "Scripture translated",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 83,
    "available_from": -250,
    "requires": [
@@ -8056,7 +6809,7 @@
   {
    "id": "buddhist_missions",
    "name": "Buddhist missions",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 83,
    "available_from": -250,
    "requires": [],
@@ -8066,26 +6819,12 @@
    "description": "Ashoka's missionaries reach the Hellenistic kings."
   },
   {
-   "id": "roman_triumph",
-   "name": "The triumph",
-   "branch": "culture",
-   "cost": 60,
-   "available_from": -500,
-   "requires": [],
-   "effects": {
-    "unrest": -0.01
-   },
-   "description": "The general parades his spoils."
-  },
-  {
    "id": "gladiatorial_games",
    "name": "Gladiatorial games",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 80,
    "available_from": -264,
-   "requires": [
-    "theatres"
-   ],
+   "requires": [],
    "effects": {
     "unrest": -0.02
    },
@@ -8094,7 +6833,7 @@
   {
    "id": "patronage",
    "name": "Literary patronage",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 157,
    "available_from": -30,
    "requires": [
@@ -8108,7 +6847,7 @@
   {
    "id": "christianity",
    "name": "Christianity",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 185,
    "available_from": 33,
    "requires": [
@@ -8123,7 +6862,7 @@
   {
    "id": "manichaeism",
    "name": "Manichaeism",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 294,
    "available_from": 240,
    "requires": [
@@ -8137,7 +6876,7 @@
   {
    "id": "icons",
    "name": "Icons",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 464,
    "available_from": 500,
    "requires": [
@@ -8151,7 +6890,7 @@
   {
    "id": "islam",
    "name": "Islam",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 555,
    "available_from": 622,
    "requires": [
@@ -8166,7 +6905,7 @@
   {
    "id": "sufism",
    "name": "Sufism",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 787,
    "available_from": 900,
    "requires": [
@@ -8180,7 +6919,7 @@
   {
    "id": "chivalry",
    "name": "Chivalry",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 974,
    "available_from": 1100,
    "requires": [
@@ -8194,7 +6933,7 @@
   {
    "id": "troubadours",
    "name": "Courtly poetry",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 974,
    "available_from": 1100,
    "requires": [
@@ -8208,7 +6947,7 @@
   {
    "id": "mendicant_orders",
    "name": "Mendicant orders",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1083,
    "available_from": 1209,
    "requires": [
@@ -8222,7 +6961,7 @@
   {
    "id": "renaissance_patronage",
    "name": "Renaissance patronage",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1338,
    "available_from": 1450,
    "requires": [
@@ -8236,7 +6975,7 @@
   {
    "id": "baroque",
    "name": "The Baroque",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1508,
    "available_from": 1600,
    "requires": [
@@ -8250,7 +6989,7 @@
   {
    "id": "salons",
    "name": "Salons and coffee houses",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1602,
    "available_from": 1680,
    "requires": [
@@ -8265,7 +7004,7 @@
   {
    "id": "opera",
    "name": "Opera",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1508,
    "available_from": 1600,
    "requires": [
@@ -8279,7 +7018,7 @@
   {
    "id": "novel",
    "name": "The novel",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1674,
    "available_from": 1740,
    "requires": [
@@ -8293,7 +7032,7 @@
   {
    "id": "museums_public",
    "name": "Public museums",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1689,
    "available_from": 1753,
    "requires": [
@@ -8307,7 +7046,7 @@
   {
    "id": "national_education",
    "name": "National literature",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1771,
    "available_from": 1820,
    "requires": [
@@ -8322,7 +7061,7 @@
   {
    "id": "sports_modern",
    "name": "Modern sport",
-   "branch": "culture",
+   "branch": "society",
    "cost": 1825,
    "available_from": 1863,
    "requires": [
@@ -8336,7 +7075,7 @@
   {
    "id": "cinema",
    "name": "Cinema",
-   "branch": "culture",
+   "branch": "belief",
    "cost": 1865,
    "available_from": 1895,
    "requires": [
@@ -8346,12 +7085,12 @@
    "effects": {
     "unrest": -0.02
    },
-   "description": "The Lumi\u00e8re brothers."
+   "description": "The Lumière brothers."
   },
   {
    "id": "television",
    "name": "Television",
-   "branch": "culture",
+   "branch": "communication",
    "cost": 1917,
    "available_from": 1936,
    "requires": [
@@ -8361,6 +7100,3380 @@
     "integration": 0.05
    },
    "description": "Pictures in every home."
+  },
+  {
+   "id": "hybrid_maize",
+   "name": "Hybrid maize",
+   "branch": "agriculture",
+   "cost": 1909,
+   "available_from": 1930,
+   "requires": [
+    "genetics",
+    "maize"
+   ],
+   "effects": {
+    "field": 0.06
+   },
+   "description": "Hybrid seed doubles the corn crop."
+  },
+  {
+   "id": "drip_irrigation",
+   "name": "Drip irrigation",
+   "branch": "agriculture",
+   "cost": 1954,
+   "available_from": 1965,
+   "requires": [
+    "plastics",
+    "irrigation_dams"
+   ],
+   "effects": {
+    "field": 0.04,
+    "orchard": 0.05
+   },
+   "description": "Water led drop by drop to each plant."
+  },
+  {
+   "id": "factory_farming",
+   "name": "Intensive livestock farming",
+   "branch": "agriculture",
+   "cost": 1935,
+   "available_from": 1950,
+   "requires": [
+    "refrigeration",
+    "veterinary"
+   ],
+   "effects": {
+    "herd": 0.08
+   },
+   "description": "Stock raised indoors on bought feed."
+  },
+  {
+   "id": "cold_chain",
+   "name": "The cold chain",
+   "branch": "agriculture",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "refrigeration",
+    "containers"
+   ],
+   "effects": {
+    "trade": 0.03,
+    "growth": 0.02
+   },
+   "description": "Food kept cold from farm to shop."
+  },
+  {
+   "id": "gm_crops",
+   "name": "Genetically modified crops",
+   "branch": "agriculture",
+   "cost": 1991,
+   "available_from": 1994,
+   "requires": [
+    "dna",
+    "green_revolution"
+   ],
+   "effects": {
+    "field": 0.06
+   },
+   "description": "Crops altered gene by gene."
+  },
+  {
+   "id": "precision_farming",
+   "name": "Precision farming",
+   "branch": "agriculture",
+   "cost": 1999,
+   "available_from": 2000,
+   "requires": [
+    "internet",
+    "combine_harvester"
+   ],
+   "effects": {
+    "field": 0.05
+   },
+   "description": "Satellites guide the tractors."
+  },
+  {
+   "id": "aquaculture",
+   "name": "Modern fish farming",
+   "branch": "agriculture",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "factory_farming"
+   ],
+   "effects": {
+    "herd": 0.04,
+    "growth": 0.01
+   },
+   "description": "Salmon and shrimp raised in pens."
+  },
+  {
+   "id": "mannerism",
+   "name": "Mannerism and the Counter-Reformation",
+   "branch": "belief",
+   "cost": 1445,
+   "available_from": 1545,
+   "requires": [
+    "reformation"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "The Council of Trent and its art."
+  },
+  {
+   "id": "jesuits",
+   "name": "The Jesuits",
+   "branch": "belief",
+   "cost": 1439,
+   "available_from": 1540,
+   "requires": [
+    "reformation"
+   ],
+   "effects": {
+    "integration": 0.02,
+    "research": 0.01
+   },
+   "description": "Schools and missions across the world."
+  },
+  {
+   "id": "pietism",
+   "name": "Pietism and revival",
+   "branch": "belief",
+   "cost": 1596,
+   "available_from": 1675,
+   "requires": [
+    "reformation"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Religion of the heart."
+  },
+  {
+   "id": "neoclassicism",
+   "name": "Neoclassicism",
+   "branch": "belief",
+   "cost": 1698,
+   "available_from": 1760,
+   "requires": [
+    "humanism"
+   ],
+   "effects": {
+    "integration": 0.01
+   },
+   "description": "The ancients copied anew."
+  },
+  {
+   "id": "realism_art",
+   "name": "Realism in art",
+   "branch": "belief",
+   "cost": 1809,
+   "available_from": 1850,
+   "requires": [
+    "romanticism"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Courbet paints the workers."
+  },
+  {
+   "id": "impressionism",
+   "name": "Impressionism",
+   "branch": "belief",
+   "cost": 1838,
+   "available_from": 1874,
+   "requires": [
+    "photography",
+    "realism_art"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Light caught in quick strokes."
+  },
+  {
+   "id": "missionary_societies",
+   "name": "Missionary societies",
+   "branch": "belief",
+   "cost": 1737,
+   "available_from": 1792,
+   "requires": [
+    "steamship"
+   ],
+   "effects": {
+    "integration": 0.02
+   },
+   "description": "Missions sent to every continent."
+  },
+  {
+   "id": "religious_revival",
+   "name": "Great awakenings",
+   "branch": "belief",
+   "cost": 1784,
+   "available_from": 1830,
+   "requires": [
+    "pietism"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Camp meetings and new churches."
+  },
+  {
+   "id": "secularism",
+   "name": "Secularism",
+   "branch": "belief",
+   "cost": 1809,
+   "available_from": 1850,
+   "requires": [
+    "enlightenment"
+   ],
+   "effects": {
+    "unrest": -0.01,
+    "research": 0.01
+   },
+   "description": "Church and state apart."
+  },
+  {
+   "id": "recorded_music",
+   "name": "Recorded music",
+   "branch": "belief",
+   "cost": 1842,
+   "available_from": 1877,
+   "requires": [
+    "electricity"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Edison's phonograph."
+  },
+  {
+   "id": "modernism",
+   "name": "Modernism",
+   "branch": "belief",
+   "cost": 1884,
+   "available_from": 1910,
+   "requires": [
+    "impressionism"
+   ],
+   "effects": {
+    "research": 0.01
+   },
+   "description": "Art breaks with the past."
+  },
+  {
+   "id": "radio_broadcasting",
+   "name": "Broadcasting",
+   "branch": "belief",
+   "cost": 1899,
+   "available_from": 1922,
+   "requires": [
+    "radio"
+   ],
+   "effects": {
+    "integration": 0.03
+   },
+   "description": "The nation hears one voice."
+  },
+  {
+   "id": "sound_film",
+   "name": "Sound film",
+   "branch": "belief",
+   "cost": 1905,
+   "available_from": 1927,
+   "requires": [
+    "cinema",
+    "recorded_music"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "The talkies."
+  },
+  {
+   "id": "ecumenism",
+   "name": "Ecumenism",
+   "branch": "belief",
+   "cost": 1932,
+   "available_from": 1948,
+   "requires": [
+    "secularism"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "The churches talk together."
+  },
+  {
+   "id": "popular_music",
+   "name": "Popular music",
+   "branch": "belief",
+   "cost": 1941,
+   "available_from": 1955,
+   "requires": [
+    "recorded_music",
+    "radio_broadcasting"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Rock and roll."
+  },
+  {
+   "id": "heritage_protection",
+   "name": "World heritage",
+   "branch": "belief",
+   "cost": 1963,
+   "available_from": 1972,
+   "requires": [
+    "archaeology"
+   ],
+   "effects": {
+    "integration": 0.01,
+    "trade": 0.01
+   },
+   "description": "Old places kept for everyone."
+  },
+  {
+   "id": "video_games",
+   "name": "Video games",
+   "branch": "belief",
+   "cost": 1963,
+   "available_from": 1972,
+   "requires": [
+    "computers"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Play on a screen."
+  },
+  {
+   "id": "streaming",
+   "name": "Digital media",
+   "branch": "belief",
+   "cost": 2005,
+   "available_from": 2005,
+   "requires": [
+    "internet"
+   ],
+   "effects": {
+    "integration": 0.02
+   },
+   "description": "Every song and film at hand."
+  },
+  {
+   "id": "social_media",
+   "name": "Social media",
+   "branch": "belief",
+   "cost": 2004,
+   "available_from": 2004,
+   "requires": [
+    "internet"
+   ],
+   "effects": {
+    "integration": 0.02,
+    "unrest": 0.01
+   },
+   "description": "Everyone publishes; not all of it calms."
+  },
+  {
+   "id": "silk_road",
+   "name": "The Silk Road",
+   "branch": "commerce",
+   "cost": 170,
+   "available_from": 0,
+   "requires": [],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Caravans from Chang'an to Antioch."
+  },
+  {
+   "id": "roman_trade_guilds",
+   "name": "Collegia of traders",
+   "branch": "commerce",
+   "cost": 218,
+   "available_from": 100,
+   "requires": [],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Shippers' and merchants' colleges."
+  },
+  {
+   "id": "sogdian_trade",
+   "name": "Sogdian merchant networks",
+   "branch": "commerce",
+   "cost": 464,
+   "available_from": 500,
+   "requires": [
+    "silk_road"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Sogdians carry silk across Asia."
+  },
+  {
+   "id": "hawala",
+   "name": "Hawala transfers",
+   "branch": "commerce",
+   "cost": 657,
+   "available_from": 750,
+   "requires": [],
+   "effects": {
+    "trade": 0.02,
+    "interest": -0.01
+   },
+   "description": "Money sent on trust across the caliphate."
+  },
+  {
+   "id": "suftaja",
+   "name": "Cheques (sakk)",
+   "branch": "commerce",
+   "cost": 743,
+   "available_from": 850,
+   "requires": [
+    "hawala"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Paper orders to pay."
+  },
+  {
+   "id": "chartered_companies",
+   "name": "Chartered companies",
+   "branch": "commerce",
+   "cost": 1508,
+   "available_from": 1600,
+   "requires": [
+    "joint_stock"
+   ],
+   "effects": {
+    "trade": 0.04
+   },
+   "description": "East India companies."
+  },
+  {
+   "id": "insurance_lloyds",
+   "name": "Insurance markets",
+   "branch": "commerce",
+   "cost": 1611,
+   "available_from": 1688,
+   "requires": [
+    "marine_insurance"
+   ],
+   "effects": {
+    "trade": 0.02,
+    "interest": -0.01
+   },
+   "description": "Lloyd's coffee house."
+  },
+  {
+   "id": "paper_money_state",
+   "name": "State paper money",
+   "branch": "commerce",
+   "cost": 1580,
+   "available_from": 1661,
+   "requires": [],
+   "effects": {
+    "tax": 0.01,
+    "interest": -0.01
+   },
+   "description": "Banknotes backed by the state."
+  },
+  {
+   "id": "limited_liability",
+   "name": "Limited liability",
+   "branch": "commerce",
+   "cost": 1815,
+   "available_from": 1855,
+   "requires": [
+    "joint_stock"
+   ],
+   "effects": {
+    "crafts": 0.03,
+    "trade": 0.02
+   },
+   "description": "Investors risk only their stake."
+  },
+  {
+   "id": "department_stores",
+   "name": "Department stores",
+   "branch": "commerce",
+   "cost": 1811,
+   "available_from": 1852,
+   "requires": [
+    "railways"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Everything under one roof."
+  },
+  {
+   "id": "commodity_exchanges",
+   "name": "Commodity futures",
+   "branch": "commerce",
+   "cost": 1806,
+   "available_from": 1848,
+   "requires": [
+    "stock_exchange",
+    "telegraph"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Grain sold before it grows."
+  },
+  {
+   "id": "investment_banking",
+   "name": "Investment banks",
+   "branch": "commerce",
+   "cost": 1821,
+   "available_from": 1860,
+   "requires": [
+    "limited_liability"
+   ],
+   "effects": {
+    "crafts": 0.02,
+    "interest": -0.01
+   },
+   "description": "Banks fund railways and mills."
+  },
+  {
+   "id": "trade_agreements",
+   "name": "Trade treaties",
+   "branch": "commerce",
+   "cost": 1821,
+   "available_from": 1860,
+   "requires": [
+    "free_trade"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "The Cobden-Chevalier treaty."
+  },
+  {
+   "id": "advertising",
+   "name": "Mass advertising",
+   "branch": "commerce",
+   "cost": 1846,
+   "available_from": 1880,
+   "requires": [
+    "newspapers"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Brands and posters."
+  },
+  {
+   "id": "global_trade_rules",
+   "name": "Global trade rules",
+   "branch": "commerce",
+   "cost": 1931,
+   "available_from": 1947,
+   "requires": [
+    "trade_agreements"
+   ],
+   "effects": {
+    "trade": 0.05
+   },
+   "description": "GATT lowers tariffs."
+  },
+  {
+   "id": "bretton_woods",
+   "name": "Managed exchange rates",
+   "branch": "commerce",
+   "cost": 1927,
+   "available_from": 1944,
+   "requires": [
+    "gold_standard"
+   ],
+   "effects": {
+    "interest": -0.02,
+    "trade": 0.02
+   },
+   "description": "Bretton Woods."
+  },
+  {
+   "id": "supermarkets",
+   "name": "Supermarkets",
+   "branch": "commerce",
+   "cost": 1909,
+   "available_from": 1930,
+   "requires": [
+    "department_stores",
+    "refrigeration"
+   ],
+   "effects": {
+    "trade": 0.02,
+    "growth": 0.01
+   },
+   "description": "Self-service shops."
+  },
+  {
+   "id": "credit_cards",
+   "name": "Consumer credit",
+   "branch": "commerce",
+   "cost": 1935,
+   "available_from": 1950,
+   "requires": [
+    "investment_banking"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Buy now, pay later."
+  },
+  {
+   "id": "electronic_banking",
+   "name": "Electronic banking",
+   "branch": "commerce",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "computers"
+   ],
+   "effects": {
+    "interest": -0.01,
+    "trade": 0.02
+   },
+   "description": "Money moves as data."
+  },
+  {
+   "id": "ecommerce",
+   "name": "Online trade",
+   "branch": "commerce",
+   "cost": 1992,
+   "available_from": 1995,
+   "requires": [
+    "internet"
+   ],
+   "effects": {
+    "trade": 0.05
+   },
+   "description": "Shops on the internet."
+  },
+  {
+   "id": "common_market",
+   "name": "Common markets",
+   "branch": "commerce",
+   "cost": 1943,
+   "available_from": 1957,
+   "requires": [
+    "global_trade_rules"
+   ],
+   "effects": {
+    "trade": 0.04
+   },
+   "description": "Borders open to goods."
+  },
+  {
+   "id": "codex",
+   "name": "The codex",
+   "branch": "communication",
+   "cost": 218,
+   "available_from": 100,
+   "requires": [
+    "parchment_making"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Bound books replace the scroll."
+  },
+  {
+   "id": "shorthand",
+   "name": "Shorthand",
+   "branch": "communication",
+   "cost": 144,
+   "available_from": -63,
+   "requires": [],
+   "effects": {
+    "admin": 1
+   },
+   "description": "Tiro's notes."
+  },
+  {
+   "id": "minuscule_script",
+   "name": "Minuscule script",
+   "branch": "communication",
+   "cost": 700,
+   "available_from": 800,
+   "requires": [
+    "codex"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Carolingian letters, quick and clear."
+  },
+  {
+   "id": "arabic_script_bookmaking",
+   "name": "Book trade of Baghdad",
+   "branch": "communication",
+   "cost": 700,
+   "available_from": 800,
+   "requires": [
+    "paper"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Paper books sold in markets."
+  },
+  {
+   "id": "scriptoria",
+   "name": "Scriptoria",
+   "branch": "communication",
+   "cost": 500,
+   "available_from": 550,
+   "requires": [
+    "codex",
+    "monasticism"
+   ],
+   "effects": {
+    "research": 0.01
+   },
+   "description": "Monks copy the classics."
+  },
+  {
+   "id": "woodblock_printing",
+   "name": "Woodblock printing",
+   "branch": "communication",
+   "cost": 878,
+   "available_from": 1000,
+   "requires": [
+    "paper"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Carved blocks print pictures and prayers."
+  },
+  {
+   "id": "pigeon_post",
+   "name": "Pigeon post",
+   "branch": "communication",
+   "cost": 1023,
+   "available_from": 1150,
+   "requires": [],
+   "effects": {
+    "admin": 1
+   },
+   "description": "The sultan's pigeons."
+  },
+  {
+   "id": "courier_relays",
+   "name": "Courier relays (yam)",
+   "branch": "communication",
+   "cost": 1104,
+   "available_from": 1230,
+   "requires": [
+    "post_stations"
+   ],
+   "effects": {
+    "admin": 1,
+    "reach_km": 40
+   },
+   "description": "Mongol riders cross an empire."
+  },
+  {
+   "id": "universities_copyists",
+   "name": "Stationers",
+   "branch": "communication",
+   "cost": 1073,
+   "available_from": 1200,
+   "requires": [
+    "universities"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Books copied by the section (pecia)."
+  },
+  {
+   "id": "movable_type_asia",
+   "name": "Movable type",
+   "branch": "communication",
+   "cost": 1259,
+   "available_from": 1377,
+   "requires": [
+    "woodblock_printing"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Metal type in Korea."
+  },
+  {
+   "id": "pamphlets",
+   "name": "Pamphlets",
+   "branch": "communication",
+   "cost": 1417,
+   "available_from": 1520,
+   "requires": [
+    "printing_press"
+   ],
+   "effects": {
+    "unrest": 0.01,
+    "integration": 0.02
+   },
+   "description": "Luther's tracts spread in weeks."
+  },
+  {
+   "id": "printed_maps",
+   "name": "Printed maps and atlases",
+   "branch": "communication",
+   "cost": 1474,
+   "available_from": 1570,
+   "requires": [
+    "printing_press",
+    "cartography"
+   ],
+   "effects": {
+    "reach_km": 30,
+    "sea_cost": -0.01
+   },
+   "description": "Ortelius and Mercator."
+  },
+  {
+   "id": "postal_monopoly",
+   "name": "A royal post",
+   "branch": "communication",
+   "cost": 1508,
+   "available_from": 1600,
+   "requires": [
+    "postal_service"
+   ],
+   "effects": {
+    "admin": 1
+   },
+   "description": "Letters carried for all at a price."
+  },
+  {
+   "id": "scientific_journals",
+   "name": "Scientific journals",
+   "branch": "communication",
+   "cost": 1584,
+   "available_from": 1665,
+   "requires": [
+    "scientific_societies"
+   ],
+   "effects": {
+    "research": 0.03
+   },
+   "description": "The Philosophical Transactions."
+  },
+  {
+   "id": "optical_telegraph",
+   "name": "Optical telegraph",
+   "branch": "communication",
+   "cost": 1737,
+   "available_from": 1792,
+   "requires": [
+    "telescope"
+   ],
+   "effects": {
+    "admin": 1,
+    "reach_km": 40
+   },
+   "description": "Chappe's towers."
+  },
+  {
+   "id": "penny_post",
+   "name": "The penny post",
+   "branch": "communication",
+   "cost": 1796,
+   "available_from": 1840,
+   "requires": [
+    "railways"
+   ],
+   "effects": {
+    "admin": 1,
+    "integration": 0.01
+   },
+   "description": "A stamp takes a letter anywhere."
+  },
+  {
+   "id": "rotary_press",
+   "name": "The rotary press",
+   "branch": "communication",
+   "cost": 1800,
+   "available_from": 1843,
+   "requires": [
+    "steam_engine",
+    "printing_press"
+   ],
+   "effects": {
+    "integration": 0.02
+   },
+   "description": "Newspapers for millions."
+  },
+  {
+   "id": "typewriter",
+   "name": "The typewriter",
+   "branch": "communication",
+   "cost": 1831,
+   "available_from": 1868,
+   "requires": [
+    "machine_tools"
+   ],
+   "effects": {
+    "admin": 1
+   },
+   "description": "Offices speed up."
+  },
+  {
+   "id": "undersea_cable",
+   "name": "Undersea cables",
+   "branch": "communication",
+   "cost": 1828,
+   "available_from": 1866,
+   "requires": [
+    "telegraph",
+    "rubber"
+   ],
+   "effects": {
+    "trade": 0.03,
+    "reach_km": 60
+   },
+   "description": "London speaks to New York."
+  },
+  {
+   "id": "satellites",
+   "name": "Satellites",
+   "branch": "communication",
+   "cost": 1950,
+   "available_from": 1962,
+   "requires": [
+    "space_flight"
+   ],
+   "effects": {
+    "reach_km": 80,
+    "research": 0.02
+   },
+   "description": "Telstar."
+  },
+  {
+   "id": "mobile_phones",
+   "name": "Mobile phones",
+   "branch": "communication",
+   "cost": 1977,
+   "available_from": 1983,
+   "requires": [
+    "semiconductors",
+    "radio"
+   ],
+   "effects": {
+    "admin": 1,
+    "trade": 0.02
+   },
+   "description": "A phone in every pocket."
+  },
+  {
+   "id": "world_wide_web",
+   "name": "The World Wide Web",
+   "branch": "communication",
+   "cost": 1987,
+   "available_from": 1991,
+   "requires": [
+    "internet"
+   ],
+   "effects": {
+    "research": 0.04
+   },
+   "description": "Linked pages for everyone."
+  },
+  {
+   "id": "smartphones",
+   "name": "Smartphones",
+   "branch": "communication",
+   "cost": 2008,
+   "available_from": 2007,
+   "requires": [
+    "mobile_phones",
+    "world_wide_web"
+   ],
+   "effects": {
+    "integration": 0.02,
+    "trade": 0.02
+   },
+   "description": "The internet in a pocket."
+  },
+  {
+   "id": "basilicas",
+   "name": "Basilicas",
+   "branch": "construction",
+   "cost": 101,
+   "available_from": -184,
+   "requires": [
+    "arch_vault"
+   ],
+   "effects": {
+    "admin": 1
+   },
+   "description": "Halls for courts and markets."
+  },
+  {
+   "id": "fired_brick",
+   "name": "Kiln-fired brick",
+   "branch": "construction",
+   "cost": 193,
+   "available_from": 50,
+   "requires": [
+    "concrete"
+   ],
+   "effects": {
+    "garrison": 0.3
+   },
+   "description": "Stamped Roman bricks."
+  },
+  {
+   "id": "byzantine_domes",
+   "name": "Domes on pendentives",
+   "branch": "construction",
+   "cost": 490,
+   "available_from": 537,
+   "requires": [
+    "domes"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Hagia Sophia."
+  },
+  {
+   "id": "muqarnas",
+   "name": "Muqarnas vaults",
+   "branch": "construction",
+   "cost": 878,
+   "available_from": 1000,
+   "requires": [
+    "domes"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Honeycomb vaults."
+  },
+  {
+   "id": "flying_buttress",
+   "name": "Flying buttresses",
+   "branch": "construction",
+   "cost": 1036,
+   "available_from": 1163,
+   "requires": [
+    "gothic_vault"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Notre-Dame's walls open to light."
+  },
+  {
+   "id": "timber_framing",
+   "name": "Timber framing",
+   "branch": "construction",
+   "cost": 974,
+   "available_from": 1100,
+   "requires": [],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Half-timbered town houses."
+  },
+  {
+   "id": "city_walls_medieval",
+   "name": "Town walls and gates",
+   "branch": "construction",
+   "cost": 1023,
+   "available_from": 1150,
+   "requires": [
+    "castles"
+   ],
+   "effects": {
+    "garrison": 0.5
+   },
+   "description": "Towns fortify themselves."
+  },
+  {
+   "id": "renaissance_architecture",
+   "name": "Renaissance architecture",
+   "branch": "construction",
+   "cost": 1305,
+   "available_from": 1420,
+   "requires": [
+    "humanism"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Brunelleschi's dome."
+  },
+  {
+   "id": "urban_planning_baroque",
+   "name": "Baroque town planning",
+   "branch": "construction",
+   "cost": 1491,
+   "available_from": 1585,
+   "requires": [
+    "renaissance_architecture"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Sixtus V's straight streets."
+  },
+  {
+   "id": "building_codes",
+   "name": "Building codes",
+   "branch": "construction",
+   "cost": 1587,
+   "available_from": 1667,
+   "requires": [
+    "standing_bureaucracy"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "London rebuilt in brick after the fire."
+  },
+  {
+   "id": "street_lighting",
+   "name": "Street lighting",
+   "branch": "construction",
+   "cost": 1587,
+   "available_from": 1667,
+   "requires": [
+    "building_codes"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Lanterns in Paris."
+  },
+  {
+   "id": "fire_brigades",
+   "name": "Fire brigades",
+   "branch": "construction",
+   "cost": 1602,
+   "available_from": 1680,
+   "requires": [
+    "building_codes"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Fire engines and companies."
+  },
+  {
+   "id": "piped_water",
+   "name": "Piped water to houses",
+   "branch": "construction",
+   "cost": 1520,
+   "available_from": 1610,
+   "requires": [
+    "mining_pumps"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "London's New River."
+  },
+  {
+   "id": "military_architecture_vauban",
+   "name": "Vauban's fortresses",
+   "branch": "construction",
+   "cost": 1590,
+   "available_from": 1670,
+   "requires": [
+    "star_fort"
+   ],
+   "effects": {
+    "garrison": 1.0
+   },
+   "description": "Fortress lines along the frontier."
+  },
+  {
+   "id": "garden_cities",
+   "name": "Garden cities",
+   "branch": "construction",
+   "cost": 1869,
+   "available_from": 1898,
+   "requires": [
+    "railways"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Towns with green belts."
+  },
+  {
+   "id": "prefab_housing",
+   "name": "Mass housing",
+   "branch": "construction",
+   "cost": 1896,
+   "available_from": 1920,
+   "requires": [
+    "reinforced_concrete"
+   ],
+   "effects": {
+    "growth": 0.02
+   },
+   "description": "Flats for millions."
+  },
+  {
+   "id": "zoning",
+   "name": "Zoning and city planning",
+   "branch": "construction",
+   "cost": 1891,
+   "available_from": 1916,
+   "requires": [
+    "skyscrapers"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Uses kept apart."
+  },
+  {
+   "id": "suburbs",
+   "name": "Suburbs",
+   "branch": "construction",
+   "cost": 1928,
+   "available_from": 1945,
+   "requires": [
+    "automobiles",
+    "highways"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Houses spread along the roads."
+  },
+  {
+   "id": "tower_cranes",
+   "name": "Tower cranes",
+   "branch": "construction",
+   "cost": 1933,
+   "available_from": 1949,
+   "requires": [
+    "electric_grid"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Cities rise faster."
+  },
+  {
+   "id": "earthquake_design",
+   "name": "Earthquake-proof building",
+   "branch": "construction",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "reinforced_concrete"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Buildings that sway, not fall."
+  },
+  {
+   "id": "green_building",
+   "name": "Green building",
+   "branch": "construction",
+   "cost": 1986,
+   "available_from": 1990,
+   "requires": [
+    "air_conditioning"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Buildings that use less energy."
+  },
+  {
+   "id": "megacity_transit",
+   "name": "Metro systems",
+   "branch": "construction",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "underground",
+    "electric_grid"
+   ],
+   "effects": {
+    "growth": 0.02,
+    "trade": 0.01
+   },
+   "description": "Trains under every great city."
+  },
+  {
+   "id": "animal_power",
+   "name": "Animal-powered mills",
+   "branch": "energy",
+   "cost": 72,
+   "available_from": -300,
+   "requires": [],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Donkeys turn the millstones."
+  },
+  {
+   "id": "overshot_wheel",
+   "name": "Overshot water wheels",
+   "branch": "energy",
+   "cost": 130,
+   "available_from": -100,
+   "requires": [
+    "water_mill"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Water poured over the wheel's top."
+  },
+  {
+   "id": "mill_complexes",
+   "name": "Mill complexes",
+   "branch": "energy",
+   "cost": 330,
+   "available_from": 300,
+   "requires": [
+    "overshot_wheel"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Barbegal's sixteen wheels."
+  },
+  {
+   "id": "coal_burning",
+   "name": "Coal as fuel",
+   "branch": "energy",
+   "cost": 72,
+   "available_from": -300,
+   "requires": [],
+   "effects": {
+    "crafts": 0.01
+   },
+   "description": "Theophrastus mentions smiths' coal."
+  },
+  {
+   "id": "floating_mills",
+   "name": "Floating mills",
+   "branch": "energy",
+   "cost": 490,
+   "available_from": 537,
+   "requires": [
+    "water_mill"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Belisarius mills on the Tiber."
+  },
+  {
+   "id": "horizontal_windmill",
+   "name": "Persian windmills",
+   "branch": "energy",
+   "cost": 569,
+   "available_from": 640,
+   "requires": [],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Vertical-axis mills of Sistan."
+  },
+  {
+   "id": "cam_shaft",
+   "name": "The camshaft",
+   "branch": "energy",
+   "cost": 787,
+   "available_from": 900,
+   "requires": [
+    "water_mill"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Water drives hammers and bellows."
+  },
+  {
+   "id": "fulling_mills",
+   "name": "Fulling mills",
+   "branch": "energy",
+   "cost": 616,
+   "available_from": 700,
+   "requires": [
+    "water_mill"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Hammers beat the cloth."
+  },
+  {
+   "id": "naphtha",
+   "name": "Naphtha distilling",
+   "branch": "energy",
+   "cost": 743,
+   "available_from": 850,
+   "requires": [
+    "alchemy"
+   ],
+   "effects": {
+    "crafts": 0.01
+   },
+   "description": "Oil distilled at Baku."
+  },
+  {
+   "id": "post_mill",
+   "name": "Post mills",
+   "branch": "energy",
+   "cost": 1053,
+   "available_from": 1180,
+   "requires": [
+    "windmill"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Mills that turn to face the wind."
+  },
+  {
+   "id": "coal_mining_shafts",
+   "name": "Deep coal mines",
+   "branch": "energy",
+   "cost": 1177,
+   "available_from": 1300,
+   "requires": [
+    "mining_pumps"
+   ],
+   "effects": {
+    "mine": 0.03
+   },
+   "description": "Newcastle coal for London."
+  },
+  {
+   "id": "peat_cutting",
+   "name": "Peat cutting",
+   "branch": "energy",
+   "cost": 974,
+   "available_from": 1100,
+   "requires": [],
+   "effects": {
+    "crafts": 0.01
+   },
+   "description": "The Low Countries burn their bogs."
+  },
+  {
+   "id": "smock_mill",
+   "name": "Smock mills",
+   "branch": "energy",
+   "cost": 1451,
+   "available_from": 1550,
+   "requires": [
+    "post_mill"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Mills with turning caps."
+  },
+  {
+   "id": "wind_sawmill",
+   "name": "Wind-powered sawmill",
+   "branch": "energy",
+   "cost": 1499,
+   "available_from": 1592,
+   "requires": [
+    "smock_mill"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Cornelisz's sawmill."
+  },
+  {
+   "id": "atmospheric_pumps",
+   "name": "Atmospheric pumps",
+   "branch": "energy",
+   "cost": 1623,
+   "available_from": 1698,
+   "requires": [
+    "mining_pumps"
+   ],
+   "effects": {
+    "mine": 0.03
+   },
+   "description": "Savery's engine."
+  },
+  {
+   "id": "coal_economy",
+   "name": "A coal economy",
+   "branch": "energy",
+   "cost": 1626,
+   "available_from": 1700,
+   "requires": [
+    "coke_smelting"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Britain runs on coal."
+  },
+  {
+   "id": "water_frame",
+   "name": "Water-frame mills",
+   "branch": "energy",
+   "cost": 1709,
+   "available_from": 1769,
+   "requires": [
+    "overshot_wheel"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Arkwright's mills."
+  },
+  {
+   "id": "steam_turbine",
+   "name": "The steam turbine",
+   "branch": "energy",
+   "cost": 1851,
+   "available_from": 1884,
+   "requires": [
+    "electricity"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Parsons."
+  },
+  {
+   "id": "batteries",
+   "name": "Batteries",
+   "branch": "energy",
+   "cost": 1747,
+   "available_from": 1800,
+   "requires": [
+    "chemistry"
+   ],
+   "effects": {
+    "research": 0.01
+   },
+   "description": "Volta's pile."
+  },
+  {
+   "id": "oil_refining",
+   "name": "Oil refining",
+   "branch": "energy",
+   "cost": 1833,
+   "available_from": 1870,
+   "requires": [
+    "petroleum"
+   ],
+   "effects": {
+    "crafts": 0.02,
+    "trade": 0.02
+   },
+   "description": "Kerosene and petrol."
+  },
+  {
+   "id": "natural_gas",
+   "name": "Natural gas",
+   "branch": "energy",
+   "cost": 1896,
+   "available_from": 1920,
+   "requires": [
+    "oil_refining"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Pipelines carry gas."
+  },
+  {
+   "id": "oil_age",
+   "name": "Oil age",
+   "branch": "energy",
+   "cost": 1928,
+   "available_from": 1945,
+   "requires": [
+    "oil_refining"
+   ],
+   "effects": {
+    "crafts": 0.04,
+    "trade": 0.03
+   },
+   "description": "Oil powers the world."
+  },
+  {
+   "id": "solar_power",
+   "name": "Solar power",
+   "branch": "energy",
+   "cost": 1940,
+   "available_from": 1954,
+   "requires": [
+    "semiconductors"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Sunlight into electricity."
+  },
+  {
+   "id": "wind_turbines",
+   "name": "Wind turbines",
+   "branch": "energy",
+   "cost": 1973,
+   "available_from": 1980,
+   "requires": [
+    "electric_grid"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Windmills make electricity."
+  },
+  {
+   "id": "fracking",
+   "name": "Shale oil and gas",
+   "branch": "energy",
+   "cost": 2005,
+   "available_from": 2005,
+   "requires": [
+    "natural_gas"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Oil pressed from rock."
+  },
+  {
+   "id": "fast_charge_batteries",
+   "name": "Lithium batteries",
+   "branch": "energy",
+   "cost": 1987,
+   "available_from": 1991,
+   "requires": [
+    "batteries",
+    "semiconductors"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Power stored in every device."
+  },
+  {
+   "id": "fusion_research",
+   "name": "Fusion research",
+   "branch": "energy",
+   "cost": 1945,
+   "available_from": 1958,
+   "requires": [
+    "nuclear_power",
+    "quantum_mechanics"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "The sun's fire on earth."
+  },
+  {
+   "id": "secret_ballot",
+   "name": "The secret ballot",
+   "branch": "governance",
+   "cost": 1816,
+   "available_from": 1856,
+   "requires": [
+    "universal_suffrage"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Votes cast unseen."
+  },
+  {
+   "id": "local_government",
+   "name": "Elected local councils",
+   "branch": "governance",
+   "cost": 1790,
+   "available_from": 1835,
+   "requires": [
+    "constitutionalism"
+   ],
+   "effects": {
+    "admin": 2
+   },
+   "description": "Towns run themselves."
+  },
+  {
+   "id": "colonial_empire_admin",
+   "name": "Colonial civil services",
+   "branch": "governance",
+   "cost": 1818,
+   "available_from": 1858,
+   "requires": [
+    "civil_service_exams"
+   ],
+   "effects": {
+    "admin": 2
+   },
+   "description": "A few thousand men govern millions."
+  },
+  {
+   "id": "written_constitution_wave",
+   "name": "Constitutions everywhere",
+   "branch": "governance",
+   "cost": 1806,
+   "available_from": 1848,
+   "requires": [
+    "constitutionalism"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "1848's revolutions win charters."
+  },
+  {
+   "id": "census_modern",
+   "name": "The modern census",
+   "branch": "governance",
+   "cost": 1748,
+   "available_from": 1801,
+   "requires": [
+    "statistics"
+   ],
+   "effects": {
+    "tax": 0.02,
+    "admin": 1
+   },
+   "description": "Everyone counted every ten years."
+  },
+  {
+   "id": "league_of_nations",
+   "name": "The League of Nations",
+   "branch": "governance",
+   "cost": 1896,
+   "available_from": 1920,
+   "requires": [
+    "international_law"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "A parliament of nations."
+  },
+  {
+   "id": "united_nations",
+   "name": "The United Nations",
+   "branch": "governance",
+   "cost": 1928,
+   "available_from": 1945,
+   "requires": [
+    "league_of_nations"
+   ],
+   "effects": {
+    "unrest": -0.01,
+    "integration": 0.01
+   },
+   "description": "A world body."
+  },
+  {
+   "id": "planned_economy",
+   "name": "Planned economy",
+   "branch": "governance",
+   "cost": 1907,
+   "available_from": 1928,
+   "requires": [
+    "statistics",
+    "nationalism"
+   ],
+   "effects": {
+    "crafts": 0.03,
+    "corruption": 0.02
+   },
+   "description": "Five-year plans."
+  },
+  {
+   "id": "keynesian",
+   "name": "Economic management",
+   "branch": "governance",
+   "cost": 1917,
+   "available_from": 1936,
+   "requires": [
+    "economics",
+    "central_bank"
+   ],
+   "effects": {
+    "interest": -0.02
+   },
+   "description": "The state smooths the slumps."
+  },
+  {
+   "id": "decolonisation",
+   "name": "Self-determination",
+   "branch": "governance",
+   "cost": 1928,
+   "available_from": 1945,
+   "requires": [
+    "nationalism",
+    "united_nations"
+   ],
+   "effects": {
+    "integration": 0.03
+   },
+   "description": "Empires give way to nations."
+  },
+  {
+   "id": "human_rights",
+   "name": "Human rights",
+   "branch": "governance",
+   "cost": 1932,
+   "available_from": 1948,
+   "requires": [
+    "united_nations"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "A universal declaration."
+  },
+  {
+   "id": "vat",
+   "name": "Value-added tax",
+   "branch": "governance",
+   "cost": 1940,
+   "available_from": 1954,
+   "requires": [
+    "income_tax"
+   ],
+   "effects": {
+    "tax": 0.04
+   },
+   "description": "A tax at every step of trade."
+  },
+  {
+   "id": "e_government",
+   "name": "E-government",
+   "branch": "governance",
+   "cost": 1992,
+   "available_from": 1995,
+   "requires": [
+    "internet"
+   ],
+   "effects": {
+    "admin": 3,
+    "corruption": -0.02
+   },
+   "description": "Forms online, fewer bribes."
+  },
+  {
+   "id": "anticorruption_agencies",
+   "name": "Anti-corruption agencies",
+   "branch": "governance",
+   "cost": 1965,
+   "available_from": 1974,
+   "requires": [
+    "civil_service_exams"
+   ],
+   "effects": {
+    "corruption": -0.03
+   },
+   "description": "Hong Kong's ICAC."
+  },
+  {
+   "id": "supranational_union",
+   "name": "Supranational unions",
+   "branch": "governance",
+   "cost": 1990,
+   "available_from": 1993,
+   "requires": [
+    "common_market"
+   ],
+   "effects": {
+    "admin": 2,
+    "trade": 0.02
+   },
+   "description": "States pool sovereignty."
+  },
+  {
+   "id": "sewing_machine",
+   "name": "The sewing machine",
+   "branch": "industry",
+   "cost": 1804,
+   "available_from": 1846,
+   "requires": [
+    "machine_tools"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Singer."
+  },
+  {
+   "id": "canned_goods_factories",
+   "name": "Food factories",
+   "branch": "industry",
+   "cost": 1821,
+   "available_from": 1860,
+   "requires": [
+    "canning"
+   ],
+   "effects": {
+    "crafts": 0.02,
+    "growth": 0.01
+   },
+   "description": "Tins by the million."
+  },
+  {
+   "id": "mass_production_steel",
+   "name": "Steel mills",
+   "branch": "industry",
+   "cost": 1833,
+   "available_from": 1870,
+   "requires": [
+    "bessemer_steel"
+   ],
+   "effects": {
+    "crafts": 0.04
+   },
+   "description": "Carnegie's works."
+  },
+  {
+   "id": "electrical_industry",
+   "name": "Electrical industry",
+   "branch": "industry",
+   "cost": 1859,
+   "available_from": 1890,
+   "requires": [
+    "electricity"
+   ],
+   "effects": {
+    "crafts": 0.04
+   },
+   "description": "Siemens and GE."
+  },
+  {
+   "id": "chemical_industry",
+   "name": "Chemical industry",
+   "branch": "industry",
+   "cost": 1833,
+   "available_from": 1870,
+   "requires": [
+    "synthetic_dyes"
+   ],
+   "effects": {
+    "crafts": 0.04
+   },
+   "description": "BASF and Bayer."
+  },
+  {
+   "id": "scientific_management",
+   "name": "Scientific management",
+   "branch": "industry",
+   "cost": 1885,
+   "available_from": 1911,
+   "requires": [
+    "factory_system"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Taylor's stopwatch."
+  },
+  {
+   "id": "mass_consumer_goods",
+   "name": "Consumer goods",
+   "branch": "industry",
+   "cost": 1896,
+   "available_from": 1920,
+   "requires": [
+    "assembly_line",
+    "electric_grid"
+   ],
+   "effects": {
+    "crafts": 0.03,
+    "unrest": -0.01
+   },
+   "description": "Fridges and radios for all."
+  },
+  {
+   "id": "robotics",
+   "name": "Industrial robots",
+   "branch": "industry",
+   "cost": 1949,
+   "available_from": 1961,
+   "requires": [
+    "computers",
+    "assembly_line"
+   ],
+   "effects": {
+    "crafts": 0.05
+   },
+   "description": "Unimate on the line."
+  },
+  {
+   "id": "lean_production",
+   "name": "Lean production",
+   "branch": "industry",
+   "cost": 1935,
+   "available_from": 1950,
+   "requires": [
+    "assembly_line"
+   ],
+   "effects": {
+    "crafts": 0.04
+   },
+   "description": "Toyota's system."
+  },
+  {
+   "id": "microchips",
+   "name": "Integrated circuits",
+   "branch": "industry",
+   "cost": 1945,
+   "available_from": 1958,
+   "requires": [
+    "semiconductors"
+   ],
+   "effects": {
+    "crafts": 0.04,
+    "research": 0.02
+   },
+   "description": "A circuit on a chip."
+  },
+  {
+   "id": "biotech",
+   "name": "Biotechnology",
+   "branch": "industry",
+   "cost": 1968,
+   "available_from": 1976,
+   "requires": [
+    "dna"
+   ],
+   "effects": {
+    "crafts": 0.03,
+    "growth": 0.01
+   },
+   "description": "Genes put to work."
+  },
+  {
+   "id": "three_d_printing",
+   "name": "3D printing",
+   "branch": "industry",
+   "cost": 1981,
+   "available_from": 1986,
+   "requires": [
+    "computers",
+    "plastics"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Things printed layer by layer."
+  },
+  {
+   "id": "global_supply_chains",
+   "name": "Global supply chains",
+   "branch": "industry",
+   "cost": 1973,
+   "available_from": 1980,
+   "requires": [
+    "containers",
+    "computers"
+   ],
+   "effects": {
+    "crafts": 0.04,
+    "trade": 0.03
+   },
+   "description": "Parts from everywhere."
+  },
+  {
+   "id": "tactical_air_support",
+   "name": "Close air support",
+   "branch": "land_war",
+   "cost": 1918,
+   "available_from": 1937,
+   "requires": [
+    "aircraft"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.05
+   },
+   "description": "Dive-bombers over the front."
+  },
+  {
+   "id": "guided_missiles",
+   "name": "Guided missiles",
+   "branch": "land_war",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "rockets",
+    "electronics"
+   ],
+   "effects": {
+    "might_missile": 0.1
+   },
+   "description": "Weapons that find their mark."
+  },
+  {
+   "id": "nuclear_weapons",
+   "name": "Nuclear weapons",
+   "branch": "land_war",
+   "cost": 1928,
+   "available_from": 1945,
+   "requires": [
+    "quantum_mechanics"
+   ],
+   "effects": {
+    "might_missile": 0.1,
+    "garrison": 2
+   },
+   "description": "The bomb."
+  },
+  {
+   "id": "helicopters",
+   "name": "Helicopters",
+   "branch": "land_war",
+   "cost": 1935,
+   "available_from": 1950,
+   "requires": [
+    "aviation"
+   ],
+   "effects": {
+    "might_light_infantry": 0.08
+   },
+   "description": "Troops flown to the fight."
+  },
+  {
+   "id": "precision_weapons",
+   "name": "Precision weapons",
+   "branch": "land_war",
+   "cost": 1987,
+   "available_from": 1991,
+   "requires": [
+    "guided_missiles",
+    "satellites"
+   ],
+   "effects": {
+    "might_missile": 0.1
+   },
+   "description": "Smart bombs."
+  },
+  {
+   "id": "drones",
+   "name": "Drones",
+   "branch": "land_war",
+   "cost": 2000,
+   "available_from": 2001,
+   "requires": [
+    "precision_weapons",
+    "computers"
+   ],
+   "effects": {
+    "might_missile": 0.08,
+    "might_light_infantry": 0.04
+   },
+   "description": "Aircraft without pilots."
+  },
+  {
+   "id": "mechanised_infantry",
+   "name": "Mechanised infantry",
+   "branch": "land_war",
+   "cost": 1922,
+   "available_from": 1940,
+   "requires": [
+    "tanks",
+    "trucks"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.06
+   },
+   "description": "Infantry in armoured carriers."
+  },
+  {
+   "id": "roman_steelmaking",
+   "name": "Noric steel",
+   "branch": "materials",
+   "cost": 170,
+   "available_from": 0,
+   "requires": [],
+   "effects": {
+    "might_heavy_infantry": 0.02
+   },
+   "description": "Steel from the Alps."
+  },
+  {
+   "id": "mercury_amalgamation_early",
+   "name": "Gilding with mercury",
+   "branch": "materials",
+   "cost": 271,
+   "available_from": 200,
+   "requires": [
+    "brass"
+   ],
+   "effects": {
+    "crafts": 0.01
+   },
+   "description": "Fire gilding."
+  },
+  {
+   "id": "wootz_trade",
+   "name": "Wootz steel",
+   "branch": "materials",
+   "cost": 464,
+   "available_from": 500,
+   "requires": [
+    "crucible_steel"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Indian ingots traded west."
+  },
+  {
+   "id": "distillation",
+   "name": "Distillation",
+   "branch": "materials",
+   "cost": 700,
+   "available_from": 800,
+   "requires": [
+    "alchemy"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Jabir's alembic."
+  },
+  {
+   "id": "bloomery_improved",
+   "name": "Catalan forge",
+   "branch": "materials",
+   "cost": 878,
+   "available_from": 1000,
+   "requires": [],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Water-blown bloomeries."
+  },
+  {
+   "id": "mineral_acids",
+   "name": "Mineral acids",
+   "branch": "materials",
+   "cost": 1177,
+   "available_from": 1300,
+   "requires": [
+    "distillation"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Aqua fortis parts silver from gold."
+  },
+  {
+   "id": "assaying",
+   "name": "Assaying",
+   "branch": "materials",
+   "cost": 1284,
+   "available_from": 1400,
+   "requires": [
+    "mineral_acids"
+   ],
+   "effects": {
+    "mine": 0.02,
+    "trade": 0.01
+   },
+   "description": "Agricola's De re metallica."
+  },
+  {
+   "id": "patio_process",
+   "name": "Mercury amalgamation",
+   "branch": "materials",
+   "cost": 1455,
+   "available_from": 1554,
+   "requires": [
+    "assaying"
+   ],
+   "effects": {
+    "mine": 0.04
+   },
+   "description": "Silver of Potosí."
+  },
+  {
+   "id": "zinc_smelting",
+   "name": "Zinc smelting",
+   "branch": "materials",
+   "cost": 1671,
+   "available_from": 1738,
+   "requires": [
+    "coke_smelting"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Champion's works."
+  },
+  {
+   "id": "crucible_steel_huntsman",
+   "name": "Cast steel",
+   "branch": "materials",
+   "cost": 1674,
+   "available_from": 1740,
+   "requires": [
+    "coke_smelting"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Huntsman's Sheffield steel."
+  },
+  {
+   "id": "electrolysis",
+   "name": "Electrolysis",
+   "branch": "materials",
+   "cost": 1755,
+   "available_from": 1807,
+   "requires": [
+    "batteries"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Davy splits the salts."
+  },
+  {
+   "id": "stainless_steel",
+   "name": "Stainless steel",
+   "branch": "materials",
+   "cost": 1888,
+   "available_from": 1913,
+   "requires": [
+    "bessemer_steel"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Steel that does not rust."
+  },
+  {
+   "id": "titanium",
+   "name": "Titanium",
+   "branch": "materials",
+   "cost": 1932,
+   "available_from": 1948,
+   "requires": [
+    "aluminium"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Light, strong metal for jets."
+  },
+  {
+   "id": "composites",
+   "name": "Composite materials",
+   "branch": "materials",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "plastics"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Carbon fibre."
+  },
+  {
+   "id": "silicon_refining",
+   "name": "Pure silicon",
+   "branch": "materials",
+   "cost": 1940,
+   "available_from": 1954,
+   "requires": [
+    "semiconductors"
+   ],
+   "effects": {
+    "crafts": 0.02
+   },
+   "description": "Crystals for chips."
+  },
+  {
+   "id": "nanomaterials",
+   "name": "Nanomaterials",
+   "branch": "materials",
+   "cost": 1987,
+   "available_from": 1991,
+   "requires": [
+    "quantum_mechanics"
+   ],
+   "effects": {
+    "crafts": 0.02,
+    "research": 0.01
+   },
+   "description": "Matter built atom by atom."
+  },
+  {
+   "id": "recycling",
+   "name": "Recycling",
+   "branch": "materials",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "chemical_industry"
+   ],
+   "effects": {
+    "crafts": 0.01,
+    "mine": 0.02
+   },
+   "description": "Metals and glass used again."
+  },
+  {
+   "id": "polymers_advanced",
+   "name": "Advanced polymers",
+   "branch": "materials",
+   "cost": 1915,
+   "available_from": 1935,
+   "requires": [
+    "plastics"
+   ],
+   "effects": {
+    "crafts": 0.03
+   },
+   "description": "Nylon and PVC."
+  },
+  {
+   "id": "medical_faculties",
+   "name": "Medical faculties",
+   "branch": "medicine",
+   "cost": 1073,
+   "available_from": 1200,
+   "requires": [
+    "salerno_school",
+    "universities"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Montpellier and Bologna."
+  },
+  {
+   "id": "dissection_public",
+   "name": "Public dissection",
+   "branch": "medicine",
+   "cost": 1192,
+   "available_from": 1315,
+   "requires": [
+    "medical_faculties"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Mondino teaches anatomy."
+  },
+  {
+   "id": "cell_theory",
+   "name": "Cell theory",
+   "branch": "medicine",
+   "cost": 1795,
+   "available_from": 1839,
+   "requires": [
+    "microscope"
+   ],
+   "effects": {
+    "research": 0.01
+   },
+   "description": "All life is made of cells."
+  },
+  {
+   "id": "chemotherapy",
+   "name": "Chemotherapy",
+   "branch": "medicine",
+   "cost": 1929,
+   "available_from": 1946,
+   "requires": [
+    "antibiotics"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Drugs against cancer."
+  },
+  {
+   "id": "contraception",
+   "name": "The pill",
+   "branch": "medicine",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "insulin"
+   ],
+   "effects": {
+    "growth": -0.02,
+    "research": 0.01
+   },
+   "description": "Families choose their size."
+  },
+  {
+   "id": "organ_transplants",
+   "name": "Organ transplants",
+   "branch": "medicine",
+   "cost": 1940,
+   "available_from": 1954,
+   "requires": [
+    "antibiotics",
+    "anaesthesia"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "A kidney from a twin."
+  },
+  {
+   "id": "mri",
+   "name": "Medical scanners",
+   "branch": "medicine",
+   "cost": 1961,
+   "available_from": 1971,
+   "requires": [
+    "computers",
+    "x_rays"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Seeing inside without cutting."
+  },
+  {
+   "id": "oral_rehydration",
+   "name": "Oral rehydration",
+   "branch": "medicine",
+   "cost": 1958,
+   "available_from": 1968,
+   "requires": [
+    "germ_theory"
+   ],
+   "effects": {
+    "growth": 0.03
+   },
+   "description": "Salt and sugar save millions."
+  },
+  {
+   "id": "genomics",
+   "name": "Genomic medicine",
+   "branch": "medicine",
+   "cost": 2003,
+   "available_from": 2003,
+   "requires": [
+    "dna",
+    "computers"
+   ],
+   "effects": {
+    "growth": 0.02
+   },
+   "description": "The genome read."
+  },
+  {
+   "id": "liburnians",
+   "name": "Liburnians",
+   "branch": "naval",
+   "cost": 149,
+   "available_from": -50,
+   "requires": [],
+   "effects": {
+    "might_warships": 0.03
+   },
+   "description": "Fast light galleys."
+  },
+  {
+   "id": "dromon",
+   "name": "The dromon",
+   "branch": "naval",
+   "cost": 500,
+   "available_from": 550,
+   "requires": [
+    "lateen_sail"
+   ],
+   "effects": {
+    "might_warships": 0.04
+   },
+   "description": "Byzantium's war galley."
+  },
+  {
+   "id": "roman_fleets",
+   "name": "Standing provincial fleets",
+   "branch": "naval",
+   "cost": 159,
+   "available_from": -27,
+   "requires": [
+    "naval_ports"
+   ],
+   "effects": {
+    "sea_cost": -0.02
+   },
+   "description": "Misenum and Ravenna."
+  },
+  {
+   "id": "aircraft_carriers",
+   "name": "Aircraft carriers",
+   "branch": "naval",
+   "cost": 1899,
+   "available_from": 1922,
+   "requires": [
+    "aircraft",
+    "steel_hulls"
+   ],
+   "effects": {
+    "might_warships": 0.1
+   },
+   "description": "Airfields at sea."
+  },
+  {
+   "id": "sonar",
+   "name": "Sonar",
+   "branch": "naval",
+   "cost": 1894,
+   "available_from": 1918,
+   "requires": [
+    "submarines",
+    "electronics"
+   ],
+   "effects": {
+    "might_warships": 0.04
+   },
+   "description": "Hunting submarines by sound."
+  },
+  {
+   "id": "amphibious_warfare",
+   "name": "Amphibious warfare",
+   "branch": "naval",
+   "cost": 1924,
+   "available_from": 1942,
+   "requires": [
+    "combined_arms_modern"
+   ],
+   "effects": {
+    "might_warships": 0.04,
+    "reach_km": 60
+   },
+   "description": "Landing craft on the beaches."
+  },
+  {
+   "id": "diesel_ships",
+   "name": "Diesel ships",
+   "branch": "naval",
+   "cost": 1886,
+   "available_from": 1912,
+   "requires": [
+    "internal_combustion"
+   ],
+   "effects": {
+    "sea_cost": -0.03
+   },
+   "description": "Motor ships replace steam."
+  },
+  {
+   "id": "supertankers",
+   "name": "Supertankers",
+   "branch": "naval",
+   "cost": 1942,
+   "available_from": 1956,
+   "requires": [
+    "containers",
+    "oil_age"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Oil by the million barrels."
+  },
+  {
+   "id": "nuclear_submarines",
+   "name": "Nuclear submarines",
+   "branch": "naval",
+   "cost": 1941,
+   "available_from": 1955,
+   "requires": [
+    "nuclear_power",
+    "submarines"
+   ],
+   "effects": {
+    "might_warships": 0.08
+   },
+   "description": "Ships that never surface."
+  },
+  {
+   "id": "guided_missile_ships",
+   "name": "Missile ships",
+   "branch": "naval",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "guided_missiles"
+   ],
+   "effects": {
+    "might_warships": 0.08
+   },
+   "description": "Destroyers with missiles."
+  },
+  {
+   "id": "satellite_navigation",
+   "name": "Satellite navigation",
+   "branch": "naval",
+   "cost": 1992,
+   "available_from": 1995,
+   "requires": [
+    "satellites"
+   ],
+   "effects": {
+    "sea_cost": -0.03,
+    "reach_km": 40
+   },
+   "description": "GPS."
+  },
+  {
+   "id": "icebreakers",
+   "name": "Icebreakers",
+   "branch": "naval",
+   "cost": 1893,
+   "available_from": 1917,
+   "requires": [
+    "steel_hulls"
+   ],
+   "effects": {
+    "sea_cost": -0.01
+   },
+   "description": "Ships through the ice."
+  },
+  {
+   "id": "computer_science",
+   "name": "Computer science",
+   "branch": "science",
+   "cost": 1917,
+   "available_from": 1936,
+   "requires": [
+    "electronics"
+   ],
+   "effects": {
+    "research": 0.04
+   },
+   "description": "Turing's machine."
+  },
+  {
+   "id": "big_bang",
+   "name": "Modern cosmology",
+   "branch": "science",
+   "cost": 1908,
+   "available_from": 1929,
+   "requires": [
+    "relativity"
+   ],
+   "effects": {
+    "research": 0.02
+   },
+   "description": "Hubble's expanding universe."
+  },
+  {
+   "id": "plate_tectonics",
+   "name": "Plate tectonics",
+   "branch": "science",
+   "cost": 1954,
+   "available_from": 1965,
+   "requires": [
+    "geology"
+   ],
+   "effects": {
+    "research": 0.02,
+    "mine": 0.02
+   },
+   "description": "Continents drift."
+  },
+  {
+   "id": "climate_science",
+   "name": "Climate science",
+   "branch": "science",
+   "cost": 1972,
+   "available_from": 1979,
+   "requires": [
+    "computers",
+    "thermodynamics"
+   ],
+   "effects": {
+    "research": 0.02,
+    "field": 0.01
+   },
+   "description": "The world's climate modelled."
+  },
+  {
+   "id": "artificial_intelligence",
+   "name": "Artificial intelligence",
+   "branch": "science",
+   "cost": 2014,
+   "available_from": 2012,
+   "requires": [
+    "computer_science",
+    "internet"
+   ],
+   "effects": {
+    "research": 0.08,
+    "admin": 2
+   },
+   "description": "Machines that learn."
+  },
+  {
+   "id": "big_science",
+   "name": "Big science",
+   "branch": "science",
+   "cost": 1924,
+   "available_from": 1942,
+   "requires": [
+    "quantum_mechanics"
+   ],
+   "effects": {
+    "research": 0.04
+   },
+   "description": "Vast national laboratories."
+  },
+  {
+   "id": "stoic_cosmopolis",
+   "name": "Cosmopolitanism",
+   "branch": "society",
+   "cost": 193,
+   "available_from": 50,
+   "requires": [
+    "stoicism"
+   ],
+   "effects": {
+    "integration": 0.02
+   },
+   "description": "Citizens of the world."
+  },
+  {
+   "id": "roman_patronage_clients",
+   "name": "Patrons and clients",
+   "branch": "society",
+   "cost": 218,
+   "available_from": 100,
+   "requires": [
+    "citizenship"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "The morning salutatio."
+  },
+  {
+   "id": "colonate",
+   "name": "The colonate",
+   "branch": "society",
+   "cost": 350,
+   "available_from": 332,
+   "requires": [
+    "iugatio"
+   ],
+   "effects": {
+    "field": 0.01,
+    "unrest": 0.01
+   },
+   "description": "Tenants bound to the land."
+  },
+  {
+   "id": "charity_institutions",
+   "name": "Charitable foundations",
+   "branch": "society",
+   "cost": 374,
+   "available_from": 370,
+   "requires": [
+    "church_hierarchy"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Basil's hospital and poor-house."
+  },
+  {
+   "id": "zakat",
+   "name": "Zakat",
+   "branch": "society",
+   "cost": 561,
+   "available_from": 630,
+   "requires": [
+    "islam"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Alms as law."
+  },
+  {
+   "id": "urban_communes",
+   "name": "Communes",
+   "branch": "society",
+   "cost": 974,
+   "available_from": 1100,
+   "requires": [
+    "free_cities"
+   ],
+   "effects": {
+    "crafts": 0.02,
+    "unrest": -0.01
+   },
+   "description": "Townsmen swear to govern themselves."
+  },
+  {
+   "id": "serf_emancipation_medieval",
+   "name": "Charters of freedom",
+   "branch": "society",
+   "cost": 1023,
+   "available_from": 1150,
+   "requires": [
+    "urban_communes"
+   ],
+   "effects": {
+    "growth": 0.01
+   },
+   "description": "Town air makes free."
+  },
+  {
+   "id": "confraternities",
+   "name": "Confraternities",
+   "branch": "society",
+   "cost": 1125,
+   "available_from": 1250,
+   "requires": [
+    "mendicant_orders"
+   ],
+   "effects": {
+    "unrest": -0.01
+   },
+   "description": "Lay brotherhoods."
+  },
+  {
+   "id": "universities_student_nations",
+   "name": "Student nations",
+   "branch": "society",
+   "cost": 1073,
+   "available_from": 1200,
+   "requires": [
+    "universities"
+   ],
+   "effects": {
+    "research": 0.01
+   },
+   "description": "Students gather by homeland."
+  },
+  {
+   "id": "poor_laws",
+   "name": "Poor laws",
+   "branch": "society",
+   "cost": 1284,
+   "available_from": 1400,
+   "requires": [
+    "parliaments"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Relief for the poor."
+  },
+  {
+   "id": "feminism",
+   "name": "Women's rights",
+   "branch": "society",
+   "cost": 1806,
+   "available_from": 1848,
+   "requires": [
+    "enlightenment"
+   ],
+   "effects": {
+    "growth": 0.01,
+    "research": 0.02
+   },
+   "description": "Seneca Falls."
+  },
+  {
+   "id": "trade_unions",
+   "name": "Trade unions",
+   "branch": "society",
+   "cost": 1835,
+   "available_from": 1871,
+   "requires": [
+    "labour_laws"
+   ],
+   "effects": {
+    "unrest": -0.01,
+    "crafts": -0.01
+   },
+   "description": "Workers bargain together."
+  },
+  {
+   "id": "socialism",
+   "name": "Socialism",
+   "branch": "society",
+   "cost": 1806,
+   "available_from": 1848,
+   "requires": [
+    "economics"
+   ],
+   "effects": {
+    "unrest": 0.01
+   },
+   "description": "The Communist Manifesto."
+  },
+  {
+   "id": "women_suffrage",
+   "name": "Women's suffrage",
+   "branch": "society",
+   "cost": 1862,
+   "available_from": 1893,
+   "requires": [
+    "universal_suffrage",
+    "feminism"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "New Zealand first."
+  },
+  {
+   "id": "mass_higher_education",
+   "name": "Mass higher education",
+   "branch": "society",
+   "cost": 1927,
+   "available_from": 1944,
+   "requires": [
+    "research_universities"
+   ],
+   "effects": {
+    "research": 0.04
+   },
+   "description": "University for the many."
+  },
+  {
+   "id": "civil_rights",
+   "name": "Civil rights",
+   "branch": "society",
+   "cost": 1952,
+   "available_from": 1964,
+   "requires": [
+    "human_rights"
+   ],
+   "effects": {
+    "unrest": -0.02,
+    "integration": 0.03
+   },
+   "description": "Equal before the law."
+  },
+  {
+   "id": "environmentalism",
+   "name": "Environmentalism",
+   "branch": "society",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "climate_science"
+   ],
+   "effects": {
+    "field": 0.01
+   },
+   "description": "Earth Day."
+  },
+  {
+   "id": "consumer_society",
+   "name": "Consumer society",
+   "branch": "society",
+   "cost": 1935,
+   "available_from": 1950,
+   "requires": [
+    "mass_consumer_goods"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Shopping as a way of life."
+  },
+  {
+   "id": "globalisation",
+   "name": "Globalisation",
+   "branch": "society",
+   "cost": 1986,
+   "available_from": 1990,
+   "requires": [
+    "global_supply_chains",
+    "internet"
+   ],
+   "effects": {
+    "trade": 0.04,
+    "integration": 0.02
+   },
+   "description": "One world market."
+  },
+  {
+   "id": "pension_systems",
+   "name": "State pensions",
+   "branch": "society",
+   "cost": 1915,
+   "available_from": 1935,
+   "requires": [
+    "social_insurance"
+   ],
+   "effects": {
+    "unrest": -0.02
+   },
+   "description": "Old age provided for."
+  },
+  {
+   "id": "mass_tourism",
+   "name": "Mass tourism",
+   "branch": "society",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "airlines"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Package holidays."
+  },
+  {
+   "id": "urbanisation_modern",
+   "name": "A world of cities",
+   "branch": "society",
+   "cost": 2008,
+   "available_from": 2007,
+   "requires": [
+    "megacity_transit"
+   ],
+   "effects": {
+    "growth": 0.02
+   },
+   "description": "Most people live in towns."
+  },
+  {
+   "id": "roman_road_network",
+   "name": "The imperial road network",
+   "branch": "transport",
+   "cost": 218,
+   "available_from": 100,
+   "requires": [],
+   "effects": {
+    "reach_km": 40
+   },
+   "description": "80,000 km of roads."
+  },
+  {
+   "id": "pack_saddle",
+   "name": "Improved pack saddles",
+   "branch": "transport",
+   "cost": 271,
+   "available_from": 200,
+   "requires": [],
+   "effects": {
+    "trade": 0.01
+   },
+   "description": "More load per beast."
+  },
+  {
+   "id": "camel_saddle",
+   "name": "The north Arabian saddle",
+   "branch": "transport",
+   "cost": 330,
+   "available_from": 300,
+   "requires": [
+    "pack_camels"
+   ],
+   "effects": {
+    "trade": 0.02,
+    "reach_km": 30
+   },
+   "description": "Caravans across the Sahara."
+  },
+  {
+   "id": "trans_saharan",
+   "name": "Trans-Saharan caravans",
+   "branch": "transport",
+   "cost": 616,
+   "available_from": 700,
+   "requires": [
+    "camel_saddle"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Gold and salt."
+  },
+  {
+   "id": "river_convoys",
+   "name": "River convoys",
+   "branch": "transport",
+   "cost": 700,
+   "available_from": 800,
+   "requires": [
+    "river_barges"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Volga trade with the Rus."
+  },
+  {
+   "id": "wagon_brakes",
+   "name": "Four-wheeled wagons",
+   "branch": "transport",
+   "cost": 974,
+   "available_from": 1100,
+   "requires": [
+    "horse_collar"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "description": "Heavy wagons with a pivoting axle."
+  },
+  {
+   "id": "stone_bridges_medieval",
+   "name": "Great stone bridges",
+   "branch": "transport",
+   "cost": 1049,
+   "available_from": 1176,
+   "requires": [
+    "bridges"
+   ],
+   "effects": {
+    "reach_km": 20
+   },
+   "description": "London Bridge, the Pont d'Avignon."
+  },
+  {
+   "id": "inns_network",
+   "name": "Inns and hostels",
+   "branch": "transport",
+   "cost": 1073,
+   "available_from": 1200,
+   "requires": [
+    "pilgrimage"
+   ],
+   "effects": {
+    "trade": 0.01
+   },
+   "description": "Pilgrims' roads."
+  },
+  {
+   "id": "sledges_portage",
+   "name": "Portages",
+   "branch": "transport",
+   "cost": 878,
+   "available_from": 1000,
+   "requires": [
+    "river_barges"
+   ],
+   "effects": {
+    "reach_km": 20
+   },
+   "description": "Boats dragged between rivers."
+  },
+  {
+   "id": "carriage_suspension",
+   "name": "Sprung carriages",
+   "branch": "transport",
+   "cost": 1584,
+   "available_from": 1665,
+   "requires": [
+    "coaches"
+   ],
+   "effects": {
+    "reach_km": 20
+   },
+   "description": "Steel springs smooth the ride."
+  },
+  {
+   "id": "road_surveys",
+   "name": "Road engineering",
+   "branch": "transport",
+   "cost": 1686,
+   "available_from": 1750,
+   "requires": [
+    "turnpikes"
+   ],
+   "effects": {
+    "reach_km": 20
+   },
+   "description": "Trésaguet's roads."
+  },
+  {
+   "id": "container_trucking",
+   "name": "Intermodal freight",
+   "branch": "transport",
+   "cost": 1947,
+   "available_from": 1960,
+   "requires": [
+    "containers",
+    "highways"
+   ],
+   "effects": {
+    "trade": 0.04
+   },
+   "description": "One box from ship to lorry."
+  },
+  {
+   "id": "high_speed_rail",
+   "name": "High-speed rail",
+   "branch": "transport",
+   "cost": 1952,
+   "available_from": 1964,
+   "requires": [
+    "electric_grid",
+    "railways"
+   ],
+   "effects": {
+    "reach_km": 60
+   },
+   "description": "The Shinkansen."
+  },
+  {
+   "id": "electric_cars",
+   "name": "Electric cars",
+   "branch": "transport",
+   "cost": 2009,
+   "available_from": 2008,
+   "requires": [
+    "fast_charge_batteries",
+    "automobiles"
+   ],
+   "effects": {
+    "trade": 0.01
+   },
+   "description": "Cars without petrol."
+  },
+  {
+   "id": "air_freight",
+   "name": "Air freight",
+   "branch": "transport",
+   "cost": 1960,
+   "available_from": 1970,
+   "requires": [
+    "jet_engine"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "description": "Goods by air overnight."
   }
  ]
 }

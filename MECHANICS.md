@@ -1597,14 +1597,18 @@ Decisions "Playable 5, 6, 31, 32".
 
 Decisions "Playable 21-26".
 
-- **Technology web** (`data/techs.json`): 575 technologies in 10 branches
-  (farming, crafts, building, war on land, war at sea, trade, government,
-  learning, medicine and belief, society), from 300 BC to the modern age.
-  Each has a year it becomes known to the world, prerequisites, a cost that
-  grows with its year, and effects (crop yields, crafts, trade, tax,
-  corruption, interest, manpower, garrisons, sieges, reach, sea travel,
-  health, integration, unrest, admin capacity). Units and buildings can
-  require a tech. Realms start with the techs of their culture.
+- **Technology web** (`data/techs.json`): 732 technologies in 15
+  branches, each running from 300 BC to today: farming, industry, metals
+  and chemistry, energy, building and cities, transport, trade and
+  finance, writing and communication, land and air warfare, seafaring and
+  navies, government and law, society and ideas, science, medicine, and
+  religion and the arts. Nothing invented before 300 BC is a technology:
+  it is already part of the world at the start. Each has a year it
+  becomes known to the world, prerequisites, a cost that grows with its
+  year, and effects (crop yields, crafts, trade, tax, corruption,
+  interest, manpower, garrisons, sieges, reach, sea travel, health,
+  integration, unrest, admin capacity). Units and buildings can require
+  a tech.
 - **Research**: research points a year = (6 + town people/15,000 +
   organized people/300,000) x (1 + research bonuses). The player picks a
   tech in the Research panel (T key); bots choose their own.
