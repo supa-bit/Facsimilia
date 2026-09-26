@@ -1,0 +1,26 @@
+{
+ "about": "Each realm's own coin (decision 'Playable 4'), with the silver it held so sums can be compared: the treasury is kept in talents of silver (an Attic talent, 26.2 kg) and shown in the realm's coin. A realm's coins change with time (Rome's denarius from 211 BC, lighter from Nero, the gold solidus from 309). Gold coins count at 12 times their weight in silver (the ancient ratio). Weights from Crawford, 'Roman Republican Coinage' (1974), and Mørkholm, 'Early Hellenistic Coinage' (1991). Our own summary, free for any use.",
+ "talent_grams": 26200,
+ "realms": {
+  "rome": [
+   {"from": -300, "name": "didrachms", "one": "didrachm", "grams": 7.3},
+   {"from": -211, "name": "denarii", "one": "denarius", "grams": 4.5},
+   {"from": -140, "name": "denarii", "one": "denarius", "grams": 3.9},
+   {"from": 64, "name": "denarii", "one": "denarius", "grams": 3.4},
+   {"from": 215, "name": "antoniniani", "one": "antoninianus", "grams": 2.0},
+   {"from": 309, "name": "solidi", "one": "solidus", "grams": 54.5}
+  ],
+  "carthage": [{"from": -300, "name": "shekels", "one": "shekel", "grams": 7.2}],
+  "egypt": [{"from": -300, "name": "tetradrachms", "one": "tetradrachm", "grams": 14.2}],
+  "kush": [{"from": -300, "name": "deben of gold", "one": "deben of gold", "grams": 1090}],
+  "seleucid": [{"from": -300, "name": "tetradrachms", "one": "tetradrachm", "grams": 17.2}],
+  "greek_world": [{"from": -300, "name": "tetradrachms", "one": "tetradrachm", "grams": 17.2}],
+  "lysimachus": [{"from": -300, "name": "tetradrachms", "one": "tetradrachm", "grams": 17.2}],
+  "antigonus": [{"from": -300, "name": "tetradrachms", "one": "tetradrachm", "grams": 17.2}],
+  "nabatea": [{"from": -300, "name": "drachms", "one": "drachm", "grams": 3.6}],
+  "iberia": [{"from": -300, "name": "Emporitan drachms", "one": "Emporitan drachm", "grams": 4.7}],
+  "gaul": [{"from": -300, "name": "gold staters", "one": "gold stater", "grams": 102}],
+  "scythia": [{"from": -300, "name": "Olbian staters", "one": "Olbian stater", "grams": 8.6}]
+ },
+ "default": [{"from": -300, "name": "drachms", "one": "drachm", "grams": 4.3}]
+}

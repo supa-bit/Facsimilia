@@ -1622,6 +1622,31 @@ Decisions "Playable 21-26".
 - **Score by category** (like Stellaris): People, Land, Wealth, Culture,
   Dynasty and Goals, shown in the Goals panel with a ranking of realms.
 
+## Plagues, disasters and each realm's coin **(built, 26 Sep 2026)**
+
+Decisions "Playable 4" and "28".
+
+- **History's disasters** (`data/disasters.json`): 53 plagues,
+  earthquakes, eruptions and famines strike at their real dates and
+  places: the Rhodes earthquake (226 BC), Vesuvius (AD 79), the Antonine
+  Plague (165), the Plague of Justinian (541), the Black Death (1347),
+  Lisbon (1755), the Spanish flu (1918) and more. Each has a centre, a
+  reach in km and the share it kills at the centre, fading toward the
+  edge.
+- **Chance**: every region may suffer an earthquake each year if it lies
+  on a quake belt (the Aegean, Anatolia, the Levant, Italy, Iran...), and
+  anywhere may see an epidemic, more likely where many people live.
+- **Medicine** cuts plague deaths (up to 90%), from the owner's health
+  technologies.
+- The dead are taken from the map's people; the land fills again over
+  the following decades. A disaster in your lands stops a long turn.
+- **Coins** (`data/coins.json`): the treasury is kept in talents of
+  silver but shown in your realm's own coin: Roman didrachms, then
+  denarii from 211 BC (lighter over time), antoniniani, gold solidi;
+  Punic shekels; Ptolemaic and Seleucid tetradrachms; Nabataean
+  drachms; Gallic gold staters; Kushite gold by weight. The Treasury
+  panel shows the silver in each coin so sums can be compared.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

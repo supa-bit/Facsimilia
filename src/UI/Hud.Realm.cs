@@ -38,7 +38,7 @@ public partial class Hud
         {
             Flat = true,
             FocusMode = FocusModeEnum.None,
-            TooltipText = "Treasury, in talents of silver (1 talent = 6,000 drachmae). Click for your accounts and army.",
+            TooltipText = "Treasury, in your realm's own coin. Click for your accounts and army.",
             Icon = ThemeAncient.Icon("coins"),
             ExpandIcon = false,
         };
@@ -128,12 +128,14 @@ public partial class Hud
         RefreshMapView();   // the land legend shares the top-left corner
     }
 
-    static string T(double talents) => $"{ThemeAncient.GroupThousands((long)Math.Round(talents))}";
+    string T(double talents) => CoinCatalog.Short(CoinCatalog.Instance.Coins(talents, _map.CoinOf(_map.PlayerRealmId)));
+    string M(double talents) => _map.Money(talents);
 
     void RefreshTreasury()
     {
         var s = _map.PlayerState;
         _treasuryButton.Text = s.Debt > 0.5 ? $"{T(s.Treasury)}  (debt {T(s.Debt)})" : T(s.Treasury);
+        _treasuryButton.TooltipText = $"Treasury: {M(s.Treasury)}. Click for your accounts and army.";
         _treasuryButton.Modulate = s.Debt > 0.5 ? new Color(1f, 0.75f, 0.7f) : Colors.White;
         if (_realmPanel.Visible)
             RefreshRealmPanel();
@@ -147,7 +149,7 @@ public partial class Hud
         double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces + c.BuildingUpkeep, interest = s.Debt * Economy.InterestRate;
         double net = tax + tribute + (c.Goods != null ? Trade.Customs(c.Goods) : 0) - upkeep - admin - interest;
         _accounts.Text =
-            $"Treasury: {T(s.Treasury)} talents" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
+            $"Treasury: {M(s.Treasury)} ({s.Treasury:N0} talents of silver)" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
             $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}" +
             (c.Goods != null ? $"   Tolls and customs +{T(Trade.Customs(c.Goods))}" : "") + "\n" +
@@ -155,7 +157,8 @@ public partial class Hud
             $"     Army −{T(upkeep)}" +
             (interest > 0.5 ? $"   Interest −{T(interest)}" : "") + "\n" +
             (s.LastCaptiveSales > 0.5 ? $"   Last year's sale of captives +{T(s.LastCaptiveSales)}\n" : "") +
-            $"   Balance {(net >= 0 ? "+" : "−")}{T(Math.Abs(net))} talents a year";
+            $"   Balance {(net >= 0 ? "+" : "−")}{M(Math.Abs(net))} a year\n" +
+            $"   (1 {_map.CoinOf(_map.PlayerRealmId).One} = {_map.CoinOf(_map.PlayerRealmId).Grams:0.#} g of silver; a talent of silver is 26.2 kg)";
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
         RefreshRemedies();
@@ -175,6 +178,7 @@ public partial class Hud
             $"\nUnder arms: {ThemeAncient.GroupThousands(Military.Soldiers(s))} men";
         _realmHint.Text = "Your armies, their units and where they stand are in the Armies panel.";
         _treasuryButton.Text = s.Debt > 0.5 ? $"{T(s.Treasury)}  (debt {T(s.Debt)})" : T(s.Treasury);
+        _treasuryButton.TooltipText = $"Treasury: {M(s.Treasury)}. Click for your accounts and army.";
     }
 
     /// <summary>Administration, corruption and the rival (decision "Playable 25").</summary>
@@ -203,7 +207,7 @@ public partial class Hud
                 l.Modulate = new Color(1f, 0.7f, 0.6f);
             row.AddChild(l);
             double cost = _map.RivalAppeaseCost();
-            var b = new Button { Text = $"Win them over ({cost:0})", Disabled = s.Treasury < cost, FocusMode = FocusModeEnum.None,
+            var b = new Button { Text = $"Win them over ({M(cost)})", Disabled = s.Treasury < cost, FocusMode = FocusModeEnum.None,
                 TooltipText = "Gifts, offices and marriages: -30 to the rival's following." };
             b.AddThemeFontSizeOverride("font_size", 14);
             b.Pressed += () =>

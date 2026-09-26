@@ -312,7 +312,7 @@ public partial class Hud
                     Text = $"{b.Name} ({b.Cost:0})",
                     Disabled = problem != null,
                     FocusMode = FocusModeEnum.None,
-                    TooltipText = $"{b.Description}\n{b.Cost:0} talents, {b.Years} years, upkeep {b.Upkeep:0} a year." + (problem != null ? "\n" + problem : ""),
+                    TooltipText = $"{b.Description}\n{_map.Money(b.Cost)}, {b.Years} years, upkeep {_map.Money(b.Upkeep)} a year." + (problem != null ? "\n" + problem : ""),
                 };
                 button.AddThemeFontSizeOverride("font_size", 14);
                 var def = b;

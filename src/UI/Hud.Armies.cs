@@ -150,7 +150,7 @@ public partial class Hud
             foreach (var u in options)
             {
                 var (problem, cost) = Military.CanRecruit(s, c, cultures, u, s.ElephantSource);
-                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {cost:0} talents" +
+                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {_map.Money(cost)}" +
                     (Military.NeedsMercenaries(s, u) ? ", hired" : ""), u.Index);
                 int item = popup.ItemCount - 1;
                 popup.SetItemDisabled(item, problem != null);

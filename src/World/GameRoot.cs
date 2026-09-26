@@ -206,7 +206,7 @@ public partial class GameRoot : Node2D
     /// <summary>Major events that end a long turn early: they concern the player and may need an answer.</summary>
     static bool StopsTurn(ChronicleEvent e, int player) =>
         e.RealmId == player && (e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War
-            or ChronicleKind.Conquest or ChronicleKind.Revolt
+            or ChronicleKind.Conquest or ChronicleKind.Revolt or ChronicleKind.Disaster
             // Of the economy, only trouble stops a turn: famine, desertion.
             || (e.Kind == ChronicleKind.Economy && (e.Text.Contains("famine") || e.Text.Contains("desert"))));
 

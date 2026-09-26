@@ -17,6 +17,7 @@ public enum ChronicleKind
     Peace,       // a war ended anywhere
     Conquest,    // land changed hands
     Revolt,      // a province rose up
+    Disaster,    // plague, earthquake, eruption, famine
 }
 
 /// <summary>
@@ -28,7 +29,7 @@ public sealed record ChronicleEvent(ChronicleKind Kind, int RealmId, string Text
 {
     /// <summary>Successions matter everywhere; family news only at home.</summary>
     public bool IsNewsFor(int playerRealmId) =>
-        Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War or ChronicleKind.Peace
+        Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War or ChronicleKind.Peace or ChronicleKind.Disaster
         || RealmId == playerRealmId;
 }
 

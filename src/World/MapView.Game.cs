@@ -148,6 +148,8 @@ public partial class MapView
         }
         events.AddRange(NatureYear());
         Lap("nature");
+        events.AddRange(DisastersYear());
+        Lap("disasters");
         _census = null;
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");

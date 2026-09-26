@@ -15,6 +15,17 @@ namespace Facsimilia.World;
 /// </summary>
 public partial class MapView
 {
+    /// <summary>A realm's coin this year (decision "Playable 4").</summary>
+    public Coin CoinOf(int realmId) =>
+        CoinCatalog.Instance.For(CivRealmIds.FirstOrDefault(kv => kv.Value == realmId).Key, DemoYear);
+
+    /// <summary>A sum in talents of silver, told in the player's coin: "4.7M denarii".</summary>
+    public string Money(double talents)
+    {
+        var coin = CoinOf(PlayerRealmId);
+        return $"{CoinCatalog.Short(CoinCatalog.Instance.Coins(talents, coin))} {coin.Name}";
+    }
+
     /// <summary>Beyond this distance from the capital a province is hard to govern (without roads).</summary>
     public const double FarKm = 700;
     /// <summary>Unrest from corruption at its worst (corruption 1).</summary>

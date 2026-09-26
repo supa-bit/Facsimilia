@@ -132,7 +132,7 @@ public partial class Hud
             var row = new HBoxContainer();
             row.AddThemeConstantOverride("separation", 8);
             _diplomacyRows.AddChild(row);
-            string detail = offer.Text + (offer.Silver > 0 ? $": {offer.Silver:N0} talents" : "") +
+            string detail = offer.Text + (offer.Silver > 0 ? $": {_map.Money(offer.Silver)}" : "") +
                 (offer.Provinces.Count > 0 ? $", ceding {string.Join(", ", offer.Provinces.Select(p => _map.Provinces!.Provinces.TryGetValue(p, out var pr) ? pr.Name : "?"))}" : "");
             var label = ThemeAncient.Label(detail, fontSize: 16);
             label.AutowrapMode = TextServer.AutowrapMode.WordSmart;

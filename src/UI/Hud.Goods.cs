@@ -101,10 +101,10 @@ public partial class Hud
         var shortages = cat.Goods.Where(g => g.Need > 0 && g.Source != GoodSource.Beyond && goods.Surplus(g.Index) < -0.05 * goods.Needed[g.Index])
             .Select(g => g.Name.ToLowerInvariant()).ToList();
         _goodsSummary.Text =
-            $"Your people make goods worth {T(goods.Value / 6000)} talents a year" +
+            $"Your people make goods worth {_map.Money(goods.Value / 6000)} a year" +
             (goods.Services > 6000 ? $" (of it, townspeople's trade and services {T(goods.Services / 6000)})" : "") +
             ". Taxes are a share of this.\n" +
-            $"Trade: you sell goods worth {T(goods.ExportIncome / 6000)} and buy {T(goods.ImportCost / 6000)} talents a year " +
+            $"Trade: you sell goods worth {_map.Money(goods.ExportIncome / 6000)} and buy {_map.Money(goods.ImportCost / 6000)} a year " +
             $"with {goods.Partners.Count} realms (your tolls and customs take {Trade.CustomsRate:P0}).\n" +
             $"Your people have {goods.Satisfaction:P0} of what they need" +
             (goods.Satisfaction < 0.8 ? " - want breeds unrest." : ".") +
@@ -116,7 +116,7 @@ public partial class Hud
             bool open = _openFamilies.Contains(famId);
             var button = new Button
             {
-                Text = $"{(open ? "▾" : "▸")} {famName}: {T(value)} talents a year",
+                Text = $"{(open ? "▾" : "▸")} {famName}: {_map.Money(value)} a year",
                 Alignment = HorizontalAlignment.Left,
                 Flat = true,
                 FocusMode = FocusModeEnum.None,
