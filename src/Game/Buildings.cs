@@ -7,7 +7,7 @@ namespace Facsimilia.Game;
 
 /// <summary>A kind of building (data/buildings.json).</summary>
 public sealed record BuildingDef(string Id, string Name, double Cost, int Years, double Upkeep, int Max, string? Needs,
-    Dictionary<string, double> Effects, string Description)
+    Dictionary<string, double> Effects, string Description, string? Requires = null)
 {
     public double Effect(string key) => Effects.TryGetValue(key, out var v) ? v : 0;
 }
@@ -35,7 +35,7 @@ public sealed class BuildingCatalog
             c.All.Add(new BuildingDef(b.GetProperty("id").GetString()!, b.GetProperty("name").GetString()!,
                 b.GetProperty("cost").GetDouble(), b.GetProperty("years").GetInt32(), b.GetProperty("upkeep").GetDouble(),
                 b.GetProperty("max").GetInt32(), b.TryGetProperty("needs", out var n) ? n.GetString() : null, effects,
-                b.GetProperty("description").GetString()!));
+                b.GetProperty("description").GetString()!, b.TryGetProperty("requires", out var rq) ? rq.GetString() : null));
         }
         return c;
     }

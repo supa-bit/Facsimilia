@@ -33,7 +33,7 @@ block the work that depends on them.
        (Playable 5, 6, 31, 32): a core set of buildings; the province
        panel with detail tabs; optional per-province tax rates; historical
        remedies offered when the treasury runs dry.
-9. [ ] **Technology tree, administrative reach, corruption and rivals,
+9. [x] **Technology tree, administrative reach, corruption and rivals,
        score by category** (Playable 24, 25, 26).
 10. [ ] **Redrawn 300 BC borders, any realm playable, trade routes, city
        names, disasters, each realm's coin, finer cultures** (Playable 1,

@@ -106,6 +106,7 @@ public partial class Hud
             _goodsPanel.Visible = false;
             _diplomacyPanel.Visible = false;
             _armiesPanel.Visible = false;
+            _researchPanel.Visible = false;
         }
         else if (!FileAccess.FileExists(GuideSeenPath))
             using (var f = FileAccess.Open(GuideSeenPath, FileAccess.ModeFlags.Write))
@@ -130,6 +131,7 @@ public partial class Hud
             _diplomacyPanel.Visible = false;
             _guidePanel.Visible = false;
             _armiesPanel.Visible = false;
+            _researchPanel.Visible = false;
             RefreshGoalsPanel();
         }
         RefreshMapView();
@@ -146,10 +148,14 @@ public partial class Hud
         var s = _map.PlayerState;
         var c = _map.CensusOf(_map.PlayerRealmId);
         var goals = _map.GoalsOf(_map.PlayerRealmId);
-        int points = goals.Where(g => s.GoalsDone.ContainsKey(g.Id)).Sum(g => g.Points);
-        _scoreLabel.Text = $"Score: {_map.Score(_map.PlayerRealmId):0}" +
-            (cat == null ? "" : $"  (people {c.People / cat.PeoplePerPoint:0}, provinces {c.Provinces * cat.ProvincePoints:0}, " +
-                $"silver {Math.Max(0, s.Treasury - s.Debt) / cat.TalentsPerPoint:0}, goals {points})") +
+        var breakdown = _map.ScoreBreakdown(_map.PlayerRealmId);
+        var ranking = _map.CivRealmIds.Values.Where(id => _map.CensusOf(id).Nodes > 0)
+            .Select(id => (Name: _map.RealmName(id), Score: _map.Score(id), Mine: id == _map.PlayerRealmId))
+            .OrderByDescending(x => x.Score).ToList();
+        int place = ranking.FindIndex(x => x.Mine) + 1;
+        _scoreLabel.Text = $"Score: {breakdown.Sum(x => x.Points):0}  (place {place} of {ranking.Count})\n" +
+            string.Join("\n", breakdown.Select(x => $"   {x.Category}: {x.Points:0}  ({x.Detail})")) +
+            "\nThe great realms: " + string.Join(", ", ranking.Take(6).Select(x => $"{x.Name} {x.Score:0}")) +
             "\nGoals are optional: history's ambitions for your realm. Reaching one adds its points.";
         foreach (var g in goals)
         {

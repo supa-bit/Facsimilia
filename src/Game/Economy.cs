@@ -78,13 +78,13 @@ public static class Economy
     /// One year for one realm. Returns what happened worth a chronicle line
     /// (deserters), or null.
     /// </summary>
-    public static string? Tick(RealmState r, RealmCensus c)
+    public static string? Tick(RealmState r, RealmCensus c, double corruption = 0)
     {
         var (tax, tribute) = Revenue(c, r.Tax);
-        tax *= Remedies.TaxKept(r);
+        tax *= Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * (1 - corruption);
         double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
         double upkeep = Upkeep(r);
-        double interest = r.Debt * InterestRate;
+        double interest = r.Debt * Math.Max(0.02, InterestRate + TechCatalog.Instance.Effect(r, "interest"));
         double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
         Remedies.Tick(r);
         r.LastCustoms = customs;

@@ -26,6 +26,8 @@ public static class Military
     {
         if (!u.Anyone && !u.Cultures.Any(cultures.Contains))
             return ("None of your peoples fight this way.", 0);
+        if (u.Requires != null && !r.Techs.Contains(u.Requires))
+            return ($"Needs the technology: {TechCatalog.Instance[u.Requires]?.Name ?? u.Requires}.", 0);
         if (u.Role == UnitRoles.Warships && !c.Coastal)
             return ("You have no coast to build ships on.", 0);
         if (u.Role == UnitRoles.Elephants && !c.Resources.Contains("res_elephants") && !elephantSource)
@@ -69,7 +71,7 @@ public static class Military
         double m = 0;
         for (int i = 0; i < a.Units.Length; i++)
             if (a.Units[i] > 0 && Cat[i].Domain == domain)
-                m += a.Units[i] * Cat[i].Might;
+                m += a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role]);
         return m;
     }
 

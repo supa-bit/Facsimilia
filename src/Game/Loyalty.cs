@@ -92,14 +92,15 @@ public static class Loyalty
     /// <summary>Tax and levy share from a province: half even when newly conquered.</summary>
     public static double Yield(double integration) => 0.5 + 0.5 * Math.Clamp(integration, 0, 1);
 
-    public static double Overreach(int provinces) => Math.Max(0, (double)provinces / AdminCapacity - 1);
+    public static double Overreach(int provinces, int capacity = AdminCapacity) => Math.Max(0, (double)provinces / capacity - 1);
 
     /// <summary>One year for one province.</summary>
     /// <summary>Unrest when people lack what they need: this much at nothing, none from 80% of needs met.</summary>
     public const double WantUnrest = 0.4;
 
     public static void Tick(ProvinceState p, Kinship rel, bool sameReligion, bool atWar, TaxRate tax, int realmProvinces,
-        double satisfaction = 1, double enslavedShare = 0, double integrationBoost = 0, double unrestAdded = 0)
+        double satisfaction = 1, double enslavedShare = 0, double integrationBoost = 0, double unrestAdded = 0,
+        int capacity = AdminCapacity)
     {
         double years = rel switch { Kinship.Same => SameCultureYears, Kinship.Kin => KinYears, _ => ForeignYears };
         double rate = 1 / years;
@@ -110,7 +111,7 @@ public static class Loyalty
         rate *= 1 + integrationBoost;
         p.Integration = Math.Min(1, p.Integration + rate);
         p.Unrest = Math.Max(0, 0.6 * (1 - p.Integration) + TaxUnrest[(int)tax]
-            + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces)
+            + (sameReligion ? 0 : ReligionUnrest) + 0.3 * Overreach(realmProvinces, capacity)
             + WantUnrest * Math.Max(0, 0.8 - satisfaction) / 0.8
             + Labour.ServileUnrest(enslavedShare) + unrestAdded);
     }

@@ -36,6 +36,8 @@ public partial class MapView
         double g = Conquest.Militia(people, provinceId != 0);
         if (provinceId != 0 && Game.Provinces.TryGetValue(provinceId, out var ps))
             g += BuildingCatalog.Instance.Effect(ps, "garrison");
+        if (provinceId != 0 && owner > 0)
+            g += TechCatalog.Instance.Effect(Game.Realm(owner), "garrison");
         if (owner > 0)
             foreach (var a in Game.Realm(owner).Armies)
                 if (a.Node >= 0 && (provinceId != 0 ? ProvinceOfNode(a.Node) == provinceId : a.Node == node))
@@ -70,7 +72,7 @@ public partial class MapView
             t.DefenderMight = garrison + ReliefMight(t.Owner, against);
             t.Chance = Conquest.WinChance(t.AttackerMight, t.DefenderMight);
             double rate = Conquest.SiegeRate(t.AttackerMight, garrison, Military.Might(Game.Realm(t.Attacker), Domain.Land),
-                t.Owner > 0 ? Military.Might(Game.Realm(t.Owner), Domain.Land) : 0);
+                t.Owner > 0 ? Military.Might(Game.Realm(t.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(Game.Realm(t.Attacker), "siege"));
             t.Years = rate > 0 ? Math.Ceiling(1 / rate) : double.PositiveInfinity;
         }
     }
@@ -171,7 +173,7 @@ public partial class MapView
             }
             double garrison = Garrison(siege.Owner, siege.ProvinceId, siege.People, siege.Node);
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
-                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0);
+                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"));
             Military.TakeLosses(army, Conquest.SiegeAttrition / sharing, rng);
             army.Fatigue = Math.Min(1, army.Fatigue + Conquest.SiegeFatigue / sharing);
             if (siege.Progress >= 1)

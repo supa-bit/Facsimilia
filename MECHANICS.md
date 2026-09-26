@@ -1593,6 +1593,31 @@ Decisions "Playable 5, 6, 31, 32".
   unrest for a year), or ask a friend (an ally or overlord at +30 opinion
   may send silver). The silver pays off debt first.
 
+## Technology, administrative reach, corruption, rivals and score categories **(built, 26 Sep 2026)**
+
+Decisions "Playable 21-26".
+
+- **Technology web** (`data/techs.json`): 575 technologies in 10 branches
+  (farming, crafts, building, war on land, war at sea, trade, government,
+  learning, medicine and belief, society), from 300 BC to the modern age.
+  Each has a year it becomes known to the world, prerequisites, a cost that
+  grows with its year, and effects (crop yields, crafts, trade, tax,
+  corruption, interest, manpower, garrisons, sieges, reach, sea travel,
+  health, integration, unrest, admin capacity). Units and buildings can
+  require a tech. Realms start with the techs of their culture.
+- **Research**: research points a year = (6 + town people/15,000 +
+  organized people/300,000) x (1 + research bonuses). The player picks a
+  tech in the Research panel (T key); bots choose their own.
+- **Administrative reach**: provinces more than 700 km from the capital
+  pay less tax and are less loyal. Admin capacity (from techs) sets how
+  many provinces a realm runs well.
+- **Corruption**: 5% + 25% x overreach (provinces beyond capacity) minus
+  tech; it eats that share of tax income.
+- **Rivals**: a powerful faction grows with corruption and overreach; the
+  player can win them over with silver ("Win them over" in Treasury).
+- **Score by category** (like Stellaris): People, Land, Wealth, Culture,
+  Dynasty and Goals, shown in the Goals panel with a ranking of realms.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

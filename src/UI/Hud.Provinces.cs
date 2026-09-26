@@ -350,6 +350,8 @@ public partial class Hud
             _map.SetMapView(MapView.PoliticalView);
         else if (key.Keycode == Key.G)
             ToggleGoodsPanel();
+        else if (key.Keycode == Key.T)
+            ToggleResearchPanel();
         else
             return;
         GetViewport().SetInputAsHandled();

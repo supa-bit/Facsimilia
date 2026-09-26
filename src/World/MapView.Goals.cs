@@ -80,16 +80,44 @@ public partial class MapView
         }
     }
 
-    public double Score(int realmId)
+    public double Score(int realmId) => ScoreBreakdown(realmId).Sum(x => x.Points);
+
+    /// <summary>
+    /// The score by category (decision "Playable 26": people, land, wealth,
+    /// culture and dynasty, shown separately), plus goals reached.
+    /// </summary>
+    public List<(string Category, double Points, string Detail)> ScoreBreakdown(int realmId)
     {
-        var cat = GoalsCatalog();
+        var list = new List<(string, double, string)>();
         var s = Game.Realm(realmId);
         var c = CensusOf(realmId);
-        double score = cat?.BaseScore(c.People, c.Provinces, s.Treasury, s.Debt) ?? 0;
-        foreach (var g in GoalsOf(realmId))
-            if (s.GoalsDone.ContainsKey(g.Id))
-                score += g.Points;
-        return score;
+        list.Add(("People", c.People / 100000, $"{c.People:N0} people"));
+        double area = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => p.AreaKm2) ?? 0;
+        list.Add(("Land", c.Provinces + area / 20000, $"{c.Provinces} provinces, {area:N0} km²"));
+        var (tax, trib) = Economy.Revenue(c, s.Tax);
+        list.Add(("Wealth", Math.Max(0, s.Treasury - s.Debt) / 1000 + (tax + trib) / 500,
+            $"{Math.Max(0, s.Treasury - s.Debt):N0} talents saved, {tax + trib:N0} a year"));
+        int buildings = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => ProvinceStateOf(p.Id).Buildings.Values.Sum()) ?? 0;
+        var mine = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).ToList() ?? new List<Province>();
+        double integration = mine.Count > 0 ? mine.Average(p => ProvinceStateOf(p.Id).Integration) : 0;
+        list.Add(("Culture", s.Techs.Count * 0.5 + buildings * 0.5 + integration * 10,
+            $"{s.Techs.Count} technologies, {buildings} buildings, {integration:P0} integrated"));
+        list.Add(("Dynasty", DynastyScore(realmId, out string dyn), dyn));
+        double goals = GoalsOf(realmId).Where(g => s.GoalsDone.ContainsKey(g.Id)).Sum(g => g.Points);
+        list.Add(("Goals", goals, $"{s.GoalsDone.Count} reached"));
+        return list;
+    }
+
+    /// <summary>The ruling house: its members alive, and marriages into other ruling houses.</summary>
+    double DynastyScore(int realmId, out string detail)
+    {
+        detail = "";
+        if (!Registry.Realms.TryGetValue(realmId, out var realm) || !Registry.Characters.TryGetValue(realm.RulerId, out var ruler))
+            return 0;
+        int alive = Registry.Characters.Values.Count(ch => ch.IsAlive && ch.DynastyId == ruler.DynastyId);
+        int ties = Game.Realms.Keys.Count(r => r != realmId && RoyalTie(realmId, r));
+        detail = $"{alive} of the house alive, {ties} royal marriages";
+        return alive / 5.0 + ties * 2;
     }
 
     /// <summary>The yearly check: goals the player has reached are marked, with a line in the chronicle.</summary>

@@ -1,5 +1,5 @@
 {
- "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use.",
+ "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use. requires: a technology the realm must know to raise it.",
  "units": [
   {
    "id": "levy_spearmen",
@@ -181,7 +181,8 @@
     "greek"
    ],
    "description": "Ten 'fives': the heavy warships of the age.",
-   "needs": "res_ship_timber"
+   "needs": "res_ship_timber",
+   "requires": "polyremes"
   },
   {
    "id": "hoplites",
@@ -523,7 +524,8 @@
     "persian"
    ],
    "description": "Horse and rider in scale armour.",
-   "needs": "res_horses"
+   "needs": "res_horses",
+   "requires": "cataphract_armour"
   },
   {
    "id": "takabara",

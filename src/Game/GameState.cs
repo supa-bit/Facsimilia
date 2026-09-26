@@ -48,6 +48,12 @@ public sealed class RealmState
     public double Aggression { get; set; }
     /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
     public double LastVassalTribute { get; set; }
+    /// <summary>How strong an ambitious rival within the realm has grown, 0..100 (at 100 he rises).</summary>
+    public double RivalStrength { get; set; }
+    /// <summary>Technologies known, the one being studied, and the points gathered toward it.</summary>
+    public HashSet<string> Techs { get; } = new();
+    public string Researching { get; set; } = "";
+    public double ResearchPoints { get; set; }
     /// <summary>Remedies for an empty treasury still being felt: id -> years left.</summary>
     public Dictionary<string, int> RemedyYears { get; } = new();
     /// <summary>Harbours make warships this much cheaper (not saved: set each year from the buildings).</summary>
@@ -86,7 +92,8 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
+            ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
         };
     }
 
@@ -124,6 +131,12 @@ public sealed class RealmState
             LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,
             StartPeople = d.TryGetValue("start_people", out var sp) ? sp.AsDouble() : 0,
         };
+        if (d.TryGetValue("techs", out var techs))
+            foreach (Variant t in techs.AsGodotArray())
+                r.Techs.Add(t.AsString());
+        r.Researching = d.TryGetValue("researching", out var rs) ? rs.AsString() : "";
+        r.RivalStrength = d.TryGetValue("rival", out var rv) ? rv.AsDouble() : 0;
+        r.ResearchPoints = d.TryGetValue("research_points", out var rp) ? rp.AsDouble() : 0;
         if (d.TryGetValue("remedies", out var rem))
             foreach (var (id, y) in rem.AsGodotDictionary())
                 r.RemedyYears[id.AsString()] = y.AsInt32();

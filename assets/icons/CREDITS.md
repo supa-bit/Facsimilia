@@ -26,3 +26,4 @@ From [game-icons.net](https://game-icons.net), licensed [CC BY 3.0](https://crea
 | war.svg | battle-gear | Lorc |
 | goods.svg | amphora | Delapouite |
 | laurels.svg | laurels | Lorc |
+| research.svg | scroll-unfurled | Lorc |

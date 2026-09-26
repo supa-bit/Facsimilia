@@ -49,7 +49,9 @@ public partial class MapView
         }
         // From an army: where it can march in a year. Without one: within a
         // short march of the realm's borders (what counts as neighbours).
-        double landLimit = army != null ? Conquest.ReachKm : TerritoryReachKm;
+        var realmState = Game.Realm(realmId);
+        double landLimit = (army != null ? Conquest.ReachKm : TerritoryReachKm) + TechCatalog.Instance.Effect(realmState, "reach_km");
+        double seaShare = Conquest.SeaCostShare * Math.Max(0.3, 1 + TechCatalog.Instance.Effect(realmState, "sea_cost"));
         var landCost = Dijkstra(allowSea: false);
         var anyCost = fleet ? Dijkstra(allowSea: true) : landCost;
         var reach = new bool[n];
@@ -101,7 +103,7 @@ public partial class MapView
                             continue;
                         // East-west degrees shrink with latitude.
                         double ex = dx != 0 ? xKm[y] : 0, ey = dy != 0 ? stepKm : 0;
-                        double step = Math.Sqrt(ex * ex + ey * ey) * (sea ? Conquest.SeaCostShare : 1);
+                        double step = Math.Sqrt(ex * ex + ey * ey) * (sea ? seaShare : 1);
                         double next = c + step;
                         if (next < cost[j])
                         {

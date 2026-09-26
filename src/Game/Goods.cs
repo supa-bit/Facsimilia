@@ -174,12 +174,12 @@ public static class GoodsEngine
     public static Dictionary<int, RealmGoods> Compute(GoodsCatalog cat, PopulationEngine pop, Func<string, byte[]?> field,
         double urbanThreshold = Census.UrbanThreshold, IReadOnlyDictionary<string, double[]>? workFactor = null,
         float[]? fieldYield = null, IReadOnlyDictionary<string, float[]>? nodeFactor = null,
-        IReadOnlyDictionary<int, double>? craftBoost = null)
+        IReadOnlyDictionary<int, double>? craftBoost = null, Func<int, string, double>? realmWorkBoost = null)
     {
         int n = cat.Goods.Count;
         var byWork = cat.Goods.Where(g => g.Source == GoodSource.Land)
             .GroupBy(g => g.Work)
-            .Select(grp => (Share: cat.WorkShare.GetValueOrDefault(grp.Key), Factor: workFactor?.GetValueOrDefault(grp.Key),
+            .Select(grp => (Work: grp.Key, Share: cat.WorkShare.GetValueOrDefault(grp.Key), Factor: workFactor?.GetValueOrDefault(grp.Key),
                 OnLand: grp.Key is "field", Node: nodeFactor?.GetValueOrDefault(grp.Key), Goods: grp
                 .Select(g => (g.Index, Bytes: field(g.Field), g.Share)).Where(x => x.Bytes != null).ToArray()))
             .ToArray();
@@ -196,6 +196,13 @@ public static class GoodsEngine
                     typicalYield = y;
                     break;
                 }
+        }
+        var boosts = new Dictionary<int, double[]>();
+        double[] BoostsOf(int owner)
+        {
+            if (!boosts.TryGetValue(owner, out var b))
+                boosts[owner] = b = byWork.Select(w => 1 + (realmWorkBoost?.Invoke(owner, w.Work) ?? 0)).ToArray();
+            return b;
         }
         var result = new Dictionary<int, RealmGoods>();
         var urban = new Dictionary<int, double>();
@@ -223,8 +230,10 @@ public static class GoodsEngine
             int region = pop.RegionOf(i);
             // Where the fields yield more (the watered Nile valley), each farmer grows more.
             double richness = fieldYield != null && typicalYield > 0 ? Math.Clamp(fieldYield[i] / typicalYield, 0.5, 2.5) : 1;
-            foreach (var (share, factor, onLand, nodeF, goods) in byWork)
+            var realmBoost = BoostsOf(owner);
+            for (int w = 0; w < byWork.Length; w++)
             {
+                var (_, share, factor, onLand, nodeF, goods) = byWork[w];
                 double sum = 0;
                 foreach (var (g, bytes, gs) in goods)
                 {
@@ -235,7 +244,7 @@ public static class GoodsEngine
                 if (sum <= 0)
                     continue;
                 double labour = country * share * (factor != null ? factor[region] : 1) * (onLand ? richness : 1)
-                    * (nodeF != null ? nodeF[i] : 1) / sum;
+                    * (nodeF != null ? nodeF[i] : 1) * realmBoost[w] / sum;
                 foreach (var (g, _, _) in goods)
                     rg.Produced[g] += labour * s[g] * s[g];
             }

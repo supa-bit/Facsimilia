@@ -32,7 +32,7 @@ public static class UnitRoles
 /// legionary drew about 120 denarii a year, so 1,000 men cost about 20).
 /// </summary>
 public sealed record UnitDef(int Index, string Id, string Name, int Role, double Might, int Men, double Raise,
-    double Upkeep, string? Needs, string[] Cultures, string Description)
+    double Upkeep, string? Needs, string[] Cultures, string Description, string? Requires = null)
 {
     public Domain Domain => UnitRoles.DomainOf(Role);
     public bool Anyone => Cultures.Contains("*");
@@ -66,7 +66,8 @@ public sealed class UnitCatalog
                 u.GetProperty("men").GetInt32(), u.GetProperty("raise_cost").GetDouble(), u.GetProperty("upkeep").GetDouble(),
                 u.TryGetProperty("needs", out var n) ? n.GetString() : null,
                 u.GetProperty("cultures").EnumerateArray().Select(x => x.GetString()!).ToArray(),
-                u.GetProperty("description").GetString()!);
+                u.GetProperty("description").GetString()!,
+                u.TryGetProperty("requires", out var rq) ? rq.GetString() : null);
             c.Units.Add(def);
             c._byId[def.Id] = def;
         }

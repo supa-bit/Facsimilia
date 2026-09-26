@@ -1,5 +1,5 @@
 {
- "about": "The core set of buildings (decision 'Playable 32': a core set). cost: talents; years: to build; upkeep: talents a year; max: how many times it can be built in one province; needs: river (a river or floodplain), hills, ore (a mineral deposit), coast, town (10,000 people or more in the province's largest place). effects: field, orchard, mine, gather (production of that kind of work in the province, as a share more), famine (share of a bad harvest's loss it saves), crafts (made goods), trade (goods value and customs), ships (warship cost for the realm), integration (speed), unrest (added), garrison (Might added to the walls), manpower (the province's levies), growth (the region's Health growth factor, weighted by the province's people). Our own data, free for any use.",
+ "about": "The core set of buildings (decision 'Playable 32': a core set). cost: talents; years: to build; upkeep: talents a year; max: how many times it can be built in one province; needs: river (a river or floodplain), hills, ore (a mineral deposit), coast, town (10,000 people or more in the province's largest place). effects: field, orchard, mine, gather (production of that kind of work in the province, as a share more), famine (share of a bad harvest's loss it saves), crafts (made goods), trade (goods value and customs), ships (warship cost for the realm), integration (speed), unrest (added), garrison (Might added to the walls), manpower (the province's levies), growth (the region's Health growth factor, weighted by the province's people). Our own data, free for any use. requires: a technology the realm must know to build it.",
  "buildings": [
   {
    "id": "irrigation",
@@ -153,7 +153,8 @@
     "unrest": -0.05,
     "growth": 0.3
    },
-   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size."
+   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size.",
+   "requires": "aqueducts"
   }
  ]
 }

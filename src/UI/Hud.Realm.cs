@@ -122,6 +122,7 @@ public partial class Hud
             _goalsPanel.Visible = false;
             _guidePanel.Visible = false;
             _armiesPanel.Visible = false;
+            _researchPanel.Visible = false;
             RefreshRealmPanel();
         }
         RefreshMapView();   // the land legend shares the top-left corner
@@ -143,15 +144,14 @@ public partial class Hud
         var s = _map.PlayerState;
         var c = _map.CensusOf(_map.PlayerRealmId);
         var (tax, tribute) = Economy.Revenue(c, s.Tax);
-        double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces, interest = s.Debt * Economy.InterestRate;
+        double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces + c.BuildingUpkeep, interest = s.Debt * Economy.InterestRate;
         double net = tax + tribute + (c.Goods != null ? Trade.Customs(c.Goods) : 0) - upkeep - admin - interest;
         _accounts.Text =
             $"Treasury: {T(s.Treasury)} talents" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
             $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}" +
             (c.Goods != null ? $"   Tolls and customs +{T(Trade.Customs(c.Goods))}" : "") + "\n" +
-            $"   Administration −{T(admin)} ({c.Provinces} provinces; your court manages {Loyalty.AdminCapacity} well" +
-            (c.Provinces > Loyalty.AdminCapacity ? ", so every province is restless" : "") + ")\n" +
+            $"   Administration −{T(admin)} ({c.Provinces} provinces" + (c.BuildingUpkeep > 0.5 ? $", buildings {T(c.BuildingUpkeep)}" : "") + ")\n" +
             $"     Army −{T(upkeep)}" +
             (interest > 0.5 ? $"   Interest −{T(interest)}" : "") + "\n" +
             (s.LastCaptiveSales > 0.5 ? $"   Last year's sale of captives +{T(s.LastCaptiveSales)}\n" : "") +
@@ -159,6 +159,7 @@ public partial class Hud
         for (int i = 0; i < 4; i++)
             _taxButtons[i].SetPressedNoSignal((int)s.Tax == i);
         RefreshRemedies();
+        RefreshRival();
         _manpower.Text = $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}" +
             $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c, s.ManpowerMultiplier))})." +
             "\nBeyond them, mercenaries can be hired at twice the price." +
@@ -174,6 +175,47 @@ public partial class Hud
             $"\nUnder arms: {ThemeAncient.GroupThousands(Military.Soldiers(s))} men";
         _realmHint.Text = "Your armies, their units and where they stand are in the Armies panel.";
         _treasuryButton.Text = s.Debt > 0.5 ? $"{T(s.Treasury)}  (debt {T(s.Debt)})" : T(s.Treasury);
+    }
+
+    /// <summary>Administration, corruption and the rival (decision "Playable 25").</summary>
+    void RefreshRival()
+    {
+        var s = _map.PlayerState;
+        var c = _map.CensusOf(_map.PlayerRealmId);
+        int capacity = _map.AdminCapacity(_map.PlayerRealmId);
+        double corruption = _map.Corruption(_map.PlayerRealmId);
+        var far = _map.Provinces!.Provinces.Values.Where(p => p.RealmId == _map.PlayerRealmId && _map.DistanceFromCapital(p) > MapView.FarKm).ToList();
+        _remedies.AddChild(ThemeAncient.Label(
+            $"Your court manages {capacity} provinces well; you rule {c.Provinces}. Corruption eats {corruption:P0} of your taxes." +
+            (far.Count > 0 ? $" {far.Count} province{(far.Count == 1 ? " is" : "s are")} far from the capital (over {MapView.FarKm:0} km): slower to settle, more restless unless roads join them." : ""),
+            "SubtleLabel", 14));
+        ((Label)_remedies.GetChild(_remedies.GetChildCount() - 1)).AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        ((Label)_remedies.GetChild(_remedies.GetChildCount() - 1)).CustomMinimumSize = new Vector2(560, 0);
+        if (s.RivalStrength >= 1)
+        {
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 8);
+            _remedies.AddChild(row);
+            var l = ThemeAncient.Label($"A rival's following: {s.RivalStrength:0} of 100 (at 100 he rises and the most restless provinces go with him).", fontSize: 15);
+            l.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            l.CustomMinimumSize = new Vector2(420, 0);
+            if (s.RivalStrength >= 60)
+                l.Modulate = new Color(1f, 0.7f, 0.6f);
+            row.AddChild(l);
+            double cost = _map.RivalAppeaseCost();
+            var b = new Button { Text = $"Win them over ({cost:0})", Disabled = s.Treasury < cost, FocusMode = FocusModeEnum.None,
+                TooltipText = "Gifts, offices and marriages: -30 to the rival's following." };
+            b.AddThemeFontSizeOverride("font_size", 14);
+            b.Pressed += () =>
+            {
+                string? text = _map.AppeaseRival();
+                if (text != null)
+                    LogEvents(new List<Facsimilia.Dynasties.ChronicleEvent> { new(Facsimilia.Dynasties.ChronicleKind.Economy, _map.PlayerRealmId, text) });
+                RefreshRealmPanel();
+                RefreshTreasury();
+            };
+            row.AddChild(b);
+        }
     }
 
     /// <summary>Historical remedies, offered only when the treasury is in trouble (decision "Playable 6").</summary>

@@ -23,6 +23,9 @@ public sealed class Army
     /// <summary>0 rested .. 1 exhausted: campaigning and sieges wear an army down.</summary>
     public double Fatigue { get; set; }
 
+    /// <summary>What the realm's technology adds to each role's Might (set each year; not saved).</summary>
+    public double[] RoleBoost { get; } = new double[UnitRoles.Count];
+
     /// <summary>Not besieging this year: rests faster.</summary>
     public bool Resting { get; set; } = true;
 

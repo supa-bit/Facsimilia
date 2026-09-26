@@ -42,7 +42,8 @@ public partial class MapView
                     var crafts = census.ToDictionary(kv => kv.Key, kv => RealmBuildingEffects(kv.Key, kv.Value.People).Crafts);
                     _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null,
                         workFactor: WorkFactors(), fieldYield: Crops.FieldKcalPerHa, nodeFactor: BuildingNodeFactors(),
-                        craftBoost: crafts);
+                        craftBoost: crafts, realmWorkBoost: (realm, work) =>
+                            TechCatalog.Instance.Effect(Game.Realm(realm), work is "earth" ? "mine" : work));
                     foreach (var (realm, goods) in _realmGoods)
                         if (census.TryGetValue(realm, out var rc))
                             goods.TradeBonus = RealmBuildingEffects(realm, rc.People).Trade;
@@ -124,10 +125,12 @@ public partial class MapView
             state.Treasury = Math.Round((tax + tribute) * years);
         }
         StartLoyalty();
+        StartTechs();
         if (startRoot is { } root)
             StartTreaties(root);
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
+        RefreshRoleBoosts();
         _census = null;
         RefreshArmyMarkers();
     }
@@ -155,6 +158,9 @@ public partial class MapView
         events.AddRange(BuildingsYear(new Random(StableHash.Of(DemoYear, 6007))));
         ApplyBuildingGrowth();
         Lap("buildings");
+        events.AddRange(TechYear());
+        events.AddRange(RivalsYear(new Random(StableHash.Of(DemoYear, 8111))));
+        Lap("research, rivals");
         events.AddRange(LoyaltyYear(new Random(StableHash.Of(DemoYear, 104729))));
         Lap("loyalty");
         _census = null;
@@ -165,7 +171,7 @@ public partial class MapView
             if (!census.TryGetValue(realm.Id, out var c))
                 continue;   // no land left
             var state = Game.Realm(realm.Id);
-            string? news = Economy.Tick(state, c);
+            string? news = Economy.Tick(state, c, Corruption(realm.Id));
             if (news != null)
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, realm.Id, $"{realm.Name}: {news}"));
         }
@@ -196,6 +202,9 @@ public partial class MapView
         if (Game.Provinces.Count == 0)
             StartLoyalty();   // a save from before cultures
         PlaceUnplacedArmies();
+        if (Game.Realms.Values.All(r => r.Techs.Count == 0))
+            StartTechs();   // a save from before technology
+        RefreshRoleBoosts();
         if (Godot.FileAccess.FileExists(StartRealmsPath))
         {
             using var doc = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(StartRealmsPath));

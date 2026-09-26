@@ -44,6 +44,8 @@ public partial class MapView
         var ps = ProvinceStateOf(p.Id);
         if (ps.Building != "")
             return $"Already building: {BuildingCatalog.Instance[ps.Building]?.Name}.";
+        if (b.Requires != null && !realm.Techs.Contains(b.Requires))
+            return $"Needs the technology: {TechCatalog.Instance[b.Requires]?.Name ?? b.Requires}.";
         if (ps.Level(b.Id) >= b.Max)
             return b.Max == 1 ? "Already built." : "Built as far as it goes.";
         if (b.Needs != null && !ProvinceHas(p.Id, b.Needs))
@@ -205,10 +207,12 @@ public partial class MapView
     /// </summary>
     (double Crafts, double Trade, double Manpower, double Upkeep, bool Harbour) RealmBuildingEffects(int realmId, double realmPeople)
     {
+        var tech = TechCatalog.Instance;
+        var rs = Game.Realm(realmId);
         if (Provinces == null || realmPeople <= 0)
-            return (0, 0, 0, 0, false);
+            return (tech.Effect(rs, "crafts"), tech.Effect(rs, "trade"), tech.Effect(rs, "manpower"), 0, false);
         var cat = BuildingCatalog.Instance;
-        double crafts = 0, trade = 0, manpower = 0, upkeep = 0;
+        double crafts = tech.Effect(rs, "crafts"), trade = tech.Effect(rs, "trade"), manpower = tech.Effect(rs, "manpower"), upkeep = 0;
         bool harbour = false;
         foreach (var p in Provinces.Provinces.Values)
         {
@@ -256,6 +260,11 @@ public partial class MapView
             if (r > 0 && r < weighted.Length)
                 weighted[r] += g * ProvincePopulation(p.Id);
         }
+        // Medicine and the like: each region's people, weighted by their ruler's knowledge.
+        var growthOf = Game.Realms.ToDictionary(kv => kv.Key, kv => TechCatalog.Instance.Effect(kv.Value, "growth"));
+        foreach (int i in Population.LandNodes)
+            if (growthOf.TryGetValue(Population.NodeOwner[i], out double tg) && tg > 0)
+                weighted[Population.RegionOf(i)] += tg * Population.Pop[i];
         for (int r = 1; r < weighted.Length; r++)
         {
             double pop = Population.RegionPopulation(r);

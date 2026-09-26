@@ -40,6 +40,7 @@ public partial class Hud : Control
         BuildGoodsPanel();
         BuildGoalsPanel();
         BuildArmiesPanel();
+        BuildResearchPanel();
     }
 
     void BuildTopBar()
@@ -69,6 +70,7 @@ public partial class Hud : Control
         BuildArmiesButton(row);
         BuildDiplomacyButton(row);
         BuildGoodsButton(row);
+        BuildResearchButton(row);
         BuildGoalsButton(row);
         row.AddChild(new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill, MouseFilter = MouseFilterEnum.Ignore });
         _dateLabel = ThemeAncient.Label("", "DateLabel");
@@ -235,6 +237,7 @@ public partial class Hud : Control
         RefreshGoodsPanel();
         RefreshGoalsPanel();
         RefreshArmiesPanel();
+        RefreshResearchPanel();
         _map.RefreshArmyMarkers();
         _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         _populationItem.Visible = _map.Population != null;
