@@ -26,7 +26,7 @@ public partial class DiplomacyTest : TestRunner
         map.LoadLand();
         map.SetPlayerCiv("rome");
         map.StartGame();
-        int rome = map.CivRealmIds["rome"], greeks = map.CivRealmIds["greek_world"], egypt = map.CivRealmIds["egypt"],
+        int rome = map.CivRealmIds["rome"], greeks = map.CivRealmIds["samnites"], egypt = map.CivRealmIds["egypt"],
             carthage = map.CivRealmIds["carthage"], seleucid = map.CivRealmIds["seleucid"], lysimachus = map.CivRealmIds["lysimachus"],
             nabatea = map.CivRealmIds["nabatea"];
         var g = map.Game;
@@ -34,7 +34,7 @@ public partial class DiplomacyTest : TestRunner
         Check(map.Rivals(rome, carthage) && map.Opinion(carthage, rome).Reasons.Any(r => r.Contains("rivals")), "Rome and Carthage are old rivals");
 
         var toGreeks = map.PretextsAgainst(rome, greeks);
-        Check(toGreeks.Contains(Pretexts.Border), "Rome borders the Greek cities: a border dispute");
+        Check(toGreeks.Contains(Pretexts.Border), "Rome borders the Samnites: a border dispute");
         Check(!map.PretextsAgainst(rome, nabatea).Contains(Pretexts.Border), "Rome has no border with the Nabataeans");
         Check(map.PretextsAgainst(rome, nabatea).Last() == Pretexts.None, "war without a pretext is always possible");
 
@@ -46,22 +46,22 @@ public partial class DiplomacyTest : TestRunner
         Check(!g.Wars.AtWar(rome, seleucid) && !g.Wars.AtWar(rome, egypt), "peace should end the allies' wars too");
         map.PlayerState.Aggression = 0;
 
-        // War on the Greeks on a border pretext: aggression rises.
+        // War on the Samnites on a border pretext: aggression rises.
         map.DeclareWar(greeks, Pretexts.Border.Id);
         Check(g.Wars.AtWar(rome, greeks) && g.Wars.Between(rome, greeks)!.CasusBelli == "border", "war on a border pretext");
         Check(map.PlayerState.Aggression >= Pretexts.Border.AggressionOnDeclare, "declaring war should raise aggression");
 
         // Peace terms by war score.
         var war = g.Wars.Between(rome, greeks)!;
-        var lucania = map.Provinces!.Provinces.Values.First(p => p.Name == "Lucania");
+        var samnium = map.Provinces!.Provinces.Values.First(p => p.Name == "Samnium");
         var terms = new PeaceTerms();
-        terms.Provinces.Add(lucania.Id);
+        terms.Provinces.Add(samnium.Id);
         double cost = map.TermsCost(war, rome, terms);
         Check(cost >= PeaceTerms.ProvinceMin, $"a province should cost war score ({cost:0})");
         Check(!map.OfferPeace(greeks, terms).Accepted, "a fresh enemy shouldn't give up a province");
         war.Score = cost + 1;
         var (ok, text) = map.OfferPeace(greeks, terms);
-        Check(ok && lucania.RealmId == rome, $"with enough war score they should cede Lucania: {text}");
+        Check(ok && samnium.RealmId == rome, $"with enough war score they should cede Lucania: {text}");
         Check(!g.Wars.AtWar(rome, greeks), "the war should be over");
 
         // Exhaustion forces peace.
@@ -104,7 +104,7 @@ public partial class DiplomacyTest : TestRunner
             && map2.Game.Lost.Count == g.Lost.Count, "treaties, aggression or losses didn't survive the save");
 
         Finish($"Diplomacy tests passed: treaties and rivals of 300 BC; pretexts; allies called in; terms by war score " +
-            $"(Lucania cost {cost:0}); forced peace by exhaustion; offers; vassal tribute; a coalition of " +
+            $"(Samnium cost {cost:0}); forced peace by exhaustion; offers; vassal tribute; a coalition of " +
             $"{g.Treaties.CoalitionAgainst(rome).Count()} against an aggressive Rome; saves.");
         map.Free();
         map2.Free();

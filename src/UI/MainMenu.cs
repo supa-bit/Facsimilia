@@ -78,7 +78,7 @@ public partial class MainMenu : Control
         buttons.AddChild(MenuButton("Quit to Desktop", "quit", () => GetTree().Quit()));
 
         var footer = ThemeAncient.Label(
-            "Map data: Natural Earth, historical-basemaps · Population: HYDE 3.2.1 (PBL / Utrecht University)\n" +
+            "Map data: Natural Earth · Population: HYDE 3.2.1 (PBL / Utrecht University)\n" +
             "Land: CHELSA climate (Karger et al.), SoilGrids (ISRIC, CC BY 4.0), ETOPO 2022 (NOAA), " +
             "KK10 land use (Kaplan et al., CC BY 3.0), USGS MRDS · Places: Pleiades gazetteer (CC BY 3.0)", "SmallLabel");
         footer.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft);

@@ -37,8 +37,8 @@ public partial class MapView
                 d.CultureNames[p.Name] = p.Value.GetString()!;
             foreach (var p in root.GetProperty("religions").EnumerateObject())
                 d.ReligionNames[p.Name] = p.Value.GetString()!;
-            foreach (var p in root.GetProperty("realms").EnumerateObject())
-                d.RealmCulture[p.Name] = p.Value.GetString()!;
+            foreach (var spec in RealCivs)   // each realm's people, from data/realms_bc300.json
+                d.RealmCulture[spec.Key] = spec.CultureKey;
             foreach (var p in root.GetProperty("regions").EnumerateObject())
                 d.Regions[p.Name] = (p.Value[0].GetString()!, p.Value[1].GetString()!);
             foreach (var p in root.GetProperty("provinces").EnumerateObject())

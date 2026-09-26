@@ -1,3 +1,4 @@
+using Facsimilia.World;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Godot;
@@ -22,7 +23,7 @@ public partial class StartupTimingTest : TestRunner
         GD.Print($"Seeding:          {seeded,6} ms");
         GD.Print($"Build map image:  {imaged - seeded,6} ms");
         GD.Print($"Realm centroids:  {total - imaged,6} ms");
-        Check(centroids.Count == 12, $"{centroids.Count} centroids, expected 12");
+        Check(centroids.Count == MapView.RealCivs.Length, $"{centroids.Count} centroids, expected {MapView.RealCivs.Length}");
         map.Free();
         Finish($"TOTAL startup cost: {total} ms ({total / 1000.0:F1} s), centroids for {centroids.Count} realms.");
     }

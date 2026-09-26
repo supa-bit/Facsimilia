@@ -390,6 +390,803 @@
      "Sarmatia"
     ]
    }
+  ],
+  "samnites": [
+   {
+    "id": "italia",
+    "text": "Break Rome and lead the peoples of Italy",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Samnites still stand in 200 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -200
+   }
+  ],
+  "etruscans": [
+   {
+    "id": "italia",
+    "text": "Win back the Etruscan hegemony of Italy",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Etruria still free in 200 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -200
+   }
+  ],
+  "cisalpine": [
+   {
+    "id": "italia",
+    "text": "Sack Rome again, as Brennus did in 390 BC",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Gauls still hold the Po in 200 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -200
+   }
+  ],
+  "veneti": [
+   {
+    "id": "stand",
+    "text": "The Veneti still stand in 150 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -150
+   },
+   {
+    "id": "amber",
+    "text": "Grow rich on the amber trade: 3,000 talents",
+    "kind": "treasury",
+    "points": 15,
+    "target": 3000
+   }
+  ],
+  "ligurians": [
+   {
+    "id": "stand",
+    "text": "Keep the mountains free until 150 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -150
+   },
+   {
+    "id": "gallia",
+    "text": "Spread into southern Gaul",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Gallia"
+    ]
+   }
+  ],
+  "lucanians": [
+   {
+    "id": "italia",
+    "text": "Take the Greek cities of the south",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Still free in 200 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -200
+   }
+  ],
+  "iapygians": [
+   {
+    "id": "stand",
+    "text": "The Messapians still stand in 200 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -200
+   },
+   {
+    "id": "rich",
+    "text": "Grow rich on the Adriatic trade: 3,000 talents",
+    "kind": "treasury",
+    "points": 15,
+    "target": 3000
+   }
+  ],
+  "tarentum": [
+   {
+    "id": "italia",
+    "text": "Lead all the Greeks of Italy",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "rich",
+    "text": "The wealth of Taras: 8,000 talents",
+    "kind": "treasury",
+    "points": 15,
+    "target": 8000
+   }
+  ],
+  "syracuse": [
+   {
+    "id": "sicilia",
+    "text": "Drive the Carthaginians from Sicily",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Sicilia"
+    ]
+   },
+   {
+    "id": "africa",
+    "text": "Carry the war to Africa, as Agathokles did",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Africa"
+    ]
+   }
+  ],
+  "massalia": [
+   {
+    "id": "rich",
+    "text": "The richest port of the west: 10,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 10000
+   },
+   {
+    "id": "stand",
+    "text": "Massalia still free in 49 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -49
+   }
+  ],
+  "danube_celts": [
+   {
+    "id": "macedonia",
+    "text": "Invade Macedon and Greece, as in 279 BC",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Macedonia",
+     "Hellas"
+    ]
+   },
+   {
+    "id": "pannonia",
+    "text": "Hold all Pannonia",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Pannonia"
+    ]
+   }
+  ],
+  "celtiberia": [
+   {
+    "id": "hispania",
+    "text": "Unite the peoples of Spain",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Hispania"
+    ]
+   },
+   {
+    "id": "numantia",
+    "text": "Numantia still free in 133 BC",
+    "kind": "survive",
+    "points": 30,
+    "year": -133
+   }
+  ],
+  "lusitania": [
+   {
+    "id": "stand",
+    "text": "Keep the Lusitanians free until 100 BC",
+    "kind": "survive",
+    "points": 30,
+    "year": -100
+   },
+   {
+    "id": "hispania",
+    "text": "Win the west of Spain",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Hispania"
+    ]
+   }
+  ],
+  "massylii": [
+   {
+    "id": "numidia",
+    "text": "Unite Numidia, as Masinissa did",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Numidia"
+    ]
+   },
+   {
+    "id": "africa",
+    "text": "Take Carthage's African lands",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Africa"
+    ]
+   }
+  ],
+  "masaesyli": [
+   {
+    "id": "numidia",
+    "text": "Unite Numidia, as Syphax tried to",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Numidia"
+    ]
+   },
+   {
+    "id": "mauretania",
+    "text": "Rule the Moors",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Mauretania"
+    ]
+   }
+  ],
+  "mauri": [
+   {
+    "id": "mauretania",
+    "text": "Rule all Mauretania",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Mauretania"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Moorish kings still reign in AD 1",
+    "kind": "survive",
+    "points": 25,
+    "year": 1
+   }
+  ],
+  "garamantes": [
+   {
+    "id": "libya",
+    "text": "Master the Saharan roads",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Libya Interior"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Garamantes still stand in AD 100",
+    "kind": "survive",
+    "points": 25,
+    "year": 100
+   }
+  ],
+  "aetolia": [
+   {
+    "id": "hellas",
+    "text": "Lead the Greeks against Macedon",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Hellas"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The League still stands in 150 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -150
+   }
+  ],
+  "sparta": [
+   {
+    "id": "hellas",
+    "text": "Restore Spartan leadership of Greece",
+    "kind": "region",
+    "points": 35,
+    "regions": [
+     "Hellas"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Sparta still free in 146 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -146
+   }
+  ],
+  "epirus": [
+   {
+    "id": "italia",
+    "text": "Pyrrhus' dream: conquer Italy",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Italia"
+    ]
+   },
+   {
+    "id": "macedonia",
+    "text": "Win the throne of Macedon",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Macedonia"
+    ]
+   }
+  ],
+  "rhodes": [
+   {
+    "id": "rich",
+    "text": "The merchant republic: 10,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 10000
+   },
+   {
+    "id": "stand",
+    "text": "Rhodes still free in 100 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -100
+   }
+  ],
+  "crete": [
+   {
+    "id": "stand",
+    "text": "The Cretan cities still free in 67 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -67
+   },
+   {
+    "id": "rich",
+    "text": "Grow rich by trade and war: 3,000 talents",
+    "kind": "treasury",
+    "points": 15,
+    "target": 3000
+   }
+  ],
+  "illyria": [
+   {
+    "id": "illyricum",
+    "text": "Unite the Illyrians",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Illyricum"
+    ]
+   },
+   {
+    "id": "hellas",
+    "text": "Raid and rule the Greek coast",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Hellas"
+    ]
+   }
+  ],
+  "dardania": [
+   {
+    "id": "macedonia",
+    "text": "Break into Macedon",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Macedonia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Dardanians still stand in 100 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -100
+   }
+  ],
+  "paeonia": [
+   {
+    "id": "macedonia",
+    "text": "Win Macedon, as Audoleon hoped",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Macedonia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Paeonia still stands in 200 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -200
+   }
+  ],
+  "odrysia": [
+   {
+    "id": "thracia",
+    "text": "Throw off Lysimachos and rule all Thrace",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Thracia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "The Odrysians still reign in 100 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -100
+   }
+  ],
+  "getae": [
+   {
+    "id": "dacia",
+    "text": "Unite the Getae and Dacians, as Burebista did",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Dacia"
+    ]
+   },
+   {
+    "id": "thracia",
+    "text": "Take the Thracian coast",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Thracia"
+    ]
+   }
+  ],
+  "byzantium": [
+   {
+    "id": "rich",
+    "text": "The tolls of the Bosporus: 8,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 8000
+   },
+   {
+    "id": "stand",
+    "text": "Byzantium still free in 100 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -100
+   }
+  ],
+  "bithynia": [
+   {
+    "id": "phrygia",
+    "text": "Win Phrygia",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Phrygia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Bithynia still stands in 74 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -74
+   }
+  ],
+  "heraclea": [
+   {
+    "id": "rich",
+    "text": "The wealth of Heraclea: 5,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 5000
+   },
+   {
+    "id": "stand",
+    "text": "Heraclea still free in 70 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -70
+   }
+  ],
+  "pontus": [
+   {
+    "id": "cappadocia",
+    "text": "Unite Pontus and Cappadocia",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Cappadocia"
+    ]
+   },
+   {
+    "id": "lydia",
+    "text": "Mithridates' dream: rule Asia",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Lydia",
+     "Phrygia"
+    ]
+   }
+  ],
+  "cappadocia": [
+   {
+    "id": "cappadocia",
+    "text": "Hold all Cappadocia",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Cappadocia"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Cappadocia still has kings in AD 17",
+    "kind": "survive",
+    "points": 25,
+    "year": 17
+   }
+  ],
+  "armenia": [
+   {
+    "id": "armenia",
+    "text": "Unite Greater Armenia",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Armenia"
+    ]
+   },
+   {
+    "id": "syria",
+    "text": "Tigranes' empire: take Syria and Mesopotamia",
+    "kind": "region",
+    "points": 40,
+    "regions": [
+     "Syria",
+     "Mesopotamia"
+    ]
+   }
+  ],
+  "atropatene": [
+   {
+    "id": "media",
+    "text": "Rule all Media",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Media"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Atropatene still stands in AD 1",
+    "kind": "survive",
+    "points": 25,
+    "year": 1
+   }
+  ],
+  "kartli": [
+   {
+    "id": "colchis",
+    "text": "Unite Georgia: Kartli and Colchis",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Colchis"
+    ]
+   },
+   {
+    "id": "stand",
+    "text": "Kartli still stands in AD 100",
+    "kind": "survive",
+    "points": 25,
+    "year": 100
+   }
+  ],
+  "colchis": [
+   {
+    "id": "colchis",
+    "text": "Hold all Colchis",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Colchis"
+    ]
+   },
+   {
+    "id": "gold",
+    "text": "The golden fleece: 5,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 5000
+   }
+  ],
+  "albania": [
+   {
+    "id": "stand",
+    "text": "Albania still stands in AD 1",
+    "kind": "survive",
+    "points": 25,
+    "year": 1
+   },
+   {
+    "id": "armenia",
+    "text": "Win Armenian lands",
+    "kind": "region",
+    "points": 20,
+    "regions": [
+     "Armenia"
+    ]
+   }
+  ],
+  "bosporus": [
+   {
+    "id": "grain",
+    "text": "Feed Greece with grain: 8,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 8000
+   },
+   {
+    "id": "scythia",
+    "text": "Rule the Crimea and the steppe coast",
+    "kind": "region",
+    "points": 25,
+    "regions": [
+     "Scythia"
+    ]
+   }
+  ],
+  "sarmatians": [
+   {
+    "id": "scythia",
+    "text": "Drive the Scythians from the steppe",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Scythia"
+    ]
+   },
+   {
+    "id": "sarmatia",
+    "text": "Hold all Sarmatia",
+    "kind": "region",
+    "points": 15,
+    "regions": [
+     "Sarmatia"
+    ]
+   }
+  ],
+  "lihyan": [
+   {
+    "id": "incense",
+    "text": "Rich from the incense road: 5,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 5000
+   },
+   {
+    "id": "stand",
+    "text": "Lihyan still stands in 100 BC",
+    "kind": "survive",
+    "points": 20,
+    "year": -100
+   }
+  ],
+  "saba": [
+   {
+    "id": "felix",
+    "text": "Unite Arabia Felix",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Arabia Felix"
+    ]
+   },
+   {
+    "id": "incense",
+    "text": "The riches of Sheba: 10,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 10000
+   }
+  ],
+  "main": [
+   {
+    "id": "incense",
+    "text": "The Minaean caravans: 5,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 5000
+   },
+   {
+    "id": "stand",
+    "text": "Ma'in still stands in 100 BC",
+    "kind": "survive",
+    "points": 25,
+    "year": -100
+   }
+  ],
+  "qataban": [
+   {
+    "id": "felix",
+    "text": "Win Arabia Felix",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Arabia Felix"
+    ]
+   },
+   {
+    "id": "incense",
+    "text": "The riches of Qataban: 5,000 talents",
+    "kind": "treasury",
+    "points": 15,
+    "target": 5000
+   }
+  ],
+  "hadramawt": [
+   {
+    "id": "felix",
+    "text": "Win Arabia Felix",
+    "kind": "region",
+    "points": 30,
+    "regions": [
+     "Arabia Felix"
+    ]
+   },
+   {
+    "id": "frankincense",
+    "text": "The frankincense trade: 8,000 talents",
+    "kind": "treasury",
+    "points": 20,
+    "target": 8000
+   }
   ]
  }
 }

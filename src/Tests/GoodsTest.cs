@@ -58,7 +58,7 @@ public partial class GoodsTest : TestRunner
             var g = c.Goods!;
             Check(cat.Goods.All(x => g.Used[x.Index] <= g.Produced[x.Index] + 1e-6), $"{key} uses more of a good than it made");
             double perPerson = g.Value / c.People;
-            Check(perPerson > 40 && perPerson < 200, $"{key} makes {perPerson:0} drachmae a person a year; a working year was worth about 100");
+            Check(perPerson > 20 && perPerson < 200, $"{key} makes {perPerson:0} drachmae a person a year; a working year was worth about 100 (poor oases and forest peoples less)");
         }
         Check(Made("kush", "ivory") > Made("gaul", "ivory") * 10, "Kush, not Gaul, should have the ivory");
         Check(Made("egypt", "papyrus_reeds") > Made("greek_world", "papyrus_reeds") * 10, "papyrus should come from Egypt");

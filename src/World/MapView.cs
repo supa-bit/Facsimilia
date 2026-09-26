@@ -11,11 +11,14 @@ namespace Facsimilia.World;
 /// <summary>A playable civilization at the 300 BC start.</summary>
 /// <param name="Culture">Naming tradition for children born in play, spouses and new houses.</param>
 /// <param name="Family">The ruling family in 300 BC.</param>
-/// <param name="RealmName">Display name; for real civs it comes from data/ancient_bc300.json instead.</param>
-/// <param name="Polygon">Frontier zones only: their hand-placed area on the grid.</param>
-/// <param name="CapitalLonLat">Real civs only: the 300 BC seat, for the population engine.</param>
+/// <param name="RealmName">Display name.</param>
+/// <param name="Polygon">Unused since the borders are baked (kept for old callers).</param>
+/// <param name="CapitalLonLat">The 300 BC seat, for the population engine.</param>
+/// <param name="Tribal">A confederation of peoples: starts without provinces.</param>
+/// <param name="CultureKey">The people's culture in data/cultures.json.</param>
 public sealed record CivSpec(string Key, Culture Culture, StartFamily Family, Color Color,
-    SuccessionLaw Law, string? RealmName = null, Vector2[]? Polygon = null, Vector2? CapitalLonLat = null);
+    SuccessionLaw Law, string? RealmName = null, Vector2[]? Polygon = null, Vector2? CapitalLonLat = null,
+    bool Tribal = false, string CultureKey = "", string Region = "", string Blurb = "");
 
 /// <summary>
 /// A realm's ruling family at the start: the ruler and spouse with birth
@@ -58,83 +61,46 @@ public partial class MapView : Node2D
     static readonly Color BeyondMapColor = new(0.06f, 0.05f, 0.04f);  // "edge of the known world" around the map
     static readonly Color FrameColor = new(0.83f, 0.67f, 0.36f, 0.8f);
 
-    const string DataPath = "res://data/ancient_bc300.json";
     const string LandMaskPath = "res://data/land_mask.png";
     const string PoliticalMaskPath = "res://data/political_mask.png";
     const string TerrainTexturePath = "res://data/terrain_texture.png";
     const int ChunkCells = 2_000_000;  // cells processed between yields during generation
 
-    /// <summary>
-    /// Real 300 BC political boundaries (Roman Republic, Carthage, the Ptolemaic
-    /// Kingdom, Meroe, the Seleucid Kingdom, Kassander's Macedon and the Greek
-    /// city-states, Lysimachus, Antigonus, Nabataea), from aourednik/historical-
-    /// basemaps world_bc300.geojson, pre-projected by tools/import_bc300.js and
-    /// baked into data/political_mask.png by tools/reconcile_map.py. Region
-    /// codes 1..9 in the mask follow this order.
-    /// </summary>
-    public static readonly CivSpec[] RealCivs =
-    {
-        // The Republic had no king; the "ruling family" stands for its leading
-        // house, the Valerii - Marcus Valerius Corvus, six times consul, who by
-        // tradition lived to 100.
-        new("rome", Culture.Latin, new("Marcus", -371, "Claudia", -352, new Kin[]
-            { new("Marcus", true, -332), new("Gaius", true, -326), new("Valeria", false, -322) }, "House Valerius"),
-            new Color(0.75f, 0.20f, 0.20f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(12.48f, 41.89f)),
-        new("carthage", Culture.Punic, new("Hasdrubal", -348, "Arishat", -340, new Kin[]
-            { new("Hamilcar", true, -318), new("Hanno", true, -315), new("Elissa", false, -312) }),
-            new Color(0.55f, 0.30f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(10.32f, 36.85f)),
-        new("egypt", Culture.Greek, new("Ptolemaios", -367, "Berenike", -340, new Kin[]
-            { new("Arsinoe", false, -316), new("Philotera", false, -315), new("Ptolemaios", true, -308) }),
-            new Color(0.85f, 0.75f, 0.15f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(29.92f, 31.2f)),
-        // The Kushite royal line passed through queens as well as kings.
-        new("kush", Culture.Meroitic, new("Arkamani", -340, "Nahirqo", -335, new Kin[]
-            { new("Shanakdakhete", false, -314), new("Amanislo", true, -312) }),
-            new Color(0.55f, 0.25f, 0.15f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(33.75f, 16.94f)),
-        new("seleucid", Culture.Greek, new("Seleukos", -358, "Apama", -345, new Kin[]
-            { new("Antiochos", true, -324), new("Apama", false, -320), new("Achaios", true, -318) }),
-            new Color(0.35f, 0.25f, 0.65f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(44.52f, 33.1f)),
-        new("greek_world", Culture.Greek, new("Kassandros", -355, "Thessalonike", -345, new Kin[]
-            { new("Philippos", true, -315), new("Antipatros", true, -314), new("Alexandros", true, -313) }),
-            new Color(0.20f, 0.40f, 0.75f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(22.52f, 40.76f)),
-        new("lysimachus", Culture.Greek, new("Lysimachos", -360, "Nikaia", -340, new Kin[]
-            { new("Agathokles", true, -320), new("Eurydike", false, -318) }),
-            new Color(0.75f, 0.35f, 0.55f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(26.75f, 40.52f)),
-        // Antigonos the One-Eyed, 82: his son Demetrios and grandson
-        // Antigonos Gonatas are already grown.
-        new("antigonus", Culture.Greek, new("Antigonos", -382, "Stratonike", -370, new Kin[]
-            {
-                new("Demetrios", true, -337, "Phila", -350, new Kin[]
-                    { new("Antigonos", true, -319), new("Stratonike", false, -317) }),
-            }),
-            new Color(0.80f, 0.45f, 0.15f), SuccessionLaw.MalePreferencePrimogeniture, CapitalLonLat: new Vector2(36.2f, 36.23f)),
-        // Nabataean queens ruled beside their husbands and appear on the coins.
-        new("nabatea", Culture.Nabataean, new("Aretas", -345, "Huldu", -340, new Kin[]
-            { new("Obodas", true, -320), new("Shaqilat", false, -317), new("Rabbel", true, -313) }),
-            new Color(0.70f, 0.55f, 0.30f), SuccessionLaw.Primogeniture, CapitalLonLat: new Vector2(35.44f, 30.33f)),
-    };
+    public const string RealmsPath = "res://data/realms_bc300.json";
 
     /// <summary>
-    /// Tribal/cultural frontier zones - deliberately NOT from political-boundary
-    /// data, because Gaul, Iberia and the Pontic steppe really weren't unified
-    /// states in 300 BC. Hand-placed grid polygons; each fills only cells still
-    /// unclaimed after the real civs are placed.
+    /// Every realm of 300 BC (decisions "Playable 1" and "30"), from
+    /// data/realms_bc300.json: our own borders, baked into
+    /// data/political_mask.png by tools/build_realm_mask.py. Mask codes 1..N
+    /// follow this order.
     /// </summary>
-    public static readonly CivSpec[] FrontierZones =
+    public static readonly CivSpec[] RealCivs = LoadCivs();
+
+    /// <summary>The tribal peoples among them: confederations, not states.</summary>
+    public static readonly CivSpec[] FrontierZones = RealCivs.Where(c => c.Tribal).ToArray();
+
+    static CivSpec[] LoadCivs()
     {
-        new("iberia", Culture.Iberian, new("Indibilis", -340, "Ilduria", -335, new Kin[]
-            { new("Mandonios", true, -318), new("Imilce", false, -315) }),
-            new Color(0.20f, 0.55f, 0.55f), SuccessionLaw.Primogeniture,
-            "Iberian & Celtiberian Tribes", new Vector2[] { new(0, 304), new(1536, 203), new(1621, 1115), new(1195, 1825), new(341, 1724), new(0, 1217) }),
-        new("gaul", Culture.Celtic, new("Brennos", -338, "Onomaris", -335, new Kin[]
-            { new("Bolgios", true, -316), new("Chiomara", false, -312) }),
-            new Color(0.25f, 0.65f, 0.30f), SuccessionLaw.Primogeniture,
-            "Gallic Tribes", new Vector2[] { new(939, 0), new(3669, 0), new(3840, 1014), new(2560, 1176), new(1451, 1055), new(939, 710) }),
-        // Agaros, a Scythian king named in Diodorus for 309 BC.
-        new("scythia", Culture.Scythian, new("Agaros", -350, "Opia", -340, new Kin[]
-            { new("Kanitos", true, -322), new("Saulios", true, -318), new("Amage", false, -315) }),
-            new Color(0.35f, 0.65f, 0.75f), SuccessionLaw.MalePreferencePrimogeniture,
-            "Scythian Peoples", new Vector2[] { new(4949, 0), new(8021, 0), new(8107, 811), new(6827, 1115), new(5461, 913), new(4949, 507) }),
-    };
+        using var doc = System.Text.Json.JsonDocument.Parse(Godot.FileAccess.GetFileAsString(RealmsPath));
+        var list = new List<CivSpec>();
+        foreach (var r in doc.RootElement.GetProperty("realms").EnumerateArray())
+        {
+            var culture = Names.Parse(r.GetProperty("names").GetString()!, Culture.Greek);
+            var ruler = r.GetProperty("ruler");
+            var kids = ruler.GetProperty("children").EnumerateArray()
+                .Select(k => new Kin(k[0].GetString()!, k[1].GetBoolean(), k[2].GetInt32())).ToArray();
+            var family = new StartFamily(ruler.GetProperty("name").GetString()!, ruler.GetProperty("born").GetInt32(),
+                ruler.GetProperty("spouse").GetString()!, ruler.GetProperty("spouse_born").GetInt32(), kids,
+                ruler.GetProperty("house").GetString());
+            var cap = r.GetProperty("capital");
+            list.Add(new CivSpec(r.GetProperty("key").GetString()!, culture, family, Color.FromHtml(r.GetProperty("color").GetString()!),
+                r.GetProperty("law").GetString() == "any" ? SuccessionLaw.Primogeniture : SuccessionLaw.MalePreferencePrimogeniture,
+                r.GetProperty("name").GetString(), null, new Vector2((float)cap[0].GetDouble(), (float)cap[1].GetDouble()),
+                r.GetProperty("tribal").GetBoolean(), r.GetProperty("culture").GetString()!,
+                r.GetProperty("region").GetString()!, r.GetProperty("blurb").GetString()!));
+        }
+        return list.ToArray();
+    }
 
     /// <summary>Map color of any playable civ, by key.</summary>
     public static Color CivColor(string key) =>
@@ -193,8 +159,6 @@ public partial class MapView : Node2D
         await SeedLandAndSea();
         EmitSignal(SignalName.LoadingStatusChanged, "Mapping the ancient world...");
         await SeedRealCivs();
-        EmitSignal(SignalName.LoadingStatusChanged, "Settling the frontier tribes...");
-        await SeedFrontierZones();
         if (CivRealmIds.TryGetValue(_pendingPlayerCiv, out int chosen))
             PlayerRealmId = chosen;
         EmitSignal(SignalName.LoadingStatusChanged, "Drawing the provinces...");
@@ -564,24 +528,15 @@ public partial class MapView : Node2D
     }
 
     /// <summary>
-    /// The real civs come from a pre-baked, offline-reconciled raster
-    /// (tools/reconcile_map.py): the real political polygons clipped to the real
-    /// coastline, with bounded coastal-sliver repair - see
-    /// data/map_reconciliation.json. Display names come from ancient_bc300.json.
+    /// Every realm comes from our own 300 BC borders, baked by
+    /// tools/build_realm_mask.py from data/realms_bc300.json.
     /// </summary>
     internal async Task SeedRealCivs()
     {
-        var parsed = Json.ParseString(Godot.FileAccess.GetFileAsString(DataPath)).AsGodotDictionary();
-        var names = new Dictionary<string, string>();
-        foreach (Variant region in parsed["regions"].AsGodotArray())
-        {
-            var r = region.AsGodotDictionary();
-            names[r["key"].AsString()] = r["name"].AsString();
-        }
         var realmIds = new List<int> { 0 };  // mask code 0 = unclaimed
         foreach (var spec in RealCivs)
         {
-            var realm = MakeRulerAndRealm(names[spec.Key], spec);
+            var realm = MakeRulerAndRealm(spec.RealmName!, spec);
             CivRealmIds[spec.Key] = realm.Id;
             realmIds.Add(realm.Id);
         }
@@ -603,86 +558,8 @@ public partial class MapView : Node2D
         PlayerRealmId = CivRealmIds.GetValueOrDefault("rome", realmIds[1]);
     }
 
-    internal async Task SeedFrontierZones()
-    {
-        foreach (var spec in FrontierZones)
-        {
-            var realm = MakeRulerAndRealm(spec.RealmName!, spec);
-            CivRealmIds[spec.Key] = realm.Id;
-            FillPolygon(SoftenFrontier(spec.Polygon!), realm.Id, onlyIfUnclaimed: true);
-            await MaybeYield();
-        }
-    }
-
-    /// <summary>
-    /// Frontier zones are approximate sketches, not sourced boundaries: this
-    /// densifies each straight hand-placed edge and displaces every point with a
-    /// fixed sinusoidal field, purely to avoid a ruler-drawn look. Deterministic.
-    /// </summary>
-    static List<Vector2> SoftenFrontier(Vector2[] polygon)
-    {
-        var result = new List<Vector2>();
-        for (int i = 0; i < polygon.Length; i++)
-        {
-            var a = polygon[i];
-            var b = polygon[(i + 1) % polygon.Length];
-            int steps = Math.Max(1, (int)Math.Ceiling(a.DistanceTo(b) / 20.0));
-            for (int step = 0; step < steps; step++)
-            {
-                var p = a.Lerp(b, (float)step / steps);
-                double dx = 8.0 * Math.Sin(p.Y / 61.0 + p.X / 147.0) + 3.0 * Math.Sin(p.Y / 19.0 - p.X / 47.0);
-                double dy = 8.0 * Math.Sin(p.X / 73.0 - p.Y / 163.0) + 3.0 * Math.Sin(p.X / 23.0 + p.Y / 53.0);
-                result.Add(p + new Vector2((float)dx, (float)dy));
-            }
-        }
-        return result;
-    }
-
-    /// <summary>
-    /// Scanline polygon fill (even-odd rule): per row, find where the edges
-    /// cross it, then fill the spans between pairs of crossings. Sea is never
-    /// painted; with onlyIfUnclaimed, neither is anyone's existing territory.
-    /// </summary>
-    void FillPolygon(List<Vector2> polygon, int ownerId, bool onlyIfUnclaimed)
-    {
-        if (polygon.Count < 3)
-            return;
-        int y0 = Math.Clamp((int)polygon.Min(p => p.Y), 0, GridHeight - 1);
-        int y1 = Math.Clamp((int)polygon.Max(p => p.Y), 0, GridHeight - 1);
-        int n = polygon.Count;
-        var xs = new List<double>();
-        int[] cells = Grid.Cells;
-        for (int y = y0; y <= y1; y++)
-        {
-            double scanY = y + 0.5;
-            xs.Clear();
-            for (int i = 0; i < n; i++)
-            {
-                var a = polygon[i];
-                var b = polygon[(i + 1) % n];
-                if (a.Y == b.Y)
-                    continue;
-                if (scanY < Math.Min(a.Y, b.Y) || scanY >= Math.Max(a.Y, b.Y))
-                    continue;
-                double t = (scanY - a.Y) / (b.Y - a.Y);
-                xs.Add(a.X + t * (b.X - a.X));
-            }
-            xs.Sort();
-            for (int i = 0; i + 1 < xs.Count; i += 2)
-            {
-                int xStart = Math.Clamp((int)Math.Ceiling(xs[i] - 0.5), 0, GridWidth - 1);
-                int xEnd = Math.Clamp((int)Math.Ceiling(xs[i + 1] - 0.5) - 1, 0, GridWidth - 1);
-                for (int x = xStart; x <= xEnd; x++)
-                {
-                    int idx = y * GridWidth + x;
-                    int existing = cells[idx];
-                    if (existing == SeaOwnerId || (onlyIfUnclaimed && existing != 0))
-                        continue;
-                    cells[idx] = ownerId;
-                }
-            }
-        }
-    }
+    /// <summary>The tribal peoples are baked into the realm mask with everyone else now.</summary>
+    internal Task SeedFrontierZones() => Task.CompletedTask;
 
     public bool IsSea(int x, int y) => Grid.GetOwner(x, y) == SeaOwnerId;
 

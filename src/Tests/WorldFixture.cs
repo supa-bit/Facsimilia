@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Facsimilia.World;
 
@@ -19,11 +20,7 @@ static class WorldFixture
         return map;
     }
 
-    public static readonly string[] CivKeys =
-    {
-        "rome", "carthage", "egypt", "kush", "seleucid", "greek_world",
-        "lysimachus", "antigonus", "nabatea", "iberia", "gaul", "scythia",
-    };
+    public static readonly string[] CivKeys = MapView.RealCivs.Select(c => c.Key).ToArray();
 
     public static int CountCells(MapView map, int owner)
     {

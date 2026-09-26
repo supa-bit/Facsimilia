@@ -17,7 +17,7 @@ public partial class TerrainTest : TestRunner
         int sea = WorldFixture.CountCells(map, MapView.SeaOwnerId);
         GD.Print($"Seeding took {ms} ms for {total:N0} cells; sea is {100.0 * sea / total:F1}%.");
         Check(sea > 0 && sea < total, "sea should cover part of the map");
-        Check(map.CivRealmIds.Count == WorldFixture.CivKeys.Length, $"{map.CivRealmIds.Count} civs, expected 12");
+        Check(map.CivRealmIds.Count == WorldFixture.CivKeys.Length, $"{map.CivRealmIds.Count} civs, expected {WorldFixture.CivKeys.Length}");
         foreach (string key in WorldFixture.CivKeys)
         {
             if (!Check(map.CivRealmIds.TryGetValue(key, out int id), "missing civ: " + key))
@@ -27,7 +27,7 @@ public partial class TerrainTest : TestRunner
             Check(cells > 500, $"{key} has suspiciously little territory ({cells} cells)");
         }
         map.Free();
-        Finish("Terrain sanity check passed: real coastline mask seeded first, real 300 BC boundaries from the " +
-            "reconciled political mask, frontier zones filled the gaps, every one of the 12 realms has real territory.");
+        Finish("Terrain sanity check passed: real coastline mask seeded first, our own 300 BC borders from the " +
+            $"realm mask, every one of the {WorldFixture.CivKeys.Length} realms has real territory.");
     }
 }

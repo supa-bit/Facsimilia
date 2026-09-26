@@ -1,4 +1,4 @@
-"""Rasterize Natural Earth land onto the same grid as import_bc300.js.
+"""Rasterize Natural Earth land onto the same grid as the realm mask (tools/build_realm_mask.py).
 
 Run from the project root: python tools/build_land_mask.py
 Input: tools/ne_10m_land.geojson (Natural Earth, public domain).

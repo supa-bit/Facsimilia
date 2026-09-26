@@ -1,0 +1,5088 @@
+{
+ "about": "The realms of 300 BC (decisions 'Playable 1' and '30': borders redrawn by us from open knowledge, any realm playable). Each realm lists the historical districts it held (name, lon, lat, and optionally how far in km it reaches when nothing else is near; 260 km by default, 340 for tribal peoples, counted in 'rough km': a km of mountain, marsh or desert counts for more); tools/build_realm_mask.py grows each district over the land, slowed by mountains, marsh and desert, until it meets its neighbours, and bakes data/political_mask.png. Where no district reaches, the land is unclaimed. tribal: a confederation of peoples, not an administered state, so it starts without provinces. law: male (male-preference primogeniture) or any (plain primogeniture). Rulers and families as attested; where the sources name no one (most tribal peoples and republics) the ruler stands for the leading family and bears a name of the culture. Sources: the Barrington Atlas of the Greek and Roman World (Talbert, 2000); the Cambridge Ancient History VII.1 (1984); Diodorus, Plutarch, Justin, Polybius. Our own data, free for any use.",
+ "default_reach_km": 260,
+ "tribal_reach_km": 340,
+ "realms": [
+  {
+   "key": "rome",
+   "name": "Rome",
+   "culture": "latin",
+   "names": "Latin",
+   "color": "#bf3333",
+   "capital": [
+    12.48,
+    41.89
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Marcus",
+    "born": -371,
+    "spouse": "Claudia",
+    "spouse_born": -352,
+    "house": "House Valerius",
+    "children": [
+     [
+      "Marcus",
+      true,
+      -332
+     ],
+     [
+      "Gaius",
+      true,
+      -326
+     ],
+     [
+      "Valeria",
+      false,
+      -322
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Roma",
+     12.48,
+     41.89
+    ],
+    [
+     "Latium",
+     12.9,
+     41.7
+    ],
+    [
+     "Anagnia",
+     13.16,
+     41.74
+    ],
+    [
+     "Tarracina",
+     13.25,
+     41.29
+    ],
+    [
+     "Sora",
+     13.61,
+     41.72
+    ],
+    [
+     "Fregellae",
+     13.52,
+     41.55
+    ],
+    [
+     "Caere",
+     12.1,
+     42.0
+    ],
+    [
+     "Veii",
+     12.4,
+     42.02
+    ],
+    [
+     "Sutrium",
+     12.22,
+     42.24
+    ],
+    [
+     "Reate",
+     12.86,
+     42.4
+    ],
+    [
+     "Alba Fucens",
+     13.41,
+     42.08
+    ],
+    [
+     "Marruvium",
+     13.6,
+     41.97
+    ],
+    [
+     "Corfinium",
+     13.84,
+     42.12
+    ],
+    [
+     "Carsioli",
+     13.1,
+     42.1
+    ],
+    [
+     "Capua",
+     14.25,
+     41.08
+    ],
+    [
+     "Cales",
+     14.07,
+     41.2
+    ],
+    [
+     "Neapolis",
+     14.25,
+     40.85
+    ],
+    [
+     "Nola",
+     14.53,
+     40.93
+    ],
+    [
+     "Nuceria",
+     14.67,
+     40.74
+    ],
+    [
+     "Luceria",
+     15.33,
+     41.5
+    ],
+    [
+     "Arpi",
+     15.55,
+     41.53
+    ],
+    [
+     "Teanum Apulum",
+     15.28,
+     41.75
+    ],
+    [
+     "Asculum",
+     13.58,
+     42.85
+    ],
+    [
+     "Firmum",
+     13.72,
+     43.16
+    ],
+    [
+     "Hadria",
+     13.93,
+     42.66
+    ]
+   ],
+   "note": "The Republic with its Latin, Campanian, Marsic, Apulian and Picene allies (the Picentes allied in 299 BC). Its 'ruling family' stands for the leading house, the Valerii.",
+   "region": "Italy",
+   "blurb": "A modest city-state on the Tiber, one power among many on the Italian peninsula. History remembers what it became - not what it started as."
+  },
+  {
+   "key": "samnites",
+   "name": "Samnite League",
+   "culture": "italic",
+   "names": "Italic",
+   "color": "#8a9a3a",
+   "capital": [
+    14.47,
+    41.49
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Gellius",
+    "born": -345,
+    "spouse": "Paquia",
+    "spouse_born": -340,
+    "house": "House Egnatius",
+    "children": [
+     [
+      "Statius",
+      true,
+      -318
+     ],
+     [
+      "Vibia",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Bovianum",
+     14.47,
+     41.49
+    ],
+    [
+     "Aesernia",
+     14.23,
+     41.6
+    ],
+    [
+     "Saepinum",
+     14.62,
+     41.41
+    ],
+    [
+     "Aufidena",
+     14.05,
+     41.73
+    ],
+    [
+     "Maleventum",
+     14.78,
+     41.13
+    ],
+    [
+     "Caudium",
+     14.63,
+     41.05
+    ],
+    [
+     "Larinum",
+     14.92,
+     41.8
+    ],
+    [
+     "Histonium",
+     14.71,
+     42.11
+    ],
+    [
+     "Compsa",
+     15.13,
+     40.87
+    ]
+   ],
+   "note": "The Pentri, Caudini, Hirpini and Frentani; Gellius Egnatius led them in the Third Samnite War (298-290 BC).",
+   "region": "Italy",
+   "blurb": "The Pentri, Caudini, Hirpini and Frentani; Gellius Egnatius led them in the Third Samnite War (298-290 BC)."
+  },
+  {
+   "key": "etruscans",
+   "name": "Etruscan League",
+   "culture": "etruscan",
+   "names": "Etruscan",
+   "color": "#c9804a",
+   "capital": [
+    11.99,
+    42.72
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Larth",
+    "born": -350,
+    "spouse": "Ramtha",
+    "spouse_born": -345,
+    "house": "House Tarchna",
+    "children": [
+     [
+      "Arnth",
+      true,
+      -322
+     ],
+     [
+      "Velia",
+      false,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Tarquinii",
+     11.75,
+     42.25
+    ],
+    [
+     "Volsinii",
+     11.99,
+     42.72
+    ],
+    [
+     "Vulci",
+     11.63,
+     42.42
+    ],
+    [
+     "Clusium",
+     11.95,
+     43.02
+    ],
+    [
+     "Perusia",
+     12.39,
+     43.11
+    ],
+    [
+     "Cortona",
+     11.99,
+     43.28
+    ],
+    [
+     "Arretium",
+     11.88,
+     43.46
+    ],
+    [
+     "Faesulae",
+     11.29,
+     43.81
+    ],
+    [
+     "Volaterrae",
+     10.86,
+     43.4
+    ],
+    [
+     "Vetulonia",
+     10.97,
+     42.86
+    ],
+    [
+     "Populonia",
+     10.49,
+     42.99
+    ],
+    [
+     "Pisae",
+     10.4,
+     43.72
+    ],
+    [
+     "Iguvium",
+     12.58,
+     43.35
+    ],
+    [
+     "Tuder",
+     12.41,
+     42.78
+    ],
+    [
+     "Spoletium",
+     12.73,
+     42.73
+    ],
+    [
+     "Camerinum",
+     13.07,
+     43.14
+    ],
+    [
+     "Aleria",
+     9.51,
+     42.1,
+     60
+    ]
+   ],
+   "note": "The twelve cities of Etruria with their Umbrian allies, who fought Rome together at Sentinum (295 BC).",
+   "region": "Italy",
+   "blurb": "The twelve cities of Etruria with their Umbrian allies, who fought Rome together at Sentinum (295 BC)."
+  },
+  {
+   "key": "cisalpine",
+   "name": "Cisalpine Gauls",
+   "culture": "celtic",
+   "names": "Celtic",
+   "color": "#5fa35a",
+   "capital": [
+    11.34,
+    44.49
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Aneroestos",
+    "born": -340,
+    "spouse": "Senona",
+    "spouse_born": -335,
+    "house": "House of the Boii",
+    "children": [
+     [
+      "Britomaros",
+      true,
+      -315
+     ],
+     [
+      "Ategnata",
+      false,
+      -312
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Felsina",
+     11.34,
+     44.49
+    ],
+    [
+     "Mutina",
+     10.93,
+     44.65
+    ],
+    [
+     "Parma",
+     10.33,
+     44.8
+    ],
+    [
+     "Mediolanum",
+     9.19,
+     45.46
+    ],
+    [
+     "Comum",
+     9.08,
+     45.81
+    ],
+    [
+     "Brixia",
+     10.22,
+     45.54
+    ],
+    [
+     "Cremona",
+     10.02,
+     45.13
+    ],
+    [
+     "Ravenna",
+     12.2,
+     44.42
+    ],
+    [
+     "Ariminum",
+     12.57,
+     44.06
+    ],
+    [
+     "Sena Gallica",
+     13.22,
+     43.72
+    ]
+   ],
+   "note": "The Boii, Insubres, Cenomani, Lingones and Senones of the Po valley.",
+   "region": "Italy",
+   "blurb": "The Boii, Insubres, Cenomani, Lingones and Senones of the Po valley."
+  },
+  {
+   "key": "veneti",
+   "name": "Veneti",
+   "culture": "italic",
+   "names": "Italic",
+   "color": "#6fb0a0",
+   "capital": [
+    11.66,
+    45.22
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Voltiomnos",
+    "born": -345,
+    "spouse": "Fugia",
+    "spouse_born": -340,
+    "house": "House of Ateste",
+    "children": [
+     [
+      "Ennonios",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Ateste",
+     11.66,
+     45.22
+    ],
+    [
+     "Patavium",
+     11.88,
+     45.41
+    ],
+    [
+     "Vicetia",
+     11.55,
+     45.55
+    ],
+    [
+     "Altinum",
+     12.4,
+     45.55
+    ],
+    [
+     "Tarvisium",
+     12.24,
+     45.67
+    ]
+   ],
+   "note": "",
+   "region": "Italy",
+   "blurb": ""
+  },
+  {
+   "key": "ligurians",
+   "name": "Ligurians",
+   "culture": "ligurian",
+   "names": "Celtic",
+   "color": "#7f9b6e",
+   "capital": [
+    8.93,
+    44.4
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Comeros",
+    "born": -342,
+    "spouse": "Litumara",
+    "spouse_born": -338,
+    "house": "House of the Apuani",
+    "children": [
+     [
+      "Vesos",
+      true,
+      -316
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Genua",
+     8.93,
+     44.4
+    ],
+    [
+     "Albingaunum",
+     8.22,
+     44.05
+    ],
+    [
+     "Albintimilium",
+     7.6,
+     43.79
+    ],
+    [
+     "Luna",
+     10.02,
+     44.07
+    ],
+    [
+     "Apuani",
+     10.2,
+     44.15
+    ],
+    [
+     "Taurini",
+     7.68,
+     45.07
+    ],
+    [
+     "Statielli",
+     8.47,
+     44.68
+    ],
+    [
+     "Salassi",
+     7.32,
+     45.73
+    ]
+   ],
+   "note": "",
+   "region": "Italy",
+   "blurb": ""
+  },
+  {
+   "key": "lucanians",
+   "name": "Lucanians and Bruttians",
+   "culture": "italic",
+   "names": "Italic",
+   "color": "#a7a14a",
+   "capital": [
+    15.8,
+    40.64
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Stenius",
+    "born": -345,
+    "spouse": "Minia",
+    "spouse_born": -340,
+    "house": "House Statilius",
+    "children": [
+     [
+      "Pacius",
+      true,
+      -318
+     ],
+     [
+      "Ovia",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Potentia",
+     15.8,
+     40.64
+    ],
+    [
+     "Grumentum",
+     15.9,
+     40.28
+    ],
+    [
+     "Volcei",
+     15.33,
+     40.64
+    ],
+    [
+     "Poseidonia",
+     15.0,
+     40.42
+    ],
+    [
+     "Laos",
+     15.8,
+     39.9
+    ],
+    [
+     "Consentia",
+     16.25,
+     39.3
+    ],
+    [
+     "Petelia",
+     17.05,
+     39.28
+    ],
+    [
+     "Hipponion",
+     16.1,
+     38.68
+    ],
+    [
+     "Terina",
+     16.25,
+     38.95
+    ]
+   ],
+   "note": "The Oscan-speaking Lucanians and their Bruttian offshoot.",
+   "region": "Italy",
+   "blurb": "The Oscan-speaking Lucanians and their Bruttian offshoot."
+  },
+  {
+   "key": "iapygians",
+   "name": "Messapians and Peucetians",
+   "culture": "italic",
+   "names": "Italic",
+   "color": "#c6b27a",
+   "capital": [
+    17.65,
+    40.46
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Artos",
+    "born": -345,
+    "spouse": "Dazima",
+    "spouse_born": -340,
+    "house": "House of Uria",
+    "children": [
+     [
+      "Dazos",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Uria",
+     17.65,
+     40.46
+    ],
+    [
+     "Brundisium",
+     17.94,
+     40.63
+    ],
+    [
+     "Lupiae",
+     18.17,
+     40.35
+    ],
+    [
+     "Hydruntum",
+     18.49,
+     40.15
+    ],
+    [
+     "Butuntum",
+     16.55,
+     41.1
+    ],
+    [
+     "Caelia",
+     16.9,
+     41.0
+    ],
+    [
+     "Egnatia",
+     17.39,
+     40.89
+    ]
+   ],
+   "note": "The Iapygian peoples of Apulia's heel.",
+   "region": "Italy",
+   "blurb": "The Iapygian peoples of Apulia's heel."
+  },
+  {
+   "key": "tarentum",
+   "name": "Tarentum and the Italiote League",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#4f86c6",
+   "capital": [
+    17.24,
+    40.47
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Philocharis",
+    "born": -345,
+    "spouse": "Aristoklea",
+    "spouse_born": -340,
+    "house": "House of Taras",
+    "children": [
+     [
+      "Kleon",
+      true,
+      -318
+     ],
+     [
+      "Timo",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Tarentum",
+     17.24,
+     40.47,
+     60
+    ],
+    [
+     "Metapontum",
+     16.82,
+     40.39,
+     40
+    ],
+    [
+     "Heraclea",
+     16.64,
+     40.21,
+     40
+    ],
+    [
+     "Thurii",
+     16.49,
+     39.71,
+     45
+    ],
+    [
+     "Croton",
+     17.12,
+     39.08,
+     45
+    ],
+    [
+     "Locri",
+     16.25,
+     38.24,
+     35
+    ],
+    [
+     "Rhegion",
+     15.65,
+     38.11,
+     35
+    ],
+    [
+     "Velia",
+     15.15,
+     40.16,
+     30
+    ]
+   ],
+   "note": "Tarentum led the Greek cities of Italy; it called in Pyrrhus against Rome in 281 BC.",
+   "region": "Italy",
+   "blurb": "Tarentum led the Greek cities of Italy; it called in Pyrrhus against Rome in 281 BC."
+  },
+  {
+   "key": "syracuse",
+   "name": "Syracuse",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#3f6fb0",
+   "capital": [
+    15.29,
+    37.07
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Agathokles",
+    "born": -361,
+    "spouse": "Theoxene",
+    "spouse_born": -330,
+    "house": "House of Agathokles",
+    "children": [
+     [
+      "Agathokles",
+      true,
+      -325
+     ],
+     [
+      "Lanassa",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Syracuse",
+     15.29,
+     37.07
+    ],
+    [
+     "Leontini",
+     15.0,
+     37.29
+    ],
+    [
+     "Catana",
+     15.09,
+     37.5
+    ],
+    [
+     "Tauromenion",
+     15.29,
+     37.85
+    ],
+    [
+     "Messana",
+     15.55,
+     38.19
+    ],
+    [
+     "Tyndaris",
+     15.04,
+     38.14
+    ],
+    [
+     "Henna",
+     14.28,
+     37.57
+    ],
+    [
+     "Gela",
+     14.25,
+     37.07
+    ],
+    [
+     "Kamarina",
+     14.45,
+     36.87
+    ],
+    [
+     "Akragas",
+     13.58,
+     37.31
+    ]
+   ],
+   "note": "Agathokles, king of Sicily since 304 BC, married Theoxene, Ptolemy's stepdaughter, c. 300 BC.",
+   "region": "Sicily",
+   "blurb": "Agathokles, king of Sicily since 304 BC, married Theoxene, Ptolemy's stepdaughter, c. 300 BC."
+  },
+  {
+   "key": "massalia",
+   "name": "Massalia",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#5a9bd6",
+   "capital": [
+    5.37,
+    43.3
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Aristoxenos",
+    "born": -345,
+    "spouse": "Gyptis",
+    "spouse_born": -340,
+    "house": "House of the Timouchoi",
+    "children": [
+     [
+      "Protis",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Massalia",
+     5.37,
+     43.3,
+     40
+    ],
+    [
+     "Olbia",
+     6.13,
+     43.1,
+     25
+    ],
+    [
+     "Antipolis",
+     7.12,
+     43.58,
+     25
+    ],
+    [
+     "Nikaia",
+     7.27,
+     43.7,
+     20
+    ],
+    [
+     "Agathe",
+     3.5,
+     43.31,
+     25
+    ],
+    [
+     "Emporion",
+     3.12,
+     42.13,
+     30
+    ],
+    [
+     "Rhode",
+     3.17,
+     42.26,
+     20
+    ]
+   ],
+   "note": "A Greek republic run by its council of six hundred (the timouchoi).",
+   "region": "Gaul",
+   "blurb": "A Greek republic run by its council of six hundred (the timouchoi)."
+  },
+  {
+   "key": "gaul",
+   "name": "Gallic Tribes",
+   "culture": "celtic",
+   "names": "Celtic",
+   "color": "#40a650",
+   "capital": [
+    3.12,
+    45.71
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Brennos",
+    "born": -338,
+    "spouse": "Onomaris",
+    "spouse_born": -335,
+    "house": "House of Brennos",
+    "children": [
+     [
+      "Bolgios",
+      true,
+      -316
+     ],
+     [
+      "Chiomara",
+      false,
+      -312
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Gergovia",
+     3.12,
+     45.71
+    ],
+    [
+     "Bibracte",
+     4.03,
+     46.92
+    ],
+    [
+     "Vesontio",
+     6.02,
+     47.24
+    ],
+    [
+     "Vienna",
+     4.87,
+     45.52
+    ],
+    [
+     "Tolosa",
+     1.44,
+     43.6
+    ],
+    [
+     "Nemausus",
+     4.36,
+     43.84
+    ],
+    [
+     "Helvetii",
+     7.4,
+     46.9
+    ],
+    [
+     "Avaricum",
+     2.4,
+     47.08
+    ],
+    [
+     "Lemovices",
+     1.26,
+     45.83
+    ],
+    [
+     "Pictones",
+     0.34,
+     46.58
+    ],
+    [
+     "Santones",
+     -0.63,
+     45.75
+    ],
+    [
+     "Lactora",
+     0.62,
+     43.93
+    ],
+    [
+     "Aquitani",
+     -0.8,
+     43.5
+    ],
+    [
+     "Cenabum",
+     1.9,
+     47.85
+    ],
+    [
+     "Lingones",
+     5.33,
+     47.8
+    ],
+    [
+     "Cadurci",
+     1.44,
+     44.45
+    ],
+    [
+     "Ruteni",
+     2.57,
+     44.35
+    ],
+    [
+     "Petrocorii",
+     0.72,
+     45.18
+    ],
+    [
+     "Gabali",
+     3.5,
+     44.5
+    ],
+    [
+     "Helvii",
+     4.4,
+     44.6
+    ],
+    [
+     "Vocontii",
+     5.4,
+     44.5
+    ],
+    [
+     "Salluvii",
+     5.44,
+     43.6
+    ],
+    [
+     "Namnetes",
+     -1.55,
+     47.22
+    ],
+    [
+     "Veneti of Armorica",
+     -2.76,
+     47.66
+    ],
+    [
+     "Andecavi",
+     -0.55,
+     47.47
+    ],
+    [
+     "Turones",
+     0.69,
+     47.39
+    ],
+    [
+     "Burdigala",
+     -0.58,
+     44.84
+    ],
+    [
+     "Narbo",
+     3.0,
+     43.18
+    ],
+    [
+     "Allobroges",
+     5.9,
+     45.6
+    ]
+   ],
+   "note": "A world of tribes, not a state: the Arverni, Aedui, Sequani, Volcae and their neighbours.",
+   "region": "Gaul",
+   "blurb": "A world of tribes, not a state: the Arverni, Aedui, Sequani, Volcae and their neighbours."
+  },
+  {
+   "key": "danube_celts",
+   "name": "Celts of the Danube",
+   "culture": "celtic",
+   "names": "Celtic",
+   "color": "#62b86f",
+   "capital": [
+    16.5,
+    46.5
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Kambaules",
+    "born": -340,
+    "spouse": "Belisama",
+    "spouse_born": -336,
+    "house": "House of Kambaules",
+    "children": [
+     [
+      "Akichorios",
+      true,
+      -316
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Noricum",
+     14.3,
+     47.0
+    ],
+    [
+     "Taurisci",
+     14.5,
+     46.3
+    ],
+    [
+     "Pannonia",
+     16.5,
+     46.5
+    ],
+    [
+     "Savaria",
+     16.62,
+     47.23
+    ],
+    [
+     "Scarbantia",
+     16.6,
+     47.68
+    ],
+    [
+     "Mursa",
+     18.68,
+     45.55
+    ],
+    [
+     "Sirmium",
+     19.61,
+     44.97
+    ],
+    [
+     "Aquincum",
+     19.04,
+     47.56
+    ],
+    [
+     "Siscia",
+     16.37,
+     45.48
+    ]
+   ],
+   "note": "Celtic peoples settling Noricum and Pannonia; Kambaules led them into Thrace c. 298 BC.",
+   "region": "The Danube",
+   "blurb": "Celtic peoples settling Noricum and Pannonia; Kambaules led them into Thrace c. 298 BC."
+  },
+  {
+   "key": "iberia",
+   "name": "Iberian Peoples",
+   "culture": "iberian",
+   "names": "Iberian",
+   "color": "#2f9a9a",
+   "capital": [
+    -0.27,
+    39.68
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Indibilis",
+    "born": -340,
+    "spouse": "Ilduria",
+    "spouse_born": -335,
+    "house": "House of the Ilergetes",
+    "children": [
+     [
+      "Mandonios",
+      true,
+      -318
+     ],
+     [
+      "Imilce",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Ilerda",
+     0.62,
+     41.62
+    ],
+    [
+     "Kese",
+     1.25,
+     41.12
+    ],
+    [
+     "Saguntum",
+     -0.27,
+     39.68
+    ],
+    [
+     "Edeta",
+     -0.6,
+     39.63
+    ],
+    [
+     "Ilici",
+     -0.7,
+     38.27
+    ],
+    [
+     "Basti",
+     -2.77,
+     37.49
+    ],
+    [
+     "Castulo",
+     -3.6,
+     38.03
+    ],
+    [
+     "Hispalis",
+     -5.98,
+     37.39
+    ],
+    [
+     "Corduba",
+     -4.78,
+     37.88
+    ],
+    [
+     "Carmo",
+     -5.64,
+     37.47
+    ],
+    [
+     "Iliberri",
+     -3.6,
+     37.18
+    ],
+    [
+     "Onuba",
+     -6.95,
+     37.26
+    ],
+    [
+     "Osca",
+     -0.41,
+     42.14
+    ]
+   ],
+   "note": "The Ilergetes, Edetani, Contestani, Bastetani, Oretani and Turdetani.",
+   "region": "Spain",
+   "blurb": "The Ilergetes, Edetani, Contestani, Bastetani, Oretani and Turdetani."
+  },
+  {
+   "key": "celtiberia",
+   "name": "Celtiberian Peoples",
+   "culture": "iberian",
+   "names": "Iberian",
+   "color": "#4c8f7a",
+   "capital": [
+    -2.44,
+    41.81
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Thurru",
+    "born": -340,
+    "spouse": "Sekobirikea",
+    "spouse_born": -336,
+    "house": "House of the Arevaci",
+    "children": [
+     [
+      "Retogenes",
+      true,
+      -316
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Numantia",
+     -2.44,
+     41.81
+    ],
+    [
+     "Segeda",
+     -1.62,
+     41.3
+    ],
+    [
+     "Termes",
+     -3.15,
+     41.47
+    ],
+    [
+     "Toletum",
+     -4.02,
+     39.86
+    ],
+    [
+     "Salmantica",
+     -5.66,
+     40.96
+    ],
+    [
+     "Pallantia",
+     -4.53,
+     42.0
+    ],
+    [
+     "Cantabri",
+     -4.0,
+     43.1
+    ],
+    [
+     "Astures",
+     -5.9,
+     42.9
+    ],
+    [
+     "Pompaelo",
+     -1.64,
+     42.81
+    ],
+    [
+     "Segobriga",
+     -2.82,
+     39.88
+    ],
+    [
+     "Complutum",
+     -3.36,
+     40.48
+    ],
+    [
+     "Contrebia",
+     -1.28,
+     41.5
+    ],
+    [
+     "Uxama",
+     -3.07,
+     41.58
+    ],
+    [
+     "Ocilis",
+     -2.2,
+     41.2
+    ]
+   ],
+   "note": "The Arevaci, Belli, Carpetani, Vettones, Vaccaei, Cantabri, Astures and Vascones.",
+   "region": "Spain",
+   "blurb": "The Arevaci, Belli, Carpetani, Vettones, Vaccaei, Cantabri, Astures and Vascones."
+  },
+  {
+   "key": "lusitania",
+   "name": "Lusitanians and Gallaeci",
+   "culture": "iberian",
+   "names": "Iberian",
+   "color": "#6aa58c",
+   "capital": [
+    -7.5,
+    40.0
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Kaukainos",
+    "born": -340,
+    "spouse": "Arentia",
+    "spouse_born": -336,
+    "house": "House of the Lusitani",
+    "children": [
+     [
+      "Punikos",
+      true,
+      -316
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Lusitani",
+     -7.5,
+     40.0
+    ],
+    [
+     "Herminius",
+     -7.6,
+     40.4
+    ],
+    [
+     "Olisipo",
+     -9.14,
+     38.72
+    ],
+    [
+     "Celtici",
+     -7.9,
+     38.0
+    ],
+    [
+     "Conii",
+     -8.0,
+     37.2
+    ],
+    [
+     "Gallaeci",
+     -8.4,
+     42.5
+    ],
+    [
+     "Bracari",
+     -8.43,
+     41.55
+    ],
+    [
+     "Cale",
+     -8.61,
+     41.14
+    ],
+    [
+     "Emerita",
+     -6.34,
+     38.92
+    ]
+   ],
+   "note": "",
+   "region": "Spain",
+   "blurb": ""
+  },
+  {
+   "key": "carthage",
+   "name": "Carthage",
+   "culture": "punic",
+   "names": "Punic",
+   "color": "#8c4da6",
+   "capital": [
+    10.32,
+    36.85
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Hasdrubal",
+    "born": -348,
+    "spouse": "Arishat",
+    "spouse_born": -340,
+    "house": "House of Hasdrubal",
+    "children": [
+     [
+      "Hamilcar",
+      true,
+      -318
+     ],
+     [
+      "Hanno",
+      true,
+      -315
+     ],
+     [
+      "Elissa",
+      false,
+      -312
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Carthage",
+     10.32,
+     36.85
+    ],
+    [
+     "Utica",
+     10.06,
+     37.05
+    ],
+    [
+     "Hippo Diarrhytus",
+     9.87,
+     37.27
+    ],
+    [
+     "Hadrumetum",
+     10.64,
+     35.83
+    ],
+    [
+     "Leptis Minor",
+     10.87,
+     35.67
+    ],
+    [
+     "Thapsus",
+     11.05,
+     35.62
+    ],
+    [
+     "Thysdrus",
+     10.7,
+     35.3
+    ],
+    [
+     "Tusca",
+     9.22,
+     36.42
+    ],
+    [
+     "Sicca",
+     8.71,
+     36.18
+    ],
+    [
+     "Zama",
+     9.2,
+     36.1
+    ],
+    [
+     "Tacapae",
+     10.1,
+     33.88
+    ],
+    [
+     "Sabratha",
+     12.48,
+     32.79
+    ],
+    [
+     "Oea",
+     13.18,
+     32.9
+    ],
+    [
+     "Leptis Magna",
+     14.29,
+     32.64
+    ],
+    [
+     "Macomades",
+     16.0,
+     31.3
+    ],
+    [
+     "Lilybaeum",
+     12.44,
+     37.8
+    ],
+    [
+     "Panormus",
+     13.36,
+     38.12
+    ],
+    [
+     "Selinous",
+     12.83,
+     37.58
+    ],
+    [
+     "Eryx",
+     12.59,
+     38.04
+    ],
+    [
+     "Solous",
+     13.53,
+     38.09
+    ],
+    [
+     "Heraclea Minoa",
+     13.28,
+     37.39
+    ],
+    [
+     "Caralis",
+     9.11,
+     39.22
+    ],
+    [
+     "Tharros",
+     8.44,
+     39.87
+    ],
+    [
+     "Nora",
+     9.01,
+     38.98
+    ],
+    [
+     "Sulci",
+     8.45,
+     39.07
+    ],
+    [
+     "Olbia of Sardinia",
+     9.5,
+     40.92
+    ],
+    [
+     "Sardinian hills",
+     9.0,
+     40.2
+    ],
+    [
+     "Gades",
+     -6.29,
+     36.53,
+     50
+    ],
+    [
+     "Malaca",
+     -4.42,
+     36.72,
+     40
+    ],
+    [
+     "Sexi",
+     -3.69,
+     36.73,
+     30
+    ],
+    [
+     "Abdera",
+     -2.9,
+     36.76,
+     30
+    ],
+    [
+     "Baria",
+     -1.87,
+     37.25,
+     30
+    ],
+    [
+     "Ebusus",
+     1.43,
+     38.9,
+     30
+    ],
+    [
+     "Lixus",
+     -6.11,
+     35.2,
+     35
+    ],
+    [
+     "Hippo Regius",
+     7.76,
+     36.88,
+     40
+    ]
+   ],
+   "note": "The Punic city-state with its African lands, western Sicily, Sardinia and the Phoenician towns of Spain.",
+   "region": "Africa",
+   "blurb": "The dominant trading power of the western Mediterranean, backed by a navy few can match."
+  },
+  {
+   "key": "massylii",
+   "name": "Massylian Numidians",
+   "culture": "berber",
+   "names": "Berber",
+   "color": "#b5873f",
+   "capital": [
+    6.61,
+    36.36
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Zelalsan",
+    "born": -345,
+    "spouse": "Tanit-Ammat",
+    "spouse_born": -340,
+    "house": "House of the Massylii",
+    "children": [
+     [
+      "Ilasan",
+      true,
+      -318
+     ],
+     [
+      "Tadra",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Cirta",
+     6.61,
+     36.36
+    ],
+    [
+     "Calama",
+     7.43,
+     36.46
+    ],
+    [
+     "Theveste",
+     8.12,
+     35.4
+    ],
+    [
+     "Thubursicu",
+     7.85,
+     36.13
+    ],
+    [
+     "Sitifis",
+     5.41,
+     36.19
+    ],
+    [
+     "Lambaesis",
+     6.26,
+     35.49
+    ],
+    [
+     "Madauros",
+     7.87,
+     36.08
+    ],
+    [
+     "Capsa",
+     8.78,
+     34.42
+    ]
+   ],
+   "note": "The eastern Numidians; Zelalsan was the grandfather of Masinissa.",
+   "region": "Africa",
+   "blurb": "The eastern Numidians; Zelalsan was the grandfather of Masinissa."
+  },
+  {
+   "key": "masaesyli",
+   "name": "Masaesylian Numidians",
+   "culture": "berber",
+   "names": "Berber",
+   "color": "#c69a55",
+   "capital": [
+    -1.47,
+    35.26
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Ailymas",
+    "born": -350,
+    "spouse": "Tamezgida",
+    "spouse_born": -340,
+    "house": "House of the Masaesyli",
+    "children": [
+     [
+      "Laqumazes",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Siga",
+     -1.47,
+     35.26
+    ],
+    [
+     "Pomaria",
+     -1.3,
+     34.88
+    ],
+    [
+     "Portus Magnus",
+     -0.26,
+     35.83
+    ],
+    [
+     "Iol",
+     2.19,
+     36.6
+    ],
+    [
+     "Icosium",
+     3.06,
+     36.77
+    ],
+    [
+     "Saldae",
+     5.08,
+     36.75
+    ],
+    [
+     "Auzia",
+     3.68,
+     36.15
+    ],
+    [
+     "Tiaret",
+     1.32,
+     35.37
+    ],
+    [
+     "Altava",
+     -1.08,
+     35.13
+    ]
+   ],
+   "note": "The western Numidians, later Syphax's kingdom.",
+   "region": "Africa",
+   "blurb": "The western Numidians, later Syphax's kingdom."
+  },
+  {
+   "key": "mauri",
+   "name": "Mauri",
+   "culture": "berber",
+   "names": "Berber",
+   "color": "#a37a4a",
+   "capital": [
+    -5.55,
+    34.07
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Baga",
+    "born": -345,
+    "spouse": "Tagrawla",
+    "spouse_born": -340,
+    "house": "House of the Mauri",
+    "children": [
+     [
+      "Bocchar",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Tingis",
+     -5.8,
+     35.77
+    ],
+    [
+     "Volubilis",
+     -5.55,
+     34.07
+    ],
+    [
+     "Sala",
+     -6.8,
+     34.02
+    ],
+    [
+     "Banasa",
+     -6.12,
+     34.6
+    ],
+    [
+     "Zilil",
+     -5.97,
+     35.5
+    ],
+    [
+     "Rusadir",
+     -2.94,
+     35.29
+    ],
+    [
+     "Mauretania east",
+     -3.5,
+     34.4
+    ],
+    [
+     "Anfa",
+     -7.6,
+     33.6
+    ]
+   ],
+   "note": "",
+   "region": "Africa",
+   "blurb": ""
+  },
+  {
+   "key": "garamantes",
+   "name": "Garamantes",
+   "culture": "berber",
+   "names": "Berber",
+   "color": "#9a6b3c",
+   "capital": [
+    13.1,
+    26.6
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Tinmir",
+    "born": -345,
+    "spouse": "Tanfust",
+    "spouse_born": -340,
+    "house": "House of Garama",
+    "children": [
+     [
+      "Aghram",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Garama",
+     13.1,
+     26.6,
+     220
+    ],
+    [
+     "Zinkekra",
+     12.9,
+     26.55,
+     150
+    ],
+    [
+     "Murzuq",
+     13.9,
+     25.9,
+     200
+    ],
+    [
+     "Cidamus",
+     9.5,
+     30.13,
+     150
+    ]
+   ],
+   "note": "Desert farmers of the Fezzan, masters of the Saharan roads.",
+   "region": "Africa",
+   "blurb": "Desert farmers of the Fezzan, masters of the Saharan roads."
+  },
+  {
+   "key": "egypt",
+   "name": "Ptolemaic Egypt",
+   "culture": "macedonian",
+   "names": "Greek",
+   "color": "#d9bf26",
+   "capital": [
+    29.92,
+    31.2
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Ptolemaios",
+    "born": -367,
+    "spouse": "Berenike",
+    "spouse_born": -340,
+    "house": "House of Ptolemaios",
+    "children": [
+     [
+      "Arsinoe",
+      false,
+      -316
+     ],
+     [
+      "Philotera",
+      false,
+      -315
+     ],
+     [
+      "Ptolemaios",
+      true,
+      -308
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Alexandria",
+     29.9,
+     31.2
+    ],
+    [
+     "Memphis",
+     31.25,
+     29.85
+    ],
+    [
+     "Pelusium",
+     32.57,
+     31.04
+    ],
+    [
+     "Sais",
+     30.77,
+     30.96
+    ],
+    [
+     "Tanis",
+     31.88,
+     30.98
+    ],
+    [
+     "Arsinoite nome",
+     30.84,
+     29.31
+    ],
+    [
+     "Oxyrhynchus",
+     30.65,
+     28.54
+    ],
+    [
+     "Hermopolis",
+     30.8,
+     27.78
+    ],
+    [
+     "Lykopolis",
+     31.18,
+     27.18
+    ],
+    [
+     "Ptolemais Hermiou",
+     31.8,
+     26.48
+    ],
+    [
+     "Thebes",
+     32.65,
+     25.7
+    ],
+    [
+     "Edfu",
+     32.87,
+     24.98
+    ],
+    [
+     "Syene",
+     32.9,
+     24.09
+    ],
+    [
+     "Kharga oasis",
+     30.55,
+     25.45,
+     80
+    ],
+    [
+     "Dakhla oasis",
+     29.0,
+     25.5,
+     80
+    ],
+    [
+     "Bahariya oasis",
+     28.9,
+     28.35,
+     70
+    ],
+    [
+     "Ammon",
+     25.52,
+     29.2,
+     70
+    ],
+    [
+     "Paraetonium",
+     27.23,
+     31.35,
+     70
+    ],
+    [
+     "Cyrene",
+     21.86,
+     32.82
+    ],
+    [
+     "Barca",
+     20.9,
+     32.49
+    ],
+    [
+     "Euesperides",
+     20.07,
+     32.12
+    ],
+    [
+     "Teucheira",
+     20.58,
+     32.53
+    ],
+    [
+     "Gaza",
+     34.46,
+     31.5
+    ],
+    [
+     "Ascalon",
+     34.55,
+     31.67
+    ],
+    [
+     "Joppa",
+     34.75,
+     32.05
+    ],
+    [
+     "Jerusalem",
+     35.23,
+     31.78
+    ],
+    [
+     "Samaria",
+     35.19,
+     32.28
+    ],
+    [
+     "Scythopolis",
+     35.5,
+     32.5
+    ],
+    [
+     "Rabbath Ammon",
+     35.93,
+     31.95
+    ],
+    [
+     "Galilee",
+     35.4,
+     32.8
+    ],
+    [
+     "Akko",
+     35.07,
+     32.92
+    ],
+    [
+     "Berytus",
+     35.5,
+     33.9
+    ],
+    [
+     "Byblos",
+     35.65,
+     34.12
+    ],
+    [
+     "Damascus",
+     36.3,
+     33.51
+    ],
+    [
+     "Xanthos",
+     29.33,
+     36.36,
+     45
+    ],
+    [
+     "Phaselis",
+     30.55,
+     36.52,
+     35
+    ]
+   ],
+   "note": "Egypt with Cyrenaica, Coele-Syria (taken after Ipsus, 301 BC) and Lycian towns.",
+   "region": "Egypt",
+   "blurb": "Alexander's Macedonian generals still rule the Nile, richer than almost anyone."
+  },
+  {
+   "key": "kush",
+   "name": "Kingdom of Kush",
+   "culture": "kushite",
+   "names": "Meroitic",
+   "color": "#8c4026",
+   "capital": [
+    33.75,
+    16.94
+   ],
+   "tribal": false,
+   "law": "any",
+   "ruler": {
+    "name": "Arkamani",
+    "born": -340,
+    "spouse": "Nahirqo",
+    "spouse_born": -335,
+    "house": "House of Arkamani",
+    "children": [
+     [
+      "Shanakdakhete",
+      false,
+      -314
+     ],
+     [
+      "Amanislo",
+      true,
+      -312
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Meroe",
+     33.75,
+     16.94
+    ],
+    [
+     "Napata",
+     31.82,
+     18.53
+    ],
+    [
+     "Kawa",
+     30.5,
+     19.1
+    ],
+    [
+     "Kerma",
+     30.4,
+     19.6
+    ],
+    [
+     "Musawwarat",
+     33.3,
+     16.4
+    ],
+    [
+     "Naqa",
+     33.27,
+     16.27
+    ],
+    [
+     "Sennar",
+     33.6,
+     13.55,
+     180
+    ],
+    [
+     "Semna",
+     30.9,
+     21.5
+    ],
+    [
+     "Qasr Ibrim",
+     31.99,
+     22.65
+    ],
+    [
+     "Kordofan",
+     30.5,
+     14.5,
+     150
+    ],
+    [
+     "Atbara",
+     34.0,
+     17.7
+    ]
+   ],
+   "note": "The Kushite royal line passed through queens as well as kings.",
+   "region": "Nubia",
+   "blurb": "An African kingdom on the upper Nile, with its own pharaohs, iron industry, and pyramids."
+  },
+  {
+   "key": "greek_world",
+   "name": "Kassander's Macedon",
+   "culture": "macedonian",
+   "names": "Greek",
+   "color": "#3366bf",
+   "capital": [
+    22.52,
+    40.76
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Kassandros",
+    "born": -355,
+    "spouse": "Thessalonike",
+    "spouse_born": -345,
+    "house": "House of Antipatros",
+    "children": [
+     [
+      "Philippos",
+      true,
+      -315
+     ],
+     [
+      "Antipatros",
+      true,
+      -314
+     ],
+     [
+      "Alexandros",
+      true,
+      -313
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Pella",
+     22.52,
+     40.76
+    ],
+    [
+     "Aigai",
+     22.32,
+     40.48
+    ],
+    [
+     "Thessalonike",
+     22.94,
+     40.64
+    ],
+    [
+     "Amphipolis",
+     23.84,
+     40.82
+    ],
+    [
+     "Pydna",
+     22.6,
+     40.37
+    ],
+    [
+     "Elimeia",
+     21.8,
+     40.28
+    ],
+    [
+     "Lynkos",
+     21.4,
+     40.9
+    ],
+    [
+     "Orestis",
+     21.3,
+     40.5
+    ],
+    [
+     "Kassandreia",
+     23.4,
+     40.05
+    ],
+    [
+     "Philippi",
+     24.28,
+     41.01
+    ],
+    [
+     "Larisa",
+     22.42,
+     39.64
+    ],
+    [
+     "Pherai",
+     22.76,
+     39.38
+    ],
+    [
+     "Pharsalos",
+     22.38,
+     39.3
+    ],
+    [
+     "Trikka",
+     21.77,
+     39.55
+    ],
+    [
+     "Lamia",
+     22.43,
+     38.9
+    ],
+    [
+     "Athens",
+     23.73,
+     37.98
+    ],
+    [
+     "Thebes",
+     23.32,
+     38.32
+    ],
+    [
+     "Chalkis",
+     23.6,
+     38.46
+    ],
+    [
+     "Eretria",
+     23.79,
+     38.39
+    ],
+    [
+     "Elateia",
+     22.77,
+     38.62
+    ],
+    [
+     "Opous",
+     23.0,
+     38.64
+    ],
+    [
+     "Tarsus",
+     34.9,
+     36.92,
+     70
+    ],
+    [
+     "Soloi of Cilicia",
+     34.54,
+     36.74,
+     50
+    ],
+    [
+     "Cilicia Tracheia",
+     33.5,
+     36.5,
+     70
+    ]
+   ],
+   "note": "Kassandros held Macedon, Thessaly and central Greece; his brother Pleistarchos was given Cilicia after Ipsus.",
+   "region": "Greece",
+   "blurb": "Kassandros held Macedon, Thessaly and central Greece; his brother Pleistarchos was given Cilicia after Ipsus."
+  },
+  {
+   "key": "antigonus",
+   "name": "Demetrios' Sea Kingdom",
+   "culture": "macedonian",
+   "names": "Greek",
+   "color": "#cc7326",
+   "capital": [
+    33.9,
+    35.18
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Demetrios",
+    "born": -337,
+    "spouse": "Phila",
+    "spouse_born": -350,
+    "house": "House of Antigonos",
+    "children": [
+     [
+      "Antigonos",
+      true,
+      -319
+     ],
+     [
+      "Stratonike",
+      false,
+      -317
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Salamis",
+     33.9,
+     35.18
+    ],
+    [
+     "Kition",
+     33.63,
+     34.92
+    ],
+    [
+     "Paphos",
+     32.4,
+     34.76
+    ],
+    [
+     "Soloi",
+     32.81,
+     35.14
+    ],
+    [
+     "Kourion",
+     32.89,
+     34.66
+    ],
+    [
+     "Lapethos",
+     33.17,
+     35.33
+    ],
+    [
+     "Tyre",
+     35.2,
+     33.27,
+     30
+    ],
+    [
+     "Sidon",
+     35.37,
+     33.56,
+     30
+    ],
+    [
+     "Corinth",
+     22.93,
+     37.9
+    ],
+    [
+     "Megara",
+     23.35,
+     38.0
+    ],
+    [
+     "Sicyon",
+     22.72,
+     37.98
+    ],
+    [
+     "Argos",
+     22.72,
+     37.63
+    ],
+    [
+     "Aigion",
+     22.08,
+     38.25
+    ],
+    [
+     "Megalopolis",
+     22.13,
+     37.4
+    ],
+    [
+     "Mantinea",
+     22.38,
+     37.62
+    ],
+    [
+     "Messene",
+     21.92,
+     37.18
+    ],
+    [
+     "Delos",
+     25.27,
+     37.4,
+     25
+    ],
+    [
+     "Naxos",
+     25.38,
+     37.1,
+     30
+    ],
+    [
+     "Andros",
+     24.9,
+     37.83,
+     25
+    ],
+    [
+     "Paros",
+     25.15,
+     37.08,
+     25
+    ],
+    [
+     "Tenos",
+     25.16,
+     37.54,
+     25
+    ],
+    [
+     "Ephesos",
+     27.34,
+     37.94,
+     35
+    ],
+    [
+     "Miletos",
+     27.28,
+     37.53,
+     35
+    ]
+   ],
+   "note": "Antigonos the One-Eyed fell at Ipsus (301 BC); his son Demetrios the Besieger kept the fleet, Cyprus, Tyre, Sidon, Corinth and the Peloponnese garrisons, and the islands.",
+   "region": "Greece and the seas",
+   "blurb": "Antigonos the One-Eyed fell at Ipsus (301 BC); his son Demetrios the Besieger kept the fleet, Cyprus, Tyre, Sidon, Corinth and the Peloponnese garrisons, and the islands."
+  },
+  {
+   "key": "aetolia",
+   "name": "Aetolian League",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#5c7fa3",
+   "capital": [
+    21.66,
+    38.6
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Timaios",
+    "born": -345,
+    "spouse": "Nikarete",
+    "spouse_born": -340,
+    "house": "House of Thermos",
+    "children": [
+     [
+      "Skopas",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Thermos",
+     21.66,
+     38.6
+    ],
+    [
+     "Naupaktos",
+     21.83,
+     38.39
+    ],
+    [
+     "Kallion",
+     22.2,
+     38.7
+    ],
+    [
+     "Amphissa",
+     22.38,
+     38.53
+    ],
+    [
+     "Delphi",
+     22.5,
+     38.48
+    ],
+    [
+     "Agrinion",
+     21.41,
+     38.62
+    ],
+    [
+     "Elis",
+     21.37,
+     37.89
+    ]
+   ],
+   "note": "A federal league with a yearly general (strategos).",
+   "region": "Greece",
+   "blurb": "A federal league with a yearly general (strategos)."
+  },
+  {
+   "key": "sparta",
+   "name": "Sparta",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#8f5a5a",
+   "capital": [
+    22.43,
+    37.08
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Areus",
+    "born": -325,
+    "spouse": "Chilonis",
+    "spouse_born": -320,
+    "house": "House of the Agiads",
+    "children": []
+   },
+   "districts": [
+    [
+     "Sparta",
+     22.43,
+     37.08
+    ],
+    [
+     "Gytheion",
+     22.57,
+     36.76
+    ],
+    [
+     "Sellasia",
+     22.42,
+     37.23
+    ],
+    [
+     "Boiai",
+     23.0,
+     36.52
+    ]
+   ],
+   "note": "King Areus I, of the Agiad house, reigned 309-265 BC.",
+   "region": "Greece",
+   "blurb": "King Areus I, of the Agiad house, reigned 309-265 BC."
+  },
+  {
+   "key": "epirus",
+   "name": "Epirus",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#6b8fcf",
+   "capital": [
+    20.99,
+    39.16
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Pyrrhos",
+    "born": -319,
+    "spouse": "Antigone",
+    "spouse_born": -317,
+    "house": "House of the Aiakidai",
+    "children": []
+   },
+   "districts": [
+    [
+     "Ambracia",
+     20.99,
+     39.16
+    ],
+    [
+     "Dodona",
+     20.79,
+     39.55
+    ],
+    [
+     "Passaron",
+     20.79,
+     39.7
+    ],
+    [
+     "Buthrotum",
+     20.02,
+     39.75
+    ],
+    [
+     "Phoinike",
+     20.1,
+     39.9
+    ],
+    [
+     "Stratos",
+     21.32,
+     38.67
+    ],
+    [
+     "Leukas",
+     20.7,
+     38.83
+    ],
+    [
+     "Corcyra",
+     19.92,
+     39.62,
+     40
+    ]
+   ],
+   "note": "In 300 BC Pyrrhos was a hostage at Alexandria, where he married Antigone, while Neoptolemos II held the throne; he was restored in 297 BC. The game starts him on it.",
+   "region": "Greece",
+   "blurb": "In 300 BC Pyrrhos was a hostage at Alexandria, where he married Antigone, while Neoptolemos II held the throne; he was restored in 297 BC. The game starts him on it."
+  },
+  {
+   "key": "rhodes",
+   "name": "Rhodes",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#4aa3c9",
+   "capital": [
+    28.23,
+    36.44
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Damagoras",
+    "born": -345,
+    "spouse": "Kleoboulina",
+    "spouse_born": -340,
+    "house": "House of Lindos",
+    "children": [
+     [
+      "Timokrates",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Rhodes",
+     28.23,
+     36.44,
+     40
+    ],
+    [
+     "Lindos",
+     28.08,
+     36.09,
+     30
+    ],
+    [
+     "Kaunos",
+     28.63,
+     36.83,
+     30
+    ],
+    [
+     "Loryma",
+     28.0,
+     36.57,
+     25
+    ]
+   ],
+   "note": "A free republic of merchants that had just withstood Demetrios' great siege (305-304 BC).",
+   "region": "The Aegean",
+   "blurb": "A free republic of merchants that had just withstood Demetrios' great siege (305-304 BC)."
+  },
+  {
+   "key": "crete",
+   "name": "Cretan Cities",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#7aa6b8",
+   "capital": [
+    25.16,
+    35.3
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Kydas",
+    "born": -345,
+    "spouse": "Eunomia",
+    "spouse_born": -340,
+    "house": "House of Knossos",
+    "children": [
+     [
+      "Idomeneus",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Knossos",
+     25.16,
+     35.3
+    ],
+    [
+     "Gortyn",
+     24.95,
+     35.06
+    ],
+    [
+     "Kydonia",
+     24.02,
+     35.51
+    ],
+    [
+     "Lyttos",
+     25.37,
+     35.21
+    ],
+    [
+     "Hierapytna",
+     25.74,
+     35.01
+    ],
+    [
+     "Aptera",
+     24.14,
+     35.46
+    ],
+    [
+     "Phaistos",
+     24.81,
+     35.05
+    ]
+   ],
+   "note": "Quarrelsome free cities, famous for their archers and mercenaries.",
+   "region": "The Aegean",
+   "blurb": "Quarrelsome free cities, famous for their archers and mercenaries."
+  },
+  {
+   "key": "illyria",
+   "name": "Illyrian Kingdom",
+   "culture": "illyrian",
+   "names": "Illyrian",
+   "color": "#9a7fb0",
+   "capital": [
+    19.8,
+    41.2
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Glaukias",
+    "born": -360,
+    "spouse": "Beroia",
+    "spouse_born": -345,
+    "house": "House of the Taulantii",
+    "children": [
+     [
+      "Bardylis",
+      true,
+      -320
+     ],
+     [
+      "Teuta",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Taulantii",
+     19.8,
+     41.2
+    ],
+    [
+     "Epidamnos",
+     19.45,
+     41.32
+    ],
+    [
+     "Apollonia",
+     19.47,
+     40.72
+    ],
+    [
+     "Lychnidos",
+     20.8,
+     41.12
+    ],
+    [
+     "Scodra",
+     19.51,
+     42.07
+    ],
+    [
+     "Rhizon",
+     18.69,
+     42.5
+    ],
+    [
+     "Narona",
+     17.63,
+     43.05
+    ],
+    [
+     "Delminium",
+     17.2,
+     43.8
+    ],
+    [
+     "Byllis",
+     19.74,
+     40.54
+    ]
+   ],
+   "note": "Glaukias, king of the Taulantii, who had sheltered the boy Pyrrhos.",
+   "region": "The Balkans",
+   "blurb": "Glaukias, king of the Taulantii, who had sheltered the boy Pyrrhos."
+  },
+  {
+   "key": "dardania",
+   "name": "Dardanians and Triballi",
+   "culture": "illyrian",
+   "names": "Illyrian",
+   "color": "#8a6f9a",
+   "capital": [
+    21.39,
+    42.0
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Longaros",
+    "born": -345,
+    "spouse": "Etleva",
+    "spouse_born": -340,
+    "house": "House of the Dardani",
+    "children": [
+     [
+      "Bato",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Scupi",
+     21.39,
+     42.0
+    ],
+    [
+     "Ulpiana",
+     21.2,
+     42.6
+    ],
+    [
+     "Naissus",
+     21.9,
+     43.32
+    ],
+    [
+     "Remesiana",
+     22.3,
+     43.2
+    ],
+    [
+     "Triballi",
+     23.5,
+     43.5
+    ],
+    [
+     "Autariatae",
+     19.5,
+     43.5
+    ],
+    [
+     "Timacum",
+     22.3,
+     43.8
+    ]
+   ],
+   "note": "",
+   "region": "The Balkans",
+   "blurb": ""
+  },
+  {
+   "key": "paeonia",
+   "name": "Paeonia",
+   "culture": "thracian",
+   "names": "Thracian",
+   "color": "#b08a5a",
+   "capital": [
+    21.97,
+    41.55
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Audoleon",
+    "born": -350,
+    "spouse": "Kleopatra",
+    "spouse_born": -340,
+    "house": "House of Agrianes",
+    "children": [
+     [
+      "Ariston",
+      true,
+      -320
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Stobi",
+     21.97,
+     41.55
+    ],
+    [
+     "Bylazora",
+     21.8,
+     41.72
+    ],
+    [
+     "Astibos",
+     22.2,
+     41.73
+    ],
+    [
+     "Agrianes",
+     22.9,
+     42.2
+    ]
+   ],
+   "note": "King Audoleon (c. 315-285 BC), whose daughter married Pyrrhos.",
+   "region": "The Balkans",
+   "blurb": "King Audoleon (c. 315-285 BC), whose daughter married Pyrrhos."
+  },
+  {
+   "key": "odrysia",
+   "name": "Odrysian Kingdom",
+   "culture": "thracian",
+   "names": "Thracian",
+   "color": "#c07a8a",
+   "capital": [
+    25.35,
+    42.62
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Seuthes",
+    "born": -350,
+    "spouse": "Berenike",
+    "spouse_born": -335,
+    "house": "House of Seuthes",
+    "children": [
+     [
+      "Hebryzelmis",
+      true,
+      -320
+     ],
+     [
+      "Teres",
+      true,
+      -318
+     ],
+     [
+      "Satokos",
+      true,
+      -316
+     ],
+     [
+      "Sadalas",
+      true,
+      -314
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Seuthopolis",
+     25.35,
+     42.62
+    ],
+    [
+     "Kabyle",
+     26.49,
+     42.53
+    ],
+    [
+     "Philippopolis",
+     24.75,
+     42.15
+    ],
+    [
+     "Beroe",
+     25.62,
+     42.42
+    ],
+    [
+     "Serdica",
+     23.32,
+     42.7
+    ],
+    [
+     "Bessi",
+     24.5,
+     41.9
+    ],
+    [
+     "Tonzos valley",
+     26.0,
+     42.4
+    ]
+   ],
+   "note": "Seuthes III and his queen Berenike; their four sons are named in the Seuthopolis inscription.",
+   "region": "Thrace",
+   "blurb": "Seuthes III and his queen Berenike; their four sons are named in the Seuthopolis inscription."
+  },
+  {
+   "key": "getae",
+   "name": "Getae",
+   "culture": "dacian",
+   "names": "Thracian",
+   "color": "#a57d6a",
+   "capital": [
+    26.84,
+    43.66
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Dromichaites",
+    "born": -340,
+    "spouse": "Zia",
+    "spouse_born": -335,
+    "house": "House of Helis",
+    "children": [
+     [
+      "Zalmodegikos",
+      true,
+      -316
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Helis",
+     26.84,
+     43.66
+    ],
+    [
+     "Wallachia",
+     25.5,
+     44.4
+    ],
+    [
+     "Lower Danube",
+     27.0,
+     44.3
+    ],
+    [
+     "Moldavia",
+     27.5,
+     47.0
+    ],
+    [
+     "Siret",
+     26.5,
+     46.2
+    ],
+    [
+     "Transylvania",
+     23.6,
+     46.0
+    ],
+    [
+     "Apulon",
+     23.57,
+     46.07
+    ],
+    [
+     "Argidava",
+     21.6,
+     45.3
+    ],
+    [
+     "Buridava",
+     24.3,
+     45.1
+    ]
+   ],
+   "note": "Dromichaites, king of the Getae, captured Lysimachos in c. 292 BC and let him go.",
+   "region": "The Danube",
+   "blurb": "Dromichaites, king of the Getae, captured Lysimachos in c. 292 BC and let him go."
+  },
+  {
+   "key": "lysimachus",
+   "name": "Lysimachos' Kingdom",
+   "culture": "macedonian",
+   "names": "Greek",
+   "color": "#bf598c",
+   "capital": [
+    26.75,
+    40.52
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Lysimachos",
+    "born": -360,
+    "spouse": "Amastris",
+    "spouse_born": -340,
+    "house": "House of Lysimachos",
+    "children": [
+     [
+      "Agathokles",
+      true,
+      -320
+     ],
+     [
+      "Eurydike",
+      false,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Lysimacheia",
+     26.75,
+     40.52
+    ],
+    [
+     "Abdera",
+     24.98,
+     40.94
+    ],
+    [
+     "Maroneia",
+     25.52,
+     40.87
+    ],
+    [
+     "Ainos",
+     26.08,
+     40.72
+    ],
+    [
+     "Perinthos",
+     27.96,
+     40.97
+    ],
+    [
+     "Kallatis",
+     28.6,
+     43.8
+    ],
+    [
+     "Tomis",
+     28.65,
+     44.17
+    ],
+    [
+     "Istros",
+     28.7,
+     44.55
+    ],
+    [
+     "Odessos",
+     27.91,
+     43.2
+    ],
+    [
+     "Mesembria",
+     27.72,
+     42.66
+    ],
+    [
+     "Apollonia Pontica",
+     27.7,
+     42.43
+    ],
+    [
+     "Sardis",
+     28.04,
+     38.49
+    ],
+    [
+     "Pergamon",
+     27.18,
+     39.13
+    ],
+    [
+     "Kyzikos",
+     27.89,
+     40.39
+    ],
+    [
+     "Lampsakos",
+     26.69,
+     40.35
+    ],
+    [
+     "Ilion",
+     26.24,
+     39.96
+    ],
+    [
+     "Smyrna",
+     27.14,
+     38.42
+    ],
+    [
+     "Kolophon",
+     27.14,
+     38.1
+    ],
+    [
+     "Magnesia",
+     27.53,
+     37.85
+    ],
+    [
+     "Tralleis",
+     27.84,
+     37.86
+    ],
+    [
+     "Halikarnassos",
+     27.42,
+     37.04
+    ],
+    [
+     "Mylasa",
+     27.78,
+     37.32
+    ],
+    [
+     "Kelainai",
+     30.17,
+     38.07
+    ],
+    [
+     "Gordion",
+     31.99,
+     39.65
+    ],
+    [
+     "Ancyra",
+     32.86,
+     39.93
+    ],
+    [
+     "Dorylaion",
+     30.53,
+     39.8
+    ],
+    [
+     "Nikaia",
+     29.72,
+     40.43
+    ],
+    [
+     "Prusa",
+     29.06,
+     40.18
+    ],
+    [
+     "Ikonion",
+     32.49,
+     37.87
+    ],
+    [
+     "Perge",
+     30.85,
+     36.96
+    ],
+    [
+     "Side",
+     31.39,
+     36.77
+    ],
+    [
+     "Sagalassos",
+     30.52,
+     37.68
+    ],
+    [
+     "Termessos",
+     30.47,
+     36.98
+    ],
+    [
+     "Pessinous",
+     31.58,
+     39.33
+    ],
+    [
+     "Kotiaion",
+     29.98,
+     39.42
+    ]
+   ],
+   "note": "After Ipsus (301 BC) Lysimachos added western and central Asia Minor to Thrace. In 302 BC he had married Amastris of Heraclea.",
+   "region": "Thrace and Asia Minor",
+   "blurb": "After Ipsus (301 BC) Lysimachos added western and central Asia Minor to Thrace. In 302 BC he had married Amastris of Heraclea."
+  },
+  {
+   "key": "byzantium",
+   "name": "Byzantium",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#4f9fb0",
+   "capital": [
+    28.98,
+    41.01
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Leon",
+    "born": -345,
+    "spouse": "Phaino",
+    "spouse_born": -340,
+    "house": "House of Byzas",
+    "children": [
+     [
+      "Byzas",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Byzantium",
+     28.98,
+     41.01,
+     35
+    ],
+    [
+     "Chalcedon",
+     29.03,
+     40.98,
+     25
+    ],
+    [
+     "Selymbria",
+     28.25,
+     41.08,
+     25
+    ]
+   ],
+   "note": "A free city holding the Bosporus and its grain ships.",
+   "region": "Thrace",
+   "blurb": "A free city holding the Bosporus and its grain ships."
+  },
+  {
+   "key": "bithynia",
+   "name": "Bithynia",
+   "culture": "thracian",
+   "names": "Thracian",
+   "color": "#b0654a",
+   "capital": [
+    30.4,
+    40.75
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Zipoites",
+    "born": -354,
+    "spouse": "Tatia",
+    "spouse_born": -340,
+    "house": "House of Doidalses",
+    "children": [
+     [
+      "Nikomedes",
+      true,
+      -320
+     ],
+     [
+      "Zipoites",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Bithynia",
+     30.4,
+     40.75
+    ],
+    [
+     "Astakos",
+     29.9,
+     40.72
+    ],
+    [
+     "Kalpe",
+     30.2,
+     41.15
+    ],
+    [
+     "Sangarios",
+     30.7,
+     40.4
+    ],
+    [
+     "Zipoition",
+     29.8,
+     40.95
+    ]
+   ],
+   "note": "Zipoites, who fought off Lysimachos' generals and took the title of king in 297 BC.",
+   "region": "Asia Minor",
+   "blurb": "Zipoites, who fought off Lysimachos' generals and took the title of king in 297 BC."
+  },
+  {
+   "key": "heraclea",
+   "name": "Heraclea Pontica",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#5fa0c0",
+   "capital": [
+    31.5,
+    41.28
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Klearchos",
+    "born": -330,
+    "spouse": "Timo",
+    "spouse_born": -325,
+    "house": "House of Klearchos",
+    "children": [
+     [
+      "Oxathres",
+      true,
+      -310
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Heraclea Pontica",
+     31.5,
+     41.28,
+     50
+    ],
+    [
+     "Tieion",
+     32.03,
+     41.57,
+     40
+    ],
+    [
+     "Amastris",
+     32.38,
+     41.75,
+     40
+    ],
+    [
+     "Kieros",
+     31.7,
+     40.9,
+     40
+    ]
+   ],
+   "note": "The tyrant house of Klearchos; Amastris, their mother, had married Lysimachos.",
+   "region": "Asia Minor",
+   "blurb": "The tyrant house of Klearchos; Amastris, their mother, had married Lysimachos."
+  },
+  {
+   "key": "pontus",
+   "name": "Pontus",
+   "culture": "persian",
+   "names": "Persian",
+   "color": "#a0522d",
+   "capital": [
+    33.9,
+    41.2
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Mithridates",
+    "born": -337,
+    "spouse": "Laodike",
+    "spouse_born": -330,
+    "house": "House of the Mithridatids",
+    "children": [
+     [
+      "Ariobarzanes",
+      true,
+      -310
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Kimiata",
+     33.9,
+     41.2
+    ],
+    [
+     "Gangra",
+     33.61,
+     40.6
+    ],
+    [
+     "Sinope",
+     35.15,
+     42.02
+    ],
+    [
+     "Pompeiopolis",
+     33.8,
+     41.5
+    ]
+   ],
+   "note": "Mithridates the Founder fled Antigonos in 302 BC to Kimiata in Paphlagonia, the seed of the kingdom of Pontus.",
+   "region": "Asia Minor",
+   "blurb": "Mithridates the Founder fled Antigonos in 302 BC to Kimiata in Paphlagonia, the seed of the kingdom of Pontus."
+  },
+  {
+   "key": "cappadocia",
+   "name": "Cappadocia",
+   "culture": "cappadocian",
+   "names": "Persian",
+   "color": "#c08a3a",
+   "capital": [
+    35.49,
+    38.72
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Ariarathes",
+    "born": -350,
+    "spouse": "Stateira",
+    "spouse_born": -340,
+    "house": "House of Ariarathes",
+    "children": [
+     [
+      "Ariaramnes",
+      true,
+      -320
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Mazaka",
+     35.49,
+     38.72
+    ],
+    [
+     "Tyana",
+     34.62,
+     37.83
+    ],
+    [
+     "Komana",
+     36.33,
+     38.33
+    ],
+    [
+     "Sebasteia",
+     37.02,
+     39.75
+    ],
+    [
+     "Zela",
+     35.9,
+     40.3
+    ],
+    [
+     "Amaseia",
+     35.83,
+     40.65
+    ],
+    [
+     "Komana Pontike",
+     36.33,
+     40.35
+    ],
+    [
+     "Amisos",
+     36.33,
+     41.29
+    ],
+    [
+     "Trapezus",
+     39.72,
+     41.0,
+     50
+    ],
+    [
+     "Nyssa",
+     34.7,
+     38.9
+    ],
+    [
+     "Archelais",
+     34.03,
+     38.37
+    ]
+   ],
+   "note": "Ariarathes II won back his father's Cappadocia c. 301 BC with Armenian help.",
+   "region": "Asia Minor",
+   "blurb": "Ariarathes II won back his father's Cappadocia c. 301 BC with Armenian help."
+  },
+  {
+   "key": "armenia",
+   "name": "Armenia",
+   "culture": "armenian",
+   "names": "Persian",
+   "color": "#b33a3a",
+   "capital": [
+    44.0,
+    40.08
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Orontes",
+    "born": -350,
+    "spouse": "Rhodogune",
+    "spouse_born": -340,
+    "house": "House of the Orontids",
+    "children": [
+     [
+      "Sames",
+      true,
+      -320
+     ],
+     [
+      "Arsames",
+      true,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Armavir",
+     44.0,
+     40.08
+    ],
+    [
+     "Erebuni",
+     44.51,
+     40.18
+    ],
+    [
+     "Tushpa",
+     43.33,
+     38.5
+    ],
+    [
+     "Sevan",
+     45.2,
+     40.4
+    ],
+    [
+     "Karin",
+     41.27,
+     39.9
+    ],
+    [
+     "Arsamosata",
+     39.7,
+     38.7
+    ],
+    [
+     "Sophene",
+     40.2,
+     38.4
+    ],
+    [
+     "Samosata",
+     38.52,
+     37.53
+    ],
+    [
+     "Commagene",
+     37.9,
+     37.8
+    ],
+    [
+     "Tigranokerta",
+     41.0,
+     38.1
+    ],
+    [
+     "Mush",
+     41.5,
+     38.75
+    ],
+    [
+     "Nakhchivan",
+     45.4,
+     39.2
+    ]
+   ],
+   "note": "The Orontid kings of Armenia, Sophene and Commagene, nominally under the Seleucids.",
+   "region": "Armenia",
+   "blurb": "The Orontid kings of Armenia, Sophene and Commagene, nominally under the Seleucids."
+  },
+  {
+   "key": "atropatene",
+   "name": "Atropatene",
+   "culture": "median",
+   "names": "Persian",
+   "color": "#7a5a9a",
+   "capital": [
+    47.0,
+    36.8
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Atropates",
+    "born": -370,
+    "spouse": "Parysatis",
+    "spouse_born": -355,
+    "house": "House of Atropates",
+    "children": [
+     [
+      "Artabazanes",
+      true,
+      -330
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Ganzak",
+     47.0,
+     36.8
+    ],
+    [
+     "Tabriz",
+     46.3,
+     38.08
+    ],
+    [
+     "Ardabil",
+     48.3,
+     38.25
+    ],
+    [
+     "Urmia",
+     45.07,
+     37.55
+    ],
+    [
+     "Maragheh",
+     46.24,
+     37.39
+    ],
+    [
+     "Zanjan",
+     48.48,
+     36.67
+    ],
+    [
+     "Mughan",
+     48.0,
+     39.4
+    ]
+   ],
+   "note": "Northern Media, which Atropates, satrap under Alexander, kept as a kingdom of its own.",
+   "region": "Iran",
+   "blurb": "Northern Media, which Atropates, satrap under Alexander, kept as a kingdom of its own."
+  },
+  {
+   "key": "kartli",
+   "name": "Kartli (Caucasian Iberia)",
+   "culture": "colchian",
+   "names": "Caucasian",
+   "color": "#6f8f5f",
+   "capital": [
+    44.7,
+    41.84
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Parnavaz",
+    "born": -326,
+    "spouse": "Durdzukeli",
+    "spouse_born": -320,
+    "house": "House of Parnavaz",
+    "children": [
+     [
+      "Saurmag",
+      true,
+      -305
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Mtskheta",
+     44.7,
+     41.84
+    ],
+    [
+     "Uplistsikhe",
+     44.2,
+     41.97
+    ],
+    [
+     "Tsunda",
+     43.5,
+     41.4
+    ],
+    [
+     "Kakheti",
+     45.5,
+     41.9
+    ],
+    [
+     "Samshvilde",
+     44.5,
+     41.5
+    ]
+   ],
+   "note": "Parnavaz, remembered as the first king of Kartli (from c. 299 BC).",
+   "region": "The Caucasus",
+   "blurb": "Parnavaz, remembered as the first king of Kartli (from c. 299 BC)."
+  },
+  {
+   "key": "colchis",
+   "name": "Colchis",
+   "culture": "colchian",
+   "names": "Caucasian",
+   "color": "#5f9f7f",
+   "capital": [
+    42.52,
+    42.08
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Kuji",
+    "born": -340,
+    "spouse": "Medea",
+    "spouse_born": -335,
+    "house": "House of Kuji",
+    "children": [
+     [
+      "Aietes",
+      true,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Vani",
+     42.52,
+     42.08
+    ],
+    [
+     "Phasis",
+     41.67,
+     42.15,
+     50
+    ],
+    [
+     "Kutaisi",
+     42.7,
+     42.27
+    ],
+    [
+     "Dioskurias",
+     41.0,
+     43.0
+    ],
+    [
+     "Pityus",
+     40.3,
+     43.17
+    ],
+    [
+     "Svaneti",
+     42.7,
+     43.0
+    ],
+    [
+     "Apsaros",
+     41.6,
+     41.6
+    ]
+   ],
+   "note": "Kuji, eristavi of Colchis, Parnavaz's ally in the Georgian chronicles.",
+   "region": "The Caucasus",
+   "blurb": "Kuji, eristavi of Colchis, Parnavaz's ally in the Georgian chronicles."
+  },
+  {
+   "key": "albania",
+   "name": "Caucasian Albania",
+   "culture": "colchian",
+   "names": "Caucasian",
+   "color": "#7f9a6a",
+   "capital": [
+    47.85,
+    40.97
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Oroises",
+    "born": -345,
+    "spouse": "Zarine",
+    "spouse_born": -340,
+    "house": "House of Kabalaka",
+    "children": [
+     [
+      "Kosis",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Kabalaka",
+     47.85,
+     40.97
+    ],
+    [
+     "Shemakha",
+     48.63,
+     40.63
+    ],
+    [
+     "Derbent",
+     48.3,
+     42.05
+    ],
+    [
+     "Kura plain",
+     47.5,
+     40.2
+    ]
+   ],
+   "note": "",
+   "region": "The Caucasus",
+   "blurb": ""
+  },
+  {
+   "key": "bosporus",
+   "name": "Bosporan Kingdom",
+   "culture": "greek",
+   "names": "Greek",
+   "color": "#4a90a0",
+   "capital": [
+    36.47,
+    45.35
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Spartokos",
+    "born": -330,
+    "spouse": "Kamasarye",
+    "spouse_born": -325,
+    "house": "House of the Spartokids",
+    "children": [
+     [
+      "Pairisades",
+      true,
+      -310
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Pantikapaion",
+     36.47,
+     45.35
+    ],
+    [
+     "Phanagoria",
+     36.78,
+     45.28
+    ],
+    [
+     "Theodosia",
+     35.38,
+     45.03
+    ],
+    [
+     "Gorgippia",
+     37.3,
+     44.9
+    ],
+    [
+     "Hermonassa",
+     36.7,
+     45.2
+    ],
+    [
+     "Sindike",
+     37.4,
+     45.1
+    ],
+    [
+     "Kytaia",
+     36.2,
+     45.2
+    ]
+   ],
+   "note": "Spartokos III, of the house that ruled the Cimmerian Bosporus and fed Athens with grain.",
+   "region": "The Black Sea",
+   "blurb": "Spartokos III, of the house that ruled the Cimmerian Bosporus and fed Athens with grain."
+  },
+  {
+   "key": "scythia",
+   "name": "Scythians",
+   "culture": "scythian",
+   "names": "Scythian",
+   "color": "#59a6bf",
+   "capital": [
+    34.14,
+    44.95
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Agaros",
+    "born": -350,
+    "spouse": "Opia",
+    "spouse_born": -340,
+    "house": "House of Agaros",
+    "children": [
+     [
+      "Kanitos",
+      true,
+      -322
+     ],
+     [
+      "Saulios",
+      true,
+      -318
+     ],
+     [
+      "Amage",
+      false,
+      -315
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Neapolis Scythica",
+     34.14,
+     44.95
+    ],
+    [
+     "Kamenka",
+     34.4,
+     47.5
+    ],
+    [
+     "Olbia",
+     31.9,
+     46.69
+    ],
+    [
+     "Tyras",
+     30.35,
+     46.2
+    ],
+    [
+     "Dnieper steppe",
+     33.0,
+     47.0
+    ],
+    [
+     "Azov steppe",
+     35.5,
+     47.2
+    ],
+    [
+     "Don mouth",
+     38.5,
+     47.4
+    ],
+    [
+     "Bug",
+     30.5,
+     47.7
+    ],
+    [
+     "Budjak",
+     29.0,
+     46.2
+    ],
+    [
+     "Crimean steppe",
+     33.8,
+     45.5
+    ]
+   ],
+   "note": "Agaros, a Scythian king named by Diodorus for 309 BC.",
+   "region": "The steppe",
+   "blurb": "Agaros, a Scythian king named by Diodorus for 309 BC."
+  },
+  {
+   "key": "sarmatians",
+   "name": "Sarmatians",
+   "culture": "sarmatian",
+   "names": "Scythian",
+   "color": "#7fb0c8",
+   "capital": [
+    43.0,
+    46.5
+   ],
+   "tribal": true,
+   "law": "male",
+   "ruler": {
+    "name": "Gatalos",
+    "born": -345,
+    "spouse": "Tirgatao",
+    "spouse_born": -340,
+    "house": "House of the Syrmatae",
+    "children": [
+     [
+      "Rhoxanes",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Lower Don",
+     41.0,
+     47.0
+    ],
+    [
+     "Kuban",
+     39.5,
+     45.3
+    ],
+    [
+     "Lower Volga",
+     45.5,
+     47.2
+    ],
+    [
+     "Manych",
+     43.5,
+     46.2
+    ],
+    [
+     "Kalmyk steppe",
+     45.5,
+     46.0
+    ],
+    [
+     "Terek",
+     45.0,
+     43.8
+    ],
+    [
+     "Stavropol",
+     42.0,
+     45.0
+    ],
+    [
+     "Maeotis",
+     38.8,
+     46.3
+    ]
+   ],
+   "note": "Iranian nomads east of the Don, with the Maeotian farmers of the Kuban.",
+   "region": "The steppe",
+   "blurb": "Iranian nomads east of the Don, with the Maeotian farmers of the Kuban."
+  },
+  {
+   "key": "seleucid",
+   "name": "Seleucid Kingdom",
+   "culture": "macedonian",
+   "names": "Greek",
+   "color": "#5940a6",
+   "capital": [
+    44.52,
+    33.1
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Seleukos",
+    "born": -358,
+    "spouse": "Apama",
+    "spouse_born": -345,
+    "house": "House of Seleukos",
+    "children": [
+     [
+      "Antiochos",
+      true,
+      -324
+     ],
+     [
+      "Apama",
+      false,
+      -320
+     ],
+     [
+      "Achaios",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Antioch",
+     36.16,
+     36.2
+    ],
+    [
+     "Seleucia Pieria",
+     35.93,
+     36.12
+    ],
+    [
+     "Apamea",
+     36.4,
+     35.42
+    ],
+    [
+     "Laodicea",
+     35.79,
+     35.52
+    ],
+    [
+     "Arados",
+     35.86,
+     34.86
+    ],
+    [
+     "Hamath",
+     36.75,
+     35.13
+    ],
+    [
+     "Beroia",
+     37.16,
+     36.2
+    ],
+    [
+     "Kyrrhos",
+     36.87,
+     36.74
+    ],
+    [
+     "Hierapolis",
+     37.97,
+     36.52
+    ],
+    [
+     "Zeugma",
+     37.87,
+     37.06
+    ],
+    [
+     "Edessa",
+     38.79,
+     37.16
+    ],
+    [
+     "Karrhai",
+     39.03,
+     36.87
+    ],
+    [
+     "Nisibis",
+     41.22,
+     37.07
+    ],
+    [
+     "Dura",
+     40.73,
+     34.75
+    ],
+    [
+     "Palmyra",
+     38.27,
+     34.55
+    ],
+    [
+     "Emesa",
+     36.72,
+     34.73
+    ],
+    [
+     "Arbela",
+     44.0,
+     36.19
+    ],
+    [
+     "Nineveh",
+     43.15,
+     36.36
+    ],
+    [
+     "Assur",
+     43.26,
+     35.46
+    ],
+    [
+     "Seleucia on the Tigris",
+     44.52,
+     33.1
+    ],
+    [
+     "Babylon",
+     44.42,
+     32.54
+    ],
+    [
+     "Nippur",
+     45.23,
+     32.13
+    ],
+    [
+     "Uruk",
+     45.64,
+     31.32
+    ],
+    [
+     "Ur",
+     46.1,
+     30.96
+    ],
+    [
+     "Charax",
+     47.9,
+     30.5
+    ],
+    [
+     "Susa",
+     48.26,
+     32.19
+    ],
+    [
+     "Elymais",
+     49.3,
+     31.9
+    ],
+    [
+     "Persepolis",
+     52.89,
+     29.93
+    ],
+    [
+     "Pasargadai",
+     53.17,
+     30.19
+    ],
+    [
+     "Persis coast",
+     51.0,
+     28.9
+    ],
+    [
+     "Carmania",
+     54.5,
+     29.3
+    ],
+    [
+     "Ekbatana",
+     48.52,
+     34.8
+    ],
+    [
+     "Rhagai",
+     51.43,
+     35.6
+    ],
+    [
+     "Hekatompylos",
+     54.3,
+     36.2
+    ],
+    [
+     "Media",
+     47.5,
+     34.3
+    ],
+    [
+     "Aspadana",
+     51.67,
+     32.65
+    ],
+    [
+     "Yazd",
+     54.4,
+     31.9
+    ],
+    [
+     "Kashan",
+     51.4,
+     34.0
+    ],
+    [
+     "Hyrcania",
+     54.4,
+     36.8
+    ],
+    [
+     "Tapuria",
+     52.5,
+     36.5
+    ],
+    [
+     "Gilan",
+     49.6,
+     37.3
+    ],
+    [
+     "Mesene",
+     47.0,
+     31.2
+    ],
+    [
+     "Sittakene",
+     45.5,
+     34.0
+    ],
+    [
+     "Kermanshah",
+     47.06,
+     34.31
+    ]
+   ],
+   "note": "Seleukos Nikator, master of Babylon, Iran and (after Ipsus) northern Syria, where he founded Antioch in 300 BC.",
+   "region": "Syria, Mesopotamia and Iran",
+   "blurb": "The largest of Alexander's successor kingdoms, stretching deep into the east."
+  },
+  {
+   "key": "nabatea",
+   "name": "Nabataeans",
+   "culture": "nabataean",
+   "names": "Nabataean",
+   "color": "#b38c4d",
+   "capital": [
+    35.44,
+    30.33
+   ],
+   "tribal": false,
+   "law": "any",
+   "ruler": {
+    "name": "Aretas",
+    "born": -345,
+    "spouse": "Huldu",
+    "spouse_born": -340,
+    "house": "House of Aretas",
+    "children": [
+     [
+      "Obodas",
+      true,
+      -320
+     ],
+     [
+      "Shaqilat",
+      false,
+      -317
+     ],
+     [
+      "Rabbel",
+      true,
+      -313
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Petra",
+     35.44,
+     30.33
+    ],
+    [
+     "Oboda",
+     34.77,
+     30.79
+    ],
+    [
+     "Edom",
+     35.6,
+     30.8
+    ],
+    [
+     "Bostra",
+     36.48,
+     32.52
+    ],
+    [
+     "Hauran",
+     36.6,
+     32.8
+    ],
+    [
+     "Dumah",
+     39.87,
+     29.81,
+     150
+    ],
+    [
+     "Aila",
+     35.0,
+     29.55
+    ]
+   ],
+   "note": "Nabataean queens ruled beside their husbands and appear on the coins.",
+   "region": "Arabia",
+   "blurb": "Desert traders controlling the incense routes, centred on their rock-cut capital."
+  },
+  {
+   "key": "lihyan",
+   "name": "Lihyan",
+   "culture": "arab",
+   "names": "Arabian",
+   "color": "#c9a56a",
+   "capital": [
+    37.9,
+    26.6
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Talmi",
+    "born": -345,
+    "spouse": "Amat-Wadd",
+    "spouse_born": -340,
+    "house": "House of Dedan",
+    "children": [
+     [
+      "Dhu'aslan",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Dedan",
+     37.9,
+     26.6
+    ],
+    [
+     "Hegra",
+     37.9,
+     26.8
+    ],
+    [
+     "Tayma",
+     38.55,
+     27.63
+    ],
+    [
+     "Khaybar",
+     39.29,
+     25.7
+    ],
+    [
+     "Yathrib",
+     39.61,
+     24.47
+    ]
+   ],
+   "note": "The kingdom of Dedan on the Incense Road.",
+   "region": "Arabia",
+   "blurb": "The kingdom of Dedan on the Incense Road."
+  },
+  {
+   "key": "saba",
+   "name": "Saba",
+   "culture": "sabaean",
+   "names": "Arabian",
+   "color": "#d4a04a",
+   "capital": [
+    45.33,
+    15.42
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Yada'il",
+    "born": -345,
+    "spouse": "Malikat",
+    "spouse_born": -340,
+    "house": "House of the Mukarribs",
+    "children": [
+     [
+      "Karib'il",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Marib",
+     45.33,
+     15.42
+    ],
+    [
+     "Sirwah",
+     45.07,
+     15.43
+    ],
+    [
+     "San'a",
+     44.2,
+     15.35
+    ],
+    [
+     "Zafar",
+     44.4,
+     14.2
+    ],
+    [
+     "Nashq",
+     45.07,
+     16.2
+    ],
+    [
+     "Najran",
+     44.13,
+     17.5,
+     150
+    ],
+    [
+     "Tihama",
+     43.3,
+     15.0
+    ]
+   ],
+   "note": "The oldest of the incense kingdoms, whose dam made Marib an oasis.",
+   "region": "Arabia",
+   "blurb": "The oldest of the incense kingdoms, whose dam made Marib an oasis."
+  },
+  {
+   "key": "main",
+   "name": "Ma'in",
+   "culture": "sabaean",
+   "names": "Arabian",
+   "color": "#dcb070",
+   "capital": [
+    45.02,
+    16.0
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Waqah'il",
+    "born": -345,
+    "spouse": "Hawfat",
+    "spouse_born": -340,
+    "house": "House of Qarnaw",
+    "children": [
+     [
+      "Abkarib",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Qarnaw",
+     45.1,
+     16.1,
+     90
+    ],
+    [
+     "Yathill",
+     45.02,
+     16.0,
+     80
+    ],
+    [
+     "Jawf",
+     44.8,
+     16.3,
+     90
+    ],
+    [
+     "Wadi Jawf east",
+     45.5,
+     16.3,
+     80
+    ]
+   ],
+   "note": "The Minaeans, the great caravan traders of the incense.",
+   "region": "Arabia",
+   "blurb": "The Minaeans, the great caravan traders of the incense."
+  },
+  {
+   "key": "qataban",
+   "name": "Qataban",
+   "culture": "sabaean",
+   "names": "Arabian",
+   "color": "#c68c3a",
+   "capital": [
+    45.9,
+    14.6
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Yada'ab",
+    "born": -345,
+    "spouse": "Barirum",
+    "spouse_born": -340,
+    "house": "House of Timna",
+    "children": [
+     [
+      "Shahr",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Timna",
+     45.9,
+     14.6
+    ],
+    [
+     "Hajar bin Humeid",
+     45.75,
+     14.7
+    ],
+    [
+     "Bayhan",
+     45.8,
+     14.9
+    ],
+    [
+     "Aden",
+     45.03,
+     12.79
+    ],
+    [
+     "Lahij",
+     44.9,
+     13.05
+    ]
+   ],
+   "note": "",
+   "region": "Arabia",
+   "blurb": ""
+  },
+  {
+   "key": "hadramawt",
+   "name": "Hadramawt",
+   "culture": "sabaean",
+   "names": "Arabian",
+   "color": "#b07a3a",
+   "capital": [
+    47.0,
+    14.9
+   ],
+   "tribal": false,
+   "law": "male",
+   "ruler": {
+    "name": "Yada'il",
+    "born": -345,
+    "spouse": "Ghanamat",
+    "spouse_born": -340,
+    "house": "House of Shabwa",
+    "children": [
+     [
+      "Ilriyam",
+      true,
+      -318
+     ]
+    ]
+   },
+   "districts": [
+    [
+     "Shabwa",
+     47.0,
+     14.9
+    ],
+    [
+     "Shibam",
+     48.62,
+     15.93
+    ],
+    [
+     "Tarim",
+     49.0,
+     16.05
+    ],
+    [
+     "Qana",
+     48.4,
+     14.0
+    ],
+    [
+     "Mayfa'a",
+     47.5,
+     14.2
+    ],
+    [
+     "Sumhuram",
+     54.4,
+     17.0,
+     120
+    ],
+    [
+     "Mahra",
+     51.5,
+     16.5,
+     150
+    ]
+   ],
+   "note": "The land of frankincense.",
+   "region": "Arabia",
+   "blurb": "The land of frankincense."
+  }
+ ]
+}

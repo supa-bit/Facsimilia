@@ -16,6 +16,12 @@ namespace Facsimilia.Dynasties;
 public sealed partial class CharacterRegistry
 {
     public Dictionary<int, Character> Characters { get; } = new();
+
+    /// <summary>The ids of everyone alive, so a year looks only at the living, not at everyone who ever lived.</summary>
+    readonly SortedSet<int> _living = new();
+
+    /// <summary>Everyone alive now, in the order they were created.</summary>
+    public List<Character> Living() => _living.Select(id => Characters[id]).Where(c => c.IsAlive).ToList();
     public Dictionary<int, Dynasty> Dynasties { get; } = new();
     public Dictionary<int, Realm> Realms { get; } = new();
 
@@ -36,6 +42,8 @@ public sealed partial class CharacterRegistry
     {
         var c = new Character(_nextCharacterId++, name, sex, birthYear, dynastyId, fatherId, motherId, culture);
         Characters[c.Id] = c;
+        if (c.IsAlive)
+            _living.Add(c.Id);
         if (dynastyId != -1 && Dynasties.TryGetValue(dynastyId, out var dynasty))
             dynasty.MemberIds.Add(c.Id);
         if (fatherId != -1 && Characters.TryGetValue(fatherId, out var father))
@@ -73,6 +81,7 @@ public sealed partial class CharacterRegistry
     public void Kill(Character character, int deathYear)
     {
         character.IsAlive = false;
+        _living.Remove(character.Id);
         character.DeathYear = deathYear;
         if (character.SpouseId != -1 && Characters.TryGetValue(character.SpouseId, out var spouse))
             spouse.SpouseId = -1;
@@ -244,9 +253,10 @@ public sealed partial class CharacterRegistry
     public void LoadFromDict(GDictionary data)
     {
         Characters.Clear();
+        _living.Clear();
         Dynasties.Clear();
         Realms.Clear();
-        foreach (var (_, value) in Section(data, "realms"))
+        foreach (var value in Section(data, "realms").Values)
         {
             var rd = value.AsGodotDictionary();
             var col = rd["color"].AsGodotArray();
@@ -258,7 +268,7 @@ public sealed partial class CharacterRegistry
                 (SuccessionLaw)rd["succession_law"].AsInt32(), color, culture);
             Realms[r.Id] = r;
         }
-        foreach (var (_, value) in Section(data, "characters"))
+        foreach (var value in Section(data, "characters").Values)
         {
             var cd = value.AsGodotDictionary();
             var c = new Character(cd["id"].AsInt32(), cd["name"].AsString(), cd["sex"].AsString(),
@@ -272,8 +282,10 @@ public sealed partial class CharacterRegistry
                 Traits = cd["traits"].AsGodotArray().Select(v => v.AsString()).ToList(),
             };
             Characters[c.Id] = c;
+            if (c.IsAlive)
+                _living.Add(c.Id);
         }
-        foreach (var (_, value) in Section(data, "dynasties"))
+        foreach (var value in Section(data, "dynasties").Values)
         {
             var dd = value.AsGodotDictionary();
             var d = new Dynasty(dd["id"].AsInt32(), dd["name"].AsString(), dd["founder_id"].AsInt32())
@@ -288,7 +300,7 @@ public sealed partial class CharacterRegistry
         foreach (var r in Realms.Values)
             if (Characters.TryGetValue(r.RulerId, out var ruler) && ruler.DynastyId != -1)
                 cultureByDynasty.TryAdd(ruler.DynastyId, r.Culture);
-        foreach (var (_, value) in Section(data, "characters"))
+        foreach (var value in Section(data, "characters").Values)
         {
             var cd = value.AsGodotDictionary();
             var c = Characters[cd["id"].AsInt32()];

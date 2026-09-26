@@ -1,31 +1,404 @@
 {
  "about": "History's campaigns for the other realms (decision 'Playable 18', suggested option: historical goals). When the years come, the realm declares war on the target and presses into the named geographic regions (the 38 ancient regions); it makes peace when the goal's years are over or it is losing. The pull is history's, not a script: a realm too weak to win, or already beaten by the player, may fail. Dates are the historical wars (Polybius, Plutarch, Diodorus, Appian); a goal whose target realm no longer holds land there does nothing.",
  "goals": [
-  {"realm": "antigonus", "target": "greek_world", "regions": ["Macedonia", "Hellas"], "from": -295, "to": -287, "why": "Demetrius Poliorcetes seizes the throne of Macedon (294 BC)."},
-  {"realm": "lysimachus", "target": "antigonus", "regions": ["Lydia", "Phrygia"], "from": -287, "to": -285, "why": "Lysimachus takes Demetrius' cities in Asia Minor."},
-  {"realm": "seleucid", "target": "antigonus", "regions": ["Cilicia", "Syria"], "from": -296, "to": -286, "why": "Seleucus takes Cilicia and the Syrian coast from Demetrius."},
-  {"realm": "seleucid", "target": "lysimachus", "regions": ["Lydia", "Phrygia", "Cappadocia", "Thracia"], "from": -282, "to": -280, "why": "The war of Corupedium: Seleucus overthrows Lysimachus (281 BC)."},
-  {"realm": "gaul", "target": "greek_world", "regions": ["Macedonia", "Hellas", "Thracia"], "from": -280, "to": -277, "why": "The great Gallic invasion of Macedon and Greece (279 BC)."},
-  {"realm": "rome", "target": "greek_world", "regions": ["Italia"], "from": -281, "to": -272, "why": "The Pyrrhic War: Rome against Tarentum and Pyrrhus of Epirus."},
-  {"realm": "seleucid", "target": "egypt", "regions": ["Syria", "Arabia Petraea"], "from": -274, "to": -271, "why": "The First Syrian War."},
-  {"realm": "rome", "target": "carthage", "regions": ["Sicilia"], "from": -264, "to": -241, "why": "The First Punic War: Rome takes Sicily."},
-  {"realm": "seleucid", "target": "egypt", "regions": ["Syria", "Cilicia", "Lydia"], "from": -260, "to": -253, "why": "The Second Syrian War."},
-  {"realm": "egypt", "target": "seleucid", "regions": ["Syria", "Cilicia"], "from": -246, "to": -241, "why": "The Third Syrian War: Ptolemy III marches to Babylon."},
-  {"realm": "rome", "target": "carthage", "regions": ["Italia"], "from": -238, "to": -237, "why": "Rome seizes Sardinia and Corsica."},
-  {"realm": "carthage", "target": "iberia", "regions": ["Hispania"], "from": -237, "to": -219, "why": "The Barcids conquer southern and eastern Spain."},
-  {"realm": "rome", "target": "gaul", "regions": ["Italia"], "from": -225, "to": -222, "why": "Rome conquers Cisalpine Gaul after Telamon."},
-  {"realm": "seleucid", "target": "egypt", "regions": ["Syria", "Arabia Petraea"], "from": -219, "to": -217, "why": "The Fourth Syrian War, ending at Raphia."},
-  {"realm": "rome", "target": "carthage", "regions": ["Hispania", "Africa"], "from": -218, "to": -201, "why": "The Second Punic War: Rome takes Spain and brings Carthage to its knees."},
-  {"realm": "seleucid", "target": "egypt", "regions": ["Syria", "Arabia Petraea"], "from": -202, "to": -195, "why": "The Fifth Syrian War: Antiochus III wins Coele-Syria at Panium."},
-  {"realm": "rome", "target": "greek_world", "regions": ["Macedonia", "Hellas"], "from": -200, "to": -196, "why": "The Second Macedonian War."},
-  {"realm": "rome", "target": "seleucid", "regions": ["Lydia", "Phrygia"], "from": -192, "to": -188, "why": "The war with Antiochus the Great, ending at Apamea."},
-  {"realm": "rome", "target": "iberia", "regions": ["Hispania"], "from": -181, "to": -133, "why": "The Celtiberian and Lusitanian wars, to Numantia."},
-  {"realm": "rome", "target": "carthage", "regions": ["Africa"], "from": -149, "to": -146, "why": "The Third Punic War: Carthage destroyed."},
-  {"realm": "rome", "target": "gaul", "regions": ["Gallia"], "from": -125, "to": -121, "why": "Rome conquers southern Gaul (Gallia Narbonensis)."},
-  {"realm": "rome", "target": "gaul", "regions": ["Gallia"], "from": -58, "to": -50, "why": "Caesar's conquest of Gaul."},
-  {"realm": "rome", "target": "seleucid", "regions": ["Syria", "Cilicia"], "from": -64, "to": -63, "why": "Pompey ends the Seleucid kingdom."},
-  {"realm": "rome", "target": "egypt", "regions": ["Aegyptus"], "from": -31, "to": -30, "why": "Octavian takes Egypt."},
-  {"realm": "rome", "target": "nabatea", "regions": ["Arabia Petraea"], "from": 106, "to": 106, "why": "Trajan annexes the Nabataean kingdom."},
-  {"realm": "rome", "target": "scythia", "regions": ["Dacia"], "from": 101, "to": 106, "why": "Trajan's Dacian Wars."}
+  {
+   "realm": "rome",
+   "target": "samnites",
+   "regions": [
+    "Italia"
+   ],
+   "from": -298,
+   "to": -290,
+   "why": "The Third Samnite War: Rome breaks the Samnites (Sentinum, 295 BC)."
+  },
+  {
+   "realm": "rome",
+   "target": "etruscans",
+   "regions": [
+    "Italia"
+   ],
+   "from": -298,
+   "to": -280,
+   "why": "Rome subdues the Etruscan and Umbrian cities."
+  },
+  {
+   "realm": "seleucid",
+   "target": "antigonus",
+   "regions": [
+    "Cilicia",
+    "Syria"
+   ],
+   "from": -296,
+   "to": -286,
+   "why": "Seleucus takes Cilicia and the Syrian coast from Demetrius."
+  },
+  {
+   "realm": "antigonus",
+   "target": "greek_world",
+   "regions": [
+    "Macedonia",
+    "Hellas"
+   ],
+   "from": -295,
+   "to": -287,
+   "why": "Demetrius Poliorcetes seizes the throne of Macedon (294 BC)."
+  },
+  {
+   "realm": "lysimachus",
+   "target": "getae",
+   "regions": [
+    "Dacia"
+   ],
+   "from": -292,
+   "to": -291,
+   "why": "Lysimachus marches against Dromichaetes of the Getae - and is captured."
+  },
+  {
+   "realm": "epirus",
+   "target": "greek_world",
+   "regions": [
+    "Macedonia"
+   ],
+   "from": -288,
+   "to": -285,
+   "why": "Pyrrhus and Lysimachus share Macedon between them."
+  },
+  {
+   "realm": "lysimachus",
+   "target": "antigonus",
+   "regions": [
+    "Lydia",
+    "Phrygia"
+   ],
+   "from": -287,
+   "to": -285,
+   "why": "Lysimachus takes Demetrius' cities in Asia Minor."
+  },
+  {
+   "realm": "seleucid",
+   "target": "lysimachus",
+   "regions": [
+    "Lydia",
+    "Phrygia",
+    "Cappadocia",
+    "Thracia"
+   ],
+   "from": -282,
+   "to": -280,
+   "why": "The war of Corupedium: Seleucus overthrows Lysimachus (281 BC)."
+  },
+  {
+   "realm": "rome",
+   "target": "lucanians",
+   "regions": [
+    "Italia"
+   ],
+   "from": -282,
+   "to": -272,
+   "why": "Rome subdues the Lucanians and Bruttians."
+  },
+  {
+   "realm": "rome",
+   "target": "tarentum",
+   "regions": [
+    "Italia"
+   ],
+   "from": -281,
+   "to": -272,
+   "why": "The Pyrrhic War: Rome against Tarentum and Pyrrhus of Epirus."
+  },
+  {
+   "realm": "danube_celts",
+   "target": "greek_world",
+   "regions": [
+    "Macedonia",
+    "Hellas",
+    "Thracia"
+   ],
+   "from": -280,
+   "to": -277,
+   "why": "The great Gallic invasion of Macedon and Greece (279 BC)."
+  },
+  {
+   "realm": "epirus",
+   "target": "rome",
+   "regions": [
+    "Italia"
+   ],
+   "from": -280,
+   "to": -275,
+   "why": "Pyrrhus crosses to Italy to fight for Tarentum."
+  },
+  {
+   "realm": "seleucid",
+   "target": "egypt",
+   "regions": [
+    "Syria",
+    "Arabia Petraea"
+   ],
+   "from": -274,
+   "to": -271,
+   "why": "The First Syrian War."
+  },
+  {
+   "realm": "rome",
+   "target": "carthage",
+   "regions": [
+    "Sicilia"
+   ],
+   "from": -264,
+   "to": -241,
+   "why": "The First Punic War: Rome takes Sicily."
+  },
+  {
+   "realm": "seleucid",
+   "target": "egypt",
+   "regions": [
+    "Syria",
+    "Cilicia",
+    "Lydia"
+   ],
+   "from": -260,
+   "to": -253,
+   "why": "The Second Syrian War."
+  },
+  {
+   "realm": "egypt",
+   "target": "seleucid",
+   "regions": [
+    "Syria",
+    "Cilicia"
+   ],
+   "from": -246,
+   "to": -241,
+   "why": "The Third Syrian War: Ptolemy III marches to Babylon."
+  },
+  {
+   "realm": "rome",
+   "target": "carthage",
+   "regions": [
+    "Italia"
+   ],
+   "from": -238,
+   "to": -237,
+   "why": "Rome seizes Sardinia and Corsica."
+  },
+  {
+   "realm": "carthage",
+   "target": "iberia",
+   "regions": [
+    "Hispania"
+   ],
+   "from": -237,
+   "to": -219,
+   "why": "The Barcids conquer southern and eastern Spain."
+  },
+  {
+   "realm": "rome",
+   "target": "illyria",
+   "regions": [
+    "Illyricum"
+   ],
+   "from": -229,
+   "to": -228,
+   "why": "The First Illyrian War against Queen Teuta."
+  },
+  {
+   "realm": "rome",
+   "target": "cisalpine",
+   "regions": [
+    "Italia"
+   ],
+   "from": -225,
+   "to": -222,
+   "why": "Rome conquers Cisalpine Gaul after Telamon."
+  },
+  {
+   "realm": "seleucid",
+   "target": "egypt",
+   "regions": [
+    "Syria",
+    "Arabia Petraea"
+   ],
+   "from": -219,
+   "to": -217,
+   "why": "The Fourth Syrian War, ending at Raphia."
+  },
+  {
+   "realm": "rome",
+   "target": "carthage",
+   "regions": [
+    "Hispania",
+    "Africa"
+   ],
+   "from": -218,
+   "to": -201,
+   "why": "The Second Punic War: Rome takes Spain and brings Carthage to its knees."
+  },
+  {
+   "realm": "rome",
+   "target": "syracuse",
+   "regions": [
+    "Sicilia"
+   ],
+   "from": -214,
+   "to": -212,
+   "why": "Marcellus besieges and takes Syracuse."
+  },
+  {
+   "realm": "seleucid",
+   "target": "egypt",
+   "regions": [
+    "Syria",
+    "Arabia Petraea"
+   ],
+   "from": -202,
+   "to": -195,
+   "why": "The Fifth Syrian War: Antiochus III wins Coele-Syria at Panium."
+  },
+  {
+   "realm": "rome",
+   "target": "greek_world",
+   "regions": [
+    "Macedonia",
+    "Hellas"
+   ],
+   "from": -200,
+   "to": -196,
+   "why": "The Second Macedonian War."
+  },
+  {
+   "realm": "rome",
+   "target": "seleucid",
+   "regions": [
+    "Lydia",
+    "Phrygia"
+   ],
+   "from": -192,
+   "to": -188,
+   "why": "The war with Antiochus the Great, ending at Apamea."
+  },
+  {
+   "realm": "rome",
+   "target": "celtiberia",
+   "regions": [
+    "Hispania"
+   ],
+   "from": -181,
+   "to": -133,
+   "why": "The Celtiberian and Lusitanian wars, to Numantia."
+  },
+  {
+   "realm": "rome",
+   "target": "lusitania",
+   "regions": [
+    "Hispania"
+   ],
+   "from": -155,
+   "to": -139,
+   "why": "The Lusitanian War against Viriathus."
+  },
+  {
+   "realm": "rome",
+   "target": "carthage",
+   "regions": [
+    "Africa"
+   ],
+   "from": -149,
+   "to": -146,
+   "why": "The Third Punic War: Carthage destroyed."
+  },
+  {
+   "realm": "rome",
+   "target": "gaul",
+   "regions": [
+    "Gallia"
+   ],
+   "from": -125,
+   "to": -121,
+   "why": "Rome conquers southern Gaul (Gallia Narbonensis)."
+  },
+  {
+   "realm": "rome",
+   "target": "massylii",
+   "regions": [
+    "Numidia"
+   ],
+   "from": -112,
+   "to": -105,
+   "why": "The Jugurthine War."
+  },
+  {
+   "realm": "rome",
+   "target": "pontus",
+   "regions": [
+    "Pontus",
+    "Cappadocia"
+   ],
+   "from": -89,
+   "to": -63,
+   "why": "The Mithridatic Wars."
+  },
+  {
+   "realm": "rome",
+   "target": "armenia",
+   "regions": [
+    "Armenia"
+   ],
+   "from": -69,
+   "to": -66,
+   "why": "Lucullus and Pompey humble Tigranes of Armenia."
+  },
+  {
+   "realm": "rome",
+   "target": "seleucid",
+   "regions": [
+    "Syria",
+    "Cilicia"
+   ],
+   "from": -64,
+   "to": -63,
+   "why": "Pompey ends the Seleucid kingdom."
+  },
+  {
+   "realm": "rome",
+   "target": "gaul",
+   "regions": [
+    "Gallia"
+   ],
+   "from": -58,
+   "to": -50,
+   "why": "Caesar's conquest of Gaul."
+  },
+  {
+   "realm": "rome",
+   "target": "egypt",
+   "regions": [
+    "Aegyptus"
+   ],
+   "from": -31,
+   "to": -30,
+   "why": "Octavian takes Egypt."
+  },
+  {
+   "realm": "rome",
+   "target": "getae",
+   "regions": [
+    "Dacia"
+   ],
+   "from": 101,
+   "to": 106,
+   "why": "Trajan's Dacian Wars."
+  },
+  {
+   "realm": "rome",
+   "target": "nabatea",
+   "regions": [
+    "Arabia Petraea"
+   ],
+   "from": 106,
+   "to": 106,
+   "why": "Trajan annexes the Nabataean kingdom."
+  }
  ]
 }

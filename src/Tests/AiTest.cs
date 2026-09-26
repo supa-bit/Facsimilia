@@ -11,7 +11,7 @@ namespace Facsimilia.Tests;
 /// The other realms act: over 30 years from 300 BC, with the player
 /// (Nabatea) doing nothing, history's campaigns begin on time (Demetrius
 /// against Macedon in 295 BC), realms raise armies and fight, wars end in
-/// peace, no realm is wiped out in a generation, it all survives a save,
+/// peace, the great powers survive a generation and most realms stand, it all survives a save,
 /// and a year stays quick.
 /// </summary>
 public partial class AiTest : TestRunner
@@ -36,8 +36,11 @@ public partial class AiTest : TestRunner
         Check(events.Any(e => e.Kind == ChronicleKind.Peace), "some war should have ended in peace");
         Check(events.Count(e => e.Kind == ChronicleKind.Conquest) > 0, "someone should have taken land");
         var census = map.RealmCensus();
-        foreach (string key in WorldFixture.CivKeys.Where(k => k != "nabatea"))
+        // Small peoples may fall, as the Samnites and Etruscans did to Rome by 280 BC; the great powers stand.
+        foreach (string key in new[] { "rome", "carthage", "egypt", "seleucid", "lysimachus", "kush" })
             Check(census.ContainsKey(map.CivRealmIds[key]), $"{key} was wiped out within 30 years");
+        int standing = WorldFixture.CivKeys.Count(k => census.ContainsKey(map.CivRealmIds[k]));
+        Check(standing >= WorldFixture.CivKeys.Length * 3 / 4, $"only {standing} of {WorldFixture.CivKeys.Length} realms stand after 30 years");
         Check(msPerYear < 600, $"a year takes {msPerYear:0} ms");
 
         // Mid-war save and load keeps the wars.
@@ -49,7 +52,7 @@ public partial class AiTest : TestRunner
 
         Finish($"AI tests passed: 30 years with {events.Count(e => e.Kind == ChronicleKind.War)} wars declared, " +
             $"{events.Count(e => e.Kind == ChronicleKind.Peace)} peaces, {events.Count(e => e.Kind == ChronicleKind.Conquest)} " +
-            $"conquest reports; every realm survives; {msPerYear:0} ms a year.");
+            $"conquest reports; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
         map.Free();
         map2.Free();
     }

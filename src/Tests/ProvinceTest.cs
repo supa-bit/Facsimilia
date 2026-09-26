@@ -20,7 +20,7 @@ public partial class ProvinceTest : TestRunner
         var seeds = ProvinceGenerator.LoadSeeds();
         var clock = System.Diagnostics.Stopwatch.StartNew();
         var tribal = world.TribalRealmIds().ToHashSet();
-        Check(tribal.Count == 3, $"expected 3 tribal realms, found {tribal.Count}");
+        Check(tribal.Count == MapView.FrontierZones.Length, $"expected {MapView.FrontierZones.Length} tribal realms, found {tribal.Count}");
         var map = ProvinceGenerator.Generate(world.Grid, seeds, tribal);
         long ms = clock.ElapsedMilliseconds;
         int total = map.Provinces.Count;

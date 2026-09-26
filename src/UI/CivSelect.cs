@@ -1,3 +1,4 @@
+using System.Linq;
 using Facsimilia.World;
 using Godot;
 
@@ -13,25 +14,12 @@ public partial class CivSelect : Control
 
     sealed record CivInfo(string Key, string Name, string Region, string Blurb);
 
-    // MapView.RealCivs (real 300 BC boundary data) plus MapView.FrontierZones
-    // (tribal regions with no unified state at this date).
-    static readonly CivInfo[] Civs =
-    {
-        new("rome", "Rome", "Italy", "A modest city-state on the Tiber, one power among many on the Italian peninsula. History remembers what it became - not what it started as."),
-        new("carthage", "Carthage", "North Africa", "The dominant trading power of the western Mediterranean, backed by a navy few can match."),
-        new("egypt", "Ptolemaic Egypt", "Nile Valley", "Alexander's Macedonian generals still rule the Nile, richer than almost anyone."),
-        new("kush", "Kingdom of Kush", "Nubia, south of Egypt", "An indigenous African kingdom on the upper Nile, with its own pharaohs, iron industry, and pyramids - never conquered by the Ptolemies to its north."),
-        new("seleucid", "Seleucid Empire", "Syria / Mesopotamia", "The largest of Alexander's successor kingdoms, stretching deep into the east."),
-        new("greek_world", "Greek World", "Macedon / Greece", "Kassander's Macedon and the southern Greek city-states, forever rivals to one another."),
-        new("lysimachus", "Kingdom of Lysimachus", "Thrace", "One of Alexander's own bodyguards, now a king in his own right on the European side of the straits."),
-        new("antigonus", "Kingdom of Antigonus", "Anatolia / Syria", "The One-Eyed's sprawling, contested holdings across Asia Minor and the Levant."),
-        new("nabatea", "Nabatean Kingdom", "Arabia", "Desert traders controlling the incense routes, centered on their rock-cut capital."),
-        new("iberia", "Iberian & Celtiberian Tribes", "Spain", "Fierce, fragmented tribal peoples across the peninsula, prized as mercenaries - no single king rules here yet."),
-        new("gaul", "Gallic Tribes", "Gaul / the Alps", "Sprawling, fractious confederations north of the Alps, fiercely independent."),
-        new("scythia", "Scythian Peoples", "Pontic Steppe", "Mounted nomads ranging the grasslands north of the Black Sea."),
-    };
+    // Every realm of 300 BC (data/realms_bc300.json), grouped by region.
+    static readonly CivInfo[] Civs = MapView.RealCivs
+        .Select(c => new CivInfo(c.Key, c.RealmName!, c.Region, c.Blurb + (c.Tribal ? " (A people of many tribes: no provinces at the start.)" : "")))
+        .ToArray();
     const string DefaultKey = "rome";
-    static readonly Vector2 CardSize = new(400, 176);
+    static readonly Vector2 CardSize = new(372, 150);
 
     bool _selectionMade;  // guards against a double-fire from overlapping click handlers
 
@@ -47,15 +35,21 @@ public partial class CivSelect : Control
         column.AddThemeConstantOverride("separation", 12);
         center.AddChild(column);
         column.AddChild(ThemeAncient.Label("CHOOSE YOUR REALM", "HeaderLabel", 46, HorizontalAlignment.Center));
-        column.AddChild(ThemeAncient.Label("The world as it stood in 300 BC. Every realm starts where history had it.",
+        column.AddChild(ThemeAncient.Label($"The world as it stood in 300 BC: {Civs.Length} realms, each where history had it. Scroll for more.",
             "SubtleLabel", 21, HorizontalAlignment.Center));
         column.AddChild(ThemeAncient.Ornament(520));
         column.AddChild(new Control { CustomMinimumSize = new Vector2(0, 10) });
 
+        var scroll = new ScrollContainer
+        {
+            CustomMinimumSize = new Vector2(4 * CardSize.X + 3 * 14 + 24, 700),
+            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+        };
+        column.AddChild(scroll);
         var grid = new GridContainer { Columns = 4 };
-        grid.AddThemeConstantOverride("h_separation", 18);
-        grid.AddThemeConstantOverride("v_separation", 18);
-        column.AddChild(grid);
+        grid.AddThemeConstantOverride("h_separation", 14);
+        grid.AddThemeConstantOverride("v_separation", 14);
+        scroll.AddChild(grid);
         foreach (var civ in Civs)
             grid.AddChild(Card(civ));
         column.AddChild(ThemeAncient.Label("Click a realm to begin.", "SmallLabel", align: HorizontalAlignment.Center));
@@ -92,11 +86,11 @@ public partial class CivSelect : Control
         text.AddThemeConstantOverride("separation", 2);
         row.AddChild(text);
         float textWidth = CardSize.X - 60;
-        var name = ThemeAncient.Label(civ.Name, "HeaderLabel", 22);
+        var name = ThemeAncient.Label(civ.Name, "HeaderLabel", 20);
         Wrap(name, textWidth);
         text.AddChild(name);
         text.AddChild(ThemeAncient.Label(civ.Region + (civ.Key == DefaultKey ? "  ·  suggested start" : ""), "SubtleLabel", 17));
-        var blurb = ThemeAncient.Label(civ.Blurb, fontSize: 16);
+        var blurb = ThemeAncient.Label(civ.Blurb, fontSize: 14);
         blurb.AddThemeColorOverride("font_color", ThemeAncient.Text);
         Wrap(blurb, textWidth);
         text.AddChild(blurb);

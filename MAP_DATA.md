@@ -5,27 +5,23 @@ preserved byte for byte in the delivered archive.
 
 ## Geography and ownership
 
-The physical mask uses Natural Earth 1:10m land polygons. The historical
-polygons use the bundled historical-basemaps 300 BC dataset. These are two
-separate approximations: clipping one against the other removes claims at sea,
-but does not fill slivers left between their disagreeing coastlines.
+The physical mask uses Natural Earth 1:10m land polygons (public domain).
 
-`tools/reconcile_map.py` now bakes `data/political_mask.png` on the identical
-8192 x 5476 grid, longitude -10 to 55, latitude 48 to 10. It first applies a
-small common displacement to inland label boundaries, so neighboring regions
-share one boundary rather than independently wiggled edges. The exact Natural
-Earth coastline remains unchanged. It then extends claims across unclaimed
-coastal slivers, only within 40 cells of the coast and at most 56 land-connected
-steps from an existing claim. It never crosses water, overwrites an existing
-claim, or assigns an otherwise unclaimed island. This is a bounded cartographic
-inference, not newly sourced historical territory. Larger unknown areas remain
-unclaimed. The report is in `data/map_reconciliation.json`.
+The 300 BC borders are our own (decision "Playable 1"), so no GPL data
+ships with the game. `data/realms_bc300.json` lists 56 realms and the
+historical districts each held in 300 BC (613 places with longitude and
+latitude, from the Barrington Atlas and the standard histories).
+`tools/build_realm_mask.py` grows every district over the land at once,
+slowed by mountains, marsh and desert and barely crossing narrow straits,
+until it meets a neighbour or runs out of reach, and bakes
+`data/political_mask.png` on the 8192 x 5476 grid (longitude -10 to 55,
+latitude 48 to 10). Land no district reaches (the Sahara, the Arabian
+interior, the high Alps) stays unclaimed. The cell counts per realm are
+in `data/realm_mask_report.json`.
 
-Godot loads this reconciled ownership raster for the initial state. Rendering,
+Godot loads this ownership raster for the initial state. Rendering,
 selection, proposals and game logic use the same ownership grid. Cosmetic
-terrain colors never determine ownership. Tribal frontier zones remain
-explicitly approximate sketches; this revision does not make them historical
-state boundaries. The bundled source also groups some distinct Greek polities.
+terrain colors never determine ownership.
 
 ## Terrain
 
@@ -134,9 +130,11 @@ with another licence is ever added.
 
 Python dependencies: Pillow, NumPy, SciPy. From this project directory:
 
-1. `node tools/import_bc300.js` if changing the historical source.
-2. `python tools/build_land_mask.py` if changing physical geography.
-3. `python tools/reconcile_map.py` after either of those changes.
+1. `python tools/build_land_mask.py` if changing physical geography.
+2. `python tools/build_realm_mask.py` after changing the land or
+   `data/realms_bc300.json`.
+3. `python tools/build_places.py` (in a folder holding the Pleiades
+   dumps) to rebuild the town names.
 4. `python tools/build_relief_texture.py` to rebuild from the included crop.
 5. `python tools/fetch_hyde.py <dir>` downloads the HYDE `popc` zips from
    the `assets-v1` release (`--from-dans` reads them out of the original

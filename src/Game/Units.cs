@@ -78,9 +78,10 @@ public sealed class UnitCatalog
     public IEnumerable<UnitDef> Available(IReadOnlyCollection<string> cultures) =>
         Units.Where(u => u.Anyone || u.Cultures.Any(cultures.Contains));
 
-    /// <summary>The best unit of a role a people can raise (its own first, else anyone's).</summary>
+    /// <summary>The best unit of a role a people can raise (its own first, else anyone's, else hired from a people who fight that way).</summary>
     public UnitDef BestFor(int role, IReadOnlyCollection<string> cultures) =>
         Units.Where(u => u.Role == role && !u.Anyone && u.Cultures.Any(cultures.Contains))
             .OrderByDescending(u => u.Might).FirstOrDefault()
-        ?? Units.First(u => u.Role == role && u.Anyone);
+        ?? Units.FirstOrDefault(u => u.Role == role && u.Anyone)
+        ?? Units.Where(u => u.Role == role).OrderBy(u => u.Might).First();   // hired from a neighbouring people
 }

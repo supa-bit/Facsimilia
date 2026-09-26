@@ -4,7 +4,7 @@ HYDE (History Database of the Global Environment, PBL / Utrecht University)
 publishes gridded population counts (`popc_<year>.asc`, ESRI ASCII, 5 arc-
 minutes, people per cell) from 10,000 BCE to the present. This crops each
 snapshot to the map's extent (longitude -10 to 55, latitude 48 to 10 - the
-same linear lon/lat projection as tools/import_bc300.js and
+same linear lon/lat projection as tools/build_realm_mask.py and
 tools/build_land_mask.py) and writes one keyframe per HYDE year from the
 game's 300 BC start onward. See MECHANICS.md, "Population & settlement
 engine": these keyframes are H_hist, the historical ceiling, and the 300 BC

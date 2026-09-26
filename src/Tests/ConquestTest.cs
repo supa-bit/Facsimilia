@@ -23,7 +23,7 @@ public partial class ConquestTest : TestRunner
         map.LoadLand();
         map.SetPlayerCiv("rome");
         map.StartGame();
-        int rome = map.CivRealmIds["rome"], greeks = map.CivRealmIds["greek_world"], egypt = map.CivRealmIds["egypt"];
+        int rome = map.CivRealmIds["rome"], greeks = map.CivRealmIds["etruscans"], egypt = map.CivRealmIds["egypt"];
         Check(map.PlayerRealmId == rome, "the player should be Rome");
 
         // Reach: Rome's army reaches its Italian neighbours, not Egypt.
@@ -37,7 +37,7 @@ public partial class ConquestTest : TestRunner
         Check(reach[pop.NodeAtLonLat(13.0, 41.5, MapView.LonMin, MapView.LonMax, MapView.LatMin, MapView.LatMax)],
             "Rome should reach its own neighbourhood");
 
-        // A Greek province in Italy within reach.
+        // A Etruscan province within reach.
         var target = map.Provinces!.Provinces.Values
             .Where(p => p.RealmId == greeks)
             .Select(p => (p, cells: Enumerable.Range(0, map.Provinces.Cells.Length).Where(i => map.Provinces.Cells[i] == p.Id).ToList()))
@@ -45,16 +45,16 @@ public partial class ConquestTest : TestRunner
             .Where(x => x.planned > 0)
             .OrderByDescending(x => x.planned)
             .FirstOrDefault();
-        if (!Check(target.p != null, "no Greek province within Rome's reach"))
+        if (!Check(target.p != null, "no Etruscan province within Rome's reach"))
         {
             Finish("");
             return;
         }
-        Check(map.PlanCells(target.cells) > 0, "couldn't paint the Greek province");
+        Check(map.PlanCells(target.cells) > 0, "couldn't paint the Etruscan province");
         var targets = map.PlayerConquestTargets();
         Check(targets.Any(t => t.ProvinceId == target.p!.Id && t.Problem != null), "attacking without war should be refused");
 
-        Check(map.DeclareWar(greeks) != null, "couldn't declare war on the Greeks");
+        Check(map.DeclareWar(greeks) != null, "couldn't declare war on the Etruscans");
         Check(map.Game.Wars.AtWar(rome, greeks), "no war after declaring");
         // A small army faces a long siege; a great one a short one.
         var hastati = cat["hastati_principes"];
@@ -69,7 +69,7 @@ public partial class ConquestTest : TestRunner
         Check(t.Problem == null && t.Chance > 0.95, $"with 200 legions Rome should be near-certain to win in battle, chance {t.Chance:P0} ({t.Problem}; {t.Name})");
         Check(weak.Years > t.Years && t.Years <= 2, $"a weak army should besiege for longer ({weak.Years} vs {t.Years} years)");
         foreach (var a in map.Game.Realm(greeks).Armies)
-            Array.Clear(a.Units);   // the Greeks keep no field army here, so only the siege is tested
+            Array.Clear(a.Units);   // the Etruscans keep no field army here, so only the siege is tested
         int units = legio.Count;
         var events = map.ResolvePlayerPlan();
         Check(events.Any(e => e.Text.Contains("lays siege")) && map.Game.Sieges.Any(x => x.ProvinceId == target.p!.Id),
@@ -84,7 +84,7 @@ public partial class ConquestTest : TestRunner
         Check(events.Any(e => e.Text.Contains("takes")), "no chronicle line for the conquest");
         var war = map.Game.Wars.Between(rome, greeks)!;
         Check(war.Score > 0, $"the war score should favour Rome after a victory ({war.Score}): " +
-            string.Join(" | ", events.Where(e => e.Text.Contains("Greek") || e.Text.Contains("Rom")).Select(e => e.Text).Distinct()));
+            string.Join(" | ", events.Where(e => e.Text.Contains("Etrusc") || e.Text.Contains("Rom")).Select(e => e.Text).Distinct()));
         Check(legio.Count < units, "a siege should cost losses");
 
         // Peace: a small victory isn't enough to demand tribute; an even peace is refused until they lose more or tire.

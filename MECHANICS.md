@@ -1688,6 +1688,53 @@ Decision "Playable 23".
 - The province panel lists a province's chief towns, and chance
   disasters are named after the nearest town.
 
+## Our own 300 BC borders, 56 realms, any realm playable **(built, 26 Sep 2026)**
+
+Decisions "Playable 1", "20" and "30".
+
+- **Borders**: `data/realms_bc300.json` lists 56 realms and the 613
+  historical districts they held in 300 BC. `tools/build_realm_mask.py`
+  grows every district over the land at once, slowed by mountains,
+  marsh and desert and barely crossing narrow straits, until it meets a
+  neighbour or runs out of reach. Land no one reaches (the Sahara, inner
+  Arabia, the high Alps) stays unclaimed. The old third-party (GPL)
+  border data is gone.
+- **The world after Ipsus (301 BC)**: Antigonos is dead; his son
+  Demetrios keeps a sea kingdom (Cyprus, Tyre, Sidon, Corinth, the
+  Peloponnese garrisons, the islands). Lysimachos holds Thrace and
+  western Asia Minor; Seleukos Syria, Mesopotamia and Iran; Ptolemy
+  Egypt, Cyrenaica and Coele-Syria; Kassandros Macedon, Thessaly and
+  central Greece (with Cilicia under his brother).
+- **The new realms**: in Italy the Samnites, the Etruscan League, the
+  Cisalpine Gauls, the Veneti, the Ligurians, the Lucanians and
+  Bruttians, the Messapians, Tarentum and Syracuse under Agathokles; in
+  the west Massalia, the Celts of the Danube, and the Iberian,
+  Celtiberian and Lusitanian peoples; in Africa the Massylian and
+  Masaesylian Numidians, the Mauri and the Garamantes; in Greece and
+  the Balkans the Aetolian League, Sparta, Epirus, Rhodes, the Cretan
+  cities, the Illyrian kingdom, the Dardanians, Paeonia, the Odrysians,
+  the Getae and Byzantium; in Asia Minor Bithynia, Heraclea Pontica,
+  Pontus, Cappadocia and Armenia; Atropatene; Kartli, Colchis and
+  Caucasian Albania; the Bosporan kingdom and the Sarmatians; in Arabia
+  Lihyan, Saba, Ma'in, Qataban and Hadramawt.
+- **Rulers**: real where the sources name them (Agathokles and
+  Theoxene, Seuthes III and Berenike with their four sons, Zipoites,
+  Ariarathes II, Parnavaz, Spartokos III, Dromichaites, Glaukias,
+  Audoleon...). Where no one is named (most tribes and republics) the
+  ruler stands for the leading family with a name of the culture.
+- **Cultures**: each realm has its own people from `data/cultures.json`
+  (Italic, Etruscan, Thracian, Illyrian, Berber, Cappadocian, Armenian,
+  Median, Colchian, Sabaean and more), and 16 naming traditions give
+  children and new houses fitting names.
+- **Any realm playable**: the start screen lists all 56, grouped by
+  region, scrolling. The 19 tribal peoples start without provinces.
+- **Armies, treasuries, treaties** for the new realms are in
+  `data/start_realms.json`; new history goals include the Third Samnite
+  War, Pyrrhus in Italy, Lysimachos against the Getae, the Illyrian,
+  Jugurthine and Mithridatic wars.
+- A people with no unit of its own for a role hires one from a people
+  who fight that way.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

@@ -95,13 +95,13 @@ public partial class DynastyLifeTest : TestRunner
         Check(reg.ResolveHeir(realm) == brother, "the search should go up the royal side, to the uncle");
     }
 
-    static IEnumerable<CivSpec> AllCivs => MapView.RealCivs.Concat(MapView.FrontierZones);
+    static IEnumerable<CivSpec> AllCivs => MapView.RealCivs;
 
     static CharacterRegistry StartingWorld()
     {
         var reg = new CharacterRegistry();
         foreach (var spec in AllCivs)
-            MapView.CreateStartingRealm(reg, spec.RealmName ?? spec.Key, spec);
+            MapView.CreateStartingRealm(reg, spec.Key, spec);
         return reg;
     }
 
@@ -111,16 +111,18 @@ public partial class DynastyLifeTest : TestRunner
         string HeirOf(string key) => reg.ResolveHeir(reg.Realms.Values.First(r => r.Name == key))?.Name ?? "none";
         Check(HeirOf("egypt") == "Ptolemaios", $"Egypt's heir is {HeirOf("egypt")}, expected the son Ptolemaios");
         Check(HeirOf("kush") == "Shanakdakhete", $"Kush's heir is {HeirOf("kush")}, expected the elder daughter");
-        Check(HeirOf("antigonus") == "Demetrios", $"Antigonus's heir is {HeirOf("antigonus")}");
+        Check(HeirOf("antigonus") == "Antigonos", $"Demetrios's heir is {HeirOf("antigonus")}, expected his son Antigonos Gonatas");
         var antigonus = reg.Realms.Values.First(r => r.Name == "antigonus");
-        var demetrios = reg.ResolveHeir(antigonus)!;
+        var demetrios = reg.Characters[antigonus.RulerId];
         Check(reg.LivingChildren(demetrios).Select(c => c.Name).SequenceEqual(new[] { "Antigonos", "Stratonike" }),
             "Demetrios's children are missing");
         foreach (var realm in reg.Realms.Values)
         {
             var ruler = reg.Characters[realm.RulerId];
-            Check(ruler.AgeIn(MapView.StartYear) is >= 30 and <= 85, $"{realm.Name}'s ruler is {ruler.AgeIn(MapView.StartYear)}");
-            Check(reg.ResolveHeir(realm) != null, $"{realm.Name} starts without an heir");
+            // Young kings were real (Pyrrhos was 19, Areus of Sparta about 25), and so were kings with no children yet.
+            Check(ruler.AgeIn(MapView.StartYear) is >= 16 and <= 85, $"{realm.Name}'s ruler is {ruler.AgeIn(MapView.StartYear)}");
+            bool childless = MapView.RealCivs.First(c => c.Key == realm.Name).Family.Children.Length == 0;
+            Check(childless || reg.ResolveHeir(realm) != null, $"{realm.Name} starts without an heir");
         }
         int[] ages = reg.Realms.Values.Select(r => reg.Characters[r.RulerId].AgeIn(MapView.StartYear)).Distinct().ToArray();
         Check(ages.Length >= 8, "starting rulers' ages should vary");
@@ -150,7 +152,7 @@ public partial class DynastyLifeTest : TestRunner
                     return;
                 }
             }
-            maxLiving = Math.Max(maxLiving, reg.Characters.Values.Count(c => c.IsAlive));
+            maxLiving = Math.Max(maxLiving, reg.Living().Count);
         }
         double ms = clock.Elapsed.TotalMilliseconds / years;
         int realms = reg.Realms.Count;

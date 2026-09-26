@@ -35,7 +35,7 @@ block the work that depends on them.
        remedies offered when the treasury runs dry.
 9. [x] **Technology tree, administrative reach, corruption and rivals,
        score by category** (Playable 24, 25, 26).
-10. [ ] **Redrawn 300 BC borders, any realm playable, trade routes, city
+10. [x] **Redrawn 300 BC borders, any realm playable, trade routes, city
        names, disasters, each realm's coin, finer cultures** (Playable 1,
        4, 8, 20, 23, 28, 30).
 

@@ -89,7 +89,7 @@ public sealed partial class CharacterRegistry
         // Deaths. Rulers' deaths trigger succession, in every realm they rule
         // (looked up at the moment of death: an heir who inherited earlier in
         // the same year and then dies is succeeded too).
-        foreach (var c in Characters.Values.Where(c => c.IsAlive).ToList())
+        foreach (var c in Living())
         {
             int age = c.AgeIn(year);
             if (age < 0 || rng.Randf() >= DeathChanceForAge(age))
@@ -245,6 +245,8 @@ public sealed partial class CharacterRegistry
 
     void Marriages(int year, Dictionary<int, int> courts, RandomNumberGenerator rng, List<ChronicleEvent> events)
     {
+        // Who at court is free to marry this year, found once rather than for every suitor.
+        var free = courts.Where(kv => Marriageable(Characters[kv.Key], year)).Select(kv => kv.Key).ToList();
         foreach (var (id, realmId) in courts.OrderBy(kv => kv.Key))
         {
             var c = Characters[id];
@@ -253,8 +255,8 @@ public sealed partial class CharacterRegistry
             Character spouse;
             string where = "";
             var match = rng.Randf() < CrossRealmMarriageShare
-                ? courts.Where(kv => kv.Value != realmId)
-                    .Select(kv => Characters[kv.Key])
+                ? free.Where(o => courts[o] != realmId)
+                    .Select(o => Characters[o])
                     .Where(o => o.IsMale != c.IsMale && Marriageable(o, year) && o.DynastyId != c.DynastyId
                         && Math.Abs(o.BirthYear - c.BirthYear) <= 15)
                     .OrderBy(o => Math.Abs(o.BirthYear - c.BirthYear)).ThenBy(o => o.Id)
@@ -283,7 +285,7 @@ public sealed partial class CharacterRegistry
 
     void Births(int year, Dictionary<int, int> courts, RandomNumberGenerator rng, List<ChronicleEvent> events)
     {
-        foreach (var mother in Characters.Values.Where(c => c.IsAlive && !c.IsMale && c.SpouseId != -1).ToList())
+        foreach (var mother in Living().Where(c => !c.IsMale && c.SpouseId != -1).ToList())
         {
             var father = Characters[mother.SpouseId];
             if (!father.IsAlive)

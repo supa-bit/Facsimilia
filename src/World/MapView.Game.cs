@@ -122,7 +122,8 @@ public partial class MapView
             state.Manpower = Economy.SustainableManpower(c, state.ManpowerMultiplier);
             state.StartPeople = c.People;
             var (tax, tribute) = Economy.Revenue(c, state.Tax);
-            state.Treasury = Math.Round((tax + tribute) * years);
+            // Even a people with little to tax keeps some silver and gold (at least 10 talents).
+            state.Treasury = Math.Max(10, Math.Round((tax + tribute) * years));
         }
         StartLoyalty();
         StartTechs();

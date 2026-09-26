@@ -1,5 +1,5 @@
 {
- "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26). alliances: treaties in force in 300 BC (the victors of Ipsus, 301 BC: Seleucus and Lysimachus; Ptolemy's league with Lysimachus, sealed by Arsinoe's marriage in 300/299 BC). rivals: history's great rivalries, which colour how realms see each other (Rome and Carthage; the Ptolemies and Seleucids over Syria; the Antigonids against the other Successors; Carthage and the Sicilian Greeks; Rome and the Gauls).",
+ "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26). alliances: treaties in force in 300 BC (the victors of Ipsus, 301 BC: Seleucus and Lysimachus; Ptolemy's league with Lysimachus, sealed by Arsinoe's marriage in 300/299 BC). rivals: history's great rivalries, which colour how realms see each other (Rome against Carthage, the Samnites, the Etruscans and the Gauls; the Ptolemies and Seleucids over Syria; Demetrios against the other Successors; Carthage and Agathokles of Sicily; Tarentum and its Italic neighbours; Lysimachos and the Thracians, Getae and Bithynians; Sparta and Macedon; the Scythians and the Sarmatians). Egypt also stood with Pyrrhos and Agathokles, whom Ptolemy married to his stepdaughters.",
  "realms": {
   "rome": {
    "units": [
@@ -151,6 +151,550 @@
    ],
    "treasury_years": 0.3,
    "manpower": 2.0
+  },
+  "samnites": {
+   "units": [
+    4,
+    6,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "etruscans": {
+   "units": [
+    6,
+    4,
+    1,
+    2,
+    0,
+    0,
+    2
+   ],
+   "treasury_years": 1.0
+  },
+  "cisalpine": {
+   "units": [
+    3,
+    6,
+    0,
+    3,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "veneti": {
+   "units": [
+    1,
+    2,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "ligurians": {
+   "units": [
+    1,
+    4,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.2,
+   "manpower": 2.0
+  },
+  "lucanians": {
+   "units": [
+    2,
+    5,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 1.5
+  },
+  "iapygians": {
+   "units": [
+    1,
+    3,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3
+  },
+  "tarentum": {
+   "units": [
+    4,
+    3,
+    1,
+    2,
+    0,
+    0,
+    4
+   ],
+   "treasury_years": 1.5
+  },
+  "syracuse": {
+   "units": [
+    8,
+    4,
+    2,
+    3,
+    0,
+    0,
+    12
+   ],
+   "treasury_years": 1.0
+  },
+  "massalia": {
+   "units": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    4
+   ],
+   "treasury_years": 1.5
+  },
+  "danube_celts": {
+   "units": [
+    3,
+    5,
+    0,
+    4,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "celtiberia": {
+   "units": [
+    4,
+    8,
+    0,
+    4,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "lusitania": {
+   "units": [
+    1,
+    6,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.2,
+   "manpower": 2.0
+  },
+  "massylii": {
+   "units": [
+    0,
+    4,
+    0,
+    8,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "masaesyli": {
+   "units": [
+    0,
+    4,
+    0,
+    8,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "mauri": {
+   "units": [
+    0,
+    3,
+    0,
+    5,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 1.5
+  },
+  "garamantes": {
+   "units": [
+    0,
+    2,
+    1,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "aetolia": {
+   "units": [
+    2,
+    4,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5,
+   "manpower": 1.5
+  },
+  "sparta": {
+   "units": [
+    3,
+    2,
+    0,
+    1,
+    0,
+    0,
+    1
+   ],
+   "treasury_years": 0.5
+  },
+  "epirus": {
+   "units": [
+    6,
+    3,
+    1,
+    2,
+    0,
+    0,
+    1
+   ],
+   "treasury_years": 0.5
+  },
+  "rhodes": {
+   "units": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    10
+   ],
+   "treasury_years": 2.0
+  },
+  "crete": {
+   "units": [
+    1,
+    2,
+    4,
+    0,
+    0,
+    0,
+    2
+   ],
+   "treasury_years": 0.5
+  },
+  "illyria": {
+   "units": [
+    2,
+    4,
+    0,
+    1,
+    0,
+    0,
+    3
+   ],
+   "treasury_years": 0.3
+  },
+  "dardania": {
+   "units": [
+    1,
+    5,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.2,
+   "manpower": 2.0
+  },
+  "paeonia": {
+   "units": [
+    1,
+    2,
+    1,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "odrysia": {
+   "units": [
+    2,
+    6,
+    1,
+    4,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.0,
+   "manpower": 1.5
+  },
+  "getae": {
+   "units": [
+    1,
+    6,
+    1,
+    4,
+    2,
+    0,
+    0
+   ],
+   "treasury_years": 0.5,
+   "manpower": 2.0
+  },
+  "byzantium": {
+   "units": [
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    4
+   ],
+   "treasury_years": 1.5
+  },
+  "bithynia": {
+   "units": [
+    2,
+    4,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "heraclea": {
+   "units": [
+    1,
+    2,
+    0,
+    0,
+    0,
+    0,
+    4
+   ],
+   "treasury_years": 1.5
+  },
+  "pontus": {
+   "units": [
+    1,
+    2,
+    0,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "cappadocia": {
+   "units": [
+    2,
+    3,
+    1,
+    4,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "armenia": {
+   "units": [
+    3,
+    4,
+    2,
+    6,
+    1,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "atropatene": {
+   "units": [
+    2,
+    3,
+    2,
+    5,
+    1,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "kartli": {
+   "units": [
+    1,
+    3,
+    1,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.5
+  },
+  "colchis": {
+   "units": [
+    1,
+    3,
+    1,
+    1,
+    0,
+    0,
+    1
+   ],
+   "treasury_years": 0.5
+  },
+  "albania": {
+   "units": [
+    0,
+    4,
+    1,
+    3,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 1.5
+  },
+  "bosporus": {
+   "units": [
+    2,
+    2,
+    1,
+    2,
+    0,
+    0,
+    4
+   ],
+   "treasury_years": 1.5
+  },
+  "sarmatians": {
+   "units": [
+    0,
+    2,
+    0,
+    6,
+    10,
+    0,
+    0
+   ],
+   "treasury_years": 0.3,
+   "manpower": 2.0
+  },
+  "lihyan": {
+   "units": [
+    0,
+    2,
+    2,
+    2,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.0
+  },
+  "saba": {
+   "units": [
+    2,
+    4,
+    3,
+    1,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.5
+  },
+  "main": {
+   "units": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.5
+  },
+  "qataban": {
+   "units": [
+    1,
+    2,
+    2,
+    1,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.0
+  },
+  "hadramawt": {
+   "units": [
+    1,
+    2,
+    2,
+    1,
+    0,
+    0,
+    0
+   ],
+   "treasury_years": 1.5
   }
  },
  "alliances": [
@@ -161,12 +705,44 @@
   [
    "egypt",
    "lysimachus"
+  ],
+  [
+   "egypt",
+   "epirus"
+  ],
+  [
+   "egypt",
+   "syracuse"
+  ],
+  [
+   "greek_world",
+   "epirus"
+  ],
+  [
+   "kartli",
+   "colchis"
+  ],
+  [
+   "cappadocia",
+   "armenia"
   ]
  ],
  "rivals": [
   [
    "rome",
    "carthage"
+  ],
+  [
+   "rome",
+   "samnites"
+  ],
+  [
+   "rome",
+   "etruscans"
+  ],
+  [
+   "rome",
+   "cisalpine"
   ],
   [
    "egypt",
@@ -185,12 +761,44 @@
    "egypt"
   ],
   [
-   "carthage",
+   "antigonus",
    "greek_world"
   ],
   [
-   "rome",
-   "gaul"
+   "carthage",
+   "syracuse"
+  ],
+  [
+   "tarentum",
+   "lucanians"
+  ],
+  [
+   "tarentum",
+   "iapygians"
+  ],
+  [
+   "bithynia",
+   "lysimachus"
+  ],
+  [
+   "getae",
+   "lysimachus"
+  ],
+  [
+   "sparta",
+   "greek_world"
+  ],
+  [
+   "massylii",
+   "carthage"
+  ],
+  [
+   "scythia",
+   "sarmatians"
+  ],
+  [
+   "odrysia",
+   "lysimachus"
   ]
  ]
 }
