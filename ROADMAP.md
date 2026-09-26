@@ -20,7 +20,7 @@ block the work that depends on them.
 
 ## Sections 6-10 (planned 26 Sep 2026, from the Playable answers)
 
-6. [ ] **Named armies and sieges** (Playable 9, 10, 12): armies with names,
+6. [x] **Named armies and sieges** (Playable 9, 10, 12): armies with names,
        a home province and their own unit lists; every culture's own
        units; conquest as sieges over years, decided by the troops in the
        provinces and each realm's Might. Playtested through the window.
@@ -155,6 +155,14 @@ The first fourteen were answered in the Facsimilia Ledger on 25 Sep 2026
       sources that allow selling the game
 
 ## Known issues
+
+- [x] Fixed 26 Sep 2026 (found by playing through the window): the map
+      showed stale borders after a conquest (a background redraw pasted an
+      old picture over the new one); redrawing after a conquest took ~6 s
+      (now ~0.3 s: only the provinces that changed are repainted); long
+      turns stopped at every good harvest; march distances east-west were
+      overstated by a third; the game opened on the whole map instead of
+      your realm; chronicle lines appeared twice.
 
 - [ ] **Licence:** the 300 BC borders (historical-basemaps) are GPL-3.0,
       which could bind a commercial game; see decision "Playable 1"

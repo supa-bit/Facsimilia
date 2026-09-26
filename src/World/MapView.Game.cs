@@ -79,18 +79,20 @@ public partial class MapView
             foreach (var p in doc.RootElement.GetProperty("realms").EnumerateObject())
                 starts[p.Name] = p.Value.Clone();
         }
+        var roles = new Dictionary<int, int[]>();
         foreach (var (key, realmId) in CivRealmIds)
         {
             var state = Game.Realm(realmId);
             state.CivKey = key;
             var c = CensusOf(realmId);
             double years = 1;
+            var counts = roles[realmId] = new int[UnitRoles.Count];
             if (starts.TryGetValue(key, out var s))
             {
                 int t = 0;
                 foreach (var u in s.GetProperty("units").EnumerateArray())
-                    if (t < UnitTypes.Count)
-                        state.Units[t++] = u.GetInt32();
+                    if (t < UnitRoles.Count)
+                        counts[t++] = u.GetInt32();
                 years = s.TryGetProperty("treasury_years", out var y) ? y.GetDouble() : 1;
                 state.ElephantSource = s.TryGetProperty("elephant_source", out var e) && e.GetBoolean();
                 state.ManpowerMultiplier = s.TryGetProperty("manpower", out var m) ? m.GetDouble() : 1;
@@ -101,9 +103,9 @@ public partial class MapView
             {
                 // No recorded army (a save from before the economy): a modest
                 // force in proportion to the realm's people.
-                state.Units[UnitTypes.HeavyInfantry] = (int)Math.Max(1, c.People / 300000);
-                state.Units[UnitTypes.LightInfantry] = (int)Math.Max(1, c.People / 300000);
-                state.Units[UnitTypes.Cavalry] = (int)(c.People / 1000000);
+                counts[UnitRoles.HeavyInfantry] = (int)Math.Max(1, c.People / 300000);
+                counts[UnitRoles.LightInfantry] = (int)Math.Max(1, c.People / 300000);
+                counts[UnitRoles.Cavalry] = (int)(c.People / 1000000);
             }
             state.Manpower = Economy.SustainableManpower(c, state.ManpowerMultiplier);
             state.StartPeople = c.People;
@@ -111,20 +113,36 @@ public partial class MapView
             state.Treasury = Math.Round((tax + tribute) * years);
         }
         StartLoyalty();
+        foreach (var (realmId, counts) in roles)
+            StartArmy(Game.Realm(realmId), counts);
         _census = null;
+        RefreshArmyMarkers();
     }
 
     /// <summary>The game's yearly step, after population: census, then every realm's economy.</summary>
     internal List<ChronicleEvent> GameYear()
     {
         var events = new List<ChronicleEvent>();
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        void Lap(string what)
+        {
+            if (Profile)
+                GD.Print($"  {what}: {sw.ElapsedMilliseconds} ms");
+            sw.Restart();
+        }
         events.AddRange(NatureYear());
+        Lap("nature");
         _census = null;
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
+        Lap("other realms");
+        events.AddRange(SiegesYear(new Random(StableHash.Of(DemoYear, 5381))));
+        Lap("sieges");
         Game.PeaceOffers.RemoveWhere(o => !Game.Wars.AtWar(o, PlayerRealmId));
         events.AddRange(LoyaltyYear(new Random(StableHash.Of(DemoYear, 104729))));
+        Lap("loyalty");
         _census = null;
         var census = RealmCensus();
+        Lap("census and goods");
         foreach (var realm in Registry.Realms.Values)
         {
             if (!census.TryGetValue(realm.Id, out var c))
@@ -138,8 +156,12 @@ public partial class MapView
         events.AddRange(GoalsYear());
         if (Population != null)
             Economy.ApplyBurden(Population, Game.Realms);
+        Lap("economy, labour, goals");
         return events;
     }
+
+    /// <summary>Prints how long each part of the year takes (for finding slow spots).</summary>
+    public static bool Profile { get; set; }
 
     internal void LoadGameState(GDictionary? data)
     {
@@ -156,6 +178,7 @@ public partial class MapView
         }
         if (Game.Provinces.Count == 0)
             StartLoyalty();   // a save from before cultures
+        PlaceUnplacedArmies();
     }
 
     public Culture CultureOf(int realmId) =>

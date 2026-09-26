@@ -17,7 +17,6 @@ public partial class Hud
     PanelContainer _realmPanel = null!;
     Label _accounts = null!, _manpower = null!, _might = null!, _realmHint = null!;
     readonly Button[] _taxButtons = new Button[4];
-    readonly List<(Label Name, Label Count, Button Raise, Button Disband)> _unitRows = new();
     OptionButton _turnLength = null!;
     Button _advanceButton = null!;
 
@@ -66,7 +65,7 @@ public partial class Hud
 
         var header = new HBoxContainer();
         box.AddChild(header);
-        var title = ThemeAncient.Label("Treasury and Army", "HeaderLabel", 22);
+        var title = ThemeAncient.Label("Treasury", "HeaderLabel", 22);
         title.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         header.AddChild(title);
         header.AddChild(IconButton(null, "×", "Close", () => ToggleRealmPanel(false)));
@@ -98,38 +97,6 @@ public partial class Hud
 
         _manpower = ThemeAncient.Label("", fontSize: 16);
         box.AddChild(_manpower);
-        box.AddChild(ThemeAncient.Label("Army", "HeaderLabel", 18));
-        var grid = new GridContainer { Columns = 4 };
-        grid.AddThemeConstantOverride("h_separation", 10);
-        box.AddChild(grid);
-        for (int t = 0; t < UnitTypes.Count; t++)
-        {
-            int type = t;
-            var name = ThemeAncient.Label("", fontSize: 16);
-            name.SizeFlagsHorizontal = SizeFlags.ExpandFill;
-            name.TooltipText = UnitTypes.All[t].Description;
-            name.MouseFilter = MouseFilterEnum.Pass;
-            var count = ThemeAncient.Label("", fontSize: 16, align: HorizontalAlignment.Right);
-            count.CustomMinimumSize = new Vector2(36, 0);
-            var raise = new Button { Text = "Raise", FocusMode = FocusModeEnum.None };
-            raise.Pressed += () =>
-            {
-                Military.Recruit(_map.PlayerState, _map.CensusOf(_map.PlayerRealmId), _map.CultureOf(_map.PlayerRealmId),
-                    type, _map.PlayerState.ElephantSource);
-                RefreshRealmPanel();
-            };
-            var disband = new Button { Text = "Disband", FocusMode = FocusModeEnum.None, TooltipText = "Send one unit home; its men return to the manpower pool." };
-            disband.Pressed += () =>
-            {
-                Military.Disband(_map.PlayerState, type);
-                RefreshRealmPanel();
-            };
-            grid.AddChild(name);
-            grid.AddChild(count);
-            grid.AddChild(raise);
-            grid.AddChild(disband);
-            _unitRows.Add((name, count, raise, disband));
-        }
         _might = ThemeAncient.Label("", fontSize: 16);
         box.AddChild(_might);
         _realmHint = ThemeAncient.Label("", "SubtleLabel", 14);
@@ -149,6 +116,7 @@ public partial class Hud
             _goodsPanel.Visible = false;
             _goalsPanel.Visible = false;
             _guidePanel.Visible = false;
+            _armiesPanel.Visible = false;
             RefreshRealmPanel();
         }
         RefreshMapView();   // the land legend shares the top-left corner
@@ -169,7 +137,6 @@ public partial class Hud
     {
         var s = _map.PlayerState;
         var c = _map.CensusOf(_map.PlayerRealmId);
-        var culture = _map.CultureOf(_map.PlayerRealmId);
         var (tax, tribute) = Economy.Revenue(c, s.Tax);
         double upkeep = Economy.Upkeep(s), admin = Economy.AdminPerProvince * c.Provinces, interest = s.Debt * Economy.InterestRate;
         double net = tax + tribute + (c.Goods != null ? Trade.Customs(c.Goods) : 0) - upkeep - admin - interest;
@@ -196,24 +163,10 @@ public partial class Hud
                   (s.Captives >= 1 ? $" ({ThemeAncient.GroupThousands((long)s.Captives)} of them captives of war)" : "") +
                   ".\nLevies come from free men; dependents give half as many."
                 : "");
-        for (int t = 0; t < UnitTypes.Count; t++)
-        {
-            var (name, count, raise, disband) = _unitRows[t];
-            var u = UnitTypes.All[t];
-            name.Text = UnitTypes.LocalName(t, culture);
-            count.Text = s.Units[t].ToString();
-            var (problem, cost) = Military.CanRecruit(s, c, culture, t, s.ElephantSource);
-            bool never = !UnitTypes.CanRaise(t, culture) || (problem != null && cost == 0);
-            raise.Disabled = problem != null;
-            raise.TooltipText = never ? problem : $"Raise {u.Men:N0} {(u.Domain == Domain.Naval ? "men and 10 ships" : "men")} " +
-                $"for {cost:0} talents; upkeep {u.Upkeep:0} a year." + (problem != null ? "\n" + problem : "") +
-                (u.Needs != null && !c.Resources.Contains(u.Needs) && cost > 0 ? "\nImported at a premium: you hold no source." : "");
-            disband.Disabled = s.Units[t] == 0;
-        }
         _might.Text = $"Might: land {Military.Might(s, Domain.Land):0.0}, sea {Military.Might(s, Domain.Naval):0.0}" +
-            (s.Fatigue > 0.05 ? $"   (weary from campaigning: {s.Fatigue:P0})" : "") +
+            (Military.Fatigue(s) > 0.05 ? $"   (weary from campaigning: {Military.Fatigue(s):P0})" : "") +
             $"\nUnder arms: {ThemeAncient.GroupThousands(Military.Soldiers(s))} men";
-        _realmHint.Text = "Units are counted for the whole realm. Painting land in Conquest mode sends them to war.";
+        _realmHint.Text = "Your armies, their units and where they stand are in the Armies panel.";
         _treasuryButton.Text = s.Debt > 0.5 ? $"{T(s.Treasury)}  (debt {T(s.Debt)})" : T(s.Treasury);
     }
 

@@ -26,19 +26,30 @@ public partial class MapView
     bool[] _reachBySea = Array.Empty<bool>();  // only across water
     int _reachYear = int.MinValue;
     public bool TerritoryChanged { get; set; }  // land changed hands: the map needs redrawing
+    int _reachArmy = -1;
+    /// <summary>How far past its own borders a realm counts as reaching, without an army (for pretexts and the AI).</summary>
+    public const double TerritoryReachKm = 150;
 
     /// <summary>
     /// Where a realm's army can strike this year: within ReachKm of its land
     /// over land; with a fleet, the sea costs a third as much to cross
     /// (decision "Playable 13", suggested: reach and supply).
     /// </summary>
-    public (bool[] Reach, bool[] BySea) ComputeReach(int realmId)
+    public (bool[] Reach, bool[] BySea) ComputeReach(int realmId, Army? army = null)
     {
         var pop = Population!;
         int w = pop.Width, h = pop.Height, n = w * h;
-        bool fleet = Military.RawMight(Game.Realm(realmId), Domain.Naval) > 0;
+        bool fleet = army != null ? Military.RawMight(army, Domain.Naval) > 0 : Military.RawMight(Game.Realm(realmId), Domain.Naval) > 0;
         double stepKm = (LatMax - LatMin) / h * 111.2;
-        double landLimit = Conquest.ReachKm;
+        var xKm = new double[h];
+        for (int row = 0; row < h; row++)
+        {
+            double lat = LatMax - (row + 0.5) * (LatMax - LatMin) / h;
+            xKm[row] = (LonMax - LonMin) / w * 111.2 * Math.Cos(lat * Math.PI / 180);
+        }
+        // From an army: where it can march in a year. Without one: within a
+        // short march of the realm's borders (what counts as neighbours).
+        double landLimit = army != null ? Conquest.ReachKm : TerritoryReachKm;
         var landCost = Dijkstra(allowSea: false);
         var anyCost = fleet ? Dijkstra(allowSea: true) : landCost;
         var reach = new bool[n];
@@ -59,12 +70,18 @@ public partial class MapView
             Array.Fill(cost, double.PositiveInfinity);
             var queue = new PriorityQueue<int, double>();
             int[] owners = pop.NodeOwner;
-            foreach (int i in pop.LandNodes)
-                if (owners[i] == realmId)
-                {
-                    cost[i] = 0;
-                    queue.Enqueue(i, 0);
-                }
+            if (army != null && army.Node >= 0)
+            {
+                cost[army.Node] = 0;
+                queue.Enqueue(army.Node, 0);
+            }
+            else
+                foreach (int i in pop.LandNodes)
+                    if (owners[i] == realmId)
+                    {
+                        cost[i] = 0;
+                        queue.Enqueue(i, 0);
+                    }
             while (queue.TryDequeue(out int i, out double c))
             {
                 if (c > cost[i] || c > landLimit)
@@ -82,7 +99,9 @@ public partial class MapView
                         bool sea = pop.NodeRegion[j] == 0;
                         if (sea && !allowSea)
                             continue;
-                        double step = stepKm * (dx != 0 && dy != 0 ? 1.414 : 1) * (sea ? Conquest.SeaCostShare : 1);
+                        // East-west degrees shrink with latitude.
+                        double ex = dx != 0 ? xKm[y] : 0, ey = dy != 0 ? stepKm : 0;
+                        double step = Math.Sqrt(ex * ex + ey * ey) * (sea ? Conquest.SeaCostShare : 1);
                         double next = c + step;
                         if (next < cost[j])
                         {
@@ -97,10 +116,19 @@ public partial class MapView
 
     void EnsurePlayerReach()
     {
-        if (Population == null || (_reachYear == DemoYear && _reach.Length > 0))
+        var army = SelectedArmy;
+        int armyId = army?.Id ?? 0;
+        if (Population == null || (_reachYear == DemoYear && _reach.Length > 0 && _reachArmy == armyId))
             return;
-        (_reach, _reachBySea) = ComputeReach(PlayerRealmId);
+        if (army != null)
+            (_reach, _reachBySea) = ComputeReach(PlayerRealmId, army);
+        else
+        {
+            _reach = new bool[Population.Width * Population.Height];
+            _reachBySea = new bool[_reach.Length];
+        }
         _reachYear = DemoYear;
+        _reachArmy = armyId;
         if (MapSprite?.Material is ShaderMaterial material)
         {
             var bytes = new byte[_reach.Length];
@@ -148,10 +176,11 @@ public partial class MapView
     }
 
     /// <summary>What the player's painted plan would attack: one target per enemy province or per owner's other land.</summary>
-    public List<ConquestTarget> PlayerConquestTargets() => TargetsFromCells(PlayerRealmId, _dirtyProposalCells, _reachBySea);
+    public List<ConquestTarget> PlayerConquestTargets() =>
+        TargetsFromCells(PlayerRealmId, _dirtyProposalCells, _reachBySea, SelectedArmy?.Id ?? 0);
 
     /// <summary>Groups marked cells into targets and estimates each fight.</summary>
-    internal List<ConquestTarget> TargetsFromCells(int attacker, IEnumerable<int> cells, bool[] bySea)
+    internal List<ConquestTarget> TargetsFromCells(int attacker, IEnumerable<int> cells, bool[] bySea, int armyId)
     {
         var targets = new List<ConquestTarget>();
         if (Population == null)
@@ -169,10 +198,16 @@ public partial class MapView
             int prov = Provinces?.Cells[idx] ?? ProvinceMap.None;
             if (prov != ProvinceMap.None && Provinces!.Provinces.TryGetValue(prov, out var province) && province.RealmId == owner)
             {
-                if (!provinceTargets.ContainsKey(prov))
+                if (provinceTargets.TryGetValue(prov, out var known))
+                {
+                    if (!sea && known.BySea)
+                        known.BySea = false;   // some of it can be reached by land
+                }
+                else
                     provinceTargets[prov] = new ConquestTarget
                     {
-                        Attacker = attacker, Owner = owner, ProvinceId = prov, BySea = sea,
+                        Attacker = attacker, Owner = owner, ProvinceId = prov, BySea = sea, ArmyId = armyId,
+                        Node = Population.NodeAtCell((int)province.LabelCell.X, (int)province.LabelCell.Y, GridWidth, GridHeight),
                         Name = $"{province.Name} ({RealmName(owner)})", People = ProvincePopulation(prov),
                     };
                 continue;
@@ -180,10 +215,15 @@ public partial class MapView
             if (!landTargets.TryGetValue(owner, out var t))
                 landTargets[owner] = t = new ConquestTarget
                 {
-                    Attacker = attacker, Owner = owner, BySea = sea,
+                    Attacker = attacker, Owner = owner, BySea = sea, ArmyId = armyId, Node = node,
                     Name = owner == 0 ? "Unclaimed land" : $"Unorganized land of {RealmName(owner)}",
                 };
             t.Cells.Add(idx);
+            if (!sea && t.BySea)
+            {
+                t.BySea = false;
+                t.Node = node;
+            }
             nodeCells[(owner, node)] = nodeCells.GetValueOrDefault((owner, node)) + 1;
         }
         double cellsPerNode = (double)GridWidth / Population.Width * GridHeight / Population.Height;
@@ -192,76 +232,16 @@ public partial class MapView
         targets.AddRange(provinceTargets.Values);
         targets.AddRange(landTargets.Values);
         foreach (var t in targets)
-            t.Problem = Conquest.CheckTarget(t, Game, RealmName(t.Owner));
-        Conquest.Estimate(targets, Game);
+            t.Problem = Conquest.CheckTarget(t, Game, RealmName(t.Owner)) ??
+                (Game.Sieges.Any(x => x.Attacker == attacker && SameTarget(x, t)) ? "Already under siege" : null);
+        EstimateTargets(targets);
         return targets;
     }
 
     public string RealmName(int id) =>
         id == 0 ? "no one" : Registry.Realms.TryGetValue(id, out var r) ? r.Name : "a vanished realm";
 
-    /// <summary>
-    /// Fights out targets and hands won land to the attacker. Returns the
-    /// chronicle lines. Rebuilding the map image is left to RedrawTerritory.
-    /// </summary>
-    internal List<ChronicleEvent> ResolveConquests(List<ConquestTarget> targets, Random rng)
-    {
-        var events = new List<ChronicleEvent>();
-        if (targets.Count == 0)
-            return events;
-        var census = RealmCensus();
-        Conquest.Resolve(targets, Game, rng, id => census.TryGetValue(id, out var c) ? c.People : 0);
-        foreach (var t in targets)
-        {
-            if (t.Problem != null)
-                continue;
-            string attacker = RealmName(t.Attacker);
-            if (t.Won)
-            {
-                if (t.ProvinceId != 0)
-                {
-                    if (Provinces!.Provinces.TryGetValue(t.ProvinceId, out var taken))
-                        TakeCaptives(t.Attacker, taken);
-                    Provinces.SetRealm(t.ProvinceId, t.Attacker, Grid);
-                    Game.Wars.Between(t.Attacker, t.Owner)?.RecordTaken(t.Attacker, t.ProvinceId);
-                }
-                else
-                    foreach (int idx in t.Cells)
-                        if (Grid.Cells[idx] == t.Owner)
-                            Grid.Cells[idx] = t.Attacker;
-                TerritoryChanged = true;
-                string what = t.ProvinceId != 0 ? t.Name : t.Owner == 0 ? "new land" : $"land from {RealmName(t.Owner)}";
-                string text = $"{attacker} takes {what}.";
-                events.Add(new ChronicleEvent(ChronicleKind.Conquest, t.Attacker, text));
-                if (t.Owner > 0)
-                    events.Add(new ChronicleEvent(ChronicleKind.Conquest, t.Owner, text));
-            }
-            else
-            {
-                string text = $"{attacker}'s attack on {t.Name} is thrown back.";
-                events.Add(new ChronicleEvent(ChronicleKind.Conquest, t.Attacker, text));
-                if (t.Owner > 0)
-                    events.Add(new ChronicleEvent(ChronicleKind.Conquest, t.Owner, text));
-            }
-        }
-        if (TerritoryChanged)
-        {
-            _census = null;
-            if (Population != null)
-                SyncPopulationOwnership();
-            // A realm left with no land is gone: its wars end.
-            var left = RealmCensus();
-            foreach (var t in targets)
-                if (t.Won && t.Owner > 0 && !left.ContainsKey(t.Owner) && Game.Wars.Of(t.Owner).Any())
-                {
-                    Game.Wars.EndAllOf(t.Owner);
-                    events.Add(new ChronicleEvent(ChronicleKind.War, t.Owner, $"{RealmName(t.Owner)} is no more."));
-                }
-        }
-        return events;
-    }
-
-    /// <summary>The player's plan is fought out at the start of the turn's first year, then cleared.</summary>
+    /// <summary>The player's plan becomes sieges at the start of the turn's first year, then is cleared.</summary>
     internal List<ChronicleEvent> ResolvePlayerPlan()
     {
         var events = new List<ChronicleEvent>();
@@ -269,15 +249,50 @@ public partial class MapView
             return events;
         EnsurePlayerReach();
         var targets = PlayerConquestTargets();
-        events.AddRange(ResolveConquests(targets, new Random(StableHash.Of(DemoYear, PlayerRealmId, _dirtyProposalCells.Count))));
-        foreach (int idx in _dirtyProposalCells)
-            _proposal[idx] = 0;
-        _dirtyProposalCells.Clear();
+        events.AddRange(BeginSieges(targets));
+        if (MapImage != null)
+            ClearProposal();   // repaints just the painted cells
+        else
+        {
+            foreach (int idx in _dirtyProposalCells)
+                _proposal[idx] = 0;
+            _dirtyProposalCells.Clear();
+        }
         _reachYear = int.MinValue;
-        if (!TerritoryChanged && MapImage != null)
-            _ = RedrawTerritory();   // clear the painted marks
         EmitSignal(SignalName.ConquestPlanChanged);
         return events;
+    }
+
+    readonly HashSet<int> _repaintProvinces = new();
+    readonly List<int> _repaintCells = new();
+
+    /// <summary>Notes land that changed hands, so the next redraw repaints just that.</summary>
+    internal void MarkChanged(int provinceId, IEnumerable<int>? cells = null)
+    {
+        if (provinceId != 0)
+            _repaintProvinces.Add(provinceId);
+        if (cells != null)
+            _repaintCells.AddRange(cells);
+    }
+
+    /// <summary>Repaints the cells of changed provinces and land, then updates the texture once.</summary>
+    async Task RepaintChanged()
+    {
+        var provinces = _repaintProvinces.ToHashSet();
+        var provinceCells = Provinces?.Cells;
+        var cells = new List<int>(_repaintCells);
+        if (provinces.Count > 0 && provinceCells != null)
+            cells.AddRange(await Task.Run(() =>
+            {
+                var found = new List<int>();
+                for (int i = 0; i < provinceCells.Length; i++)
+                    if (provinces.Contains(provinceCells[i]))
+                        found.Add(i);
+                return found;
+            }));
+        foreach (int idx in cells)
+            RepaintCell(idx % GridWidth, idx / GridWidth);
+        _mapTexture!.Update(MapImage);
     }
 
     /// <summary>Redraws the map and realm names after land changed hands.</summary>
@@ -287,8 +302,15 @@ public partial class MapView
         _reachYear = int.MinValue;
         if (MapSprite == null)
             return;
-        await BuildFullMapImage();
-        BuildLabels(await ComputeCentroids());
+        if (MapImage != null && _mapTexture != null && (_repaintProvinces.Count > 0 || _repaintCells.Count > 0))
+            await RepaintChanged();   // only what changed hands
+        else
+            await BuildFullMapImage(loadLand: false);
+        _repaintProvinces.Clear();
+        _repaintCells.Clear();
+        var cells = Grid.Cells;
+        BuildLabels(await Task.Run(() => CentroidsNow(cells)));
+        RefreshArmyMarkers();
     }
 
     // --- War and peace for the player -----------------------------------------------

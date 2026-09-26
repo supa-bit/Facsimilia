@@ -286,6 +286,7 @@ public partial class MapView : Node2D
         // First time: show the whole map. On later resizes, keep the player's zoom.
         float z = firstFit ? _fitZoom : Math.Clamp(_camera.Zoom.X, _fitZoom, MaxZoom);
         _camera.Zoom = new Vector2(z, z);
+        ScaleArmyMarkers();
         ClampCamera();
     }
 
@@ -343,12 +344,28 @@ public partial class MapView : Node2D
         var before = ScreenToWorld(anchor);
         float z = Math.Clamp(_camera.Zoom.X * factor, _fitZoom, MaxZoom);
         _camera.Zoom = new Vector2(z, z);
+        ScaleArmyMarkers();
         _camera.Position += before - ScreenToWorld(anchor);
         ClampCamera();
     }
 
     public void ZoomIn() => ZoomBy(ZoomStep);
     public void ZoomOut() => ZoomBy(1f / ZoomStep);
+
+    /// <summary>Centres the view on the player's seat, zoomed in on their part of the world.</summary>
+    public void FocusOnPlayer()
+    {
+        if (_camera == null)
+            return;
+        int node = CapitalNode(PlayerRealmId);
+        if (node < 0)
+            return;
+        _camera.Position = NodeCell(node) * CellPixels;
+        _camera.Zoom = Vector2.One * Math.Clamp(_fitZoom * 3f, _fitZoom, MaxZoom);
+        ScaleArmyMarkers();
+        ClampCamera();
+        RefreshArmyMarkers();
+    }
 
     /// <summary>Back to the whole-map view, centred.</summary>
     public void ZoomToFit()
@@ -357,6 +374,7 @@ public partial class MapView : Node2D
             return;
         _camera.Position = MapCenter;
         _camera.Zoom = new Vector2(_fitZoom, _fitZoom);
+        ScaleArmyMarkers();
         ClampCamera();
     }
 
@@ -672,29 +690,65 @@ public partial class MapView : Node2D
     /// One pass over the whole grid computing every realm's centroid (and land
     /// cell count, which sizes its name).
     /// </summary>
+    /// <summary>Realm centroids without pausing between chunks (for a background thread).</summary>
+    Dictionary<int, Vector2> CentroidsNow(int[] cells)
+    {
+        int maxId = SeaOwnerId + 1;
+        var sumX = new double[maxId];
+        var sumY = new double[maxId];
+        var count = new int[maxId];
+        for (int j = 0; j < cells.Length; j++)
+        {
+            int o = cells[j];
+            if (o <= 0 || o >= SeaOwnerId)
+                continue;
+            sumX[o] += j % GridWidth;
+            sumY[o] += j / GridWidth;
+            count[o]++;
+        }
+        var counts = new Dictionary<int, int>();
+        var result = new Dictionary<int, Vector2>();
+        for (int o = 1; o < maxId; o++)
+            if (count[o] > 0)
+            {
+                counts[o] = count[o];
+                result[o] = new Vector2((float)(sumX[o] / count[o]), (float)(sumY[o] / count[o]));
+            }
+        _realmCells = counts;
+        return result;
+    }
+
     internal async Task<Dictionary<int, Vector2>> ComputeCentroids()
     {
-        var sumX = new Dictionary<int, double>();
-        var sumY = new Dictionary<int, double>();
-        var counts = new Dictionary<int, int>();
         int[] cells = Grid.Cells;
+        int maxId = Math.Max(Registry.Realms.Keys.DefaultIfEmpty(0).Max(), SeaOwnerId) + 1;
+        var sumX = new double[maxId];
+        var sumY = new double[maxId];
+        var count = new int[maxId];
         for (int start = 0; start < cells.Length; start += ChunkCells)
         {
             int end = Math.Min(start + ChunkCells, cells.Length);
             for (int j = start; j < end; j++)
             {
                 int o = cells[j];
-                if (o <= 0 || o == SeaOwnerId)
+                if (o <= 0 || o == SeaOwnerId || o >= maxId)
                     continue;
-                sumX[o] = sumX.GetValueOrDefault(o) + j % GridWidth;
-                sumY[o] = sumY.GetValueOrDefault(o) + j / GridWidth;
-                counts[o] = counts.GetValueOrDefault(o) + 1;
+                sumX[o] += j % GridWidth;
+                sumY[o] += j / GridWidth;
+                count[o]++;
             }
             await MaybeYield();
         }
+        var counts = new Dictionary<int, int>();
+        var result = new Dictionary<int, Vector2>();
+        for (int o = 1; o < maxId; o++)
+            if (count[o] > 0)
+            {
+                counts[o] = count[o];
+                result[o] = new Vector2((float)(sumX[o] / count[o]), (float)(sumY[o] / count[o]));
+            }
         _realmCells = counts;
-        return counts.ToDictionary(kv => kv.Key,
-            kv => new Vector2((float)(sumX[kv.Key] / kv.Value), (float)(sumY[kv.Key] / kv.Value)));
+        return result;
     }
 
     // --- Realm names ------------------------------------------------------------------
@@ -874,7 +928,7 @@ public partial class MapView : Node2D
     /// Builds the whole-map image from a raw RGBA buffer with a palette lookup per
     /// cell and one bulk upload, rather than millions of SetPixel calls.
     /// </summary>
-    internal async Task BuildFullMapImage()
+    internal async Task BuildFullMapImage(bool loadLand = true)
     {
         var palette = new Dictionary<int, uint>();
         foreach (int id in Registry.Realms.Keys)
@@ -904,7 +958,8 @@ public partial class MapView : Node2D
             MapSprite.Texture = _mapTexture;
         BuildProvinceTexture();
         BuildRegionOverlay();
-        LoadLand();
+        if (loadLand)
+            LoadLand();   // only when the world is first drawn: redrawing borders leaves the land as it is
     }
 
     static uint Rgba(Color c) =>
@@ -944,6 +999,14 @@ public partial class MapView : Node2D
             }
         }
         _mapTexture!.Update(MapImage);
+    }
+
+    /// <summary>Clears the painted plan and recomputes reach (another army was chosen).</summary>
+    public void ClearConquestPlan()
+    {
+        ClearProposal();
+        _reachYear = int.MinValue;
+        ShowReach(Mode == MapMode.PlanConquest);
     }
 
     void ClearProposal()

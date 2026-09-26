@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Facsimilia.World;
 
 namespace Facsimilia.Game;
@@ -56,13 +57,7 @@ public static class Economy
         return (output * organized * TaxShare[(int)rate], output * (1 - organized) * TributeShare);
     }
 
-    public static double Upkeep(RealmState r)
-    {
-        double s = 0;
-        for (int t = 0; t < UnitTypes.Count; t++)
-            s += r.Units[t] * UnitTypes.All[t].Upkeep;
-        return s * r.UpkeepShare;
-    }
+    public static double Upkeep(RealmState r) => r.Armies.Sum(Military.Upkeep) * r.UpkeepShare;
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
     public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>
@@ -101,7 +96,9 @@ public static class Economy
 
         double target = SustainableManpower(c, r.ManpowerMultiplier);
         r.Manpower += (target - r.Manpower) * ManpowerRefill;
-        r.Fatigue = Math.Max(0, r.Fatigue - 0.25);   // armies rest
+        foreach (var a in r.Armies)
+            a.Fatigue = Math.Max(0, a.Fatigue - (a.Resting ? 0.25 : 0.1));   // armies rest, sieges less so
+        r.Armies.RemoveAll(a => a.IsEmpty && r.Armies.Count > 1);
 
         double income = tax + tribute + customs;
         if (r.Debt > DefaultYears * Math.Max(income, 1))
@@ -109,12 +106,13 @@ public static class Economy
         if (r.Debt > DebtLimitYears * Math.Max(income, 1))
         {
             int lost = 0;
-            for (int t = 0; t < UnitTypes.Count; t++)
-            {
-                int d = (int)Math.Ceiling(r.Units[t] * DesertionRate);
-                r.Units[t] -= d;
-                lost += d;
-            }
+            foreach (var a in r.Armies)
+                for (int t = 0; t < a.Units.Length; t++)
+                {
+                    int d = (int)Math.Ceiling(a.Units[t] * DesertionRate);
+                    a.Units[t] -= d;
+                    lost += d;
+                }
             if (lost > 0)
                 return $"Unpaid for too long, {lost} units desert.";
         }

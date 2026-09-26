@@ -39,8 +39,9 @@ public partial class Hud
         _conquestPanel.AddChild(box);
         box.AddChild(ThemeAncient.Label("Conquest plan", "HeaderLabel", 22));
         var hint = ThemeAncient.Label(
-            "Paint land to take. Touching an enemy province targets all of it. Dimmed land is out of your army's " +
-            "reach this year; with warships you reach farther along coasts and across the sea. Right-click clears.",
+            "Paint land to take. Touching an enemy province targets all of it. Dimmed land is out of your chosen army's " +
+            "reach this year (choose the army in the Armies panel); with warships it reaches farther along coasts and " +
+            "across the sea. When you end the turn the army marches out and lays siege. Right-click clears.",
             "SubtleLabel", 15);
         hint.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         hint.CustomMinimumSize = new Vector2(390, 0);
@@ -62,6 +63,16 @@ public partial class Hud
             return;
         foreach (Node child in _conquestRows.GetChildren())
             child.QueueFree();
+        var army = _map.SelectedArmy;
+        _conquestRows.AddChild(ThemeAncient.Label(army == null ? "You have no army." :
+            $"Army: {army.Name}, at {_map.PlaceOfNode(army.Node)} (land Might {Military.Might(army, Domain.Land):0.0})", fontSize: 17));
+        var sieges = _map.Game.Sieges.Where(x => x.Attacker == _map.PlayerRealmId).ToList();
+        foreach (var siege in sieges)
+        {
+            string by = _map.PlayerState.ArmyById(siege.ArmyId)?.Name ?? "?";
+            _conquestRows.AddChild(ThemeAncient.Label($"Under siege by {by}: {siege.Name}, {Math.Min(siege.Progress, 0.99):P0} done",
+                "SubtleLabel", 15));
+        }
         var targets = _map.PlayerConquestTargets();
         if (targets.Count == 0)
         {
@@ -99,14 +110,19 @@ public partial class Hud
                 }
                 continue;
             }
-            row.AddChild(ThemeAncient.Label(
-                $"{people} people.  Their Might {t.DefenderMight:0.0} against your {t.AttackerMight:0.0}: " +
-                $"{t.Chance:P0} chance" + (t.BySea ? " (by sea)" : ""), "SubtleLabel", 15));
+            var line = ThemeAncient.Label(
+                $"{people} people.  Defenders {t.DefenderMight:0.0} against your {t.AttackerMight:0.0}: " +
+                $"{t.Chance:P0} to win in battle; a siege of about {(double.IsInfinity(t.Years) ? "many" : t.Years.ToString("0"))} " +
+                $"year{(t.Years == 1 ? "" : "s")}" + (t.BySea ? " (by sea)" : ""), "SubtleLabel", 15);
+            line.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            line.CustomMinimumSize = new Vector2(390, 0);
+            row.AddChild(line);
         }
         int ready = targets.Count(t => t.Problem == null);
         _conquestSummary.Text = ready == 0
             ? "Nothing can be attacked yet."
-            : $"{ready} target{(ready == 1 ? "" : "s")}: your army is split between them. The fights are decided when you end the turn.";
+            : $"{ready} target{(ready == 1 ? "" : "s")}: the army divides its strength between its sieges. It marches out when you end the turn; " +
+              "each year the sieges advance, and the enemy may march to relieve them.";
     }
 
     void DeclareWarOn(int enemy)

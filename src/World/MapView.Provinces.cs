@@ -68,6 +68,7 @@ public partial class MapView
             return;
         float z = Math.Clamp(_fitZoom * timesFit, _fitZoom, MaxZoom);
         _camera.Zoom = new Vector2(z, z);
+        ScaleArmyMarkers();
         _camera.Position = world;
         ClampCamera();
     }
@@ -172,6 +173,24 @@ public partial class MapView
     /// <summary>Left button: what it does depends on the map mode. Returns true if handled.</summary>
     bool HandleLeftButton(InputEventMouseButton mb)
     {
+        if (mb.Pressed && MovingArmyId != 0)
+        {
+            // Moving an army: this click chooses where it goes.
+            var army = PlayerState.ArmyById(MovingArmyId);
+            MovingArmyId = 0;
+            if (army != null && Population != null)
+            {
+                var world = GetGlobalMousePosition();
+                int node = Population.NodeAtCell((int)(world.X / CellPixels), (int)(world.Y / CellPixels), GridWidth, GridHeight);
+                string? problem = CanMoveArmy(army, node);
+                if (problem == null)
+                    MoveArmy(army, node);
+                else
+                    EmitSignal(SignalName.ArmyMoveRefused, problem);
+            }
+            EmitSignal(SignalName.ArmiesChanged);
+            return true;
+        }
         if (mb.Pressed)
         {
             _leftDown = true;

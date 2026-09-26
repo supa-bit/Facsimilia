@@ -1,0 +1,736 @@
+{
+ "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use.",
+ "units": [
+  {
+   "id": "levy_spearmen",
+   "name": "Levy spearmen",
+   "role": "heavy_infantry",
+   "might": 0.7,
+   "men": 1000,
+   "raise_cost": 15,
+   "upkeep": 10,
+   "cultures": [
+    "*"
+   ],
+   "description": "Farmers with spear and shield, called up for the season."
+  },
+  {
+   "id": "skirmishers",
+   "name": "Skirmishers",
+   "role": "light_infantry",
+   "might": 0.45,
+   "men": 1000,
+   "raise_cost": 8,
+   "upkeep": 8,
+   "cultures": [
+    "*"
+   ],
+   "description": "Javelin men: cheap, quick, weak in a stand-up fight."
+  },
+  {
+   "id": "slingers",
+   "name": "Slingers",
+   "role": "missile",
+   "might": 0.5,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 9,
+   "cultures": [
+    "*"
+   ],
+   "description": "Shepherds with slings: every people had them."
+  },
+  {
+   "id": "light_horse",
+   "name": "Light horse",
+   "role": "cavalry",
+   "might": 1.0,
+   "men": 500,
+   "raise_cost": 25,
+   "upkeep": 20,
+   "cultures": [
+    "*"
+   ],
+   "description": "Scouts and raiders on small horses.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "triremes",
+   "name": "Triremes",
+   "role": "warships",
+   "might": 0.9,
+   "men": 2000,
+   "raise_cost": 45,
+   "upkeep": 36,
+   "cultures": [
+    "*"
+   ],
+   "description": "Ten triremes with rowers and marines. Need ship timber and a coast.",
+   "needs": "res_ship_timber"
+  },
+  {
+   "id": "war_elephants",
+   "name": "War elephants",
+   "role": "elephants",
+   "might": 1.6,
+   "men": 100,
+   "raise_cost": 60,
+   "upkeep": 30,
+   "cultures": [
+    "*"
+   ],
+   "description": "Twenty elephants with their crews: terrifying, costly, unreliable. Need elephant country.",
+   "needs": "res_elephants"
+  },
+  {
+   "id": "hastati_principes",
+   "name": "Hastati and principes",
+   "role": "heavy_infantry",
+   "might": 1.1,
+   "men": 1000,
+   "raise_cost": 25,
+   "upkeep": 18,
+   "cultures": [
+    "latin"
+   ],
+   "description": "The manipular legion's heavy infantry: pila and short swords, fighting in flexible lines.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "velites",
+   "name": "Velites",
+   "role": "light_infantry",
+   "might": 0.5,
+   "men": 1000,
+   "raise_cost": 8,
+   "upkeep": 8,
+   "cultures": [
+    "latin"
+   ],
+   "description": "The legion's young skirmishers."
+  },
+  {
+   "id": "equites",
+   "name": "Equites",
+   "role": "cavalry",
+   "might": 1.1,
+   "men": 500,
+   "raise_cost": 30,
+   "upkeep": 25,
+   "cultures": [
+    "latin"
+   ],
+   "description": "Roman citizen cavalry from the richer classes.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "socii_infantry",
+   "name": "Allied Italian infantry",
+   "role": "heavy_infantry",
+   "might": 0.95,
+   "men": 1000,
+   "raise_cost": 20,
+   "upkeep": 15,
+   "cultures": [
+    "italic",
+    "latin"
+   ],
+   "description": "The socii: Samnites, Marsi, Umbrians, fighting beside the legions.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "samnite_warriors",
+   "name": "Samnite warriors",
+   "role": "heavy_infantry",
+   "might": 1.0,
+   "men": 1000,
+   "raise_cost": 20,
+   "upkeep": 15,
+   "cultures": [
+    "italic"
+   ],
+   "description": "Hill fighters with oblong shields and javelins."
+  },
+  {
+   "id": "etruscan_hoplites",
+   "name": "Etruscan hoplites",
+   "role": "heavy_infantry",
+   "might": 0.95,
+   "men": 1000,
+   "raise_cost": 22,
+   "upkeep": 16,
+   "cultures": [
+    "etruscan"
+   ],
+   "description": "City militias in Greek-style armour.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "quinqueremes",
+   "name": "Quinqueremes",
+   "role": "warships",
+   "might": 1.1,
+   "men": 3000,
+   "raise_cost": 60,
+   "upkeep": 45,
+   "cultures": [
+    "latin",
+    "punic",
+    "phoenician",
+    "macedonian",
+    "greek"
+   ],
+   "description": "Ten 'fives': the heavy warships of the age.",
+   "needs": "res_ship_timber"
+  },
+  {
+   "id": "hoplites",
+   "name": "Hoplites",
+   "role": "heavy_infantry",
+   "might": 1.0,
+   "men": 1000,
+   "raise_cost": 24,
+   "upkeep": 17,
+   "cultures": [
+    "greek"
+   ],
+   "description": "Citizen spearmen in bronze, fighting shoulder to shoulder.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "peltasts",
+   "name": "Peltasts",
+   "role": "light_infantry",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 8,
+   "cultures": [
+    "greek",
+    "thracian"
+   ],
+   "description": "Light shield, javelins: the skirmishers of the Greek world."
+  },
+  {
+   "id": "cretan_archers",
+   "name": "Cretan archers",
+   "role": "missile",
+   "might": 0.65,
+   "men": 1000,
+   "raise_cost": 12,
+   "upkeep": 11,
+   "cultures": [
+    "greek"
+   ],
+   "description": "The best archers for hire."
+  },
+  {
+   "id": "thessalian_cavalry",
+   "name": "Thessalian cavalry",
+   "role": "cavalry",
+   "might": 1.3,
+   "men": 500,
+   "raise_cost": 32,
+   "upkeep": 25,
+   "cultures": [
+    "greek"
+   ],
+   "description": "Greece's finest horsemen.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "phalangites",
+   "name": "Phalangites",
+   "role": "heavy_infantry",
+   "might": 1.05,
+   "men": 1000,
+   "raise_cost": 25,
+   "upkeep": 18,
+   "cultures": [
+    "macedonian"
+   ],
+   "description": "The pike phalanx: an unbreakable front, if the flanks hold.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "hypaspists",
+   "name": "Hypaspists",
+   "role": "heavy_infantry",
+   "might": 1.25,
+   "men": 1000,
+   "raise_cost": 35,
+   "upkeep": 26,
+   "cultures": [
+    "macedonian"
+   ],
+   "description": "The king's shield-bearers: elite infantry.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "companion_cavalry",
+   "name": "Companion cavalry",
+   "role": "cavalry",
+   "might": 1.5,
+   "men": 500,
+   "raise_cost": 40,
+   "upkeep": 30,
+   "cultures": [
+    "macedonian"
+   ],
+   "description": "Alexander's heavy horse, the hammer of the Successor armies.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "libyan_spearmen",
+   "name": "Libyan spearmen",
+   "role": "heavy_infantry",
+   "might": 0.95,
+   "men": 1000,
+   "raise_cost": 22,
+   "upkeep": 16,
+   "cultures": [
+    "punic",
+    "berber"
+   ],
+   "description": "Carthage's African subjects, armed in the Greek manner.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "sacred_band",
+   "name": "Sacred Band",
+   "role": "heavy_infantry",
+   "might": 1.3,
+   "men": 1000,
+   "raise_cost": 45,
+   "upkeep": 32,
+   "cultures": [
+    "punic"
+   ],
+   "description": "Carthage's citizen elite: rich, brave, few.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "numidian_horse",
+   "name": "Numidian horse",
+   "role": "cavalry",
+   "might": 1.25,
+   "men": 500,
+   "raise_cost": 22,
+   "upkeep": 18,
+   "cultures": [
+    "berber",
+    "punic"
+   ],
+   "description": "Bareback javelin riders: the best light cavalry of the age.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "balearic_slingers",
+   "name": "Balearic slingers",
+   "role": "missile",
+   "might": 0.7,
+   "men": 1000,
+   "raise_cost": 12,
+   "upkeep": 11,
+   "cultures": [
+    "punic",
+    "iberian"
+   ],
+   "description": "Islanders who could hit a coin at a hundred paces."
+  },
+  {
+   "id": "phoenician_marines",
+   "name": "Phoenician marines",
+   "role": "light_infantry",
+   "might": 0.6,
+   "men": 1000,
+   "raise_cost": 12,
+   "upkeep": 10,
+   "cultures": [
+    "phoenician",
+    "punic"
+   ],
+   "description": "Sailors and fighting men of the Levantine cities."
+  },
+  {
+   "id": "scutarii",
+   "name": "Scutarii",
+   "role": "heavy_infantry",
+   "might": 0.95,
+   "men": 1000,
+   "raise_cost": 18,
+   "upkeep": 14,
+   "cultures": [
+    "iberian"
+   ],
+   "description": "Iberian swordsmen with long shields: the falcata's home.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "caetrati",
+   "name": "Caetrati",
+   "role": "light_infantry",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 8,
+   "upkeep": 8,
+   "cultures": [
+    "iberian"
+   ],
+   "description": "Iberian skirmishers with small round shields."
+  },
+  {
+   "id": "iberian_cavalry",
+   "name": "Iberian cavalry",
+   "role": "cavalry",
+   "might": 1.2,
+   "men": 500,
+   "raise_cost": 26,
+   "upkeep": 20,
+   "cultures": [
+    "iberian"
+   ],
+   "description": "Hardy horsemen who fought for Hannibal.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "warband",
+   "name": "Warband",
+   "role": "heavy_infantry",
+   "might": 0.85,
+   "men": 1000,
+   "raise_cost": 12,
+   "upkeep": 10,
+   "cultures": [
+    "celtic",
+    "ligurian"
+   ],
+   "description": "Nobles and their followers: a fearsome first charge."
+  },
+  {
+   "id": "gallic_cavalry",
+   "name": "Gallic cavalry",
+   "role": "cavalry",
+   "might": 1.25,
+   "men": 500,
+   "raise_cost": 24,
+   "upkeep": 19,
+   "cultures": [
+    "celtic"
+   ],
+   "description": "Celtic nobles on horseback, prized as mercenaries.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "falxmen",
+   "name": "Falxmen",
+   "role": "heavy_infantry",
+   "might": 1.0,
+   "men": 1000,
+   "raise_cost": 18,
+   "upkeep": 14,
+   "cultures": [
+    "dacian",
+    "thracian"
+   ],
+   "description": "Two-handed curved blades that split shields.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "illyrian_lembi",
+   "name": "Illyrian lembi",
+   "role": "warships",
+   "might": 0.7,
+   "men": 1500,
+   "raise_cost": 30,
+   "upkeep": 22,
+   "cultures": [
+    "illyrian"
+   ],
+   "description": "Fast light galleys of the Adriatic raiders.",
+   "needs": "res_ship_timber"
+  },
+  {
+   "id": "illyrian_raiders",
+   "name": "Illyrian raiders",
+   "role": "light_infantry",
+   "might": 0.6,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 8,
+   "cultures": [
+    "illyrian"
+   ],
+   "description": "Mountain fighters and sea-raiders."
+  },
+  {
+   "id": "scythian_horse_archers",
+   "name": "Scythian horse archers",
+   "role": "horse_archers",
+   "might": 1.3,
+   "men": 500,
+   "raise_cost": 22,
+   "upkeep": 16,
+   "cultures": [
+    "scythian",
+    "sarmatian"
+   ],
+   "description": "Mounted bowmen of the steppe.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "sarmatian_lancers",
+   "name": "Sarmatian lancers",
+   "role": "cavalry",
+   "might": 1.45,
+   "men": 500,
+   "raise_cost": 35,
+   "upkeep": 26,
+   "cultures": [
+    "sarmatian"
+   ],
+   "description": "Armoured riders with long lances.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "persian_cavalry",
+   "name": "Persian cavalry",
+   "role": "cavalry",
+   "might": 1.2,
+   "men": 500,
+   "raise_cost": 30,
+   "upkeep": 24,
+   "cultures": [
+    "persian",
+    "median",
+    "cappadocian",
+    "armenian"
+   ],
+   "description": "The Iranian nobility on horseback.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "cataphracts",
+   "name": "Cataphracts",
+   "role": "cavalry",
+   "might": 1.6,
+   "men": 500,
+   "raise_cost": 50,
+   "upkeep": 36,
+   "cultures": [
+    "median",
+    "armenian",
+    "persian"
+   ],
+   "description": "Horse and rider in scale armour.",
+   "needs": "res_horses"
+  },
+  {
+   "id": "takabara",
+   "name": "Takabara",
+   "role": "light_infantry",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 8,
+   "cultures": [
+    "persian",
+    "median",
+    "anatolian",
+    "cappadocian"
+   ],
+   "description": "Light infantry of Asia with wicker shields."
+  },
+  {
+   "id": "galatian_warriors",
+   "name": "Galatian warriors",
+   "role": "heavy_infantry",
+   "might": 0.9,
+   "men": 1000,
+   "raise_cost": 14,
+   "upkeep": 11,
+   "cultures": [
+    "celtic"
+   ],
+   "description": "Gauls settled in Asia, the Successors' favourite mercenaries."
+  },
+  {
+   "id": "anatolian_hillmen",
+   "name": "Anatolian hillmen",
+   "role": "light_infantry",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 8,
+   "upkeep": 8,
+   "cultures": [
+    "anatolian",
+    "cappadocian"
+   ],
+   "description": "Pisidians and Isaurians: hard men of the hills."
+  },
+  {
+   "id": "syrian_archers",
+   "name": "Syrian archers",
+   "role": "missile",
+   "might": 0.6,
+   "men": 1000,
+   "raise_cost": 10,
+   "upkeep": 9,
+   "cultures": [
+    "aramaean",
+    "babylonian",
+    "jewish"
+   ],
+   "description": "Composite bows of the Levant."
+  },
+  {
+   "id": "jewish_levies",
+   "name": "Judaean levies",
+   "role": "heavy_infantry",
+   "might": 0.85,
+   "men": 1000,
+   "raise_cost": 14,
+   "upkeep": 11,
+   "cultures": [
+    "jewish"
+   ],
+   "description": "Hill-country farmers under arms."
+  },
+  {
+   "id": "babylonian_spearmen",
+   "name": "Babylonian spearmen",
+   "role": "heavy_infantry",
+   "might": 0.8,
+   "men": 1000,
+   "raise_cost": 14,
+   "upkeep": 11,
+   "cultures": [
+    "babylonian",
+    "aramaean"
+   ],
+   "description": "Temple and city levies of Mesopotamia."
+  },
+  {
+   "id": "machimoi",
+   "name": "Egyptian machimoi",
+   "role": "heavy_infantry",
+   "might": 0.9,
+   "men": 1000,
+   "raise_cost": 16,
+   "upkeep": 12,
+   "cultures": [
+    "egyptian"
+   ],
+   "description": "Egypt's hereditary warrior class, later trained as phalangites.",
+   "needs": "res_iron"
+  },
+  {
+   "id": "egyptian_archers",
+   "name": "Egyptian archers",
+   "role": "missile",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 10,
+   "upkeep": 9,
+   "cultures": [
+    "egyptian"
+   ],
+   "description": "The Nile's bowmen."
+  },
+  {
+   "id": "kushite_bowmen",
+   "name": "Kushite bowmen",
+   "role": "missile",
+   "might": 0.75,
+   "men": 1000,
+   "raise_cost": 11,
+   "upkeep": 9,
+   "cultures": [
+    "kushite"
+   ],
+   "description": "The 'land of the bow': Nubia's famous archers."
+  },
+  {
+   "id": "kushite_spearmen",
+   "name": "Kushite spearmen",
+   "role": "heavy_infantry",
+   "might": 0.85,
+   "men": 1000,
+   "raise_cost": 14,
+   "upkeep": 11,
+   "cultures": [
+    "kushite"
+   ],
+   "description": "The Meroitic kings' infantry."
+  },
+  {
+   "id": "camel_riders",
+   "name": "Camel riders",
+   "role": "cavalry",
+   "might": 1.1,
+   "men": 500,
+   "raise_cost": 20,
+   "upkeep": 16,
+   "cultures": [
+    "arab",
+    "nabataean",
+    "sabaean"
+   ],
+   "description": "Desert riders on dromedaries."
+  },
+  {
+   "id": "arab_archers",
+   "name": "Arab archers",
+   "role": "missile",
+   "might": 0.55,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 8,
+   "cultures": [
+    "arab",
+    "nabataean",
+    "sabaean"
+   ],
+   "description": "Bowmen of the incense roads."
+  },
+  {
+   "id": "colchian_levies",
+   "name": "Colchian levies",
+   "role": "light_infantry",
+   "might": 0.5,
+   "men": 1000,
+   "raise_cost": 8,
+   "upkeep": 7,
+   "cultures": [
+    "colchian"
+   ],
+   "description": "Men of the Phasis valley."
+  },
+  {
+   "id": "nuragic_warriors",
+   "name": "Nuragic warriors",
+   "role": "light_infantry",
+   "might": 0.6,
+   "men": 1000,
+   "raise_cost": 9,
+   "upkeep": 8,
+   "cultures": [
+    "sardinian"
+   ],
+   "description": "Sardinian hill fighters."
+  },
+  {
+   "id": "sicel_hoplites",
+   "name": "Sicel hoplites",
+   "role": "heavy_infantry",
+   "might": 0.85,
+   "men": 1000,
+   "raise_cost": 16,
+   "upkeep": 12,
+   "cultures": [
+    "sicel"
+   ],
+   "description": "Native Sicilians armed in the Greek way."
+  }
+ ]
+}

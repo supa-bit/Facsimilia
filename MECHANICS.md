@@ -1463,6 +1463,46 @@ is played (and from the Goals panel any time).
   the same on every run, so a saved game and the tests always play out
   the same way.
 
+## Armies and sieges **(built, 26 Sep 2026)**
+
+Decisions "Playable 9, 10, 12": named armies based in provinces, every
+culture's own units, sieges over years.
+
+- **Units** (`data/units.json`, 52 kinds): every people's own, in seven
+  roles (heavy and light infantry, archers and slingers, cavalry, horse
+  archers, elephants, warships), each with its Might, men, cost, upkeep,
+  a resource it needs, and a description: hastati and principes,
+  Companion cavalry, the Sacred Band, Numidian horse, scutarii, warbands,
+  falxmen, Scythian horse archers, cataphracts, Kushite bowmen, camel
+  riders... A realm raises the units of its own people and of every
+  people whose province it holds (Carthage, holding Numidians, raises
+  Numidian horse), plus anyone's levies, skirmishers, slingers, light
+  horse, triremes and (with elephant country) elephants.
+- **Armies**: each realm has named armies (Rome's are Legio I, II...; the
+  Hellenistic kings' the Royal army; the tribes' warhosts), each standing
+  on a place on the map with its own list of units and its own
+  weariness. The Armies panel raises units into an army, sends units
+  home, moves an army anywhere in your own land (click Move, then the
+  map), founds new armies at the capital, and chooses the army Conquest
+  mode paints for. Armies of yours and of your enemies show on the map.
+- **Reach** is now per army: 400 km over land from where it stands in a
+  year; with warships in the army the sea costs a third as much.
+- **Sieges**: painting enemy land and ending the turn sends the chosen
+  army to lay siege; it marches to the place. Each year a siege advances
+  by 0.35 x (besiegers / garrison)^0.6 x (realm Might ratio,
+  clamped 0.5-2)^0.3 (between 5% and 100% a year): about three years
+  between equals, one year for an overwhelming army. The garrison is the
+  place's militia, the province's walls (4 Might) and any of the owner's
+  armies standing there. Each year the defender may march a relief army
+  (60% of its armies not besieging, shared among its sieges) against
+  each siege: a battle by the usual odds; if the besiegers lose, the
+  siege is lifted. Besiegers lose 2% a year to disease and desertion
+  and tire. When a siege is complete the place changes hands, captives
+  are taken and the war score moves. An army split between several
+  sieges divides its strength.
+- **Other realms** besiege the same way with their main army, a few
+  places at a time.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

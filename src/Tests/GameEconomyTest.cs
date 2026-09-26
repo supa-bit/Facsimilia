@@ -28,7 +28,7 @@ public partial class GameEconomyTest : TestRunner
         foreach (string key in WorldFixture.CivKeys)
         {
             var s = map.Game.Realm(map.CivRealmIds[key]);
-            Check(s.Units.Sum() > 0, $"{key} starts with no army");
+            Check(s.TotalUnits > 0 && s.Armies.All(a => a.Node >= 0), $"{key} starts with no army, or one standing nowhere");
             Check(s.Treasury > 0, $"{key} starts with no silver");
         }
         int egypt = map.CivRealmIds["egypt"], rome = map.CivRealmIds["rome"], scythia = map.CivRealmIds["scythia"];
@@ -38,16 +38,20 @@ public partial class GameEconomyTest : TestRunner
             $"Egypt's income is {egTax + egTribute:0} talents a year; the Ptolemies took in thousands");
         var (scTax, scTribute) = Economy.Revenue(map.CensusOf(scythia), TaxRate.Normal);
         Check(scTax < scTribute * 5 + 1, "the Scythians have no provinces, so they should live on tribute, not tax");
-        Check(map.Game.Realm(map.CivRealmIds["seleucid"]).Units[UnitTypes.Elephants] >= 10, "Seleucus had hundreds of elephants");
+        Check(map.Game.Realm(map.CivRealmIds["seleucid"]).RoleCount(UnitRoles.Elephants) >= 10, "Seleucus had hundreds of elephants");
+        var cat = UnitCatalog.Instance;
+        Check(map.Game.Realm(map.CivRealmIds["rome"]).Armies[0].Units[cat["hastati_principes"].Index] > 0,
+            "Rome's army should be of legionaries, its own people's units");
+        Check(map.Game.Realm(map.CivRealmIds["rome"]).Armies[0].Name == "Legio I", "Rome's first army should be Legio I");
 
         // A year passes: accounts are kept, and the treasury moves by the
         // balance, less whatever Egypt (run by the AI) spent raising troops.
         double before = eg.Treasury;
-        int unitsBefore = eg.Units.Sum();
+        int unitsBefore = eg.TotalUnits;
         var events = map.AdvanceYear();
         Check(eg.LastTax > 0, "Egypt collected no tax");
         double expected = before + eg.LastNet;
-        double recruited = (eg.Units.Sum() - unitsBefore) * 200.0;   // at most ~200 talents a unit, mercenaries included
+        double recruited = (eg.TotalUnits - unitsBefore) * 200.0;   // at most ~200 talents a unit, mercenaries included
         Check(eg.Treasury <= expected + 1 && eg.Treasury >= expected - Math.Max(recruited, 0) - 1,
             $"Egypt's treasury {eg.Treasury:0} doesn't match {before:0} + balance {eg.LastNet:0}");
 
@@ -66,26 +70,32 @@ public partial class GameEconomyTest : TestRunner
         var rc = map.CensusOf(rome);
         r.Treasury = 1000;
         double men = r.Manpower;
-        int legions = r.Units[UnitTypes.HeavyInfantry];
-        Check(Military.Recruit(r, rc, map.CultureOf(rome), UnitTypes.HeavyInfantry), "Rome couldn't raise a legion");
-        Check(r.Units[UnitTypes.HeavyInfantry] == legions + 1 && r.Manpower == men - 1000 && r.Treasury < 1000,
+        var legio = r.Armies[0];
+        var hastati = cat["hastati_principes"];
+        var cultures = map.CulturesOf(rome);
+        int legions = legio.Units[hastati.Index];
+        Check(Military.Recruit(r, rc, cultures, hastati, legio), "Rome couldn't raise a legion");
+        Check(legio.Units[hastati.Index] == legions + 1 && r.Manpower == men - 1000 && r.Treasury < 1000,
             "recruiting should cost 1,000 men and silver");
-        Check(Military.Disband(r, UnitTypes.HeavyInfantry) && r.Manpower == men, "disbanding should return the men");
-        Check(Military.CanRecruit(r, rc, map.CultureOf(rome), UnitTypes.HorseArchers).Problem != null,
-            "Romans shouldn't raise horse archers");
+        Check(Military.Disband(r, legio, hastati) && r.Manpower == men, "disbanding should return the men");
+        Check(Military.CanRecruit(r, rc, cultures, cat["scythian_horse_archers"]).Problem != null,
+            "Romans shouldn't raise Scythian horse archers");
+        Check(Military.CanRecruit(r, rc, cultures, cat["sacred_band"]).Problem != null, "Rome can't raise Carthage's Sacred Band");
 
         // Deep debt: unpaid soldiers desert.
         r.Debt = 1e6;
-        int army = r.Units.Sum();
+        int army = r.TotalUnits;
         Economy.Tick(r, rc);
-        Check(r.Units.Sum() < army, "an army unpaid for years should shrink");
+        Check(r.TotalUnits < army, "an army unpaid for years should shrink");
 
         // Save and load.
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();
         Check(await map2.LoadSavedGame("slot1"), "load failed");
         var eg2 = map2.Game.Realm(egypt);
-        Check(Math.Abs(eg2.Treasury - eg.Treasury) < 0.01 && eg2.Units.SequenceEqual(eg.Units) && eg2.Tax == eg.Tax,
+        Check(Math.Abs(eg2.Treasury - eg.Treasury) < 0.01 && eg2.Armies.Count == eg.Armies.Count
+            && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
+                && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +

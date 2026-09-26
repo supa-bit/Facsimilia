@@ -105,6 +105,7 @@ public partial class Hud
             ToggleRealmPanel(false);
             _goodsPanel.Visible = false;
             _diplomacyPanel.Visible = false;
+            _armiesPanel.Visible = false;
         }
         else if (!FileAccess.FileExists(GuideSeenPath))
             using (var f = FileAccess.Open(GuideSeenPath, FileAccess.ModeFlags.Write))
@@ -128,6 +129,7 @@ public partial class Hud
             _goodsPanel.Visible = false;
             _diplomacyPanel.Visible = false;
             _guidePanel.Visible = false;
+            _armiesPanel.Visible = false;
             RefreshGoalsPanel();
         }
         RefreshMapView();

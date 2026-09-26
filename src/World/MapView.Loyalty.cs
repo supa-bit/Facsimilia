@@ -166,6 +166,7 @@ public partial class MapView
         {
             string ruler = RealmName(p.RealmId);
             Provinces.SetRealm(p.Id, 0, Grid);   // it throws off its ruler and stands alone
+            MarkChanged(p.Id);
             var s = Game.Provinces[p.Id];
             s.Owner = 0;
             s.Unrest = 0;

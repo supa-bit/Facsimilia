@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using GArray = Godot.Collections.Array;
 using GDictionary = Godot.Collections.Dictionary;
@@ -20,9 +21,10 @@ public sealed class RealmState
     public double Treasury { get; set; }   // talents
     public double Debt { get; set; }       // talents owed to temples and bankers
     public TaxRate Tax { get; set; } = TaxRate.Normal;
-    public int[] Units { get; } = new int[UnitTypes.Count];   // how many of each (see UnitTypes)
+    /// <summary>The realm's named armies (and fleets), each with its own units.</summary>
+    public List<Army> Armies { get; } = new();
+    public int NextArmyId { get; set; } = 1;
     public double Manpower { get; set; }   // men available to recruit
-    public double Fatigue { get; set; }    // 0 rested .. 1 exhausted: campaigning wears armies down
     public string CivKey { get; set; } = "";
     /// <summary>How much more of its people a realm can call up (Rome's Italian allies: 3x; tribal levies: 2x).</summary>
     public double ManpowerMultiplier { get; set; } = 1;
@@ -51,15 +53,31 @@ public sealed class RealmState
 
     public RealmState(int realmId) => RealmId = realmId;
 
+    public Army? ArmyById(int id) => Armies.FirstOrDefault(a => a.Id == id);
+
+    /// <summary>A new, empty army standing on a node.</summary>
+    public Army NewArmy(string name, int node)
+    {
+        var a = new Army(UnitCatalog.Instance.Count) { Id = NextArmyId++, Name = name, Node = node };
+        Armies.Add(a);
+        return a;
+    }
+
+    /// <summary>How many units of a role the realm has in all its armies.</summary>
+    public int RoleCount(int role) => Armies.Sum(a => a.RoleCount(UnitCatalog.Instance, role));
+
+    public int TotalUnits => Armies.Sum(a => a.Count);
+
     public GDictionary ToDict()
     {
-        var units = new GArray();
-        foreach (int u in Units)
-            units.Add(u);
+        var cat = UnitCatalog.Instance;
+        var armies = new GArray();
+        foreach (var a in Armies)
+            armies.Add(a.ToDict(cat));
         return new GDictionary
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
-            ["units"] = units, ["manpower"] = Manpower, ["fatigue"] = Fatigue, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
+            ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
         };
     }
@@ -80,7 +98,6 @@ public sealed class RealmState
             Debt = d["debt"].AsDouble(),
             Tax = (TaxRate)d["tax"].AsInt32(),
             Manpower = d.TryGetValue("manpower", out var m) ? m.AsDouble() : 0,
-            Fatigue = d.TryGetValue("fatigue", out var f) ? f.AsDouble() : 0,
             ElephantSource = d.TryGetValue("elephant_source", out var e) && e.AsBool(),
             CivKey = d.TryGetValue("civ", out var k) ? k.AsString() : "",
             ManpowerMultiplier = d.TryGetValue("manpower_mult", out var mm) ? mm.AsDouble() : 1,
@@ -92,12 +109,20 @@ public sealed class RealmState
         if (d.TryGetValue("goals", out var goals))
             foreach (var (goal, year) in goals.AsGodotDictionary())
                 r.GoalsDone[goal.AsString()] = year.AsInt32();
-        if (d.TryGetValue("units", out var units))
+        var cat = UnitCatalog.Instance;
+        if (d.TryGetValue("armies", out var armies))
+            foreach (Variant v in armies.AsGodotArray())
+                r.Armies.Add(Army.FromDict(v.AsGodotDictionary(), cat));
+        else if (d.TryGetValue("units", out var units))
         {
+            // A save from before named armies: the realm's pool becomes one army.
             var a = units.AsGodotArray();
-            for (int i = 0; i < Math.Min(a.Count, r.Units.Length); i++)
-                r.Units[i] = a[i].AsInt32();
+            var army = new Army(cat.Count) { Id = 1, Name = "The army", Node = -1 };
+            for (int i = 0; i < Math.Min(a.Count, UnitRoles.Count); i++)
+                army.Units[cat[UnitRoles.Generic[i]].Index] += a[i].AsInt32();
+            r.Armies.Add(army);
         }
+        r.NextArmyId = d.TryGetValue("next_army", out var na) ? na.AsInt32() : r.Armies.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
         if (d.TryGetValue("last", out var last))
         {
             var a = last.AsGodotArray();
@@ -134,6 +159,8 @@ public sealed class GameState
     public Dictionary<int, ProvinceState> Provinces { get; } = new();
     /// <summary>Every geographic region's soil, forest, pasture and fish, and this year's harvest, by region id.</summary>
     public Dictionary<int, RegionNature> Nature { get; } = new();
+    /// <summary>Sieges under way, by any realm.</summary>
+    public List<Siege> Sieges { get; } = new();
 
     public RealmState Realm(int id)
     {
@@ -158,14 +185,25 @@ public sealed class GameState
             provinces[id.ToString()] = p.ToDict();
         return new GDictionary
         {
-            ["provinces"] = provinces, ["nature"] = nature,
+            ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
         };
+    }
+
+    GArray SiegesArray()
+    {
+        var a = new GArray();
+        foreach (var s in Sieges)
+            a.Add(s.ToDict());
+        return a;
     }
 
     public static GameState FromDict(GDictionary d)
     {
         var g = new GameState();
+        if (d.TryGetValue("sieges", out var sg))
+            foreach (Variant v in sg.AsGodotArray())
+                g.Sieges.Add(Siege.FromDict(v.AsGodotDictionary()));
         if (d.TryGetValue("realms", out var realms))
             foreach (Variant v in realms.AsGodotArray())
             {

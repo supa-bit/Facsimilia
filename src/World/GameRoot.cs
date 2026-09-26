@@ -105,6 +105,7 @@ public partial class GameRoot : Node2D
         _uiLayer.AddChild(Hud);
         Hud.Setup(Map!);
         Hud.Refresh();
+        Map!.FocusOnPlayer();
         Hud.AdvanceRequested += OnAdvanceRequested;
     }
 
@@ -154,6 +155,8 @@ public partial class GameRoot : Node2D
     }
 
     bool _advancing;
+    /// <summary>A turn is being played (the turn button waits).</summary>
+    public bool Advancing => _advancing;
 
     /// <summary>
     /// Plays one turn: as many years as the player chose (decision "Playable
@@ -175,7 +178,10 @@ public partial class GameRoot : Node2D
                 Hud.ShowStatus($"{ThemeAncient.YearText(Map.DemoYear)}... ({y + 1} of {years})");
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
+            var yearClock = System.Diagnostics.Stopwatch.StartNew();
             var events = Map.AdvanceYear();
+            if (MapView.Profile)
+                GD.Print($"  year: {yearClock.ElapsedMilliseconds} ms");
             all.AddRange(events);
             if (y < years - 1 && events.Exists(e => StopsTurn(e, Map.PlayerRealmId)))
                 break;
@@ -186,7 +192,10 @@ public partial class GameRoot : Node2D
             await Map.RedrawTerritory();
         }
         Hud.ShowStatus("", 0.01);
+        var sw = System.Diagnostics.Stopwatch.StartNew();
         Hud.Refresh();
+        if (MapView.Profile)
+            GD.Print($"  hud refresh: {sw.ElapsedMilliseconds} ms");
         Hud.LogEvents(all);
         _advancing = false;
         int every = SettingsStore.Instance.AutosaveInterval;  // years; 0 = off
@@ -196,8 +205,10 @@ public partial class GameRoot : Node2D
 
     /// <summary>Major events that end a long turn early: they concern the player and may need an answer.</summary>
     static bool StopsTurn(ChronicleEvent e, int player) =>
-        e.RealmId == player && e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War
-            or ChronicleKind.Conquest or ChronicleKind.Revolt or ChronicleKind.Economy;
+        e.RealmId == player && (e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War
+            or ChronicleKind.Conquest or ChronicleKind.Revolt
+            // Of the economy, only trouble stops a turn: famine, desertion.
+            || (e.Kind == ChronicleKind.Economy && (e.Text.Contains("famine") || e.Text.Contains("desert"))));
 
     /// <summary>Years since 300 BC, allowing for there being no year 0.</summary>
     static int YearsPlayed(int year) => year - MapView.StartYear - (year > 0 ? 1 : 0);

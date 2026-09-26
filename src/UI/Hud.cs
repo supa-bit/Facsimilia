@@ -39,6 +39,7 @@ public partial class Hud : Control
         BuildDiplomacyPanel();
         BuildGoodsPanel();
         BuildGoalsPanel();
+        BuildArmiesPanel();
     }
 
     void BuildTopBar()
@@ -65,6 +66,7 @@ public partial class Hud : Control
         _populationItem = _populationLabel.GetParent<Control>();
 
         BuildTreasuryStat(row);
+        BuildArmiesButton(row);
         BuildDiplomacyButton(row);
         BuildGoodsButton(row);
         BuildGoalsButton(row);
@@ -232,6 +234,8 @@ public partial class Hud : Control
         RefreshDiplomacyPanel();
         RefreshGoodsPanel();
         RefreshGoalsPanel();
+        RefreshArmiesPanel();
+        _map.RefreshArmyMarkers();
         _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         _populationItem.Visible = _map.Population != null;
         if (_map.Population != null)
@@ -245,7 +249,7 @@ public partial class Hud : Control
     public void LogEvents(IReadOnlyList<ChronicleEvent> events)
     {
         string when = ThemeAncient.YearText(_map.DemoYear);
-        var news = events.Where(e => e.IsNewsFor(_map.PlayerRealmId)).ToList();
+        var news = events.Where(e => e.IsNewsFor(_map.PlayerRealmId)).DistinctBy(e => e.Text).ToList();
         if (news.Count == 0)
             _entries.Insert(0, $"{when} — A quiet year.");
         else

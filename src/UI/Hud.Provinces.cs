@@ -1,5 +1,6 @@
 using Facsimilia.Game;
 using System;
+using System.Linq;
 using Facsimilia.World;
 using Godot;
 
@@ -127,6 +128,13 @@ public partial class Hud
         _map.ProvincesChanged += RefreshProvincePanel;
         ConnectMapViewSignals();
         _map.ConquestPlanChanged += RefreshConquestPanel;
+        _map.ArmiesChanged += () =>
+        {
+            RefreshArmiesPanel();
+            RefreshConquestPanel();
+            _map.ShowReach(_map.Mode == MapMode.PlanConquest);
+        };
+        _map.ArmyMoveRefused += why => ShowStatus(why, fadeAfter: 3);
         _map.MapModeChanged += mode =>
         {
             for (int i = 0; i < Modes.Length; i++)
@@ -188,6 +196,10 @@ public partial class Hud
                 _provinceRegion.Text += $"\nThis year's harvest in {region.Name}: {year} ({n.Harvest:P0})" +
                     $"\nLand: soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}";
             }
+            foreach (var siege in _map.Game.Sieges.Where(x => x.ProvinceId == p.Id))
+                _provinceRegion.Text += $"\nUnder siege by {_map.RealmName(siege.Attacker)}: {Math.Min(siege.Progress, 0.99):P0} done";
+            foreach (var (realmId, army) in _map.ArmiesInProvince(p.Id))
+                _provinceRegion.Text += $"\nHere: {army.Name} of {_map.RealmName(realmId)} ({Military.Might(army, Domain.Land):0.0} land Might)";
             var ps = _map.ProvinceStateOf(p.Id);
             if (ps.Culture != "")
                 _provinceRegion.Text += $"\nPeople: {_map.CultureName(ps.Culture)}; worship: {_map.ReligionName(ps.Religion)}";

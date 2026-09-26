@@ -134,6 +134,11 @@ public partial class MapView
             BotRecruit(realm, state, census[realm.Id], needsFleet: false);
             if (wars.Count == 0)
                 continue;
+            // The main army campaigns; a realm keeps a few sieges going at once.
+            var army = state.Armies.OrderByDescending(a => Military.RawMight(a, Domain.Land)).FirstOrDefault();
+            int busy = Game.Sieges.Count(x => x.Attacker == realm.Id);
+            if (army == null || Military.RawMight(army, Domain.Land) <= 0 || busy >= BotMaxTargets)
+                continue;
             var (reach, bySea) = ComputeReach(realm.Id);
             var candidates = new List<ConquestTarget>();
             foreach (var war in wars)
@@ -158,33 +163,34 @@ public partial class MapView
                     // The side attacked in a historical war retakes what it lost; it
                     // doesn't march on its attacker's homeland.
                     var lost = new HashSet<int>(war.LostBy(realm.Id));
-                    candidates.AddRange(BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces)
+                    candidates.AddRange(BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces, army.Id)
                         .Where(t => t.ProvinceId != 0 && lost.Contains(t.ProvinceId)));
                 }
                 else
-                    candidates.AddRange(BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces));
+                    candidates.AddRange(BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces, army.Id));
             }
             foreach (var t in candidates)
-                t.Problem = Conquest.CheckTarget(t, Game, RealmName(t.Owner));
+                t.Problem = Conquest.CheckTarget(t, Game, RealmName(t.Owner))
+                    ?? (Game.Sieges.Any(x => x.Attacker == realm.Id && SameTarget(x, t)) ? "Already under siege" : null);
             if (candidates.Any(t => t.BySea && t.Problem != null))
                 BotRecruit(realm, state, census[realm.Id], needsFleet: true);
             var usable = candidates.Where(t => t.Problem == null).ToList();
             if (usable.Count == 0)
                 continue;
             // Estimate with the army split over the best few, and keep those worth the risk.
-            var chosen = usable.OrderByDescending(t => t.People).Take(BotMaxTargets * 2).ToList();
-            Conquest.Estimate(chosen, Game);
-            chosen = chosen.OrderByDescending(t => t.Chance).Take(BotMaxTargets).ToList();
-            Conquest.Estimate(chosen, Game);
+            var chosen = usable.OrderByDescending(t => t.People).Take((BotMaxTargets - busy) * 2).ToList();
+            EstimateTargets(chosen);
+            chosen = chosen.OrderByDescending(t => t.Chance).Take(BotMaxTargets - busy).ToList();
+            EstimateTargets(chosen);
             allTargets.AddRange(chosen.Where(t => t.Chance >= BotMinChance));
         }
-        events.AddRange(ResolveConquests(allTargets, rng));
+        events.AddRange(BeginSieges(allTargets));
         return events;
     }
 
     /// <summary>What a realm could attack of an enemy's: its provinces, and its unorganized land, within reach (and the goal's regions).</summary>
     List<ConquestTarget> BotCandidates(int attacker, int enemy, HashSet<int>? regions, bool[] reach, bool[] bySea,
-        Dictionary<int, (int Owner, int Region, double People, int Node)> provinces)
+        Dictionary<int, (int Owner, int Region, double People, int Node)> provinces, int armyId)
     {
         var list = new List<ConquestTarget>();
         foreach (var (id, p) in provinces)
@@ -194,6 +200,7 @@ public partial class MapView
             list.Add(new ConquestTarget
             {
                 Attacker = attacker, Owner = enemy, ProvinceId = id, People = p.People, BySea = bySea[p.Node],
+                ArmyId = armyId, Node = p.Node,
                 Name = $"{Provinces!.Provinces[id].Name} ({RealmName(enemy)})",
             });
         }
@@ -207,7 +214,7 @@ public partial class MapView
         {
             var t = new ConquestTarget
             {
-                Attacker = attacker, Owner = enemy, BySea = nodes.All(i => bySea[i]),
+                Attacker = attacker, Owner = enemy, BySea = nodes.All(i => bySea[i]), ArmyId = armyId, Node = nodes[0],
                 Name = $"Unorganized land of {RealmName(enemy)}",
             };
             int cw = GridWidth / pop.Width + 1, ch = GridHeight / pop.Height + 1;
@@ -263,21 +270,24 @@ public partial class MapView
         double budget = share * income - Economy.AdminPerProvince * c.Provinces;
         if (atWar)
             budget += s.Treasury / BotWarChestYears;   // a war chest is spent in war
-        var culture = realm.Culture;
-        int[] mix = culture == Culture.Scythian
-            ? new[] { UnitTypes.HorseArchers, UnitTypes.HorseArchers, UnitTypes.Cavalry, UnitTypes.LightInfantry }
-            : culture == Culture.Nabataean
-            ? new[] { UnitTypes.Cavalry, UnitTypes.Cavalry, UnitTypes.Archers, UnitTypes.LightInfantry }
-            : new[] { UnitTypes.HeavyInfantry, UnitTypes.HeavyInfantry, UnitTypes.Cavalry, UnitTypes.LightInfantry, UnitTypes.Archers };
+        var cultures = CulturesOf(realm.Id);
+        string own = RealmPeople(realm.Id).Culture;
+        int[] mix = own is "scythian" or "sarmatian"
+            ? new[] { UnitRoles.HorseArchers, UnitRoles.HorseArchers, UnitRoles.Cavalry, UnitRoles.LightInfantry }
+            : own is "nabataean" or "arab" or "sabaean"
+            ? new[] { UnitRoles.Cavalry, UnitRoles.Cavalry, UnitRoles.Missile, UnitRoles.LightInfantry }
+            : new[] { UnitRoles.HeavyInfantry, UnitRoles.HeavyInfantry, UnitRoles.Cavalry, UnitRoles.LightInfantry, UnitRoles.Missile };
         if (needsFleet && c.Coastal)
-            mix = new[] { UnitTypes.Warships, UnitTypes.Warships };
+            mix = new[] { UnitRoles.Warships, UnitRoles.Warships };
+        // New troops join the main army (or a new one at the capital).
+        var army = s.Armies.OrderByDescending(a => a.Count).FirstOrDefault() ?? s.NewArmy(NextArmyName(realm.Id), CapitalNode(realm.Id));
+        var cat = UnitCatalog.Instance;
         for (int k = 0; k < 3; k++)
         {
-            int type = mix[(s.Units.Sum() + k) % mix.Length];
-            var u = UnitTypes.All[type];
+            var u = cat.BestFor(mix[(s.TotalUnits + k) % mix.Length], cultures);
             if (Economy.Upkeep(s) + u.Upkeep * s.UpkeepShare > budget || s.Treasury < u.Raise * 2)
                 break;
-            if (!Military.Recruit(s, c, culture, type, s.ElephantSource))
+            if (!Military.Recruit(s, c, cultures, u, army, s.ElephantSource))
                 break;
         }
     }

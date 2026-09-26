@@ -72,6 +72,7 @@ public partial class Hud
             _goodsPanel.Visible = false;
             _goalsPanel.Visible = false;
             _guidePanel.Visible = false;
+            _armiesPanel.Visible = false;
             RefreshDiplomacyPanel();
         }
         RefreshMapView();
