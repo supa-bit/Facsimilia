@@ -95,14 +95,12 @@ public partial class Hud
                 {
                     int owner = t.Owner;
                     string? cannot = Diplomacy.CanDeclare(_map.Game, _map.PlayerRealmId, owner, _map.DemoYear);
-                    bool pretext = cannot == null && _map.HasPretext(_map.PlayerRealmId, owner);
+                    var best = cannot == null ? _map.PretextsAgainst(_map.PlayerRealmId, owner)[0] : null;
                     var declare = new Button
                     {
-                        Text = $"Declare war on {_map.RealmName(owner)}",
+                        Text = $"Declare war on {_map.RealmName(owner)}" + (best != null ? $" ({best.Name.ToLowerInvariant()})" : ""),
                         Disabled = cannot != null,
-                        TooltipText = cannot ?? (pretext
-                            ? "You share a border: a quarrel is easily found."
-                            : "No just cause: other realms will remember it."),
+                        TooltipText = cannot ?? $"{best!.Description}\nOther pretexts: in the Diplomacy panel.",
                         FocusMode = FocusModeEnum.None,
                     };
                     declare.Pressed += () => DeclareWarOn(owner);
@@ -125,13 +123,14 @@ public partial class Hud
               "each year the sieges advance, and the enemy may march to relieve them.";
     }
 
-    void DeclareWarOn(int enemy)
+    void DeclareWarOn(int enemy, string pretext = "")
     {
-        string? text = _map.DeclareWar(enemy);
-        if (text == null)
+        var events = _map.DeclareWar(enemy, pretext);
+        if (events == null)
             return;
-        LogEvents(new List<ChronicleEvent> { new(ChronicleKind.War, _map.PlayerRealmId, text) });
+        LogEvents(events);
         RefreshConquestPanel();
         RefreshDiplomacyPanel();
+        _map.RefreshArmyMarkers();
     }
 }

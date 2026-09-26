@@ -43,7 +43,11 @@ public sealed class RealmState
     public double LastCustoms { get; set; }
     /// <summary>Talents from selling captives as slaves last year.</summary>
     public double LastCaptiveSales { get; set; }
-    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales - LastAdmin - LastUpkeep - LastInterest;
+    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales + LastVassalTribute - LastAdmin - LastUpkeep - LastInterest;
+    /// <summary>How much other realms fear this one's conquests, 0..100; fades by itself.</summary>
+    public double Aggression { get; set; }
+    /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
+    public double LastVassalTribute { get; set; }
     /// <summary>People taken in war and held as slaves.</summary>
     public double Captives { get; set; }
     /// <summary>The realm's people when the game began (for the goals).</summary>
@@ -78,7 +82,7 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
         };
     }
 
@@ -104,6 +108,8 @@ public sealed class RealmState
             ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
             UpkeepShare = d.TryGetValue("upkeep_share", out var ush) ? ush.AsDouble() : 1,
             Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
+            Aggression = d.TryGetValue("aggression", out var agg) ? agg.AsDouble() : 0,
+            LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,
             StartPeople = d.TryGetValue("start_people", out var sp) ? sp.AsDouble() : 0,
         };
         if (d.TryGetValue("goals", out var goals))
@@ -153,6 +159,20 @@ public sealed class GameState
     public Dictionary<int, RealmState> Realms { get; } = new();
     public int YearsPerTurn { get; set; } = 1;
     public Wars Wars { get; } = new();
+    public Treaties Treaties { get; } = new();
+    /// <summary>Provinces each realm lost, and when (for the Reconquest pretext): realm -> province -> year.</summary>
+    public Dictionary<int, Dictionary<int, int>> Lost { get; } = new();
+
+    public void RecordLoss(int realm, int province, int year)
+    {
+        if (realm <= 0 || province == 0)
+            return;
+        if (!Lost.TryGetValue(realm, out var m))
+            Lost[realm] = m = new Dictionary<int, int>();
+        m[province] = year;
+    }
+    /// <summary>Offers other realms make the player (peace with tribute, ransom for a siege), answered in Diplomacy.</summary>
+    public List<Offer> Offers { get; } = new();
     /// <summary>Realms at war with the player that have sued for peace.</summary>
     public HashSet<int> PeaceOffers { get; } = new();
     /// <summary>Every province's culture, religion, integration and unrest, by province id.</summary>
@@ -187,7 +207,17 @@ public sealed class GameState
         {
             ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
+            ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
         };
+    }
+
+    GArray LostArray()
+    {
+        var a = new GArray();
+        foreach (var (realm, m) in Lost)
+            foreach (var (prov, year) in m)
+                a.Add(new GArray { realm, prov, year });
+        return a;
     }
 
     GArray SiegesArray()
@@ -214,6 +244,17 @@ public sealed class GameState
             g.YearsPerTurn = y.AsInt32();
         if (d.TryGetValue("wars", out var w))
             g.Wars.Load(w.AsGodotArray());
+        if (d.TryGetValue("lost", out var lost))
+            foreach (Variant v in lost.AsGodotArray())
+            {
+                var t = v.AsGodotArray();
+                g.RecordLoss(t[0].AsInt32(), t[1].AsInt32(), t[2].AsInt32());
+            }
+        if (d.TryGetValue("treaties", out var tr))
+            g.Treaties.Load(tr.AsGodotArray());
+        if (d.TryGetValue("offers", out var of))
+            foreach (Variant v in of.AsGodotArray())
+                g.Offers.Add(Offer.FromDict(v.AsGodotDictionary()));
         if (d.TryGetValue("peace_offers", out var po))
             foreach (Variant v in po.AsGodotArray())
                 g.PeaceOffers.Add(v.AsInt32());

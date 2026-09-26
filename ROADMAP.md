@@ -24,7 +24,7 @@ block the work that depends on them.
        a home province and their own unit lists; every culture's own
        units; conquest as sieges over years, decided by the troops in the
        provinces and each realm's Might. Playtested through the window.
-7. [ ] **Pretexts, war exhaustion, peace terms, alliances and vassals**
+7. [x] **Pretexts, war exhaustion, peace terms, alliances and vassals**
        (Playable 15, 16, 17, 19): casus belli in the spirit of Stellaris;
        war exhaustion that can force peace; terms by war score (provinces,
        tribute, vassalage); appeasement offers; defensive alliances and

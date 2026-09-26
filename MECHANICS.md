@@ -1503,6 +1503,61 @@ culture's own units, sieges over years.
 - **Other realms** besiege the same way with their main army, a few
   places at a time.
 
+## Pretexts, war exhaustion, peace terms, alliances and vassals **(built, 26 Sep 2026)**
+
+Decisions "Playable 15, 16, 17, 19".
+
+- **Pretexts** (in the spirit of Stellaris' casus belli, not a copy):
+  historical claim (history's own war for your realm in its years),
+  reconquest (land you held within 50 years), free our people (they rule
+  a province of your culture), border dispute (neighbours), subjugation
+  (a neighbour with a third of your Might or less: the prize may be their
+  submission), war of faith (neighbours with other gods), or none at all.
+  Each costs aggression on declaring (0 to 25) and for each province
+  taken (1 to 8).
+- **Aggression** (0-100) fades by 2 a year. It lowers every realm's
+  opinion of you (0.8 a point). At 50 or more, neighbours who think ill
+  of you (-20 or worse) form a coalition: they defend each other against
+  you, and a coalition half again stronger than you may strike first.
+- **Opinion** of another realm, with its reasons shown: kindred people
+  (+10/+20), the same gods (+10) or others (-5), allies (+40), overlord
+  and vassal (+20), at war (-60) or a recent war (-20), old rivals (-30:
+  Rome and Carthage, the Ptolemies and Seleucids, the Antigonids and the
+  other Successors, Carthage and the Sicilian Greeks, Rome and the Gauls),
+  a marriage between their ruling houses (+15), and fear of your
+  conquests.
+- **Alliances**: each defends the other. When a realm is attacked, its
+  allies, coalition partners, vassals and overlord join (a far-off ally
+  of another realm stays out, as history would; the player's allies and
+  the allies of a realm the player attacks always come). In force in 300
+  BC: Seleucus with Lysimachus, Ptolemy with Lysimachus. A realm accepts
+  your alliance at an opinion of +25; friends facing your enemies offer
+  theirs. Breaking one costs 5 aggression.
+- **Vassals** pay their overlord a tenth of their income a year, fight in
+  its wars and make none of their own. A far weaker realm (a third of
+  your Might) that thinks well of you may submit without a war; or
+  vassalage is a peace term.
+- **War exhaustion** (0-100 each side): +3 a year, +30 for losing a
+  realm's sustainable manpower in men, +8 for each province lost, +2 for
+  each of its places under siege. At 100 a side must make peace: the
+  winner takes the places it has half besieged, and tribute if it leads
+  by 40.
+- **Peace terms by war score**: white peace; each province (8-40 by its
+  share of the loser's people; half if already half besieged, half again
+  if it was once yours); tribute (20); vassalage (60, on a subjugation
+  pretext or with 60 war score). The loser pays up to its losses plus
+  half its exhaustion. The Diplomacy panel shows each term's cost and
+  whether they would accept.
+- **Appeasement** (only toward the player, or as history allows): a
+  beaten or exhausted enemy sues for peace offering silver and the places
+  already falling; a city under siege may offer a ransom (about 20
+  drachmae a head) to have the siege lifted. Offers wait in the
+  Diplomacy panel for two years.
+- **Other realms** declare history's wars only with half the defender's
+  strength (its allies counted), concentrate their army on one new siege
+  a year, and press where they can reach when history's regions are out
+  of reach.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

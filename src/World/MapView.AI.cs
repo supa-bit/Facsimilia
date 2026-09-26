@@ -103,11 +103,12 @@ public partial class MapView
                 if (target == 0 || !census.ContainsKey(target) || Diplomacy.CanDeclare(Game, realm.Id, target, year) != null)
                     continue;
                 // History pulls, it doesn't force suicide: too weak, it builds up and tries later in the window.
-                if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * Military.Might(Game.Realm(target), Domain.Land))
+                // Their friends count too.
+                double theirs = Military.Might(Game.Realm(target), Domain.Land) + Game.Treaties.AlliesOf(target)
+                    .Where(a => !Game.Treaties.Allied(a, realm.Id)).Sum(a => 0.5 * Military.Might(Game.Realm(a), Domain.Land));
+                if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * theirs)
                     continue;
-                Diplomacy.Declare(Game, realm.Id, target, year, pretext: true);
-                events.Add(new ChronicleEvent(ChronicleKind.War, target,
-                    $"{realm.Name} declares war on {RealmName(target)}. {goal.Why}"));
+                events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.')));
             }
             // A far stronger neighbour may fall on a weak player.
             int player = PlayerRealmId;
@@ -117,9 +118,7 @@ public partial class MapView
                 && !Game.Wars.Of(realm.Id).Any()
                 && rng.NextDouble() < BotOpportunism && HasPretext(realm.Id, player))
             {
-                Diplomacy.Declare(Game, realm.Id, player, year, pretext: true);
-                events.Add(new ChronicleEvent(ChronicleKind.War, player,
-                    $"{realm.Name} sees your weakness and declares war on {RealmName(player)}."));
+                events.AddRange(StartWar(realm.Id, player, Pretexts.Border, "it sees your weakness"));
             }
         }
         events.AddRange(BotsMakePeace(census));
@@ -167,7 +166,12 @@ public partial class MapView
                         .Where(t => t.ProvinceId != 0 && lost.Contains(t.ProvinceId)));
                 }
                 else
-                    candidates.AddRange(BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces, army.Id));
+                {
+                    var inRegions = BotCandidates(realm.Id, enemy, regions, reach, bySea, provinces, army.Id);
+                    // Nothing within reach in history's regions: press where the armies can reach.
+                    candidates.AddRange(inRegions.Count > 0 || regions == null ? inRegions
+                        : BotCandidates(realm.Id, enemy, null, reach, bySea, provinces, army.Id));
+                }
             }
             foreach (var t in candidates)
                 t.Problem = Conquest.CheckTarget(t, Game, RealmName(t.Owner))
@@ -178,11 +182,15 @@ public partial class MapView
             if (usable.Count == 0)
                 continue;
             // Estimate with the army split over the best few, and keep those worth the risk.
-            var chosen = usable.OrderByDescending(t => t.People).Take((BotMaxTargets - busy) * 2).ToList();
-            EstimateTargets(chosen);
-            chosen = chosen.OrderByDescending(t => t.Chance).Take(BotMaxTargets - busy).ToList();
-            EstimateTargets(chosen);
-            allTargets.AddRange(chosen.Where(t => t.Chance >= BotMinChance));
+            // One new siege a year, where the whole army can win it (armies were concentrated, not scattered).
+            var chosen = usable.OrderByDescending(t => t.People).Take(6).ToList();
+            foreach (var t in chosen)
+                EstimateTargets(new[] { t });
+            chosen = chosen.OrderByDescending(t => t.Chance).Take(1).ToList();
+            // A siege is worth it if the army can beat the garrison and a likely relief force.
+            allTargets.AddRange(chosen.Where(t => t.Years <= 5 &&
+                Conquest.WinChance(t.AttackerMight, Garrison(t.Owner, t.ProvinceId, t.People, t.Node)
+                    + Conquest.ReliefChance * (t.DefenderMight - Garrison(t.Owner, t.ProvinceId, t.People, t.Node))) >= BotMinChance));
         }
         events.AddRange(BeginSieges(allTargets));
         return events;
@@ -299,18 +307,8 @@ public partial class MapView
         int year = DemoYear;
         foreach (var war in Game.Wars.All.ToList())
         {
-            if (war.Involves(PlayerRealmId))
-            {
-                // A beaten enemy of the player sues for peace.
-                int enemy = war.Enemy(PlayerRealmId);
-                if (war.ScoreFor(enemy) <= -40 && !Game.PeaceOffers.Contains(enemy))
-                {
-                    Game.PeaceOffers.Add(enemy);
-                    events.Add(new ChronicleEvent(ChronicleKind.Peace, PlayerRealmId,
-                        $"{RealmName(enemy)} sues for peace. (Diplomacy: accept or fight on.)"));
-                }
-                continue;
-            }
+            if (war.Involves(PlayerRealmId) || war.Supports != null)
+                continue;   // the player's wars end by offers and terms; allies' wars with the main one
             var attacker = Game.Realm(war.Attacker);
             bool goalOver = !HistoryGoals.Any(g => g.Realm == attacker.CivKey && g.ActiveIn(year)
                 && RealmOfCiv(g.Target) == war.Defender);
@@ -320,24 +318,14 @@ public partial class MapView
                 continue;
             int winner = war.Score >= 0 ? war.Attacker : war.Defender;
             int loser = war.Enemy(winner);
-            bool tribute = Math.Abs(war.Score) >= Diplomacy.TributeScore;
-            var (tax, trib) = census.TryGetValue(loser, out var lc) ? Economy.Revenue(lc, Game.Realm(loser).Tax) : (0, 0);
-            double paid = Diplomacy.MakePeace(Game, war, winner, year, tribute, tax + trib);
-            events.Add(new ChronicleEvent(ChronicleKind.Peace, winner,
-                $"Peace between {RealmName(war.Attacker)} and {RealmName(war.Defender)}" +
-                (paid > 0 ? $": {RealmName(loser)} pays {paid:N0} talents." : ".")));
+            // The winner keeps what it took and takes the places it has nearly won.
+            var terms = new PeaceTerms { Tribute = Math.Abs(war.Score) >= Diplomacy.TributeScore };
+            foreach (var s in Game.Sieges.Where(s => s.Attacker == winner && s.Owner == loser && s.Progress >= 0.5 && s.ProvinceId != 0))
+                terms.Provinces.Add(s.ProvinceId);
+            terms.Vassal = war.CasusBelli == Pretexts.Subjugation.Id && Math.Abs(war.Score) >= PeaceTerms.VassalCost
+                && war.Attacker == winner;
+            events.Add(new ChronicleEvent(ChronicleKind.Peace, winner, ApplyPeace(war, winner, terms)));
         }
         return events;
-    }
-
-    /// <summary>The player accepts an enemy's offer of peace: each keeps what it holds.</summary>
-    public string? AcceptPeaceOffer(int enemy)
-    {
-        var war = Game.Wars.Between(PlayerRealmId, enemy);
-        Game.PeaceOffers.Remove(enemy);
-        if (war == null)
-            return null;
-        Diplomacy.MakePeace(Game, war, PlayerRealmId, DemoYear, false, 0);
-        return $"Peace between {RealmName(PlayerRealmId)} and {RealmName(enemy)}. Each keeps what it holds.";
     }
 }

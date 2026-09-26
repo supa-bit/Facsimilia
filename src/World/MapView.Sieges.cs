@@ -200,6 +200,17 @@ public partial class MapView
     List<ChronicleEvent> Capture(Siege siege, Dictionary<int, RealmCensus> census)
     {
         var events = new List<ChronicleEvent>();
+        var war = Game.Wars.Between(siege.Attacker, siege.Owner);
+        if (war != null)
+        {
+            // The world fears conquerors, and each loss tires the loser.
+            var pretext = Pretexts.ById(war.Supports != null ? Pretexts.Border.Id : war.CasusBelli);
+            bool reconquest = siege.ProvinceId != 0 && Game.Lost.TryGetValue(siege.Attacker, out var lost) && lost.ContainsKey(siege.ProvinceId);
+            var att = Game.Realm(siege.Attacker);
+            att.Aggression = Math.Min(100, att.Aggression + (reconquest ? 1 : pretext.AggressionPerProvince));
+            war.AddExhaustion(siege.Owner, Diplomacy.ExhaustionPerProvince);
+        }
+        Game.RecordLoss(siege.Owner, siege.ProvinceId, DemoYear);
         if (siege.ProvinceId != 0)
         {
             if (Provinces!.Provinces.TryGetValue(siege.ProvinceId, out var taken))
@@ -216,7 +227,6 @@ public partial class MapView
             MarkChanged(0, siege.Cells);
         }
         TerritoryChanged = true;
-        var war = Game.Wars.Between(siege.Attacker, siege.Owner);
         if (war != null)
         {
             double people = Math.Max(census.TryGetValue(siege.Owner, out var c) ? c.People : 0, 1);

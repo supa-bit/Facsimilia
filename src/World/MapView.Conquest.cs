@@ -326,33 +326,4 @@ public partial class MapView
                 return true;
         return false;
     }
-
-    /// <summary>Declares war for the player; returns the chronicle line, or null if it couldn't.</summary>
-    public string? DeclareWar(int defender)
-    {
-        if (Diplomacy.CanDeclare(Game, PlayerRealmId, defender, DemoYear) != null)
-            return null;
-        bool pretext = HasPretext(PlayerRealmId, defender);
-        Diplomacy.Declare(Game, PlayerRealmId, defender, DemoYear, pretext);
-        EmitSignal(SignalName.ConquestPlanChanged);
-        return pretext
-            ? $"{RealmName(PlayerRealmId)} declares war on {RealmName(defender)} over their borders."
-            : $"{RealmName(PlayerRealmId)} declares war on {RealmName(defender)} without a just cause. The world takes note.";
-    }
-
-    /// <summary>The player offers peace; returns the answer for the chronicle.</summary>
-    public (bool Accepted, string Text) OfferPeace(int enemy, bool demandTribute)
-    {
-        var war = Game.Wars.Between(PlayerRealmId, enemy);
-        if (war == null)
-            return (false, "");
-        if (!Diplomacy.Accepts(war, PlayerRealmId, DemoYear, demandTribute))
-            return (false, $"{RealmName(enemy)} refuses peace{(demandTribute ? " on those terms" : "")}.");
-        var (tax, tribute) = Economy.Revenue(CensusOf(enemy), Game.Realm(enemy).Tax);
-        double paid = Diplomacy.MakePeace(Game, war, PlayerRealmId, DemoYear, demandTribute, tax + tribute);
-        EmitSignal(SignalName.ConquestPlanChanged);
-        return (true, demandTribute
-            ? $"{RealmName(enemy)} sues for peace and pays {paid:N0} talents of tribute."
-            : $"Peace between {RealmName(PlayerRealmId)} and {RealmName(enemy)}. Each keeps what it holds.");
-    }
 }

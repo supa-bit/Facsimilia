@@ -73,11 +73,13 @@ public partial class MapView
         Game = new GameState();
         _census = null;
         var starts = new Dictionary<string, JsonElement>();
+        JsonElement? startRoot = null;
         if (Godot.FileAccess.FileExists(StartRealmsPath))
         {
             using var doc = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(StartRealmsPath));
             foreach (var p in doc.RootElement.GetProperty("realms").EnumerateObject())
                 starts[p.Name] = p.Value.Clone();
+            startRoot = doc.RootElement.Clone();
         }
         var roles = new Dictionary<int, int[]>();
         foreach (var (key, realmId) in CivRealmIds)
@@ -113,6 +115,8 @@ public partial class MapView
             state.Treasury = Math.Round((tax + tribute) * years);
         }
         StartLoyalty();
+        if (startRoot is { } root)
+            StartTreaties(root);
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
         _census = null;
@@ -137,7 +141,8 @@ public partial class MapView
         Lap("other realms");
         events.AddRange(SiegesYear(new Random(StableHash.Of(DemoYear, 5381))));
         Lap("sieges");
-        Game.PeaceOffers.RemoveWhere(o => !Game.Wars.AtWar(o, PlayerRealmId));
+        events.AddRange(DiplomacyYear(new Random(StableHash.Of(DemoYear, 2903))));
+        Lap("diplomacy");
         events.AddRange(LoyaltyYear(new Random(StableHash.Of(DemoYear, 104729))));
         Lap("loyalty");
         _census = null;
@@ -179,6 +184,12 @@ public partial class MapView
         if (Game.Provinces.Count == 0)
             StartLoyalty();   // a save from before cultures
         PlaceUnplacedArmies();
+        if (Godot.FileAccess.FileExists(StartRealmsPath))
+        {
+            using var doc = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(StartRealmsPath));
+            _rivals.Clear();
+            LoadRivals(doc.RootElement);
+        }
     }
 
     public Culture CultureOf(int realmId) =>

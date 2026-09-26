@@ -165,6 +165,7 @@ public partial class MapView
         foreach (var p in revolts)
         {
             string ruler = RealmName(p.RealmId);
+            Game.RecordLoss(p.RealmId, p.Id, DemoYear);
             Provinces.SetRealm(p.Id, 0, Grid);   // it throws off its ruler and stands alone
             MarkChanged(p.Id);
             var s = Game.Provinces[p.Id];

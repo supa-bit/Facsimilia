@@ -19,7 +19,25 @@ public sealed class War
     public int Defender { get; }
     public int Since { get; }
     public bool Pretext { get; }              // declared with a good reason (decision "Playable 15")
+    /// <summary>The pretext it was declared on (Pretexts.All), or "" for none.</summary>
+    public string CasusBelli { get; init; } = "";
+    /// <summary>For an ally's war: the main war it was called into (attacker, defender), else null.</summary>
+    public (int Attacker, int Defender)? Supports { get; init; }
     public double Score { get; set; }
+    /// <summary>War exhaustion of each side, 0 fresh .. 100 spent (decision "Playable 16").</summary>
+    public double AttackerExhaustion { get; set; }
+    public double DefenderExhaustion { get; set; }
+    public double ExhaustionFor(int realm) => realm == Attacker ? AttackerExhaustion : DefenderExhaustion;
+    public void AddExhaustion(int realm, double amount)
+    {
+        if (realm == Attacker)
+            AttackerExhaustion = Math.Clamp(AttackerExhaustion + amount, 0, 100);
+        else
+            DefenderExhaustion = Math.Clamp(DefenderExhaustion + amount, 0, 100);
+    }
+    // Losses already counted into exhaustion.
+    public double CountedAttackerLosses { get; set; }
+    public double CountedDefenderLosses { get; set; }
     public double AttackerLosses { get; set; }   // men
     public double DefenderLosses { get; set; }
     /// <summary>Provinces each side has taken from the other in this war (realm id -> province ids).</summary>
@@ -52,15 +70,24 @@ public sealed class War
     public GDictionary ToDict() => new()
     {
         ["a"] = Attacker, ["d"] = Defender, ["since"] = Since, ["pretext"] = Pretext, ["score"] = Score,
-        ["al"] = AttackerLosses, ["dl"] = DefenderLosses,
+        ["al"] = AttackerLosses, ["dl"] = DefenderLosses, ["cb"] = CasusBelli,
+        ["ae"] = AttackerExhaustion, ["de"] = DefenderExhaustion, ["cal"] = CountedAttackerLosses, ["cdl"] = CountedDefenderLosses,
+        ["sup"] = Supports is { } sp ? new GArray { sp.Attacker, sp.Defender } : new GArray(),
         ["taken_a"] = new GArray(Taken.GetValueOrDefault(Attacker)?.Select(p => (Variant)p).ToArray() ?? Array.Empty<Variant>()),
         ["taken_d"] = new GArray(Taken.GetValueOrDefault(Defender)?.Select(p => (Variant)p).ToArray() ?? Array.Empty<Variant>()),
     };
 
     public static War FromDict(GDictionary d)
     {
+        var sup = d.TryGetValue("sup", out var spv) ? spv.AsGodotArray() : new GArray();
         var w = new War(d["a"].AsInt32(), d["d"].AsInt32(), d["since"].AsInt32(), d["pretext"].AsBool())
         {
+            CasusBelli = d.TryGetValue("cb", out var cb) ? cb.AsString() : "",
+            Supports = sup.Count == 2 ? (sup[0].AsInt32(), sup[1].AsInt32()) : null,
+            AttackerExhaustion = d.TryGetValue("ae", out var ae) ? ae.AsDouble() : 0,
+            DefenderExhaustion = d.TryGetValue("de", out var de) ? de.AsDouble() : 0,
+            CountedAttackerLosses = d.TryGetValue("cal", out var cal) ? cal.AsDouble() : 0,
+            CountedDefenderLosses = d.TryGetValue("cdl", out var cdl) ? cdl.AsDouble() : 0,
             Score = d["score"].AsDouble(),
             AttackerLosses = d.TryGetValue("al", out var al) ? al.AsDouble() : 0,
             DefenderLosses = d.TryGetValue("dl", out var dl) ? dl.AsDouble() : 0,
@@ -93,6 +120,11 @@ public sealed class Wars
     {
         _wars.Remove(war);
         _truceUntil[Pair(war.Attacker, war.Defender)] = year + TruceYears;
+        foreach (var ally in CalledInto(war).ToList())
+        {
+            _wars.Remove(ally);   // the allies' wars end with the main one
+            _truceUntil[Pair(ally.Attacker, ally.Defender)] = year + TruceYears;
+        }
     }
     public IReadOnlyList<War> All => _wars;
 
@@ -101,15 +133,20 @@ public sealed class Wars
     public IEnumerable<War> Of(int realm) => _wars.Where(w => w.Involves(realm));
     public IEnumerable<int> EnemiesOf(int realm) => Of(realm).Select(w => w.Enemy(realm));
 
-    public War Declare(int attacker, int defender, int year, bool pretext)
+    public War Declare(int attacker, int defender, int year, bool pretext, string casusBelli = "",
+        (int, int)? supports = null)
     {
         var existing = Between(attacker, defender);
         if (existing != null)
             return existing;
-        var war = new War(attacker, defender, year, pretext);
+        var war = new War(attacker, defender, year, pretext) { CasusBelli = casusBelli, Supports = supports };
         _wars.Add(war);
         return war;
     }
+
+    /// <summary>The allies' wars called into this one.</summary>
+    public IEnumerable<War> CalledInto(War main) =>
+        _wars.Where(w => w.Supports is { } s && s.Attacker == main.Attacker && s.Defender == main.Defender);
 
     public void End(War war) => _wars.Remove(war);
 

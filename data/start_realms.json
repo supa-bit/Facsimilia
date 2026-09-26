@@ -1,5 +1,5 @@
 {
- "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26).",
+ "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26). alliances: treaties in force in 300 BC (the victors of Ipsus, 301 BC: Seleucus and Lysimachus; Ptolemy's league with Lysimachus, sealed by Arsinoe's marriage in 300/299 BC). rivals: history's great rivalries, which colour how realms see each other (Rome and Carthage; the Ptolemies and Seleucids over Syria; the Antigonids against the other Successors; Carthage and the Sicilian Greeks; Rome and the Gauls).",
  "realms": {
   "rome": {
    "units": [
@@ -152,5 +152,45 @@
    "treasury_years": 0.3,
    "manpower": 2.0
   }
- }
+ },
+ "alliances": [
+  [
+   "seleucid",
+   "lysimachus"
+  ],
+  [
+   "egypt",
+   "lysimachus"
+  ]
+ ],
+ "rivals": [
+  [
+   "rome",
+   "carthage"
+  ],
+  [
+   "egypt",
+   "seleucid"
+  ],
+  [
+   "antigonus",
+   "lysimachus"
+  ],
+  [
+   "antigonus",
+   "seleucid"
+  ],
+  [
+   "antigonus",
+   "egypt"
+  ],
+  [
+   "carthage",
+   "greek_world"
+  ],
+  [
+   "rome",
+   "gaul"
+  ]
+ ]
 }
