@@ -80,7 +80,7 @@ public partial class MainMenu : Control
         var footer = ThemeAncient.Label(
             "Map data: Natural Earth, historical-basemaps · Population: HYDE 3.2.1 (PBL / Utrecht University)\n" +
             "Land: CHELSA climate (Karger et al.), SoilGrids (ISRIC, CC BY 4.0), ETOPO 2022 (NOAA), " +
-            "KK10 land use (Kaplan et al., CC BY 3.0), USGS MRDS", "SmallLabel");
+            "KK10 land use (Kaplan et al., CC BY 3.0), USGS MRDS · Places: Pleiades gazetteer (CC BY 3.0)", "SmallLabel");
         footer.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomLeft);
         footer.GrowVertical = GrowDirection.Begin;
         footer.Position = new Vector2(140, -62);

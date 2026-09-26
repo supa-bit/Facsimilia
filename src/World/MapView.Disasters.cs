@@ -44,7 +44,7 @@ public partial class MapView
             var rng = new Random(StableHash.Of(DemoYear, info.Id, 4051));
             int at = nodes[rng.Next(nodes.Count)];
             var (lon, lat) = NodeLonLat(at);
-            string place = ProvinceAtNode(at)?.Name ?? info.Name;
+            string place = PlaceCatalog.Instance.Nearest(lon, lat, DemoYear) ?? ProvinceAtNode(at)?.Name ?? info.Name;
             if (rng.NextDouble() < cat.QuakeOdds(lon, lat))
                 strikes.Add(new Disaster(DemoYear, "earthquake", $"An earthquake strikes {place}", lon, lat,
                     60 + rng.NextDouble() * 120, 0.01 + rng.NextDouble() * rng.NextDouble() * 0.1));

@@ -120,6 +120,10 @@ and licences, all cleared for a commercial game:
   Krumhardt, K.M. (2011), PANGAEA, doi:10.1594/PANGAEA.871369.
 - Natural Earth 10m rivers and lakes: public domain.
 - USGS Mineral Resources Data System: public domain.
+- Pleiades gazetteer of ancient places (town names, `data/places.json`,
+  built by `tools/build_places.py`): CC BY 3.0. Talbert, R., Elliott,
+  T., Gillies, S. et al., Pleiades: A Gazetteer of Past Places,
+  https://pleiades.stoa.org.
 
 The CC BY sources are credited on the main menu, as their licences
 require. CHELSA's ancient-climate series (TraCE21k) is CC BY-SA and is

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Facsimilia.Game;
 using Facsimilia.UI;
 using Godot;
 
@@ -249,5 +250,81 @@ public partial class MapView
                 ProvinceBrushAt(GetGlobalMousePosition(), erase: false);
                 break;
         }
+    }
+
+    // --- Town names (Pleiades) -----------------------------------------------------------
+
+    const float TownNamesZoom = 4.5f;   // towns appear this many times closer than the whole-map view
+    const int TownLabelPool = 140;
+    readonly List<Label> _townLabels = new();
+    List<(string Name, Vector2 World, double Rank)>? _towns;
+    int _townsYear = int.MinValue;
+
+    /// <summary>Places standing this year, most important first (links to other places, and people living there).</summary>
+    List<(string Name, Vector2 World, double Rank)> TownsNow()
+    {
+        if (_towns != null && _townsYear == DemoYear)
+            return _towns;
+        _towns = new();
+        foreach (var (p, name) in PlaceCatalog.Instance.StandingIn(DemoYear))
+        {
+            var world = WorldAt(p.Lon, p.Lat);
+            double people = 0;
+            if (Population != null)
+            {
+                int node = Population.NodeAtLonLat(p.Lon, p.Lat, LonMin, LonMax, LatMin, LatMax);
+                people = Population.Pop[node];
+            }
+            _towns.Add((name, world, p.Links + Math.Log10(1 + people)));
+        }
+        _towns.Sort((a, b) => b.Rank.CompareTo(a.Rank));
+        _townsYear = DemoYear;
+        return _towns;
+    }
+
+    /// <summary>A province's chief towns this year, most important first.</summary>
+    public List<string> TownsIn(int provinceId, int count = 4) =>
+        TownsNow().Where(t => ProvinceIdAtWorld(t.World) == provinceId).Take(count).Select(t => t.Name).ToList();
+
+    void PlaceTownLabels(Rect2 bounds, List<Rect2> placed, Vector2 screen, float zoom)
+    {
+        bool show = _fitZoom > 0 && zoom >= _fitZoom * TownNamesZoom && CurrentView is PoliticalView or TradeView;
+        if (_townLabels.Count == 0 && show && _labelLayer != null)
+        {
+            var font = ThemeAncient.BodyFont(400);
+            for (int i = 0; i < TownLabelPool; i++)
+            {
+                var label = new Label { MouseFilter = Control.MouseFilterEnum.Ignore, Visible = false };
+                label.AddThemeFontOverride("font", font);
+                label.AddThemeFontSizeOverride("font_size", 14);
+                label.AddThemeColorOverride("font_color", new Color(1f, 0.97f, 0.9f, 0.95f));
+                label.AddThemeColorOverride("font_outline_color", new Color(0.05f, 0.035f, 0.02f, 0.85f));
+                label.AddThemeConstantOverride("outline_size", 4);
+                _labelLayer.AddChild(label);
+                _townLabels.Add(label);
+            }
+        }
+        int used = 0;
+        if (show)
+            foreach (var (name, world, _) in TownsNow())
+            {
+                if (used >= _townLabels.Count)
+                    break;
+                var at = (world - _camera!.Position) * zoom + screen / 2f;
+                if (!bounds.HasPoint(at))
+                    continue;
+                var label = _townLabels[used];
+                label.Text = "• " + name;
+                var size = label.GetMinimumSize();
+                var rect = new Rect2(at - new Vector2(6, size.Y / 2f), size);
+                if (!bounds.Encloses(rect) || placed.Any(other => rect.Grow(3).Intersects(other)))
+                    continue;
+                label.Position = rect.Position;
+                label.Visible = true;
+                placed.Add(rect);
+                used++;
+            }
+        for (int i = used; i < _townLabels.Count; i++)
+            _townLabels[i].Visible = false;
     }
 }

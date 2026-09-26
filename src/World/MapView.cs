@@ -807,7 +807,7 @@ public partial class MapView : Node2D
         PlaceRegionLabels(bounds, placed, screen, z);
         foreach (var (label, world, _) in _mapLabels)
         {
-            if (CurrentView != PoliticalView)
+            if (CurrentView != PoliticalView && CurrentView != TradeView)
             {
                 label.Visible = false;
                 continue;
@@ -830,11 +830,12 @@ public partial class MapView : Node2D
                 placed.Add(rect);
             }
         }
-        if (CurrentView == PoliticalView)
+        if (CurrentView == PoliticalView || CurrentView == TradeView)
             PlaceProvinceLabels(bounds, placed, screen, z);
         else
             foreach (var (label, _) in _provinceLabels)
                 label.Visible = false;
+        PlaceTownLabels(bounds, placed, screen, z);
     }
 
     /// <summary>

@@ -194,7 +194,8 @@ public partial class Hud
             _provinceRealm.Text = mine ? $"Province of {realm.Name} (yours)" : $"Province of {realm.Name}";
             _provinceArea.Text = $"Area: {ThemeAncient.GroupThousands((long)Math.Round(p.AreaKm2 / 100) * 100)} km²";
             _provincePeople.Text = _map.Population == null ? ""
-                : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}";
+                : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}" +
+                  (_map.TownsIn(p.Id) is { Count: > 0 } towns ? $"\nTowns: {string.Join(", ", towns)}" : "");
             var region = _map.RegionAtWorld(p.LabelCell * MapView.CellPixels);
             _provinceRegion.Text = region == null ? "" : $"Region: {region.Name}, {region.Continent}";
             FillProvinceTabs(p, region, mine);

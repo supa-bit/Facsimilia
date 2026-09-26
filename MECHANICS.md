@@ -1673,6 +1673,21 @@ Decision "Playable 8".
   pale blue, roads gold, rivers blue-green. The Goods panel lists your
   routes and your tolls.
 
+## Town names from Pleiades **(built, 26 Sep 2026)**
+
+Decision "Playable 23".
+
+- `data/places.json`: 6,203 ancient settlements from the Pleiades
+  gazetteer (CC BY 3.0, credited on the main menu), each with its names
+  over time. In any year a town shows the name used then: Poseidonia in
+  300 BC, Paestum under Rome; Maleventum before it became Beneventum.
+  About 3,600 stand in 300 BC.
+- **On the map**: zoom in past the province names and the towns
+  appear, the most important first (cities, places linked to many
+  others, and places where many people live), never overlapping.
+- The province panel lists a province's chief towns, and chance
+  disasters are named after the nearest town.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and
