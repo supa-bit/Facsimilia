@@ -18,7 +18,7 @@ namespace Facsimilia.World;
 /// <param name="CultureKey">The people's culture in data/cultures.json.</param>
 public sealed record CivSpec(string Key, Culture Culture, StartFamily Family, Color Color,
     SuccessionLaw Law, string? RealmName = null, Vector2[]? Polygon = null, Vector2? CapitalLonLat = null,
-    bool Tribal = false, string CultureKey = "", string Region = "", string Blurb = "");
+    bool Tribal = false, string CultureKey = "", string Region = "", string Blurb = "", string CapitalName = "");
 
 /// <summary>
 /// A realm's ruling family at the start: the ruler and spouse with birth
@@ -97,7 +97,8 @@ public partial class MapView : Node2D
                 r.GetProperty("law").GetString() == "any" ? SuccessionLaw.Primogeniture : SuccessionLaw.MalePreferencePrimogeniture,
                 r.GetProperty("name").GetString(), null, new Vector2((float)cap[0].GetDouble(), (float)cap[1].GetDouble()),
                 r.GetProperty("tribal").GetBoolean(), r.GetProperty("culture").GetString()!,
-                r.GetProperty("region").GetString()!, r.GetProperty("blurb").GetString()!));
+                r.GetProperty("region").GetString()!, r.GetProperty("blurb").GetString()!,
+                r.TryGetProperty("capital_name", out var cn) ? cn.GetString()! : ""));
         }
         return list.ToArray();
     }
@@ -707,6 +708,7 @@ public partial class MapView : Node2D
                 placed.Add(rect);
             }
         }
+        PlaceTownLabels(bounds, placed, screen, z, capitalsOnly: true);
         if (CurrentView == PoliticalView || CurrentView == TradeView)
             PlaceProvinceLabels(bounds, placed, screen, z);
         else

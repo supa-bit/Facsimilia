@@ -277,6 +277,12 @@ public partial class MapView
             }
             _towns.Add((name, world, p.Links + Math.Log10(1 + people)));
         }
+        // Capitals lead, marked with a star, and replace their own town's plain label.
+        foreach (var (_, world, name) in _capitals)
+        {
+            _towns.RemoveAll(t => t.Name == name && t.World.DistanceTo(world) < 60);
+            _towns.Add(("★ " + name, world, 1e6));
+        }
         _towns.Sort((a, b) => b.Rank.CompareTo(a.Rank));
         _townsYear = DemoYear;
         return _towns;
@@ -286,9 +292,13 @@ public partial class MapView
     public List<string> TownsIn(int provinceId, int count = 4) =>
         TownsNow().Where(t => ProvinceIdAtWorld(t.World) == provinceId).Take(count).Select(t => t.Name).ToList();
 
-    void PlaceTownLabels(Rect2 bounds, List<Rect2> placed, Vector2 screen, float zoom)
+    int _townUsed;
+
+    /// <summary>Places town names: capitals first (before the realm names, so they're never hidden), then the rest.</summary>
+    void PlaceTownLabels(Rect2 bounds, List<Rect2> placed, Vector2 screen, float zoom, bool capitalsOnly = false)
     {
-        bool show = _fitZoom > 0 && zoom >= _fitZoom * TownNamesZoom && CurrentView is PoliticalView or TradeView;
+        bool show = _fitZoom > 0 && zoom >= _fitZoom * CapitalNamesZoom && CurrentView is PoliticalView or TradeView;
+        bool allTowns = zoom >= _fitZoom * TownNamesZoom;
         if (_townLabels.Count == 0 && show && _labelLayer != null)
         {
             var font = ThemeAncient.BodyFont(400);
@@ -304,27 +314,46 @@ public partial class MapView
                 _townLabels.Add(label);
             }
         }
-        int used = 0;
+        int used = capitalsOnly ? 0 : _townUsed;
         if (show)
-            foreach (var (name, world, _) in TownsNow())
+            foreach (var (name, world, rank) in TownsNow())
             {
-                if (used >= _townLabels.Count)
+                if (used >= _townLabels.Count || ((capitalsOnly || !allTowns) && rank < 1e6))
                     break;
+                if (!capitalsOnly && rank >= 1e6)
+                    continue;   // placed already
                 var at = (world - _camera!.Position) * zoom + screen / 2f;
                 if (!bounds.HasPoint(at))
                     continue;
                 var label = _townLabels[used];
-                label.Text = "• " + name;
+                label.Text = name.StartsWith("★") ? name : "• " + name;
+                label.AddThemeColorOverride("font_color", name.StartsWith("★") ? new Color(1f, 0.86f, 0.45f) : new Color(1f, 0.97f, 0.9f, 0.95f));
                 var size = label.GetMinimumSize();
-                var rect = new Rect2(at - new Vector2(6, size.Y / 2f), size);
-                if (!bounds.Encloses(rect) || placed.Any(other => rect.Grow(3).Intersects(other)))
+                // Beside the star, or if that's taken, to its left, above or below (capitals try them all).
+                var tries = rank >= 1e6
+                    ? new[] { at - new Vector2(6, size.Y / 2f), at - new Vector2(size.X - 6, size.Y / 2f),
+                              at - new Vector2(size.X / 2f, size.Y + 6), at + new Vector2(-size.X / 2f, 6) }
+                    : new[] { at - new Vector2(6, size.Y / 2f) };
+                Rect2? spot = null;
+                foreach (var t in tries)
+                {
+                    var r = new Rect2(t, size);
+                    if (bounds.Encloses(r) && !placed.Any(other => r.Grow(3).Intersects(other)))
+                    {
+                        spot = r;
+                        break;
+                    }
+                }
+                if (spot is not { } rect)
                     continue;
                 label.Position = rect.Position;
                 label.Visible = true;
                 placed.Add(rect);
                 used++;
             }
-        for (int i = used; i < _townLabels.Count; i++)
-            _townLabels[i].Visible = false;
+        _townUsed = used;
+        if (!capitalsOnly)
+            for (int i = used; i < _townLabels.Count; i++)
+                _townLabels[i].Visible = false;
     }
 }

@@ -1,5 +1,5 @@
 {
- "about": "The realms of 300 BC (decisions 'Playable 1' and '30': borders redrawn by us from open knowledge, any realm playable). Each realm lists the historical districts it held (name, lon, lat, and optionally how far in km it reaches when nothing else is near; 260 km by default, 340 for tribal peoples, counted in 'rough km': a km of mountain, marsh or desert counts for more); tools/build_realm_mask.py grows each district over the land, slowed by mountains, marsh and desert, until it meets its neighbours, and bakes data/political_mask.png. Where no district reaches, the land is unclaimed. tribal: a confederation of peoples, not an administered state, so it starts without provinces. law: male (male-preference primogeniture) or any (plain primogeniture). Rulers and families as attested; where the sources name no one (most tribal peoples and republics) the ruler stands for the leading family and bears a name of the culture. Sources: the Barrington Atlas of the Greek and Roman World (Talbert, 2000); the Cambridge Ancient History VII.1 (1984); Diodorus, Plutarch, Justin, Polybius. Our own data, free for any use.",
+ "about": "The realms of 300 BC (decisions 'Playable 1' and '30': borders redrawn by us from open knowledge, any realm playable). Each realm lists the historical districts it held (name, lon, lat, and optionally how far in km it reaches when nothing else is near; 260 km by default, 340 for tribal peoples, counted in 'rough km': a km of mountain, marsh or desert counts for more); tools/build_realm_mask.py grows each district over the land, slowed by mountains, marsh and desert, until it meets its neighbours, and bakes data/political_mask.png. Where no district reaches, the land is unclaimed. tribal: a confederation of peoples, not an administered state, so it starts without provinces. law: male (male-preference primogeniture) or any (plain primogeniture). Rulers and families as attested; where the sources name no one (most tribal peoples and republics) the ruler stands for the leading family and bears a name of the culture. Sources: the Barrington Atlas of the Greek and Roman World (Talbert, 2000); the Cambridge Ancient History VII.1 (1984); Diodorus, Plutarch, Justin, Polybius. Our own data, free for any use. capital / capital_name: the seat in 300 BC (empty name: the nearest ancient town's).",
  "default_reach_km": 260,
  "tribal_reach_km": 340,
  "realms": [
@@ -168,7 +168,8 @@
    ],
    "note": "The Republic with its Latin, Campanian, Marsic, Apulian and Picene allies (the Picentes allied in 299 BC). Its 'ruling family' stands for the leading house, the Valerii.",
    "region": "Italy",
-   "blurb": "A modest city-state on the Tiber, one power among many on the Italian peninsula. History remembers what it became - not what it started as."
+   "blurb": "A modest city-state on the Tiber, one power among many on the Italian peninsula. History remembers what it became - not what it started as.",
+   "capital_name": "Roma"
   },
   {
    "key": "samnites",
@@ -250,7 +251,8 @@
    ],
    "note": "The Pentri, Caudini, Hirpini and Frentani; Gellius Egnatius led them in the Third Samnite War (298-290 BC).",
    "region": "Italy",
-   "blurb": "The Pentri, Caudini, Hirpini and Frentani; Gellius Egnatius led them in the Third Samnite War (298-290 BC)."
+   "blurb": "The Pentri, Caudini, Hirpini and Frentani; Gellius Egnatius led them in the Third Samnite War (298-290 BC).",
+   "capital_name": "Bovianum"
   },
   {
    "key": "etruscans",
@@ -373,7 +375,8 @@
    ],
    "note": "The twelve cities of Etruria with their Umbrian allies, who fought Rome together at Sentinum (295 BC).",
    "region": "Italy",
-   "blurb": "The twelve cities of Etruria with their Umbrian allies, who fought Rome together at Sentinum (295 BC)."
+   "blurb": "The twelve cities of Etruria with their Umbrian allies, who fought Rome together at Sentinum (295 BC).",
+   "capital_name": "Volsinii"
   },
   {
    "key": "cisalpine",
@@ -460,7 +463,8 @@
    ],
    "note": "The Boii, Insubres, Cenomani, Lingones and Senones of the Po valley.",
    "region": "Italy",
-   "blurb": "The Boii, Insubres, Cenomani, Lingones and Senones of the Po valley."
+   "blurb": "The Boii, Insubres, Cenomani, Lingones and Senones of the Po valley.",
+   "capital_name": "Felsina"
   },
   {
    "key": "veneti",
@@ -517,7 +521,8 @@
    ],
    "note": "",
    "region": "Italy",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Ateste"
   },
   {
    "key": "ligurians",
@@ -589,7 +594,8 @@
    ],
    "note": "",
    "region": "Italy",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Genua"
   },
   {
    "key": "lucanians",
@@ -671,7 +677,8 @@
    ],
    "note": "The Oscan-speaking Lucanians and their Bruttian offshoot.",
    "region": "Italy",
-   "blurb": "The Oscan-speaking Lucanians and their Bruttian offshoot."
+   "blurb": "The Oscan-speaking Lucanians and their Bruttian offshoot.",
+   "capital_name": "Potentia"
   },
   {
    "key": "iapygians",
@@ -738,7 +745,8 @@
    ],
    "note": "The Iapygian peoples of Apulia's heel.",
    "region": "Italy",
-   "blurb": "The Iapygian peoples of Apulia's heel."
+   "blurb": "The Iapygian peoples of Apulia's heel.",
+   "capital_name": "Uria"
   },
   {
    "key": "tarentum",
@@ -823,7 +831,8 @@
    ],
    "note": "Tarentum led the Greek cities of Italy; it called in Pyrrhus against Rome in 281 BC.",
    "region": "Italy",
-   "blurb": "Tarentum led the Greek cities of Italy; it called in Pyrrhus against Rome in 281 BC."
+   "blurb": "Tarentum led the Greek cities of Italy; it called in Pyrrhus against Rome in 281 BC.",
+   "capital_name": "Tarentum"
   },
   {
    "key": "syracuse",
@@ -910,7 +919,8 @@
    ],
    "note": "Agathokles, king of Sicily since 304 BC, married Theoxene, Ptolemy's stepdaughter, c. 300 BC.",
    "region": "Sicily",
-   "blurb": "Agathokles, king of Sicily since 304 BC, married Theoxene, Ptolemy's stepdaughter, c. 300 BC."
+   "blurb": "Agathokles, king of Sicily since 304 BC, married Theoxene, Ptolemy's stepdaughter, c. 300 BC.",
+   "capital_name": "Syracuse"
   },
   {
    "key": "massalia",
@@ -984,7 +994,8 @@
    ],
    "note": "A Greek republic run by its council of six hundred (the timouchoi).",
    "region": "Gaul",
-   "blurb": "A Greek republic run by its council of six hundred (the timouchoi)."
+   "blurb": "A Greek republic run by its council of six hundred (the timouchoi).",
+   "capital_name": "Massalia"
   },
   {
    "key": "gaul",
@@ -1166,7 +1177,8 @@
    ],
    "note": "A world of tribes, not a state: the Arverni, Aedui, Sequani, Volcae and their neighbours.",
    "region": "Gaul",
-   "blurb": "A world of tribes, not a state: the Arverni, Aedui, Sequani, Volcae and their neighbours."
+   "blurb": "A world of tribes, not a state: the Arverni, Aedui, Sequani, Volcae and their neighbours.",
+   "capital_name": "Gergovia"
   },
   {
    "key": "danube_celts",
@@ -1243,7 +1255,8 @@
    ],
    "note": "Celtic peoples settling Noricum and Pannonia; Kambaules led them into Thrace c. 298 BC.",
    "region": "The Danube",
-   "blurb": "Celtic peoples settling Noricum and Pannonia; Kambaules led them into Thrace c. 298 BC."
+   "blurb": "Celtic peoples settling Noricum and Pannonia; Kambaules led them into Thrace c. 298 BC.",
+   "capital_name": ""
   },
   {
    "key": "iberia",
@@ -1345,7 +1358,8 @@
    ],
    "note": "The Ilergetes, Edetani, Contestani, Bastetani, Oretani and Turdetani.",
    "region": "Spain",
-   "blurb": "The Ilergetes, Edetani, Contestani, Bastetani, Oretani and Turdetani."
+   "blurb": "The Ilergetes, Edetani, Contestani, Bastetani, Oretani and Turdetani.",
+   "capital_name": "Saguntum"
   },
   {
    "key": "celtiberia",
@@ -1447,7 +1461,8 @@
    ],
    "note": "The Arevaci, Belli, Carpetani, Vettones, Vaccaei, Cantabri, Astures and Vascones.",
    "region": "Spain",
-   "blurb": "The Arevaci, Belli, Carpetani, Vettones, Vaccaei, Cantabri, Astures and Vascones."
+   "blurb": "The Arevaci, Belli, Carpetani, Vettones, Vaccaei, Cantabri, Astures and Vascones.",
+   "capital_name": "Numantia"
   },
   {
    "key": "lusitania",
@@ -1524,7 +1539,8 @@
    ],
    "note": "",
    "region": "Spain",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": ""
   },
   {
    "key": "carthage",
@@ -1749,7 +1765,8 @@
    ],
    "note": "The Punic city-state with its African lands, western Sicily, Sardinia and the Phoenician towns of Spain.",
    "region": "Africa",
-   "blurb": "The dominant trading power of the western Mediterranean, backed by a navy few can match."
+   "blurb": "The dominant trading power of the western Mediterranean, backed by a navy few can match.",
+   "capital_name": "Carthage"
   },
   {
    "key": "massylii",
@@ -1826,7 +1843,8 @@
    ],
    "note": "The eastern Numidians; Zelalsan was the grandfather of Masinissa.",
    "region": "Africa",
-   "blurb": "The eastern Numidians; Zelalsan was the grandfather of Masinissa."
+   "blurb": "The eastern Numidians; Zelalsan was the grandfather of Masinissa.",
+   "capital_name": "Cirta"
   },
   {
    "key": "masaesyli",
@@ -1903,7 +1921,8 @@
    ],
    "note": "The western Numidians, later Syphax's kingdom.",
    "region": "Africa",
-   "blurb": "The western Numidians, later Syphax's kingdom."
+   "blurb": "The western Numidians, later Syphax's kingdom.",
+   "capital_name": "Siga"
   },
   {
    "key": "mauri",
@@ -1975,7 +1994,8 @@
    ],
    "note": "",
    "region": "Africa",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Volubilis"
   },
   {
    "key": "garamantes",
@@ -2031,7 +2051,8 @@
    ],
    "note": "Desert farmers of the Fezzan, masters of the Saharan roads.",
    "region": "Africa",
-   "blurb": "Desert farmers of the Fezzan, masters of the Saharan roads."
+   "blurb": "Desert farmers of the Fezzan, masters of the Saharan roads.",
+   "capital_name": "Garama"
   },
   {
    "key": "egypt",
@@ -2260,7 +2281,8 @@
    ],
    "note": "Egypt with Cyrenaica, Coele-Syria (taken after Ipsus, 301 BC) and Lycian towns.",
    "region": "Egypt",
-   "blurb": "Alexander's Macedonian generals still rule the Nile, richer than almost anyone."
+   "blurb": "Alexander's Macedonian generals still rule the Nile, richer than almost anyone.",
+   "capital_name": "Alexandria"
   },
   {
    "key": "kush",
@@ -2354,7 +2376,8 @@
    ],
    "note": "The Kushite royal line passed through queens as well as kings.",
    "region": "Nubia",
-   "blurb": "An African kingdom on the upper Nile, with its own pharaohs, iron industry, and pyramids."
+   "blurb": "An African kingdom on the upper Nile, with its own pharaohs, iron industry, and pyramids.",
+   "capital_name": "Meroe"
   },
   {
    "key": "greek_world",
@@ -2519,7 +2542,8 @@
    ],
    "note": "Kassandros held Macedon, Thessaly and central Greece; his brother Pleistarchos was given Cilicia after Ipsus.",
    "region": "Greece",
-   "blurb": "Kassandros held Macedon, Thessaly and central Greece; his brother Pleistarchos was given Cilicia after Ipsus."
+   "blurb": "Kassandros held Macedon, Thessaly and central Greece; his brother Pleistarchos was given Cilicia after Ipsus.",
+   "capital_name": "Pella"
   },
   {
    "key": "antigonus",
@@ -2680,7 +2704,8 @@
    ],
    "note": "Antigonos the One-Eyed fell at Ipsus (301 BC); his son Demetrios the Besieger kept the fleet, Cyprus, Tyre, Sidon, Corinth and the Peloponnese garrisons, and the islands.",
    "region": "Greece and the seas",
-   "blurb": "Antigonos the One-Eyed fell at Ipsus (301 BC); his son Demetrios the Besieger kept the fleet, Cyprus, Tyre, Sidon, Corinth and the Peloponnese garrisons, and the islands."
+   "blurb": "Antigonos the One-Eyed fell at Ipsus (301 BC); his son Demetrios the Besieger kept the fleet, Cyprus, Tyre, Sidon, Corinth and the Peloponnese garrisons, and the islands.",
+   "capital_name": "Salamis"
   },
   {
    "key": "aetolia",
@@ -2747,7 +2772,8 @@
    ],
    "note": "A federal league with a yearly general (strategos).",
    "region": "Greece",
-   "blurb": "A federal league with a yearly general (strategos)."
+   "blurb": "A federal league with a yearly general (strategos).",
+   "capital_name": "Thermos"
   },
   {
    "key": "sparta",
@@ -2793,7 +2819,8 @@
    ],
    "note": "King Areus I, of the Agiad house, reigned 309-265 BC.",
    "region": "Greece",
-   "blurb": "King Areus I, of the Agiad house, reigned 309-265 BC."
+   "blurb": "King Areus I, of the Agiad house, reigned 309-265 BC.",
+   "capital_name": "Sparta"
   },
   {
    "key": "epirus",
@@ -2860,7 +2887,8 @@
    ],
    "note": "In 300 BC Pyrrhos was a hostage at Alexandria, where he married Antigone, while Neoptolemos II held the throne; he was restored in 297 BC. The game starts him on it.",
    "region": "Greece",
-   "blurb": "In 300 BC Pyrrhos was a hostage at Alexandria, where he married Antigone, while Neoptolemos II held the throne; he was restored in 297 BC. The game starts him on it."
+   "blurb": "In 300 BC Pyrrhos was a hostage at Alexandria, where he married Antigone, while Neoptolemos II held the throne; he was restored in 297 BC. The game starts him on it.",
+   "capital_name": "Ambracia"
   },
   {
    "key": "rhodes",
@@ -2916,7 +2944,8 @@
    ],
    "note": "A free republic of merchants that had just withstood Demetrios' great siege (305-304 BC).",
    "region": "The Aegean",
-   "blurb": "A free republic of merchants that had just withstood Demetrios' great siege (305-304 BC)."
+   "blurb": "A free republic of merchants that had just withstood Demetrios' great siege (305-304 BC).",
+   "capital_name": "Rhodes"
   },
   {
    "key": "crete",
@@ -2983,7 +3012,8 @@
    ],
    "note": "Quarrelsome free cities, famous for their archers and mercenaries.",
    "region": "The Aegean",
-   "blurb": "Quarrelsome free cities, famous for their archers and mercenaries."
+   "blurb": "Quarrelsome free cities, famous for their archers and mercenaries.",
+   "capital_name": "Knossos"
   },
   {
    "key": "illyria",
@@ -3065,7 +3095,8 @@
    ],
    "note": "Glaukias, king of the Taulantii, who had sheltered the boy Pyrrhos.",
    "region": "The Balkans",
-   "blurb": "Glaukias, king of the Taulantii, who had sheltered the boy Pyrrhos."
+   "blurb": "Glaukias, king of the Taulantii, who had sheltered the boy Pyrrhos.",
+   "capital_name": ""
   },
   {
    "key": "dardania",
@@ -3132,7 +3163,8 @@
    ],
    "note": "",
    "region": "The Balkans",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Scupi"
   },
   {
    "key": "paeonia",
@@ -3184,7 +3216,8 @@
    ],
    "note": "King Audoleon (c. 315-285 BC), whose daughter married Pyrrhos.",
    "region": "The Balkans",
-   "blurb": "King Audoleon (c. 315-285 BC), whose daughter married Pyrrhos."
+   "blurb": "King Audoleon (c. 315-285 BC), whose daughter married Pyrrhos.",
+   "capital_name": "Stobi"
   },
   {
    "key": "odrysia",
@@ -3266,7 +3299,8 @@
    ],
    "note": "Seuthes III and his queen Berenike; their four sons are named in the Seuthopolis inscription.",
    "region": "Thrace",
-   "blurb": "Seuthes III and his queen Berenike; their four sons are named in the Seuthopolis inscription."
+   "blurb": "Seuthes III and his queen Berenike; their four sons are named in the Seuthopolis inscription.",
+   "capital_name": "Seuthopolis"
   },
   {
    "key": "getae",
@@ -3343,7 +3377,8 @@
    ],
    "note": "Dromichaites, king of the Getae, captured Lysimachos in c. 292 BC and let him go.",
    "region": "The Danube",
-   "blurb": "Dromichaites, king of the Getae, captured Lysimachos in c. 292 BC and let him go."
+   "blurb": "Dromichaites, king of the Getae, captured Lysimachos in c. 292 BC and let him go.",
+   "capital_name": "Helis"
   },
   {
    "key": "lysimachus",
@@ -3555,7 +3590,8 @@
    ],
    "note": "After Ipsus (301 BC) Lysimachos added western and central Asia Minor to Thrace. In 302 BC he had married Amastris of Heraclea.",
    "region": "Thrace and Asia Minor",
-   "blurb": "After Ipsus (301 BC) Lysimachos added western and central Asia Minor to Thrace. In 302 BC he had married Amastris of Heraclea."
+   "blurb": "After Ipsus (301 BC) Lysimachos added western and central Asia Minor to Thrace. In 302 BC he had married Amastris of Heraclea.",
+   "capital_name": "Lysimacheia"
   },
   {
    "key": "byzantium",
@@ -3605,7 +3641,8 @@
    ],
    "note": "A free city holding the Bosporus and its grain ships.",
    "region": "Thrace",
-   "blurb": "A free city holding the Bosporus and its grain ships."
+   "blurb": "A free city holding the Bosporus and its grain ships.",
+   "capital_name": "Byzantium"
   },
   {
    "key": "bithynia",
@@ -3667,7 +3704,8 @@
    ],
    "note": "Zipoites, who fought off Lysimachos' generals and took the title of king in 297 BC.",
    "region": "Asia Minor",
-   "blurb": "Zipoites, who fought off Lysimachos' generals and took the title of king in 297 BC."
+   "blurb": "Zipoites, who fought off Lysimachos' generals and took the title of king in 297 BC.",
+   "capital_name": ""
   },
   {
    "key": "heraclea",
@@ -3723,7 +3761,8 @@
    ],
    "note": "The tyrant house of Klearchos; Amastris, their mother, had married Lysimachos.",
    "region": "Asia Minor",
-   "blurb": "The tyrant house of Klearchos; Amastris, their mother, had married Lysimachos."
+   "blurb": "The tyrant house of Klearchos; Amastris, their mother, had married Lysimachos.",
+   "capital_name": "Heraclea Pontica"
   },
   {
    "key": "pontus",
@@ -3775,7 +3814,8 @@
    ],
    "note": "Mithridates the Founder fled Antigonos in 302 BC to Kimiata in Paphlagonia, the seed of the kingdom of Pontus.",
    "region": "Asia Minor",
-   "blurb": "Mithridates the Founder fled Antigonos in 302 BC to Kimiata in Paphlagonia, the seed of the kingdom of Pontus."
+   "blurb": "Mithridates the Founder fled Antigonos in 302 BC to Kimiata in Paphlagonia, the seed of the kingdom of Pontus.",
+   "capital_name": "Kimiata"
   },
   {
    "key": "cappadocia",
@@ -3863,7 +3903,8 @@
    ],
    "note": "Ariarathes II won back his father's Cappadocia c. 301 BC with Armenian help.",
    "region": "Asia Minor",
-   "blurb": "Ariarathes II won back his father's Cappadocia c. 301 BC with Armenian help."
+   "blurb": "Ariarathes II won back his father's Cappadocia c. 301 BC with Armenian help.",
+   "capital_name": "Mazaka"
   },
   {
    "key": "armenia",
@@ -3960,7 +4001,8 @@
    ],
    "note": "The Orontid kings of Armenia, Sophene and Commagene, nominally under the Seleucids.",
    "region": "Armenia",
-   "blurb": "The Orontid kings of Armenia, Sophene and Commagene, nominally under the Seleucids."
+   "blurb": "The Orontid kings of Armenia, Sophene and Commagene, nominally under the Seleucids.",
+   "capital_name": "Armavir"
   },
   {
    "key": "atropatene",
@@ -4027,7 +4069,8 @@
    ],
    "note": "Northern Media, which Atropates, satrap under Alexander, kept as a kingdom of its own.",
    "region": "Iran",
-   "blurb": "Northern Media, which Atropates, satrap under Alexander, kept as a kingdom of its own."
+   "blurb": "Northern Media, which Atropates, satrap under Alexander, kept as a kingdom of its own.",
+   "capital_name": "Ganzak"
   },
   {
    "key": "kartli",
@@ -4084,7 +4127,8 @@
    ],
    "note": "Parnavaz, remembered as the first king of Kartli (from c. 299 BC).",
    "region": "The Caucasus",
-   "blurb": "Parnavaz, remembered as the first king of Kartli (from c. 299 BC)."
+   "blurb": "Parnavaz, remembered as the first king of Kartli (from c. 299 BC).",
+   "capital_name": "Mtskheta"
   },
   {
    "key": "colchis",
@@ -4152,7 +4196,8 @@
    ],
    "note": "Kuji, eristavi of Colchis, Parnavaz's ally in the Georgian chronicles.",
    "region": "The Caucasus",
-   "blurb": "Kuji, eristavi of Colchis, Parnavaz's ally in the Georgian chronicles."
+   "blurb": "Kuji, eristavi of Colchis, Parnavaz's ally in the Georgian chronicles.",
+   "capital_name": "Vani"
   },
   {
    "key": "albania",
@@ -4204,7 +4249,8 @@
    ],
    "note": "",
    "region": "The Caucasus",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Kabalaka"
   },
   {
    "key": "bosporus",
@@ -4271,7 +4317,8 @@
    ],
    "note": "Spartokos III, of the house that ruled the Cimmerian Bosporus and fed Athens with grain.",
    "region": "The Black Sea",
-   "blurb": "Spartokos III, of the house that ruled the Cimmerian Bosporus and fed Athens with grain."
+   "blurb": "Spartokos III, of the house that ruled the Cimmerian Bosporus and fed Athens with grain.",
+   "capital_name": "Pantikapaion"
   },
   {
    "key": "scythia",
@@ -4363,7 +4410,8 @@
    ],
    "note": "Agaros, a Scythian king named by Diodorus for 309 BC.",
    "region": "The steppe",
-   "blurb": "Agaros, a Scythian king named by Diodorus for 309 BC."
+   "blurb": "Agaros, a Scythian king named by Diodorus for 309 BC.",
+   "capital_name": "Neapolis Scythica"
   },
   {
    "key": "sarmatians",
@@ -4435,7 +4483,8 @@
    ],
    "note": "Iranian nomads east of the Don, with the Maeotian farmers of the Kuban.",
    "region": "The steppe",
-   "blurb": "Iranian nomads east of the Don, with the Maeotian farmers of the Kuban."
+   "blurb": "Iranian nomads east of the Don, with the Maeotian farmers of the Kuban.",
+   "capital_name": ""
   },
   {
    "key": "seleucid",
@@ -4697,7 +4746,8 @@
    ],
    "note": "Seleukos Nikator, master of Babylon, Iran and (after Ipsus) northern Syria, where he founded Antioch in 300 BC.",
    "region": "Syria, Mesopotamia and Iran",
-   "blurb": "The largest of Alexander's successor kingdoms, stretching deep into the east."
+   "blurb": "The largest of Alexander's successor kingdoms, stretching deep into the east.",
+   "capital_name": "Seleucia on the Tigris"
   },
   {
    "key": "nabatea",
@@ -4775,7 +4825,8 @@
    ],
    "note": "Nabataean queens ruled beside their husbands and appear on the coins.",
    "region": "Arabia",
-   "blurb": "Desert traders controlling the incense routes, centred on their rock-cut capital."
+   "blurb": "Desert traders controlling the incense routes, centred on their rock-cut capital.",
+   "capital_name": "Petra"
   },
   {
    "key": "lihyan",
@@ -4832,7 +4883,8 @@
    ],
    "note": "The kingdom of Dedan on the Incense Road.",
    "region": "Arabia",
-   "blurb": "The kingdom of Dedan on the Incense Road."
+   "blurb": "The kingdom of Dedan on the Incense Road.",
+   "capital_name": "Dedan"
   },
   {
    "key": "saba",
@@ -4900,7 +4952,8 @@
    ],
    "note": "The oldest of the incense kingdoms, whose dam made Marib an oasis.",
    "region": "Arabia",
-   "blurb": "The oldest of the incense kingdoms, whose dam made Marib an oasis."
+   "blurb": "The oldest of the incense kingdoms, whose dam made Marib an oasis.",
+   "capital_name": "Marib"
   },
   {
    "key": "main",
@@ -4956,7 +5009,8 @@
    ],
    "note": "The Minaeans, the great caravan traders of the incense.",
    "region": "Arabia",
-   "blurb": "The Minaeans, the great caravan traders of the incense."
+   "blurb": "The Minaeans, the great caravan traders of the incense.",
+   "capital_name": "Yathill"
   },
   {
    "key": "qataban",
@@ -5013,7 +5067,8 @@
    ],
    "note": "",
    "region": "Arabia",
-   "blurb": ""
+   "blurb": "",
+   "capital_name": "Timna"
   },
   {
    "key": "hadramawt",
@@ -5082,7 +5137,8 @@
    ],
    "note": "The land of frankincense.",
    "region": "Arabia",
-   "blurb": "The land of frankincense."
+   "blurb": "The land of frankincense.",
+   "capital_name": "Shabwa"
   }
  ]
 }

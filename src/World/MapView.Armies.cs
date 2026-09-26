@@ -46,9 +46,24 @@ public partial class MapView
         var spec = RealCivs.FirstOrDefault(c => CivRealmIds.TryGetValue(c.Key, out int id) && id == realmId);
         if (spec?.CapitalLonLat is { } ll)
         {
+            // The seat itself, or the realm's land nearest it (a port may sit just off the coast on the grid).
             int node = Population.NodeAtLonLat(ll.X, ll.Y, LonMin, LonMax, LatMin, LatMax);
-            if (node >= 0 && Population.NodeOwner[node] == realmId)
-                return node;
+            int w = Population.Width, cx = node % w, cy = node / w, found = -1, bestD = int.MaxValue;
+            for (int dy = -4; dy <= 4; dy++)
+                for (int dx = -4; dx <= 4; dx++)
+                {
+                    int x = cx + dx, y = cy + dy;
+                    if (x < 0 || y < 0 || x >= w || y >= Population.Height)
+                        continue;
+                    int i = y * w + x, d = dx * dx + dy * dy;
+                    if (Population.NodeOwner[i] == realmId && d < bestD)
+                    {
+                        bestD = d;
+                        found = i;
+                    }
+                }
+            if (found >= 0)
+                return found;
         }
         int best = -1;
         float most = -1;
@@ -162,6 +177,7 @@ public partial class MapView
     void ScaleArmyMarkers()
     {
         ScaleRouteLines();
+        ScaleCapitals();
         if (_armyLayer == null || _camera == null)
             return;
         float s = 0.09f / Math.Max(_camera.Zoom.X, 0.05f);
@@ -177,6 +193,7 @@ public partial class MapView
     {
         if (MapSprite == null || Population == null)
             return;
+        RefreshCapitals();
         if (_armyLayer == null)
         {
             _armyLayer = new Node2D { ZIndex = 5 };

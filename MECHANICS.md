@@ -1705,6 +1705,12 @@ Decisions "Playable 1", "20" and "30".
   border data is gone.
   The race runs on a coarse grid, then each realm's share is blurred
   slightly and scaled up smoothly, so borders are curves, not stairs.
+- **Capitals**: every realm's seat has a gold star on the map, and
+  its name ("★ Roma", "★ Pella", "★ Meroe") appears as soon as you zoom
+  in a little, before other towns, beside the star wherever there is
+  room. A realm that loses its historical capital moves its seat to its
+  most populous place. The province panel lists the capital first among
+  its towns.
 - **Floating panels**: every panel (the chronicle, the province panel,
   the treasury, goods, diplomacy, research, armies, goals...) can be
   dragged by any empty spot to anywhere on the screen, comes to the
