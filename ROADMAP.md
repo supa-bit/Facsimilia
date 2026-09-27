@@ -38,6 +38,25 @@ block the work that depends on them.
 10. [x] **Redrawn 300 BC borders, any realm playable, trade routes, city
        names, disasters, each realm's coin, finer cultures** (Playable 1,
        4, 8, 20, 23, 28, 30).
+11. [ ] **Battles and generals**: how battles are fought, generals,
+       marching by months, supply and winter, sea battles and blockades,
+       battle reports, fog of war, mercenary companies, veterans and
+       reforms, smarter enemies (decisions Next 1-10).
+12. [ ] **The court**: rulers' skills and traits, realm or family, heirs,
+       marriages, a council, elected magistrates for republics, plots,
+       portraits, regents, a court screen, envoys, client kings (Next
+       11-20, 52-53).
+13. [ ] **Events and history**: events with choices, great people,
+       migrations, new realms, spreading religions, culture change,
+       wonders, the end date, history's pull, fuller disasters, civil
+       wars (Next 21-30, 54).
+14. [ ] **Cities, colonies and laws**: cities with sizes, founding
+       colonies, laws, changing government, debasing the coin, prices by
+       market, lenders, roads, mines running out, slave revolts (Next
+       31-40).
+15. [ ] **Playability**: a guided first game, an outliner, a play button,
+       more map views, hover cards, realm tables, an end-of-game history,
+       music, era themes, turn speed, data docs (Next 41-51, 55).
 
 ## Right now
 

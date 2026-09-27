@@ -62,6 +62,14 @@ unless the player is involved.
   enforces it). The data is fetched by a script and the baked result is
   in the repository.
 
+## Next decisions (open, 27 Sep 2026)
+
+55 questions for sections 11-15 are waiting in the Ledger (decisions
+"Next 1" to "Next 55"): battles and generals (1-10), the court (11-20,
+52-53), events and history (21-30, 54), cities, colonies and laws
+(31-40), playability (41-51) and which comes first (55). Answers will be
+recorded here.
+
 ## Playable decisions **(answered by the designer, 26 Sep 2026)**
 
 The 32 "Playable" questions in the Ledger. Where the designer's note adds
