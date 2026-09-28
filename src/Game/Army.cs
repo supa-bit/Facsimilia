@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using GArray = Godot.Collections.Array;
@@ -26,6 +27,13 @@ public sealed class Army
     public double Experience { get; set; }
     /// <summary>Its general (RealmState.Generals id), or 0.</summary>
     public int GeneralId { get; set; }
+    /// <summary>The nodes still to march through, in order (decision "Next 3": marching by months on plotted routes).</summary>
+    public List<int> Route { get; } = new();
+    /// <summary>Kilometres of march already made toward the next node.</summary>
+    public double MarchCarry { get; set; }
+    /// <summary>Months of food in the baggage train (decision "Next 4": supply lines and baggage).</summary>
+    public double Supply { get; set; } = 4;
+    public bool Marching => Route.Count > 0;
 
     /// <summary>What the realm's technology adds to each role's Might (set each year; not saved).</summary>
     public double[] RoleBoost { get; } = new double[UnitRoles.Count];
@@ -53,7 +61,8 @@ public sealed class Army
         for (int i = 0; i < Units.Length; i++)
             if (Units[i] > 0)
                 units[cat[i].Id] = Units[i];
-        return new GDictionary { ["id"] = Id, ["name"] = Name, ["node"] = Node, ["fatigue"] = Fatigue, ["units"] = units, ["xp"] = Experience, ["general"] = GeneralId };
+        return new GDictionary { ["id"] = Id, ["name"] = Name, ["node"] = Node, ["fatigue"] = Fatigue, ["units"] = units, ["xp"] = Experience, ["general"] = GeneralId,
+            ["route"] = new GArray(Route.Select(n => (Variant)n).ToArray()), ["carry"] = MarchCarry, ["supply"] = Supply };
     }
 
     public static Army FromDict(GDictionary d, UnitCatalog cat)
@@ -64,7 +73,12 @@ public sealed class Army
             Fatigue = d.TryGetValue("fatigue", out var f) ? f.AsDouble() : 0,
             Experience = d.TryGetValue("xp", out var x) ? x.AsDouble() : 0,
             GeneralId = d.TryGetValue("general", out var g) ? g.AsInt32() : 0,
+            MarchCarry = d.TryGetValue("carry", out var mc) ? mc.AsDouble() : 0,
+            Supply = d.TryGetValue("supply", out var sp) ? sp.AsDouble() : 4,
         };
+        if (d.TryGetValue("route", out var route))
+            foreach (var n in route.AsGodotArray())
+                a.Route.Add(n.AsInt32());
         foreach (var (k, v) in d["units"].AsGodotDictionary())
             if (cat.Has(k.AsString()))
                 a.Units[cat[k.AsString()].Index] = v.AsInt32();

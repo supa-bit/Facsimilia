@@ -1929,6 +1929,38 @@ companies and reforms follow.
   some generals); a fully veteran army fights 30% better. Raw recruits
   dilute it.
 
+## Battles and generals, part 2: marching, supply and fog **(built, 28 Sep 2026)**
+
+- **Marching by months** (decision "Next 3"). Armies no longer jump: each
+  has a route and moves along it every month, about 90 km a month on open
+  ground in summer (20 km a day on the marching days, with halts to
+  forage), half that in winter (November to February). Mountains, marsh,
+  forest, desert and river crossings cost more; weariness slows, a good
+  quartermaster (logistics) speeds. Routes go through your land, your
+  allies' and vassals', your enemies' at war, and land no realm holds; the
+  land of other realms is closed. An army with warships crosses the sea.
+- **Plotting a route.** In the Armies panel press Move, then click where
+  the army should go; hold Shift to add stops on the way. The route is drawn
+  on the map; the panel shows where it is going and about how many months
+  it will take; Halt stops it. Painting a conquest sends the army marching
+  to the place, and a siege only advances in the months the army stands
+  before it.
+- **Time runs month by month.** With the clock playing (Space), armies move
+  each month; the turn button marches the rest of the year at once.
+- **Supply and baggage** (decision "Next 4"). In your own or friendly land an
+  army is fed and its baggage fills (up to 4 months of food). Within about
+  120 km of your borders supply lines feed it (further with a good
+  quartermaster). Beyond, it forages from the people around it (little in
+  empty land, less in winter) and eats its baggage; when the baggage is gone
+  it starves, losing 4% a month and growing weary.
+- **Armies meet.** Armies of realms at war within about 25 km of each other
+  fight a battle (the one on the move attacks). The beaten army gives up its
+  sieges and falls back toward its capital.
+- **What your realm knows** (decision "Next 7", partial fog). Your realm sees
+  its own, its allies' and vassals' land, 150 km beyond their borders, and
+  120 km around its armies. The rest of the land is dimmed, and enemy armies
+  there are not shown.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

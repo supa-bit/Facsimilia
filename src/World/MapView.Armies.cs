@@ -141,27 +141,34 @@ public partial class MapView
                     a.Node = CapitalNode(s.RealmId);
     }
 
-    /// <summary>Why the player's army can't move to a node, or null. Armies march anywhere in their own land in a turn.</summary>
+    /// <summary>Why the player's army can't march to a node, or null (the route itself is checked by FindRoute).</summary>
     public string? CanMoveArmy(Army army, int node)
     {
         if (Population == null || node < 0 || node >= Population.NodeOwner.Length || Population.NodeRegion[node] == 0)
-            return "Armies march on land.";
-        if (Population.NodeOwner[node] != PlayerRealmId)
-            return "Armies move within your own land; to go further, paint a conquest.";
+            return "Armies march on land: pick a place on land (a fleet carries them over the sea on the way).";
         if (Game.Sieges.Any(s => s.Attacker == PlayerRealmId && s.ArmyId == army.Id))
             return $"{army.Name} is besieging: lift the siege first.";
         return null;
     }
 
+    /// <summary>Sends the player's army marching to a node (it arrives over the coming months).</summary>
     public bool MoveArmy(Army army, int node)
     {
-        if (CanMoveArmy(army, node) != null)
+        if (CanMoveArmy(army, node) != null || SendArmy(PlayerRealmId, army, node) != null)
             return false;
-        army.Node = node;
         _reachYear = int.MinValue;
         EmitSignal(SignalName.ArmiesChanged);
         RefreshArmyMarkers();
         return true;
+    }
+
+    /// <summary>Stops an army where it stands.</summary>
+    public void HaltArmy(Army army)
+    {
+        army.Route.Clear();
+        army.MarchCarry = 0;
+        EmitSignal(SignalName.ArmiesChanged);
+        RefreshArmyMarkers();
     }
 
     /// <summary>Calls off an army's sieges.</summary>
@@ -184,9 +191,28 @@ public partial class MapView
         foreach (Node child in _armyLayer.GetChildren())
             if (child is Sprite2D sprite)
                 sprite.Scale = Vector2.One * s;
+            else if (child is Line2D line)
+                line.Width = 2.5f / Math.Max(_camera.Zoom.X, 0.05f);
     }
 
     Node2D? _armyLayer;
+
+    /// <summary>The line of an army's march, from where it stands to where it is going.</summary>
+    Line2D RouteLine(Army a)
+    {
+        var line = new Line2D
+        {
+            Width = 2.5f / Math.Max(_camera?.Zoom.X ?? 1, 0.05f),
+            DefaultColor = new Color(1f, 0.92f, 0.6f, 0.85f),
+            JointMode = Line2D.LineJointMode.Round,
+            ZIndex = -1,
+        };
+        line.AddPoint(NodeCell(a.Node));
+        for (int k = 0; k < a.Route.Count; k++)
+            if (k % 3 == 2 || k == a.Route.Count - 1)
+                line.AddPoint(NodeCell(a.Route[k]));
+        return line;
+    }
 
     /// <summary>Draws a marker for the player's armies and for the armies of realms at war with the player.</summary>
     public void RefreshArmyMarkers()
@@ -194,6 +220,7 @@ public partial class MapView
         if (MapSprite == null || Population == null)
             return;
         RefreshCapitals();
+        RefreshFog();
         if (_armyLayer == null)
         {
             _armyLayer = new Node2D { ZIndex = 5 };
@@ -207,13 +234,16 @@ public partial class MapView
         foreach (var s in Game.Realms.Values)
         {
             bool mine = s.RealmId == PlayerRealmId;
-            if (!mine && !Game.Wars.AtWar(s.RealmId, PlayerRealmId))
+            bool friend = Game.Treaties.Allied(s.RealmId, PlayerRealmId);
+            if (!mine && !friend && !Game.Wars.AtWar(s.RealmId, PlayerRealmId))
                 continue;
             var color = ColorForOwner(s.RealmId);
             foreach (var a in s.Armies)
             {
-                if (a.IsEmpty || a.Node < 0)
-                    continue;
+                if (a.IsEmpty || a.Node < 0 || (!mine && !KnowsNode(a.Node)))
+                    continue;   // what the realm doesn't know, it doesn't see
+                if (mine && a.Marching)
+                    _armyLayer.AddChild(RouteLine(a));
                 bool fleetOnly = Military.RawMight(a, Domain.Land) <= 0;
                 var marker = new Sprite2D
                 {

@@ -450,6 +450,9 @@ public partial class MapView : Node2D
     /// </summary>
     public List<ChronicleEvent> AdvanceYear()
     {
+        // The months of this year not yet marched (all of them when the turn button plays the year).
+        var marched = ResolvePlayerPlan();
+        marched.AddRange(MarchRestOfYear());
         DemoYear++;
         if (DemoYear == 0)
             DemoYear = 1;  // 1 BC is followed by AD 1
@@ -458,8 +461,8 @@ public partial class MapView : Node2D
             SyncPopulationOwnership();
             Population.Tick(DemoYear);
         }
-        var events = Registry.AdvanceYear(DemoYear);
-        events.AddRange(ResolvePlayerPlan());
+        var events = marched;
+        events.AddRange(Registry.AdvanceYear(DemoYear));
         events.AddRange(GameYear());
         return events;
     }

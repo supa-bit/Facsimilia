@@ -233,6 +233,8 @@ public sealed class GameState
     public Dictionary<int, bool> HistoryChecks { get; } = new();
     /// <summary>The battles fought, newest last (the last BattlesKept).</summary>
     public List<BattleReport> Battles { get; } = new();
+    /// <summary>Months of the present year already marched (armies move month by month).</summary>
+    public int MonthsMarched { get; set; }
     public const int BattlesKept = 300;
     public void AddBattle(BattleReport r)
     {
@@ -285,7 +287,7 @@ public sealed class GameState
             ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
-            ["history_checks"] = HistoryChecksDict(), ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
+            ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
         };
     }
@@ -310,6 +312,7 @@ public sealed class GameState
     public static GameState FromDict(GDictionary d)
     {
         var g = new GameState();
+        g.MonthsMarched = d.TryGetValue("months_marched", out var mm) ? mm.AsInt32() : 0;
         if (d.TryGetValue("battles", out var bt))
             foreach (Variant v in bt.AsGodotArray())
                 g.Battles.Add(BattleReport.FromDict(v.AsGodotDictionary()));

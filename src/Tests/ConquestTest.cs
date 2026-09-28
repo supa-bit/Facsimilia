@@ -75,7 +75,8 @@ public partial class ConquestTest : TestRunner
         Check(events.Any(e => e.Text.Contains("lays siege")) && map.Game.Sieges.Any(x => x.ProvinceId == target.p!.Id),
             "ending the turn should begin a siege");
         Check(map.Provinces.Provinces[target.p!.Id].RealmId == greeks, "a siege takes time: the province shouldn't fall at once");
-        Check(map.ProvinceOfNodeForTest(legio.Node) == target.p!.Id, "the army should march to the place it besieges");
+        Check(legio.Marching ? map.ProvinceOfNodeForTest(legio.Route[^1]) == target.p!.Id : map.ProvinceOfNodeForTest(legio.Node) == target.p!.Id,
+            "the army should march to the place it besieges");
         int years = 0;
         while (map.Provinces.Provinces[target.p!.Id].RealmId != rome && years++ < 5)
             events.AddRange(map.AdvanceYear());

@@ -95,8 +95,9 @@ public partial class MapView
             };
             siege.Cells.AddRange(t.Cells);
             Game.Sieges.Add(siege);
-            if (!Game.Sieges.Any(s => s != siege && s.Attacker == t.Attacker && s.ArmyId == army.Id))
-                army.Node = t.Node;   // the army camps before the first place it besieges
+            if (!Game.Sieges.Any(s => s != siege && s.Attacker == t.Attacker && s.ArmyId == army.Id)
+                && SendArmy(t.Attacker, army, t.Node) != null)
+                army.Node = t.Node;   // no way by land or sea: the army is taken there (old saves, islands without a fleet)
             army.Resting = false;
             string text = $"{army.Name} of {RealmName(t.Attacker)} lays siege to {t.Name}.";
             events.Add(new ChronicleEvent(ChronicleKind.War, t.Attacker, text));
@@ -186,7 +187,8 @@ public partial class MapView
             double garrison = Garrison(siege.Owner, siege.ProvinceId, siege.People, siege.Node);
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
                 siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"))
-                * SiegeSkill(attacker.GeneralOf(army));
+                * SiegeSkill(attacker.GeneralOf(army)) * Math.Min(1, siege.MonthsPresent / 12.0);
+            siege.MonthsPresent = 0;
             var gen = attacker.GeneralOf(army);
             Military.TakeLosses(army, Conquest.SiegeAttrition / sharing * (1 - 0.06 * ((gen?.Skill(Skills.Logistics) ?? 5) - 5)), rng);
             army.Fatigue = Math.Min(1, army.Fatigue + Conquest.SiegeFatigue / sharing);

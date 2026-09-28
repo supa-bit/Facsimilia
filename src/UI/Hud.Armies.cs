@@ -92,7 +92,8 @@ public partial class Hud
             $"Under arms: {ThemeAncient.GroupThousands(Military.Soldiers(s))} men.  " +
             $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}.\n" +
             "The army marked for conquest is the one Conquest mode (key 3) paints for: its reach is where it can march this year. " +
-            (_map.MovingArmyId != 0 ? "\nClick a place in your land to move the army there." : "");
+            "Armies march month by month along the route you plot; winter, mountains, marsh and forest slow them. Beyond your land they live on supply lines near your borders, on what they forage, then on their baggage (up to 4 months)." +
+            (_map.MovingArmyId != 0 ? "\nClick where the army should march; hold Shift to add stops on the way." : "");
         var selected = _map.SelectedArmy;
         foreach (var army in s.Armies.ToList())
         {
@@ -112,6 +113,10 @@ public partial class Hud
             if (army.Experience > 0.02)
                 box.AddChild(ThemeAncient.Label($"Veterans: {army.Experience:P0} (fights {Battle.VeteranBonus * army.Experience:P0} better)", fontSize: 15));
             AddGeneralRow(box, s, army);
+            string supply = army.Supply >= 3.5 ? "full" : army.Supply <= 0.01 ? "empty: the army is starving" : $"{army.Supply:0.0} months of food";
+            box.AddChild(ThemeAncient.Label((army.Marching
+                ? $"Marching to {_map.PlaceOfNode(army.Route[^1])}: about {Math.Ceiling(_map.RouteMonths(s, army)):0} month(s) more.  "
+                : "Standing.  ") + $"Baggage: {supply}.", fontSize: 15));
             foreach (var siege in sieges)
                 box.AddChild(ThemeAncient.Label($"Besieging {siege.Name}: {Math.Min(siege.Progress, 0.99):P0} done", fontSize: 15));
 
@@ -132,7 +137,7 @@ public partial class Hud
                 Text = _map.MovingArmyId == army.Id ? "Click the map..." : "Move",
                 FocusMode = FocusModeEnum.None,
                 Disabled = sieges.Count > 0,
-                TooltipText = sieges.Count > 0 ? "Lift the siege first." : "Then click a place in your land.",
+                TooltipText = sieges.Count > 0 ? "Lift the siege first." : "Then click where it should march (Shift-click to add stops).",
             };
             move.Pressed += () =>
             {
@@ -140,6 +145,16 @@ public partial class Hud
                 RefreshArmiesPanel();
             };
             buttons.AddChild(move);
+            if (army.Marching)
+            {
+                var halt = new Button { Text = "Halt", FocusMode = FocusModeEnum.None, TooltipText = "Stop where it stands." };
+                halt.Pressed += () =>
+                {
+                    _map.HaltArmy(army);
+                    RefreshArmiesPanel();
+                };
+                buttons.AddChild(halt);
+            }
             if (sieges.Count > 0)
             {
                 var lift = new Button { Text = "Lift siege", FocusMode = FocusModeEnum.None };

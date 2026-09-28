@@ -108,6 +108,7 @@ public partial class GameRoot : Node2D
         Map!.FocusOnPlayer();
         Hud.AdvanceRequested += OnAdvanceRequested;
         Hud.PlayYearRequested += () => PlayYears(1);
+        Hud.MonthPassed += PlayMonth;
     }
 
     /// <summary>
@@ -153,6 +154,19 @@ public partial class GameRoot : Node2D
         var tween = CreateTween();
         tween.TweenProperty(control, "modulate:a", alpha, FadeSeconds);
         await ToSignal(tween, Tween.SignalName.Finished);
+    }
+
+    /// <summary>One month on the clock: armies march, eat and meet; time stops if something needs the player.</summary>
+    void PlayMonth()
+    {
+        if (Map == null || Hud == null || _advancing)
+            return;
+        var events = Map.MarchMonth();
+        Map.RefreshArmyMarkers();
+        Hud.LogEvents(events);
+        Hud.MonthPlayed();
+        if (events.Exists(e => StopsTurn(e, Map.PlayerRealmId)))
+            Hud.SetPlaying(false);
     }
 
     bool _endShown;

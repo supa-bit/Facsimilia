@@ -192,18 +192,19 @@ public partial class MapView
     {
         if (mb.Pressed && MovingArmyId != 0)
         {
-            // Moving an army: this click chooses where it goes.
+            // Moving an army: this click sets where it marches; Shift adds a stop on the way and keeps plotting.
             var army = PlayerState.ArmyById(MovingArmyId);
-            MovingArmyId = 0;
+            bool more = mb.ShiftPressed;
+            if (!more)
+                MovingArmyId = 0;
             if (army != null && Population != null)
             {
                 var world = GetGlobalMousePosition();
                 int node = Population.NodeAtCell((int)(world.X / CellPixels), (int)(world.Y / CellPixels), GridWidth, GridHeight);
-                string? problem = CanMoveArmy(army, node);
-                if (problem == null)
-                    MoveArmy(army, node);
-                else
+                string? problem = CanMoveArmy(army, node) ?? (more ? ExtendRoute(PlayerRealmId, army, node) : SendArmy(PlayerRealmId, army, node));
+                if (problem != null)
                     EmitSignal(SignalName.ArmyMoveRefused, problem);
+                RefreshArmyMarkers();
             }
             EmitSignal(SignalName.ArmiesChanged);
             return true;

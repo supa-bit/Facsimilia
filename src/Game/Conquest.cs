@@ -40,6 +40,8 @@ public sealed class ConquestTarget
 /// </summary>
 public sealed class Siege
 {
+    /// <summary>Months this year the besieging army stood before the place (sieges advance only then).</summary>
+    public int MonthsPresent { get; set; }
     public int Attacker { get; init; }
     public int Owner { get; init; }
     public int ProvinceId { get; init; }
@@ -55,7 +57,7 @@ public sealed class Siege
     public GDictionary ToDict() => new()
     {
         ["attacker"] = Attacker, ["owner"] = Owner, ["province"] = ProvinceId, ["army"] = ArmyId, ["name"] = Name,
-        ["people"] = People, ["node"] = Node, ["start"] = StartYear, ["progress"] = Progress,
+        ["people"] = People, ["node"] = Node, ["start"] = StartYear, ["progress"] = Progress, ["months"] = MonthsPresent,
         ["cells"] = Cells.ToArray(),
     };
 
@@ -66,6 +68,7 @@ public sealed class Siege
             Attacker = d["attacker"].AsInt32(), Owner = d["owner"].AsInt32(), ProvinceId = d["province"].AsInt32(),
             ArmyId = d["army"].AsInt32(), Name = d["name"].AsString(), People = d["people"].AsDouble(),
             Node = d["node"].AsInt32(), StartYear = d["start"].AsInt32(), Progress = d["progress"].AsDouble(),
+            MonthsPresent = d.TryGetValue("months", out var mp) ? mp.AsInt32() : 12,
         };
         s.Cells.AddRange(d["cells"].AsInt32Array());
         return s;
