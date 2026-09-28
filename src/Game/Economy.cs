@@ -88,6 +88,7 @@ public static class Economy
         var (tax, tribute) = Revenue(c, r.Tax);
         tax *= r.TaxReach * Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * (1 - corruption);
         double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
+        customs *= 1 - Math.Clamp(r.BlockadeMonths / 12.0, 0, 0.8);   // enemy fleets off the coast
         double civil = CourtShare * tax + WorksPerThousand * c.People / 1000;
         double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
         double interest = r.Debt * Math.Max(0.02, InterestRate + TechCatalog.Instance.Effect(r, "interest"));

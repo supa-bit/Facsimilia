@@ -96,8 +96,8 @@ public partial class MapView
         EnsureMoveCost();
         var pop = Population;
         int w = pop.Width, h = pop.Height, n = w * h;
-        if (pop.NodeRegion[target] == 0)
-            return null;
+        if (pop.NodeRegion[target] == 0 && Military.RawMight(army, Domain.Naval) <= 0)
+            return null;   // only a fleet can be sent out to sea
         bool fleet = Military.RawMight(army, Domain.Naval) > 0;
         var cost = new Dictionary<int, double> { [army.Node] = 0 };
         var from = new Dictionary<int, int>();
@@ -216,9 +216,10 @@ public partial class MapView
     internal List<ChronicleEvent> MarchRestOfYear()
     {
         var events = new List<ChronicleEvent>();
-        while (Game.MonthsMarched < 12)
+        while (Game.MonthsMarched < 12 && Pending == null)
             events.AddRange(MarchMonth());
-        Game.MonthsMarched = 0;
+        if (Pending == null)
+            Game.MonthsMarched = 0;
         return events;
     }
 
@@ -248,6 +249,7 @@ public partial class MapView
             }
         events.AddRange(Supply(month, rng));
         events.AddRange(Meetings(rng));
+        Blockades(month);
         foreach (var siege in Game.Sieges)
         {
             var army = Game.Realm(siege.Attacker).ArmyById(siege.ArmyId);
@@ -396,44 +398,106 @@ public partial class MapView
         return cost;
     }
 
-    /// <summary>Armies of realms at war that come within reach of each other fight (one battle per pair of armies a month).</summary>
+    /// <summary>
+    /// Armies of realms at war that come within reach of each other fight
+    /// (one battle per pair a month): on land when both carry soldiers, at sea
+    /// when one is a fleet alone. A battle of the player's, when they fight
+    /// their own battles, waits for them on the battle map (Pending).
+    /// </summary>
     List<ChronicleEvent> Meetings(Random rng)
     {
         var events = new List<ChronicleEvent>();
-        var armies = Game.Realms.Values.SelectMany(s => s.Armies.Where(a => !a.IsEmpty && a.Node >= 0 && Military.RawMight(a, Domain.Land) > 0)
+        var armies = Game.Realms.Values.SelectMany(s => s.Armies.Where(a => !a.IsEmpty && a.Node >= 0)
             .Select(a => (State: s, Army: a))).ToList();
         var fought = new HashSet<Army>();
         for (int p = 0; p < armies.Count; p++)
             for (int q = p + 1; q < armies.Count; q++)
             {
+                if (Pending != null)
+                    return events;
                 var (sa, a) = armies[p];
                 var (sb, b) = armies[q];
                 if (sa == sb || fought.Contains(a) || fought.Contains(b) || !Game.Wars.AtWar(sa.RealmId, sb.RealmId))
                     continue;
                 if (NodeDistance(a.Node, b.Node) > MeetNodes)
                     continue;
+                bool aLand = Military.RawMight(a, Domain.Land) > 0, bLand = Military.RawMight(b, Domain.Land) > 0;
+                bool aSea = Military.RawMight(a, Domain.Naval) > 0, bSea = Military.RawMight(b, Domain.Naval) > 0;
+                bool naval = (!aLand || !bLand) && aSea && bSea;
+                if (!naval && !(aLand && bLand))
+                    continue;   // a fleet alone can't fight soldiers ashore
                 // The one on the move attacks; if both stand, the one on foreign soil.
                 bool aAttacks = a.Marching || (!b.Marching && Population!.NodeOwner[a.Node] != sa.RealmId);
                 var (att, attArmy, def, defArmy) = aAttacks ? (sa, a, sb, b) : (sb, b, sa, a);
-                events.AddRange(FieldBattle(att, attArmy, def, defArmy, rng));
+                events.AddRange(FieldBattle(att, attArmy, def, defArmy, naval, rng));
                 fought.Add(a);
                 fought.Add(b);
             }
         return events;
     }
 
-    /// <summary>Two armies fight where they meet; the beaten one falls back toward home and gives up its sieges.</summary>
-    List<ChronicleEvent> FieldBattle(RealmState att, Army attArmy, RealmState def, Army defArmy, Random rng)
+    /// <summary>A battle waiting for the player on the battle map.</summary>
+    public sealed class PendingBattle
     {
-        var events = new List<ChronicleEvent>();
+        public required RealmState Att { get; init; }
+        public required Army AttArmy { get; init; }
+        public required RealmState Def { get; init; }
+        public required Army DefArmy { get; init; }
+        public required BattleSide A { get; init; }
+        public required BattleSide D { get; init; }
+        public required Ground Ground { get; init; }
+        public required string Place { get; init; }
+        public required TacticalBattle Tactics { get; init; }
+        /// <summary>The side the player commands (0 attacker, 1 defender).</summary>
+        public int Side { get; init; }
+    }
+
+    /// <summary>The player's battle waiting on the battle map, or null.</summary>
+    public PendingBattle? Pending { get; private set; }
+    /// <summary>The player fights their own battles on the battle map (Settings > Gameplay); off in tests.</summary>
+    public bool FightBattlesYourself { get; set; }
+
+    /// <summary>Two armies (or fleets) fight where they meet; the beaten one falls back toward home and gives up its sieges.</summary>
+    List<ChronicleEvent> FieldBattle(RealmState att, Army attArmy, RealmState def, Army defArmy, bool naval, Random rng)
+    {
         var a = new BattleSide { Realm = att.RealmId, RealmName = RealmName(att.RealmId), Armies = new() { (attArmy, 1.0) }, General = att.GeneralOf(attArmy) };
         var d = new BattleSide
         {
             Realm = def.RealmId, RealmName = RealmName(def.RealmId), Armies = new() { (defArmy, 1.0) }, General = def.GeneralOf(defArmy),
-            Extra = Population!.NodeOwner[defArmy.Node] == def.RealmId ? 0.1 * Military.Might(defArmy, Domain.Land) : 0,   // on home ground
+            Extra = !naval && Population!.NodeOwner[defArmy.Node] == def.RealmId ? 0.1 * Military.Might(defArmy, Domain.Land) : 0,   // on home ground
         };
         string place = PlaceOfNode(defArmy.Node);
-        var report = Battle.Fight(a, d, Ground.At(Land, defArmy.Node), place, DemoYear, rng);
+        var ground = Ground.At(Land, defArmy.Node);
+        if (FightBattlesYourself && (att.RealmId == PlayerRealmId || def.RealmId == PlayerRealmId))
+        {
+            Pending = new PendingBattle
+            {
+                Att = att, AttArmy = attArmy, Def = def, DefArmy = defArmy, A = a, D = d, Ground = ground, Place = place,
+                Tactics = new TacticalBattle(a, d, ground, naval, StableHash.Of(DemoYear, Game.MonthsMarched, attArmy.Id, defArmy.Id)),
+                Side = att.RealmId == PlayerRealmId ? 0 : 1,
+            };
+            return new List<ChronicleEvent>();
+        }
+        var report = naval ? Battle.FightNaval(a, d, place, DemoYear, rng) : Battle.Fight(a, d, ground, place, DemoYear, rng);
+        return Conclude(report, att, attArmy, def, defArmy, naval, rng);
+    }
+
+    /// <summary>The player's battle on the battle map is over (or left to the general): its result goes into the world.</summary>
+    public List<ChronicleEvent> FinishPendingBattle()
+    {
+        var p = Pending;
+        if (p == null)
+            return new List<ChronicleEvent>();
+        Pending = null;
+        p.Tactics.PlayOut();   // anything left undecided, the generals finish
+        var rng = new Random(StableHash.Of(DemoYear, Game.MonthsMarched, 9127));
+        var report = Battle.FromTactics(p.Tactics, p.A, p.D, p.Ground, p.Place, DemoYear, rng);
+        return Conclude(report, p.Att, p.AttArmy, p.Def, p.DefArmy, p.Tactics.Naval, rng);
+    }
+
+    List<ChronicleEvent> Conclude(BattleReport report, RealmState att, Army attArmy, RealmState def, Army defArmy, bool naval, Random rng)
+    {
+        var events = new List<ChronicleEvent>();
         Game.AddBattle(report);
         var (winS, winA, loseS, loseA) = report.AttackerWon ? (att, attArmy, def, defArmy) : (def, defArmy, att, attArmy);
         MaybeFall(loseS, loseS.GeneralOf(loseA), rng, events);
@@ -451,11 +515,76 @@ public partial class MapView
         loseA.Route.Clear();
         if (!loseA.IsEmpty)
             SendArmy(loseS.RealmId, loseA, CapitalNode(loseS.RealmId));
+        string what = naval ? "fleet" : "army";
         string text = $"{report.Title}: {winA.Name} of {RealmName(winS.RealmId)} defeats {loseA.Name} of {RealmName(loseS.RealmId)}" +
-            $" ({ThemeAncient.GroupThousands(report.AttackerLost + report.DefenderLost)} men fall); the beaten army falls back.";
+            $" ({ThemeAncient.GroupThousands(report.AttackerLost + report.DefenderLost)} {(naval ? "men lost with their ships" : "men fall")}); the beaten {what} falls back.";
         events.Add(new ChronicleEvent(ChronicleKind.War, att.RealmId, text));
         events.Add(new ChronicleEvent(ChronicleKind.War, def.RealmId, text));
         return events;
+    }
+
+    // --- Blockades (decision "Next 5") ------------------------------------------------
+
+    /// <summary>A fleet this close to an enemy's shore blockades it.</summary>
+    public const int BlockadeNodes = 6;
+
+    /// <summary>
+    /// Each month: every realm's coast watched by enemy warships at least half
+    /// as strong as its own fleet. Each such fleet cuts a quarter of the
+    /// realm's sea trade (at most 80%); the year's customs fall by the average.
+    /// </summary>
+    void Blockades(int month)
+    {
+        var pop = Population!;
+        int w = pop.Width, h = pop.Height;
+        foreach (var s in Game.Realms.Values)
+        {
+            if (month == 0)
+                s.BlockadeMonths = 0;
+            double own = Military.RawMight(s, Domain.Naval);
+            int fleets = 0;
+            foreach (var enemy in Game.Wars.Of(s.RealmId).Select(war => war.Attacker == s.RealmId ? war.Defender : war.Attacker).Distinct())
+                foreach (var a in Game.Realm(enemy).Armies)
+                {
+                    double might = Military.Might(a, Domain.Naval);
+                    if (a.Node < 0 || might <= 0 || might < 0.5 * own)
+                        continue;
+                    int x = a.Node % w, y = a.Node / w;
+                    bool shore = false, sea = pop.NodeRegion[a.Node] == 0;
+                    for (int dy = -BlockadeNodes; dy <= BlockadeNodes && !shore; dy++)
+                        for (int dx = -BlockadeNodes; dx <= BlockadeNodes; dx++)
+                        {
+                            int nx = x + dx, ny = y + dy;
+                            if (nx < 0 || ny < 0 || nx >= w || ny >= h)
+                                continue;
+                            int j = ny * w + nx;
+                            sea |= pop.NodeRegion[j] == 0;
+                            if (pop.NodeRegion[j] != 0 && pop.NodeOwner[j] == s.RealmId)
+                                shore = true;
+                        }
+                    if (shore && sea)
+                        fleets++;
+                }
+            s.Blockade = Math.Min(0.8, 0.25 * fleets);
+            s.BlockadeMonths += s.Blockade;
+        }
+    }
+
+    /// <summary>Is there sea within a few nodes of this node (a coastal place)?</summary>
+    public bool Coastal(int node, int radius = 3)
+    {
+        if (Population == null || node < 0)
+            return false;
+        var pop = Population;
+        int w = pop.Width, x = node % w, y = node / w;
+        for (int dy = -radius; dy <= radius; dy++)
+            for (int dx = -radius; dx <= radius; dx++)
+            {
+                int nx = x + dx, ny = y + dy;
+                if (nx >= 0 && ny >= 0 && nx < w && ny < pop.Height && pop.NodeRegion[ny * w + nx] == 0)
+                    return true;
+            }
+        return false;
     }
 
     // --- What a realm knows (decision "Next 7": partial fog of war) ------------------

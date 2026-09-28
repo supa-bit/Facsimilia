@@ -40,6 +40,11 @@ Collections:
 - `todos/<tN>`: `{order, title, detail}`: things only the designer can do.
 - `meta/info`: `{updated, build}`.
 
+One feature per item, never several ideas bundled into one entry (the
+designer asked for this): each ROADMAP section is its own `area` (for
+example "11. Battles and generals"), and every part of it is its own
+feature line with its own status.
+
 Always pass `if_version` (from your last read) when updating an existing
 document, and batch several writes into one call.
 

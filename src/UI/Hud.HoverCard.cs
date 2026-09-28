@@ -23,6 +23,12 @@ public partial class Hud
     {
         if (_map.Provinces == null)
             return;
+        if (_map.Pending != null)
+        {
+            if (_hoverCard != null)
+                _hoverCard.Visible = false;
+            return;   // the battle map is open
+        }
         if (_hoverCard == null)
         {
             _hoverCard = new PanelContainer { ThemeTypeVariation = "GlassPanel", MouseFilter = MouseFilterEnum.Ignore, Visible = false, ZIndex = 50 };

@@ -453,6 +453,8 @@ public partial class MapView : Node2D
         // The months of this year not yet marched (all of them when the turn button plays the year).
         var marched = ResolvePlayerPlan();
         marched.AddRange(MarchRestOfYear());
+        if (Pending != null)
+            return marched;   // a battle waits on the battle map; the year goes on after it
         DemoYear++;
         if (DemoYear == 0)
             DemoYear = 1;  // 1 BC is followed by AD 1

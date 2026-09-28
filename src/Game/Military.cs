@@ -111,12 +111,12 @@ public static class Military
     /// Losses in battle: a share of every unit (rounded so that small armies
     /// can lose units too). Returns the men lost.
     /// </summary>
-    public static double TakeLosses(Army a, double share, Random rng)
+    public static double TakeLosses(Army a, double share, Random rng, Domain? only = null)
     {
         double men = 0;
         for (int i = 0; i < a.Units.Length; i++)
         {
-            if (a.Units[i] == 0)
+            if (a.Units[i] == 0 || (only != null && Cat[i].Domain != only))
                 continue;
             double expected = a.Units[i] * share;
             int lost = (int)Math.Floor(expected);

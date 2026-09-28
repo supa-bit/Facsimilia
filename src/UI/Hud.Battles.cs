@@ -125,4 +125,13 @@ public partial class Hud
     }
 
     const double AppointCost = 20;
+
+    /// <summary>Opens the battle map for the player's battle and waits until it is fought.</summary>
+    public async System.Threading.Tasks.Task FightBattle(Facsimilia.World.MapView.PendingBattle p)
+    {
+        var view = new TacticalView(p, _map.ColorForRealm(p.Att.RealmId), _map.ColorForRealm(p.Def.RealmId));
+        AddChild(view);
+        await ToSignal(view, TacticalView.SignalName.Finished);
+        view.QueueFree();
+    }
 }

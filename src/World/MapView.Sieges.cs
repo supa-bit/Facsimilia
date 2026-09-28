@@ -187,7 +187,8 @@ public partial class MapView
             double garrison = Garrison(siege.Owner, siege.ProvinceId, siege.People, siege.Node);
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
                 siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"))
-                * SiegeSkill(attacker.GeneralOf(army)) * Math.Min(1, siege.MonthsPresent / 12.0);
+                * SiegeSkill(attacker.GeneralOf(army)) * Math.Min(1, siege.MonthsPresent / 12.0)
+                * (Military.RawMight(army, Domain.Naval) > 0 && Coastal(siege.Node) ? 1.5 : 1);   // blockaded from the sea too, it starves sooner
             siege.MonthsPresent = 0;
             var gen = attacker.GeneralOf(army);
             Military.TakeLosses(army, Conquest.SiegeAttrition / sharing * (1 - 0.06 * ((gen?.Skill(Skills.Logistics) ?? 5) - 5)), rng);

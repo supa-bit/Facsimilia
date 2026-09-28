@@ -22,6 +22,15 @@ public partial class SettingsStore : Node
     /// <summary>Autosave every this many years; 0 = off. One of SaveSystem.AutosaveIntervals.</summary>
     public int AutosaveInterval { get; private set; } = SaveSystem.DefaultAutosaveInterval;
 
+    /// <summary>Your armies' battles open on the battle map (decision "Next 1"); off, your generals fight them.</summary>
+    public bool FightBattles { get; private set; } = true;
+
+    public void SetFightBattles(bool value)
+    {
+        FightBattles = value;
+        Save();
+    }
+
     public override void _EnterTree() => Instance = this;
 
     public override void _Ready()
@@ -86,6 +95,7 @@ public partial class SettingsStore : Node
         Fullscreen = config.GetValue("display", "fullscreen", Fullscreen).AsBool();
         MasterVolume = config.GetValue("audio", "master_volume", MasterVolume).AsSingle();
         AutosaveInterval = ValidInterval(config.GetValue("gameplay", "autosave_interval", AutosaveInterval).AsInt32());
+        FightBattles = config.GetValue("gameplay", "fight_battles", FightBattles).AsBool();
     }
 
     void Save()
@@ -94,6 +104,7 @@ public partial class SettingsStore : Node
         config.SetValue("display", "fullscreen", Fullscreen);
         config.SetValue("audio", "master_volume", MasterVolume);
         config.SetValue("gameplay", "autosave_interval", AutosaveInterval);
+        config.SetValue("gameplay", "fight_battles", FightBattles);
         config.Save(SavePath);
     }
 }

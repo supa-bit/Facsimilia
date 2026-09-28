@@ -144,8 +144,10 @@ public partial class MapView
     /// <summary>Why the player's army can't march to a node, or null (the route itself is checked by FindRoute).</summary>
     public string? CanMoveArmy(Army army, int node)
     {
-        if (Population == null || node < 0 || node >= Population.NodeOwner.Length || Population.NodeRegion[node] == 0)
-            return "Armies march on land: pick a place on land (a fleet carries them over the sea on the way).";
+        if (Population == null || node < 0 || node >= Population.NodeOwner.Length)
+            return "Pick a place on the map.";
+        if (Population.NodeRegion[node] == 0 && Military.RawMight(army, Domain.Naval) <= 0)
+            return "Only an army with warships can put out to sea (to blockade a coast or meet a fleet).";
         if (Game.Sieges.Any(s => s.Attacker == PlayerRealmId && s.ArmyId == army.Id))
             return $"{army.Name} is besieging: lift the siege first.";
         return null;

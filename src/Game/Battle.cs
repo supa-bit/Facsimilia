@@ -231,11 +231,18 @@ public static class Battle
         report.AttackerLost = won ? wLost : lLost;
         report.DefenderLost = won ? lLost : wLost;
 
+        Aftermath(winner, loser);
+        return report;
+    }
+
+    /// <summary>After any battle: experience, weariness, the generals' record.</summary>
+    static void Aftermath(BattleSide winner, BattleSide loser)
+    {
         foreach (var (army, share) in winner.Armies)
             army.Experience = Math.Min(1, army.Experience + share * 0.15 * (1 + (winner.General?.Effect("veterans") ?? 0)));
         foreach (var (army, share) in loser.Armies)
             army.Experience = Math.Min(1, army.Experience + share * 0.05);
-        foreach (var side in new[] { att, def })
+        foreach (var side in new[] { winner, loser })
             foreach (var (army, _) in side.Armies)
                 army.Fatigue = Math.Min(1, army.Fatigue + Conquest.FatiguePerFight * (1 - 0.05 * ((side.General?.Skill(Skills.Logistics) ?? 5) - 5)));
         if (winner.General != null)
@@ -245,6 +252,64 @@ public static class Battle
         }
         if (loser.General != null)
             loser.General.Battles++;
+    }
+
+    /// <summary>
+    /// A battle fought on the battle map is over: each side loses what it lost
+    /// there (less under a good leader), and the day is told from its log.
+    /// </summary>
+    public static BattleReport FromTactics(TacticalBattle t, BattleSide att, BattleSide def, Ground g, string place, int year, Random rng)
+    {
+        bool won = t.Winner == 0;
+        var (aShare, dShare) = t.Losses();
+        var report = new BattleReport
+        {
+            Year = year, Place = place, Ground = t.Naval ? "open sea" : g.Describe(),
+            AttackerRealm = att.Realm, DefenderRealm = def.Realm, Attacker = att.RealmName, Defender = def.RealmName,
+            AttackerArmy = att.Label, DefenderArmy = def.Label,
+            AttackerGeneral = att.General?.Name ?? "", DefenderGeneral = def.General?.Name ?? "",
+            AttackerMen = Men(att), DefenderMen = Men(def),
+            AttackerStrength = t.Blocks.Where(b => b.Side == 0).Sum(b => b.Start), DefenderStrength = t.Blocks.Where(b => b.Side == 1).Sum(b => b.Start),
+            Chance = won ? 1 : 0, AttackerWon = won,
+        };
+        report.Phases.Add($"Fought on the battle map over {Math.Min(t.Round, TacticalBattle.MaxRounds)} rounds.");
+        report.Phases.AddRange(t.Log.TakeLast(8));
+        var domain = t.Naval ? Domain.Naval : Domain.Land;
+        report.AttackerLost = TakeLosses(att, Math.Clamp(aShare * LossFactor(att.General), 0.01, 0.9), rng, domain);
+        report.DefenderLost = TakeLosses(def, Math.Clamp(dShare * LossFactor(def.General), 0.01, 0.9), rng, domain);
+        Aftermath(won ? att : def, won ? def : att);
+        return report;
+    }
+
+    /// <summary>
+    /// A sea fight decided by the admirals (decision "Next 5"): fleets' Might,
+    /// seamanship and weariness. The beaten fleet loses about a fifth of its ships.
+    /// </summary>
+    public static BattleReport FightNaval(BattleSide att, BattleSide def, string place, int year, Random rng)
+    {
+        double Might(BattleSide s) => s.Armies.Sum(x => Military.Might(x.Army, Domain.Naval) * x.Share)
+            * Math.Max(0.4, 1 + TacticsStep * ((s.General?.Skill(Skills.Seamanship) ?? 3) - 5));
+        double a = Might(att), d = Might(def);
+        double chance = WinChance(a, d);
+        bool won = rng.NextDouble() < chance;
+        var report = new BattleReport
+        {
+            Year = year, Place = place, Ground = "open sea",
+            AttackerRealm = att.Realm, DefenderRealm = def.Realm, Attacker = att.RealmName, Defender = def.RealmName,
+            AttackerArmy = att.Label, DefenderArmy = def.Label,
+            AttackerGeneral = att.General?.Name ?? "", DefenderGeneral = def.General?.Name ?? "",
+            AttackerMen = Men(att), DefenderMen = Men(def), AttackerStrength = a, DefenderStrength = d, Chance = chance, AttackerWon = won,
+        };
+        string A = att.RealmName, D = def.RealmName;
+        report.Phases.Add($"The fleets of {A} and {D} meet at sea.");
+        report.Phases.Add(won ? $"{A}'s rams and boarding parties break {D}'s line; the survivors flee to port."
+            : $"{D}'s ships hold their line and drive {A}'s fleet off.");
+        var (winner, loser) = won ? (att, def) : (def, att);
+        int wl = TakeLosses(winner, 0.06 * LossFactor(winner.General), rng, Domain.Naval);
+        int ll = TakeLosses(loser, 0.2 * LossFactor(loser.General), rng, Domain.Naval);
+        report.AttackerLost = won ? wl : ll;
+        report.DefenderLost = won ? ll : wl;
+        Aftermath(winner, loser);
         return report;
     }
 
@@ -254,8 +319,8 @@ public static class Battle
 
     static int Men(BattleSide s) => (int)s.Armies.Sum(x => Military.Soldiers(x.Army) * x.Share);
 
-    static int TakeLosses(BattleSide s, double share, Random rng) =>
-        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng));
+    static int TakeLosses(BattleSide s, double share, Random rng, Domain? only = null) =>
+        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng, only));
 
     /// <summary>The day in three phases, told as the ancient historians told it.</summary>
     static void Phases(BattleReport r, BattleSide att, BattleSide def, double[] am, double[] dm, Ground g, bool won)

@@ -157,11 +157,23 @@ public partial class GameRoot : Node2D
     }
 
     /// <summary>One month on the clock: armies march, eat and meet; time stops if something needs the player.</summary>
-    void PlayMonth()
+    async void PlayMonth()
     {
         if (Map == null || Hud == null || _advancing)
             return;
+        Map.FightBattlesYourself = SettingsStore.Instance.FightBattles;
         var events = Map.MarchMonth();
+        if (Map.Pending != null)
+        {
+            _advancing = true;
+            Hud.TurnBusy = true;
+            Hud.SetPlaying(false);
+            Hud.LogEvents(events);
+            await Hud.FightBattle(Map.Pending);
+            events = Map.FinishPendingBattle();
+            _advancing = false;
+            Hud.TurnBusy = false;
+        }
         Map.RefreshArmyMarkers();
         Hud.LogEvents(events);
         Hud.MonthPlayed();
@@ -197,7 +209,17 @@ public partial class GameRoot : Node2D
                 await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             }
             var yearClock = System.Diagnostics.Stopwatch.StartNew();
+            Map.FightBattlesYourself = SettingsStore.Instance.FightBattles;
             var events = Map.AdvanceYear();
+            while (Map.Pending != null)
+            {
+                // A battle of yours: fight it on the battle map, then the year goes on.
+                Hud.ShowStatus("", 0.01);
+                await Hud.FightBattle(Map.Pending);
+                events.AddRange(Map.FinishPendingBattle());
+                Map.RefreshArmyMarkers();
+                events.AddRange(Map.AdvanceYear());
+            }
             if (MapView.Profile)
                 GD.Print($"  year: {yearClock.ElapsedMilliseconds} ms");
             all.AddRange(events);

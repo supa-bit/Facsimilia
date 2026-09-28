@@ -49,6 +49,10 @@ public sealed class RealmState
     public double LastUpkeep { get; set; }
     public double LastInterest { get; set; }
     public double LastCustoms { get; set; }
+    /// <summary>Share of its sea trade enemy fleets cut off this month (decision "Next 5": blockades).</summary>
+    public double Blockade { get; set; }
+    /// <summary>This year's blockade so far, summed month by month (the year's customs fall by its average).</summary>
+    public double BlockadeMonths { get; set; }
     /// <summary>Talents from selling captives as slaves last year.</summary>
     public double LastCaptiveSales { get; set; }
     public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales + LastVassalTribute - LastCivil - LastAdmin - LastUpkeep - LastInterest;
@@ -108,7 +112,7 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId,
@@ -145,6 +149,8 @@ public sealed class RealmState
             ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
             UpkeepShare = d.TryGetValue("upkeep_share", out var ush) ? ush.AsDouble() : 1,
             TaxReach = d.TryGetValue("tax_reach", out var txr) ? txr.AsDouble() : 1,
+            Blockade = d.TryGetValue("blockade", out var bk) ? bk.AsGodotArray()[0].AsDouble() : 0,
+            BlockadeMonths = d.TryGetValue("blockade", out var bk2) ? bk2.AsGodotArray()[1].AsDouble() : 0,
             Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
             Aggression = d.TryGetValue("aggression", out var agg) ? agg.AsDouble() : 0,
             LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,

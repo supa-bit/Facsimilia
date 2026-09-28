@@ -61,6 +61,10 @@ public partial class SettingsPanel : Control
         autosave.ItemSelected += index => store.SetAutosaveInterval(autosave.GetItemId((int)index));
         gameplay.AddChild(Row("Autosave", autosave,
             "How often the game saves itself. Autosaves take turns in three autosave slots and never replace your own saves."));
+        var fight = new CheckBox { ButtonPressed = store.FightBattles };
+        fight.Toggled += on => store.SetFightBattles(on);
+        gameplay.AddChild(Row("Fight battles yourself", fight,
+            "When your army meets an enemy, time stops and the battle map opens. Off: your generals fight every battle for you."));
 
         var back = new Button { Text = "Back" };
         back.Pressed += () => EmitSignal(SignalName.Closed);

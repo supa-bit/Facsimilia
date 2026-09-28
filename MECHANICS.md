@@ -1961,6 +1961,42 @@ companies and reforms follow.
   120 km around its armies. The rest of the land is dimmed, and enemy armies
   there are not shown.
 
+## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
+
+- **The battle map** (decision "Next 1"). When your army meets an enemy, time
+  stops and the battle map opens: a 20 by 12 grid whose hills, woods, marsh
+  and river come from the ground where the armies met. Each side's troops
+  stand in blocks (heavy foot in the centre, light troops and archers before
+  it, horse and elephants on the wings), with a strength bar (gold) and a
+  morale bar (blue).
+- **Playing it.** Click one of your blocks, then a lit square to move it, or
+  an enemy ringed in red to strike. Each block may move, then strike, once a
+  turn: foot 2 squares, light troops 3, horse 4; archers and slingers shoot
+  3 squares, horse archers 2. Blocks can't slip past an enemy beside them.
+  End turn lets the enemy move. "Let the general decide" plays the rest for
+  you.
+- **What decides it.** The old matchups (horse rides down skirmishers and
+  struggles against formed foot, elephants scatter horse, javelins turn
+  elephants), the ground (hills shield those on them, forest hides light
+  troops and hampers horse, marsh and rivers weaken), flanks (each other
+  block already on the target adds 30%, horse into a flank 50% more), the
+  generals' tactics, veterans and weariness. Losses shake morale; a block
+  with little morale or strength left flees, shaking those beside it. A side
+  breaks when less than 30% of it still stands; after 15 rounds the stronger
+  side keeps the field, and a drawn day is the defender's.
+- **After the battle** the losses on the map become the armies' losses
+  (fewer under a good leader, more for the routed), and the day goes into
+  the battle reports.
+- **Sea battles** (decision "Next 5"). Fleets that meet fight at sea: an
+  all-water battle map for yours, the admirals' seamanship for the rest.
+  Fleets can be sent out to sea like armies.
+- **Blockades.** Enemy warships at least half as strong as a realm's own
+  fleet, standing off its coast, cut a quarter of its sea trade each (at most
+  80%); the year's customs fall by the average. A besieging army with ships
+  takes a coastal town half again as fast.
+- **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
+  generals fight every battle.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and
