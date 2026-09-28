@@ -1891,6 +1891,44 @@ income), Egypt about 1,300, and most realms run close to even at peace
 strength. The accounts panel shows the same figures the game uses, techs and
 corruption included.
 
+## Battles and generals, part 1 **(built, 28 Sep 2026)**
+
+The first part of section 11 (decisions "Next 1-10"): generals, battles that
+weigh the ground and the arms, battle reports and veterans. Marching by
+months, supply, fog of war, the tactical battle map, blockades, mercenary
+companies and reforms follow.
+
+- **Generals** (data/generals.json). Every army has one. Five skills, 1-10:
+  tactics (each point above the enemy's general is worth about 7% on the
+  day), leadership (fewer losses), siegecraft (6% faster sieges a point),
+  logistics (less weariness and siege sickness) and seamanship. Perks add to
+  them or to an arm or a ground: Master of horse, Hill fighter, Master of
+  elephants, Cautious, Reckless, Engineer, and more; four are for great
+  captains only (Genius of war, Father of his soldiers, Stormer of cities,
+  Lord of the sea).
+- **Who leads.** The men of the ruling family (18-65) first. When the family
+  runs short the realm appoints commanders, and each year it may meet "a man
+  of great prowess" and raise him (3%, doubled at war); about one in eight is
+  one of the great captains of the age. The great commanders of 300 BC lead
+  from the start: Pyrrhos, Demetrios the Besieger, Seleukos with his
+  elephants, Lysimachos, Ptolemaios and Agathokles. Generals age, retire at
+  70, and may fall when beaten (8%). In the Armies panel, "Change general"
+  picks another general, a family member, or appoints a new man (20 talents).
+- **Battles.** Each arm's strength is changed by the ground where the armies
+  meet (from the land layer: hills, woods, marsh, desert, rivers; cavalry and
+  elephants suffer in the mountains, light troops thrive), by what the enemy
+  brings (horses will not face elephants, as at Ipsus; javelins turn
+  elephants, as at Zama), by the general, by weariness and by veterans. The
+  attacker must cross any river. The beaten side loses about 15% (more to a
+  strong cavalry pursuit), the winner about 5%.
+- **Battle reports.** Every battle is kept (the last 300, saved): place,
+  ground, generals, men and losses, the odds and the day in phases. The
+  panel opens by itself after a battle of yours; "Battle reports" in the
+  Armies panel opens it any time.
+- **Veterans.** Winning a battle hardens an army (+15% experience, more with
+  some generals); a fully veteran army fights 30% better. Raw recruits
+  dilute it.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

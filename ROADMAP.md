@@ -44,6 +44,11 @@ block the work that depends on them.
        marching by months on plotted routes, supply lines and baggage, blockades,
        battle reports, fog of war, mercenary companies, veterans and
        reforms, smarter enemies (decisions Next 1-10).
+    - [x] Part 1: generals (family, appointed, great captains, perks), battles by
+       ground and arms, battle reports, veterans.
+    - [ ] Part 2: marching by months on plotted routes, supply and baggage, fog of war.
+    - [ ] Part 3: the tactical battle map on land and sea, blockades.
+    - [ ] Part 4: mercenary companies, reforms, smarter enemies.
 12. [ ] **The court**: many skills and traits, realm or family (chosen at the start), heirs,
        marriages, a council of about 8 offices, elected magistrates for republics, detailed intrigue,
        portraits, regents, a court screen, envoys, client kings (Next

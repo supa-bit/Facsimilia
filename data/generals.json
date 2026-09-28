@@ -1,0 +1,289 @@
+{
+ "about": "Generals' perks (decision 'Next 2': family and appointed generals, great people with perks). skills: tactics (winning the day), leadership (holding men together, fewer losses), siegecraft (taking walls), logistics (marching, supply, less attrition), seamanship (fleets); each 1-10, 5 an ordinary commander. A perk adds to skills or to an effect: cavalry, infantry, elephants, missile (that arm's strength in battle), hills, forest, marsh, desert, river (fighting on that ground), pursuit (losses the beaten enemy suffers), losses (own losses: negative is fewer), veterans (experience gained), siege (siege speed). great: only great people have it. Modelled on the commanders in Polybius, Plutarch, Livy and Arrian. Our own data, free for any use. historical: the great commanders of 300 BC, who lead their realm's first army from the start (by realm key and the name of the family member): Pyrrhos (Plutarch, Pyrrhus), Demetrios Poliorketes (Diodorus 20), Seleukos and his elephants at Ipsus, Lysimachos, Ptolemaios I, Agathokles of Syracuse, who carried the war to Africa in 310 BC.",
+ "perks": [
+  {
+   "id": "horse_master",
+   "name": "Master of horse",
+   "description": "Handles cavalry as Alexander's companions were handled: the decisive charge on the wing.",
+   "effects": {
+    "cavalry": 0.2
+   }
+  },
+  {
+   "id": "drillmaster",
+   "name": "Drillmaster",
+   "description": "Keeps the heavy foot in order through any day.",
+   "effects": {
+    "infantry": 0.15,
+    "veterans": 0.3
+   }
+  },
+  {
+   "id": "skirmish_leader",
+   "name": "Leader of light troops",
+   "description": "Uses slingers, archers and javelinmen to wear the enemy down before the lines meet.",
+   "effects": {
+    "missile": 0.2
+   }
+  },
+  {
+   "id": "elephant_master",
+   "name": "Master of elephants",
+   "description": "Knows how to use elephants and how to keep them from turning on his own lines.",
+   "effects": {
+    "elephants": 0.3
+   }
+  },
+  {
+   "id": "hill_fighter",
+   "name": "Hill fighter",
+   "description": "Grew up fighting in the mountains, like the Samnites against Rome.",
+   "effects": {
+    "hills": 0.25
+   }
+  },
+  {
+   "id": "forest_fighter",
+   "name": "Forest fighter",
+   "description": "At home among trees and ambushes.",
+   "effects": {
+    "forest": 0.25
+   }
+  },
+  {
+   "id": "desert_raider",
+   "name": "Desert raider",
+   "description": "Moves and fights in the dry lands as the Nabataeans did.",
+   "effects": {
+    "desert": 0.25
+   }
+  },
+  {
+   "id": "river_crosser",
+   "name": "River crosser",
+   "description": "Forces rivers as Alexander forced the Granicus and the Hydaspes.",
+   "effects": {
+    "river": 0.3
+   }
+  },
+  {
+   "id": "cautious",
+   "name": "Cautious",
+   "description": "Fights only when sure: fewer losses, fewer great victories.",
+   "effects": {
+    "losses": -0.25,
+    "pursuit": -0.2
+   }
+  },
+  {
+   "id": "reckless",
+   "name": "Reckless",
+   "description": "Throws everything in at once, like Flaminius at Trasimene.",
+   "effects": {
+    "tactics": -1,
+    "pursuit": 0.25,
+    "losses": 0.2
+   }
+  },
+  {
+   "id": "beloved",
+   "name": "Beloved of the men",
+   "description": "The soldiers would follow him anywhere.",
+   "effects": {
+    "leadership": 2
+   }
+  },
+  {
+   "id": "harsh",
+   "name": "Harsh disciplinarian",
+   "description": "Feared rather than loved: steady in battle, weary on the march.",
+   "effects": {
+    "leadership": 1,
+    "logistics": -1
+   }
+  },
+  {
+   "id": "engineer",
+   "name": "Engineer",
+   "description": "Builds ramps, towers and engines, like Demetrios the Besieger.",
+   "effects": {
+    "siegecraft": 2,
+    "siege": 0.2
+   }
+  },
+  {
+   "id": "quartermaster",
+   "name": "Quartermaster",
+   "description": "Keeps the army fed and shod: less sickness and desertion.",
+   "effects": {
+    "logistics": 2
+   }
+  },
+  {
+   "id": "pursuer",
+   "name": "Relentless pursuer",
+   "description": "Turns a won field into a rout.",
+   "effects": {
+    "pursuit": 0.35
+   }
+  },
+  {
+   "id": "sea_captain",
+   "name": "Sea captain",
+   "description": "Knows winds, coasts and the ram.",
+   "effects": {
+    "seamanship": 2
+   }
+  },
+  {
+   "id": "old_soldier",
+   "name": "Old soldier",
+   "description": "Has seen twenty campaigns and forgotten none of them.",
+   "effects": {
+    "tactics": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "green",
+   "name": "Untried",
+   "description": "Has never commanded in the field.",
+   "effects": {
+    "tactics": -1
+   }
+  },
+  {
+   "id": "genius",
+   "name": "Genius of war",
+   "description": "One of the great captains of the age, of the kind of Pyrrhos or Hannibal.",
+   "great": true,
+   "effects": {
+    "tactics": 3,
+    "leadership": 1,
+    "pursuit": 0.2
+   }
+  },
+  {
+   "id": "father_of_legions",
+   "name": "Father of his soldiers",
+   "description": "Reforms the army he leads, as Marius and Scipio did.",
+   "great": true,
+   "effects": {
+    "leadership": 2,
+    "logistics": 1,
+    "veterans": 0.5
+   }
+  },
+  {
+   "id": "stormer_of_cities",
+   "name": "Stormer of cities",
+   "description": "No wall holds against him: a Poliorketes.",
+   "great": true,
+   "effects": {
+    "siegecraft": 3,
+    "siege": 0.4
+   }
+  },
+  {
+   "id": "lord_of_the_sea",
+   "name": "Lord of the sea",
+   "description": "An admiral of the kind of Duilius or Hamilcar.",
+   "great": true,
+   "effects": {
+    "seamanship": 4
+   }
+  }
+ ],
+ "historical": [
+  {
+   "realm": "epirus",
+   "name": "Pyrrhos",
+   "perks": [
+    "genius",
+    "horse_master"
+   ],
+   "skills": [
+    9,
+    8,
+    5,
+    4,
+    4
+   ]
+  },
+  {
+   "realm": "antigonus",
+   "name": "Demetrios",
+   "perks": [
+    "stormer_of_cities",
+    "reckless"
+   ],
+   "skills": [
+    7,
+    7,
+    9,
+    4,
+    8
+   ]
+  },
+  {
+   "realm": "seleucid",
+   "name": "Seleukos",
+   "perks": [
+    "elephant_master",
+    "old_soldier"
+   ],
+   "skills": [
+    8,
+    7,
+    5,
+    7,
+    3
+   ]
+  },
+  {
+   "realm": "lysimachus",
+   "name": "Lysimachos",
+   "perks": [
+    "old_soldier",
+    "cautious"
+   ],
+   "skills": [
+    7,
+    6,
+    6,
+    6,
+    3
+   ]
+  },
+  {
+   "realm": "egypt",
+   "name": "Ptolemaios",
+   "perks": [
+    "quartermaster",
+    "cautious"
+   ],
+   "skills": [
+    6,
+    7,
+    5,
+    8,
+    6
+   ]
+  },
+  {
+   "realm": "syracuse",
+   "name": "Agathokles",
+   "perks": [
+    "reckless",
+    "sea_captain"
+   ],
+   "skills": [
+    8,
+    7,
+    5,
+    5,
+    6
+   ]
+  }
+ ]
+}

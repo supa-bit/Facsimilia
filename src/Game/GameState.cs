@@ -90,6 +90,11 @@ public sealed class RealmState
 
     public int TotalUnits => Armies.Sum(a => a.Count);
 
+    /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
+    public List<General> Generals { get; } = new();
+    public int NextGeneralId { get; set; } = 1;
+    public General? GeneralOf(Army a) => a.GeneralId == 0 ? null : Generals.FirstOrDefault(g => g.Id == a.GeneralId);
+
     /// <summary>Every 5 years: year, people, silver (talents), soldiers, score — for the realms table's graphs.</summary>
     public List<float[]> History { get; } = new();
 
@@ -106,6 +111,7 @@ public sealed class RealmState
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
+            ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId,
         };
     }
 
@@ -185,6 +191,10 @@ public sealed class RealmState
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }
         }
+        if (d.TryGetValue("generals", out var gens))
+            foreach (Variant v in gens.AsGodotArray())
+                r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
+        r.NextGeneralId = d.TryGetValue("next_general", out var ng) ? ng.AsInt32() : r.Generals.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
         if (d.TryGetValue("history", out var hist))
             foreach (Variant v in hist.AsGodotArray())
                 r.History.Add(v.AsFloat32Array());
@@ -221,6 +231,15 @@ public sealed class GameState
     public List<Offer> Offers { get; } = new();
     /// <summary>History's campaigns checked at their end date (index in history_goals.json -> it happened as in history).</summary>
     public Dictionary<int, bool> HistoryChecks { get; } = new();
+    /// <summary>The battles fought, newest last (the last BattlesKept).</summary>
+    public List<BattleReport> Battles { get; } = new();
+    public const int BattlesKept = 300;
+    public void AddBattle(BattleReport r)
+    {
+        Battles.Add(r);
+        if (Battles.Count > BattlesKept)
+            Battles.RemoveRange(0, Battles.Count - BattlesKept);
+    }
     GDictionary HistoryChecksDict()
     {
         var d = new GDictionary();
@@ -266,7 +285,7 @@ public sealed class GameState
             ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
-            ["history_checks"] = HistoryChecksDict(),
+            ["history_checks"] = HistoryChecksDict(), ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
         };
     }
@@ -291,6 +310,9 @@ public sealed class GameState
     public static GameState FromDict(GDictionary d)
     {
         var g = new GameState();
+        if (d.TryGetValue("battles", out var bt))
+            foreach (Variant v in bt.AsGodotArray())
+                g.Battles.Add(BattleReport.FromDict(v.AsGodotDictionary()));
         if (d.TryGetValue("sieges", out var sg))
             foreach (Variant v in sg.AsGodotArray())
                 g.Sieges.Add(Siege.FromDict(v.AsGodotDictionary()));

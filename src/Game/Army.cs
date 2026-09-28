@@ -22,6 +22,10 @@ public sealed class Army
     public int[] Units { get; private set; }
     /// <summary>0 rested .. 1 exhausted: campaigning and sieges wear an army down.</summary>
     public double Fatigue { get; set; }
+    /// <summary>0 raw recruits .. 1 hardened veterans (decision "Next 9"): battles harden an army, new recruits dilute it.</summary>
+    public double Experience { get; set; }
+    /// <summary>Its general (RealmState.Generals id), or 0.</summary>
+    public int GeneralId { get; set; }
 
     /// <summary>What the realm's technology adds to each role's Might (set each year; not saved).</summary>
     public double[] RoleBoost { get; } = new double[UnitRoles.Count];
@@ -49,7 +53,7 @@ public sealed class Army
         for (int i = 0; i < Units.Length; i++)
             if (Units[i] > 0)
                 units[cat[i].Id] = Units[i];
-        return new GDictionary { ["id"] = Id, ["name"] = Name, ["node"] = Node, ["fatigue"] = Fatigue, ["units"] = units };
+        return new GDictionary { ["id"] = Id, ["name"] = Name, ["node"] = Node, ["fatigue"] = Fatigue, ["units"] = units, ["xp"] = Experience, ["general"] = GeneralId };
     }
 
     public static Army FromDict(GDictionary d, UnitCatalog cat)
@@ -58,6 +62,8 @@ public sealed class Army
         {
             Id = d["id"].AsInt32(), Name = d["name"].AsString(), Node = d["node"].AsInt32(),
             Fatigue = d.TryGetValue("fatigue", out var f) ? f.AsDouble() : 0,
+            Experience = d.TryGetValue("xp", out var x) ? x.AsDouble() : 0,
+            GeneralId = d.TryGetValue("general", out var g) ? g.AsInt32() : 0,
         };
         foreach (var (k, v) in d["units"].AsGodotDictionary())
             if (cat.Has(k.AsString()))

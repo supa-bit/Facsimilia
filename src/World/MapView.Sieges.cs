@@ -141,14 +141,25 @@ public partial class MapView
                 double relief = ReliefMight(siege.Owner, against);
                 if (relief > 0.5)
                 {
-                    bool won = rng.NextDouble() < Conquest.WinChance(attack, relief);
                     var defender = Game.Realm(siege.Owner);
-                    double reliefShare = relief / Math.Max(Military.Might(defender, Domain.Land), 1e-9);
-                    double attLost = Military.TakeLosses(army, (won ? Conquest.WinnerLosses : Conquest.LoserLosses) / sharing, rng);
-                    double defLost = 0;
-                    foreach (var a in defender.Armies.Where(a => !Game.Sieges.Any(x => x.Attacker == siege.Owner && x.ArmyId == a.Id)))
-                        defLost += Military.TakeLosses(a, Math.Clamp(reliefShare, 0, 1) * (won ? Conquest.LoserLosses : Conquest.WinnerLosses), rng);
-                    army.Fatigue = Math.Min(1, army.Fatigue + Conquest.FatiguePerFight);
+                    double reliefShare = Math.Clamp(relief / Math.Max(Military.Might(defender, Domain.Land), 1e-9), 0, 1);
+                    var free = defender.Armies.Where(a => !a.IsEmpty && !Game.Sieges.Any(x => x.Attacker == siege.Owner && x.ArmyId == a.Id)).ToList();
+                    var lead = free.OrderByDescending(a => Military.RawMight(a, Domain.Land)).FirstOrDefault();
+                    var att = new BattleSide
+                    {
+                        Realm = siege.Attacker, RealmName = RealmName(siege.Attacker),
+                        Armies = new() { (army, 1.0 / sharing) }, General = attacker.GeneralOf(army),
+                    };
+                    var def = new BattleSide
+                    {
+                        Realm = siege.Owner, RealmName = RealmName(siege.Owner),
+                        Armies = free.Select(a => (a, reliefShare)).ToList(), General = lead != null ? defender.GeneralOf(lead) : null,
+                    };
+                    var report = Battle.Fight(att, def, Ground.At(Land, siege.Node), siege.Name, DemoYear, rng);
+                    Game.AddBattle(report);
+                    bool won = report.AttackerWon;
+                    double attLost = report.AttackerLost, defLost = report.DefenderLost;
+                    MaybeFall(won ? defender : attacker, won ? def.General : att.General, rng, events);
                     var war = Game.Wars.Between(siege.Attacker, siege.Owner);
                     if (war != null)
                     {
@@ -158,9 +169,10 @@ public partial class MapView
                         war.AttackerLosses += attackerStarted ? attLost : defLost;
                         war.DefenderLosses += attackerStarted ? defLost : attLost;
                     }
-                    string text = won
-                        ? $"{RealmName(siege.Owner)} marches to relieve {siege.Name}, and is beaten by {army.Name}."
-                        : $"{RealmName(siege.Owner)} relieves {siege.Name}: {army.Name} of {RealmName(siege.Attacker)} is beaten and the siege lifted.";
+                    string text = (won
+                        ? $"{RealmName(siege.Owner)} marches to relieve {siege.Name}, and is beaten by {army.Name}"
+                        : $"{RealmName(siege.Owner)} relieves {siege.Name}: {army.Name} of {RealmName(siege.Attacker)} is beaten and the siege lifted")
+                        + $" ({report.AttackerLost + report.DefenderLost:N0} men fall).";
                     events.Add(new ChronicleEvent(ChronicleKind.War, siege.Attacker, text));
                     events.Add(new ChronicleEvent(ChronicleKind.War, siege.Owner, text));
                     if (!won)
@@ -173,8 +185,10 @@ public partial class MapView
             }
             double garrison = Garrison(siege.Owner, siege.ProvinceId, siege.People, siege.Node);
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
-                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"));
-            Military.TakeLosses(army, Conquest.SiegeAttrition / sharing, rng);
+                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"))
+                * SiegeSkill(attacker.GeneralOf(army));
+            var gen = attacker.GeneralOf(army);
+            Military.TakeLosses(army, Conquest.SiegeAttrition / sharing * (1 - 0.06 * ((gen?.Skill(Skills.Logistics) ?? 5) - 5)), rng);
             army.Fatigue = Math.Min(1, army.Fatigue + Conquest.SiegeFatigue / sharing);
             if (siege.Progress >= 1)
                 fallen.Add(siege);
@@ -199,6 +213,10 @@ public partial class MapView
         }
         return events;
     }
+
+    /// <summary>A general's siegecraft: 6% faster per point above 5, and perks.</summary>
+    public static double SiegeSkill(General? g) =>
+        g == null ? 0.9 : Math.Max(0.5, 1 + 0.06 * (g.Skill(Skills.Siegecraft) - 5) + g.Effect("siege"));
 
     /// <summary>A siege is complete: the land changes hands, captives are taken, and the war score moves.</summary>
     List<ChronicleEvent> Capture(Siege siege, Dictionary<int, RealmCensus> census)

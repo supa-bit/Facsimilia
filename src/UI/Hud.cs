@@ -42,6 +42,7 @@ public partial class Hud : Control
         BuildGoalsPanel();
         BuildRealmsPanel();
         BuildArmiesPanel();
+        BuildBattlesPanel();
         BuildResearchPanel();
     }
 

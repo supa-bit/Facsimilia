@@ -133,6 +133,7 @@ public partial class MapView
             StartTreaties(root);
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
+        StartGenerals();
         RefreshRoleBoosts();
         _census = null;
         RecordHistory();
@@ -156,6 +157,7 @@ public partial class MapView
         events.AddRange(DisastersYear());
         Lap("disasters");
         _census = null;
+        events.AddRange(GeneralsYear(new Random(StableHash.Of(DemoYear, 3571))));
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");
         events.AddRange(SiegesYear(new Random(StableHash.Of(DemoYear, 5381))));
@@ -211,6 +213,8 @@ public partial class MapView
         if (Game.Provinces.Count == 0)
             StartLoyalty();   // a save from before cultures
         PlaceUnplacedArmies();
+        if (Game.Realms.Values.All(r => r.Generals.Count == 0))
+            GeneralsYear(new Random(StableHash.Of(DemoYear, 3571)), false);   // a save from before generals
         if (Game.Realms.Values.All(r => r.Techs.Count == 0))
             StartTechs();   // a save from before technology
         RefreshRoleBoosts();

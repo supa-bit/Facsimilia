@@ -52,6 +52,7 @@ public static class Military
         if (!NeedsMercenaries(r, u))
             r.Manpower -= u.Men;
         army.Units[u.Index]++;
+        army.Experience *= (army.Count - 1) / (double)Math.Max(army.Count, 1);   // raw recruits dilute the veterans
         return true;
     }
 
@@ -75,7 +76,8 @@ public static class Military
         return m;
     }
 
-    public static double Might(Army a, Domain domain) => RawMight(a, domain) * (1 - 0.5 * a.Fatigue);
+    /// <summary>Fighting value now: weariness lowers it, veterans raise it.</summary>
+    public static double Might(Army a, Domain domain) => RawMight(a, domain) * (1 - 0.5 * a.Fatigue) * (1 + Battle.VeteranBonus * a.Experience);
 
     public static double RawMight(RealmState r, Domain domain) => r.Armies.Sum(a => RawMight(a, domain));
 

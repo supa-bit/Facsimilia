@@ -82,5 +82,7 @@ public partial class Hud
     {
         Month = 0;
         RefreshClock();
+        CheckNewBattles();
+        RefreshBattles();
     }
 }

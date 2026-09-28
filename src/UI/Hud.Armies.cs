@@ -56,6 +56,9 @@ public partial class Hud
             RefreshArmiesPanel();
         };
         box.AddChild(add);
+        var reports = new Button { Text = "Battle reports", FocusMode = FocusModeEnum.None };
+        reports.Pressed += ShowBattles;
+        box.AddChild(reports);
     }
 
     void ToggleArmiesPanel(bool? show = null)
@@ -106,6 +109,9 @@ public partial class Hud
                 $"Might: land {Military.Might(army, Domain.Land):0.0}, sea {Military.Might(army, Domain.Naval):0.0};  " +
                 $"{ThemeAncient.GroupThousands(Military.Soldiers(army))} men;  upkeep {Military.Upkeep(army) * s.UpkeepShare:0} a year" +
                 (army.Fatigue > 0.05 ? $";  weary {army.Fatigue:P0}" : ""), fontSize: 15));
+            if (army.Experience > 0.02)
+                box.AddChild(ThemeAncient.Label($"Veterans: {army.Experience:P0} (fights {Battle.VeteranBonus * army.Experience:P0} better)", fontSize: 15));
+            AddGeneralRow(box, s, army);
             foreach (var siege in sieges)
                 box.AddChild(ThemeAncient.Label($"Besieging {siege.Name}: {Math.Min(siege.Progress, 0.99):P0} done", fontSize: 15));
 
