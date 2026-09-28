@@ -48,6 +48,10 @@ public sealed class RealmState
     public double TaxReach { get; set; } = 1;
     public double LastUpkeep { get; set; }
     public double LastInterest { get; set; }
+    /// <summary>Mercenary pay so far this year (paid month by month, straight from the treasury).</summary>
+    public double MercPaidThisYear { get; set; }
+    /// <summary>Last year's mercenary pay (shown in the accounts; already out of the treasury, so not in LastNet).</summary>
+    public double LastMercPay { get; set; }
     public double LastCustoms { get; set; }
     /// <summary>Share of its sea trade enemy fleets cut off this month (decision "Next 5": blockades).</summary>
     public double Blockade { get; set; }
@@ -115,6 +119,7 @@ public sealed class RealmState
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
+            ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId,
         };
     }
@@ -197,6 +202,12 @@ public sealed class RealmState
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }
         }
+        if (d.TryGetValue("merc_pay", out var mp))
+        {
+            var mpa = mp.AsGodotArray();
+            r.MercPaidThisYear = mpa[0].AsDouble();
+            r.LastMercPay = mpa[1].AsDouble();
+        }
         if (d.TryGetValue("generals", out var gens))
             foreach (Variant v in gens.AsGodotArray())
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
@@ -235,6 +246,11 @@ public sealed class GameState
     }
     /// <summary>Offers other realms make the player (peace with tribute, ransom for a siege), answered in Diplomacy.</summary>
     public List<Offer> Offers { get; } = new();
+    /// <summary>Mercenary companies, waiting at their hiring grounds or serving a realm.</summary>
+    public List<Company> Companies { get; } = new();
+    public int NextCompanyId { get; set; } = 1;
+    /// <summary>History's companies already brought into the game (each appears once).</summary>
+    public HashSet<string> CompaniesSeen { get; } = new();
     /// <summary>History's campaigns checked at their end date (index in history_goals.json -> it happened as in history).</summary>
     public Dictionary<int, bool> HistoryChecks { get; } = new();
     /// <summary>The battles fought, newest last (the last BattlesKept).</summary>
@@ -295,6 +311,8 @@ public sealed class GameState
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
             ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
+            ["companies"] = new GArray(Companies.Select(c => (Variant)c.ToDict()).ToArray()), ["next_company"] = NextCompanyId,
+            ["companies_seen"] = new GArray(CompaniesSeen.Select(c => (Variant)c).ToArray()),
         };
     }
 
@@ -319,6 +337,13 @@ public sealed class GameState
     {
         var g = new GameState();
         g.MonthsMarched = d.TryGetValue("months_marched", out var mm) ? mm.AsInt32() : 0;
+        if (d.TryGetValue("companies", out var cos))
+            foreach (Variant v in cos.AsGodotArray())
+                g.Companies.Add(Company.FromDict(v.AsGodotDictionary()));
+        g.NextCompanyId = d.TryGetValue("next_company", out var nco) ? nco.AsInt32() : g.Companies.Select(c => c.Id).DefaultIfEmpty(0).Max() + 1;
+        if (d.TryGetValue("companies_seen", out var csn))
+            foreach (Variant v in csn.AsGodotArray())
+                g.CompaniesSeen.Add(v.AsString());
         if (d.TryGetValue("battles", out var bt))
             foreach (Variant v in bt.AsGodotArray())
                 g.Battles.Add(BattleReport.FromDict(v.AsGodotDictionary()));

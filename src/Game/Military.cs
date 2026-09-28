@@ -11,14 +11,15 @@ namespace Facsimilia.Game;
 /// </summary>
 public static class Military
 {
-    /// <summary>Hiring mercenaries instead of calling up your own men costs this many times more.</summary>
-    public const double MercenaryPremium = 2.0;
     /// <summary>Price multiplier for a unit whose resource the realm must import.</summary>
     public const double ImportPremium = 1.5;
 
     static UnitCatalog Cat => UnitCatalog.Instance;
 
+    /// <summary>Too few men left to call up this unit (decision: mercenary companies replace hiring at twice the price).</summary>
     public static bool NeedsMercenaries(RealmState r, UnitDef u) => r.Manpower < u.Men;
+
+    static string ThemeManpower(double men) => ((long)men).ToString("N0");
 
     /// <summary>Why a unit can't be raised now, or null if it can; and what it would cost.</summary>
     public static (string? Problem, double Cost) CanRecruit(RealmState r, RealmCensus c, IReadOnlyCollection<string> cultures,
@@ -36,7 +37,7 @@ public static class Military
         if (u.Needs != null && !c.Resources.Contains(u.Needs) && !(u.Role == UnitRoles.Elephants && elephantSource))
             cost *= ImportPremium;
         if (NeedsMercenaries(r, u))
-            cost *= MercenaryPremium;   // Carthage and the Hellenistic kings hired whole armies
+            return ($"Not enough men to call up ({ThemeManpower(r.Manpower)} left, {u.Men:N0} needed): hire a mercenary company instead.", cost);
         if (r.Treasury < cost)
             return ($"Not enough silver: {CoinCatalog.Instance.Kg(cost):N0} kg needed.", cost);
         return (null, cost);
@@ -49,10 +50,8 @@ public static class Military
         if (problem != null)
             return false;
         r.Treasury -= cost;
-        if (!NeedsMercenaries(r, u))
-            r.Manpower -= u.Men;
-        army.Units[u.Index]++;
-        army.Experience *= (army.Count - 1) / (double)Math.Max(army.Count, 1);   // raw recruits dilute the veterans
+        r.Manpower -= u.Men;
+        army.AddRaw(u.Index);   // raw recruits dilute only their own kind
         return true;
     }
 
@@ -77,7 +76,14 @@ public static class Military
     }
 
     /// <summary>Fighting value now: weariness lowers it, veterans raise it.</summary>
-    public static double Might(Army a, Domain domain) => RawMight(a, domain) * (1 - 0.5 * a.Fatigue) * (1 + Battle.VeteranBonus * a.Experience);
+    public static double Might(Army a, Domain domain)
+    {
+        double m = 0;
+        for (int i = 0; i < a.Units.Length; i++)
+            if (a.Units[i] > 0 && Cat[i].Domain == domain)
+                m += a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role]) * (1 + Battle.VeteranBonus * a.UnitXp[i]);
+        return m * (1 - 0.5 * a.Fatigue);
+    }
 
     public static double RawMight(RealmState r, Domain domain) => r.Armies.Sum(a => RawMight(a, domain));
 

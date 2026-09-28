@@ -56,6 +56,15 @@ public partial class Hud
             RefreshArmiesPanel();
         };
         box.AddChild(add);
+        var mercs = new Button { Text = "Mercenary companies", FocusMode = FocusModeEnum.None,
+            TooltipText = "Companies waiting at their hiring grounds, and those in anyone's pay." };
+        mercs.Pressed += () =>
+        {
+            _mercMode = !_mercMode;
+            mercs.Text = _mercMode ? "Back to your armies" : "Mercenary companies";
+            RefreshArmiesPanel();
+        };
+        box.AddChild(mercs);
         var reports = new Button { Text = "Battle reports", FocusMode = FocusModeEnum.None };
         reports.Pressed += ShowBattles;
         box.AddChild(reports);
@@ -83,6 +92,11 @@ public partial class Hud
             return;
         foreach (Node child in _armyRows.GetChildren())
             child.QueueFree();
+        if (_mercMode)
+        {
+            RefreshMercenaries();
+            return;
+        }
         var s = _map.PlayerState;
         var c = _map.CensusOf(_map.PlayerRealmId);
         var cultures = _map.CulturesOf(_map.PlayerRealmId);
@@ -171,8 +185,7 @@ public partial class Hud
             foreach (var u in options)
             {
                 var (problem, cost) = Military.CanRecruit(s, c, cultures, u, s.ElephantSource);
-                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {_map.Money(cost)}" +
-                    (Military.NeedsMercenaries(s, u) ? ", hired" : ""), u.Index);
+                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {_map.Money(cost)}", u.Index);
                 int item = popup.ItemCount - 1;
                 popup.SetItemDisabled(item, problem != null);
                 popup.SetItemTooltip(item, (problem ?? $"Might {u.Might:0.00}, {u.Men:N0} men, upkeep {u.Upkeep:0} a year.") +

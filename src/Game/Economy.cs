@@ -95,7 +95,8 @@ public static class Economy
         return (tax, tribute, customs, civil, admin, Upkeep(r), interest);
     }
 
-    public static double Upkeep(RealmState r) => r.Armies.Sum(Military.Upkeep) * r.UpkeepShare;
+    /// <summary>The realm's own troops' upkeep (mercenary companies are paid by the month instead).</summary>
+    public static double Upkeep(RealmState r) => r.Armies.Where(a => a.CompanyId == 0).Sum(Military.Upkeep) * r.UpkeepShare;
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
     public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>
@@ -116,6 +117,8 @@ public static class Economy
         r.LastAdmin = admin;
         r.LastUpkeep = upkeep;
         r.LastInterest = interest;
+        r.LastMercPay = r.MercPaidThisYear;
+        r.MercPaidThisYear = 0;
 
         r.Treasury += tax + tribute + customs - civil - admin - upkeep - interest;
         if (r.Treasury < 0)

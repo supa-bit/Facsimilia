@@ -250,6 +250,7 @@ public partial class MapView
         events.AddRange(Supply(month, rng));
         events.AddRange(Meetings(rng));
         Blockades(month);
+        events.AddRange(MercenariesMonth(rng));
         foreach (var siege in Game.Sieges)
         {
             var army = Game.Realm(siege.Attacker).ArmyById(siege.ArmyId);

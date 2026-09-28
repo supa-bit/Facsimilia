@@ -48,7 +48,14 @@ block the work that depends on them.
        ground and arms, battle reports, veterans.
     - [x] Part 2: marching by months on plotted routes, supply and baggage, fog of war.
     - [x] Part 3: the tactical battle map on land and sea, blockades.
-    - [ ] Part 4: mercenary companies, reforms, smarter enemies.
+    - [x] Part 4a: mercenary companies (hiring grounds, captains, monthly pay
+          and victory bonus, unpaid companies desert, change sides or revolt,
+          outbidding, other realms hiring), each unit type's own experience,
+          admirals named as such (28 Sep 2026).
+    - [ ] Part 4b: reforms, generals growing, generals by government, men of
+          prowess, army loyalty and standards, levies, recruiting where the
+          people are, veterans' land and guards, smarter enemies. Waits on the
+          follow-up decisions added to the Ledger on 28 Sep 2026.
 12. [ ] **The court**: many skills and traits, realm or family (chosen at the start), heirs,
        marriages, a council of about 8 offices, elected magistrates for republics, detailed intrigue,
        portraits, regents, a court screen, envoys, client kings (Next

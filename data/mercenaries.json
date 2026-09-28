@@ -1,0 +1,506 @@
+{
+ "about": "Mercenary companies (decision 'Next 8': named companies; your follow-up answers: history's companies in their eras plus generated ones, hired at their hiring grounds, monthly pay plus a bonus after victories, 500 to 5,000 men of mixed arms, captains who can rise, going to whoever pays best). grounds: the hiring grounds where companies wait for employers (Cape Taenarum was the great one of the 4th and 3rd centuries BC; Crete and Rhodes sent archers and slingers; the Balearics slingers; the Celtic lands war bands). companies: from/to (years, negative BC) when the company can be hired; ground; units (unit id: count of units); captain (name, skills tactics/leadership/siegecraft/logistics/seamanship, perks); pay: [least, most] times what the same troops would cost as your own (pay and rations); an elite company's pay is drawn anew each year inside its range, so a strong company can bankrupt you; bonus: months of pay owed after each victory. Sources: Polybius 1.65-88 (the Mercenary War), 1.32-34 (Xanthippus), 2.21-31 (the Gaesatae at Telamon); Diodorus 21.18 and Polybius 1.7-8 (the Mamertines); Livy 38.16 and Pausanias 10.23 (the Galatians' crossing); Griffith, 'The Mercenaries of the Hellenistic World' (1935). Our own data, free for any use.",
+ "grounds": [
+  {
+   "id": "taenarum",
+   "name": "Cape Taenarum",
+   "lon": 22.48,
+   "lat": 36.39
+  },
+  {
+   "id": "crete",
+   "name": "Crete",
+   "lon": 24.9,
+   "lat": 35.3
+  },
+  {
+   "id": "rhodes",
+   "name": "Rhodes",
+   "lon": 28.2,
+   "lat": 36.4
+  },
+  {
+   "id": "balearics",
+   "name": "The Balearic Isles",
+   "lon": 2.9,
+   "lat": 39.6
+  },
+  {
+   "id": "thrace",
+   "name": "Thrace",
+   "lon": 25.5,
+   "lat": 42.4
+  },
+  {
+   "id": "galatia",
+   "name": "Galatia",
+   "lon": 32.9,
+   "lat": 39.9
+  },
+  {
+   "id": "celtica",
+   "name": "The Alpine Celts",
+   "lon": 7.5,
+   "lat": 45.9
+  },
+  {
+   "id": "iberia",
+   "name": "Celtiberia",
+   "lon": -2.5,
+   "lat": 41.5
+  },
+  {
+   "id": "numidia",
+   "name": "Numidia",
+   "lon": 7.0,
+   "lat": 36.3
+  },
+  {
+   "id": "libya",
+   "name": "Libya",
+   "lon": 10.2,
+   "lat": 36.4
+  },
+  {
+   "id": "messana",
+   "name": "Messana",
+   "lon": 15.55,
+   "lat": 38.19
+  },
+  {
+   "id": "illyria",
+   "name": "Illyria",
+   "lon": 19.5,
+   "lat": 42.07
+  },
+  {
+   "id": "aetolia",
+   "name": "Aetolia",
+   "lon": 21.5,
+   "lat": 38.6
+  },
+  {
+   "id": "thessaly",
+   "name": "Thessaly",
+   "lon": 22.4,
+   "lat": 39.6
+  },
+  {
+   "id": "olbia",
+   "name": "Olbia on the Pontus",
+   "lon": 31.9,
+   "lat": 46.7
+  },
+  {
+   "id": "tanais",
+   "name": "Tanais",
+   "lon": 39.3,
+   "lat": 47.3
+  },
+  {
+   "id": "arabia",
+   "name": "Arabia",
+   "lon": 36.5,
+   "lat": 30.3
+  },
+  {
+   "id": "persis",
+   "name": "Persis",
+   "lon": 52.5,
+   "lat": 29.9
+  }
+ ],
+ "companies": [
+  {
+   "id": "taenarum_hoplites",
+   "name": "The hoplites of Taenarum",
+   "from": -330,
+   "to": -200,
+   "ground": "taenarum",
+   "units": {
+    "hoplites": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "xanthippus",
+   "name": "Xanthippus' Spartans",
+   "from": -257,
+   "to": -250,
+   "ground": "taenarum",
+   "units": {
+    "hoplites": 2,
+    "peltasts": 1
+   },
+   "captain": {
+    "name": "Xanthippos",
+    "skills": [
+     9,
+     8,
+     5,
+     6,
+     3
+    ],
+    "perks": [
+     "genius",
+     "drillmaster"
+    ]
+   },
+   "pay": [
+    1.6,
+    3.5
+   ],
+   "bonus": 2
+  },
+  {
+   "id": "cretan_archers",
+   "name": "The Cretan archers of Knossos",
+   "from": -300,
+   "to": -67,
+   "ground": "crete",
+   "units": {
+    "cretan_archers": 2
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "cretan_gortyn",
+   "name": "The archers of Gortyn",
+   "from": -300,
+   "to": -67,
+   "ground": "crete",
+   "units": {
+    "cretan_archers": 1,
+    "peltasts": 1
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "rhodian_slingers",
+   "name": "The Rhodian slingers",
+   "from": -300,
+   "to": -40,
+   "ground": "rhodes",
+   "units": {
+    "slingers": 1
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "balearic_slingers",
+   "name": "The Balearic slingers",
+   "from": -300,
+   "to": -123,
+   "ground": "balearics",
+   "units": {
+    "balearic_slingers": 2
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "thracian_peltasts",
+   "name": "The Thracian peltasts",
+   "from": -300,
+   "to": 50,
+   "ground": "thrace",
+   "units": {
+    "peltasts": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "leonnorios",
+   "name": "The war band of Leonnorios",
+   "from": -278,
+   "to": -240,
+   "ground": "galatia",
+   "units": {
+    "galatian_warriors": 4,
+    "gallic_cavalry": 1
+   },
+   "captain": {
+    "name": "Leonnorios",
+    "skills": [
+     6,
+     7,
+     3,
+     4,
+     2
+    ],
+    "perks": [
+     "reckless",
+     "pursuer"
+    ]
+   },
+   "pay": [
+    1.5,
+    2.5
+   ],
+   "bonus": 2
+  },
+  {
+   "id": "galatian_band",
+   "name": "The Tolistobogii",
+   "from": -270,
+   "to": -25,
+   "ground": "galatia",
+   "units": {
+    "galatian_warriors": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "gaesatae",
+   "name": "The Gaesatae",
+   "from": -236,
+   "to": -222,
+   "ground": "celtica",
+   "units": {
+    "warband": 4,
+    "gallic_cavalry": 2
+   },
+   "captain": {
+    "name": "Aneroëstes",
+    "skills": [
+     6,
+     7,
+     3,
+     3,
+     2
+    ],
+    "perks": [
+     "reckless"
+    ]
+   },
+   "pay": [
+    1.6,
+    3.0
+   ],
+   "bonus": 2
+  },
+  {
+   "id": "celtic_band",
+   "name": "An Alpine war band",
+   "from": -300,
+   "to": -120,
+   "ground": "celtica",
+   "units": {
+    "warband": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "scutarii",
+   "name": "The Celtiberian scutarii",
+   "from": -300,
+   "to": -133,
+   "ground": "iberia",
+   "units": {
+    "scutarii": 3,
+    "iberian_cavalry": 1
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "numidian_horse",
+   "name": "The Numidian horse",
+   "from": -300,
+   "to": -46,
+   "ground": "numidia",
+   "units": {
+    "numidian_horse": 4
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "libyan_spears",
+   "name": "The Libyan spearmen",
+   "from": -300,
+   "to": -146,
+   "ground": "libya",
+   "units": {
+    "libyan_spearmen": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "mamertines",
+   "name": "The Mamertines",
+   "from": -289,
+   "to": -264,
+   "ground": "messana",
+   "units": {
+    "samnite_warriors": 3
+   },
+   "captain": {
+    "name": "Kios",
+    "skills": [
+     5,
+     7,
+     4,
+     4,
+     3
+    ],
+    "perks": [
+     "harsh"
+    ]
+   },
+   "pay": [
+    1.5,
+    2.2
+   ],
+   "bonus": 2
+  },
+  {
+   "id": "illyrian_raiders",
+   "name": "The Illyrian raiders",
+   "from": -300,
+   "to": -168,
+   "ground": "illyria",
+   "units": {
+    "illyrian_raiders": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "aetolian_band",
+   "name": "The Aetolian mercenaries",
+   "from": -300,
+   "to": -189,
+   "ground": "aetolia",
+   "units": {
+    "peltasts": 2,
+    "hoplites": 1
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "thessalian_horse",
+   "name": "The Thessalian horse",
+   "from": -300,
+   "to": -146,
+   "ground": "thessaly",
+   "units": {
+    "thessalian_cavalry": 2
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "scythian_archers",
+   "name": "The Scythian horse archers",
+   "from": -300,
+   "to": 100,
+   "ground": "olbia",
+   "units": {
+    "scythian_horse_archers": 4
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "sarmatian_lancers",
+   "name": "The Sarmatian lancers",
+   "from": -200,
+   "to": 400,
+   "ground": "tanais",
+   "units": {
+    "sarmatian_lancers": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "arab_riders",
+   "name": "The Arab camel riders",
+   "from": -300,
+   "to": 600,
+   "ground": "arabia",
+   "units": {
+    "camel_riders": 2,
+    "arab_archers": 1
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  },
+  {
+   "id": "persian_horse",
+   "name": "The Persian horsemen",
+   "from": -300,
+   "to": 224,
+   "ground": "persis",
+   "units": {
+    "persian_cavalry": 3
+   },
+   "pay": [
+    1.3,
+    1.5
+   ],
+   "bonus": 1
+  }
+ ]
+}

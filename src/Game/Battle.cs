@@ -132,7 +132,7 @@ public static class Battle
             for (int i = 0; i < a.Units.Length; i++)
                 if (a.Units[i] > 0 && Cat[i].Domain == Domain.Land)
                     m[Cat[i].Role] += share * a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role])
-                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * a.Experience);
+                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * a.UnitXp[i]);
         return m;
     }
 
@@ -239,9 +239,13 @@ public static class Battle
     static void Aftermath(BattleSide winner, BattleSide loser)
     {
         foreach (var (army, share) in winner.Armies)
-            army.Experience = Math.Min(1, army.Experience + share * 0.15 * (1 + (winner.General?.Effect("veterans") ?? 0)));
+        {
+            army.Harden(share * 0.15 * (1 + (winner.General?.Effect("veterans") ?? 0)));
+            if (army.CompanyId != 0)
+                army.VictoriesUnpaid++;
+        }
         foreach (var (army, share) in loser.Armies)
-            army.Experience = Math.Min(1, army.Experience + share * 0.05);
+            army.Harden(share * 0.05);
         foreach (var side in new[] { winner, loser })
             foreach (var (army, _) in side.Armies)
                 army.Fatigue = Math.Min(1, army.Fatigue + Conquest.FatiguePerFight * (1 - 0.05 * ((side.General?.Skill(Skills.Logistics) ?? 5) - 5)));

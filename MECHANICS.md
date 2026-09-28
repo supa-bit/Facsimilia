@@ -1997,6 +1997,44 @@ companies and reforms follow.
 - **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
   generals fight every battle.
 
+## Battles and generals, part 4a: mercenary companies **(built, 28 Sep 2026)**
+
+Your answers: companies replace "hire at twice the price"; history's
+companies in their eras plus generated ones; hired at hiring grounds (be near
+or send an envoy); 500 to 5,000 men of mixed arms; each captain a character;
+monthly pay plus a bonus after victories, strong companies with a price range
+that can bankrupt you; unpaid they desert, change sides or revolt; they go to
+whoever pays best. Each unit keeps its own experience.
+
+- **Hiring grounds** (data/mercenaries.json): Cape Taenarum, Crete, Rhodes,
+  the Balearics, Thrace, Galatia, the Alpine Celts, Celtiberia, Numidia,
+  Libya, Messana, Illyria, Aetolia, Thessaly, Olbia, Tanais, Arabia, Persis.
+- **Companies.** 22 from history, each in its years (Xanthippus' Spartans
+  257-250 BC, the Gaesatae 236-222 BC, the Mamertines 289-264 BC...). Each
+  year there is a 30% chance a company is raised at a ground with none
+  waiting, from the peoples there; it waits 6 years and then disbands.
+- **Hiring.** Armies > "Mercenary companies". Within about 40 map steps
+  (360 km) of your land or one of your armies you pay the first month; from
+  afar an envoy costs one more month. The company becomes an army at its
+  ground, led by its captain.
+- **Pay.** Each month: the troops' own yearly cost ÷ 12 × the company's
+  factor (1.3-1.5 for ordinary companies; elite ones name a new price each
+  year inside their range, e.g. Xanthippus 1.6-3.5). Each victory adds 1-2
+  months' pay owed. Mercenaries are not in the army's upkeep; the treasury
+  panel shows their year's pay as its own line.
+- **Unpaid.** Owed 2+ months: a 15% chance each month they desert. Owed 4+
+  months: a 35% chance they go over to your richest enemy, or revolt,
+  plunder up to 6 months' pay and march away.
+- **Outbidding.** Offer 1.25× their pay (with two months' pay in hand) and a
+  company leaves its employer for you, keeping its experience.
+- **Other realms** at war hire the largest company near them if they can
+  afford a year of it.
+- **Recruiting your own** now always takes manpower; without enough men you
+  are told to hire a company instead.
+- **Experience by unit type.** New recruits dilute only their own kind of
+  unit; the veterans beside them keep their edge.
+- Fleets' commanders are shown as admirals, companies' as captains.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

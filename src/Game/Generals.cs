@@ -69,7 +69,7 @@ public sealed class PerkCatalog
 /// </summary>
 public sealed class General
 {
-    public const string Family = "family", Appointed = "appointed", Great = "great";
+    public const string Family = "family", Appointed = "appointed", Great = "great", Captain = "captain";
 
     public int Id { get; init; }
     public string Name { get; set; } = "";

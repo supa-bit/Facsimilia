@@ -134,6 +134,7 @@ public partial class MapView
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
         StartGenerals();
+        MercenariesYear(new Random(StableHash.Of(DemoYear, 4409)));
         RefreshRoleBoosts();
         _census = null;
         RecordHistory();
@@ -158,6 +159,7 @@ public partial class MapView
         Lap("disasters");
         _census = null;
         events.AddRange(GeneralsYear(new Random(StableHash.Of(DemoYear, 3571))));
+        events.AddRange(MercenariesYear(new Random(StableHash.Of(DemoYear, 4409))));
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");
         events.AddRange(SiegesYear(new Random(StableHash.Of(DemoYear, 5381))));
@@ -215,6 +217,8 @@ public partial class MapView
         PlaceUnplacedArmies();
         if (Game.Realms.Values.All(r => r.Generals.Count == 0))
             GeneralsYear(new Random(StableHash.Of(DemoYear, 3571)), false);   // a save from before generals
+        if (Game.CompaniesSeen.Count == 0 && Game.Companies.Count == 0)
+            MercenariesYear(new Random(StableHash.Of(DemoYear, 4409)));   // a save from before mercenary companies
         if (Game.Realms.Values.All(r => r.Techs.Count == 0))
             StartTechs();   // a save from before technology
         RefreshRoleBoosts();
