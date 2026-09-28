@@ -153,7 +153,7 @@ public partial class MapView
     {
         if (view == CurrentView)
             return;
-        bool isLand = view != PoliticalView && view != RegionsView && view != TradeView;
+        bool isLand = view != PoliticalView && view != RegionsView && view != TradeView && !IsProvinceView(view);
         if (isLand && (!LandAvailable || FindLandView(view) == null || !Land!.Has(view)))
             return;
         if (view == RegionsView && !RegionsAvailable)
@@ -161,6 +161,7 @@ public partial class MapView
         CurrentView = view;
         SetRegionsOverlay(view == RegionsView);
         ShowTradeRoutes(view == TradeView);
+        ShowProvinceView(IsProvinceView(view) ? view : null);
         if (MapSprite?.Material is ShaderMaterial material)
         {
             if (isLand)

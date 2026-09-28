@@ -133,6 +133,8 @@ public partial class MapView
             StartArmy(Game.Realm(realmId), counts);
         RefreshRoleBoosts();
         _census = null;
+        RecordHistory();
+        LogRuler();
         RefreshArmyMarkers();
     }
 
@@ -180,6 +182,8 @@ public partial class MapView
         }
         events.AddRange(LabourYear());
         events.AddRange(GoalsYear());
+        RecordHistory();
+        CheckHistory(events);
         if (Population != null)
             Economy.ApplyBurden(Population, Game.Realms);
         Lap("economy, labour, goals");

@@ -138,6 +138,7 @@ public partial class Hud
         _map.ProvincesChanged += RefreshProvincePanel;
         ConnectMapViewSignals();
         _map.ConquestPlanChanged += RefreshConquestPanel;
+        _map.ArmiesChanged += RefreshOutliner;
         _map.ArmiesChanged += () =>
         {
             RefreshArmiesPanel();
@@ -344,6 +345,8 @@ public partial class Hud
             return;
         if (key.Keycode is Key.Enter or Key.KpEnter)
             EmitSignal(SignalName.AdvanceRequested);
+        else if (key.Keycode == Key.Space)
+            SetPlaying(!_playing);
         else if (key.Keycode is >= Key.Key1 and <= Key.Key3)
             _map.SetMode(Modes[key.Keycode - Key.Key1].Mode);
         else if (key.Keycode == Key.R && _map.RegionsAvailable)
@@ -354,6 +357,8 @@ public partial class Hud
             ToggleGoodsPanel();
         else if (key.Keycode == Key.T)
             ToggleResearchPanel();
+        else if (key.Keycode == Key.L)
+            ToggleRealmsPanel();
         else
             return;
         GetViewport().SetInputAsHandled();

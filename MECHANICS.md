@@ -62,13 +62,65 @@ unless the player is involved.
   enforces it). The data is fetched by a script and the baked result is
   in the repository.
 
-## Next decisions (open, 27 Sep 2026)
+## Next decisions **(answered by the designer, 28 Sep 2026)**
 
-55 questions for sections 11-15 are waiting in the Ledger (decisions
-"Next 1" to "Next 55"): battles and generals (1-10), the court (11-20,
-52-53), events and history (21-30, 54), cities, colonies and laws
-(31-40), playability (41-51) and which comes first (55). Answers will be
-recorded here.
+The designer's answers for sections 11-15 (a note overrides the chosen option where they differ). Playability (section 15) comes first.
+
+1. **How battles are fought: A tactical battle map** (You move units on a field, like Total War. Much larger to build.)
+2. **Who leads armies: Your family and courtiers** (Sons, brothers and trusted men lead; each has a skill; they can die, win glory, or rebel.) Designer's note: The royal family would die out sooner than later with this mechanic so make sure to add appointed generals, some are random events like "prince gaius imperius has met a roman of great prowess and has elevated him to general" except more roman englishy lol, and then some can be done by the player, it can be important people (a game mechanic that grants perks like in the civ games.
+3. **How armies move: March by months within the year** (An army follows roads and rivers month by month; enemies can meet it on the way.) Designer's note: The route should be plottable also though, tying into the terrain update that will add features and obstacles
+4. **Supply and winter: Supply lines and baggage** (Depots, convoys, foraging choices.)
+5. **War at sea: Sea battles and blockades** (Fleets meet at sea, the loser's ships sink or are taken; a fleet off a port cuts its trade and supply.) Designer's note: Interactive battles just like land and air
+6. **How you see a battle: A battle report** (The field, both armies by unit, the plan each chose, losses, the general's fate, a named battle ('the battle of Heraclea').)
+7. **Fog of war: What your realm knows** (You see your neighbours, your trade partners and where your armies and envoys are; far lands are sketched, armies unseen.)
+8. **Mercenaries: Named companies** (Real bands for hire from their homelands, costly, loyal only while paid; they may turn if unpaid (like Carthage's Mercenary War).)
+9. **Veterans and army reforms: Both** (Units gain experience in battle and lose it to losses; techs and laws (like the Marian reforms) change how armies are raised and paid.)
+10. **How other realms wage war: History's aims, sound tactics** (They pursue their history's aims but march sensibly, gather armies, defend their capitals and make peace when losing.)
+11. **Rulers' abilities: Skills and traits** (War, diplomacy, stewardship and learning (0-20), plus traits (brave, cruel, pious, wise) that change them and how others see the ruler.) Designer's note: More than just 4 skills
+12. **Do you play the realm or the family?: Choose at the start**
+13. **Choosing heirs: Name an heir within the law** (You may name any son (or, where the law allows, daughter) as co-ruler; passed-over siblings may resent it.)
+14. **Arranging marriages: You arrange them** (Offer a son or daughter to another court; a match brings opinion, alliances and claims.)
+15. **A council of offices: A few offices** (General, treasurer, envoy, high priest, steward: each held by a character whose skill changes the matching part of the realm.) Designer's note: More than a few, about 8 is good.
+16. **Republics and leagues: Elected magistrates** (You play the state; each year two consuls (suffetes, strategoi...) are elected from the leading families; their skill and ambitions shape the year; you lead one family among them.)
+17. **Plots and ambitious nobles: Detailed intrigue** (Spies, schemes, secret alliances.)
+18. **Faces for characters: Coin-style profiles** (Generated profiles in the style of ancient coins, by culture, age and sex; cheap and fitting.)
+19. **Child rulers: A regent rules** (The mother or an uncle rules until the child is 16; regents may grab power.)
+20. **A court screen: A family tree and court screen** (Ruler, spouse, heirs, courtiers, their ages, skills and traits; click to arrange marriages or appoint offices.)
+21. **Events with choices: History's and chance events, with choices** ('Pyrrhus asks for ships', 'A comet is seen', 'The grain fleet is late': two or three choices with trade-offs.)
+22. **History's great people: Born into their families when history had them** (If the family still exists, the person is born with fitting skills; otherwise not.)
+23. **Great migrations: Moving peoples** (A people arrives from the map's edge at history's date as a wandering host that seeks land; it can be fought, bought off or settled.)
+24. **New realms rising: History's plus successful revolts** (At history's date, if the land is weakly held, a new realm breaks away; any revolt that wins becomes a realm.)
+25. **Religions spreading: They spread along roads and trade** (A faith appears where it began and spreads by trade routes, cities and missions; rulers can adopt, tolerate or persecute it.) Designer's note: History influences this.
+26. **Peoples changing culture: Slowly, by rule, towns and schooling** (Provinces long ruled by another culture, with its colonies and cities, drift towards it over generations.)
+27. **Great works: Yes, each once in the world** (Costly, slow to build, with lasting effects and score.)
+28. **When the game ends: To today** (As the tech tree assumes: 2,300 years.)
+29. **How strongly history pulls: A setting at the start** (Light, moderate or strong pull, chosen for each game.)
+30. **What disasters do beyond deaths: More effects** (Plagues cut manpower and taxes and spread along trade; quakes destroy buildings; famines raise unrest; your choices (quarantine, relief) help.)
+31. **Cities of their own: Cities with size and buildings** (Each town from Pleiades can grow through size tiers (village, town, city, great city); buildings go in cities; cities make crafts and trade, the countryside food.)
+32. **Founding cities and colonies: Yes** (Pay silver and settlers to found a city or veteran colony; it grows, spreads your culture and loyalty, and anchors your rule.)
+33. **Laws and policies: A set of laws** (Citizenship (who counts), land (big estates or smallholders), grain dole, slavery, levy, religion; each with trade-offs and some needing techs.)
+34. **Changing your government: Through reforms or civil war** (Each form has its own rules; changing needs support or a civil war.) Designer's note: influenced by history
+35. **Debasing the coin: Yes** (Strike more coins from the same silver: quick money, then prices rise, trade partners distrust your coin, and unrest grows.)
+36. **Prices by place: Prices by market** (Each realm (or trade hub) has its own prices; goods flow from cheap to dear along the routes.)
+37. **Borrowing: Lenders and other realms** (Temple treasuries, bankers and rich realms lend at interest; default angers them.)
+38. **Building roads between provinces: Draw roads between cities** (They cost silver and years, speed armies, lower trade costs and extend administrative reach.)
+39. **Mines running out: Yes, slowly** (Rich veins thin over centuries; new techs and prospecting find more.) Designer's note: Primarily according to history
+40. **Slave revolts: Yes** (Where many are enslaved and treated harshly, revolts break out and can grow into armies.) Designer's note: Outside of players realm, only if history permits
+41. **Learning to play: Both**
+42. **An outliner of what needs attention: An outliner on the side** (Armies, sieges, wars, offers waiting, provinces near revolt, research done; click to go there.) Designer's note: collapsible
+43. **Time passing: Month-by-month time with pause** (Needs monthly marching and events.)
+44. **More map views: Culture, religion, loyalty, wealth, people, diplomacy** (Diplomacy shows allies, vassals, rivals and wars from your view.)
+45. **Hover information: A small card** (Province, owner, people, culture, loyalty, garrison, the nearest town.)
+46. **Comparing realms: A realms table** (People, land, silver, income, army, fleet, techs, score, sortable; plus graphs over time.)
+47. **When your game ends: A history of your realm** (Score by category, a map of your peak, your rulers and great deeds, graphs of people and wealth over the centuries.) Designer's note: Alongside this should be a score of how close or far from history the player ended up
+48. **Music and sound: see note** Designer's note: Create a second music ledger with the ideas and what kind of music you think we should have alongside what it will be used for, and I will make it myself.
+49. **The look changes with the ages: Yes, by era** (Antique, late antique, medieval, early modern and modern themes: fonts, colours, ornaments.)
+50. **How fast a turn must be: Under 3 seconds** (Room for more simulation.)
+51. **Changing the game's data: Documented data files** (A guide to each file so you (or others) can add realms, events or techs, checked on load.)
+52. **Envoys and relations: Envoys and gifts** (Send envoys (characters) to improve relations, sound out alliances, demand tribute or insult; gifts of silver or goods.)
+53. **Client kings and leagues: Client kingdoms, leagues, protectorates** (Clients keep their kings but follow your foreign policy; leagues share a war policy; protectorates pay for protection.)
+54. **Civil wars: Yes** (A rival claimant, a rebel general or a split senate takes part of the realm and armies; the war ends when one side wins.)
+55. **What 'playable' means first: Playability: outliner, tooltips, map views, tutorial (section 15)**
 
 ## Playable decisions **(answered by the designer, 26 Sep 2026)**
 
@@ -1758,6 +1810,60 @@ Decisions "Playable 1", "20" and "30".
   Jugurthine and Mithridatic wars.
 - A people with no unit of its own for a role hires one from a people
   who fight that way.
+
+## Playability, part 1 **(built, 28 Sep 2026)**
+
+Section 15, decisions "Next 41-46".
+
+- **Outliner** ("Needs you", right side, floating and collapsible with
+  its ▾ button): offers waiting, wars and their score, sieges and their
+  progress, armies, provinces near revolt, research left idle, debt.
+  Click a line to go there.
+- **Hover cards**: rest the mouse on a province for a moment to see its
+  owner, people, culture and faith, loyalty, unrest, garrison and chief
+  towns.
+- **Six more map views** (the menu at the bottom right): Culture,
+  Religion, Loyalty, Wealth (what a person makes in a year under their
+  ruler), People (people per km²) and Diplomacy (you, allies, vassals,
+  enemies, truces, rivals, others). Tribal lands show their region's
+  culture and religion. Each view has a key at the top left.
+- **Realms table** (L, or "Compare realms" in Goals): every realm's
+  people, land, silver (in your coin), income, soldiers, ships, techs
+  and score, sortable by any column, with a graph of you and the five
+  leaders over the years (people, silver, soldiers or score, recorded
+  every 5 years and kept in saves).
+- **Learning to play**: the first time each panel opens, a short tip
+  explains it (once). "Guided first game" in How to play opens ten
+  steps (taxes, research, a building, recruiting, a map view, a year,
+  pretexts, a war, a conquest plan, a province won or peace), each ticked
+  off as you do it.
+- **The history of your realm** (decision "Next 47"): when AD 2000
+  arrives or your realm falls, a closing screen shows your score by
+  category, your rulers in turn, your height, and your people and score
+  over the centuries (also any time from Goals: "Your history so far").
+  **Closeness to history** (the designer's note): whenever one of
+  history's campaigns (`history_goals.json`) reaches its end date, the
+  game checks whether it turned out as it did (the attacker holds most
+  of the regions' people; for campaigns that failed in history, like
+  Pyrrhus in Italy, that it doesn't); the score is the share that did.
+- **Data docs** (decision "Next 51"): DATA.md explains every data file
+  in plain words, and the Data test checks that they agree with each
+  other.
+- **Time passing** (decision "Next 43"): beside Advance Year, a play
+  button (or Space) lets the months run (1, 2, 4 or 8 a second); the date
+  shows the month; each January the year is played; time pauses by itself
+  when something needs you (a war, a succession, a revolt, a disaster, the
+  end). Advance Year still plays whole turns. Armies will march month by
+  month with section 11.
+- **The look changes with the ages** (decision "Next 49"): Antiquity
+  (Cinzel, bronze and gold), Late Antiquity from AD 250 (Cinzel
+  Decorative, imperial purple), the Middle Ages from 600 (blackletter
+  headings, EB Garamond, red and gold), the Early Modern Age from 1450
+  (IM Fell English, ink blue and brass) and the Modern Age from 1800
+  (Josefin Sans and Source Serif, steel). All fonts are SIL Open Font
+  License (licences in assets/fonts). The chronicle marks each new age.
+- **Music**: the Score Book (https://claude.ai/artifact/2bQczf4k9RVw2oiv59RfS2)
+  lists the 49 tracks the game needs, for the designer to compose.
 
 ## Dynasties and characters **(decided, built)**
 

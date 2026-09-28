@@ -23,6 +23,12 @@ uniform float land_strength = 0.0;
 // year (1) or not (0); land out of reach is dimmed while reach_strength is 1.
 uniform sampler2D reach_texture : filter_nearest, repeat_disable;
 uniform float reach_strength = 0.0;
+// Province views (culture, religion, loyalty, wealth, people): a colour per
+// province id at (id % 256, id / 256), with alpha for how strongly it shows;
+// land outside provinces takes its region's colour from region_view_palette.
+uniform sampler2D province_palette : filter_nearest, repeat_disable;
+uniform sampler2D region_view_palette : filter_nearest, repeat_disable;
+uniform float province_view_strength = 0.0;
 
 int region_at(vec2 uv) {
 	return int(round(texture(region_texture, uv).r * 255.0));
@@ -67,6 +73,13 @@ void fragment() {
 		float v = texture(land_texture, UV).r;
 		vec4 rc = texture(land_ramp, vec2(v, 0.5));
 		fill = mix(fill, mix(terrain, rc.rgb * (0.55 + 0.6 * relief), rc.a), land_strength);
+	}
+	if (province_view_strength > 0.0 && !sea) {
+		vec4 pc = province > 0
+			? texelFetch(province_palette, ivec2(province % 256, province / 256), 0)
+			: (region > 0 && !wild ? texelFetch(region_view_palette, ivec2(region, 0), 0) : vec4(0.0));
+		vec3 shown = mix(terrain, pc.rgb * (0.45 + relief), pc.a);
+		fill = mix(fill, shown, province_view_strength);
 	}
 	if (reach_strength > 0.0 && !sea && texture(reach_texture, UV).r < 0.5)
 		fill = mix(fill, fill * 0.45, reach_strength);

@@ -134,4 +134,65 @@ public partial class MapView
         }
         return events;
     }
+
+    /// <summary>Every 5 years (and at the start), each realm's people, silver, soldiers and score, for the realms table.</summary>
+    internal void RecordHistory()
+    {
+        if (DemoYear % 5 != 0 && DemoYear != StartYear)
+            return;
+        var census = RealmCensus();
+        foreach (var (id, s) in Game.Realms)
+        {
+            if (!census.TryGetValue(id, out var c))
+                continue;
+            if (s.History.Count > 0 && (int)s.History[^1][0] == DemoYear)
+                continue;
+            s.History.Add(new[] { DemoYear, (float)c.People, (float)s.Treasury, Military.Soldiers(s), (float)Score(id) });
+        }
+    }
+
+    // --- Closeness to history (the designer's note on "Next 47") ---------------------
+
+    /// <summary>The year a playthrough ends (decision "Next 28": to today).</summary>
+    public const int EndYear = 2000;
+
+    /// <summary>
+    /// When one of history's campaigns reaches its end date, did it turn out
+    /// as it did in history? A conquest matches if the attacker holds most
+    /// of the regions' people; a campaign history saw fail matches if it
+    /// doesn't. Also records the player's new rulers.
+    /// </summary>
+    internal void CheckHistory(List<ChronicleEvent> events)
+    {
+        var goals = HistoryGoals;
+        for (int i = 0; i < goals.Count; i++)
+        {
+            var g = goals[i];
+            if (g.To != DemoYear || Game.HistoryChecks.ContainsKey(i) || !CivRealmIds.TryGetValue(g.Realm, out int realm))
+                continue;
+            double held = g.Regions.Select(r => RegionShare(realm, r)).DefaultIfEmpty(0).Average();
+            Game.HistoryChecks[i] = g.Failed ? held < 0.5 : held >= 0.5;
+        }
+        foreach (var e in events)
+            if (e.RealmId == PlayerRealmId && e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse)
+                LogRuler();
+    }
+
+    /// <summary>Records the player's ruler (at the start, and after each succession).</summary>
+    internal void LogRuler()
+    {
+        if (Registry.Characters.TryGetValue(GetPlayerRealm().RulerId, out var ruler)
+            && (Game.RulerLog.Count == 0 || Game.RulerLog[^1].Year != DemoYear))
+            Game.RulerLog.Add((DemoYear, ruler.Name));
+    }
+
+    /// <summary>How closely the world has followed history: the share of its campaigns, so far, that turned out as they did.</summary>
+    public (double Share, int Matched, int Checked) HistoryCloseness()
+    {
+        int n = Game.HistoryChecks.Count, m = Game.HistoryChecks.Values.Count(v => v);
+        return (n == 0 ? 1 : (double)m / n, m, n);
+    }
+
+    /// <summary>The game is over: today is reached, or the player's realm holds no land.</summary>
+    public bool GameOver => DemoYear >= EndYear || !RealmCensus().ContainsKey(PlayerRealmId);
 }

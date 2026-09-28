@@ -80,9 +80,15 @@ public partial class Hud
         text.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         text.CustomMinimumSize = new Vector2(600, 0);
         gbox.AddChild(text);
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 10);
+        gbox.AddChild(row);
+        var guided = new Button { Text = "Guided first game", FocusMode = FocusModeEnum.None, TooltipText = "Ten short steps, ticked off as you do them" };
+        guided.Pressed += () => { ShowGuide(false); StartTutorial(); };
+        row.AddChild(guided);
         var ok = new Button { Text = "Begin", FocusMode = FocusModeEnum.None };
         ok.Pressed += () => ShowGuide(false);
-        gbox.AddChild(ok);
+        row.AddChild(ok);
     }
 
     const string GuideText =

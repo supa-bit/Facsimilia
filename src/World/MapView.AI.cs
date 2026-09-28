@@ -8,7 +8,7 @@ using Facsimilia.Game;
 namespace Facsimilia.World;
 
 /// <summary>One of history's campaigns (data/history_goals.json).</summary>
-public sealed record HistoryGoal(string Realm, string Target, string[] Regions, int From, int To, string Why)
+public sealed record HistoryGoal(string Realm, string Target, string[] Regions, int From, int To, string Why, bool Failed = false)
 {
     public bool ActiveIn(int year) => year >= From && year <= To;
 }
@@ -50,7 +50,8 @@ public partial class MapView
             foreach (var g in doc.RootElement.GetProperty("goals").EnumerateArray())
                 _goals.Add(new HistoryGoal(g.GetProperty("realm").GetString()!, g.GetProperty("target").GetString()!,
                     g.GetProperty("regions").EnumerateArray().Select(x => x.GetString()!).ToArray(),
-                    g.GetProperty("from").GetInt32(), g.GetProperty("to").GetInt32(), g.GetProperty("why").GetString()!));
+                    g.GetProperty("from").GetInt32(), g.GetProperty("to").GetInt32(), g.GetProperty("why").GetString()!,
+                    g.TryGetProperty("outcome", out var o) && o.GetString() == "failed"));
             return _goals;
         }
     }

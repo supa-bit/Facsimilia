@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using Facsimilia.World;
 using Godot;
@@ -16,6 +17,7 @@ public partial class Hud
     PanelContainer _legend = null!;
     Label _legendTitle = null!, _legendText = null!, _legendMin = null!, _legendMax = null!, _legendHere = null!;
     TextureRect _legendBar = null!;
+    GridContainer _legendKeys = null!;
 
     Control BuildMapViewMenu()
     {
@@ -42,6 +44,8 @@ public partial class Hud
         _mapViewKeys.Clear();
         AddView("Political map", MapView.PoliticalView);
         AddView("Trade routes", MapView.TradeView);
+        foreach (var (key, label) in MapView.ProvinceViews)
+            AddView(label, key);
         if (_map.RegionsAvailable)
             AddView("Regions", MapView.RegionsView);
         if (_map.LandAvailable)
@@ -87,6 +91,9 @@ public partial class Hud
         _legendText.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _legendText.CustomMinimumSize = new Vector2(300, 0);
         box.AddChild(_legendText);
+        _legendKeys = new GridContainer { Columns = 2 };
+        _legendKeys.AddThemeConstantOverride("h_separation", 14);
+        box.AddChild(_legendKeys);
         _legendBar = new TextureRect
         {
             CustomMinimumSize = new Vector2(300, 14),
@@ -111,9 +118,18 @@ public partial class Hud
         for (int i = 0; i < _mapViewMenu.ItemCount; i++)
             if (_mapViewMenu.GetItemId(i) == id && !_mapViewMenu.IsItemSeparator(i))
                 _mapViewMenu.Select(i);
+        foreach (Node child in _legendKeys.GetChildren())
+            child.QueueFree();
+        if (MapView.IsProvinceView(_map.CurrentView))
+        {
+            ShowProvinceViewLegend();
+            return;
+        }
+        _legendKeys.Visible = false;
+        _legendBar.Visible = _legendMin.Visible = _legendMax.Visible = _legendHere.Visible = true;
         var view = MapView.FindLandView(_map.CurrentView);
         _legend.Visible = view != null && _map.LandAvailable && !_realmPanel.Visible && !_diplomacyPanel.Visible;
-        SetProcess(_legend.Visible);
+        SetProcess(true);
         if (!_legend.Visible)
             return;
         var field = _map.Land!.Field(view!.Field);
@@ -135,9 +151,54 @@ public partial class Hud
 
     public override void _Process(double delta)
     {
+        UpdateHoverCard(delta);
+        UpdateTips(delta);
+        UpdateClock(delta);
         if (_legend == null || !_legend.Visible)
             return;
         var here = _map.LandValueAtWorld(_map.GetGlobalMousePosition());
         _legendHere.Text = here is { } h ? $"Here: {LandLayer.Format(h.Field, h.Value)}" : "Here: sea";
+    }
+
+    static readonly Dictionary<string, string> ViewHelp = new()
+    {
+        [MapView.CultureView] = "Each province's people. Tribal lands show their region's people.",
+        [MapView.ReligionView] = "The gods each province worships.",
+        [MapView.LoyaltyView] = "How settled each province is under its ruler: integration, less unrest.",
+        [MapView.WealthView] = "What a person makes in a year under each ruler: rich lands and poor.",
+        [MapView.PeopleView] = "How crowded each province is, from empty steppe to the Nile valley.",
+        [MapView.DiplomacyView] = "Every realm as it stands with you.",
+    };
+
+    void ShowProvinceViewLegend()
+    {
+        _legend.Visible = !_realmPanel.Visible && !_diplomacyPanel.Visible;
+        _legendTitle.Text = MapView.ProvinceViews.First(v => v.Key == _map.CurrentView).Label;
+        _legendText.Text = ViewHelp.GetValueOrDefault(_map.CurrentView, "");
+        _legendHere.Visible = false;
+        var ramp = _map.ViewRamp;
+        _legendBar.Visible = _legendMin.Visible = _legendMax.Visible = ramp != null;
+        _legendKeys.Visible = ramp == null;
+        if (ramp is { } r)
+        {
+            var bar = Image.CreateEmpty(256, 1, false, Image.Format.Rgba8);
+            var mid = new Color(0.85f, 0.75f, 0.3f);
+            for (int i = 0; i < 256; i++)
+            {
+                float t = i / 255f;
+                bar.SetPixel(i, 0, t < 0.5f ? r.Low.Lerp(mid, t * 2) : mid.Lerp(r.High, (t - 0.5f) * 2));
+            }
+            _legendBar.Texture = ImageTexture.CreateFromImage(bar);
+            _legendMin.Text = r.LowText;
+            _legendMax.Text = r.HighText;
+            return;
+        }
+        foreach (var (color, label) in _map.ViewKey.Take(24))
+        {
+            var row = new HBoxContainer();
+            row.AddChild(new ColorRect { Color = color, CustomMinimumSize = new Vector2(14, 14), SizeFlagsVertical = SizeFlags.ShrinkCenter });
+            row.AddChild(ThemeAncient.Label(label, "SmallLabel", 14));
+            _legendKeys.AddChild(row);
+        }
     }
 }

@@ -38,12 +38,12 @@ block the work that depends on them.
 10. [x] **Redrawn 300 BC borders, any realm playable, trade routes, city
        names, disasters, each realm's coin, finer cultures** (Playable 1,
        4, 8, 20, 23, 28, 30).
-11. [ ] **Battles and generals**: how battles are fought, generals,
-       marching by months, supply and winter, sea battles and blockades,
+11. [ ] **Battles and generals**: tactical battle maps on land and sea, family and appointed generals,
+       marching by months on plotted routes, supply lines and baggage, blockades,
        battle reports, fog of war, mercenary companies, veterans and
        reforms, smarter enemies (decisions Next 1-10).
-12. [ ] **The court**: rulers' skills and traits, realm or family, heirs,
-       marriages, a council, elected magistrates for republics, plots,
+12. [ ] **The court**: many skills and traits, realm or family (chosen at the start), heirs,
+       marriages, a council of about 8 offices, elected magistrates for republics, detailed intrigue,
        portraits, regents, a court screen, envoys, client kings (Next
        11-20, 52-53).
 13. [ ] **Events and history**: events with choices, great people,
@@ -54,9 +54,9 @@ block the work that depends on them.
        colonies, laws, changing government, debasing the coin, prices by
        market, lenders, roads, mines running out, slave revolts (Next
        31-40).
-15. [ ] **Playability**: a guided first game, an outliner, a play button,
-       more map views, hover cards, realm tables, an end-of-game history,
-       music, era themes, turn speed, data docs (Next 41-51, 55).
+15. [ ] **Playability (first)**: a guided first game and tips, a collapsible outliner, month-by-month time with pause,
+       six more map views, hover cards, realm tables, an end-of-game history with a closeness-to-history score,
+       a music ledger for the designer, era themes, turns under 3 s, data docs (Next 41-51, 55).
 
 ## Right now
 

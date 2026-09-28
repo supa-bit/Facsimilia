@@ -1,5 +1,5 @@
 {
- "about": "History's campaigns for the other realms (decision 'Playable 18', suggested option: historical goals). When the years come, the realm declares war on the target and presses into the named geographic regions (the 38 ancient regions); it makes peace when the goal's years are over or it is losing. The pull is history's, not a script: a realm too weak to win, or already beaten by the player, may fail. Dates are the historical wars (Polybius, Plutarch, Diodorus, Appian); a goal whose target realm no longer holds land there does nothing.",
+ "about": "History's campaigns for the other realms (decision 'Playable 18', suggested option: historical goals). When the years come, the realm declares war on the target and presses into the named geographic regions (the 38 ancient regions); it makes peace when the goal's years are over or it is losing. The pull is history's, not a script: a realm too weak to win, or already beaten by the player, may fail. Dates are the historical wars (Polybius, Plutarch, Diodorus, Appian); a goal whose target realm no longer holds land there does nothing. outcome: 'failed' where history's campaign failed (Pyrrhus in Italy, Lysimachus against the Getae, the Gallic raid): at the end of the game's closeness-to-history score, those count as matched when the attacker did NOT keep the land.",
  "goals": [
   {
    "realm": "rome",
@@ -51,7 +51,8 @@
    ],
    "from": -292,
    "to": -291,
-   "why": "Lysimachus marches against Dromichaetes of the Getae - and is captured."
+   "why": "Lysimachus marches against Dromichaetes of the Getae - and is captured.",
+   "outcome": "failed"
   },
   {
    "realm": "epirus",
@@ -117,7 +118,8 @@
    ],
    "from": -280,
    "to": -277,
-   "why": "The great Gallic invasion of Macedon and Greece (279 BC)."
+   "why": "The great Gallic invasion of Macedon and Greece (279 BC).",
+   "outcome": "failed"
   },
   {
    "realm": "epirus",
@@ -127,7 +129,8 @@
    ],
    "from": -280,
    "to": -275,
-   "why": "Pyrrhus crosses to Italy to fight for Tarentum."
+   "why": "Pyrrhus crosses to Italy to fight for Tarentum.",
+   "outcome": "failed"
   },
   {
    "realm": "seleucid",

@@ -32,6 +32,7 @@ public partial class Hud : Control
         MouseFilter = MouseFilterEnum.Ignore;
         BuildTopBar();
         BuildChronicle();
+        BuildOutliner();
         BuildTurnControls();
         BuildProvincePanel();
         BuildRealmPanel();
@@ -39,6 +40,7 @@ public partial class Hud : Control
         BuildDiplomacyPanel();
         BuildGoodsPanel();
         BuildGoalsPanel();
+        BuildRealmsPanel();
         BuildArmiesPanel();
         BuildResearchPanel();
     }
@@ -163,6 +165,7 @@ public partial class Hud : Control
         var turnRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.End };
         turnRow.AddThemeConstantOverride("separation", 8);
         box.AddChild(turnRow);
+        turnRow.AddChild(BuildClock());
         turnRow.AddChild(BuildTurnLength());
         turnRow.AddChild(advance);
         box.AddChild(ThemeAncient.Label("Scroll to zoom · Drag or WASD to pan · Drag any panel to move it · Esc for menu", "SmallLabel", 14,
@@ -216,10 +219,16 @@ public partial class Hud : Control
 
     public void Refresh()
     {
+        if (ThemeAncient.SetEra(ThemeAncient.EraOf(_map.DemoYear)))
+        {
+            Theme = ThemeAncient.Build();   // the look changes with the ages
+            if (_entries.Count > 0)
+                LogEvents(new[] { new ChronicleEvent(ChronicleKind.Economy, _map.PlayerRealmId, $"A new age begins: {ThemeAncient.EraName}.") });
+        }
         var realm = _map.GetPlayerRealm();
         _realmLabel.Text = realm.Name;
         _realmBanner.Color = realm.Color;
-        _dateLabel.Text = ThemeAncient.YearText(_map.DemoYear);
+        RefreshClock();
         if (_map.Registry.Characters.TryGetValue(realm.RulerId, out var ruler) && ruler.IsAlive)
         {
             _rulerLabel.Text = $"{ruler.Name}, {ruler.AgeIn(_map.DemoYear)}";
@@ -239,6 +248,8 @@ public partial class Hud : Control
         RefreshGoalsPanel();
         RefreshArmiesPanel();
         RefreshResearchPanel();
+        RefreshOutliner();
+        RefreshRealmsPanel();
         _map.RefreshArmyMarkers();
         _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         _populationItem.Visible = _map.Population != null;

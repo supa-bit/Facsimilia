@@ -82,6 +82,9 @@ public sealed class RealmState
 
     public int TotalUnits => Armies.Sum(a => a.Count);
 
+    /// <summary>Every 5 years: year, people, silver (talents), soldiers, score — for the realms table's graphs.</summary>
+    public List<float[]> History { get; } = new();
+
     public GDictionary ToDict()
     {
         var cat = UnitCatalog.Instance;
@@ -94,6 +97,7 @@ public sealed class RealmState
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
         };
     }
 
@@ -170,6 +174,9 @@ public sealed class RealmState
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }
         }
+        if (d.TryGetValue("history", out var hist))
+            foreach (Variant v in hist.AsGodotArray())
+                r.History.Add(v.AsFloat32Array());
         return r;
     }
 }
@@ -201,6 +208,18 @@ public sealed class GameState
     }
     /// <summary>Offers other realms make the player (peace with tribute, ransom for a siege), answered in Diplomacy.</summary>
     public List<Offer> Offers { get; } = new();
+    /// <summary>History's campaigns checked at their end date (index in history_goals.json -> it happened as in history).</summary>
+    public Dictionary<int, bool> HistoryChecks { get; } = new();
+    GDictionary HistoryChecksDict()
+    {
+        var d = new GDictionary();
+        foreach (var (k, v) in HistoryChecks)
+            d[k] = v;
+        return d;
+    }
+
+    /// <summary>The player's rulers in turn: the year each took the throne, and their name.</summary>
+    public List<(int Year, string Name)> RulerLog { get; } = new();
     /// <summary>Realms at war with the player that have sued for peace.</summary>
     public HashSet<int> PeaceOffers { get; } = new();
     /// <summary>Every province's culture, religion, integration and unrest, by province id.</summary>
@@ -235,7 +254,9 @@ public sealed class GameState
         {
             ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
-            ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
+            ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
+            ["history_checks"] = HistoryChecksDict(),
+            ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
         };
     }
 
@@ -283,6 +304,12 @@ public sealed class GameState
         if (d.TryGetValue("offers", out var of))
             foreach (Variant v in of.AsGodotArray())
                 g.Offers.Add(Offer.FromDict(v.AsGodotDictionary()));
+        if (d.TryGetValue("history_checks", out var hc))
+            foreach (var (k, v) in hc.AsGodotDictionary())
+                g.HistoryChecks[k.AsInt32()] = v.AsBool();
+        if (d.TryGetValue("ruler_log", out var rl))
+            foreach (Variant v in rl.AsGodotArray())
+                g.RulerLog.Add((v.AsGodotArray()[0].AsInt32(), v.AsGodotArray()[1].AsString()));
         if (d.TryGetValue("peace_offers", out var po))
             foreach (Variant v in po.AsGodotArray())
                 g.PeaceOffers.Add(v.AsInt32());

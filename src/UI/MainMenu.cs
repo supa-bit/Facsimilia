@@ -19,6 +19,7 @@ public partial class MainMenu : Control
 
     public override void _Ready()
     {
+        ThemeAncient.SetEra(ThemeAncient.Era.Antiquity);
         Theme = ThemeAncient.Build();
         ThemeAncient.FullRect(this);
         AddChild(ThemeAncient.Backdrop(0.45f));

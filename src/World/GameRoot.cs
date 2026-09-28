@@ -107,6 +107,7 @@ public partial class GameRoot : Node2D
         Hud.Refresh();
         Map!.FocusOnPlayer();
         Hud.AdvanceRequested += OnAdvanceRequested;
+        Hud.PlayYearRequested += () => PlayYears(1);
     }
 
     /// <summary>
@@ -154,6 +155,7 @@ public partial class GameRoot : Node2D
         await ToSignal(tween, Tween.SignalName.Finished);
     }
 
+    bool _endShown;
     bool _advancing;
     /// <summary>A turn is being played (the turn button waits).</summary>
     public bool Advancing => _advancing;
@@ -163,12 +165,14 @@ public partial class GameRoot : Node2D
     /// 2"), stopping early at a major event that concerns them ("Playable 3").
     /// The window redraws between years, so a long turn doesn't freeze it.
     /// </summary>
-    async void OnAdvanceRequested()
+    void OnAdvanceRequested() => PlayYears(Map?.Game.YearsPerTurn ?? 1);
+
+    async void PlayYears(int years)
     {
         if (PauseMenu != null || _loadingScreen != null || _saving || _advancing || Map == null || Hud == null)
             return;
         _advancing = true;
-        int years = Map.Game.YearsPerTurn;
+        Hud.TurnBusy = true;
         int startPlayed = YearsPlayed(Map.DemoYear);
         var all = new List<ChronicleEvent>();
         for (int y = 0; y < years; y++)
@@ -183,7 +187,7 @@ public partial class GameRoot : Node2D
             if (MapView.Profile)
                 GD.Print($"  year: {yearClock.ElapsedMilliseconds} ms");
             all.AddRange(events);
-            if (y < years - 1 && events.Exists(e => StopsTurn(e, Map.PlayerRealmId)))
+            if (Map.GameOver || (y < years - 1 && events.Exists(e => StopsTurn(e, Map.PlayerRealmId))))
                 break;
         }
         if (Map.TerritoryChanged)
@@ -198,6 +202,15 @@ public partial class GameRoot : Node2D
             GD.Print($"  hud refresh: {sw.ElapsedMilliseconds} ms");
         Hud.LogEvents(all);
         _advancing = false;
+        Hud.TurnBusy = false;
+        Hud.YearPlayed();
+        if (all.Exists(e => StopsTurn(e, Map.PlayerRealmId)) || Map.GameOver)
+            Hud.SetPlaying(false);   // something needs you
+        if (Map.GameOver && !_endShown)
+        {
+            _endShown = true;
+            Hud.ShowEndScreen(final: true);
+        }
         int every = SettingsStore.Instance.AutosaveInterval;  // years; 0 = off
         if (every > 0 && YearsPlayed(Map.DemoYear) / every > startPlayed / every)
             await Autosave();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace Facsimilia.UI;
@@ -17,31 +18,86 @@ namespace Facsimilia.UI;
 /// </summary>
 public static class ThemeAncient
 {
-    public static readonly Color Gold = new(0.83f, 0.67f, 0.36f);
-    public static readonly Color GoldBright = new(0.97f, 0.84f, 0.52f);
-    public static readonly Color GoldDim = new(0.55f, 0.43f, 0.24f);
-    public static readonly Color Text = new(0.93f, 0.88f, 0.77f);
-    public static readonly Color TextDim = new(0.70f, 0.64f, 0.54f);
-    public static readonly Color Panel = new(0.10f, 0.08f, 0.06f, 0.94f);
+    /// <summary>The ages of the interface (decision "Next 49": the look changes with the ages).</summary>
+    public enum Era { Antiquity, LateAntiquity, MiddleAges, EarlyModern, Modern }
+
+    /// <summary>An era's look: accent colours, text colours, the panel tint, and its fonts.</summary>
+    sealed record Look(string Name, int From, Color Gold, Color GoldBright, Color GoldDim, Color Text, Color TextDim, Color Panel,
+        string Heading, string Body, string Italic, int HeadingWeight);
+
+    static readonly Look[] Looks =
+    {
+        new("Antiquity", int.MinValue, new(0.83f, 0.67f, 0.36f), new(0.97f, 0.84f, 0.52f), new(0.55f, 0.43f, 0.24f),
+            new(0.93f, 0.88f, 0.77f), new(0.70f, 0.64f, 0.54f), new(0.10f, 0.08f, 0.06f, 0.94f),
+            "res://assets/fonts/Cinzel.ttf", "res://assets/fonts/Alegreya.ttf", "res://assets/fonts/Alegreya-Italic.ttf", 600),
+        new("Late Antiquity", 250, new(0.80f, 0.64f, 0.40f), new(0.96f, 0.84f, 0.60f), new(0.48f, 0.33f, 0.52f),
+            new(0.93f, 0.89f, 0.82f), new(0.72f, 0.65f, 0.70f), new(0.10f, 0.06f, 0.10f, 0.94f),
+            "res://assets/fonts/CinzelDecorative.ttf", "res://assets/fonts/Alegreya.ttf", "res://assets/fonts/Alegreya-Italic.ttf", 400),
+        new("The Middle Ages", 600, new(0.80f, 0.62f, 0.30f), new(0.95f, 0.80f, 0.45f), new(0.55f, 0.20f, 0.18f),
+            new(0.94f, 0.89f, 0.78f), new(0.72f, 0.64f, 0.56f), new(0.11f, 0.06f, 0.05f, 0.95f),
+            "res://assets/fonts/UnifrakturMaguntia.ttf", "res://assets/fonts/EBGaramond.ttf", "res://assets/fonts/EBGaramond.ttf", 400),
+        new("The Early Modern Age", 1450, new(0.78f, 0.66f, 0.42f), new(0.95f, 0.86f, 0.62f), new(0.32f, 0.38f, 0.52f),
+            new(0.93f, 0.90f, 0.82f), new(0.68f, 0.68f, 0.66f), new(0.07f, 0.08f, 0.11f, 0.95f),
+            "res://assets/fonts/IMFellEnglish.ttf", "res://assets/fonts/EBGaramond.ttf", "res://assets/fonts/EBGaramond.ttf", 400),
+        new("The Modern Age", 1800, new(0.72f, 0.74f, 0.78f), new(0.92f, 0.93f, 0.96f), new(0.40f, 0.44f, 0.50f),
+            new(0.92f, 0.92f, 0.92f), new(0.66f, 0.68f, 0.71f), new(0.07f, 0.08f, 0.09f, 0.95f),
+            "res://assets/fonts/JosefinSans.ttf", "res://assets/fonts/SourceSerif4.ttf", "res://assets/fonts/SourceSerif4.ttf", 650),
+    };
+
+    static Look _look = Looks[0];
+    public static Era Current { get; private set; } = Era.Antiquity;
+    public static string EraName => _look.Name;
+
+    public static Era EraOf(int year)
+    {
+        int i = Looks.Length - 1;
+        while (i > 0 && year < Looks[i].From)
+            i--;
+        return (Era)i;
+    }
+
+    /// <summary>Switches the look to an era; true if it changed (then rebuild with Build()).</summary>
+    public static bool SetEra(Era era)
+    {
+        if (era == Current)
+            return false;
+        Current = era;
+        _look = Looks[(int)era];
+        return true;
+    }
+
+    public static Color Gold => _look.Gold;
+    public static Color GoldBright => _look.GoldBright;
+    public static Color GoldDim => _look.GoldDim;
+    public static Color Text => _look.Text;
+    public static Color TextDim => _look.TextDim;
+    public static Color Panel => _look.Panel;
     public static readonly Color Ink = new(0.07f, 0.05f, 0.04f);
 
-    const string HeadingFontPath = "res://assets/fonts/Cinzel.ttf";
-    const string BodyFontPath = "res://assets/fonts/Alegreya.ttf";
-    const string ItalicFontPath = "res://assets/fonts/Alegreya-Italic.ttf";
+    static string HeadingFontPath => _look.Heading;
+    static string BodyFontPath => _look.Body;
+    static string ItalicFontPath => _look.Italic;
     const string TerrainPath = "res://data/terrain_texture.png";
 
-    static Theme? _theme;
+    static readonly Dictionary<Era, Theme> _themes = new();
 
-    /// <summary>The theme, built once and shared.</summary>
-    public static Theme Build() => _theme ??= CreateTheme();
+    /// <summary>The theme for the current era, built once per era and shared.</summary>
+    public static Theme Build()
+    {
+        if (!_themes.TryGetValue(Current, out var t))
+            _themes[Current] = t = CreateTheme();
+        return t;
+    }
 
     static Theme CreateTheme()
     {
         var theme = new Theme();
         var body = Font(BodyFontPath, 450);
-        var heading = Font(HeadingFontPath, 600);
-        var headingBold = Font(HeadingFontPath, 700);
+        var heading = Font(HeadingFontPath, _look.HeadingWeight);
+        var headingBold = Font(HeadingFontPath, _look.HeadingWeight + 100);
         var italic = Font(ItalicFontPath, 450);
+        if (ItalicFontPath == BodyFontPath && italic is FontVariation fv)
+            fv.VariationTransform = new Transform2D(1, 0, 0.2f, 1, 0, 0);   // a slanted body face where the era has no italic
         theme.DefaultFont = body;
         theme.DefaultFontSize = 19;
 

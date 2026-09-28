@@ -685,7 +685,7 @@ public partial class MapView : Node2D
         PlaceRegionLabels(bounds, placed, screen, z);
         foreach (var (label, world, _) in _mapLabels)
         {
-            if (CurrentView != PoliticalView && CurrentView != TradeView)
+            if (CurrentView != PoliticalView && CurrentView != TradeView && !IsProvinceView(CurrentView))
             {
                 label.Visible = false;
                 continue;
@@ -784,7 +784,7 @@ public partial class MapView : Node2D
     {
         0 => WildColor,
         SeaOwnerId => SeaColor,
-        _ => Registry.Realms.TryGetValue(ownerId, out var realm) ? realm.Color : Colors.Magenta,
+        _ => _ownerColorOverride?.Invoke(ownerId) ?? (Registry.Realms.TryGetValue(ownerId, out var realm) ? realm.Color : Colors.Magenta),
     };
 
     /// <summary>
