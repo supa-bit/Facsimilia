@@ -38,12 +38,20 @@ public sealed class RealmState
     public double LastTax { get; set; }
     public double LastTribute { get; set; }
     public double LastAdmin { get; set; }
+    /// <summary>Last year's court, temples and public works.</summary>
+    public double LastCivil { get; set; }
+    /// <summary>
+    /// How much of the usual tax this realm's state can take (start_realms.json
+    /// "tax_reach"): the Ptolemies' royal monopolies more, Republican Rome,
+    /// whose citizens paid only a war tax, far less.
+    /// </summary>
+    public double TaxReach { get; set; } = 1;
     public double LastUpkeep { get; set; }
     public double LastInterest { get; set; }
     public double LastCustoms { get; set; }
     /// <summary>Talents from selling captives as slaves last year.</summary>
     public double LastCaptiveSales { get; set; }
-    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales + LastVassalTribute - LastAdmin - LastUpkeep - LastInterest;
+    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales + LastVassalTribute - LastCivil - LastAdmin - LastUpkeep - LastInterest;
     /// <summary>How much other realms fear this one's conquests, 0..100; fades by itself.</summary>
     public double Aggression { get; set; }
     /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
@@ -95,7 +103,7 @@ public sealed class RealmState
         {
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
-            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
+            ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
         };
@@ -130,6 +138,7 @@ public sealed class RealmState
             ManpowerMultiplier = d.TryGetValue("manpower_mult", out var mm) ? mm.AsDouble() : 1,
             ArmyShare = d.TryGetValue("army_share", out var ash) ? ash.AsDouble() : 0.5,
             UpkeepShare = d.TryGetValue("upkeep_share", out var ush) ? ush.AsDouble() : 1,
+            TaxReach = d.TryGetValue("tax_reach", out var txr) ? txr.AsDouble() : 1,
             Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
             Aggression = d.TryGetValue("aggression", out var agg) ? agg.AsDouble() : 0,
             LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,
@@ -170,6 +179,8 @@ public sealed class RealmState
                     r.LastCustoms = a[5].AsDouble();
                 if (a.Count >= 7)
                     r.LastCaptiveSales = a[6].AsDouble();
+                if (a.Count >= 8)
+                    r.LastCivil = a[7].AsDouble();
                 r.LastTax = a[0].AsDouble(); r.LastTribute = a[1].AsDouble(); r.LastAdmin = a[2].AsDouble();
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }

@@ -133,6 +133,7 @@ public partial class Hud
         {
             var s = _map.Game.Realm(id);
             var (tax, tribute) = Economy.Revenue(c, s.Tax);
+            tax *= s.TaxReach;
             double ships = s.Armies.Sum(a => a.RoleCount(cat, UnitRoles.Warships));
             rows.Add((id, _map.RealmName(id), _map.ColorForRealm(id), new double[]
             {

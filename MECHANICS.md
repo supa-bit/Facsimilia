@@ -1865,6 +1865,32 @@ Section 15, decisions "Next 41-46".
 - **Music**: the Score Book (https://claude.ai/artifact/2bQczf4k9RVw2oiv59RfS2)
   lists the 49 tracks the game needs, for the designer to compose.
 
+## The economy rebalanced **(built, 28 Sep 2026)**
+
+A test game showed Rome clearing some 5 million didrachms a year and piling
+up over 100 million by 280 BC. Three things were wrong, and are fixed:
+
+- **Soldiers cost what they really cost.** Unit upkeep now covers pay and
+  rations together (about 1.6 times the old figures): a Roman legionary drew
+  2 obols a day, 120 denarii a year, with his grain on top (Polybius 6.39); a
+  Hellenistic mercenary about a drachma a day. Warships keep their lower
+  upkeep, as fleets lay in their ship-sheds in peace.
+- **The court, the gods and the city.** A new yearly expense, "Court, temples
+  and public works": a fifth of the tax taken (palace, festivals, envoys and
+  gifts) plus 0.1 talent per 1,000 people (roads, walls, granaries,
+  magistrates). Ancient states spent nearly everything they took.
+- **Not every state could tax alike** ("tax reach" in start_realms.json).
+  The Ptolemies' royal monopolies and land tax (x1.8; Egypt now takes in about
+  6,300 talents a year), the Seleucids and Carthage (x1.5) took heavily.
+  Republican Rome's citizens paid only the tributum, a war levy, so Rome takes
+  0.4 of the usual tax and lived, as it did, on booty, public land and its
+  allies' soldiers.
+
+At the start Rome now clears about 145 talents a year (roughly a fifth of its
+income), Egypt about 1,300, and most realms run close to even at peace
+strength. The accounts panel shows the same figures the game uses, techs and
+corruption included.
+
 ## Dynasties and characters **(decided, built)**
 
 Depth for now: enough for ruling families to live, marry, have children and

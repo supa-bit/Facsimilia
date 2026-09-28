@@ -265,10 +265,11 @@ public partial class MapView
     {
         // Rulers didn't hoard without end: a full treasury lightens the taxes, debt raises them.
         var (normalTax, normalTribute) = Economy.Revenue(c, TaxRate.Normal);
-        double normalIncome = normalTax + normalTribute;
+        double normalIncome = normalTax * s.TaxReach + normalTribute;
         s.Tax = s.Debt > normalIncome ? TaxRate.Heavy
             : s.Treasury > BotRichYears * normalIncome ? TaxRate.Low : TaxRate.Normal;
         var (tax, tribute) = Economy.Revenue(c, s.Tax);
+        tax *= s.TaxReach;
         double income = tax + tribute;
         // Beyond that, the silver goes on temples, palaces, games and gifts, as it did.
         double excess = s.Treasury - BotRichYears * normalIncome;
@@ -276,7 +277,8 @@ public partial class MapView
             s.Treasury -= BotLargesse * excess;
         bool atWar = Game.Wars.Of(realm.Id).Any();
         double share = atWar || s.Treasury > 2 * income ? Math.Max(BotWarArmyShare, s.ArmyShare) : s.ArmyShare;
-        double budget = share * income - Economy.AdminPerProvince * c.Provinces;
+        double civil = Economy.CourtShare * tax + Economy.WorksPerThousand * c.People / 1000;
+        double budget = share * (income - civil) - Economy.AdminPerProvince * c.Provinces;
         if (atWar)
             budget += s.Treasury / BotWarChestYears;   // a war chest is spent in war
         var cultures = CulturesOf(realm.Id);

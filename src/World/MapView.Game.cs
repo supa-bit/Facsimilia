@@ -110,6 +110,7 @@ public partial class MapView
                 state.ManpowerMultiplier = s.TryGetProperty("manpower", out var m) ? m.GetDouble() : 1;
                 state.ArmyShare = s.TryGetProperty("army_share", out var a) ? a.GetDouble() : 0.5;
                 state.UpkeepShare = s.TryGetProperty("upkeep_share", out var us) ? us.GetDouble() : 1;
+                state.TaxReach = s.TryGetProperty("tax_reach", out var tr) ? tr.GetDouble() : 1;
             }
             else
             {
@@ -122,6 +123,7 @@ public partial class MapView
             state.Manpower = Economy.SustainableManpower(c, state.ManpowerMultiplier);
             state.StartPeople = c.People;
             var (tax, tribute) = Economy.Revenue(c, state.Tax);
+            tax *= state.TaxReach;
             // Even a people with little to tax keeps some silver and gold (at least 10 talents).
             state.Treasury = Math.Max(10, Math.Round((tax + tribute) * years));
         }

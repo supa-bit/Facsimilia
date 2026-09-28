@@ -1,5 +1,5 @@
 {
- "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26). alliances: treaties in force in 300 BC (the victors of Ipsus, 301 BC: Seleucus and Lysimachus; Ptolemy's league with Lysimachus, sealed by Arsinoe's marriage in 300/299 BC). rivals: history's great rivalries, which colour how realms see each other (Rome against Carthage, the Samnites, the Etruscans and the Gauls; the Ptolemies and Seleucids over Syria; Demetrios against the other Successors; Carthage and Agathokles of Sicily; Tarentum and its Italic neighbours; Lysimachos and the Thracians, Getae and Bithynians; Sparta and Macedon; the Scythians and the Sarmatians). Egypt also stood with Pyrrhos and Agathokles, whom Ptolemy married to his stepdaughters.",
+ "about": "Each playable realm's state in 300 BC. units: [heavy infantry (1,000), light infantry (1,000), archers and slingers (1,000), cavalry (500), horse archers (500), war elephants (20), warships (10)]. Sizes follow the field armies and fleets of c. 301-280 BC (Ipsus, the Pyrrhic War, the early Syrian Wars; Diodorus, Plutarch, Polybius); tribal peoples count their fighting men who could gather. treasury_years: starting silver as years of tax income. elephant_source: can raise elephants without holding elephant country (the Seleucids had Chandragupta's 500 and the Indian trade). manpower: how many times the usual share of people a realm can call up (Rome's Italian alliance; tribal levies). army_share: share of income spent on the army in peace (default 0.5; Rome, a society organised for war, more). upkeep_share: share of the army's upkeep the realm pays itself (Rome's Italian allies, the socii, fed and paid their own contingents, about half of every Roman army: Polybius 2.24, 6.26). alliances: treaties in force in 300 BC (the victors of Ipsus, 301 BC: Seleucus and Lysimachus; Ptolemy's league with Lysimachus, sealed by Arsinoe's marriage in 300/299 BC). rivals: history's great rivalries, which colour how realms see each other (Rome against Carthage, the Samnites, the Etruscans and the Gauls; the Ptolemies and Seleucids over Syria; Demetrios against the other Successors; Carthage and Agathokles of Sicily; Tarentum and its Italic neighbours; Lysimachos and the Thracians, Getae and Bithynians; Sparta and Macedon; the Scythians and the Sarmatians). Egypt also stood with Pyrrhos and Agathokles, whom Ptolemy married to his stepdaughters. tax_reach: how much of the usual tax the state can take (default 1): the Ptolemies' royal monopolies and land taxes brought in some 12,000-15,000 talents a year (Jerome, on Daniel 11.5); the Seleucids and Carthage (Libya paid a quarter of its harvest, Polybius 1.72) took heavily too; Republican Rome's citizens paid only the tributum, a war levy of about 0.1% of property, so it lived on booty, rents from public land and its allies' soldiers.",
  "realms": {
   "rome": {
    "units": [
@@ -14,7 +14,8 @@
    "treasury_years": 0.5,
    "manpower": 3.0,
    "army_share": 0.85,
-   "upkeep_share": 0.5
+   "upkeep_share": 0.5,
+   "tax_reach": 0.4
   },
   "carthage": {
    "units": [
@@ -26,7 +27,8 @@
     0,
     15
    ],
-   "treasury_years": 1.5
+   "treasury_years": 1.5,
+   "tax_reach": 1.5
   },
   "egypt": {
    "units": [
@@ -38,7 +40,8 @@
     2,
     20
    ],
-   "treasury_years": 2.0
+   "treasury_years": 2.0,
+   "tax_reach": 1.8
   },
   "kush": {
    "units": [
@@ -63,7 +66,8 @@
     3
    ],
    "treasury_years": 1.0,
-   "elephant_source": true
+   "elephant_source": true,
+   "tax_reach": 1.5
   },
   "greek_world": {
    "units": [

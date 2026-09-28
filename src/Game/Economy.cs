@@ -30,6 +30,15 @@ public static class Economy
     public const double TributeShare = 0.03;
     /// <summary>Governors, scribes and garrisons per province, a year.</summary>
     public const double AdminPerProvince = 4.0;
+    /// <summary>
+    /// The court, the gods and the city: palace and household, temples and
+    /// festivals, envoys and gifts, this share of what the realm collects
+    /// in tax. Ancient states spent nearly all they took; the army and the
+    /// court were the two great sinks.
+    /// </summary>
+    public const double CourtShare = 0.2;
+    /// <summary>Roads, walls, aqueducts, granaries and magistrates: talents a year per 1,000 people.</summary>
+    public const double WorksPerThousand = 0.1;
     public const double InterestRate = 0.10;
     /// <summary>Beyond this many years of income in debt, lenders stop and soldiers go unpaid.</summary>
     public const double DebtLimitYears = 3.0;
@@ -68,6 +77,23 @@ public static class Economy
         return (tax, output * (1 - organized) * TributeShare);
     }
 
+    /// <summary>
+    /// A realm's yearly accounts at its present rates: tax (after its reach,
+    /// remedies, techs and corruption), tribute, customs; then the court and
+    /// public works, administration, the army and interest.
+    /// </summary>
+    public static (double Tax, double Tribute, double Customs, double Civil, double Admin, double Upkeep, double Interest)
+        Accounts(RealmState r, RealmCensus c, double corruption = 0)
+    {
+        var (tax, tribute) = Revenue(c, r.Tax);
+        tax *= r.TaxReach * Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * (1 - corruption);
+        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
+        double civil = CourtShare * tax + WorksPerThousand * c.People / 1000;
+        double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
+        double interest = r.Debt * Math.Max(0.02, InterestRate + TechCatalog.Instance.Effect(r, "interest"));
+        return (tax, tribute, customs, civil, admin, Upkeep(r), interest);
+    }
+
     public static double Upkeep(RealmState r) => r.Armies.Sum(Military.Upkeep) * r.UpkeepShare;
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
@@ -80,13 +106,9 @@ public static class Economy
     /// </summary>
     public static string? Tick(RealmState r, RealmCensus c, double corruption = 0)
     {
-        var (tax, tribute) = Revenue(c, r.Tax);
-        tax *= Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * (1 - corruption);
-        double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
-        double upkeep = Upkeep(r);
-        double interest = r.Debt * Math.Max(0.02, InterestRate + TechCatalog.Instance.Effect(r, "interest"));
-        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
+        var (tax, tribute, customs, civil, admin, upkeep, interest) = Accounts(r, c, corruption);
         Remedies.Tick(r);
+        r.LastCivil = civil;
         r.LastCustoms = customs;
         r.LastTax = tax;
         r.LastTribute = tribute;
@@ -94,7 +116,7 @@ public static class Economy
         r.LastUpkeep = upkeep;
         r.LastInterest = interest;
 
-        r.Treasury += tax + tribute + customs - admin - upkeep - interest;
+        r.Treasury += tax + tribute + customs - civil - admin - upkeep - interest;
         if (r.Treasury < 0)
         {
             r.Debt += -r.Treasury;   // temples and bankers lend the shortfall

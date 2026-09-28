@@ -95,6 +95,7 @@ public partial class MapView
         double area = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => p.AreaKm2) ?? 0;
         list.Add(("Land", c.Provinces + area / 20000, $"{c.Provinces} provinces, {area:N0} km²"));
         var (tax, trib) = Economy.Revenue(c, s.Tax);
+        tax *= s.TaxReach;
         list.Add(("Wealth", Math.Max(0, s.Treasury - s.Debt) / 1000 + (tax + trib) / 500,
             $"{Money(Math.Max(0, s.Treasury - s.Debt))} saved, {Money(tax + trib)} a year"));
         int buildings = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => ProvinceStateOf(p.Id).Buildings.Values.Sum()) ?? 0;

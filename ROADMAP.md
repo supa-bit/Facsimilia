@@ -38,6 +38,8 @@ block the work that depends on them.
 10. [x] **Redrawn 300 BC borders, any realm playable, trade routes, city
        names, disasters, each realm's coin, finer cultures** (Playable 1,
        4, 8, 20, 23, 28, 30).
+    - [x] **Economy rebalanced** (28 Sep 2026): soldiers' pay and rations,
+       court, temples and public works, each state's tax reach.
 11. [ ] **Battles and generals**: tactical battle maps on land and sea, family and appointed generals,
        marching by months on plotted routes, supply lines and baggage, blockades,
        battle reports, fog of war, mercenary companies, veterans and

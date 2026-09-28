@@ -1,5 +1,5 @@
 {
- "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use. requires: a technology the realm must know to raise it.",
+ "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year, pay and rations together (a Roman legionary drew 2 obols a day, 120 denarii a year, with his grain on top, Polybius 6.39; a Hellenistic mercenary about a drachma a day with his grain); warships cost less, as fleets lay in their ship-sheds in peace and rowers were paid only at sea; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use. requires: a technology the realm must know to raise it.",
  "units": [
   {
    "id": "levy_spearmen",
@@ -8,7 +8,7 @@
    "might": 0.7,
    "men": 1000,
    "raise_cost": 15,
-   "upkeep": 10,
+   "upkeep": 16,
    "cultures": [
     "*"
    ],
@@ -21,7 +21,7 @@
    "might": 0.45,
    "men": 1000,
    "raise_cost": 8,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "*"
    ],
@@ -34,7 +34,7 @@
    "might": 0.5,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 9,
+   "upkeep": 14,
    "cultures": [
     "*"
    ],
@@ -47,7 +47,7 @@
    "might": 1.0,
    "men": 500,
    "raise_cost": 25,
-   "upkeep": 20,
+   "upkeep": 32,
    "cultures": [
     "*"
    ],
@@ -75,7 +75,7 @@
    "might": 1.6,
    "men": 100,
    "raise_cost": 60,
-   "upkeep": 30,
+   "upkeep": 48,
    "cultures": [
     "*"
    ],
@@ -89,7 +89,7 @@
    "might": 1.1,
    "men": 1000,
    "raise_cost": 25,
-   "upkeep": 18,
+   "upkeep": 29,
    "cultures": [
     "latin"
    ],
@@ -103,7 +103,7 @@
    "might": 0.5,
    "men": 1000,
    "raise_cost": 8,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "latin"
    ],
@@ -116,7 +116,7 @@
    "might": 1.1,
    "men": 500,
    "raise_cost": 30,
-   "upkeep": 25,
+   "upkeep": 40,
    "cultures": [
     "latin"
    ],
@@ -130,7 +130,7 @@
    "might": 0.95,
    "men": 1000,
    "raise_cost": 20,
-   "upkeep": 15,
+   "upkeep": 24,
    "cultures": [
     "italic",
     "latin"
@@ -145,7 +145,7 @@
    "might": 1.0,
    "men": 1000,
    "raise_cost": 20,
-   "upkeep": 15,
+   "upkeep": 24,
    "cultures": [
     "italic"
    ],
@@ -158,7 +158,7 @@
    "might": 0.95,
    "men": 1000,
    "raise_cost": 22,
-   "upkeep": 16,
+   "upkeep": 26,
    "cultures": [
     "etruscan"
    ],
@@ -190,7 +190,7 @@
    "might": 1.0,
    "men": 1000,
    "raise_cost": 24,
-   "upkeep": 17,
+   "upkeep": 27,
    "cultures": [
     "greek"
    ],
@@ -204,7 +204,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "greek",
     "thracian"
@@ -218,7 +218,7 @@
    "might": 0.65,
    "men": 1000,
    "raise_cost": 12,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "greek"
    ],
@@ -231,7 +231,7 @@
    "might": 1.3,
    "men": 500,
    "raise_cost": 32,
-   "upkeep": 25,
+   "upkeep": 40,
    "cultures": [
     "greek"
    ],
@@ -245,7 +245,7 @@
    "might": 1.05,
    "men": 1000,
    "raise_cost": 25,
-   "upkeep": 18,
+   "upkeep": 29,
    "cultures": [
     "macedonian"
    ],
@@ -259,7 +259,7 @@
    "might": 1.25,
    "men": 1000,
    "raise_cost": 35,
-   "upkeep": 26,
+   "upkeep": 42,
    "cultures": [
     "macedonian"
    ],
@@ -273,7 +273,7 @@
    "might": 1.5,
    "men": 500,
    "raise_cost": 40,
-   "upkeep": 30,
+   "upkeep": 48,
    "cultures": [
     "macedonian"
    ],
@@ -287,7 +287,7 @@
    "might": 0.95,
    "men": 1000,
    "raise_cost": 22,
-   "upkeep": 16,
+   "upkeep": 26,
    "cultures": [
     "punic",
     "berber"
@@ -302,7 +302,7 @@
    "might": 1.3,
    "men": 1000,
    "raise_cost": 45,
-   "upkeep": 32,
+   "upkeep": 51,
    "cultures": [
     "punic"
    ],
@@ -316,7 +316,7 @@
    "might": 1.25,
    "men": 500,
    "raise_cost": 22,
-   "upkeep": 18,
+   "upkeep": 29,
    "cultures": [
     "berber",
     "punic"
@@ -331,7 +331,7 @@
    "might": 0.7,
    "men": 1000,
    "raise_cost": 12,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "punic",
     "iberian"
@@ -345,7 +345,7 @@
    "might": 0.6,
    "men": 1000,
    "raise_cost": 12,
-   "upkeep": 10,
+   "upkeep": 16,
    "cultures": [
     "phoenician",
     "punic"
@@ -359,7 +359,7 @@
    "might": 0.95,
    "men": 1000,
    "raise_cost": 18,
-   "upkeep": 14,
+   "upkeep": 22,
    "cultures": [
     "iberian"
    ],
@@ -373,7 +373,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 8,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "iberian"
    ],
@@ -386,7 +386,7 @@
    "might": 1.2,
    "men": 500,
    "raise_cost": 26,
-   "upkeep": 20,
+   "upkeep": 32,
    "cultures": [
     "iberian"
    ],
@@ -400,7 +400,7 @@
    "might": 0.85,
    "men": 1000,
    "raise_cost": 12,
-   "upkeep": 10,
+   "upkeep": 16,
    "cultures": [
     "celtic",
     "ligurian"
@@ -414,7 +414,7 @@
    "might": 1.25,
    "men": 500,
    "raise_cost": 24,
-   "upkeep": 19,
+   "upkeep": 30,
    "cultures": [
     "celtic"
    ],
@@ -428,7 +428,7 @@
    "might": 1.0,
    "men": 1000,
    "raise_cost": 18,
-   "upkeep": 14,
+   "upkeep": 22,
    "cultures": [
     "dacian",
     "thracian"
@@ -457,7 +457,7 @@
    "might": 0.6,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "illyrian"
    ],
@@ -470,7 +470,7 @@
    "might": 1.3,
    "men": 500,
    "raise_cost": 22,
-   "upkeep": 16,
+   "upkeep": 26,
    "cultures": [
     "scythian",
     "sarmatian"
@@ -485,7 +485,7 @@
    "might": 1.45,
    "men": 500,
    "raise_cost": 35,
-   "upkeep": 26,
+   "upkeep": 42,
    "cultures": [
     "sarmatian"
    ],
@@ -499,7 +499,7 @@
    "might": 1.2,
    "men": 500,
    "raise_cost": 30,
-   "upkeep": 24,
+   "upkeep": 38,
    "cultures": [
     "persian",
     "median",
@@ -516,7 +516,7 @@
    "might": 1.6,
    "men": 500,
    "raise_cost": 50,
-   "upkeep": 36,
+   "upkeep": 58,
    "cultures": [
     "median",
     "armenian",
@@ -533,7 +533,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "persian",
     "median",
@@ -549,7 +549,7 @@
    "might": 0.9,
    "men": 1000,
    "raise_cost": 14,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "celtic"
    ],
@@ -562,7 +562,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 8,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "anatolian",
     "cappadocian"
@@ -576,7 +576,7 @@
    "might": 0.6,
    "men": 1000,
    "raise_cost": 10,
-   "upkeep": 9,
+   "upkeep": 14,
    "cultures": [
     "aramaean",
     "babylonian",
@@ -591,7 +591,7 @@
    "might": 0.85,
    "men": 1000,
    "raise_cost": 14,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "jewish"
    ],
@@ -604,7 +604,7 @@
    "might": 0.8,
    "men": 1000,
    "raise_cost": 14,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "babylonian",
     "aramaean"
@@ -618,7 +618,7 @@
    "might": 0.9,
    "men": 1000,
    "raise_cost": 16,
-   "upkeep": 12,
+   "upkeep": 19,
    "cultures": [
     "egyptian"
    ],
@@ -632,7 +632,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 10,
-   "upkeep": 9,
+   "upkeep": 14,
    "cultures": [
     "egyptian"
    ],
@@ -645,7 +645,7 @@
    "might": 0.75,
    "men": 1000,
    "raise_cost": 11,
-   "upkeep": 9,
+   "upkeep": 14,
    "cultures": [
     "kushite"
    ],
@@ -658,7 +658,7 @@
    "might": 0.85,
    "men": 1000,
    "raise_cost": 14,
-   "upkeep": 11,
+   "upkeep": 18,
    "cultures": [
     "kushite"
    ],
@@ -671,7 +671,7 @@
    "might": 1.1,
    "men": 500,
    "raise_cost": 20,
-   "upkeep": 16,
+   "upkeep": 26,
    "cultures": [
     "arab",
     "nabataean",
@@ -686,7 +686,7 @@
    "might": 0.55,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "arab",
     "nabataean",
@@ -701,7 +701,7 @@
    "might": 0.5,
    "men": 1000,
    "raise_cost": 8,
-   "upkeep": 7,
+   "upkeep": 11,
    "cultures": [
     "colchian"
    ],
@@ -714,7 +714,7 @@
    "might": 0.6,
    "men": 1000,
    "raise_cost": 9,
-   "upkeep": 8,
+   "upkeep": 13,
    "cultures": [
     "sardinian"
    ],
@@ -727,7 +727,7 @@
    "might": 0.85,
    "men": 1000,
    "raise_cost": 16,
-   "upkeep": 12,
+   "upkeep": 19,
    "cultures": [
     "sicel"
    ],
