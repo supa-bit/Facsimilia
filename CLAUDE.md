@@ -34,9 +34,13 @@ Collections:
 - `features/<fNN>`: `{order, area, status, title, detail}`; status is one of
   `done`, `doing`, `next`, `blocked` (waits on a decision), `later`. New
   features take the next free `fNN` id and order.
-- `decisions/<id>`: `{order, title, question, why, blocks, options: [{id,
-  label, detail}], suggest, answer, note}`; leave `answer` and `note` empty
-  for the designer to fill in on the page.
+- `decisions/<id>`: `{order, area, title, question, why, blocks, options:
+  [{id, label, detail}], suggest, answer, note}`; leave `answer` and `note`
+  empty for the designer to fill in on the page. `area` is the topic the
+  page groups it under (the same topics as the features). A follow-up to an
+  earlier answer says so at the start of its question ("Follows your answer
+  ..."). The designer wants depth: every answered topic gets its follow-up
+  choices before it is built.
 - `todos/<tN>`: `{order, title, detail}`: things only the designer can do.
 - `meta/info`: `{updated, build}`.
 
