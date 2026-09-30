@@ -53,6 +53,12 @@ waits on a decision is `blocked` and names the decision in its detail.
 Always pass `if_version` (from your last read) when updating an existing
 document, and batch several writes into one call.
 
+## Naming work (the designer asked for this)
+
+When talking about the work, use the Ledger's titles (its areas, features
+and decisions, e.g. "War: mercenaries"), never "section 11", "part 4" or
+"Next 8". Numbers may be added alongside a title, but never replace it.
+
 ## Branches (the designer's choice)
 
 Work on one branch, `claude/facsimilia-game-dev-bq0sed`, all the time. The
