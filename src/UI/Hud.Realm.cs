@@ -179,7 +179,7 @@ public partial class Hud
         RefreshRival();
         _manpower.Text = $"Men who can be called up: {ThemeAncient.GroupThousands((long)s.Manpower)}" +
             $" (refills toward {ThemeAncient.GroupThousands((long)Economy.SustainableManpower(c, s.ManpowerMultiplier))})." +
-            "\nBeyond them, mercenaries can be hired at twice the price." +
+            "\nBeyond them, hire a mercenary company (Armies > Mercenary companies)." +
             (c.Free + c.Dependent + c.Enslaved > 0
                 ? $"\nYour people: {c.Free / (c.Free + c.Dependent + c.Enslaved):P0} free, " +
                   $"{c.Dependent / (c.Free + c.Dependent + c.Enslaved):P0} dependent, " +
