@@ -72,6 +72,21 @@ block the work that depends on them.
        six more map views, hover cards, realm tables, an end-of-game history with a closeness-to-history score,
        a music ledger for the designer, era themes, turns under 3 s, data docs (Next 41-51, 55).
 
+## Topics with every question answered (30 Sep 2026)
+
+Built one topic at a time, in this order: Technology and knowledge; War:
+manpower; War: veterans; Treasury and money; Trade; Buildings and works;
+Provinces; Land, resources and goods; Population and people; Cities and
+settlements; Government, laws and administration; The map; Map; War:
+mercenaries.
+
+- [x] **Technology and knowledge** (30 Sep 2026): research by branch with
+      your effort shares, 50 years early at up to 3x the price, cheaper from
+      neighbours and trade partners, inventions from beyond the map by trade,
+      conquest brings knowledge, old knowledge cheaper, pace near history.
+      Waiting on other topics: knowledge lost (literacy), great movements,
+      spies, the tree's look.
+
 ## Right now
 
 Small, cheap, and they protect everything built after them.

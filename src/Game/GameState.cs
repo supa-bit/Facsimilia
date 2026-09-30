@@ -68,8 +68,15 @@ public sealed class RealmState
     public double RivalStrength { get; set; }
     /// <summary>Technologies known, the one being studied, and the points gathered toward it.</summary>
     public HashSet<string> Techs { get; } = new();
-    public string Researching { get; set; } = "";
-    public double ResearchPoints { get; set; }
+    /// <summary>
+    /// Research by branch (decision "Researching several at once"): the share
+    /// of effort each branch gets, the points it has gathered, and what it studies.
+    /// </summary>
+    public double[] BranchShare { get; } = Enumerable.Repeat(1.0, TechCatalog.Branches.Length).ToArray();
+    public double[] BranchPoints { get; } = new double[TechCatalog.Branches.Length];
+    public string[] BranchResearching { get; } = Enumerable.Repeat("", TechCatalog.Branches.Length).ToArray();
+    /// <summary>Is anything being studied?</summary>
+    public bool Studying => BranchResearching.Any(x => x != "");
     /// <summary>Remedies for an empty treasury still being felt: id -> years left.</summary>
     public Dictionary<string, int> RemedyYears { get; } = new();
     /// <summary>Harbours make warships this much cheaper (not saved: set each year from the buildings).</summary>
@@ -117,7 +124,8 @@ public sealed class RealmState
             ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
-            ["researching"] = Researching, ["rival"] = RivalStrength, ["research_points"] = ResearchPoints, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["branch_share"] = new GArray(BranchShare.Select(x => (Variant)x).ToArray()), ["branch_points"] = new GArray(BranchPoints.Select(x => (Variant)x).ToArray()),
+            ["branch_researching"] = new GArray(BranchResearching.Select(x => (Variant)x).ToArray()), ["rival"] = RivalStrength, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId,
@@ -164,9 +172,24 @@ public sealed class RealmState
         if (d.TryGetValue("techs", out var techs))
             foreach (Variant t in techs.AsGodotArray())
                 r.Techs.Add(t.AsString());
-        r.Researching = d.TryGetValue("researching", out var rs) ? rs.AsString() : "";
         r.RivalStrength = d.TryGetValue("rival", out var rv) ? rv.AsDouble() : 0;
-        r.ResearchPoints = d.TryGetValue("research_points", out var rp) ? rp.AsDouble() : 0;
+        if (d.TryGetValue("branch_share", out var bs))
+        {
+            var sh = bs.AsGodotArray(); var pts = d["branch_points"].AsGodotArray(); var res = d["branch_researching"].AsGodotArray();
+            for (int b = 0; b < Math.Min(sh.Count, r.BranchShare.Length); b++)
+            {
+                r.BranchShare[b] = sh[b].AsDouble();
+                r.BranchPoints[b] = pts[b].AsDouble();
+                r.BranchResearching[b] = res[b].AsString();
+            }
+        }
+        else if (d.TryGetValue("researching", out var rs) && TechCatalog.Instance[rs.AsString()] is { } old)
+        {
+            // A save from before branches: the one tech studied keeps its points in its branch.
+            int b = TechCatalog.BranchIndex(old.Branch);
+            r.BranchResearching[b] = old.Id;
+            r.BranchPoints[b] = d.TryGetValue("research_points", out var rp) ? rp.AsDouble() : 0;
+        }
         if (d.TryGetValue("remedies", out var rem))
             foreach (var (id, y) in rem.AsGodotDictionary())
                 r.RemedyYears[id.AsString()] = y.AsInt32();

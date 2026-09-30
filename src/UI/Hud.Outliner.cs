@@ -107,7 +107,7 @@ public partial class Hud
             .Select(x => ($"{x.p.Name}: unrest {x.st.Unrest:P0}" + (x.st.Unrest > Loyalty.RevoltThreshold ? ", may revolt" : ""),
                 (Action)(() => { _map.SelectProvince(x.p.Id); _map.CenterOn(x.p.LabelCell * MapView.CellPixels, 3f); }))));
         var research = new List<(string, Action)>();
-        if (string.IsNullOrEmpty(s.Researching))
+        if (!s.Studying)
             research.Add(("Nothing is being studied", () => ToggleResearchPanel(true)));
         Add("Research", research);
         var money = new List<(string, Action)>();

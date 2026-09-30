@@ -106,7 +106,7 @@ public partial class Hud
     (string Text, Func<bool> Done)[] TutorialSteps() => new (string, Func<bool>)[]
     {
         ("Open your Treasury (the coins at the top) and look at your taxes.", () => _realmPanel.Visible),
-        ("Open Research (T) and choose something to study.", () => !string.IsNullOrEmpty(_map.PlayerState.Researching)),
+        ("Open Research (T) and choose something to study.", () => _map.PlayerState.Studying),
         ("Click one of your provinces, open its Buildings tab and start a building.",
             () => _map.Provinces!.Provinces.Values.Any(p => p.RealmId == _map.PlayerRealmId && _map.ProvinceStateOf(p.Id).Building != "")),
         ("Open Armies and recruit more soldiers.", () => Military.Soldiers(_map.PlayerState) > _tutorialStartSoldiers),

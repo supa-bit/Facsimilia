@@ -1,5 +1,5 @@
 {
- "about": "The technology tree (decision 'Playable 24': an advanced, complex web of techs, unlocking as time goes by but still to be researched; from 300 BC (anything older is already part of the world at the start) to the modern world). cost: research points. available_from: the year it can first be researched (history's date of invention or spread). requires: techs needed first. effects: shares added (field, orchard, herd, mine, crafts, trade, tax, manpower, integration, growth, research, siege; unrest and corruption and interest as shares added; admin as provinces; garrison as Might; reach_km in km; sea_cost as a share of sea travel cost; might_<role> as a share of that role's Might). unlocks: buildings or units that need it. Dates from the histories of ancient technology (Oleson, 'The Oxford Handbook of Engineering and Technology in the Classical World', 2008; White, 'Medieval Technology and Social Change'). Our own data, free for any use.",
+ "about": "The technology tree (decision 'Playable 24': an advanced, complex web of techs, unlocking as time goes by but still to be researched; from 300 BC (anything older is already part of the world at the start) to the modern world). cost: research points. available_from: the year it can first be researched (history's date of invention or spread). requires: techs needed first. effects: shares added (field, orchard, herd, mine, crafts, trade, tax, manpower, integration, growth, research, siege; unrest and corruption and interest as shares added; admin as provinces; garrison as Might; reach_km in km; sea_cost as a share of sea travel cost; might_<role> as a share of that role's Might). unlocks: buildings or units that need it. Dates from the histories of ancient technology (Oleson, 'The Oxford Handbook of Engineering and Technology in the Classical World', 2008; White, 'Medieval Technology and Social Change'). Our own data, free for any use. beyond: for inventions made beyond the map (paper, silk-weaving, the stirrup, gunpowder, the compass), the regions they enter by; they can be studied only by a realm holding one of those regions or trading with a realm that knows them.",
  "start": {
   "*": [],
   "macedonian": [
@@ -189,7 +189,11 @@
    "effects": {
     "might_cavalry": 0.15
    },
-   "description": "A rider who can stand and strike."
+   "description": "A rider who can stand and strike.",
+   "beyond": [
+    "Scythia",
+    "Pannonia"
+   ]
   },
   {
    "id": "bureaucracy",
@@ -773,7 +777,11 @@
     "crafts": 0.03,
     "trade": 0.03
    },
-   "description": "Silkworms smuggled to Constantinople (AD 552)."
+   "description": "Silkworms smuggled to Constantinople (AD 552).",
+   "beyond": [
+    "Hyrcania",
+    "Media"
+   ]
   },
   {
    "id": "paper",
@@ -786,7 +794,12 @@
     "research": 0.1,
     "crafts": 0.02
    },
-   "description": "Paper-making spreads west from Samarkand."
+   "description": "Paper-making spreads west from Samarkand.",
+   "beyond": [
+    "Hyrcania",
+    "Media",
+    "Persis"
+   ]
   },
   {
    "id": "cotton_textiles",
@@ -1657,7 +1670,12 @@
    "effects": {
     "siege": 0.1
    },
-   "description": "Saltpetre, sulphur and charcoal."
+   "description": "Saltpetre, sulphur and charcoal.",
+   "beyond": [
+    "Hyrcania",
+    "Media",
+    "Persis"
+   ]
   },
   {
    "id": "cannon",
@@ -2301,7 +2319,11 @@
    "effects": {
     "sea_cost": -0.08
    },
-   "description": "A needle that finds north in any weather."
+   "description": "A needle that finds north in any weather.",
+   "beyond": [
+    "Arabia Felix",
+    "Persis"
+   ]
   },
   {
    "id": "stern_rudder",

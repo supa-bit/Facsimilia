@@ -16,6 +16,10 @@ public partial class Hud
     Label _researchSummary = null!;
     TabContainer _researchTabs = null!;
     Button _researchButton = null!;
+    Label _branchLine = null!;
+    HSlider _branchShare = null!;
+    int _researchPage;
+    bool _settingShare;
 
     void BuildResearchButton(HBoxContainer row)
     {
@@ -53,10 +57,34 @@ public partial class Hud
             var b = new Button { Text = TechCatalog.BranchShort[i], TooltipText = TechCatalog.BranchNames[i], ToggleMode = true, ButtonGroup = group,
                 ButtonPressed = i == 0, CustomMinimumSize = new Vector2(170, 30), ClipText = true };
             b.AddThemeFontSizeOverride("font_size", 13);
-            b.Pressed += () => _researchTabs.CurrentTab = page;
+            b.Pressed += () =>
+            {
+                _researchTabs.CurrentTab = page;
+                _researchPage = page;
+                RefreshResearchPanel();
+            };
             grid.AddChild(b);
         }
-        _researchTabs = new TabContainer { CustomMinimumSize = new Vector2(880, 540), TabsVisible = false };
+        // Each branch gets a share of the scholars' effort (decision "Researching several at once").
+        var shareRow = new HBoxContainer();
+        shareRow.AddThemeConstantOverride("separation", 10);
+        box.AddChild(shareRow);
+        _branchLine = ThemeAncient.Label("", fontSize: 15);
+        _branchLine.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        _branchLine.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        shareRow.AddChild(_branchLine);
+        shareRow.AddChild(ThemeAncient.Label("Effort:", fontSize: 15));
+        _branchShare = new HSlider { MinValue = 0, MaxValue = 10, Step = 1, CustomMinimumSize = new Vector2(220, 24),
+            TooltipText = "How much of your scholars' effort goes to this branch, against the others (0 stops it)." };
+        _branchShare.ValueChanged += v =>
+        {
+            if (_settingShare)
+                return;
+            _map.PlayerState.BranchShare[_researchPage] = v;
+            RefreshResearchPanel();
+        };
+        shareRow.AddChild(_branchShare);
+        _researchTabs = new TabContainer { CustomMinimumSize = new Vector2(880, 500), TabsVisible = false };
         box.AddChild(_researchTabs);
         for (int i = 0; i < TechCatalog.Branches.Length; i++)
         {
@@ -84,18 +112,29 @@ public partial class Hud
     {
         var s = _map.PlayerState;
         var cat = TechCatalog.Instance;
-        var current = cat[s.Researching];
-        _researchButton.Text = current != null ? $"Research: {Math.Min(99, s.ResearchPoints / current.Cost * 100):0}%" : "Research";
+        var ctx = _map.TechContextFor(_map.PlayerRealmId);
+        int studying = s.BranchResearching.Count(x => x != "");
+        _researchButton.Text = studying > 0 ? $"Research: {studying} studied" : "Research";
         if (!_researchPanel.Visible)
             return;
-        double perYear = cat.PointsPerYear(s, _map.CensusOf(_map.PlayerRealmId));
+        double perYear = cat.PointsPerYear(s, _map.CensusOf(_map.PlayerRealmId), ctx);
+        double total = Math.Max(s.BranchShare.Sum(), 1e-9);
         _researchSummary.Text =
             $"You know {s.Techs.Count} of {cat.All.Count} technologies. Your scholars gather {perYear:0.0} points a year " +
-            "(more from towns, schools and libraries). " +
-            (current != null
-                ? $"Studying: {current.Name}, {s.ResearchPoints:0} of {current.Cost:0} points (about {Math.Max(0, Math.Ceiling((current.Cost - s.ResearchPoints) / Math.Max(perYear, 0.1))):0} years)."
-                : $"Nothing is being studied: choose a technology below ({s.ResearchPoints:0} points saved).") +
-            "\nA technology opens when the world knows it (its year) and you know what it needs.";
+            $"(more from towns, schools and libraries, and from the {ctx.Contacts} realms you border or trade with), " +
+            "shared among the branches by the effort you give each. Each branch studies its own technology.\n" +
+            "A technology opens up to 50 years before the world knew it, at up to three times its price; it is cheaper " +
+            "the more of your neighbours and trade partners know it. Inventions from beyond the map come only by trade or by holding the lands they enter by.";
+        int page = _researchPage;
+        double share = s.BranchShare[page] / total;
+        var cur = cat[s.BranchResearching[page]];
+        _branchLine.Text = $"{TechCatalog.BranchNames[page]}: {share:P0} of the effort, {perYear * share:0.0} points a year. " +
+            (cur != null
+                ? $"Studying {cur.Name}: {s.BranchPoints[page]:0} of {cat.Cost(cur, _map.DemoYear, ctx):0} points."
+                : $"Nothing studied here ({s.BranchPoints[page]:0} points saved).");
+        _settingShare = true;
+        _branchShare.Value = s.BranchShare[page];
+        _settingShare = false;
         for (int i = 0; i < TechCatalog.Branches.Length; i++)
         {
             var list = _researchTabs.GetChild(i).GetNode<VBoxContainer>("List");
@@ -105,13 +144,14 @@ public partial class Hud
             foreach (var t in cat.All.Where(t => t.Branch == branch).OrderBy(t => t.AvailableFrom).ThenBy(t => t.Cost))
             {
                 bool known = s.Techs.Contains(t.Id);
-                string? problem = cat.CanResearch(s, t, _map.DemoYear);
+                string? problem = cat.CanResearch(s, t, _map.DemoYear, ctx);
                 var row = new HBoxContainer();
                 row.AddThemeConstantOverride("separation", 8);
                 list.AddChild(row);
                 string effects = string.Join(", ", t.Effects.Select(e => DescribeEffect(e.Key, e.Value)));
                 var label = ThemeAncient.Label(
-                    $"{(known ? "✓ " : s.Researching == t.Id ? "▶ " : "")}{t.Name}  ·  {ThemeAncient.YearText(t.AvailableFrom)}  ·  {t.Cost:0} pts" +
+                    $"{(known ? "✓ " : s.BranchResearching[i] == t.Id ? "▶ " : "")}{t.Name}  ·  {ThemeAncient.YearText(t.AvailableFrom)}  ·  {(known ? t.Cost : cat.Cost(t, _map.DemoYear, ctx)):0} pts" +
+                    (t.Beyond.Length > 0 ? "  ·  from beyond the map" : "") +
                     (effects != "" ? $"  ·  {effects}" : ""), fontSize: 15);
                 label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
                 label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
@@ -120,7 +160,7 @@ public partial class Hud
                 label.MouseFilter = MouseFilterEnum.Pass;
                 label.Modulate = known ? new Color(0.75f, 1f, 0.75f) : problem == null ? Colors.White : new Color(1, 1, 1, 0.45f);
                 row.AddChild(label);
-                if (!known && problem == null && s.Researching != t.Id)
+                if (!known && problem == null && s.BranchResearching[i] != t.Id)
                 {
                     var study = new Button { Text = "Study", FocusMode = FocusModeEnum.None };
                     study.AddThemeFontSizeOverride("font_size", 14);

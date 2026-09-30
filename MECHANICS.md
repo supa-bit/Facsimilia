@@ -1997,6 +1997,54 @@ companies and reforms follow.
 - **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
   generals fight every battle.
 
+## Technology and knowledge: your follow-up answers **(built, 30 Sep 2026)**
+
+Your answers on the Ledger's "Technology and knowledge" topic.
+
+- **Research by branch** ("Researching several at once": a share of effort
+  for each branch). Each of the 15 branches studies its own technology.
+  You set each branch's effort with a slider (0 to 10) in the Research
+  panel; the year's points are shared out in proportion. A branch at 0
+  gathers nothing. Other realms put all their effort into one branch at a
+  time, the one with the cheapest open technology.
+- **How far ahead of history** (open about 50 years early, dearer the
+  earlier). A technology opens 50 years before the year the world knew it.
+  At the earliest it costs 3 times its price, falling evenly to its price in
+  its own year.
+- **Learning from neighbours** (cheaper when neighbours and trade partners
+  know it). A realm's contacts are the realms it borders and those on a
+  trade route with it, not at war. A technology every contact knows costs
+  40% less (a share of them, a share of that).
+- **Where research comes from** (towns, libraries, schools, great people,
+  trade contacts). Each contact adds 4% research, up to 40%. Your note
+  (education is a large part; people listed by education) waits on social
+  classes (Population and people).
+- **Inventions from beyond the map** (arrive on history's dates, spread
+  along trade, researched after arrival). Paper (AD 750, by Samarkand),
+  silk-weaving (AD 550), the stirrup (AD 600, with the Avars), gunpowder
+  (AD 1250, with the Mongols) and the magnetic compass (AD 1190, by the
+  Indian Ocean) can be studied only after their date, and only by a realm
+  holding a region they enter by (Hyrcania, Media, Persis, Scythia,
+  Pannonia, Arabia Felix) or bordering or trading with a realm that knows
+  them.
+- **Who knows a tech** (each region knows it; conquest brings what they
+  knew). Taking a province teaches the conqueror some of what its old
+  master knew: each technology the loser knew whose prerequisites the
+  conqueror has, with a chance of twice the share of the loser's people
+  taken (5% to 60%). The chronicle names what was learnt.
+- **Pace** (near history's pace; leaders a few decades ahead). Old
+  knowledge gets cheaper as it spreads: a technology costs up to 50% less,
+  reached 200 years after its date. All research is scaled by 1.5, set by a
+  100-year run from 300 BC: by 200 BC Egypt (the leader) knew 77 of the 78
+  technologies the world knew and had one ahead of its time; Carthage 53,
+  the Seleucids 39, the Gauls 23.
+- **Waiting for other systems**: knowledge lost when cities fall and
+  literacy drops, and found again only as derivatives unless history truly
+  recovered them (your note) — needs literacy (Population and people);
+  great movements spreading like religions — needs Culture and religion;
+  spies stealing techs — needs Diplomacy; the tree's look ("Both") — a
+  tree and a timeline view, with the interface work.
+
 ## Battles and generals, part 4a: mercenary companies **(built, 28 Sep 2026)**
 
 Your answers: companies replace "hire at twice the price"; history's

@@ -256,6 +256,7 @@ public partial class MapView
         {
             double people = Math.Max(census.TryGetValue(siege.Owner, out var c) ? c.People : 0, 1);
             double swing = Math.Clamp(100 * siege.People / people * 2, 5, 40);
+            events.AddRange(LearnFromConquest(siege.Attacker, siege.Owner, siege.People / people));
             war.Score = Math.Clamp(war.Score + (war.Attacker == siege.Attacker ? swing : -swing), -100, 100);
         }
         string what = siege.ProvinceId != 0 ? siege.Name : siege.Owner == 0 ? "new land" : $"land from {RealmName(siege.Owner)}";
