@@ -361,11 +361,7 @@ public partial class MapView
         }
         s.Treasury += silver;
         if (s.Debt > 0)
-        {
-            double repay = Math.Min(s.Debt, s.Treasury);
-            s.Debt -= repay;
-            s.Treasury -= repay;
-        }
+            Finance.Repay(s, Math.Min(s.Debt, s.Treasury));   // the dearest loans first
         s.RemedyYears[remedy.Id] = remedy.Years;
         return $"{RealmName(PlayerRealmId)}: {remedy.Name.ToLowerInvariant()} ({Money(silver)}).";
     }

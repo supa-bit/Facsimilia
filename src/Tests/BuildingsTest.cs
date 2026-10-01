@@ -74,17 +74,17 @@ public partial class BuildingsTest : TestRunner
         Check(map.RemediesNow().All(r => r.Problem != null), "no remedies needed with a full treasury");
         s.Treasury = 0;
         s.Debt = 3000;
-        var debase = map.RemediesNow().First(r => r.Remedy == Remedies.Debase);
-        Check(debase.Problem == null && debase.Silver > 0, "debasing the coin should be on offer in debt");
-        Check(map.TakeRemedy("debase") != null && Remedies.Active(s, "debase") && s.Debt < 3000, "debasing should bring silver and be remembered");
-        Check(map.RemediesNow().First(r => r.Remedy == Remedies.Debase).Problem != null, "a remedy can't be taken again while felt");
-        Check(Remedies.Unrest(s) > 0 && Remedies.CustomsKept(s) < 1, "debasement should cost trust and calm");
+        var temples = map.RemediesNow().First(r => r.Remedy == Remedies.Temples);
+        Check(temples.Problem == null && temples.Silver > 0, "the temple treasures should be on offer in debt");
+        Check(map.TakeRemedy("temples") != null && Remedies.Active(s, "temples") && s.Debt < 3000, "borrowing the temple treasures should bring silver and be remembered");
+        Check(map.RemediesNow().First(r => r.Remedy == Remedies.Temples).Problem != null, "a remedy can't be taken again while felt");
+        Check(Remedies.Unrest(s) > 0, "taking the gods' silver should anger the people");
 
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();
         Check(await map2.LoadSavedGame("slot1"), "load failed");
         Check(map2.ProvinceStateOf(latium.Id).Level("walls") == 1 && map2.ProvinceStateOf(campania.Id).Level("irrigation") == 1
-            && map2.PlayerState.RemedyYears.ContainsKey("debase"), "buildings or remedies didn't survive the save");
+            && map2.PlayerState.RemedyYears.ContainsKey("temples"), "buildings or remedies didn't survive the save");
 
         Finish($"Buildings tests passed: {cat.All.Count} buildings; walls built in {cat["walls"]!.Years} years raise the garrison " +
             $"{garrison:0.0} -> {map.GarrisonOf(latium):0.0}; irrigation grows more grain; province taxes; remedies in debt; saves.");

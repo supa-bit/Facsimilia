@@ -98,6 +98,11 @@ public partial class Hud
             _taxButtons[i] = b;
         }
 
+        var finances = new Button { Text = "Spending, coin and loans", FocusMode = FocusModeEnum.None,
+            TooltipText = "Set your spending, choose your tax collectors, debase or restore the coin, and see your loans and indemnities." };
+        finances.Pressed += () => ToggleFinancePanel(true);
+        box.AddChild(finances);
+
         _remedies = new VBoxContainer();
         _remedies.AddThemeConstantOverride("separation", 4);
         box.AddChild(_remedies);

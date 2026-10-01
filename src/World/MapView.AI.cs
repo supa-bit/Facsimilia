@@ -277,7 +277,7 @@ public partial class MapView
             s.Treasury -= BotLargesse * excess;
         bool atWar = Game.Wars.Of(realm.Id).Any();
         double share = atWar || s.Treasury > 2 * income ? Math.Max(BotWarArmyShare, s.ArmyShare) : s.ArmyShare;
-        double civil = Economy.CourtShare * tax + Economy.WorksPerThousand * c.People / 1000;
+        double civil = Finance.Civil(s, tax, c.People);
         double budget = share * (income - civil) - Economy.AdminPerProvince * c.Provinces;
         if (atWar)
             budget += s.Treasury / BotWarChestYears;   // a war chest is spent in war

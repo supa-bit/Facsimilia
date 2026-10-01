@@ -30,15 +30,6 @@ public static class Economy
     public const double TributeShare = 0.03;
     /// <summary>Governors, scribes and garrisons per province, a year.</summary>
     public const double AdminPerProvince = 4.0;
-    /// <summary>
-    /// The court, the gods and the city: palace and household, temples and
-    /// festivals, envoys and gifts, this share of what the realm collects
-    /// in tax. Ancient states spent nearly all they took; the army and the
-    /// court were the two great sinks.
-    /// </summary>
-    public const double CourtShare = 0.2;
-    /// <summary>Roads, walls, aqueducts, granaries and magistrates: talents a year per 1,000 people.</summary>
-    public const double WorksPerThousand = 0.1;
     public const double InterestRate = 0.10;
     /// <summary>Beyond this many years of income in debt, lenders stop and soldiers go unpaid.</summary>
     public const double DebtLimitYears = 3.0;
@@ -86,13 +77,18 @@ public static class Economy
         Accounts(RealmState r, RealmCensus c, double corruption = 0)
     {
         var (tax, tribute) = Revenue(c, r.Tax);
-        tax *= r.TaxReach * Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * (1 - corruption);
-        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) : 0;
+        // Tax farmers keep their cut but are not robbed by your officials (decision "Tax collectors").
+        double kept = r.Collectors == Collectors.Farmers ? 1 - Finance.FarmersCut : 1 - corruption;
+        double p = r.PriceLevel;   // all sums are in the realm's coin: they follow its prices (decision "How debasing works")
+        tax *= r.TaxReach * Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * kept * p;
+        tribute *= p;
+        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) * Finance.Trust(r) * p : 0;
         customs *= 1 - Math.Clamp(r.BlockadeMonths / 12.0, 0, 0.8);   // enemy fleets off the coast
-        double civil = CourtShare * tax + WorksPerThousand * c.People / 1000;
-        double admin = AdminPerProvince * c.Provinces + c.BuildingUpkeep;
-        double interest = r.Debt * Math.Max(0.02, InterestRate + TechCatalog.Instance.Effect(r, "interest"));
-        return (tax, tribute, customs, civil, admin, Upkeep(r), interest);
+        double civil = Finance.Civil(r, tax, c.People) ;
+        double admin = (AdminPerProvince * c.Provinces * (r.Collectors == Collectors.Farmers ? Finance.FarmersAdmin : 1) + c.BuildingUpkeep) * p;
+        double techInterest = TechCatalog.Instance.Effect(r, "interest");
+        double interest = r.Loans.Sum(l => l.Amount * Math.Max(0.02, l.Rate + techInterest));
+        return (tax, tribute, customs, civil, admin, Upkeep(r) * p, interest);
     }
 
     /// <summary>The realm's own troops' upkeep (mercenary companies are paid by the month instead).</summary>
@@ -106,7 +102,7 @@ public static class Economy
     /// One year for one realm. Returns what happened worth a chronicle line
     /// (deserters), or null.
     /// </summary>
-    public static string? Tick(RealmState r, RealmCensus c, double corruption = 0)
+    public static string? Tick(RealmState r, RealmCensus c, double corruption = 0, int year = 0)
     {
         var (tax, tribute, customs, civil, admin, upkeep, interest) = Accounts(r, c, corruption);
         Remedies.Tick(r);
@@ -120,18 +116,28 @@ public static class Economy
         r.LastMercPay = r.MercPaidThisYear;
         r.MercPaidThisYear = 0;
 
-        r.Treasury += tax + tribute + customs - civil - admin - upkeep - interest;
+        double mint = Finance.MintProfit(r, tax);
+        r.LastMint = mint;
+        Finance.PricesYear(r);
+        r.RivalStrength = Math.Clamp(r.RivalStrength + Finance.RivalChange(r), 0, 100);
+        if (r.TempleCurseYears > 0)
+            r.TempleCurseYears--;
+        if (r.ContractYears > 0)
+            r.ContractYears--;
+
+        double income = tax + tribute + customs;
+        r.Treasury += income + mint - civil - admin - upkeep - interest;
+        bool unpaid = false;
         if (r.Treasury < 0)
         {
-            r.Debt += -r.Treasury;   // temples and bankers lend the shortfall
+            // The temples, then the bankers, lend the shortfall (decision "Who lends").
+            double left = Finance.Borrow(r, -r.Treasury, income, year);
             r.Treasury = 0;
+            unpaid = left > 0.5;
         }
         else if (r.Debt > 0)
-        {
-            double repay = Math.Min(r.Debt, r.Treasury * 0.5);
-            r.Debt -= repay;
-            r.Treasury -= repay;
-        }
+            Finance.Repay(r, r.Treasury * 0.5);
+        r.UnpaidYears = unpaid ? r.UnpaidYears + 1 : 0;
 
         double target = SustainableManpower(c, r.ManpowerMultiplier);
         r.Manpower += (target - r.Manpower) * ManpowerRefill;
@@ -139,10 +145,14 @@ public static class Economy
             a.Fatigue = Math.Max(0, a.Fatigue - (a.Resting ? 0.25 : 0.1));   // armies rest, sieges less so
         r.Armies.RemoveAll(a => a.IsEmpty && r.Armies.Count > 1);
 
-        double income = tax + tribute + customs;
-        if (r.Debt > DefaultYears * Math.Max(income, 1))
-            r.Debt = DefaultYears * Math.Max(income, 1);   // default: lenders write off the rest
-        if (r.Debt > DebtLimitYears * Math.Max(income, 1))
+        if (r.UnpaidYears >= 2)
+        {
+            // Two years unable to pay or borrow: the realm defaults, and each lender reacts its own way.
+            r.Wronged.AddRange(Finance.Default(r, year));
+            r.UnpaidYears = 0;
+            return "The treasury defaults on its debts." + (r.TempleCurseYears > 0 ? " The temples curse the realm." : "");
+        }
+        if (unpaid)
         {
             int lost = 0;
             foreach (var a in r.Armies)
@@ -176,7 +186,7 @@ public static class Economy
             double p = pop.Pop[i];
             total[r] += p;
             if (realms.TryGetValue(pop.NodeOwner[i], out var state))
-                weighted[r] += p * TaxBurden[(int)state.Tax];
+                weighted[r] += p * (TaxBurden[(int)state.Tax] + Finance.Burden(state));
         }
         for (int r = 1; r <= n; r++)
             pop.SetFactor(r, GrowthFactor.Burden, total[r] > 0 ? weighted[r] / total[r] : 0);

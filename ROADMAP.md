@@ -91,6 +91,11 @@ mercenaries.
       and merge, an even number of units, the dead and the wounded, the dead
       taken from their home province. Who serves by class waits on social
       classes.
+- [x] **Treasury and money** (1 Oct 2026): spending lines, tax farmers or
+      officials, debasing with prices and trust, temples and bankers, defaults,
+      lending to realms, yearly indemnities, money by the ages. Waiting:
+      tax by class and law, family purse, embezzlement events, banks and bonds,
+      budget graphs, monopolies, coin history, more remedies.
 
 ## Right now
 

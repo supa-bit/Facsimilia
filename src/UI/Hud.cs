@@ -44,6 +44,7 @@ public partial class Hud : Control
         BuildArmiesPanel();
         BuildBattlesPanel();
         BuildResearchPanel();
+        BuildFinancePanel();
     }
 
     void BuildTopBar()

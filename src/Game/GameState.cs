@@ -19,7 +19,38 @@ public sealed class RealmState
 {
     public int RealmId { get; }
     public double Treasury { get; set; }   // talents
-    public double Debt { get; set; }       // talents owed to temples and bankers
+    /// <summary>All the realm owes (its loans together). Setting it replaces them with one bankers' loan (old saves, tests).</summary>
+    public double Debt
+    {
+        get => Loans.Sum(l => l.Amount);
+        set
+        {
+            Loans.Clear();
+            if (value > 0)
+                Loans.Add(new Loan { Lender = Loan.BankersLender, Amount = value, Rate = Finance.BankerRate });
+        }
+    }
+    /// <summary>Realms wronged by this year's default (not saved: turned into grievances the same year).</summary>
+    public List<int> Wronged { get; } = new();
+    /// <summary>Its debts, lender by lender (decision "Who lends").</summary>
+    public List<Loan> Loans { get; } = new();
+    /// <summary>Bankers won't lend again until this year (after a default).</summary>
+    public int BankersRefuseUntil { get; set; } = int.MinValue;
+    /// <summary>Years the gods' curse still lies on the realm (after keeping the temples' silver).</summary>
+    public int TempleCurseYears { get; set; }
+    /// <summary>Years in a row the realm could neither pay nor borrow; at two it defaults.</summary>
+    public int UnpaidYears { get; set; }
+    /// <summary>Each spending line, 0 (nothing) .. 2 (double); 1 is the usual (decision "Setting your spending").</summary>
+    public double[] Spending { get; } = Finance.DefaultSpending();
+    /// <summary>Who collects the taxes, and years left on a tax-farming contract.</summary>
+    public Collectors Collectors { get; set; }
+    public int ContractYears { get; set; }
+    /// <summary>The coin's silver content, 1 = full (decision "How debasing works").</summary>
+    public double CoinPurity { get; set; } = 1;
+    /// <summary>The price level in the realm's coin, 1 = as in 300 BC; follows a debased coin over the years.</summary>
+    public double PriceLevel { get; set; } = 1;
+    /// <summary>Last year's mint profit from a debased coin.</summary>
+    public double LastMint { get; set; }
     public TaxRate Tax { get; set; } = TaxRate.Normal;
     /// <summary>The realm's named armies (and fleets), each with its own units.</summary>
     public List<Army> Armies { get; } = new();
@@ -121,7 +152,10 @@ public sealed class RealmState
             armies.Add(a.ToDict(cat));
         return new GDictionary
         {
-            ["realm"] = RealmId, ["treasury"] = Treasury, ["debt"] = Debt, ["tax"] = (int)Tax,
+            ["realm"] = RealmId, ["treasury"] = Treasury, ["tax"] = (int)Tax,
+            ["loans"] = new GArray(Loans.Select(l => (Variant)l.ToArray()).ToArray()),
+            ["finance"] = new GArray { BankersRefuseUntil, TempleCurseYears, UnpaidYears, (int)Collectors, ContractYears, CoinPurity, PriceLevel, LastMint },
+            ["spending"] = new GArray(Spending.Select(x => (Variant)x).ToArray()),
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["branch_share"] = new GArray(BranchShare.Select(x => (Variant)x).ToArray()), ["branch_points"] = new GArray(BranchPoints.Select(x => (Variant)x).ToArray()),
@@ -153,7 +187,7 @@ public sealed class RealmState
         var r = new RealmState(d["realm"].AsInt32())
         {
             Treasury = d["treasury"].AsDouble(),
-            Debt = d["debt"].AsDouble(),
+            Debt = d.TryGetValue("debt", out var debt) ? debt.AsDouble() : 0,   // a save from before lenders
             Tax = (TaxRate)d["tax"].AsInt32(),
             Manpower = d.TryGetValue("manpower", out var m) ? m.AsDouble() : 0,
             ElephantSource = d.TryGetValue("elephant_source", out var e) && e.AsBool(),
@@ -225,6 +259,25 @@ public sealed class RealmState
                 r.LastUpkeep = a[3].AsDouble(); r.LastInterest = a[4].AsDouble();
             }
         }
+        if (d.TryGetValue("loans", out var loans))
+        {
+            r.Loans.Clear();
+            foreach (var v in loans.AsGodotArray())
+                r.Loans.Add(Loan.FromArray(v.AsGodotArray()));
+        }
+        if (d.TryGetValue("finance", out var fin))
+        {
+            var f = fin.AsGodotArray();
+            r.BankersRefuseUntil = f[0].AsInt32(); r.TempleCurseYears = f[1].AsInt32(); r.UnpaidYears = f[2].AsInt32();
+            r.Collectors = (Collectors)f[3].AsInt32(); r.ContractYears = f[4].AsInt32();
+            r.CoinPurity = f[5].AsDouble(); r.PriceLevel = f[6].AsDouble(); r.LastMint = f[7].AsDouble();
+        }
+        if (d.TryGetValue("spending", out var spd))
+        {
+            var lines = spd.AsGodotArray();
+            for (int i = 0; i < Math.Min(lines.Count, r.Spending.Length); i++)
+                r.Spending[i] = lines[i].AsDouble();
+        }
         if (d.TryGetValue("merc_pay", out var mp))
         {
             var mpa = mp.AsGodotArray();
@@ -271,6 +324,10 @@ public sealed class GameState
     public List<Offer> Offers { get; } = new();
     /// <summary>Mercenary companies, waiting at their hiring grounds or serving a realm.</summary>
     public List<Company> Companies { get; } = new();
+    /// <summary>War indemnities being paid (decision "War indemnities").</summary>
+    public List<Indemnity> Indemnities { get; } = new();
+    /// <summary>Grievances over unpaid debts and indemnities: (holder, target) -> the last year they give a pretext.</summary>
+    public Dictionary<(int Holder, int Target), int> Grievances { get; } = new();
     public int NextCompanyId { get; set; } = 1;
     /// <summary>History's companies already brought into the game (each appears once).</summary>
     public HashSet<string> CompaniesSeen { get; } = new();
@@ -336,6 +393,8 @@ public sealed class GameState
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
             ["companies"] = new GArray(Companies.Select(c => (Variant)c.ToDict()).ToArray()), ["next_company"] = NextCompanyId,
             ["companies_seen"] = new GArray(CompaniesSeen.Select(c => (Variant)c).ToArray()),
+            ["indemnities"] = new GArray(Indemnities.Select(x => (Variant)x.ToArray()).ToArray()),
+            ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
         };
     }
 
@@ -364,6 +423,15 @@ public sealed class GameState
             foreach (Variant v in cos.AsGodotArray())
                 g.Companies.Add(Company.FromDict(v.AsGodotDictionary()));
         g.NextCompanyId = d.TryGetValue("next_company", out var nco) ? nco.AsInt32() : g.Companies.Select(c => c.Id).DefaultIfEmpty(0).Max() + 1;
+        if (d.TryGetValue("indemnities", out var ind))
+            foreach (var v in ind.AsGodotArray())
+                g.Indemnities.Add(Indemnity.FromArray(v.AsGodotArray()));
+        if (d.TryGetValue("grievances", out var grv))
+            foreach (var v in grv.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                g.Grievances[(a[0].AsInt32(), a[1].AsInt32())] = a[2].AsInt32();
+            }
         if (d.TryGetValue("companies_seen", out var csn))
             foreach (Variant v in csn.AsGodotArray())
                 g.CompaniesSeen.Add(v.AsString());

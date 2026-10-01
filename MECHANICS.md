@@ -1997,6 +1997,62 @@ companies and reforms follow.
 - **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
   generals fight every battle.
 
+## Treasury and money: your follow-up answers **(built, 1 Oct 2026)**
+
+Treasury > "Spending, coin and loans" opens the Finances panel.
+
+- **Spending lines** ("You set each line"): court, temples and festivals,
+  games, roads and works, grain; each 0% to 200% in steps of 25%. 100% is
+  what a realm usually spends (court 10% of tax, temples 6%, games 4%,
+  works 0.1 talent per 1,000 people, grain 4% of tax), so the old balance
+  is kept; grain starts at 0%.
+  - Court: each step below 100% lets the rival's faction grow (4 points a
+    year at 0%), above shrinks it.
+  - Temples and festivals: -5% unrest everywhere at 200%, +5% at 0%.
+  - Games: -3% / +3% unrest.
+  - Roads and works: growth (the burden factor +0.15 at 200%).
+  - Grain: -3% unrest and +0.1 growth per 100%.
+- **Tax collectors** ("You choose tax farmers or salaried officials").
+  Officials: the usual administration cost; corruption takes its share.
+  Farmers: pay 30% of a year's tax up front for a 5-year contract (it
+  can't be broken sooner), keep 15% of what they collect, administration
+  costs 60% of usual, corruption doesn't touch your taxes; +5% unrest and
+  -0.2 growth.
+- **The coin** ("You set the coin's silver content each year"): 30% to
+  100% silver. Prices move 15% of the way toward 1 / silver each year; all
+  sums in your coin follow prices. Mint profit each year = tax x (1 / silver
+  - prices), large at first and fading as prices catch up. Customs fall
+  with the silver ("Other realms value your coin by its real silver").
+  Rising prices add unrest (+10% per doubling). Restoring the coin costs
+  (new - old) / new of a year's tax, at once.
+- **Lenders** ("Several lenders, each with its own rate, limit and anger at
+  default"): a shortfall is borrowed from the temples (6%, up to a year's
+  income), then the bankers (12%, up to two years'). Surpluses repay the
+  dearest first. Two years unable to pay or borrow and the realm
+  **defaults** ("each lender reacts in its own way"): the temples' curse
+  (+10% unrest and -0.3 growth for 10 years, your note: more than
+  symbolic); the bankers refuse it for 30 years; realms it owed get a
+  grievance (the "Unpaid debts" pretext for 20 years).
+- **Lending to others** (Diplomacy > Lend): up to half your treasury, at
+  most two years of their income, at 10%; they take it only when short of
+  silver; they pay the interest and a tenth of the sum each year.
+- **War indemnities** ("Yearly payments over many years"): a peace with
+  tribute now sets an indemnity of two years of the loser's income, paid
+  over ten years. Missing two years' payments, or you pressing "Stop
+  paying", gives the winner the "Unpaid debts" pretext.
+- **Money through the ages**: compared by silver until 1870, by gold until
+  1971, then by a basket of goods.
+- **Retired remedies**: "Debase the coin" and "Sell the tax farms" left the
+  emergency list; they are the coin and the collectors above.
+- **Waiting for other topics**: who carries the tax (law and classes); the
+  family purse (playing a family); officials stealing (events); banks,
+  bonds and national debt (later ages); the full budget by province with
+  graphs (interface).
+- **Not built yet, nothing in the way**: state monopolies on goods; each
+  realm's coin changing as history changed it; the long list of history's
+  remedies, each only in the years it was used (your note). These need
+  research into the sources first.
+
 ## Units of their own, the roster, and War: manpower **(built, 1 Oct 2026)**
 
 Your answers: units of any size (you set 100 to 5,000 men), merging and

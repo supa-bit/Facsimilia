@@ -225,6 +225,10 @@ public partial class Hud
             else if (game.Treaties.OverlordOf(id) == 0 && game.Treaties.OverlordOf(me) != id)
                 AddButton(buttons, "Demand submission", "A far weaker realm that thinks well of you may become your vassal without a war.",
                     () => Log(_map.DemandSubmission(id)));
+            double canLend = _map.LendLimit(id);
+            if (canLend >= 1)
+                AddButton(buttons, $"Lend {_map.Money(canLend)}", $"Lend them silver at {Finance.RealmRate:P0} a year; they repay a tenth a year. They take it only if short of silver. If they never repay, you gain a pretext for war.",
+                    () => Log(_map.Lend(id, canLend) ?? $"You lend {_map.RealmName(id)} {_map.Money(canLend)}.", ChronicleKind.Economy));
         }
         else if (war.Supports == null)
         {

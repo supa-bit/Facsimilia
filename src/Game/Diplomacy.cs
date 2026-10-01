@@ -94,23 +94,4 @@ public static class Diplomacy
             || (years >= WearyYears && theirScore <= 10) || years >= 3 * WearyYears;
     }
 
-    /// <summary>Makes peace; with tribute, silver passes from the loser. Returns the tribute paid.</summary>
-    public static double MakePeace(GameState game, War war, int winner, int year, bool tribute, double loserIncome)
-    {
-        double paid = 0;
-        if (tribute)
-        {
-            var loser = game.Realm(war.Enemy(winner));
-            paid = Math.Min(Math.Max(loser.Treasury * TributeShare, loserIncome * TributeShare), loserIncome * TributeMaxYears);
-            loser.Treasury -= paid;
-            if (loser.Treasury < 0)
-            {
-                loser.Debt += -loser.Treasury;
-                loser.Treasury = 0;
-            }
-            game.Realm(winner).Treasury += paid;
-        }
-        game.Wars.MakePeace(war, year);
-        return paid;
-    }
 }

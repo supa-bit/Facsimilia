@@ -131,6 +131,8 @@ public partial class MapView
             if (ra != "" && rd != "" && ra != rd)
                 list.Add(Pretexts.Faith);
         }
+        if (HasGrievance(attacker, defender))
+            list.Add(Pretexts.Debt);
         list.Add(Pretexts.None);
         return list;
     }
@@ -294,10 +296,9 @@ public partial class MapView
         if (terms.Tribute)
         {
             var (tax, trib) = Economy.Revenue(CensusOf(loser), Game.Realm(loser).Tax);
-            paid = Diplomacy.MakePeace(Game, war, winner, DemoYear, true, tax + trib);
+            paid = ImposeIndemnity(loser, winner, tax + trib);   // paid year by year (decision "War indemnities")
         }
-        else
-            Game.Wars.MakePeace(war, DemoYear);
+        Game.Wars.MakePeace(war, DemoYear);
         if (terms.Vassal)
             Game.Treaties.Add(new Treaty(TreatyKind.Vassal, winner, loser, DemoYear));
         Game.Sieges.RemoveAll(s => (s.Attacker == winner && s.Owner == loser) || (s.Attacker == loser && s.Owner == winner));
@@ -312,7 +313,7 @@ public partial class MapView
         if (parts.Count > 0)
             what.Add($"{RealmName(loser)} cedes {string.Join(", ", parts)}");
         if (paid > 0)
-            what.Add($"pays {Money(paid)}");
+            what.Add($"pays an indemnity of {Money(paid)} a year for {IndemnityYears} years");
         if (terms.Vassal)
             what.Add($"{RealmName(loser)} becomes a vassal of {RealmName(winner)}");
         return text + (what.Count > 0 ? ": " + string.Join("; ", what) + "." : ". Each keeps what it holds.");

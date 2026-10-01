@@ -34,7 +34,9 @@ public static class Pretexts
     public static readonly Pretext None = new("none", "No just cause",
         "Naked aggression: the world will remember it, and their friends will come.", 25, 8, false);
 
-    public static readonly Pretext[] All = { History, Reconquest, Kin, Border, Subjugation, Faith, None };
+    public static readonly Pretext Debt = new("debt", "Unpaid debts",
+        "They will not repay what they owe you, or have stopped paying their indemnity.", 5, 2, true);
+    public static readonly Pretext[] All = { History, Reconquest, Kin, Border, Subjugation, Faith, Debt, None };
 
     public static Pretext ById(string id) => All.FirstOrDefault(p => p.Id == id) ?? None;
 

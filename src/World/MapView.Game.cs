@@ -182,10 +182,11 @@ public partial class MapView
             if (!census.TryGetValue(realm.Id, out var c))
                 continue;   // no land left
             var state = Game.Realm(realm.Id);
-            string? news = Economy.Tick(state, c, Corruption(realm.Id));
+            string? news = Economy.Tick(state, c, Corruption(realm.Id), DemoYear);
             if (news != null)
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, realm.Id, $"{realm.Name}: {news}"));
         }
+        events.AddRange(FinanceYear());
         events.AddRange(LabourYear());
         events.AddRange(GoalsYear());
         RecordHistory();

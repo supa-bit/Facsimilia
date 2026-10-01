@@ -29,7 +29,12 @@ public static class Remedies
     public static readonly Remedy AllyGift = new("ally_gift", "Ask a friend for silver",
         "Ask an ally or your overlord who thinks well of you for help: they may send silver.", 0.3, 0);
 
-    public static readonly Remedy[] All = { Debase, Temples, TaxFarms, RichLevy, AllyGift };
+    /// <summary>
+    /// The emergency remedies on offer. Debasing the coin and selling the tax
+    /// farms are now standing choices in the treasury (your answers "How
+    /// debasing works" and "Tax collectors"), so they are no longer here.
+    /// </summary>
+    public static readonly Remedy[] All = { Temples, RichLevy, AllyGift };
 
     /// <summary>The treasury is in trouble: in debt, or with less than a year's upkeep and administration.</summary>
     public static bool InTrouble(RealmState r) => r.Debt > 0.5 || r.Treasury < r.LastUpkeep + r.LastAdmin;
