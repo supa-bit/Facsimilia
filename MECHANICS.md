@@ -2039,9 +2039,10 @@ units were raised in; the wounded separate from the dead.
   units).
 - **Who serves** ("a share per culture from history") waits on social
   classes; the levy share by free, dependent and enslaved people stays.
-- **Speed budget**: the test of other realms fails only if a year's
-  calculations pass 2 seconds (your budget). It was 600 ms, a number I
-  chose myself; it is no reason to cut simulation.
+- **Speed tripwire** (your choice): the test of other realms fails if a
+  year's calculations pass 1 second. It was 600 ms, a number I chose
+  myself. When it trips, the code is made faster or you raise it; it is
+  never a reason to cut simulation.
 - **Speed**: supply distances are now worked out once a year per realm
   (borders change only when sieges end or peace is made), which brought a
   year from about 600 to 435 ms in the test of other realms.
