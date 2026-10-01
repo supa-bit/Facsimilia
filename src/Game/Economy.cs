@@ -146,14 +146,17 @@ public static class Economy
         {
             int lost = 0;
             foreach (var a in r.Armies)
-                for (int t = 0; t < a.Units.Length; t++)
+            {
+                foreach (var reg in a.Regiments)
                 {
-                    int d = (int)Math.Ceiling(a.Units[t] * DesertionRate);
-                    a.Units[t] -= d;
+                    int d = (int)Math.Ceiling(reg.Men * DesertionRate);
+                    reg.Men -= d;
                     lost += d;
                 }
+                a.Tidy();
+            }
             if (lost > 0)
-                return $"Unpaid for too long, {lost} units desert.";
+                return $"Unpaid for too long, {lost:N0} men desert.";
         }
         return null;
     }

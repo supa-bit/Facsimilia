@@ -73,9 +73,9 @@ public partial class GameEconomyTest : TestRunner
         var legio = r.Armies[0];
         var hastati = cat["hastati_principes"];
         var cultures = map.CulturesOf(rome);
-        int legions = legio.Units[hastati.Index];
+        double legions = legio.Units[hastati.Index];
         Check(Military.Recruit(r, rc, cultures, hastati, legio), "Rome couldn't raise a legion");
-        Check(legio.Units[hastati.Index] == legions + 1 && r.Manpower == men - 1000 && r.Treasury < 1000,
+        Check(Math.Abs(legio.Units[hastati.Index] - (legions + 1)) < 1e-9 && r.Manpower == men - 1000 && r.Treasury < 1000,
             "recruiting should cost 1,000 men and silver");
         Check(Military.Disband(r, legio, hastati) && r.Manpower == men, "disbanding should return the men");
         Check(Military.CanRecruit(r, rc, cultures, cat["scythian_horse_archers"]).Problem != null,
@@ -84,9 +84,9 @@ public partial class GameEconomyTest : TestRunner
 
         // Deep debt: unpaid soldiers desert.
         r.Debt = 1e6;
-        int army = r.TotalUnits;
+        int army = r.Armies.Sum(x => x.Men);
         Economy.Tick(r, rc);
-        Check(r.TotalUnits < army, "an army unpaid for years should shrink");
+        Check(r.Armies.Sum(x => x.Men) < army, "an army unpaid for years should shrink");
 
         // Save and load.
         Check(await map.SaveCurrentGame("slot1"), "save failed");

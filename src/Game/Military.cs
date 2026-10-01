@@ -44,24 +44,36 @@ public static class Military
     }
 
     public static bool Recruit(RealmState r, RealmCensus c, IReadOnlyCollection<string> cultures, UnitDef u, Army army,
-        bool elephantSource = false)
+        bool elephantSource = false, int origin = 0)
     {
         var (problem, cost) = CanRecruit(r, c, cultures, u, elephantSource);
         if (problem != null)
             return false;
         r.Treasury -= cost;
         r.Manpower -= u.Men;
-        army.AddRaw(u.Index);   // raw recruits dilute only their own kind
+        army.AddRegiment(u.Index, origin: origin);   // a new unit of raw recruits
+        army.Even();
         return true;
     }
 
     /// <summary>Sends a unit home: its men return to the pool, the silver spent on it doesn't.</summary>
     public static bool Disband(RealmState r, Army army, UnitDef u)
     {
-        if (army.Units[u.Index] <= 0)
+        int men = army.RemoveUnits(u.Index);
+        if (men <= 0)
             return false;
-        army.Units[u.Index]--;
-        r.Manpower += u.Men;
+        army.Even();
+        r.Manpower += men;
+        return true;
+    }
+
+    /// <summary>Sends one unit home: its men and its wounded return to the pool.</summary>
+    public static bool Disband(RealmState r, Army army, Regiment reg)
+    {
+        if (!army.Regiments.Remove(reg))
+            return false;
+        r.Manpower += reg.Men + reg.Wounded;
+        army.Even();
         return true;
     }
 
@@ -69,9 +81,12 @@ public static class Military
     public static double RawMight(Army a, Domain domain)
     {
         double m = 0;
-        for (int i = 0; i < a.Units.Length; i++)
-            if (a.Units[i] > 0 && Cat[i].Domain == domain)
-                m += a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role]);
+        foreach (var r in a.Regiments)
+        {
+            var u = Cat[r.Type];
+            if (u.Domain == domain)
+                m += r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role]);
+        }
         return m;
     }
 
@@ -79,9 +94,12 @@ public static class Military
     public static double Might(Army a, Domain domain)
     {
         double m = 0;
-        for (int i = 0; i < a.Units.Length; i++)
-            if (a.Units[i] > 0 && Cat[i].Domain == domain)
-                m += a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role]) * (1 + Battle.VeteranBonus * a.UnitXp[i]);
+        foreach (var r in a.Regiments)
+        {
+            var u = Cat[r.Type];
+            if (u.Domain == domain)
+                m += r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role]) * (1 + Battle.VeteranBonus * r.Xp);
+        }
         return m * (1 - 0.5 * a.Fatigue);
     }
 
@@ -90,13 +108,7 @@ public static class Military
     /// <summary>Fighting value now: tired armies fight worse.</summary>
     public static double Might(RealmState r, Domain domain) => r.Armies.Sum(a => Might(a, domain));
 
-    public static int Soldiers(Army a)
-    {
-        int s = 0;
-        for (int i = 0; i < a.Units.Length; i++)
-            s += a.Units[i] * Cat[i].Men;
-        return s;
-    }
+    public static int Soldiers(Army a) => a.Men;
 
     public static int Soldiers(RealmState r) => r.Armies.Sum(Soldiers);
 
@@ -114,26 +126,20 @@ public static class Military
     }
 
     /// <summary>
-    /// Losses in battle: a share of every unit (rounded so that small armies
-    /// can lose units too). Returns the men lost.
+    /// Losses in battle: a share of every unit's men, deadShare of them killed,
+    /// the rest wounded (your answer: the wounded are separate from the dead).
+    /// Returns the men lost to the line.
     /// </summary>
-    public static double TakeLosses(Army a, double share, Random rng, Domain? only = null)
-    {
-        double men = 0;
-        for (int i = 0; i < a.Units.Length; i++)
-        {
-            if (a.Units[i] == 0 || (only != null && Cat[i].Domain != only))
-                continue;
-            double expected = a.Units[i] * share;
-            int lost = (int)Math.Floor(expected);
-            if (rng.NextDouble() < expected - lost)
-                lost++;
-            lost = Math.Min(lost, a.Units[i]);
-            a.Units[i] -= lost;
-            men += lost * Cat[i].Men;
-        }
-        return men;
-    }
+    public static double TakeLosses(Army a, double share, Random rng, Domain? only = null, double deadShare = WinnerDead) =>
+        a.TakeLosses(share, deadShare, rng, only);
+
+    /// <summary>
+    /// Of the men a beaten army loses, half are killed (the slaughter of the
+    /// rout); of a victor's, a quarter. The rest are wounded.
+    /// </summary>
+    public const double LoserDead = 0.5, WinnerDead = 0.25;
+    /// <summary>Men lost with sunken ships mostly drown; of hunger and the sickness of siege camps, most die.</summary>
+    public const double SeaDead = 0.8, HungerDead = 0.8, SickDead = 0.6;
 
     /// <summary>Losses spread over all of a realm's armies.</summary>
     public static double TakeLosses(RealmState r, double share, Random rng) => r.Armies.Sum(a => TakeLosses(a, share, rng));
@@ -141,8 +147,8 @@ public static class Military
     public static double Upkeep(Army a)
     {
         double s = 0;
-        for (int i = 0; i < a.Units.Length; i++)
-            s += a.Units[i] * Cat[i].Upkeep;
+        foreach (var r in a.Regiments)
+            s += r.Men / (double)Cat[r.Type].Men * Cat[r.Type].Upkeep;
         return s;
     }
 }

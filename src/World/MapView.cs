@@ -451,8 +451,11 @@ public partial class MapView : Node2D
     public List<ChronicleEvent> AdvanceYear()
     {
         // The months of this year not yet marched (all of them when the turn button plays the year).
+        var marchClock = System.Diagnostics.Stopwatch.StartNew();
         var marched = ResolvePlayerPlan();
         marched.AddRange(MarchRestOfYear());
+        if (Profile)
+            GD.Print($"  months (marching, supply, battles, units): {marchClock.ElapsedMilliseconds} ms");
         if (Pending != null)
             return marched;   // a battle waits on the battle map; the year goes on after it
         DemoYear++;

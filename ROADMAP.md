@@ -86,6 +86,11 @@ mercenaries.
       conquest brings knowledge, old knowledge cheaper, pace near history.
       Waiting on other topics: knowledge lost (literacy), great movements,
       spies, the tree's look.
+- [x] **Units of their own, the roster, War: manpower** (1 Oct 2026): units
+      of 100 to 5,000 men with their own experience and home province, split
+      and merge, an even number of units, the dead and the wounded, the dead
+      taken from their home province. Who serves by class waits on social
+      classes.
 
 ## Right now
 

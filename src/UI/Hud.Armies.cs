@@ -193,31 +193,56 @@ public partial class Hud
             }
             popup.IdPressed += unitIndex =>
             {
-                Military.Recruit(s, _map.CensusOf(_map.PlayerRealmId), cultures, cat[(int)unitIndex], army, s.ElephantSource);
+                Military.Recruit(s, _map.CensusOf(_map.PlayerRealmId), cultures, cat[(int)unitIndex], army, s.ElephantSource, _map.RecruitOrigin(_map.PlayerRealmId, army));
                 RefreshArmiesPanel();
                 RefreshTreasury();
             };
             buttons.AddChild(raise);
 
-            for (int i = 0; i < army.Units.Length; i++)
+            // The roster (decision "Seeing an army's units"): each unit's men, wounded, experience and home.
+            foreach (var reg in army.Regiments.OrderBy(r => cat[r.Type].Role).ThenBy(r => r.Type).ToList())
             {
-                if (army.Units[i] == 0)
-                    continue;
-                var u = cat[i];
+                var u = cat[reg.Type];
                 var line = new HBoxContainer();
+                line.AddThemeConstantOverride("separation", 4);
                 box.AddChild(line);
-                var name = ThemeAncient.Label($"   {army.Units[i]} × {u.Name}", fontSize: 15);
-                name.TooltipText = $"{UnitRoles.Names[u.Role]}. Might {u.Might:0.00} each, {u.Men:N0} men.\n{u.Description}";
+                string home = _map.ProvinceName(reg.Origin);
+                var name = ThemeAncient.Label(
+                    $"   {u.Name}: {reg.Men:N0} men" + (reg.Wounded > 0 ? $" (+{reg.Wounded:N0} wounded)" : "") +
+                    $"  ·  {(reg.Xp >= 0.02 ? $"veterans {reg.Xp:P0}" : "raw")}" + (home != "" ? $"  ·  from {home}" : ""), fontSize: 15);
+                name.TooltipText = $"{UnitRoles.Names[u.Role]}. Might {u.Might:0.00} for every {u.Men:N0} men.\n{u.Description}\n" +
+                    "A unit holds 100 to 5,000 men. An army keeps an even number of units: splitting or merging also splits or merges another to keep it even.";
                 name.MouseFilter = MouseFilterEnum.Pass;
                 name.SizeFlagsHorizontal = SizeFlags.ExpandFill;
                 line.AddChild(name);
-                var home = new Button { Text = "−", FocusMode = FocusModeEnum.None, TooltipText = "Send one home: its men return to the pool." };
-                home.Pressed += () =>
+                var split = new Button { Text = "Split", FocusMode = FocusModeEnum.None, Disabled = reg.Men < 2 * Regiment.MinMen,
+                    TooltipText = "Halve this unit." };
+                split.AddThemeFontSizeOverride("font_size", 13);
+                split.Pressed += () =>
                 {
-                    Military.Disband(s, army, u);
+                    army.Split(reg);
+                    army.Even();
                     RefreshArmiesPanel();
                 };
-                line.AddChild(home);
+                line.AddChild(split);
+                var partner = army.Regiments.Where(r => r != reg && r.Type == reg.Type && r.Men + reg.Men <= Regiment.MaxMen).OrderBy(r => r.Men).FirstOrDefault();
+                var merge = new Button { Text = "Merge", FocusMode = FocusModeEnum.None, Disabled = partner == null,
+                    TooltipText = partner == null ? "No other unit of this kind small enough to join it (5,000 men at most)." : $"Join the {partner.Men:N0}-man unit of the same kind; experience averaged by men." };
+                merge.AddThemeFontSizeOverride("font_size", 13);
+                merge.Pressed += () =>
+                {
+                    if (partner != null && army.Merge(reg, partner))
+                        army.Even();
+                    RefreshArmiesPanel();
+                };
+                line.AddChild(merge);
+                var send = new Button { Text = "−", FocusMode = FocusModeEnum.None, TooltipText = "Send this unit home: its men return to the pool." };
+                send.Pressed += () =>
+                {
+                    Military.Disband(s, army, reg);
+                    RefreshArmiesPanel();
+                };
+                line.AddChild(send);
             }
         }
     }

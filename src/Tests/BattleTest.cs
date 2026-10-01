@@ -19,7 +19,7 @@ public partial class BattleTest : TestRunner
     {
         var a = new Army(UnitCatalog.Instance.Count) { Name = "Test army" };
         foreach (var (u, n) in units)
-            a.Units[UnitCatalog.Instance[u].Index] = n;
+            a.SetUnits(UnitCatalog.Instance[u].Index, n);
         return a;
     }
 

@@ -141,17 +141,20 @@ public sealed class TacticalBattle
         var names = new string[UnitRoles.Count];
         var best = new double[UnitRoles.Count];
         foreach (var (a, share) in side.Armies)
-            for (int i = 0; i < a.Units.Length; i++)
-                if (a.Units[i] > 0)
+        {
+            var units = a.Units;
+            for (int i = 0; i < units.Length; i++)
+                if (units[i] > 0)
                 {
                     int r = cat[i].Role;
-                    men[r] += a.Units[i] * cat[i].Men * share;
-                    if (a.Units[i] * share > best[r])
+                    men[r] += units[i] * cat[i].Men * share;
+                    if (units[i] * share > best[r])
                     {
-                        best[r] = a.Units[i] * share;
+                        best[r] = units[i] * share;
                         names[r] = cat[i].Name;
                     }
                 }
+        }
         if (Naval)
         {
             might[UnitRoles.Warships] = side.Armies.Sum(x => Military.RawMight(x.Army, Domain.Naval) * x.Share);

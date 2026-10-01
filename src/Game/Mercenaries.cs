@@ -74,8 +74,8 @@ public sealed class Company
     public string SpecId { get; init; } = "";   // a historical company's id, or "" for a generated one
     public string Name { get; set; } = "";
     public string Ground { get; set; } = "";
-    /// <summary>Unit counts by UnitCatalog index (while waiting; when hired, the army holds them).</summary>
-    public int[] Units { get; set; } = Array.Empty<int>();
+    /// <summary>Its units while waiting at its ground (when hired, its army holds them).</summary>
+    public List<Regiment> Regiments { get; set; } = new();
     /// <summary>The captain (serves as the army's general while hired).</summary>
     public General Captain { get; set; } = null!;
     public double PayMin { get; set; }
@@ -95,20 +95,18 @@ public sealed class Company
     public bool Elite => PayMax > PayMin * 1.3;
 
     /// <summary>A month's pay in talents for the troops it has.</summary>
-    public double MonthlyPay(int[] units) =>
-        Enumerable.Range(0, units.Length).Sum(i => units[i] * UnitCatalog.Instance[i].Upkeep) / 12.0 * PayFactor;
+    public double MonthlyPay(IEnumerable<Regiment> regs) =>
+        regs.Sum(r => r.Men / (double)UnitCatalog.Instance[r.Type].Men * UnitCatalog.Instance[r.Type].Upkeep) / 12.0 * PayFactor;
 
-    public int Men(int[] units) => Enumerable.Range(0, units.Length).Sum(i => units[i] * UnitCatalog.Instance[i].Men);
+    public static int Men(IEnumerable<Regiment> regs) => regs.Sum(r => r.Men);
 
     public GDictionary ToDict()
     {
-        var u = new GDictionary();
-        for (int i = 0; i < Units.Length; i++)
-            if (Units[i] > 0)
-                u[UnitCatalog.Instance[i].Id] = Units[i];
+        var cat = UnitCatalog.Instance;
         return new GDictionary
         {
-            ["id"] = Id, ["spec"] = SpecId, ["name"] = Name, ["ground"] = Ground, ["units"] = u, ["captain"] = Captain.ToDict(),
+            ["id"] = Id, ["spec"] = SpecId, ["name"] = Name, ["ground"] = Ground, ["captain"] = Captain.ToDict(),
+            ["regiments"] = new GArray(Regiments.Select(r => (Variant)r.ToArray(cat)).ToArray()),
             ["pay"] = new GArray { PayMin, PayMax, PayFactor, BonusMonths }, ["employer"] = Employer, ["army"] = ArmyId,
             ["arrears"] = Arrears, ["months"] = Months, ["until"] = Until,
         };
@@ -124,11 +122,19 @@ public sealed class Company
             Captain = General.FromDict(d["captain"].AsGodotDictionary()),
             PayMin = pay[0].AsDouble(), PayMax = pay[1].AsDouble(), PayFactor = pay[2].AsDouble(), BonusMonths = pay[3].AsDouble(),
             Employer = d["employer"].AsInt32(), ArmyId = d["army"].AsInt32(), Arrears = d["arrears"].AsDouble(),
-            Months = d["months"].AsInt32(), Until = d["until"].AsInt32(), Units = new int[cat.Count],
+            Months = d["months"].AsInt32(), Until = d["until"].AsInt32(),
         };
-        foreach (var (k, v) in d["units"].AsGodotDictionary())
-            if (cat.Has(k.AsString()))
-                c.Units[cat[k.AsString()].Index] = v.AsInt32();
+        if (d.TryGetValue("regiments", out var regs))
+        {
+            foreach (var v in regs.AsGodotArray())
+                if (Regiment.FromArray(v.AsGodotArray(), cat) is { } r)
+                    c.Regiments.Add(r);
+        }
+        else if (d.TryGetValue("units", out var units))
+            foreach (var (k, v) in units.AsGodotDictionary())
+                if (cat.Has(k.AsString()))
+                    for (int n = 0; n < v.AsInt32(); n++)
+                        c.Regiments.Add(new Regiment { Type = cat[k.AsString()].Index, Men = cat[k.AsString()].Men, Xp = 0.3 });
         return c;
     }
 }

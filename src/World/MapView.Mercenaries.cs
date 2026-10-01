@@ -25,6 +25,8 @@ public partial class MapView
     public const double OutbidMargin = 1.25;
     /// <summary>Generated companies wait this many years for an employer before they disband.</summary>
     public const int GeneratedYears = 6;
+    /// <summary>Hired men have seen war: a company's units start this hardened.</summary>
+    public const double HiredXp = 0.3;
 
     int GroundNode(string groundId)
     {
@@ -49,7 +51,7 @@ public partial class MapView
     public Army? CompanyArmy(Company c) => c.Employer == 0 ? null : Game.Realm(c.Employer).ArmyById(c.ArmyId);
 
     /// <summary>The units a company has now (its army's, if hired).</summary>
-    public int[] CompanyUnits(Company c) => CompanyArmy(c)?.Units ?? c.Units;
+    public List<Regiment> CompanyUnits(Company c) => CompanyArmy(c)?.Regiments ?? c.Regiments;
 
     /// <summary>Realms holding land near each hiring ground, worked out once a year (land changes slowly).</summary>
     readonly Dictionary<string, HashSet<int>> _groundOwners = new();
@@ -111,17 +113,15 @@ public partial class MapView
         var s = Game.Realm(realmId);
         s.Treasury -= cost;
         s.MercPaidThisYear += cost;
-        Enlist(s, c, GroundNode(c.Ground), (int[])c.Units.Clone());
-        Array.Clear(c.Units);
+        Enlist(s, c, GroundNode(c.Ground), c.Regiments.ToList());
+        c.Regiments.Clear();
         return null;
     }
 
-    void Enlist(RealmState s, Company c, int node, int[] units)
+    void Enlist(RealmState s, Company c, int node, List<Regiment> units)
     {
         var army = s.NewArmy(c.Name, node);
-        for (int i = 0; i < units.Length; i++)
-            army.Units[i] = units[i];
-        army.Experience = 0.3;   // hired men have seen war
+        army.Regiments.AddRange(units);
         army.CompanyId = c.Id;
         c.Employer = s.RealmId;
         c.ArmyId = army.Id;
@@ -157,7 +157,7 @@ public partial class MapView
         }
         if (army != null)
         {
-            c.Units = (int[])army.Units.Clone();
+            c.Regiments = army.Regiments.ToList();
             s.Armies.Remove(army);
             Game.Sieges.RemoveAll(x => x.Attacker == s.RealmId && x.ArmyId == army.Id);
         }
@@ -165,7 +165,7 @@ public partial class MapView
         c.ArmyId = 0;
         c.Arrears = 0;
         c.Until = Math.Max(c.Until, DemoYear + 3);
-        if (!toGround || c.Units.Sum() == 0)
+        if (!toGround || c.Regiments.Count == 0)
             Game.Companies.Remove(c);
     }
 
@@ -180,13 +180,11 @@ public partial class MapView
         var army = old.ArmyById(c.ArmyId);
         if (army == null)
             return "The company can't be found.";
-        double month = c.MonthlyPay(army.Units) * OutbidMargin;
+        double month = c.MonthlyPay(army.Regiments) * OutbidMargin;
         var s = Game.Realm(realmId);
         if (s.Treasury < month * 2)
             return $"Offering more than their pay needs two months in hand: {Money(month * 2)}.";
         int node = army.Node;
-        var units = (int[])army.Units.Clone();
-        var xp = (double[])army.UnitXp.Clone();
         int oldEmployer = c.Employer;
         Release(c, toGround: true);
         if (!Game.Companies.Contains(c))
@@ -194,9 +192,8 @@ public partial class MapView
         c.PayFactor *= OutbidMargin;
         s.Treasury -= month;
         s.MercPaidThisYear += month;
-        Enlist(s, c, node, units);
-        Array.Clear(c.Units);
-        Array.Copy(xp, s.ArmyById(c.ArmyId)!.UnitXp, xp.Length);
+        Enlist(s, c, node, c.Regiments.ToList());   // its units keep their men and experience
+        c.Regiments.Clear();
         _pendingMercNews.Add(new ChronicleEvent(ChronicleKind.War, oldEmployer, $"{c.Name} leave {RealmName(oldEmployer)}'s service for {RealmName(realmId)}'s better pay."));
         _pendingMercNews.Add(new ChronicleEvent(ChronicleKind.War, realmId, $"{c.Name} leave {RealmName(oldEmployer)}'s service for {RealmName(realmId)}'s better pay."));
         return null;
@@ -224,12 +221,13 @@ public partial class MapView
             Game.CompaniesSeen.Add(spec.Id);
             var c = new Company
             {
-                Id = Game.NextCompanyId++, SpecId = spec.Id, Name = spec.Name, Ground = spec.Ground, Units = new int[cat.Count],
+                Id = Game.NextCompanyId++, SpecId = spec.Id, Name = spec.Name, Ground = spec.Ground,
                 PayMin = spec.PayMin, PayMax = spec.PayMax, BonusMonths = spec.Bonus, Until = spec.To,
             };
             foreach (var (u, n) in spec.Units)
                 if (cat.Has(u))
-                    c.Units[cat[u].Index] = n;
+                    for (int k = 0; k < n; k++)
+                        c.Regiments.Add(new Regiment { Type = cat[u].Index, Men = cat[u].Men, Xp = HiredXp });
             c.PayFactor = spec.PayMin + rng.NextDouble() * (spec.PayMax - spec.PayMin);
             c.Captain = spec.CaptainName != null
                 ? MakeCaptain(spec.CaptainName, spec.CaptainSkills!, spec.CaptainPerks!)
@@ -245,7 +243,7 @@ public partial class MapView
             if (c != null)
                 Game.Companies.Add(c);
         }
-        foreach (var c in Game.Companies.Where(c => c.Employer == 0 && (DemoYear > c.Until || c.Units.Sum() == 0)).ToList())
+        foreach (var c in Game.Companies.Where(c => c.Employer == 0 && (DemoYear > c.Until || c.Regiments.Count == 0)).ToList())
             Game.Companies.Remove(c);
         foreach (var c in Game.Companies.Where(c => c.Elite))
             c.PayFactor = c.PayMin + rng.NextDouble() * (c.PayMax - c.PayMin);   // a strong company names its price anew
@@ -253,8 +251,8 @@ public partial class MapView
         foreach (var s in Game.Realms.Values.Where(s => s.RealmId != PlayerRealmId && Game.Wars.Of(s.RealmId).Any()).ToList())
         {
             var c = Game.Companies.Where(c => c.Employer == 0 && NearGround(s.RealmId, c))
-                .OrderByDescending(c => c.Men(c.Units)).FirstOrDefault();
-            if (c == null || s.Treasury < c.MonthlyPay(c.Units) * 12)
+                .OrderByDescending(c => Company.Men(c.Regiments)).FirstOrDefault();
+            if (c == null || s.Treasury < c.MonthlyPay(c.Regiments) * 12)
                 continue;
             if (Hire(s.RealmId, c) == null)
             {
@@ -294,22 +292,22 @@ public partial class MapView
         if (culture == "" && Population!.NodeOwner[node] > 0)
             culture = RealmPeople(Population.NodeOwner[node]).Culture;
         var cultures = new HashSet<string> { culture };
-        var units = new int[cat.Count];
+        var units = new List<Regiment>();
         int[] roles = { UnitRoles.HeavyInfantry, UnitRoles.LightInfantry, UnitRoles.Missile, UnitRoles.Cavalry };
         int total = 2 + rng.Next(3);
         for (int k = 0; k < total; k++)
         {
             var u = cat.BestFor(roles[rng.Next(roles.Length)], cultures);
             if (u.Domain == Domain.Land)
-                units[u.Index]++;
+                units.Add(new Regiment { Type = u.Index, Men = u.Men, Xp = HiredXp });
         }
-        if (units.Sum() == 0)
+        if (units.Count == 0)
             return null;
         string captain = CaptainName(ground.Id, rng);
         string people = culture != "" ? CultureName(culture) : ground.Name;
         return new Company
         {
-            Id = Game.NextCompanyId++, Name = $"The company of {captain} ({people})", Ground = ground.Id, Units = units,
+            Id = Game.NextCompanyId++, Name = $"The company of {captain} ({people})", Ground = ground.Id, Regiments = units,
             Captain = General.Make(0, captain, General.Captain, DemoYear - rng.Next(26, 45), -1, rng, DemoYear),
             PayMin = 1.3, PayMax = 1.5, PayFactor = 1.3 + 0.2 * rng.NextDouble(), BonusMonths = 1, Until = DemoYear + GeneratedYears,
         };
@@ -336,7 +334,7 @@ public partial class MapView
             c.Months++;
             c.Arrears += army.VictoriesUnpaid * c.BonusMonths;   // a victory earns the company its bonus
             army.VictoriesUnpaid = 0;
-            double month = c.MonthlyPay(army.Units);
+            double month = c.MonthlyPay(army.Regiments);
             double owed = month * (1 + c.Arrears);
             if (s.Treasury >= owed)
             {
@@ -359,14 +357,13 @@ public partial class MapView
                 var enemy = Game.Wars.Of(s.RealmId).Select(w => w.Attacker == s.RealmId ? w.Defender : w.Attacker)
                     .OrderByDescending(e => Game.Realm(e).Treasury).FirstOrDefault();
                 int node = army.Node;
-                var units = (int[])army.Units.Clone();
                 if (enemy > 0 && Game.Realm(enemy).Treasury > month * 3)
                 {
                     Release(c);
                     if (!Game.Companies.Contains(c))
                         Game.Companies.Add(c);
-                    Enlist(Game.Realm(enemy), c, node, units);
-                    Array.Clear(c.Units);
+                    Enlist(Game.Realm(enemy), c, node, c.Regiments.ToList());
+                    c.Regiments.Clear();
                     string text = $"{c.Name}, unpaid for months, go over to {RealmName(enemy)}.";
                     events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, text));
                     events.Add(new ChronicleEvent(ChronicleKind.War, enemy, text));

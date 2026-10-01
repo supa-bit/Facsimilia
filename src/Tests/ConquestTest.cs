@@ -58,19 +58,19 @@ public partial class ConquestTest : TestRunner
         Check(map.Game.Wars.AtWar(rome, greeks), "no war after declaring");
         // A small army faces a long siege; a great one a short one.
         var hastati = cat["hastati_principes"];
-        var saved = (int[])legio.Units.Clone();
+        var saved = legio.Regiments.ToList();
         foreach (var u in cat.Units.Where(u => u.Domain == Domain.Land))
-            legio.Units[u.Index] = 0;
-        legio.Units[hastati.Index] = 2;
+            legio.SetUnits(u.Index, 0);
+        legio.SetUnits(hastati.Index, 2);
         var weak = map.PlayerConquestTargets().First(x => x.ProvinceId == target.p!.Id);
-        legio.Units[hastati.Index] = 200;   // overwhelming, so the outcome is certain
+        legio.SetUnits(hastati.Index, 200);   // overwhelming, so the outcome is certain
         targets = map.PlayerConquestTargets();
         var t = targets.First(x => x.ProvinceId == target.p!.Id);
         Check(t.Problem == null && t.Chance > 0.95, $"with 200 legions Rome should be near-certain to win in battle, chance {t.Chance:P0} ({t.Problem}; {t.Name})");
         Check(weak.Years > t.Years && t.Years <= 2, $"a weak army should besiege for longer ({weak.Years} vs {t.Years} years)");
         foreach (var a in map.Game.Realm(greeks).Armies)
-            Array.Clear(a.Units);   // the Etruscans keep no field army here, so only the siege is tested
-        int units = legio.Count;
+            a.Regiments.Clear();   // the Etruscans keep no field army here, so only the siege is tested
+        int units = legio.Men + legio.Regiments.Sum(x => x.Wounded);
         var events = map.ResolvePlayerPlan();
         Check(events.Any(e => e.Text.Contains("lays siege")) && map.Game.Sieges.Any(x => x.ProvinceId == target.p!.Id),
             "ending the turn should begin a siege");
@@ -86,7 +86,7 @@ public partial class ConquestTest : TestRunner
         var war = map.Game.Wars.Between(rome, greeks)!;
         Check(war.Score > 0, $"the war score should favour Rome after a victory ({war.Score}): " +
             string.Join(" | ", events.Where(e => e.Text.Contains("Etrusc") || e.Text.Contains("Rom")).Select(e => e.Text).Distinct()));
-        Check(legio.Count < units, "a siege should cost losses");
+        Check(legio.Men + legio.Regiments.Sum(x => x.Wounded) < units, "a siege should cost losses (men dead)");
 
         // Peace: a small victory isn't enough to demand tribute; an even peace is refused until they lose more or tire.
         Check(!Diplomacy.Accepts(war, rome, map.DemoYear, demandTribute: true) || war.Score >= Diplomacy.TributeScore,
@@ -99,9 +99,9 @@ public partial class ConquestTest : TestRunner
         // The sea: without warships Rome can't reach across to Egypt's coast even when close.
         var quinqueremes = cat["quinqueremes"];
         foreach (var u in cat.Units.Where(u => u.Domain == Domain.Naval))
-            legio.Units[u.Index] = 0;
+            legio.SetUnits(u.Index, 0);
         var (reachNoFleet, _) = map.ComputeReach(rome, legio);
-        legio.Units[quinqueremes.Index] = 50;
+        legio.SetUnits(quinqueremes.Index, 50);
         var (reachFleet, bySea) = map.ComputeReach(rome, legio);
         Check(reachFleet.Count(b => b) > reachNoFleet.Count(b => b), "a fleet should extend Rome's reach");
         Check(bySea.Any(b => b), "some land should be reachable only by sea");

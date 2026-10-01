@@ -129,7 +129,8 @@ public partial class MapView
         var army = state.NewArmy(NextArmyName(state.RealmId), CapitalNode(state.RealmId));
         for (int role = 0; role < UnitRoles.Count && role < roleCounts.Length; role++)
             if (roleCounts[role] > 0)
-                army.Units[cat.BestFor(role, cultures).Index] += roleCounts[role];
+                army.AddRaw(cat.BestFor(role, cultures).Index, roleCounts[role], ProvinceOfNode(army.Node));
+        army.Even();
     }
 
     /// <summary>Armies from a save made before named armies stand at their realm's seat.</summary>
@@ -265,5 +266,69 @@ public partial class MapView
                 _armyLayer.AddChild(marker);
             }
         }
+    }
+
+    /// <summary>A province's name, or "" for none.</summary>
+    public string ProvinceName(int id) =>
+        id != 0 && Provinces != null && Provinces.Provinces.TryGetValue(id, out var p) ? p.Name : "";
+
+    /// <summary>
+    /// Where a new unit is raised (decision "Where units are raised": in
+    /// provinces whose people make them): the province the army stands in if
+    /// it is the realm's own, otherwise the realm's capital province.
+    /// </summary>
+    public int RecruitOrigin(int realmId, Army army)
+    {
+        int p = ProvinceOfNode(army.Node);
+        if (p != 0 && Provinces!.Provinces.TryGetValue(p, out var prov) && prov.RealmId == realmId)
+            return p;
+        return ProvinceOfNode(CapitalNode(realmId));
+    }
+
+    /// <summary>
+    /// The month for every army's men (your answers: the wounded are separate
+    /// from the dead; the dead are lost to the population, taken from the
+    /// provinces they were raised in): the wounded heal, and the month's dead
+    /// leave their home provinces' people.
+    /// </summary>
+    void UnitsMonth(Random rng)
+    {
+        var dead = new Dictionary<int, double>();
+        var deadNoHome = new Dictionary<int, double>();
+        foreach (var s in Game.Realms.Values)
+            foreach (var a in s.Armies)
+            {
+                a.Heal(rng);
+                a.Tidy();
+                foreach (var (origin, men) in a.PendingDead)
+                    if (origin != 0)
+                        dead[origin] = dead.GetValueOrDefault(origin) + men;
+                    else
+                        deadNoHome[s.RealmId] = deadNoHome.GetValueOrDefault(s.RealmId) + men;
+                a.PendingDead.Clear();
+            }
+        // Dead with no recorded home come from the realm's capital province.
+        foreach (var (realm, men) in deadNoHome)
+        {
+            int p = ProvinceOfNode(CapitalNode(realm));
+            if (p != 0)
+                dead[p] = dead.GetValueOrDefault(p) + men;
+        }
+        if (dead.Count == 0 || Population == null)
+            return;
+        var nodeProvince = NodeProvinces();   // worked out once a year
+        var people = new Dictionary<int, double>();
+        var nodes = new List<(int Node, int Prov)>();
+        foreach (int i in Population.LandNodes)
+        {
+            int p = nodeProvince[i];
+            if (!dead.ContainsKey(p) || Population.Pop[i] <= 0)
+                continue;
+            people[p] = people.GetValueOrDefault(p) + Population.Pop[i];
+            nodes.Add((i, p));
+        }
+        foreach (var (i, p) in nodes)
+            Population.Pop[i] = (float)Math.Max(0, Population.Pop[i] - dead[p] * Population.Pop[i] / people[p]);
+        _census = null;
     }
 }

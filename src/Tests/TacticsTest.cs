@@ -19,7 +19,7 @@ public partial class TacticsTest : TestRunner
     {
         var a = new Army(UnitCatalog.Instance.Count) { Name = "Test army" };
         foreach (var (u, n) in units)
-            a.Units[UnitCatalog.Instance[u].Index] = n;
+            a.SetUnits(UnitCatalog.Instance[u].Index, n);
         return a;
     }
 
@@ -107,7 +107,7 @@ public partial class TacticsTest : TestRunner
         // Blockade: a Roman fleet off the Etruscan coast.
         var pop = map.Population!;
         var fleet = r.NewArmy("Classis", -1);
-        fleet.Units[UnitCatalog.Instance["quinqueremes"].Index] = 30;
+        fleet.SetUnits(UnitCatalog.Instance["quinqueremes"].Index, 30);
         int w = pop.Width;
         fleet.Node = pop.LandNodes.Where(i => pop.NodeOwner[i] == etruscans && map.Coastal(i))
             .SelectMany(i => Enumerable.Range(-3, 7).SelectMany(dy => Enumerable.Range(-3, 7).Select(dx => i + dy * w + dx)))
@@ -115,7 +115,7 @@ public partial class TacticsTest : TestRunner
         foreach (var a in et.Armies)
             for (int i = 0; i < a.Units.Length; i++)
                 if (UnitCatalog.Instance[i].Domain == Domain.Naval)
-                    a.Units[i] = 0;   // their own fleet is away
+                    a.SetUnits(i, 0);   // their own fleet is away
         map.MarchMonth();
         Check(et.Blockade > 0, "a Roman fleet off the Etruscan coast should blockade it");
         var c = map.CensusOf(etruscans);

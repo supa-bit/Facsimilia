@@ -25,7 +25,18 @@ public partial class MapView
     bool[] _reach = Array.Empty<bool>();       // per population node: can the player's army get there this year
     bool[] _reachBySea = Array.Empty<bool>();  // only across water
     int _reachYear = int.MinValue;
-    public bool TerritoryChanged { get; set; }  // land changed hands: the map needs redrawing
+    /// <summary>Land changed hands: the map needs redrawing, and supply distances are worked out afresh.</summary>
+    public bool TerritoryChanged
+    {
+        get => _territoryChanged;
+        set
+        {
+            _territoryChanged = value;
+            if (value)
+                _homeDistanceYear = int.MinValue;
+        }
+    }
+    bool _territoryChanged;
     int _reachArmy = -1;
     /// <summary>How far past its own borders a realm counts as reaching, without an army (for pretexts and the AI).</summary>
     public const double TerritoryReachKm = 150;

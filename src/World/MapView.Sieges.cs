@@ -191,7 +191,7 @@ public partial class MapView
                 * (Military.RawMight(army, Domain.Naval) > 0 && Coastal(siege.Node) ? 1.5 : 1);   // blockaded from the sea too, it starves sooner
             siege.MonthsPresent = 0;
             var gen = attacker.GeneralOf(army);
-            Military.TakeLosses(army, Conquest.SiegeAttrition / sharing * (1 - 0.06 * ((gen?.Skill(Skills.Logistics) ?? 5) - 5)), rng);
+            Military.TakeLosses(army, Conquest.SiegeAttrition / sharing * (1 - 0.06 * ((gen?.Skill(Skills.Logistics) ?? 5) - 5)), rng, null, Military.SickDead);
             army.Fatigue = Math.Min(1, army.Fatigue + Conquest.SiegeFatigue / sharing);
             if (siege.Progress >= 1)
                 fallen.Add(siege);

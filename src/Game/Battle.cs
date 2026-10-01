@@ -129,10 +129,13 @@ public static class Battle
     {
         var m = new double[UnitRoles.Count];
         foreach (var (a, share) in side.Armies)
-            for (int i = 0; i < a.Units.Length; i++)
-                if (a.Units[i] > 0 && Cat[i].Domain == Domain.Land)
-                    m[Cat[i].Role] += share * a.Units[i] * Cat[i].Might * (1 + a.RoleBoost[Cat[i].Role])
-                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * a.UnitXp[i]);
+            foreach (var r in a.Regiments)
+            {
+                var u = Cat[r.Type];
+                if (u.Domain == Domain.Land)
+                    m[u.Role] += share * r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role])
+                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * r.Xp);
+            }
         return m;
     }
 
@@ -226,8 +229,8 @@ public static class Battle
         double pursuit = 1 + Math.Min(0.6, horse / Math.Max(wm.Sum(), 1e-9)) + (winner.General?.Effect("pursuit") ?? 0);
         double loserShare = LoserLosses * pursuit * LossFactor(loser.General) * (0.8 + 0.4 * rng.NextDouble());
         double winnerShare = WinnerLosses * LossFactor(winner.General) * (0.8 + 0.4 * rng.NextDouble());
-        int wLost = TakeLosses(winner, Math.Clamp(winnerShare, 0.01, 0.5), rng);
-        int lLost = TakeLosses(loser, Math.Clamp(loserShare, 0.03, 0.8), rng);
+        int wLost = TakeLosses(winner, Math.Clamp(winnerShare, 0.01, 0.5), rng, null, Military.WinnerDead);
+        int lLost = TakeLosses(loser, Math.Clamp(loserShare, 0.03, 0.8), rng, null, Military.LoserDead);
         report.AttackerLost = won ? wLost : lLost;
         report.DefenderLost = won ? lLost : wLost;
 
@@ -279,8 +282,8 @@ public static class Battle
         report.Phases.Add($"Fought on the battle map over {Math.Min(t.Round, TacticalBattle.MaxRounds)} rounds.");
         report.Phases.AddRange(t.Log.TakeLast(8));
         var domain = t.Naval ? Domain.Naval : Domain.Land;
-        report.AttackerLost = TakeLosses(att, Math.Clamp(aShare * LossFactor(att.General), 0.01, 0.9), rng, domain);
-        report.DefenderLost = TakeLosses(def, Math.Clamp(dShare * LossFactor(def.General), 0.01, 0.9), rng, domain);
+        report.AttackerLost = TakeLosses(att, Math.Clamp(aShare * LossFactor(att.General), 0.01, 0.9), rng, domain, won ? Military.WinnerDead : Military.LoserDead);
+        report.DefenderLost = TakeLosses(def, Math.Clamp(dShare * LossFactor(def.General), 0.01, 0.9), rng, domain, won ? Military.LoserDead : Military.WinnerDead);
         Aftermath(won ? att : def, won ? def : att);
         return report;
     }
@@ -309,8 +312,8 @@ public static class Battle
         report.Phases.Add(won ? $"{A}'s rams and boarding parties break {D}'s line; the survivors flee to port."
             : $"{D}'s ships hold their line and drive {A}'s fleet off.");
         var (winner, loser) = won ? (att, def) : (def, att);
-        int wl = TakeLosses(winner, 0.06 * LossFactor(winner.General), rng, Domain.Naval);
-        int ll = TakeLosses(loser, 0.2 * LossFactor(loser.General), rng, Domain.Naval);
+        int wl = TakeLosses(winner, 0.06 * LossFactor(winner.General), rng, Domain.Naval, Military.WinnerDead);
+        int ll = TakeLosses(loser, 0.2 * LossFactor(loser.General), rng, Domain.Naval, Military.SeaDead);
         report.AttackerLost = won ? wl : ll;
         report.DefenderLost = won ? ll : wl;
         Aftermath(winner, loser);
@@ -323,8 +326,8 @@ public static class Battle
 
     static int Men(BattleSide s) => (int)s.Armies.Sum(x => Military.Soldiers(x.Army) * x.Share);
 
-    static int TakeLosses(BattleSide s, double share, Random rng, Domain? only = null) =>
-        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng, only));
+    static int TakeLosses(BattleSide s, double share, Random rng, Domain? only, double deadShare) =>
+        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng, only, deadShare));
 
     /// <summary>The day in three phases, told as the ancient historians told it.</summary>
     static void Phases(BattleReport r, BattleSide att, BattleSide def, double[] am, double[] dm, Ground g, bool won)

@@ -86,7 +86,7 @@ public partial class Hud
         var row = new HBoxContainer();
         row.AddThemeConstantOverride("separation", 6);
         box.AddChild(row);
-        bool fleet = army.Count > 0 && Enumerable.Range(0, army.Units.Length).All(i => army.Units[i] == 0 || UnitCatalog.Instance[i].Domain == Domain.Naval);
+        bool fleet = army.Count > 0 && army.Regiments.All(r => UnitCatalog.Instance[r.Type].Domain == Domain.Naval);
         string title = fleet ? "Admiral" : army.CompanyId != 0 ? "Captain" : "General";
         var label = ThemeAncient.Label(g == null ? $"No {title.ToLowerInvariant()}: the {(fleet ? "fleet" : "army")} fights worse." :
             $"{title}: {g.Name} ({g.Origin}, age {_map.DemoYear - g.BornYear}; won {g.Victories} of {g.Battles})", fontSize: 15);

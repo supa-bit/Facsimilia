@@ -36,8 +36,8 @@ public partial class Hud
                 ? $"waiting at {MercenaryCatalog.Instance.Ground(c.Ground).Name}{(_map.NearGround(_map.PlayerRealmId, c) ? " (near you)" : "")}"
                 : c.Employer == _map.PlayerRealmId ? "in your pay" : $"in the pay of {_map.RealmName(c.Employer)}";
             box.AddChild(ThemeAncient.Label($"{c.Name}: {where}", "HeaderLabel", 18));
-            string troops = string.Join(", ", Enumerable.Range(0, units.Length).Where(i => units[i] > 0).Select(i => $"{units[i]} {cat[i].Name}"));
-            box.AddChild(ThemeAncient.Label($"{ThemeAncient.GroupThousands(c.Men(units))} men: {troops}.", fontSize: 15));
+            string troops = string.Join(", ", units.GroupBy(r => r.Type).Select(g => $"{ThemeAncient.GroupThousands(g.Sum(r => r.Men))} {cat[g.Key].Name}"));
+            box.AddChild(ThemeAncient.Label($"{ThemeAncient.GroupThousands(Company.Men(units))} men in {units.Count} units: {troops}.", fontSize: 15));
             box.AddChild(ThemeAncient.Label(
                 $"Captain {c.Captain.Name}: {c.Captain.Summary()}", fontSize: 15));
             box.AddChild(ThemeAncient.Label(

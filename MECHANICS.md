@@ -1997,6 +1997,52 @@ companies and reforms follow.
 - **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
   generals fight every battle.
 
+## Units of their own, the roster, and War: manpower **(built, 1 Oct 2026)**
+
+Your answers: units of any size (you set 100 to 5,000 men), merging and
+splitting; armies hold an even number of units and splits make even
+numbers; experience averaged by men when units merge; a roster with each
+unit's strength, experience and origin; units raised where their people
+are; the dead are lost to the population, taken from the provinces the
+units were raised in; the wounded separate from the dead.
+
+- **A unit** has a type, 100 to 5,000 men, its own experience (0 raw to 1
+  hardened), the province it was raised in, and its wounded. A new unit is
+  its type's usual size (1,000 foot, 500 horse...).
+- **Splitting** halves a unit (both halves at least 100 men). **Merging**
+  joins two units of one kind (at most 5,000 men), experience averaged by
+  men.
+- **An even number of units.** After any change (recruiting, losses,
+  disbanding, your own split or merge) the game splits the army's largest
+  unit in two, or merges its two smallest of one kind, so the count stays
+  even. A split or merge by you therefore changes the count by two. No men
+  are lost or gained by this.
+- **Losses** take a share of each unit's men. Of a beaten army's losses
+  half die (the slaughter of the rout), of a victor's a quarter; the rest
+  are wounded. Men lost with sunken ships, to hunger or to the sickness of
+  siege camps mostly die (80%, 80%, 60%).
+- **The wounded** heal: each month a quarter of them return to their unit
+  and 3% die of their wounds.
+- **The dead** leave their home province's people at the end of the month
+  (spread over its towns and villages by their size); dead with no recorded
+  home come from the capital province.
+- **Where units are raised**: the province the army stands in, if it is
+  yours; otherwise your capital's province. (Marching recruits to their
+  army and training time wait on "Recruits marching to the army" and
+  "Training time".)
+- **Remnants** under 100 men join another unit of their kind, or go home.
+- **The roster** (Armies panel): one line per unit with its men, wounded,
+  experience and home, and Split, Merge and Send home.
+- **Mercenary companies** hold units too, which keep their men and
+  experience from employer to employer.
+- **Unpaid desertion** takes men from every unit (it used to take whole
+  units).
+- **Who serves** ("a share per culture from history") waits on social
+  classes; the levy share by free, dependent and enslaved people stays.
+- **Speed**: supply distances are now worked out once a year per realm
+  (borders change only when sieges end or peace is made), which brought a
+  year from about 600 to 435 ms in the test of other realms.
+
 ## Technology and knowledge: your follow-up answers **(built, 30 Sep 2026)**
 
 Your answers on the Ledger's "Technology and knowledge" topic.

@@ -42,7 +42,7 @@ public partial class MercenaryTest : TestRunner
         Check(System.Math.Abs(Economy.Upkeep(r) - upkeepBefore) < 1e-6, "a company should be paid by the month, not in the yearly upkeep");
         Check(map.Hire(rome, c) != null, "a company can't be hired twice");
         // Pay and bonus.
-        double pay = c.MonthlyPay(army!.Units);
+        double pay = c.MonthlyPay(army!.Regiments);
         double t0 = r.Treasury;
         army.VictoriesUnpaid = 1;
         map.MarchMonth();

@@ -56,7 +56,7 @@ public partial class MarchTest : TestRunner
         int desert = pop.LandNodes.Where(i => pop.NodeOwner[i] <= 0 && pop.Pop[i] < 1)
             .OrderBy(i => Math.Abs(i % pop.Width - Node(15, 27) % pop.Width) + Math.Abs(i / pop.Width - Node(15, 27) / pop.Width)).First();
         var lost = r.NewArmy("Lost legion", desert);
-        lost.Units[UnitCatalog.Instance["hastati_principes"].Index] = 10;
+        lost.SetUnits(UnitCatalog.Instance["hastati_principes"].Index, 10);
         lost.Supply = 1;
         int men = Military.Soldiers(lost);
         for (int m = 0; m < 4; m++)
@@ -72,10 +72,15 @@ public partial class MarchTest : TestRunner
         legio.Node = etArmy.Node;
         legio.Route.Clear();
         int battles = map.Game.Battles.Count;
+        int homeProv = legio.Regiments.Select(x => x.Origin).FirstOrDefault(o => o != 0);
+        double HomePeople() => pop.LandNodes.Where(i => map.ProvinceOfNodeForTest(i) == homeProv).Sum(i => (double)pop.Pop[i]);
+        double homeBefore = HomePeople();
         var events = map.MarchMonth();
         Check(map.Game.Battles.Count == battles + 1, "armies at war standing together should fight");
         var report = map.Game.Battles[^1];
         Check(events.Any(e => e.Text.Contains("defeats")), "no chronicle line for the battle");
+        Check(homeProv != 0 && HomePeople() < homeBefore, $"the dead should be lost to their home province's people ({homeBefore:0} -> {HomePeople():0})");
+        Check(legio.Regiments.Sum(x => x.Wounded) > 0 || legio.IsEmpty, "a battle should leave wounded who heal");
         var loser = report.AttackerWon ? (report.AttackerRealm == rome ? etArmy : legio) : (report.AttackerRealm == rome ? legio : etArmy);
         Check(loser.IsEmpty || loser.Marching, "the beaten army should fall back toward home");
 

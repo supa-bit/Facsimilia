@@ -101,7 +101,7 @@ public sealed class RealmState
     }
 
     /// <summary>How many units of a role the realm has in all its armies.</summary>
-    public int RoleCount(int role) => Armies.Sum(a => a.RoleCount(UnitCatalog.Instance, role));
+    public double RoleCount(int role) => Armies.Sum(a => a.RoleCount(UnitCatalog.Instance, role));
 
     public int TotalUnits => Armies.Sum(a => a.Count);
 
@@ -206,7 +206,7 @@ public sealed class RealmState
             var a = units.AsGodotArray();
             var army = new Army(cat.Count) { Id = 1, Name = "The army", Node = -1 };
             for (int i = 0; i < Math.Min(a.Count, UnitRoles.Count); i++)
-                army.Units[cat[UnitRoles.Generic[i]].Index] += a[i].AsInt32();
+                army.AddRaw(cat[UnitRoles.Generic[i]].Index, a[i].AsInt32());
             r.Armies.Add(army);
         }
         r.NextArmyId = d.TryGetValue("next_army", out var na) ? na.AsInt32() : r.Armies.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;

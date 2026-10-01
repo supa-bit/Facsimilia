@@ -251,6 +251,7 @@ public partial class MapView
         events.AddRange(Meetings(rng));
         Blockades(month);
         events.AddRange(MercenariesMonth(rng));
+        UnitsMonth(rng);
         foreach (var siege in Game.Sieges)
         {
             var army = Game.Realm(siege.Attacker).ArmyById(siege.ArmyId);
@@ -327,7 +328,7 @@ public partial class MapView
                 }
                 var g = s.GeneralOf(a);
                 double lineKm = SupplyLineKm + 20 * ((g?.Skill(Skills.Logistics) ?? 5) - 5) + TechCatalog.Instance.Effect(s, "reach_km") / 2;
-                nearHome ??= HomeDistance(s.RealmId, SupplyLineKm + 150);
+                nearHome ??= HomeDistanceThisYear(s.RealmId);
                 double men = Math.Max(1, Military.Soldiers(a));
                 double people = 0;
                 int w = pop.Width, x = a.Node % w, y = a.Node / w;
@@ -345,7 +346,7 @@ public partial class MapView
                 if (a.Supply >= 0)
                     continue;
                 a.Supply = 0;
-                double lost = Military.TakeLosses(a, StarvationLoss * (1 - fed), rng);
+                double lost = Military.TakeLosses(a, StarvationLoss * (1 - fed), rng, null, Military.HungerDead);
                 a.Fatigue = Math.Min(1, a.Fatigue + 0.05);
                 if (s.RealmId == PlayerRealmId && lost > 0)
                     events.Add(new ChronicleEvent(ChronicleKind.Economy, s.RealmId,
@@ -353,6 +354,22 @@ public partial class MapView
             }
         }
         return events;
+    }
+
+    // Supply distances, kept for the year: borders change only when sieges end, once a year.
+    readonly Dictionary<int, double[]> _homeDistance = new();
+    int _homeDistanceYear = int.MinValue;
+
+    double[] HomeDistanceThisYear(int realmId)
+    {
+        if (_homeDistanceYear != DemoYear)
+        {
+            _homeDistance.Clear();
+            _homeDistanceYear = DemoYear;
+        }
+        if (!_homeDistance.TryGetValue(realmId, out var d))
+            _homeDistance[realmId] = d = HomeDistance(realmId, SupplyLineKm + 150);
+        return d;
     }
 
     /// <summary>Km from a realm's own land to every node, up to a limit (farther: infinity).</summary>

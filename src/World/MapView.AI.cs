@@ -298,7 +298,7 @@ public partial class MapView
             var u = cat.BestFor(mix[(s.TotalUnits + k) % mix.Length], cultures);
             if (Economy.Upkeep(s) + u.Upkeep * s.UpkeepShare > budget || s.Treasury < u.Raise * 2)
                 break;
-            if (!Military.Recruit(s, c, cultures, u, army, s.ElephantSource))
+            if (!Military.Recruit(s, c, cultures, u, army, s.ElephantSource, RecruitOrigin(s.RealmId, army)))
                 break;
         }
     }
