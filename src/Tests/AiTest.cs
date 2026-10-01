@@ -41,7 +41,9 @@ public partial class AiTest : TestRunner
             Check(census.ContainsKey(map.CivRealmIds[key]), $"{key} was wiped out within 30 years");
         int standing = WorldFixture.CivKeys.Count(k => census.ContainsKey(map.CivRealmIds[k]));
         Check(standing >= WorldFixture.CivKeys.Length * 3 / 4, $"only {standing} of {WorldFixture.CivKeys.Length} realms stand after 30 years");
-        Check(msPerYear < 600, $"a year takes {msPerYear:0} ms");
+        // The designer's budget (decision "Next 50" and their note: about 2 seconds a year). This test times the
+        // year's calculations only, with nothing drawn; it guards the budget, it is not a target to stay far below.
+        Check(msPerYear < 2000, $"a year takes {msPerYear:0} ms, over the designer's 2-second budget");
 
         // Mid-war save and load keeps the wars.
         int wars = map.Game.Wars.All.Count;
