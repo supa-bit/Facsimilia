@@ -120,6 +120,7 @@ public partial class Hud
             (goods.Satisfaction < 0.8 ? " - want breeds unrest." : ".") +
             (shortages.Count > 0 ? $"\nStill short of: {string.Join(", ", shortages)}." : "") +
             "\nAmounts are in loads: what one person makes in a year of full work.";
+        AddMarketRows();
         foreach (var (famId, famName) in cat.Families)
         {
             double value = goods.FamilyValue(cat, famId) / 6000;
@@ -168,5 +169,57 @@ public partial class Hud
                 _goodsRows.AddChild(label);
             }
         }
+    }
+
+    /// <summary>
+    /// Your markets (the Ledger topic "Trade"): the great markets serving your
+    /// land with their grain price, your merchants, and the price limit edict.
+    /// </summary>
+    void AddMarketRows()
+    {
+        var s = _map.PlayerState;
+        var mc = _map.Markets();
+        var markets = MarketCatalog.Instance.Markets;
+        _goodsRows.AddChild(ThemeAncient.Label("Markets", "HeaderLabel", 19));
+        var mine = mc.Share.TryGetValue(_map.PlayerRealmId, out var sh) ? sh : new double[mc.Count];
+        string Grain(int i) => mc.Prices.GetLength(0) > i && mc.LimitedGoods.Count > 0
+            ? $"grain {mc.LimitedGoods.Average(k => mc.Prices[i, k]):0.00}x" : "";
+        foreach (int i in Enumerable.Range(0, mc.Count).Where(i => mine[i] > 0.01).OrderByDescending(i => mine[i]))
+            _goodsRows.AddChild(ThemeAncient.Label($"      {markets[i].Name} serves {mine[i]:P0} of your people  ·  {Grain(i)}" +
+                (mc.Volume.Length > i ? $"  ·  trade {_map.Money(mc.Volume[i] / 6000)} a year" : ""), fontSize: 15));
+        // Merchants.
+        var merch = new HBoxContainer();
+        merch.AddThemeConstantOverride("separation", 6);
+        _goodsRows.AddChild(merch);
+        merch.AddChild(ThemeAncient.Label($"Merchants ({s.Merchants.Count} of {_map.MaxMerchants(_map.PlayerRealmId)}):", fontSize: 15));
+        foreach (var id in s.Merchants.ToList())
+        {
+            var mk = markets.FirstOrDefault(x => x.Id == id);
+            var b = new Button { Text = $"{mk?.Name ?? id} ×", FocusMode = FocusModeEnum.None, TooltipText = "Call this merchant home." };
+            b.AddThemeFontSizeOverride("font_size", 13);
+            b.Pressed += () => { _map.SendMerchant(id, false); RefreshGoodsPanel(); };
+            merch.AddChild(b);
+        }
+        if (s.Merchants.Count < _map.MaxMerchants(_map.PlayerRealmId))
+        {
+            var send = new MenuButton { Text = "Send a merchant ▾", FocusMode = FocusModeEnum.None, Flat = false,
+                TooltipText = $"A merchant at a market takes {Facsimilia.World.MapView.MerchantCut:P0} of its trade as customs for you, shared with the other realms' merchants there." };
+            var popup = send.GetPopup();
+            var open = Enumerable.Range(0, mc.Count).Where(i => markets[i].OpenIn(_map.DemoYear)).OrderByDescending(i => mc.Volume.Length > i ? mc.Volume[i] : 0).ToList();
+            foreach (int i in open)
+                popup.AddItem($"{markets[i].Name}: trade {_map.Money((mc.Volume.Length > i ? mc.Volume[i] : 0) / 6000)} a year", i);
+            popup.IdPressed += i => { _map.SendMerchant(markets[(int)i].Id); RefreshGoodsPanel(); };
+            merch.AddChild(send);
+        }
+        // The price limit edict.
+        var limit = new CheckBox { Text = "Limit grain prices by edict", ButtonPressed = s.PriceLimit, FocusMode = FocusModeEnum.None,
+            TooltipText = "Grain is sold at no more than its usual price in your land, like Diocletian's Edict of 301. Sellers hold back: you go short, " +
+                "and black markets and hunger add unrest." + (s.LastShortage > 0 ? $"\nLast year you went without grain worth {_map.Money(s.LastShortage / 6000)}." : "") };
+        limit.Toggled += on => { s.PriceLimit = on; RefreshGoodsPanel(); };
+        _goodsRows.AddChild(limit);
+        double piracy = _map.PiracyPressure(_map.PlayerRealmId);
+        if (piracy > 0)
+            _goodsRows.AddChild(ThemeAncient.Label($"Pirates prey on {piracy:P0} of your sea trade (customs -{Facsimilia.World.MapView.PiracyCustoms * piracy:P0}). " +
+                "Take their haven, or keep warships there for six months, to sweep them from the sea.", fontSize: 15));
     }
 }

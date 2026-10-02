@@ -163,7 +163,7 @@ public partial class MapView
             Loyalty.Tick(s, rel, s.Religion == ruler.Religion || s.Religion == "", Game.Wars.Of(p.RealmId).Any(),
                 s.Tax ?? state.Tax, counts[p.RealmId], CensusOf(p.RealmId).Goods?.Satisfaction ?? 1,
                 EnslavedShareOfRegion(RegionOfProvince(p)), bc.Effect(s, "integration") + TechCatalog.Instance.Effect(state, "integration") + distance.Integration,
-                bc.Effect(s, "unrest") + Remedies.Unrest(state) + Finance.Unrest(state) + TechCatalog.Instance.Effect(state, "unrest") + distance.Unrest
+                bc.Effect(s, "unrest") + Remedies.Unrest(state) + Finance.Unrest(state) + (state.LastShortage > 0 ? ShortageUnrest : 0) + TechCatalog.Instance.Effect(state, "unrest") + distance.Unrest
                     + Corruption(p.RealmId) * CorruptionUnrest,
                 AdminCapacity(p.RealmId));
             if (p.RealmId == PlayerRealmId && rng.NextDouble() < Loyalty.ChanceOfRevolt(s.Unrest))

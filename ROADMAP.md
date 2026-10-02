@@ -96,6 +96,11 @@ mercenaries.
       lending to realms, yearly indemnities, money by the ages. Waiting:
       tax by class and law, family purse, embezzlement events, banks and bonds,
       budget graphs, monopolies, coin history, more remedies.
+- [x] **Trade** (2 Oct 2026): 20 great markets with their own prices,
+      merchants, price shocks in the chronicle, a grain price edict,
+      embargoes and trade treaties, pirate havens and their suppression.
+      Asked on the Ledger: route shifts, merchants, others' treaties,
+      pirates. Later: moving trade lines, caravans, chartered companies.
 
 ## Right now
 

@@ -1,0 +1,9 @@
+{
+ "about": "Pirate havens (the Ledger topic 'Trade', your answer 'Pirate havens that raid shipping and coasts until suppressed'). Each raids sea trade and coasts within reach_km of its haven from 'from' until history's suppression ('until'), unless a realm suppresses it sooner: by holding the haven, or by keeping warships there for six months. Sources: Polybius 2.8-12 (the Illyrians of Teuta; Rome's wars of 229 and 219 BC; their end in 168 BC, Livy 45.26); Plutarch, Pompey 24-28 and Appian, Mithridatic Wars 92-96 (the Cilician pirates, swept from the sea by Pompey in 67 BC); Diodorus 40.1 and Velleius 2.34 (Crete, conquered by Metellus 69-67 BC); the Barbary corsairs of Algiers, Tunis and Tripoli (about 1500 to the French taking of Algiers in 1830). Our own data, free for any use.",
+ "havens": [
+  {"id": "illyria", "name": "The Illyrian pirates", "lon": 19.0, "lat": 42.3, "from": -300, "until": -168, "reach_km": 450},
+  {"id": "crete", "name": "The Cretan pirates", "lon": 24.9, "lat": 35.3, "from": -300, "until": -67, "reach_km": 400},
+  {"id": "cilicia", "name": "The Cilician pirates", "lon": 33.5, "lat": 36.2, "from": -140, "until": -67, "reach_km": 700},
+  {"id": "barbary", "name": "The Barbary corsairs", "lon": 3.06, "lat": 36.75, "from": 1500, "until": 1830, "reach_km": 900}
+ ]
+}

@@ -30,6 +30,12 @@ public sealed class RealmState
                 Loans.Add(new Loan { Lender = Loan.BankersLender, Amount = value, Rate = Finance.BankerRate });
         }
     }
+    /// <summary>Markets where its merchants work (market ids; decision "Merchants").</summary>
+    public List<string> Merchants { get; } = new();
+    /// <summary>Grain prices limited by edict (decision "Setting prices").</summary>
+    public bool PriceLimit { get; set; }
+    /// <summary>Last year's shortage under a price limit: the value of grain it went without, drachmae.</summary>
+    public double LastShortage { get; set; }
     /// <summary>Realms wronged by this year's default (not saved: turned into grievances the same year).</summary>
     public List<int> Wronged { get; } = new();
     /// <summary>Its debts, lender by lender (decision "Who lends").</summary>
@@ -156,6 +162,7 @@ public sealed class RealmState
             ["loans"] = new GArray(Loans.Select(l => (Variant)l.ToArray()).ToArray()),
             ["finance"] = new GArray { BankersRefuseUntil, TempleCurseYears, UnpaidYears, (int)Collectors, ContractYears, CoinPurity, PriceLevel, LastMint },
             ["spending"] = new GArray(Spending.Select(x => (Variant)x).ToArray()),
+            ["merchants"] = new GArray(Merchants.Select(x => (Variant)x).ToArray()), ["price_limit"] = PriceLimit,
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["branch_share"] = new GArray(BranchShare.Select(x => (Variant)x).ToArray()), ["branch_points"] = new GArray(BranchPoints.Select(x => (Variant)x).ToArray()),
@@ -272,6 +279,10 @@ public sealed class RealmState
             r.Collectors = (Collectors)f[3].AsInt32(); r.ContractYears = f[4].AsInt32();
             r.CoinPurity = f[5].AsDouble(); r.PriceLevel = f[6].AsDouble(); r.LastMint = f[7].AsDouble();
         }
+        if (d.TryGetValue("merchants", out var mer))
+            foreach (var v in mer.AsGodotArray())
+                r.Merchants.Add(v.AsString());
+        r.PriceLimit = d.TryGetValue("price_limit", out var pl) && pl.AsBool();
         if (d.TryGetValue("spending", out var spd))
         {
             var lines = spd.AsGodotArray();
@@ -324,6 +335,12 @@ public sealed class GameState
     public List<Offer> Offers { get; } = new();
     /// <summary>Mercenary companies, waiting at their hiring grounds or serving a realm.</summary>
     public List<Company> Companies { get; } = new();
+    /// <summary>Embargoes: (imposer, target) — no trade between them (decision "Trade treaties and embargoes").</summary>
+    public HashSet<(int Imposer, int Target)> Embargoes { get; } = new();
+    /// <summary>Pirate havens suppressed before history's date (decision "Pirates").</summary>
+    public HashSet<string> SuppressedHavens { get; } = new();
+    /// <summary>Months warships have patrolled each haven this year and before.</summary>
+    public Dictionary<string, int> PatrolMonths { get; } = new();
     /// <summary>War indemnities being paid (decision "War indemnities").</summary>
     public List<Indemnity> Indemnities { get; } = new();
     /// <summary>Grievances over unpaid debts and indemnities: (holder, target) -> the last year they give a pretext.</summary>
@@ -394,6 +411,9 @@ public sealed class GameState
             ["companies"] = new GArray(Companies.Select(c => (Variant)c.ToDict()).ToArray()), ["next_company"] = NextCompanyId,
             ["companies_seen"] = new GArray(CompaniesSeen.Select(c => (Variant)c).ToArray()),
             ["indemnities"] = new GArray(Indemnities.Select(x => (Variant)x.ToArray()).ToArray()),
+            ["embargoes"] = new GArray(Embargoes.Select(e => (Variant)new GArray { e.Imposer, e.Target }).ToArray()),
+            ["suppressed_havens"] = new GArray(SuppressedHavens.Select(x => (Variant)x).ToArray()),
+            ["patrols"] = new GArray(PatrolMonths.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
         };
     }
@@ -423,6 +443,15 @@ public sealed class GameState
             foreach (Variant v in cos.AsGodotArray())
                 g.Companies.Add(Company.FromDict(v.AsGodotDictionary()));
         g.NextCompanyId = d.TryGetValue("next_company", out var nco) ? nco.AsInt32() : g.Companies.Select(c => c.Id).DefaultIfEmpty(0).Max() + 1;
+        if (d.TryGetValue("embargoes", out var emb))
+            foreach (var v in emb.AsGodotArray())
+                g.Embargoes.Add((v.AsGodotArray()[0].AsInt32(), v.AsGodotArray()[1].AsInt32()));
+        if (d.TryGetValue("suppressed_havens", out var sh))
+            foreach (var v in sh.AsGodotArray())
+                g.SuppressedHavens.Add(v.AsString());
+        if (d.TryGetValue("patrols", out var pat))
+            foreach (var v in pat.AsGodotArray())
+                g.PatrolMonths[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
         if (d.TryGetValue("indemnities", out var ind))
             foreach (var v in ind.AsGodotArray())
                 g.Indemnities.Add(Indemnity.FromArray(v.AsGodotArray()));

@@ -225,6 +225,12 @@ public partial class Hud
             else if (game.Treaties.OverlordOf(id) == 0 && game.Treaties.OverlordOf(me) != id)
                 AddButton(buttons, "Demand submission", "A far weaker realm that thinks well of you may become your vassal without a war.",
                     () => Log(_map.DemandSubmission(id)));
+            bool embargo = game.Embargoes.Contains((me, id));
+            AddButton(buttons, embargo ? "Lift embargo" : "Embargo", embargo ? "Allow trade with them again." : "Forbid all trade with them: their goods and yours stop crossing.",
+                () => Log(_map.Embargo(id, !embargo), ChronicleKind.Economy));
+            if (!game.Treaties.All.Any(t => t.Kind == TreatyKind.Trade && t.Involves(me) && t.Involves(id)))
+                AddButton(buttons, "Trade treaty", "Your merchants deal directly, even without a border or a shared route. They agree unless they hate you.",
+                    () => Log(_map.ProposeTradeTreaty(id), ChronicleKind.Economy));
             double canLend = _map.LendLimit(id);
             if (canLend >= 1)
                 AddButton(buttons, $"Lend {_map.Money(canLend)}", $"Lend them silver at {Finance.RealmRate:P0} a year; they repay a tenth a year. They take it only if short of silver. If they never repay, you gain a pretext for war.",

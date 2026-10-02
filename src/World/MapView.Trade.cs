@@ -94,8 +94,8 @@ public partial class MapView
         }
         // Goods travel along chains of links (a shared border or route), up to MaxLinks, through middlemen.
         var links = new Dictionary<int, List<int>>();
-        foreach (var (x, y) in neighbours.Concat(onRoute))
-            if (goods.ContainsKey(x) && goods.ContainsKey(y) && !Game.Wars.AtWar(x, y))
+        foreach (var (x, y) in neighbours.Concat(onRoute).Concat(TradeTreatyPairs()))
+            if (goods.ContainsKey(x) && goods.ContainsKey(y) && !Game.Wars.AtWar(x, y) && !Embargoed(x, y))
             {
                 if (!links.TryGetValue(x, out var lx)) links[x] = lx = new List<int>();
                 if (!links.TryGetValue(y, out var ly)) links[y] = ly = new List<int>();
@@ -112,7 +112,7 @@ public partial class MapView
                 var next = new List<int>();
                 foreach (int u in frontier)
                     foreach (int v in links[u])
-                        if (!prev.ContainsKey(v) && !Game.Wars.AtWar(start, v))
+                        if (!prev.ContainsKey(v) && !Game.Wars.AtWar(start, v) && !Embargoed(start, v))
                         {
                             prev[v] = u;
                             next.Add(v);
@@ -148,9 +148,14 @@ public partial class MapView
                 entryShare[g.Id] = byRealm.ToDictionary(x => x.Key, x => total > 0 ? x.Value / total : 0);
             }
         var flows = new List<(int From, int To, double Value)>();
+        var markets = Markets();
+        markets.PriceLimits.Clear();
+        foreach (var r in Game.Realms.Values.Where(r => r.PriceLimit))
+            markets.PriceLimits.Add(r.RealmId);
         var prices = Trade.Run(cat, goods, Partners, (g, realm) =>
-            entryShare.TryGetValue(g.Id, out var s) ? s.GetValueOrDefault(realm) : 0, flows);
+            entryShare.TryGetValue(g.Id, out var s) ? s.GetValueOrDefault(realm) : 0, flows, markets);
         PayTransit(routes, flows, goods, via);
+        AfterTrade(goods, cat);
         return prices;
     }
 

@@ -1,0 +1,25 @@
+{
+ "about": "The great markets (the Ledger topic 'Trade', your answer 'A market in each great city'): each sets the prices for the land nearest it while it is open. from/until are years (negative BC). Sources: Strabo 14.5.2 and 10.5.4 (Delos, the free port of 166 BC, sacked in 88 BC); Polybius 30.31 (Rhodes' harbour dues fell after Delos was made free); Livy 34.45 (Puteoli, 194 BC) and 40.34 (Aquileia, 181 BC); Strabo 16.4.21 (Petra); Pliny NH 6.122 (Seleucia on the Tigris); Carthage and Corinth sacked in 146 BC, Corinth refounded by Caesar in 44 BC. Our own data, free for any use.",
+ "markets": [
+  {"id": "rome", "name": "Rome", "lon": 12.48, "lat": 41.89, "from": -300},
+  {"id": "alexandria", "name": "Alexandria", "lon": 29.92, "lat": 31.2, "from": -300},
+  {"id": "carthage", "name": "Carthage", "lon": 10.32, "lat": 36.85, "from": -300, "until": -146},
+  {"id": "carthage_roman", "name": "Carthage", "lon": 10.32, "lat": 36.85, "from": -29},
+  {"id": "syracuse", "name": "Syracuse", "lon": 15.29, "lat": 37.07, "from": -300},
+  {"id": "rhodes", "name": "Rhodes", "lon": 28.22, "lat": 36.44, "from": -300},
+  {"id": "delos", "name": "Delos", "lon": 25.27, "lat": 37.4, "from": -166, "until": -88},
+  {"id": "antioch", "name": "Antioch", "lon": 36.16, "lat": 36.2, "from": -300},
+  {"id": "seleucia", "name": "Seleucia on the Tigris", "lon": 44.52, "lat": 33.1, "from": -300},
+  {"id": "corinth", "name": "Corinth", "lon": 22.88, "lat": 37.91, "from": -300, "until": -146},
+  {"id": "corinth_roman", "name": "Corinth", "lon": 22.88, "lat": 37.91, "from": -44},
+  {"id": "athens", "name": "Athens and the Piraeus", "lon": 23.64, "lat": 37.94, "from": -300},
+  {"id": "ephesus", "name": "Ephesus", "lon": 27.34, "lat": 37.94, "from": -300},
+  {"id": "byzantion", "name": "Byzantion", "lon": 28.98, "lat": 41.01, "from": -300},
+  {"id": "tyre", "name": "Tyre", "lon": 35.2, "lat": 33.27, "from": -300},
+  {"id": "massalia", "name": "Massalia", "lon": 5.37, "lat": 43.3, "from": -300},
+  {"id": "gades", "name": "Gades", "lon": -6.29, "lat": 36.53, "from": -300},
+  {"id": "puteoli", "name": "Puteoli", "lon": 14.12, "lat": 40.82, "from": -194},
+  {"id": "aquileia", "name": "Aquileia", "lon": 13.37, "lat": 45.77, "from": -181},
+  {"id": "petra", "name": "Petra", "lon": 35.44, "lat": 30.33, "from": -300, "until": 363}
+ ]
+}

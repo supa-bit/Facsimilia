@@ -187,6 +187,7 @@ public partial class MapView
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, realm.Id, $"{realm.Name}: {news}"));
         }
         events.AddRange(FinanceYear());
+        events.AddRange(PiratesYear());
         events.AddRange(LabourYear());
         events.AddRange(GoalsYear());
         RecordHistory();

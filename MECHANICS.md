@@ -1997,6 +1997,50 @@ companies and reforms follow.
 - **Setting.** Settings > Gameplay > "Fight battles yourself" (on). Off, your
   generals fight every battle.
 
+## Trade: your follow-up answers **(built, 2 Oct 2026)**
+
+- **Markets** ("A market in each great city"): 20 of history's great
+  markets (data/markets.json) open in their years: Rome, Alexandria,
+  Carthage (until 146 BC, again from 29 BC), Syracuse, Rhodes, Delos (the
+  free port, 166-88 BC), Antioch, Seleucia on the Tigris, Corinth (until
+  146 BC, again from 44 BC), Athens and the Piraeus, Ephesus, Byzantion,
+  Tyre, Massalia, Gades, Puteoli (from 194 BC), Aquileia (from 181 BC),
+  Petra. Each place belongs to the nearest open market; each realm's
+  people are shared among its markets. Each market sets its own price
+  for each good from what the realms it serves spare and lack; a realm
+  buys and sells at its markets' prices (a trade between two realms at the
+  average of both). In 300 BC 17 goods are priced differently by market
+  (lentils from 0.5 to 3 times their usual price).
+- **Merchants** ("You send merchants to markets to steer trade to you"):
+  one merchant, plus one for each open great market in your land (at most
+  five). Each takes 2% of its market's trade as customs, shared with the
+  other realms' merchants there. Other realms send theirs to the busiest
+  markets where their people trade. (Goods panel > Markets.)
+- **Price shocks** ("shown in the chronicle"): grain prices at a market of
+  yours rising to 1.4 times last year's are told, with the likely cause
+  (enemy fleets, war, or poor harvests).
+- **Price limits** ("Price limits by law, with shortages and black
+  markets"): until laws exist, an edict in the Goods panel. Grain is bought
+  at no more than its usual price; sellers sell less (the realm goes short
+  by the price's excess) and the shortage adds 5% unrest.
+- **Embargoes and trade treaties** ("as diplomatic actions"; Diplomacy
+  panel): an embargo stops all trade between the two realms, even through
+  middlemen; a treaty lets two realms trade directly with no border or
+  route. They accept a treaty unless their opinion of you is below -20.
+- **Pirates** ("Pirate havens that raid shipping and coasts until
+  suppressed"; data/pirates.json): the Illyrians (until 168 BC), the
+  Cretans (until 67 BC), the Cilicians (140-67 BC), the Barbary corsairs
+  (1500-1830). A realm's customs fall by 30% of the share of its sea-route
+  places within a haven's reach; coasts within reach lose 0.2% of their
+  people a year. A haven is suppressed when its land is conquered or
+  warships patrol within 200 km of it for six months.
+- **Asked on the Ledger**: how your actions bend route shifts (your note),
+  the number of merchants and what they do, other realms' treaties and
+  embargoes, and how pirates are suppressed.
+- **Later**: trade shown as moving lines thick by value, and visible
+  caravans and fleets (the map's drawing); chartered companies (later
+  ages).
+
 ## Treasury and money: your follow-up answers **(built, 1 Oct 2026)**
 
 Treasury > "Spending, coin and loans" opens the Finances panel.

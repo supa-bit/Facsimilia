@@ -7,7 +7,7 @@ using GDictionary = Godot.Collections.Dictionary;
 
 namespace Facsimilia.Game;
 
-public enum TreatyKind { Alliance, Vassal, Coalition }
+public enum TreatyKind { Alliance, Vassal, Coalition, Trade }
 
 /// <summary>
 /// A treaty between two realms (decision "Playable 17": alliances and
