@@ -1,0 +1,524 @@
+{
+ "about": "History's canals, great works and frontier walls (the Ledger topic 'Buildings and works': 'Buildable great works' and 'Draw fortified lines'). Each has its real places (lon, lat), the years history built it, its builder (a civilization key, or null), and what it did. Who else builds them, how walls are drawn and what they do wait on the decisions 'Great works others build', 'How frontier walls are drawn', 'What frontier walls do' and 'History's frontier walls'. Hadrian's and the Antonine Walls, the Danevirke and the Kiel canal lie north of the map's edge (48 degrees) and come with 'The whole globe: order'. Not yet used by the game. Made by tools/history/works.py. Sources: Barrington Atlas (Talbert, 2000); Tacitus and Suetonius on the Fucine works; Procopius, 'Buildings'; Sauer and others, 'Persia's Imperial Power in Late Antiquity' (2013) on the Gorgan Wall. Our own summary, free for any use.",
+ "works": [
+  {
+   "id": "diolkos",
+   "name": "The Diolkos of Corinth",
+   "kind": "canal",
+   "builder": null,
+   "start": -600,
+   "done": -600,
+   "points": [
+    [
+     "Lechaion",
+     22.89,
+     37.93
+    ],
+    [
+     "Schoinos",
+     22.98,
+     37.92
+    ]
+   ],
+   "effect": "Ships hauled across the Isthmus: a short way between the gulfs.",
+   "note": "A paved slipway, standing in 300 BC."
+  },
+  {
+   "id": "pharaohs_canal",
+   "name": "Canal of the Pharaohs (restored)",
+   "kind": "canal",
+   "builder": "egypt",
+   "start": -280,
+   "done": -270,
+   "points": [
+    [
+     "Bubastis",
+     31.51,
+     30.57
+    ],
+    [
+     "Lake Timsah",
+     32.3,
+     30.58
+    ],
+    [
+     "Arsinoe",
+     32.55,
+     29.97
+    ]
+   ],
+   "effect": "Opens the Nile to the Red Sea: Indian trade without the desert.",
+   "note": "Begun by Necho, finished by Darius; restored by Ptolemy II.",
+   "fall": -100,
+   "fall_why": "silted up; Trajan and later Amr ibn al-As reopened it until 767"
+  },
+  {
+   "id": "trajans_canal",
+   "name": "Trajan's River (the canal reopened)",
+   "kind": "canal",
+   "builder": "rome",
+   "start": 106,
+   "done": 112,
+   "points": [
+    [
+     "Babylon (Cairo)",
+     31.23,
+     30.01
+    ],
+    [
+     "Lake Timsah",
+     32.3,
+     30.58
+    ],
+    [
+     "Clysma",
+     32.55,
+     29.97
+    ]
+   ],
+   "effect": "As the Pharaohs' canal.",
+   "note": "",
+   "fall": 767,
+   "fall_why": "closed by the caliph al-Mansur in 767"
+  },
+  {
+   "id": "nero_corinth",
+   "name": "Nero's Corinth canal",
+   "kind": "canal",
+   "builder": "rome",
+   "start": 67,
+   "done": 68,
+   "points": [
+    [
+     "Lechaion",
+     22.89,
+     37.93
+    ],
+    [
+     "Schoinos",
+     22.98,
+     37.92
+    ]
+   ],
+   "effect": "Would join the gulfs; abandoned at Nero's death.",
+   "note": "Begun with 6,000 prisoners of the Jewish war, abandoned in 68."
+  },
+  {
+   "id": "naviglio_grande",
+   "name": "Naviglio Grande",
+   "kind": "canal",
+   "builder": null,
+   "start": 1177,
+   "done": 1272,
+   "points": [
+    [
+     "Tornavento",
+     8.72,
+     45.58
+    ],
+    [
+     "Milano",
+     9.19,
+     45.46
+    ]
+   ],
+   "effect": "Water for Milan's fields and mills, and a waterway for its marble.",
+   "note": ""
+  },
+  {
+   "id": "canal_du_midi",
+   "name": "Canal du Midi",
+   "kind": "canal",
+   "builder": null,
+   "start": 1666,
+   "done": 1681,
+   "points": [
+    [
+     "Toulouse",
+     1.44,
+     43.6
+    ],
+    [
+     "Carcassonne",
+     2.35,
+     43.21
+    ],
+    [
+     "Béziers",
+     3.22,
+     43.34
+    ],
+    [
+     "Sète",
+     3.7,
+     43.4
+    ]
+   ],
+   "effect": "Joins the Atlantic's rivers to the Mediterranean.",
+   "note": ""
+  },
+  {
+   "id": "mahmudiyah",
+   "name": "Mahmudiyah Canal",
+   "kind": "canal",
+   "builder": null,
+   "start": 1817,
+   "done": 1820,
+   "points": [
+    [
+     "Alexandria",
+     29.92,
+     31.2
+    ],
+    [
+     "Fuwwah",
+     30.55,
+     31.2
+    ]
+   ],
+   "effect": "Joins Alexandria to the Nile again.",
+   "note": ""
+  },
+  {
+   "id": "suez",
+   "name": "Suez Canal",
+   "kind": "canal",
+   "builder": null,
+   "start": 1859,
+   "done": 1869,
+   "points": [
+    [
+     "Port Said",
+     32.3,
+     31.26
+    ],
+    [
+     "Ismailia",
+     32.27,
+     30.6
+    ],
+    [
+     "Suez",
+     32.55,
+     29.97
+    ]
+   ],
+   "effect": "The sea route from the Mediterranean to India.",
+   "note": ""
+  },
+  {
+   "id": "corinth_canal",
+   "name": "Corinth Canal",
+   "kind": "canal",
+   "builder": null,
+   "start": 1881,
+   "done": 1893,
+   "points": [
+    [
+     "Lechaion",
+     22.89,
+     37.93
+    ],
+    [
+     "Schoinos",
+     22.98,
+     37.92
+    ]
+   ],
+   "effect": "Joins the Gulf of Corinth and the Saronic Gulf.",
+   "note": ""
+  },
+  {
+   "id": "danube_black_sea",
+   "name": "Danube-Black Sea Canal",
+   "kind": "canal",
+   "builder": null,
+   "start": 1949,
+   "done": 1984,
+   "points": [
+    [
+     "Cernavoda",
+     28.03,
+     44.34
+    ],
+    [
+     "Agigea",
+     28.63,
+     44.09
+    ]
+   ],
+   "effect": "A short way from the Danube to the sea.",
+   "note": ""
+  },
+  {
+   "id": "fucine_drain",
+   "name": "Draining the Fucine Lake",
+   "kind": "great_work",
+   "builder": "rome",
+   "start": 41,
+   "done": 52,
+   "points": [
+    [
+     "Lacus Fucinus",
+     13.53,
+     41.99
+    ],
+    [
+     "Liris",
+     13.44,
+     41.92
+    ]
+   ],
+   "effect": "New farmland from the lake bed.",
+   "note": "Claudius' tunnel, 5.6 km, dug by 30,000 men over 11 years."
+  },
+  {
+   "id": "pontine_marshes",
+   "name": "Draining the Pontine Marshes",
+   "kind": "great_work",
+   "builder": null,
+   "start": 1930,
+   "done": 1939,
+   "points": [
+    [
+     "Latina",
+     12.9,
+     41.47
+    ]
+   ],
+   "effect": "New farmland and an end to malaria; attempted since Appius Claudius.",
+   "note": ""
+  },
+  {
+   "id": "aswan_dam",
+   "name": "Aswan Low Dam",
+   "kind": "great_work",
+   "builder": null,
+   "start": 1898,
+   "done": 1902,
+   "points": [
+    [
+     "Aswan",
+     32.88,
+     24.03
+    ]
+   ],
+   "effect": "Holds the Nile flood: two harvests a year.",
+   "note": ""
+  },
+  {
+   "id": "aswan_high_dam",
+   "name": "Aswan High Dam",
+   "kind": "great_work",
+   "builder": null,
+   "start": 1960,
+   "done": 1970,
+   "points": [
+    [
+     "Aswan",
+     32.88,
+     23.97
+    ]
+   ],
+   "effect": "Holds the whole flood; power for Egypt.",
+   "note": ""
+  },
+  {
+   "id": "ataturk_dam",
+   "name": "Atatürk Dam",
+   "kind": "great_work",
+   "builder": null,
+   "start": 1983,
+   "done": 1990,
+   "points": [
+    [
+     "Bozova",
+     38.32,
+     37.48
+    ]
+   ],
+   "effect": "Water and power for the upper Euphrates.",
+   "note": ""
+  },
+  {
+   "id": "long_walls_athens",
+   "name": "The Long Walls of Athens",
+   "kind": "wall",
+   "builder": null,
+   "start": -461,
+   "done": -457,
+   "points": [
+    [
+     "Athens",
+     23.73,
+     37.97
+    ],
+    [
+     "Piraeus",
+     23.64,
+     37.94
+    ]
+   ],
+   "effect": "Keeps Athens fed by sea under siege.",
+   "note": "Pulled down in 404 BC, rebuilt by Conon in 393 BC.",
+   "fall": -86,
+   "fall_why": "destroyed by Sulla in 86 BC"
+  },
+  {
+   "id": "fossatum_africae",
+   "name": "Fossatum Africae",
+   "kind": "wall",
+   "builder": "rome",
+   "start": 117,
+   "done": 138,
+   "points": [
+    [
+     "Tobna",
+     5.35,
+     35.35
+    ],
+    [
+     "Gemellae",
+     5.53,
+     34.64
+    ],
+    [
+     "Thabudeos",
+     5.88,
+     34.79
+    ],
+    [
+     "Ad Majores",
+     7.37,
+     34.28
+    ]
+   ],
+   "effect": "A ditch and wall along the desert's edge: slows raiders from the south.",
+   "note": ""
+  },
+  {
+   "id": "strata_diocletiana",
+   "name": "Strata Diocletiana",
+   "kind": "wall",
+   "builder": "rome",
+   "start": 293,
+   "done": 305,
+   "points": [
+    [
+     "Sura",
+     38.81,
+     35.91
+    ],
+    [
+     "Palmyra",
+     38.27,
+     34.55
+    ],
+    [
+     "Damascus",
+     36.29,
+     33.51
+    ],
+    [
+     "Bostra",
+     36.48,
+     32.52
+    ]
+   ],
+   "effect": "A fortified road of forts along the Syrian desert.",
+   "note": ""
+  },
+  {
+   "id": "hexamilion",
+   "name": "The Hexamilion",
+   "kind": "wall",
+   "builder": "rome",
+   "start": 408,
+   "done": 450,
+   "points": [
+    [
+     "Lechaion",
+     22.89,
+     37.93
+    ],
+    [
+     "Isthmia",
+     22.99,
+     37.92
+    ]
+   ],
+   "effect": "A wall across the Isthmus: the Peloponnese held against invaders from the north.",
+   "note": "",
+   "fall": 1446,
+   "fall_why": "broken by the Ottomans in 1446"
+  },
+  {
+   "id": "anastasian_wall",
+   "name": "The Anastasian Wall",
+   "kind": "wall",
+   "builder": "rome",
+   "start": 500,
+   "done": 512,
+   "points": [
+    [
+     "Black Sea shore",
+     28.57,
+     41.49
+    ],
+    [
+     "Selymbria",
+     28.24,
+     41.08
+    ]
+   ],
+   "effect": "A second line before Constantinople.",
+   "note": "",
+   "fall": 600,
+   "fall_why": "abandoned for lack of men in the 7th century"
+  },
+  {
+   "id": "gorgan_wall",
+   "name": "The Great Wall of Gorgan",
+   "kind": "wall",
+   "builder": null,
+   "start": 420,
+   "done": 530,
+   "points": [
+    [
+     "Caspian shore",
+     54.0,
+     37.1
+    ],
+    [
+     "Pishkamar",
+     55.0,
+     37.45
+    ]
+   ],
+   "effect": "Holds the steppe raiders from Iran.",
+   "note": "The Sasanians' 'Red Snake', about 195 km; its end lies beyond the map's edge."
+  },
+  {
+   "id": "derbent_walls",
+   "name": "The Walls of Derbent",
+   "kind": "wall",
+   "builder": null,
+   "start": 552,
+   "done": 570,
+   "points": [
+    [
+     "Derbent",
+     48.29,
+     42.06
+    ],
+    [
+     "Caucasus",
+     48.0,
+     41.98
+    ]
+   ],
+   "effect": "Closes the Caspian Gates against the peoples of the north.",
+   "note": ""
+  }
+ ]
+}
