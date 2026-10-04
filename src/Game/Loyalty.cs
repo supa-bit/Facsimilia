@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
+using GArray = Godot.Collections.Array;
 using GDictionary = Godot.Collections.Dictionary;
 
 namespace Facsimilia.Game;
@@ -16,11 +18,19 @@ public sealed class ProvinceState
     public double Unrest { get; set; }
     /// <summary>The realm that held it last year: a change means it was conquered.</summary>
     public int Owner { get; set; }
-    /// <summary>Finished buildings: id -> how many (walls can be built twice).</summary>
+    /// <summary>Finished buildings: id -> level.</summary>
     public Dictionary<string, int> Buildings { get; } = new();
-    /// <summary>The building under way, if any, and the years left.</summary>
-    public string Building { get; set; } = "";
-    public int BuildingYearsLeft { get; set; }
+    /// <summary>
+    /// The building queue (decision "Building more than one at a time": a
+    /// queue per province, several at once in big cities): building id and
+    /// years left, in order; the first few, as many as the province's slots,
+    /// are worked on.
+    /// </summary>
+    public List<BuildWork> Works { get; } = new();
+    /// <summary>The first building under way, or "".</summary>
+    public string Building => Works.Count > 0 ? Works[0].Id : "";
+    /// <summary>Years the province's buildings have gone unpaid or unused (decision "Neglect").</summary>
+    public int NeglectYears { get; set; }
     /// <summary>A tax rate for this province only (decision "Playable 5": optional province rates), or null for the realm's.</summary>
     public TaxRate? Tax { get; set; }
 
@@ -34,7 +44,8 @@ public sealed class ProvinceState
         return new GDictionary
         {
             ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner,
-            ["buildings"] = b, ["building"] = Building, ["building_left"] = BuildingYearsLeft, ["tax"] = Tax is { } t ? (int)t : -1,
+            ["buildings"] = b, ["tax"] = Tax is { } t ? (int)t : -1, ["neglect"] = NeglectYears,
+            ["works"] = new GArray(Works.Select(w => (Variant)new GArray { w.Id, w.Left }).ToArray()),
         };
     }
 
@@ -44,14 +55,30 @@ public sealed class ProvinceState
         {
             Culture = d["culture"].AsString(), Religion = d["religion"].AsString(),
             Integration = d["integration"].AsDouble(), Unrest = d["unrest"].AsDouble(), Owner = d["owner"].AsInt32(),
-            Building = d.TryGetValue("building", out var bu) ? bu.AsString() : "",
-            BuildingYearsLeft = d.TryGetValue("building_left", out var bl) ? bl.AsInt32() : 0,
+            NeglectYears = d.TryGetValue("neglect", out var ng) ? ng.AsInt32() : 0,
             Tax = d.TryGetValue("tax", out var t) && t.AsInt32() >= 0 ? (TaxRate)t.AsInt32() : null,
         };
+        if (d.TryGetValue("works", out var works))
+            foreach (var v in works.AsGodotArray())
+                p.Works.Add(new BuildWork(v.AsGodotArray()[0].AsString(), v.AsGodotArray()[1].AsInt32()));
+        else if (d.TryGetValue("building", out var bu) && bu.AsString() != "")
+            p.Works.Add(new BuildWork(bu.AsString(), d.TryGetValue("building_left", out var bl) ? bl.AsInt32() : 1));   // a save from before queues
         if (d.TryGetValue("buildings", out var b))
             foreach (var (k, v) in b.AsGodotDictionary())
                 p.Buildings[k.AsString()] = v.AsInt32();
         return p;
+    }
+}
+
+/// <summary>A building under way: what, and the years left.</summary>
+public sealed class BuildWork
+{
+    public string Id { get; }
+    public int Left { get; set; }
+    public BuildWork(string id, int left)
+    {
+        Id = id;
+        Left = left;
     }
 }
 

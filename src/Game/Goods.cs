@@ -176,7 +176,8 @@ public static class GoodsEngine
     public static Dictionary<int, RealmGoods> Compute(GoodsCatalog cat, PopulationEngine pop, Func<string, byte[]?> field,
         double urbanThreshold = Census.UrbanThreshold, IReadOnlyDictionary<string, double[]>? workFactor = null,
         float[]? fieldYield = null, IReadOnlyDictionary<string, float[]>? nodeFactor = null,
-        IReadOnlyDictionary<int, double>? craftBoost = null, Func<int, string, double>? realmWorkBoost = null)
+        IReadOnlyDictionary<int, double>? craftBoost = null, Func<int, string, double>? realmWorkBoost = null,
+        IReadOnlyDictionary<int, float[]>? goodNodeFactor = null, IReadOnlyDictionary<int, double[]>? madeBoost = null)
     {
         int n = cat.Goods.Count;
         var byWork = cat.Goods.Where(g => g.Source == GoodSource.Land)
@@ -248,7 +249,7 @@ public static class GoodsEngine
                 double labour = country * share * (factor != null ? factor[region] : 1) * (onLand ? richness : 1)
                     * (nodeF != null ? nodeF[i] : 1) * realmBoost[w] / sum;
                 foreach (var (g, _, _) in goods)
-                    rg.Produced[g] += labour * s[g] * s[g];
+                    rg.Produced[g] += labour * s[g] * s[g] * (goodNodeFactor != null && goodNodeFactor.TryGetValue(g, out var gf) ? gf[i] : 1);
             }
         }
         foreach (var (owner, rg) in result)
@@ -266,7 +267,8 @@ public static class GoodsEngine
                 rg.Needed[g.Index] = g.Need * total;
                 demand[g.Index] = rg.Needed[g.Index];
                 if (g.Source == GoodSource.Made)
-                    demand[g.Index] += craftsmen * g.Weight / totalWeight / g.Labour;
+                    demand[g.Index] += craftsmen * g.Weight / totalWeight / g.Labour
+                        * (1 + (madeBoost != null && madeBoost.TryGetValue(owner, out var mb) ? mb[g.Index] : 0));   // workshops of this craft
             }
             double labourUsed = 0;
             var downstream = new double[n];   // wanted of each good as an input to others

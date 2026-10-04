@@ -2195,6 +2195,26 @@ Your answers on the Ledger's "Technology and knowledge" topic.
   spies stealing techs — needs Diplomacy; the tree's look ("Both") — a
   tree and a timeline view, with the interface work.
 
+## Buildings and works, part one **(built, 4 Oct 2026)**
+
+From the designer's answers on the Ledger (Buildings and works):
+
+- **Many buildings** (`data/buildings.json`, 80): the first twelve, one
+  building for nearly every good (olive groves, potteries, vineyards,
+  dye works and so on; each raises its good in the province by a share
+  per level), and warehouses (spoilage), libraries and schools
+  (research), baths, theatres, a mint and an agora.
+- **Levels**: each building has named levels (harbour, then great
+  harbour); level n costs n times the base price and takes the same years.
+- **Queue**: up to 6 works waiting per province. One is built at a time;
+  a town of 50,000 builds two at once, of 200,000 three.
+- **Decay**: when upkeep goes unpaid for 3 years in a row, one building
+  in each province loses a level; a province of under 1,000 people lets
+  its buildings fall too.
+- **War damage**: a province taken by siege loses a level of its walls,
+  and each other building has a 30% chance to lose one; the chronicle
+  says so.
+
 ## Battles and generals, part 4a: mercenary companies **(built, 28 Sep 2026)**
 
 Your answers: companies replace "hire at twice the price"; history's

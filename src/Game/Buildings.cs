@@ -10,6 +10,15 @@ public sealed record BuildingDef(string Id, string Name, double Cost, int Years,
     Dictionary<string, double> Effects, string Description, string? Requires = null)
 {
     public double Effect(string key) => Effects.TryGetValue(key, out var v) ? v : 0;
+    /// <summary>Each level's name (decision "Buildings that grow": a harbour becomes a great harbour).</summary>
+    public string[] Levels { get; init; } = Array.Empty<string>();
+    /// <summary>The name of a level (1 = first).</summary>
+    public string LevelName(int level) => Levels.Length >= level && level > 0 ? Levels[level - 1] : Name + (level > 1 ? $" (level {level})" : "");
+    /// <summary>What raising it to a level costs: its cost times the level.</summary>
+    public double CostOf(int level) => Cost * Math.Max(1, level);
+    /// <summary>The goods it raises (good id -> share more per level).</summary>
+    public IEnumerable<(string Good, double Share)> Goods =>
+        Effects.Where(e => e.Key.StartsWith("good:")).Select(e => (e.Key[5..], e.Value));
 }
 
 /// <summary>The core set of buildings (decision "Playable 32").</summary>
@@ -35,7 +44,10 @@ public sealed class BuildingCatalog
             c.All.Add(new BuildingDef(b.GetProperty("id").GetString()!, b.GetProperty("name").GetString()!,
                 b.GetProperty("cost").GetDouble(), b.GetProperty("years").GetInt32(), b.GetProperty("upkeep").GetDouble(),
                 b.GetProperty("max").GetInt32(), b.TryGetProperty("needs", out var n) ? n.GetString() : null, effects,
-                b.GetProperty("description").GetString()!, b.TryGetProperty("requires", out var rq) ? rq.GetString() : null));
+                b.GetProperty("description").GetString()!, b.TryGetProperty("requires", out var rq) ? rq.GetString() : null)
+            {
+                Levels = b.TryGetProperty("levels", out var lv) ? lv.EnumerateArray().Select(x => x.GetString()!).ToArray() : Array.Empty<string>(),
+            });
         }
         return c;
     }

@@ -1,5 +1,5 @@
 {
- "about": "The core set of buildings (decision 'Playable 32': a core set). cost: talents; years: to build; upkeep: talents a year; max: how many times it can be built in one province; needs: river (a river or floodplain), hills, ore (a mineral deposit), coast, town (10,000 people or more in the province's largest place). effects: field, orchard, mine, gather (production of that kind of work in the province, as a share more), famine (share of a bad harvest's loss it saves), crafts (made goods), trade (goods value and customs), ships (warship cost for the realm), integration (speed), unrest (added), garrison (Might added to the walls), manpower (the province's levies), growth (the region's Health growth factor, weighted by the province's people). Our own data, free for any use. requires: a technology the realm must know to build it.",
+ "about": "The core set of buildings (decision 'Playable 32': a core set). cost: talents; years: to build; upkeep: talents a year; max: how many times it can be built in one province; needs: river (a river or floodplain), hills, ore (a mineral deposit), coast, town (10,000 people or more in the province's largest place). effects: field, orchard, mine, gather (production of that kind of work in the province, as a share more), famine (share of a bad harvest's loss it saves), crafts (made goods), trade (goods value and customs), ships (warship cost for the realm), integration (speed), unrest (added), garrison (Might added to the walls), manpower (the province's levies), growth (the region's Health growth factor, weighted by the province's people). Our own data, free for any use. requires: a technology the realm must know to build it. levels: each level's name; a building can be raised to its last level, each level costing its cost times the level and taking its years; effects count once per level. good:<id>: that good's output in the province (land goods) or the realm's output of it weighted by the province's people (made goods), as a share more per level. research: the realm's research, as a share, weighted by the province's people. storage: stores of goods (their use waits on the Ledger's 'Stores of goods'). needs has:<good>: the province must yield that good. The Ledger topic 'Buildings and works' (your answer 'Much more than either choice, almost one for each resource, manufactured, intermediate, alongside other buildings like storage and ones that have various effects').",
  "buildings": [
   {
    "id": "irrigation",
@@ -7,12 +7,17 @@
    "cost": 120,
    "years": 4,
    "upkeep": 3,
-   "max": 1,
+   "max": 3,
    "needs": "river",
    "effects": {
     "field": 0.25
    },
-   "description": "Canals, dykes and water-lifting wheels: fields that drink when the rain fails. Needs a river or floodplain."
+   "description": "Canals, dykes and water-lifting wheels: fields that drink when the rain fails. Needs a river or floodplain.",
+   "levels": [
+    "Irrigation channels",
+    "Irrigation works",
+    "Great irrigation works"
+   ]
   },
   {
    "id": "granary",
@@ -20,11 +25,15 @@
    "cost": 40,
    "years": 1,
    "upkeep": 1,
-   "max": 1,
+   "max": 2,
    "effects": {
     "famine": 0.5
    },
-   "description": "Stored grain: a bad harvest hurts half as much."
+   "description": "Stored grain: a bad harvest hurts half as much.",
+   "levels": [
+    "Granary",
+    "Great granary"
+   ]
   },
   {
    "id": "terraces",
@@ -32,12 +41,16 @@
    "cost": 60,
    "years": 3,
    "upkeep": 1,
-   "max": 1,
+   "max": 2,
    "needs": "hills",
    "effects": {
     "orchard": 0.3
    },
-   "description": "Walled steps on the hillsides for vines and olives. Needs hilly land."
+   "description": "Walled steps on the hillsides for vines and olives. Needs hilly land.",
+   "levels": [
+    "Terraces",
+    "Terraced hillsides"
+   ]
   },
   {
    "id": "mines",
@@ -45,12 +58,17 @@
    "cost": 100,
    "years": 3,
    "upkeep": 4,
-   "max": 1,
+   "max": 3,
    "needs": "ore",
    "effects": {
     "mine": 0.5
    },
-   "description": "Shafts, adits and washing floors: half again as much ore and stone. Needs a deposit."
+   "description": "Shafts, adits and washing floors: half again as much ore and stone. Needs a deposit.",
+   "levels": [
+    "Mines",
+    "Deep mines",
+    "Great mines"
+   ]
   },
   {
    "id": "workshops",
@@ -58,11 +76,16 @@
    "cost": 80,
    "years": 2,
    "upkeep": 2,
-   "max": 1,
+   "max": 3,
    "effects": {
     "crafts": 0.15
    },
-   "description": "Potteries, forges, fulling mills and looms: the province makes more of every made good."
+   "description": "Potteries, forges, fulling mills and looms: the province makes more of every made good.",
+   "levels": [
+    "Workshops",
+    "Workshop quarter",
+    "Manufactories"
+   ]
   },
   {
    "id": "market",
@@ -70,11 +93,16 @@
    "cost": 60,
    "years": 2,
    "upkeep": 1,
-   "max": 1,
+   "max": 3,
    "effects": {
     "trade": 0.1
    },
-   "description": "A market square with weights and measures: more trade, and more customs from it."
+   "description": "A market square with weights and measures: more trade, and more customs from it.",
+   "levels": [
+    "Market",
+    "Market hall",
+    "Great market"
+   ]
   },
   {
    "id": "harbour",
@@ -82,14 +110,19 @@
    "cost": 150,
    "years": 4,
    "upkeep": 4,
-   "max": 1,
+   "max": 3,
    "needs": "coast",
    "effects": {
     "gather": 0.3,
     "trade": 0.1,
     "ships": 0.25
    },
-   "description": "Moles, quays and shipsheds: more fishing and trade, and warships a quarter cheaper for the realm. Needs a coast."
+   "description": "Moles, quays and shipsheds: more fishing and trade, and warships a quarter cheaper for the realm. Needs a coast.",
+   "levels": [
+    "Harbour",
+    "Great harbour",
+    "Port"
+   ]
   },
   {
    "id": "road",
@@ -97,12 +130,16 @@
    "cost": 90,
    "years": 3,
    "upkeep": 2,
-   "max": 1,
+   "max": 2,
    "effects": {
     "integration": 0.25,
     "trade": 0.05
    },
-   "description": "Paved roads and bridges: the province settles into the realm faster, and goods move."
+   "description": "Paved roads and bridges: the province settles into the realm faster, and goods move.",
+   "levels": [
+    "Local roads",
+    "Paved roads"
+   ]
   },
   {
    "id": "walls",
@@ -114,7 +151,11 @@
    "effects": {
     "garrison": 4
    },
-   "description": "Stone walls and towers: besiegers take longer. Can be built twice."
+   "description": "Stone walls and towers: besiegers take longer. Can be built twice.",
+   "levels": [
+    "Walls",
+    "Great walls"
+   ]
   },
   {
    "id": "barracks",
@@ -122,11 +163,15 @@
    "cost": 70,
    "years": 2,
    "upkeep": 3,
-   "max": 1,
+   "max": 2,
    "effects": {
     "manpower": 0.2
    },
-   "description": "A place to train: more of the province's men can be called up."
+   "description": "A place to train: more of the province's men can be called up.",
+   "levels": [
+    "Barracks",
+    "Military camp"
+   ]
   },
   {
    "id": "temple",
@@ -134,12 +179,17 @@
    "cost": 90,
    "years": 3,
    "upkeep": 2,
-   "max": 1,
+   "max": 3,
    "effects": {
     "unrest": -0.1,
     "integration": 0.2
    },
-   "description": "A great sanctuary to the gods of the province's people: less unrest, and they accept you sooner."
+   "description": "A great sanctuary to the gods of the province's people: less unrest, and they accept you sooner.",
+   "levels": [
+    "Temple",
+    "Great temple",
+    "Sanctuary"
+   ]
   },
   {
    "id": "aqueduct",
@@ -147,13 +197,1276 @@
    "cost": 160,
    "years": 5,
    "upkeep": 4,
-   "max": 1,
+   "max": 2,
    "needs": "town",
    "effects": {
     "unrest": -0.05,
     "growth": 0.3
    },
-   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size."
+   "description": "Clean water for a crowded town: healthier people and a contented city. Needs a town of some size.",
+   "levels": [
+    "Aqueduct",
+    "Aqueducts"
+   ]
+  },
+  {
+   "id": "grain_estates",
+   "name": "Grain estates",
+   "levels": [
+    "Grain estates",
+    "Large grain estates",
+    "Latifundia"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:emmer": 0.3,
+    "good:durum_wheat": 0.3,
+    "good:wheat": 0.3,
+    "good:barley": 0.3,
+    "good:millet": 0.3,
+    "good:rye": 0.3,
+    "good:oats": 0.3
+   },
+   "description": "Great farms of wheat and barley, worked by tenants and the enslaved, like the latifundia of Italy and Sicily."
+  },
+  {
+   "id": "pulse_fields",
+   "name": "Bean and lentil fields",
+   "levels": [
+    "Bean and lentil fields",
+    "Large bean and lentil fields",
+    "Great bean and lentil fields"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:lentils": 0.3,
+    "good:chickpeas": 0.3,
+    "good:peas": 0.3,
+    "good:broad_beans": 0.3
+   },
+   "description": "Fields of lentils, chickpeas, peas and beans: the poor man's meat."
+  },
+  {
+   "id": "flax_fields",
+   "name": "Flax fields",
+   "levels": [
+    "Flax fields",
+    "Large flax fields",
+    "Great flax fields"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:flax": 0.3,
+    "good:hemp": 0.3
+   },
+   "description": "Watered fields of flax and hemp for linen and rope; Egypt's linen was famous.",
+   "needs": "river"
+  },
+  {
+   "id": "sesame_fields",
+   "name": "Sesame fields",
+   "levels": [
+    "Sesame fields",
+    "Large sesame fields",
+    "Great sesame fields"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:sesame": 0.3
+   },
+   "description": "Sesame for oil, grown along the Nile and in Mesopotamia.",
+   "needs": "river"
+  },
+  {
+   "id": "olive_groves",
+   "name": "Olive groves",
+   "levels": [
+    "Olive groves",
+    "Large olive groves",
+    "Great olive estates"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 4,
+   "upkeep": 1,
+   "effects": {
+    "good:olives": 0.3
+   },
+   "description": "Olive trees take years to bear; then they give oil for food, lamps and the baths."
+  },
+  {
+   "id": "vineyards",
+   "name": "Vineyards",
+   "levels": [
+    "Vineyards",
+    "Large vineyards",
+    "Famous vineyards"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 3,
+   "upkeep": 1,
+   "effects": {
+    "good:grapes": 0.3
+   },
+   "description": "Vines for wine: Chian, Falernian, Thasian were prized by name."
+  },
+  {
+   "id": "fruit_orchards",
+   "name": "Fruit orchards",
+   "levels": [
+    "Fruit orchards",
+    "Large fruit orchards",
+    "Great fruit orchards"
+   ],
+   "max": 3,
+   "cost": 70,
+   "years": 3,
+   "upkeep": 1,
+   "effects": {
+    "good:figs": 0.3,
+    "good:dates": 0.3,
+    "good:pomegranates": 0.3,
+    "good:almonds": 0.3,
+    "good:walnuts": 0.3
+   },
+   "description": "Figs, dates, pomegranates and nuts."
+  },
+  {
+   "id": "market_gardens",
+   "name": "Market gardens",
+   "levels": [
+    "Market gardens",
+    "Large market gardens",
+    "Great market gardens"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:vegetables": 0.3,
+    "good:herbs": 0.3
+   },
+   "description": "Gardens of vegetables and herbs around a town.",
+   "needs": "town"
+  },
+  {
+   "id": "cattle_ranches",
+   "name": "Cattle ranches",
+   "levels": [
+    "Cattle ranches",
+    "Large cattle ranches",
+    "Great cattle ranches"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:cattle": 0.3
+   },
+   "description": "Herds of cattle for ploughing, milk, hides and meat."
+  },
+  {
+   "id": "sheep_runs",
+   "name": "Sheep runs",
+   "levels": [
+    "Sheep runs",
+    "Large sheep runs",
+    "Great sheep runs"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:sheep": 0.3
+   },
+   "description": "Flocks for wool, moving between summer and winter pastures."
+  },
+  {
+   "id": "goat_herds",
+   "name": "Goat herds",
+   "levels": [
+    "Goat herds",
+    "Large goat herds",
+    "Great goat herds"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:goats": 0.3
+   },
+   "description": "Goats for milk, cheese and hides on rough land."
+  },
+  {
+   "id": "pig_farms",
+   "name": "Pig farms",
+   "levels": [
+    "Pig farms",
+    "Large pig farms",
+    "Great pig farms"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:pigs": 0.3
+   },
+   "description": "Pigs fed in oak woods and on scraps."
+  },
+  {
+   "id": "horse_studs",
+   "name": "Horse studs",
+   "levels": [
+    "Horse studs",
+    "Great studs",
+    "Royal studs"
+   ],
+   "max": 3,
+   "cost": 120,
+   "years": 3,
+   "upkeep": 2,
+   "effects": {
+    "good:horses": 0.3,
+    "good:donkeys": 0.3
+   },
+   "description": "Breeding horses for cavalry and chariots, like the royal studs of Media and Thessaly."
+  },
+  {
+   "id": "camel_herds",
+   "name": "Camel herds",
+   "levels": [
+    "Camel herds",
+    "Large camel herds",
+    "Great camel herds"
+   ],
+   "max": 3,
+   "cost": 70,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:camels": 0.3
+   },
+   "description": "Camels for the desert caravans."
+  },
+  {
+   "id": "poultry_yards",
+   "name": "Poultry yards",
+   "levels": [
+    "Poultry yards",
+    "Large poultry yards",
+    "Great poultry yards"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:poultry": 0.3
+   },
+   "description": "Hens, ducks and geese for the town markets.",
+   "needs": "town"
+  },
+  {
+   "id": "fisheries",
+   "name": "Fisheries",
+   "levels": [
+    "Fisheries",
+    "Large fisheries",
+    "Great fisheries"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:fish": 0.3,
+    "good:shellfish": 0.3
+   },
+   "description": "Boats, nets and tuna watches along the coast.",
+   "needs": "coast"
+  },
+  {
+   "id": "apiaries",
+   "name": "Apiaries",
+   "levels": [
+    "Apiaries",
+    "Large apiaries",
+    "Great apiaries"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:honey": 0.3
+   },
+   "description": "Beehives for honey and wax."
+  },
+  {
+   "id": "reed_beds",
+   "name": "Reed beds",
+   "levels": [
+    "Reed beds",
+    "Large reed beds",
+    "Great reed beds"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:reeds": 0.3,
+    "good:papyrus_reeds": 0.3
+   },
+   "description": "Reeds and papyrus cut in the marshes and along the rivers.",
+   "needs": "river"
+  },
+  {
+   "id": "herb_gardens",
+   "name": "Herb gatherers",
+   "levels": [
+    "Herb gatherers",
+    "Large herb gatherers",
+    "Great herb gatherers"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:medicinal_plants": 0.3
+   },
+   "description": "Gatherers of healing herbs for the physicians."
+  },
+  {
+   "id": "resin_tappers",
+   "name": "Resin tappers",
+   "levels": [
+    "Resin tappers",
+    "Large resin tappers",
+    "Great resin tappers"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:resin": 0.3,
+    "good:pitch": 0.3
+   },
+   "description": "Tapping pines for resin and boiling pitch for ships and wine jars."
+  },
+  {
+   "id": "murex_fisheries",
+   "name": "Murex fisheries",
+   "levels": [
+    "Murex fisheries",
+    "Large murex fisheries",
+    "Great murex fisheries"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:murex": 0.3
+   },
+   "description": "Diving for murex shells for the purple dye of Tyre.",
+   "needs": "coast"
+  },
+  {
+   "id": "incense_groves",
+   "name": "Incense groves",
+   "levels": [
+    "Incense groves",
+    "Large incense groves",
+    "Great incense groves"
+   ],
+   "max": 3,
+   "cost": 100,
+   "years": 3,
+   "upkeep": 1,
+   "effects": {
+    "good:frankincense": 0.3,
+    "good:myrrh": 0.3,
+    "good:balsam": 0.3
+   },
+   "description": "Tending the trees of frankincense and myrrh, the wealth of Arabia Felix.",
+   "needs": "has:frankincense"
+  },
+  {
+   "id": "ivory_hunters",
+   "name": "Ivory hunters",
+   "levels": [
+    "Ivory hunters",
+    "Large ivory hunters",
+    "Great ivory hunters"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:ivory": 0.3
+   },
+   "description": "Hunting elephants for their tusks.",
+   "needs": "has:ivory"
+  },
+  {
+   "id": "silphium_fields",
+   "name": "Silphium gatherers",
+   "levels": [
+    "Silphium gatherers",
+    "Large silphium gatherers",
+    "Great silphium gatherers"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:silphium": 0.3
+   },
+   "description": "Cyrene's silphium, so prized it was gathered to extinction by Nero's day.",
+   "needs": "has:silphium"
+  },
+  {
+   "id": "logging_camps",
+   "name": "Logging camps",
+   "levels": [
+    "Logging camps",
+    "Large logging camps",
+    "Great logging camps"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:logs": 0.3,
+    "good:brushwood": 0.3
+   },
+   "description": "Woodcutters and their mules."
+  },
+  {
+   "id": "timber_forests",
+   "name": "Ship-timber forests",
+   "levels": [
+    "Ship-timber forests",
+    "Large ship-timber forests",
+    "Great ship-timber forests"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 3,
+   "upkeep": 1,
+   "effects": {
+    "good:ship_timber": 0.3,
+    "good:cedar": 0.3
+   },
+   "description": "Tall straight trees for masts and keels: Macedon's firs, Lebanon's cedars.",
+   "needs": "has:ship_timber"
+  },
+  {
+   "id": "charcoal_burners",
+   "name": "Charcoal burners",
+   "levels": [
+    "Charcoal burners",
+    "Large charcoal burners",
+    "Great charcoal burners"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:charcoal": 0.3
+   },
+   "description": "Earth-covered kilns turning wood to charcoal for the smiths."
+  },
+  {
+   "id": "quarries",
+   "name": "Quarries",
+   "levels": [
+    "Quarries",
+    "Great quarries",
+    "Imperial quarries"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:marble": 0.3,
+    "good:granite": 0.3,
+    "good:porphyry": 0.3,
+    "good:sandstone": 0.3,
+    "good:limestone": 0.3
+   },
+   "description": "Cutting stone: Pentelic and Carrara marble, Egyptian granite and porphyry.",
+   "needs": "ore"
+  },
+  {
+   "id": "clay_pits",
+   "name": "Clay pits",
+   "levels": [
+    "Clay pits",
+    "Large clay pits",
+    "Great clay pits"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:clay": 0.3,
+    "good:fine_clay": 0.3,
+    "good:sand": 0.3,
+    "good:glass_sand": 0.3
+   },
+   "description": "Digging clay and sand for potters, brick-makers and glass-makers."
+  },
+  {
+   "id": "iron_mines",
+   "name": "Iron mines",
+   "levels": [
+    "Iron mines",
+    "Large iron mines",
+    "Great iron mines"
+   ],
+   "max": 3,
+   "cost": 110,
+   "years": 3,
+   "upkeep": 2,
+   "effects": {
+    "good:iron_ore": 0.3
+   },
+   "description": "Iron ore: Noricum, Elba, the Chalybes.",
+   "needs": "has:iron_ore"
+  },
+  {
+   "id": "copper_mines",
+   "name": "Copper mines",
+   "levels": [
+    "Copper mines",
+    "Large copper mines",
+    "Great copper mines"
+   ],
+   "max": 3,
+   "cost": 110,
+   "years": 3,
+   "upkeep": 2,
+   "effects": {
+    "good:copper_ore": 0.3,
+    "good:tin_ore": 0.3
+   },
+   "description": "Copper and tin for bronze: Cyprus, Spain, Cornwall's tin by sea.",
+   "needs": "has:copper_ore"
+  },
+  {
+   "id": "silver_mines",
+   "name": "Silver mines",
+   "levels": [
+    "Silver mines",
+    "Deep silver mines",
+    "Great silver mines"
+   ],
+   "max": 3,
+   "cost": 150,
+   "years": 4,
+   "upkeep": 3,
+   "effects": {
+    "good:silver_ore": 0.3,
+    "good:lead_ore": 0.3
+   },
+   "description": "Silver and lead: Laurion, the Spanish mines of New Carthage.",
+   "needs": "has:silver_ore"
+  },
+  {
+   "id": "gold_mines",
+   "name": "Gold mines",
+   "levels": [
+    "Gold mines",
+    "Large gold mines",
+    "Great gold mines"
+   ],
+   "max": 3,
+   "cost": 150,
+   "years": 4,
+   "upkeep": 3,
+   "effects": {
+    "good:gold_ore": 0.3
+   },
+   "description": "Gold washed from rivers and dug from the hills: Thrace, Spain, Nubia.",
+   "needs": "has:gold_ore"
+  },
+  {
+   "id": "salt_pans",
+   "name": "Salt pans",
+   "levels": [
+    "Salt pans",
+    "Large salt pans",
+    "Great salt pans"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:salt": 0.3
+   },
+   "description": "Evaporating sea water for salt, to keep fish and meat.",
+   "needs": "coast"
+  },
+  {
+   "id": "mineral_works",
+   "name": "Mineral works",
+   "levels": [
+    "Mineral works",
+    "Large mineral works",
+    "Great mineral works"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:sulfur": 0.3,
+    "good:alum": 0.3,
+    "good:natron": 0.3,
+    "good:bitumen": 0.3,
+    "good:cinnabar": 0.3
+   },
+   "description": "Sulfur, alum, natron and bitumen for dyers, glass-makers and builders.",
+   "needs": "ore"
+  },
+  {
+   "id": "turquoise_mines",
+   "name": "Turquoise mines",
+   "levels": [
+    "Turquoise mines",
+    "Large turquoise mines",
+    "Great turquoise mines"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:turquoise": 0.3
+   },
+   "description": "Sinai's turquoise.",
+   "needs": "has:turquoise"
+  },
+  {
+   "id": "mills",
+   "name": "Mills and bakeries",
+   "levels": [
+    "Mills and bakeries",
+    "Great bakeries",
+    "Watermills"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:threshed_grain": 0.3,
+    "good:flour": 0.3,
+    "good:meal": 0.3,
+    "good:bread": 0.3
+   },
+   "description": "Querns, donkey mills and bakeries feeding the towns.",
+   "needs": "town"
+  },
+  {
+   "id": "breweries",
+   "name": "Breweries",
+   "levels": [
+    "Breweries",
+    "Large breweries",
+    "Great breweries"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:beer": 0.3
+   },
+   "description": "Beer for Egypt, Mesopotamia and the Celts."
+  },
+  {
+   "id": "garum_works",
+   "name": "Garum works",
+   "levels": [
+    "Garum works",
+    "Large garum works",
+    "Great garum works"
+   ],
+   "max": 3,
+   "cost": 70,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:preserved_fish": 0.3
+   },
+   "description": "Salting fish and making garum, the fish sauce of the Mediterranean.",
+   "needs": "coast"
+  },
+  {
+   "id": "potteries",
+   "name": "Potteries",
+   "levels": [
+    "Potteries",
+    "Pottery quarter",
+    "Great potteries"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:pottery": 0.3,
+    "good:amphorae": 0.3,
+    "good:fine_ceramics": 0.3
+   },
+   "description": "Wheel-thrown pots, amphorae for wine and oil, and fine painted ware."
+  },
+  {
+   "id": "brickworks",
+   "name": "Brickworks",
+   "levels": [
+    "Brickworks",
+    "Large brickworks",
+    "Great brickworks"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:bricks": 0.3,
+    "good:roof_tiles": 0.3
+   },
+   "description": "Kilns for bricks and roof tiles."
+  },
+  {
+   "id": "lime_kilns",
+   "name": "Lime kilns",
+   "levels": [
+    "Lime kilns",
+    "Large lime kilns",
+    "Great lime kilns"
+   ],
+   "max": 3,
+   "cost": 40,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:lime": 0.3,
+    "good:plaster": 0.3
+   },
+   "description": "Burning limestone for mortar and plaster."
+  },
+  {
+   "id": "oil_presses",
+   "name": "Oil presses",
+   "levels": [
+    "Oil presses",
+    "Large oil presses",
+    "Great oil presses"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:olive_oil": 0.3,
+    "good:sesame_oil": 0.3
+   },
+   "description": "Lever and screw presses for oil."
+  },
+  {
+   "id": "wine_presses",
+   "name": "Wine presses",
+   "levels": [
+    "Wine presses",
+    "Large wine presses",
+    "Great wine presses"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:wine": 0.3,
+    "good:vinegar": 0.3
+   },
+   "description": "Treading floors and presses for wine."
+  },
+  {
+   "id": "drying_sheds",
+   "name": "Drying sheds",
+   "levels": [
+    "Drying sheds",
+    "Large drying sheds",
+    "Great drying sheds"
+   ],
+   "max": 3,
+   "cost": 30,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:fruit_preserves": 0.3
+   },
+   "description": "Drying figs, dates and raisins, and boiling fruit in honey."
+  },
+  {
+   "id": "spinners",
+   "name": "Spinning houses",
+   "levels": [
+    "Spinning houses",
+    "Large spinning houses",
+    "Great spinning houses"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:flax_fibre": 0.3,
+    "good:hemp_fibre": 0.3,
+    "good:linen_yarn": 0.3,
+    "good:wool_yarn": 0.3
+   },
+   "description": "Retting flax and spinning yarn, the work of every household."
+  },
+  {
+   "id": "weavers",
+   "name": "Weaving houses",
+   "levels": [
+    "Weaving houses",
+    "Weavers' quarter",
+    "Great weaving houses"
+   ],
+   "max": 3,
+   "cost": 70,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:linen": 0.3,
+    "good:woollen_cloth": 0.3,
+    "good:felt": 0.3
+   },
+   "description": "Looms for linen and wool."
+  },
+  {
+   "id": "ropewalks",
+   "name": "Ropewalks",
+   "levels": [
+    "Ropewalks",
+    "Large ropewalks",
+    "Great ropewalks"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:rope": 0.3,
+    "good:sailcloth": 0.3,
+    "good:sails": 0.3,
+    "good:rigging": 0.3
+   },
+   "description": "Rope and sailcloth for the fleets.",
+   "needs": "coast"
+  },
+  {
+   "id": "dye_works",
+   "name": "Dye works",
+   "levels": [
+    "Dye works",
+    "Large dye works",
+    "Great dye works"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:dyed_cloth": 0.3,
+    "good:purple_dye": 0.3
+   },
+   "description": "Vats of madder, woad and murex."
+  },
+  {
+   "id": "smelters",
+   "name": "Smelters",
+   "levels": [
+    "Smelters",
+    "Great smelters",
+    "Foundries"
+   ],
+   "max": 3,
+   "cost": 100,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:bloom_iron": 0.3,
+    "good:copper": 0.3,
+    "good:tin": 0.3,
+    "good:lead": 0.3,
+    "good:silver": 0.3,
+    "good:gold": 0.3
+   },
+   "description": "Furnaces turning ore into metal."
+  },
+  {
+   "id": "smithies",
+   "name": "Smithies",
+   "levels": [
+    "Smithies",
+    "Smiths' quarter",
+    "Great forges"
+   ],
+   "max": 3,
+   "cost": 70,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:wrought_iron": 0.3,
+    "good:steel": 0.3,
+    "good:nails": 0.3,
+    "good:tools": 0.3
+   },
+   "description": "Smiths hammering iron into tools and nails."
+  },
+  {
+   "id": "bronze_foundries",
+   "name": "Bronze foundries",
+   "levels": [
+    "Bronze foundries",
+    "Large bronze foundries",
+    "Great bronze foundries"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:bronze": 0.3
+   },
+   "description": "Casting bronze: statues, vessels, fittings."
+  },
+  {
+   "id": "armouries",
+   "name": "Armouries",
+   "levels": [
+    "Armouries",
+    "State armouries",
+    "Great arsenals"
+   ],
+   "max": 3,
+   "cost": 100,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:weapons": 0.3,
+    "good:armour": 0.3
+   },
+   "description": "Making swords, spears, helmets and mail for the armies."
+  },
+  {
+   "id": "masons",
+   "name": "Stonemasons' yards",
+   "levels": [
+    "Stonemasons' yards",
+    "Large stonemasons' yards",
+    "Great stonemasons' yards"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:dressed_stone": 0.3
+   },
+   "description": "Dressing stone for temples, walls and roads."
+  },
+  {
+   "id": "carpenters",
+   "name": "Carpenters' yards",
+   "levels": [
+    "Carpenters' yards",
+    "Large carpenters' yards",
+    "Great carpenters' yards"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:planks": 0.3,
+    "good:beams": 0.3,
+    "good:timber_frames": 0.3
+   },
+   "description": "Sawing and joining timber."
+  },
+  {
+   "id": "cartwrights",
+   "name": "Cartwrights",
+   "levels": [
+    "Cartwrights",
+    "Large cartwrights",
+    "Great cartwrights"
+   ],
+   "max": 3,
+   "cost": 50,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "good:carts": 0.3,
+    "good:wheels": 0.3,
+    "good:harnesses": 0.3
+   },
+   "description": "Carts, wheels and harness."
+  },
+  {
+   "id": "shipyards",
+   "name": "Shipyards",
+   "levels": [
+    "Shipyards",
+    "Great shipyards",
+    "Naval arsenal"
+   ],
+   "max": 3,
+   "cost": 140,
+   "years": 3,
+   "upkeep": 3,
+   "effects": {
+    "good:ship_planks": 0.3,
+    "good:hulls": 0.3,
+    "good:anchors": 0.3,
+    "ships": 0.1
+   },
+   "description": "Slipways and sheds for building ships, like Carthage's round harbour.",
+   "needs": "coast"
+  },
+  {
+   "id": "perfumeries",
+   "name": "Perfumeries",
+   "levels": [
+    "Perfumeries",
+    "Large perfumeries",
+    "Great perfumeries"
+   ],
+   "max": 3,
+   "cost": 90,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:incense": 0.3,
+    "good:perfume": 0.3
+   },
+   "description": "Blending incense and perfume: Capua, Alexandria.",
+   "needs": "town"
+  },
+  {
+   "id": "glassworks",
+   "name": "Glassworks",
+   "levels": [
+    "Glassworks",
+    "Large glassworks",
+    "Great glassworks"
+   ],
+   "max": 3,
+   "cost": 100,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:glass": 0.3
+   },
+   "description": "Sidon's glass-blowers.",
+   "needs": "town"
+  },
+  {
+   "id": "scriptoria",
+   "name": "Papyrus and parchment works",
+   "levels": [
+    "Papyrus and parchment works",
+    "Large papyrus and parchment works",
+    "Great papyrus and parchment works"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 1,
+   "effects": {
+    "good:papyrus": 0.3,
+    "good:parchment": 0.3
+   },
+   "description": "Papyrus from Egypt; parchment from Pergamon."
+  },
+  {
+   "id": "goldsmiths",
+   "name": "Goldsmiths and carvers",
+   "levels": [
+    "Goldsmiths and carvers",
+    "Large goldsmiths and carvers",
+    "Great goldsmiths and carvers"
+   ],
+   "max": 3,
+   "cost": 100,
+   "years": 2,
+   "upkeep": 2,
+   "effects": {
+    "good:jewellery": 0.3,
+    "good:worked_ivory": 0.3
+   },
+   "description": "Jewellery, worked ivory and fine things for the rich.",
+   "needs": "town"
+  },
+  {
+   "id": "warehouses",
+   "name": "Warehouses",
+   "levels": [
+    "Storehouses",
+    "Warehouses",
+    "Great warehouses"
+   ],
+   "max": 3,
+   "cost": 60,
+   "years": 1,
+   "upkeep": 1,
+   "effects": {
+    "storage": 1,
+    "famine": 0.1
+   },
+   "description": "Storehouses for grain, metal and timber (their full use waits on stores of goods)."
+  },
+  {
+   "id": "library",
+   "name": "Library",
+   "levels": [
+    "Library",
+    "Great library"
+   ],
+   "max": 2,
+   "cost": 150,
+   "years": 3,
+   "upkeep": 3,
+   "needs": "town",
+   "effects": {
+    "research": 0.05
+   },
+   "description": "Scrolls and scholars: research grows."
+  },
+  {
+   "id": "schools",
+   "name": "Schools",
+   "levels": [
+    "Schools",
+    "Gymnasium",
+    "Academy"
+   ],
+   "max": 3,
+   "cost": 80,
+   "years": 2,
+   "upkeep": 2,
+   "needs": "town",
+   "effects": {
+    "research": 0.03,
+    "integration": 0.1
+   },
+   "description": "Teachers of letters and the gymnasium: research and integration."
+  },
+  {
+   "id": "baths",
+   "name": "Baths",
+   "levels": [
+    "Baths",
+    "Great baths"
+   ],
+   "max": 2,
+   "cost": 100,
+   "years": 2,
+   "upkeep": 2,
+   "needs": "town",
+   "effects": {
+    "growth": 0.1,
+    "unrest": -0.03
+   },
+   "description": "Public baths: cleaner and calmer towns."
+  },
+  {
+   "id": "theatre",
+   "name": "Theatre",
+   "levels": [
+    "Theatre",
+    "Great theatre"
+   ],
+   "max": 2,
+   "cost": 90,
+   "years": 3,
+   "upkeep": 1,
+   "needs": "town",
+   "effects": {
+    "unrest": -0.05
+   },
+   "description": "Plays and festivals calm the town."
+  },
+  {
+   "id": "mint",
+   "name": "Mint",
+   "levels": [
+    "Mint"
+   ],
+   "max": 1,
+   "cost": 120,
+   "years": 2,
+   "upkeep": 2,
+   "needs": "town",
+   "effects": {
+    "trade": 0.05
+   },
+   "description": "Striking coin locally: trade flows easier."
+  },
+  {
+   "id": "agora",
+   "name": "Agora and forum",
+   "levels": [
+    "Agora",
+    "Forum"
+   ],
+   "max": 2,
+   "cost": 70,
+   "years": 2,
+   "upkeep": 1,
+   "needs": "town",
+   "effects": {
+    "integration": 0.15,
+    "trade": 0.03
+   },
+   "description": "The meeting place of the town: courts, assemblies, shops."
   }
  ]
 }

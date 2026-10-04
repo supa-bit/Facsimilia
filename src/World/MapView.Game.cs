@@ -43,7 +43,8 @@ public partial class MapView
                     _realmGoods = GoodsEngine.Compute(cat, Population, f => Land.Has(f) ? Land.Bytes(f) : null,
                         workFactor: WorkFactors(), fieldYield: Crops.FieldKcalPerHa, nodeFactor: BuildingNodeFactors(),
                         craftBoost: crafts, realmWorkBoost: (realm, work) =>
-                            TechCatalog.Instance.Effect(Game.Realm(realm), work is "earth" ? "mine" : work));
+                            TechCatalog.Instance.Effect(Game.Realm(realm), work is "earth" ? "mine" : work),
+                        goodNodeFactor: GoodNodeFactors(), madeBoost: MadeGoodBoosts(census));
                     foreach (var (realm, goods) in _realmGoods)
                         if (census.TryGetValue(realm, out var rc))
                             goods.TradeBonus = RealmBuildingEffects(realm, rc.People).Trade;

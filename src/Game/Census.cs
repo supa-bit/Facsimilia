@@ -16,6 +16,8 @@ public sealed class RealmCensus
     public RealmGoods? Goods { get; set; }
     /// <summary>Organized people in provinces with their own tax rate, by rate (decision "Playable 5").</summary>
     public double[] OrganizedAtRate { get; } = new double[4];
+    /// <summary>Research from libraries and schools, as a share (weighted by their provinces' people).</summary>
+    public double BuildingResearch { get; set; }
     // Buildings (MapView.Buildings): upkeep, and bonuses as shares.
     public double BuildingUpkeep { get; set; }
     public double ManpowerBonus { get; set; }

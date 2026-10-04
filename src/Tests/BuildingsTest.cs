@@ -40,12 +40,14 @@ public partial class BuildingsTest : TestRunner
         double before = s.Treasury;
         Check(map.StartBuilding(latium, cat["walls"]!), "couldn't start the walls");
         Check(s.Treasury == before - cat["walls"]!.Cost, "the walls should be paid for");
-        Check(map.CanBuild(latium, cat["temple"]!) != null, "one building at a time in a province");
+        Check(map.CanBuild(latium, cat["temple"]!) == null, "a second building waits in the queue");
+        Check(cat.All.Count >= 70 && cat["harbour"]!.LevelName(2) == "Great harbour", "many buildings, with levels");
+        Check(cat["walls"]!.CostOf(2) == 2 * cat["walls"]!.Cost, "a higher level costs more");
         double garrison = map.GarrisonOf(latium);
         for (int y = 0; y < cat["walls"]!.Years; y++)
             map.AdvanceYear();
         var ps = map.ProvinceStateOf(latium.Id);
-        Check(ps.Level("walls") == 1 && ps.Building == "", "the walls should be finished after their years");
+        Check(ps.Level("walls") == 1 && ps.Works.Count == 0, "the walls should be finished after their years");
         Check(map.GarrisonOf(latium) >= garrison + 3.9, "walls should strengthen the garrison");
 
         // Irrigation grows more grain.
@@ -56,6 +58,39 @@ public partial class BuildingsTest : TestRunner
         map.ProvinceStateOf(campania.Id).Buildings["irrigation"] = 1;
         map.InvalidateGoods();
         Check(Grain() > grain * 1.03, $"irrigation in Campania should grow more grain ({grain:0} -> {Grain():0})");
+
+        // A building for one good: olive groves raise olives.
+        int olives = goodsCat["olives"].Index;
+        map.InvalidateGoods();
+        double olive = map.CensusOf(rome).Goods!.Produced[olives];
+        foreach (var p in provs.Where(p => p.RealmId == rome))
+            map.ProvinceStateOf(p.Id).Buildings["olive_groves"] = 3;
+        map.InvalidateGoods();
+        Check(map.CensusOf(rome).Goods!.Produced[olives] > olive * 1.5, $"great olive estates should raise olives ({olive:0} -> {map.CensusOf(rome).Goods!.Produced[olives]:0})");
+        int pottery = goodsCat["pottery"].Index;
+        double pots = map.CensusOf(rome).Goods!.Produced[pottery];
+        foreach (var p in provs.Where(p => p.RealmId == rome))
+            map.ProvinceStateOf(p.Id).Buildings["potteries"] = 3;
+        map.InvalidateGoods();
+        Check(map.CensusOf(rome).Goods!.Produced[pottery] > pots, "potteries should make more pottery");
+        double research = TechCatalog.Instance.PointsPerYear(s, map.CensusOf(rome));
+        foreach (var p in provs.Where(p => p.RealmId == rome))
+            map.ProvinceStateOf(p.Id).Buildings["library"] = 2;
+        map.InvalidateGoods();
+        Check(TechCatalog.Instance.PointsPerYear(s, map.CensusOf(rome)) > research, "libraries should bring research");
+
+        // Neglect and war damage.
+        var lps = map.ProvinceStateOf(latium.Id);
+        lps.Buildings["temple"] = 2;
+        s.UnpaidYears = 1;
+        for (int y = 0; y < MapView.NeglectYearsToDecay; y++)
+            map.NeglectYearForTest();
+        Check(lps.Buildings.Values.Sum() < 2 + 1 + 3 + 3 + 2, "neglected buildings should decay");
+        s.UnpaidYears = 0;
+        map.ProvinceStateOf(campania.Id).Buildings["irrigation"] = 1;   // the save check below wants it back
+        lps.Buildings["walls"] = 2;
+        map.DamageBuildingsForTest(latium.Id);
+        Check(lps.Level("walls") == 1, "a siege should breach the walls");
 
         // A province's own tax rate.
         map.InvalidateGoods();

@@ -294,13 +294,23 @@ public partial class Hud
 
         // Buildings.
         var cat = BuildingCatalog.Instance;
-        var built = ps.Buildings.Where(kv => kv.Value > 0).Select(kv => (cat[kv.Key]?.Name ?? kv.Key) + (kv.Value > 1 ? $" ×{kv.Value}" : "")).ToList();
+        var built = ps.Buildings.Where(kv => kv.Value > 0).Select(kv => cat[kv.Key]?.LevelName(kv.Value) ?? kv.Key).OrderBy(x => x).ToList();
         Line(buildings, built.Count > 0 ? "Built: " + string.Join(", ", built) : "Nothing built yet.");
-        if (ps.Building != "")
-            Line(buildings, $"Building: {cat[ps.Building]?.Name}, {ps.BuildingYearsLeft} year{(ps.BuildingYearsLeft == 1 ? "" : "s")} left" +
-                (_map.Game.Sieges.Any(x => x.ProvinceId == p.Id) ? " (halted by the siege)" : ""));
+        int slots = _map.BuildSlots(p.Id);
+        bool sieged = _map.Game.Sieges.Any(x => x.ProvinceId == p.Id);
+        for (int i = 0; i < ps.Works.Count; i++)
+        {
+            var w = ps.Works[i];
+            var def = cat[w.Id];
+            int level = ps.Level(w.Id) + ps.Works.Take(i + 1).Count(x => x.Id == w.Id);
+            Line(buildings, $"{(i < slots ? "Building" : "Waiting")}: {def?.LevelName(level) ?? w.Id}, {w.Left} year{(w.Left == 1 ? "" : "s")}" +
+                (i < slots ? " left" : "") + (sieged && i < slots ? " (halted by the siege)" : ""));
+        }
+        if (ps.NeglectYears > 0)
+            Line(buildings, $"Neglected for {ps.NeglectYears} year(s): unpaid or unused buildings decay after {MapView.NeglectYearsToDecay}.");
         if (mine)
         {
+            Line(buildings, $"Builds {slots} at a time (a town of 50,000 builds two, of 200,000 three); up to {MapView.MaxQueue} in the queue.");
             var grid = new GridContainer { Columns = 2 };
             grid.AddThemeConstantOverride("h_separation", 6);
             grid.AddThemeConstantOverride("v_separation", 4);
@@ -308,14 +318,18 @@ public partial class Hud
             foreach (var b in cat.All)
             {
                 string? problem = _map.CanBuild(p, b);
-                if (problem is "Already built." or "Built as far as it goes.")
+                // Only what this land allows and the realm knows: the rest would only clutter the list.
+                if (problem != null && !problem.StartsWith("Not enough silver") && !problem.StartsWith("The queue is full"))
                     continue;
+                int next = MapView.NextLevel(ps, b);
                 var button = new Button
                 {
-                    Text = $"{b.Name} ({b.Cost:0})",
+                    Text = $"{b.LevelName(next)} ({b.CostOf(next):0})",
                     Disabled = problem != null,
                     FocusMode = FocusModeEnum.None,
-                    TooltipText = $"{b.Description}\n{_map.Money(b.Cost)}, {b.Years} years, upkeep {_map.Money(b.Upkeep)} a year." + (problem != null ? "\n" + problem : ""),
+                    TooltipText = $"{b.Description}\n{_map.Money(b.CostOf(next))}, {b.Years} years, upkeep {_map.Money(b.Upkeep)} a year for each level." +
+                        (b.Max > 1 ? $"\nLevels: {string.Join(" → ", Enumerable.Range(1, b.Max).Select(b.LevelName))}." : "") +
+                        (problem != null ? "\n" + problem : ""),
                 };
                 button.AddThemeFontSizeOverride("font_size", 14);
                 var def = b;

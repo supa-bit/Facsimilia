@@ -240,6 +240,9 @@ public partial class MapView
         {
             if (Provinces!.Provinces.TryGetValue(siege.ProvinceId, out var taken))
                 TakeCaptives(siege.Attacker, taken);
+            var damaged = DamageBuildings(siege.ProvinceId, new Random(StableHash.Of(DemoYear, siege.ProvinceId, 7703)));
+            if (damaged.Count > 0 && (siege.Attacker == PlayerRealmId || siege.Owner == PlayerRealmId))
+                events.Add(new ChronicleEvent(ChronicleKind.Conquest, PlayerRealmId, $"The siege of {siege.Name} leaves damaged: {string.Join(", ", damaged)}."));
             Provinces.SetRealm(siege.ProvinceId, siege.Attacker, Grid);
             MarkChanged(siege.ProvinceId);
             Game.Wars.Between(siege.Attacker, siege.Owner)?.RecordTaken(siege.Attacker, siege.ProvinceId);

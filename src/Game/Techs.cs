@@ -142,7 +142,7 @@ public sealed class TechCatalog
     /// <summary>Research points a realm gathers in a year: some always, more from towns, schools, libraries and trade contacts.</summary>
     public double PointsPerYear(RealmState r, RealmCensus c, TechContext? ctx = null) =>
         PointsScale * (6 + c.UrbanPeople / 15000 + c.OrganizedPeople / 300000)
-        * (1 + Effect(r, "research") + Math.Min(ContactResearchMax, ContactResearch * (ctx?.Contacts ?? 0)));
+        * (1 + Effect(r, "research") + c.BuildingResearch + Math.Min(ContactResearchMax, ContactResearch * (ctx?.Contacts ?? 0)));
 
     /// <summary>
     /// A year of research (decision "Researching several at once"): the

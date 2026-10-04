@@ -42,12 +42,13 @@ public partial class MapView
     string? CanBuildFor(Province p, BuildingDef b, RealmState realm)
     {
         var ps = ProvinceStateOf(p.Id);
-        if (ps.Building != "")
-            return $"Already building: {BuildingCatalog.Instance[ps.Building]?.Name}.";
         if (b.Requires != null && !realm.Techs.Contains(b.Requires))
             return $"Needs the technology: {TechCatalog.Instance[b.Requires]?.Name ?? b.Requires}.";
-        if (ps.Level(b.Id) >= b.Max)
+        int next = NextLevel(ps, b);
+        if (next > b.Max)
             return b.Max == 1 ? "Already built." : "Built as far as it goes.";
+        if (ps.Works.Count >= MaxQueue)
+            return $"The queue is full ({MaxQueue}).";
         if (b.Needs != null && !ProvinceHas(p.Id, b.Needs))
             return b.Needs switch
             {
@@ -56,13 +57,37 @@ public partial class MapView
                 "ore" => "Needs a mineral deposit.",
                 "coast" => "Needs a coast.",
                 "town" => "Needs a town of 10,000 people or more.",
+                _ when b.Needs.StartsWith("has:") => $"Needs land that yields {GoodsCatalog()?.Goods.FirstOrDefault(g => g.Id == b.Needs[4..])?.Name.ToLowerInvariant() ?? b.Needs[4..]}.",
                 _ => "Can't be built here.",
             };
-        if (realm.Treasury < b.Cost)
-            return $"Not enough silver: {Money(b.Cost)} needed.";
+        if (realm.Treasury < b.CostOf(next))
+            return $"Not enough silver: {Money(b.CostOf(next))} needed.";
         return null;
     }
 
+    /// <summary>At most this many buildings wait in a province's queue.</summary>
+    public const int MaxQueue = 6;
+    /// <summary>A town of this many people works on a second building at once, and this many on a third.</summary>
+    public const double SecondSlotTown = 50000, ThirdSlotTown = 200000;
+    /// <summary>Buildings neglected this many years lose a level.</summary>
+    public const int NeglectYearsToDecay = 3;
+    /// <summary>A province with fewer people than this leaves its buildings unused.</summary>
+    public const double AbandonedPeople = 1000;
+    /// <summary>Each building in a province taken by siege loses a level with this chance (walls always).</summary>
+    public const double SiegeDamage = 0.3;
+
+    /// <summary>The level a building would reach next, counting what is queued.</summary>
+    public static int NextLevel(ProvinceState ps, BuildingDef b) => ps.Level(b.Id) + ps.Works.Count(w => w.Id == b.Id) + 1;
+
+    /// <summary>How many buildings a province works on at once: one, two with a town of 50,000, three with 200,000.</summary>
+    public int BuildSlots(int provinceId)
+    {
+        ProvinceHas(provinceId, "town");   // fills the cache
+        double town = _largestPlace.GetValueOrDefault(provinceId);
+        return 1 + (town >= SecondSlotTown ? 1 : 0) + (town >= ThirdSlotTown ? 1 : 0);
+    }
+
+    readonly Dictionary<int, double> _largestPlace = new();
     Dictionary<int, HashSet<string>>? _provinceNeeds;
     int _provinceNeedsYear = int.MinValue;
 
@@ -74,7 +99,13 @@ public partial class MapView
         if (_provinceNeeds == null || _provinceNeedsYear != DemoYear)
         {
             _provinceNeeds = new Dictionary<int, HashSet<string>>();
+            _largestPlace.Clear();
             var np = NodeProvinces();
+            var goodsCat = GoodsCatalog();
+            var haveFields = goodsCat == null ? new List<(string Id, string Field)>()
+                : BuildingCatalog.Instance.All.Where(b => b.Needs != null && b.Needs.StartsWith("has:"))
+                    .Select(b => goodsCat.Goods.FirstOrDefault(g => g.Id == b.Needs![4..])).Where(g => g != null && Land.Has(g.Field))
+                    .Select(g => (g!.Id, g.Field)).Distinct().ToList();
             var ores = Census.TrackedResources.Concat(new[] { "res_marble", "res_granite", "res_limestone" }).Where(Land.Has).ToArray();
             foreach (int i in Population.LandNodes)
             {
@@ -93,6 +124,10 @@ public partial class MapView
                     set.Add("town");
                 if (!set.Contains("ore") && ores.Any(r => Land.Value(r, i) >= Census.ResourceThreshold))
                     set.Add("ore");
+                foreach (var (gid, gfield) in haveFields)
+                    if (!set.Contains("has:" + gid) && Land.Value(gfield, i) >= Census.ResourceThreshold)
+                        set.Add("has:" + gid);
+                _largestPlace[prov] = Math.Max(_largestPlace.GetValueOrDefault(prov), Population.Pop[i]);
             }
             _provinceNeedsYear = DemoYear;
         }
@@ -110,9 +145,8 @@ public partial class MapView
     void StartBuildingFor(Province p, BuildingDef b, RealmState realm)
     {
         var ps = ProvinceStateOf(p.Id);
-        realm.Treasury -= b.Cost;
-        ps.Building = b.Id;
-        ps.BuildingYearsLeft = b.Years;
+        realm.Treasury -= b.CostOf(NextLevel(ps, b));
+        ps.Works.Add(new BuildWork(b.Id, b.Years));
     }
 
     /// <summary>
@@ -128,18 +162,24 @@ public partial class MapView
         foreach (var p in Provinces.Provinces.Values)
         {
             var ps = ProvinceStateOf(p.Id);
-            if (ps.Building == "")
+            if (ps.Works.Count == 0)
                 continue;
             if (Game.Sieges.Any(s => s.ProvinceId == p.Id))
                 continue;   // no building under siege
-            if (--ps.BuildingYearsLeft > 0)
-                continue;
-            ps.Buildings[ps.Building] = ps.Level(ps.Building) + 1;
-            if (p.RealmId == PlayerRealmId)
-                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
-                    $"{cat[ps.Building]?.Name} finished in {p.Name}."));
-            ps.Building = "";
+            // The first few in the queue are worked on, as many as the province's slots.
+            foreach (var work in ps.Works.Take(BuildSlots(p.Id)).ToList())
+            {
+                if (--work.Left > 0)
+                    continue;
+                int level = ps.Level(work.Id) + 1;
+                ps.Buildings[work.Id] = level;
+                ps.Works.Remove(work);
+                if (p.RealmId == PlayerRealmId)
+                    events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
+                        $"{cat[work.Id]?.LevelName(level) ?? work.Id} finished in {p.Name}."));
+            }
         }
+        events.AddRange(NeglectYear(rng));
         // Other realms: a rich realm builds where it helps most.
         var census = RealmCensus();
         foreach (var (id, state) in Game.Realms)
@@ -205,14 +245,14 @@ public partial class MapView
     /// A realm's building effects that act on the whole realm, as shares
     /// weighted by the people of the provinces that have them.
     /// </summary>
-    (double Crafts, double Trade, double Manpower, double Upkeep, bool Harbour) RealmBuildingEffects(int realmId, double realmPeople)
+    (double Crafts, double Trade, double Manpower, double Upkeep, bool Harbour, double Research) RealmBuildingEffects(int realmId, double realmPeople)
     {
         var tech = TechCatalog.Instance;
         var rs = Game.Realm(realmId);
         if (Provinces == null || realmPeople <= 0)
-            return (tech.Effect(rs, "crafts"), tech.Effect(rs, "trade"), tech.Effect(rs, "manpower"), 0, false);
+            return (tech.Effect(rs, "crafts"), tech.Effect(rs, "trade"), tech.Effect(rs, "manpower"), 0, false, 0);
         var cat = BuildingCatalog.Instance;
-        double crafts = tech.Effect(rs, "crafts"), trade = tech.Effect(rs, "trade"), manpower = tech.Effect(rs, "manpower"), upkeep = 0;
+        double crafts = tech.Effect(rs, "crafts"), trade = tech.Effect(rs, "trade"), manpower = tech.Effect(rs, "manpower"), upkeep = 0, research = 0;
         bool harbour = false;
         foreach (var p in Provinces.Provinces.Values)
         {
@@ -225,10 +265,11 @@ public partial class MapView
             crafts += share * cat.Effect(ps, "crafts");
             trade += share * cat.Effect(ps, "trade");
             manpower += share * cat.Effect(ps, "manpower");
+            research += share * cat.Effect(ps, "research");
             upkeep += cat.Upkeep(ps);
             harbour |= ps.Level("harbour") > 0;
         }
-        return (crafts, trade, manpower, upkeep, harbour);
+        return (crafts, trade, manpower, upkeep, harbour, research);
     }
 
     /// <summary>Upkeep, levies and warship prices from the buildings, into this year's census.</summary>
@@ -239,8 +280,10 @@ public partial class MapView
             var e = RealmBuildingEffects(id, c.People);
             c.BuildingUpkeep = e.Upkeep;
             c.ManpowerBonus = e.Manpower;
+            c.BuildingResearch = e.Research;
             if (Game.Realms.TryGetValue(id, out var s))
-                s.ShipDiscount = e.Harbour ? BuildingCatalog.Instance["harbour"]?.Effect("ships") ?? 0 : 0;
+                s.ShipDiscount = (e.Harbour ? BuildingCatalog.Instance["harbour"]?.Effect("ships") ?? 0 : 0)
+                    + (Provinces?.Provinces.Values.Any(p => p.RealmId == id && ProvinceStateOf(p.Id).Level("shipyards") > 0) == true ? BuildingCatalog.Instance["shipyards"]?.Effect("ships") ?? 0 : 0);
         }
     }
 
@@ -364,5 +407,137 @@ public partial class MapView
             Finance.Repay(s, Math.Min(s.Debt, s.Treasury));   // the dearest loans first
         s.RemedyYears[remedy.Id] = remedy.Years;
         return $"{RealmName(PlayerRealmId)}: {remedy.Name.ToLowerInvariant()} ({Money(silver)}).";
+    }
+
+    /// <summary>
+    /// Neglect (decision "Neglect": unpaid or unused buildings decay): a
+    /// province whose realm could not pay its way, or with almost no one left
+    /// to use its buildings, counts the years; after three, one building loses a level.
+    /// </summary>
+    List<ChronicleEvent> NeglectYear(Random rng)
+    {
+        var events = new List<ChronicleEvent>();
+        var cat = BuildingCatalog.Instance;
+        foreach (var p in Provinces!.Provinces.Values)
+        {
+            var ps = ProvinceStateOf(p.Id);
+            if (ps.Buildings.Count == 0)
+                continue;
+            bool unpaid = p.RealmId > 0 && Game.Realms.TryGetValue(p.RealmId, out var owner) && owner.UnpaidYears > 0;
+            bool unused = ProvincePopulation(p.Id) < AbandonedPeople;
+            ps.NeglectYears = unpaid || unused ? ps.NeglectYears + 1 : 0;
+            if (ps.NeglectYears < NeglectYearsToDecay)
+                continue;
+            ps.NeglectYears = 0;
+            var built = ps.Buildings.Where(kv => kv.Value > 0).Select(kv => kv.Key).OrderBy(k => k).ToList();
+            if (built.Count == 0)
+                continue;
+            string id = built[rng.Next(built.Count)];
+            LowerBuilding(ps, id);
+            if (p.RealmId == PlayerRealmId)
+                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
+                    $"Neglected for years, the {cat[id]?.Name.ToLowerInvariant() ?? id} of {p.Name} fall{(ps.Level(id) == 0 ? " into ruin" : " into disrepair")}."));
+        }
+        return events;
+    }
+
+    internal void NeglectYearForTest() => NeglectYear(new Random(1));
+    internal void DamageBuildingsForTest(int provinceId) => DamageBuildings(provinceId, new Random(1));
+
+    static void LowerBuilding(ProvinceState ps, string id)
+    {
+        int level = ps.Level(id) - 1;
+        if (level <= 0)
+            ps.Buildings.Remove(id);
+        else
+            ps.Buildings[id] = level;
+    }
+
+    /// <summary>
+    /// War damage (decision "War damages buildings": sieges and sacks damage
+    /// or destroy them): taking a province by siege breaches its walls and
+    /// damages each other building with a chance.
+    /// </summary>
+    List<string> DamageBuildings(int provinceId, Random rng)
+    {
+        var damaged = new List<string>();
+        var ps = ProvinceStateOf(provinceId);
+        foreach (var id in ps.Buildings.Keys.OrderBy(k => k).ToList())
+            if (id == "walls" || rng.NextDouble() < SiegeDamage)
+            {
+                LowerBuilding(ps, id);
+                damaged.Add(BuildingCatalog.Instance[id]?.Name.ToLowerInvariant() ?? id);
+            }
+        return damaged;
+    }
+
+    /// <summary>Each land good's output factor per node from the province's buildings (good index -> per-node factor).</summary>
+    Dictionary<int, float[]>? GoodNodeFactors()
+    {
+        var goods = GoodsCatalog();
+        if (Population == null || Provinces == null || goods == null)
+            return null;
+        var cat = BuildingCatalog.Instance;
+        var index = goods.Goods.ToDictionary(g => g.Id, g => g);
+        var perProvince = new Dictionary<int, Dictionary<int, double>>();
+        foreach (var p in Provinces.Provinces.Values)
+        {
+            var ps = ProvinceStateOf(p.Id);
+            foreach (var (id, level) in ps.Buildings)
+                if (cat[id] is { } b)
+                    foreach (var (gid, share) in b.Goods)
+                        if (index.TryGetValue(gid, out var g) && g.Source == GoodSource.Land)
+                        {
+                            if (!perProvince.TryGetValue(p.Id, out var m))
+                                perProvince[p.Id] = m = new Dictionary<int, double>();
+                            m[g.Index] = m.GetValueOrDefault(g.Index) + share * level;
+                        }
+        }
+        if (perProvince.Count == 0)
+            return null;
+        var np = NodeProvinces();
+        var result = new Dictionary<int, float[]>();
+        foreach (int i in Population.LandNodes)
+            if (np.Length > i && perProvince.TryGetValue(np[i], out var m))
+                foreach (var (g, share) in m)
+                {
+                    if (!result.TryGetValue(g, out var arr))
+                    {
+                        result[g] = arr = new float[Population.Pop.Length];
+                        Array.Fill(arr, 1f);
+                    }
+                    arr[i] = (float)(1 + share);
+                }
+        return result;
+    }
+
+    /// <summary>Each realm's extra output of made goods from its workshops, weighted by the provinces' people (realm -> good -> share).</summary>
+    Dictionary<int, double[]> MadeGoodBoosts(Dictionary<int, RealmCensus> census)
+    {
+        var result = new Dictionary<int, double[]>();
+        var goods = GoodsCatalog();
+        if (Provinces == null || goods == null)
+            return result;
+        var cat = BuildingCatalog.Instance;
+        var index = goods.Goods.ToDictionary(g => g.Id, g => g);
+        foreach (var p in Provinces.Provinces.Values)
+        {
+            if (!census.TryGetValue(p.RealmId, out var c) || c.People <= 0)
+                continue;
+            var ps = ProvinceStateOf(p.Id);
+            if (ps.Buildings.Count == 0)
+                continue;
+            double weight = ProvincePopulation(p.Id) / c.People;
+            foreach (var (id, level) in ps.Buildings)
+                if (cat[id] is { } b)
+                    foreach (var (gid, share) in b.Goods)
+                        if (index.TryGetValue(gid, out var g) && g.Source == GoodSource.Made)
+                        {
+                            if (!result.TryGetValue(p.RealmId, out var arr))
+                                result[p.RealmId] = arr = new double[goods.Goods.Count];
+                            arr[g.Index] += share * level * weight;
+                        }
+        }
+        return result;
     }
 }
