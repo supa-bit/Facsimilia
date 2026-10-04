@@ -105,6 +105,8 @@ public sealed class RealmState
     public double RivalStrength { get; set; }
     /// <summary>Technologies known, the one being studied, and the points gathered toward it.</summary>
     public HashSet<string> Techs { get; } = new();
+    /// <summary>The effects of the wonders the realm holds, worked out each year (not saved).</summary>
+    public Dictionary<string, double> WonderEffects { get; } = new();
     /// <summary>
     /// Research by branch (decision "Researching several at once"): the share
     /// of effort each branch gets, the points it has gathered, and what it studies.
@@ -339,6 +341,12 @@ public sealed class GameState
     public HashSet<(int Imposer, int Target)> Embargoes { get; } = new();
     /// <summary>Pirate havens suppressed before history's date (decision "Pirates").</summary>
     public HashSet<string> SuppressedHavens { get; } = new();
+    /// <summary>Wonders standing in the world, by id (the Ledger topic "Buildings and works": wonders).</summary>
+    public Dictionary<string, WonderSite> Wonders { get; } = new();
+    /// <summary>Wonders under way, by any realm.</summary>
+    public List<WonderWork> WonderWorks { get; } = new();
+    /// <summary>Wonders fallen, never to be built again.</summary>
+    public HashSet<string> FallenWonders { get; } = new();
     /// <summary>Months warships have patrolled each haven this year and before.</summary>
     public Dictionary<string, int> PatrolMonths { get; } = new();
     /// <summary>War indemnities being paid (decision "War indemnities").</summary>
@@ -413,6 +421,9 @@ public sealed class GameState
             ["indemnities"] = new GArray(Indemnities.Select(x => (Variant)x.ToArray()).ToArray()),
             ["embargoes"] = new GArray(Embargoes.Select(e => (Variant)new GArray { e.Imposer, e.Target }).ToArray()),
             ["suppressed_havens"] = new GArray(SuppressedHavens.Select(x => (Variant)x).ToArray()),
+            ["wonders"] = new GArray(Wonders.Select(w => (Variant)new GArray { w.Key, w.Value.ToArray() }).ToArray()),
+            ["wonder_works"] = new GArray(WonderWorks.Select(w => (Variant)w.ToArray()).ToArray()),
+            ["fallen_wonders"] = new GArray(FallenWonders.Select(x => (Variant)x).ToArray()),
             ["patrols"] = new GArray(PatrolMonths.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
         };
@@ -449,6 +460,15 @@ public sealed class GameState
         if (d.TryGetValue("suppressed_havens", out var sh))
             foreach (var v in sh.AsGodotArray())
                 g.SuppressedHavens.Add(v.AsString());
+        if (d.TryGetValue("wonders", out var wds))
+            foreach (var v in wds.AsGodotArray())
+                g.Wonders[v.AsGodotArray()[0].AsString()] = WonderSite.FromArray(v.AsGodotArray()[1].AsGodotArray());
+        if (d.TryGetValue("wonder_works", out var wws))
+            foreach (var v in wws.AsGodotArray())
+                g.WonderWorks.Add(WonderWork.FromArray(v.AsGodotArray()));
+        if (d.TryGetValue("fallen_wonders", out var fws))
+            foreach (var v in fws.AsGodotArray())
+                g.FallenWonders.Add(v.AsString());
         if (d.TryGetValue("patrols", out var pat))
             foreach (var v in pat.AsGodotArray())
                 g.PatrolMonths[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();

@@ -105,8 +105,11 @@ mercenaries.
       (one for nearly every good, plus warehouses, libraries, schools,
       baths, theatres, mints, agoras), each with named levels at rising
       cost; a building queue with more slots for big towns; unpaid upkeep
-      decays buildings after 3 years; sieges damage them. Next: wonders,
-      then roads, canals and frontier walls on the map.
+      decays buildings after 3 years; sieges damage them. Part two built
+      (4 Oct 2026): 38 wonders through the ages, each once in the world,
+      raced against history's builders, costing silver, workers and
+      goods, falling on history's dates unless you save yours. Next:
+      roads, canals and frontier walls on the map.
 
 ## Right now
 

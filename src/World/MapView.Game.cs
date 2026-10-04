@@ -135,6 +135,7 @@ public partial class MapView
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
         StartGenerals();
+        StartWonders();
         MercenariesYear(new Random(StableHash.Of(DemoYear, 4409)));
         RefreshRoleBoosts();
         _census = null;
@@ -168,6 +169,7 @@ public partial class MapView
         events.AddRange(DiplomacyYear(new Random(StableHash.Of(DemoYear, 2903))));
         Lap("diplomacy");
         events.AddRange(BuildingsYear(new Random(StableHash.Of(DemoYear, 6007))));
+        events.AddRange(WondersYear());
         ApplyBuildingGrowth();
         Lap("buildings");
         events.AddRange(TechYear());
@@ -206,7 +208,10 @@ public partial class MapView
     {
         _census = null;
         if (data != null && data.Count > 0)
+        {
             Game = GameState.FromDict(data);
+            RefreshWonderEffects();
+        }
         else
         {
             // A save from before the economy: start every realm afresh.

@@ -1,0 +1,816 @@
+{
+ "about": "Wonders (the Ledger topic 'Buildings and works': 'The Seven Wonders and a list across all ages'). Each stands once in the world, at its place (lon, lat). 'builder' is the realm that built it in history (a civilization key); only that realm builds it among the others, from 'start', in the years history took (to 'done'), if it holds the place. You may build any of them from history's 'start', in any of your provinces, and so take it first. It falls in 'fall' as history had ('fall_why'); only yours can be saved. Costs: talents, workers (men taken from your manpower while it is built) and special goods your realm must have. Effects apply to the realm holding it; 'culture' adds to the score. Dates from the standard histories. Our own data, free for any use.",
+ "wonders": [
+  {
+   "id": "great_pyramid",
+   "name": "Great Pyramid of Giza",
+   "lon": 31.13,
+   "lat": 29.98,
+   "builder": null,
+   "start": -2580,
+   "done": -2560,
+   "cost": 6000,
+   "workers": 20000,
+   "goods": [
+    "limestone",
+    "granite"
+   ],
+   "effects": {
+    "integration": 0.05,
+    "unrest": -0.03
+   },
+   "culture": 40,
+   "description": "The oldest of the Seven Wonders, and the only one still standing."
+  },
+  {
+   "id": "hanging_gardens",
+   "name": "Hanging Gardens of Babylon",
+   "lon": 44.42,
+   "lat": 32.54,
+   "builder": null,
+   "start": -600,
+   "done": -590,
+   "fall": 1,
+   "fall_why": "gone, unrecorded, by the first century",
+   "cost": 2500,
+   "workers": 8000,
+   "goods": [
+    "bricks",
+    "bitumen"
+   ],
+   "effects": {
+    "growth": 0.05,
+    "unrest": -0.03
+   },
+   "culture": 25,
+   "description": "Terraced gardens watered from the Euphrates, told of by Berossus and Strabo."
+  },
+  {
+   "id": "temple_artemis",
+   "name": "Temple of Artemis at Ephesus",
+   "lon": 27.36,
+   "lat": 37.95,
+   "builder": null,
+   "start": -550,
+   "done": -430,
+   "fall": 262,
+   "fall_why": "burnt by the Goths in AD 262",
+   "cost": 3000,
+   "workers": 8000,
+   "goods": [
+    "marble"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "trade": 0.03
+   },
+   "culture": 30,
+   "description": "Rebuilt after Herostratus burnt it in 356 BC; pilgrims and bankers crowd it."
+  },
+  {
+   "id": "statue_zeus",
+   "name": "Statue of Zeus at Olympia",
+   "lon": 21.63,
+   "lat": 37.64,
+   "builder": null,
+   "start": -466,
+   "done": -435,
+   "fall": 475,
+   "fall_why": "carried to Constantinople and lost in the fire of AD 475",
+   "cost": 2000,
+   "workers": 3000,
+   "goods": [
+    "ivory",
+    "gold"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "integration": 0.03
+   },
+   "culture": 30,
+   "description": "Phidias' gold and ivory Zeus, enthroned in his temple at Olympia."
+  },
+  {
+   "id": "mausoleum",
+   "name": "Mausoleum at Halicarnassus",
+   "lon": 27.42,
+   "lat": 37.04,
+   "builder": null,
+   "start": -353,
+   "done": -350,
+   "fall": 1404,
+   "fall_why": "thrown down by earthquakes; the Knights took its stones in 1404",
+   "cost": 2500,
+   "workers": 5000,
+   "goods": [
+    "marble"
+   ],
+   "effects": {
+    "integration": 0.03,
+    "unrest": -0.03
+   },
+   "culture": 25,
+   "description": "The tomb of Mausolus, whose name every great tomb now bears."
+  },
+  {
+   "id": "colossus",
+   "name": "Colossus of Rhodes",
+   "lon": 28.23,
+   "lat": 36.45,
+   "builder": "rhodes",
+   "start": -292,
+   "done": -280,
+   "fall": -226,
+   "fall_why": "thrown down by the earthquake of 226 BC",
+   "cost": 1500,
+   "workers": 4000,
+   "goods": [
+    "bronze",
+    "iron_ore"
+   ],
+   "effects": {
+    "trade": 0.05,
+    "unrest": -0.03
+   },
+   "culture": 30,
+   "needs": "coast",
+   "description": "A bronze Helios at the harbour, paid for with the siege engines Demetrius left behind."
+  },
+  {
+   "id": "pharos",
+   "name": "Lighthouse of Alexandria",
+   "lon": 29.88,
+   "lat": 31.21,
+   "builder": "egypt",
+   "start": -297,
+   "done": -280,
+   "fall": 1303,
+   "fall_why": "broken by the earthquakes of 1303 and 1323",
+   "cost": 2500,
+   "workers": 6000,
+   "goods": [
+    "limestone",
+    "granite"
+   ],
+   "effects": {
+    "sea_cost": -0.15,
+    "trade": 0.05
+   },
+   "culture": 35,
+   "needs": "coast",
+   "description": "The Pharos guides ships to the greatest harbour of the age: sea travel is cheaper."
+  },
+  {
+   "id": "library",
+   "name": "Library of Alexandria",
+   "lon": 29.91,
+   "lat": 31.2,
+   "builder": "egypt",
+   "start": -295,
+   "done": -283,
+   "fall": 272,
+   "fall_why": "ruined when Aurelian took Alexandria in AD 272",
+   "cost": 2000,
+   "workers": 2000,
+   "goods": [
+    "papyrus"
+   ],
+   "effects": {
+    "research": 0.25
+   },
+   "culture": 40,
+   "description": "Every book the Ptolemies could buy or copy: research grows by a quarter."
+  },
+  {
+   "id": "serapeum",
+   "name": "Serapeum of Alexandria",
+   "lon": 29.9,
+   "lat": 31.18,
+   "builder": "egypt",
+   "start": -246,
+   "done": -222,
+   "fall": 391,
+   "fall_why": "destroyed in AD 391",
+   "cost": 1500,
+   "workers": 3000,
+   "goods": [
+    "granite",
+    "marble"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "integration": 0.05
+   },
+   "culture": 20,
+   "description": "Ptolemy III's temple to Serapis, the god he gave Greeks and Egyptians alike."
+  },
+  {
+   "id": "pergamon_altar",
+   "name": "Great Altar of Pergamon",
+   "lon": 27.18,
+   "lat": 39.13,
+   "builder": null,
+   "start": -180,
+   "done": -160,
+   "cost": 1500,
+   "workers": 3000,
+   "goods": [
+    "marble"
+   ],
+   "effects": {
+    "unrest": -0.04,
+    "integration": 0.03
+   },
+   "culture": 25,
+   "description": "The Attalids' altar to Zeus, its frieze the war of gods and giants."
+  },
+  {
+   "id": "mausoleum_augustus",
+   "name": "Mausoleum of Augustus",
+   "lon": 12.48,
+   "lat": 41.91,
+   "builder": "rome",
+   "start": -28,
+   "done": -23,
+   "cost": 1000,
+   "workers": 3000,
+   "goods": [
+    "marble",
+    "limestone"
+   ],
+   "effects": {
+    "integration": 0.04
+   },
+   "culture": 15,
+   "description": "The first emperor's tomb on the Campus Martius."
+  },
+  {
+   "id": "herods_temple",
+   "name": "Herod's Temple",
+   "lon": 35.24,
+   "lat": 31.78,
+   "builder": null,
+   "start": -20,
+   "done": -10,
+   "fall": 70,
+   "fall_why": "burnt by Titus' army in AD 70",
+   "cost": 3000,
+   "workers": 10000,
+   "goods": [
+    "limestone",
+    "gold"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "trade": 0.03
+   },
+   "culture": 30,
+   "description": "Herod's rebuilding of the Temple at Jerusalem, the greatest in the east."
+  },
+  {
+   "id": "baalbek",
+   "name": "Temple of Jupiter at Baalbek",
+   "lon": 36.2,
+   "lat": 34.01,
+   "builder": "rome",
+   "start": -50,
+   "done": 60,
+   "cost": 3000,
+   "workers": 8000,
+   "goods": [
+    "limestone",
+    "granite"
+   ],
+   "effects": {
+    "unrest": -0.04,
+    "integration": 0.04
+   },
+   "culture": 25,
+   "description": "The largest temple of the Roman world, on stones no one else could move."
+  },
+  {
+   "id": "al_khazneh",
+   "name": "The Treasury at Petra",
+   "lon": 35.44,
+   "lat": 30.32,
+   "builder": "nabatea",
+   "start": -10,
+   "done": 40,
+   "cost": 1200,
+   "workers": 3000,
+   "goods": [
+    "sandstone"
+   ],
+   "effects": {
+    "trade": 0.06
+   },
+   "culture": 20,
+   "description": "Carved from the rose-red rock of the Nabataeans' caravan city."
+  },
+  {
+   "id": "temple_bel",
+   "name": "Temple of Bel at Palmyra",
+   "lon": 38.27,
+   "lat": 34.55,
+   "builder": null,
+   "start": 17,
+   "done": 32,
+   "fall": 2015,
+   "fall_why": "blown up in 2015",
+   "cost": 1500,
+   "workers": 4000,
+   "goods": [
+    "limestone"
+   ],
+   "effects": {
+    "trade": 0.04,
+    "unrest": -0.03
+   },
+   "culture": 20,
+   "description": "The great temple of Palmyra, where the caravan roads met."
+  },
+  {
+   "id": "colosseum",
+   "name": "Colosseum",
+   "lon": 12.49,
+   "lat": 41.89,
+   "builder": "rome",
+   "start": 70,
+   "done": 80,
+   "cost": 3000,
+   "workers": 12000,
+   "goods": [
+    "limestone",
+    "sandstone"
+   ],
+   "effects": {
+    "unrest": -0.08
+   },
+   "culture": 35,
+   "description": "The Flavian amphitheatre: 50,000 Romans watch the games."
+  },
+  {
+   "id": "trajans_forum",
+   "name": "Trajan's Forum and Column",
+   "lon": 12.48,
+   "lat": 41.9,
+   "builder": "rome",
+   "start": 107,
+   "done": 113,
+   "cost": 2000,
+   "workers": 6000,
+   "goods": [
+    "marble"
+   ],
+   "effects": {
+    "integration": 0.04,
+    "manpower": 0.03
+   },
+   "culture": 25,
+   "description": "Paid for with the gold of Dacia; the column tells the war."
+  },
+  {
+   "id": "pantheon",
+   "name": "Pantheon",
+   "lon": 12.48,
+   "lat": 41.9,
+   "builder": "rome",
+   "start": 113,
+   "done": 125,
+   "cost": 2000,
+   "workers": 5000,
+   "goods": [
+    "marble",
+    "bronze"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "research": 0.05
+   },
+   "culture": 40,
+   "description": "Hadrian's temple of all the gods, its dome unmatched for 1,300 years."
+  },
+  {
+   "id": "baths_caracalla",
+   "name": "Baths of Caracalla",
+   "lon": 12.49,
+   "lat": 41.88,
+   "builder": "rome",
+   "start": 212,
+   "done": 216,
+   "fall": 537,
+   "fall_why": "dry once the Goths cut the aqueducts in AD 537",
+   "cost": 2000,
+   "workers": 9000,
+   "goods": [
+    "bricks",
+    "marble"
+   ],
+   "effects": {
+    "growth": 0.05,
+    "unrest": -0.04
+   },
+   "culture": 20,
+   "description": "Baths for 1,600 bathers at once."
+  },
+  {
+   "id": "theodosian_walls",
+   "name": "Theodosian Walls",
+   "lon": 28.92,
+   "lat": 41.01,
+   "builder": "rome",
+   "start": 405,
+   "done": 413,
+   "cost": 3000,
+   "workers": 12000,
+   "goods": [
+    "limestone",
+    "bricks"
+   ],
+   "effects": {
+    "garrison": 8,
+    "siege": 0.0
+   },
+   "culture": 25,
+   "description": "The land walls of Constantinople, unbroken for a thousand years."
+  },
+  {
+   "id": "hagia_sophia",
+   "name": "Hagia Sophia",
+   "lon": 28.98,
+   "lat": 41.01,
+   "builder": "rome",
+   "start": 532,
+   "done": 537,
+   "cost": 4000,
+   "workers": 10000,
+   "goods": [
+    "marble",
+    "porphyry",
+    "gold"
+   ],
+   "effects": {
+    "unrest": -0.08,
+    "integration": 0.05
+   },
+   "culture": 50,
+   "description": "Justinian's church, its dome 'hung from heaven by a golden chain'."
+  },
+  {
+   "id": "dome_rock",
+   "name": "Dome of the Rock",
+   "lon": 35.24,
+   "lat": 31.78,
+   "builder": null,
+   "start": 688,
+   "done": 692,
+   "cost": 2000,
+   "workers": 4000,
+   "goods": [
+    "marble",
+    "gold"
+   ],
+   "effects": {
+    "unrest": -0.06,
+    "integration": 0.04
+   },
+   "culture": 35,
+   "description": "Abd al-Malik's shrine on the Temple Mount."
+  },
+  {
+   "id": "damascus_mosque",
+   "name": "Great Mosque of Damascus",
+   "lon": 36.31,
+   "lat": 33.51,
+   "builder": null,
+   "start": 706,
+   "done": 715,
+   "cost": 2500,
+   "workers": 6000,
+   "goods": [
+    "marble",
+    "gold",
+    "glass"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "integration": 0.04
+   },
+   "culture": 30,
+   "description": "The Umayyads' mosque, walls of gold mosaic."
+  },
+  {
+   "id": "cordoba_mosque",
+   "name": "Great Mosque of Cordoba",
+   "lon": -4.78,
+   "lat": 37.88,
+   "builder": null,
+   "start": 785,
+   "done": 987,
+   "cost": 2500,
+   "workers": 6000,
+   "goods": [
+    "marble",
+    "limestone"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "research": 0.05
+   },
+   "culture": 30,
+   "description": "A forest of red and white arches, grown over two centuries."
+  },
+  {
+   "id": "aachen_chapel",
+   "name": "Palatine Chapel at Aachen",
+   "lon": 6.08,
+   "lat": 50.77,
+   "builder": null,
+   "start": 792,
+   "done": 805,
+   "cost": 1000,
+   "workers": 3000,
+   "goods": [
+    "marble",
+    "limestone"
+   ],
+   "effects": {
+    "integration": 0.05
+   },
+   "culture": 20,
+   "description": "Charlemagne's chapel, built with columns taken from Ravenna and Rome."
+  },
+  {
+   "id": "st_marks",
+   "name": "St Mark's Basilica",
+   "lon": 12.34,
+   "lat": 45.43,
+   "builder": null,
+   "start": 1063,
+   "done": 1094,
+   "cost": 2000,
+   "workers": 4000,
+   "goods": [
+    "marble",
+    "gold",
+    "glass"
+   ],
+   "effects": {
+    "trade": 0.05,
+    "unrest": -0.03
+   },
+   "culture": 30,
+   "needs": "coast",
+   "description": "Venice's church of the Evangelist, its gold won by trade and the Fourth Crusade."
+  },
+  {
+   "id": "notre_dame",
+   "name": "Notre-Dame de Paris",
+   "lon": 2.35,
+   "lat": 48.85,
+   "builder": null,
+   "start": 1163,
+   "done": 1260,
+   "cost": 3000,
+   "workers": 6000,
+   "goods": [
+    "limestone",
+    "glass"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "integration": 0.04
+   },
+   "culture": 35,
+   "description": "The great Gothic cathedral on the Île de la Cité."
+  },
+  {
+   "id": "chartres",
+   "name": "Chartres Cathedral",
+   "lon": 1.49,
+   "lat": 48.45,
+   "builder": null,
+   "start": 1194,
+   "done": 1220,
+   "cost": 2500,
+   "workers": 5000,
+   "goods": [
+    "limestone",
+    "glass"
+   ],
+   "effects": {
+    "unrest": -0.05
+   },
+   "culture": 25,
+   "description": "Its windows tell the whole of scripture in blue glass."
+  },
+  {
+   "id": "alhambra",
+   "name": "Alhambra",
+   "lon": -3.59,
+   "lat": 37.18,
+   "builder": null,
+   "start": 1238,
+   "done": 1358,
+   "cost": 2500,
+   "workers": 5000,
+   "goods": [
+    "marble",
+    "fine_ceramics"
+   ],
+   "effects": {
+    "unrest": -0.04,
+    "research": 0.04
+   },
+   "culture": 30,
+   "description": "The Nasrids' red palace above Granada."
+  },
+  {
+   "id": "florence_dome",
+   "name": "Florence Cathedral dome",
+   "lon": 11.26,
+   "lat": 43.77,
+   "builder": null,
+   "start": 1420,
+   "done": 1436,
+   "cost": 2500,
+   "workers": 4000,
+   "goods": [
+    "bricks",
+    "marble"
+   ],
+   "effects": {
+    "research": 0.08,
+    "crafts": 0.03
+   },
+   "culture": 35,
+   "description": "Brunelleschi's dome, raised without centring."
+  },
+  {
+   "id": "topkapi",
+   "name": "Topkapi Palace",
+   "lon": 28.98,
+   "lat": 41.01,
+   "builder": null,
+   "start": 1459,
+   "done": 1478,
+   "cost": 2500,
+   "workers": 5000,
+   "goods": [
+    "marble",
+    "fine_ceramics"
+   ],
+   "effects": {
+    "admin": 2,
+    "integration": 0.03
+   },
+   "culture": 25,
+   "description": "The Ottoman sultans' palace and the seat of their government."
+  },
+  {
+   "id": "st_peters",
+   "name": "St Peter's Basilica",
+   "lon": 12.45,
+   "lat": 41.9,
+   "builder": null,
+   "start": 1506,
+   "done": 1626,
+   "cost": 5000,
+   "workers": 8000,
+   "goods": [
+    "marble",
+    "bronze"
+   ],
+   "effects": {
+    "unrest": -0.06,
+    "integration": 0.05
+   },
+   "culture": 45,
+   "description": "The largest church in Christendom, over a century of building."
+  },
+  {
+   "id": "suleymaniye",
+   "name": "Süleymaniye Mosque",
+   "lon": 28.96,
+   "lat": 41.02,
+   "builder": null,
+   "start": 1550,
+   "done": 1557,
+   "cost": 3000,
+   "workers": 6000,
+   "goods": [
+    "marble",
+    "fine_ceramics"
+   ],
+   "effects": {
+    "unrest": -0.05,
+    "research": 0.04
+   },
+   "culture": 35,
+   "description": "Sinan's mosque for Suleiman, with its schools, hospital and library."
+  },
+  {
+   "id": "escorial",
+   "name": "El Escorial",
+   "lon": -4.15,
+   "lat": 40.59,
+   "builder": null,
+   "start": 1563,
+   "done": 1584,
+   "cost": 3000,
+   "workers": 6000,
+   "goods": [
+    "granite"
+   ],
+   "effects": {
+    "admin": 2,
+    "research": 0.03
+   },
+   "culture": 25,
+   "description": "Philip II's palace, monastery and library."
+  },
+  {
+   "id": "versailles",
+   "name": "Palace of Versailles",
+   "lon": 2.12,
+   "lat": 48.8,
+   "builder": null,
+   "start": 1661,
+   "done": 1710,
+   "cost": 6000,
+   "workers": 30000,
+   "goods": [
+    "limestone",
+    "glass",
+    "gold"
+   ],
+   "effects": {
+    "admin": 3,
+    "corruption": -0.03
+   },
+   "culture": 40,
+   "description": "Louis XIV's court, where the nobles were kept close."
+  },
+  {
+   "id": "st_pauls",
+   "name": "St Paul's Cathedral",
+   "lon": -0.1,
+   "lat": 51.51,
+   "builder": null,
+   "start": 1675,
+   "done": 1710,
+   "cost": 3000,
+   "workers": 5000,
+   "goods": [
+    "limestone"
+   ],
+   "effects": {
+    "unrest": -0.04,
+    "research": 0.03
+   },
+   "culture": 30,
+   "description": "Wren's cathedral, risen from the Great Fire."
+  },
+  {
+   "id": "westminster",
+   "name": "Palace of Westminster",
+   "lon": -0.12,
+   "lat": 51.5,
+   "builder": null,
+   "start": 1840,
+   "done": 1870,
+   "cost": 3000,
+   "workers": 6000,
+   "goods": [
+    "limestone",
+    "iron_ore"
+   ],
+   "effects": {
+    "admin": 2,
+    "corruption": -0.04
+   },
+   "culture": 30,
+   "description": "The Houses of Parliament, rebuilt after the fire of 1834."
+  },
+  {
+   "id": "eiffel",
+   "name": "Eiffel Tower",
+   "lon": 2.29,
+   "lat": 48.86,
+   "builder": null,
+   "start": 1887,
+   "done": 1889,
+   "cost": 2000,
+   "workers": 300,
+   "goods": [
+    "wrought_iron"
+   ],
+   "effects": {
+    "trade": 0.04,
+    "research": 0.04
+   },
+   "culture": 35,
+   "description": "Built for the World's Fair of 1889, the tallest thing made by hand."
+  }
+ ]
+}

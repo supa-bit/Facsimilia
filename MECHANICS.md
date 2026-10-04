@@ -2215,6 +2215,44 @@ From the designer's answers on the Ledger (Buildings and works):
   and each other building has a 30% chance to lose one; the chronicle
   says so.
 
+## Buildings and works, part two: wonders **(built, 4 Oct 2026)**
+
+From the designer's answers on the Ledger (Buildings and works: which
+great works count as wonders, wonders others build, wonders destroyed,
+building a wonder, what wonders do):
+
+- **The list** (`data/wonders.json`, 38): the Seven Wonders and wonders
+  through the ages, from the Pharos and the Library of Alexandria to the
+  Pantheon, Hagia Sophia, the Dome of the Rock, Notre-Dame, St Peter's,
+  Versailles and the Eiffel Tower. Each has its real place, history's
+  dates, its builder, cost, workers, special goods and effect.
+- **Once in the world.** The Great Pyramid, the Hanging Gardens, the
+  Temple of Artemis, the Statue of Zeus and the Mausoleum already stand in
+  300 BC.
+- **No one before history.** Nobody can begin a wonder before the year
+  history began it.
+- **History's builders.** The realm that built it in history begins it on
+  that date if it holds the place and has the special goods (up to 50
+  years late), and takes history's years. Other realms build only their
+  own history's wonders. A wonder whose builder isn't a realm of the game
+  (the Dome of the Rock) is left for you.
+- **You race them.** From history's date you can begin any wonder in any
+  of your provinces (a coast where it needs one). Whoever finishes first
+  has it; the others' work stops, their workers come home and half their
+  silver comes back. You can build several.
+- **The cost**: silver, workers taken from your manpower while it is
+  built (5% never come back), and special goods your realm must make or
+  import (marble, granite, papyrus, bronze...). Work halts under siege and
+  stops if the province is lost.
+- **Effects** go to whoever holds the province: the Pharos makes sea
+  travel cheaper, the Library brings a quarter more research, the
+  Colosseum calms the people, Versailles lets the court manage more
+  provinces. Each adds its culture to the score.
+- **Falls.** Wonders fall on history's dates (the Colossus in 226 BC, the
+  Temple of Artemis to the Goths in AD 262). Only yours can be saved: when
+  the date comes your engineers save it for half its price, if the
+  treasury has it.
+
 ## Battles and generals, part 4a: mercenary companies **(built, 28 Sep 2026)**
 
 Your answers: companies replace "hire at twice the price"; history's

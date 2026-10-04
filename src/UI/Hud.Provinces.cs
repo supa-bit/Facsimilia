@@ -308,6 +308,53 @@ public partial class Hud
         }
         if (ps.NeglectYears > 0)
             Line(buildings, $"Neglected for {ps.NeglectYears} year(s): unpaid or unused buildings decay after {MapView.NeglectYearsToDecay}.");
+        // Wonders: those standing here, those under way, and those you may begin.
+        foreach (var w in _map.WondersIn(p.Id))
+            Line(buildings, $"Wonder: {w.Name}" + (_map.Game.Wonders[w.Id].Saved ? " (saved from its fall)" : ""));
+        foreach (var work in _map.Game.WonderWorks.Where(x => x.Province == p.Id))
+            Line(buildings, $"Building the {WonderCatalog.Instance[work.Id]?.Name}: {work.Left} year{(work.Left == 1 ? "" : "s")} left" +
+                (work.Realm != _map.PlayerRealmId ? $" ({_map.RealmName(work.Realm)})" : "") + (sieged ? " (halted by the siege)" : ""));
+        if (mine)
+        {
+            var open = WonderCatalog.Instance.All.Where(w => _map.WonderOpen(w) && w.Start <= _map.DemoYear).ToList();
+            if (open.Count > 0)
+            {
+                Line(buildings, "Wonders open to build (each once in the world; whoever finishes first has it):");
+                var grid = new GridContainer { Columns = 2 };
+                grid.AddThemeConstantOverride("h_separation", 6);
+                grid.AddThemeConstantOverride("v_separation", 4);
+                buildings.AddChild(grid);
+                foreach (var w in open)
+                {
+                    string? problem = _map.CanBuildWonder(p, w);
+                    if (problem == "Needs a coast." || problem == "Already under way.")
+                        continue;
+                    var rivals = _map.Game.WonderWorks.Where(x => x.Id == w.Id).Select(x => $"{_map.RealmName(x.Realm)} has {x.Left} year(s) to go").ToList();
+                    var effects = string.Join(", ", w.Effects.Select(e => DescribeEffect(e.Key, e.Value)));
+                    var button = new Button
+                    {
+                        Text = $"{w.Name} ({w.Cost:0})",
+                        Disabled = problem != null,
+                        FocusMode = FocusModeEnum.None,
+                        TooltipText = $"{w.Description}\n{_map.Money(w.Cost)}, {w.Years} years, {w.Workers:N0} workers, needs {string.Join(", ", w.Goods)}." +
+                            $"\nEffects: {effects}; +{w.Culture:0} culture." +
+                            (w.Fall is int f ? $"\nIn history it fell in {ThemeAncient.YearText(f)} ({w.FallWhy}); yours can be saved for half its price." : "") +
+                            (rivals.Count > 0 ? "\nUnder way: " + string.Join("; ", rivals) + "." : "") +
+                            (problem != null ? "\n" + problem : ""),
+                    };
+                    button.AddThemeFontSizeOverride("font_size", 14);
+                    var def = w;
+                    button.Pressed += () =>
+                    {
+                        _map.StartWonder(p, def);
+                        RefreshProvincePanel();
+                        RefreshTreasury();
+                    };
+                    grid.AddChild(button);
+                }
+            }
+        }
+
         if (mine)
         {
             Line(buildings, $"Builds {slots} at a time (a town of 50,000 builds two, of 200,000 three); up to {MapView.MaxQueue} in the queue.");
