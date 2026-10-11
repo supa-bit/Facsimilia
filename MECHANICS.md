@@ -2195,6 +2195,22 @@ Your answers on the Ledger's "Technology and knowledge" topic.
   spies stealing techs — needs Diplomacy; the tree's look ("Both") — a
   tree and a timeline view, with the interface work.
 
+## The Bronze Age and the opening **(decided in part, 11 Oct 2026)**
+
+Your wish (11 Oct 2026): to play in the Bronze Age, above all the collapse,
+Ugarit, the Hittites and the Hattians. Your answer on how the game begins:
+
+> The beginning should be a simulation/history lesson that spans the
+> earliest gatherings of people for one purpose such as Göbekli Tepe, and
+> then go through the early settlements like Çatalhöyük, then starting the
+> game at the point settlements became polities. It should be like a
+> cutscene.
+
+Questions waiting on the Ledger (topic "The Bronze Age"): How the Bronze
+Age fits in; When settlements become polities; What the opening shows;
+Watching the opening; Is the opening simulated?; How the collapse plays;
+What makes the Bronze Age different; When to build the Bronze Age.
+
 ## Buildings and works, part three: roads **(built, 11 Oct 2026)**
 
 From your answers on the Ledger (How roads are drawn, Kinds of road,

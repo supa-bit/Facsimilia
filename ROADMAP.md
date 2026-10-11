@@ -133,6 +133,12 @@ governors, redrawing); land (crops, mines, stores, prospecting); the map
 trade (merchants, others' treaties, route shifts); sound; time (weeks, what
 stops time).
 
+- [ ] **The Bronze Age and the opening** (asked 11 Oct 2026): an opening
+      like a cutscene and history lesson from Göbekli Tepe through
+      Çatalhöyük to the first polities, where play begins; the Hattians,
+      the Hittites, Ugarit and the Late Bronze Age collapse. Waits on the
+      Bronze Age questions on the Ledger.
+
 ## Right now
 
 Small, cheap, and they protect everything built after them.
