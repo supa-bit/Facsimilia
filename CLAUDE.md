@@ -78,6 +78,6 @@ designer to do anything: just keep committing and pushing to the same branch.
 
 ## Generating sound, music and pictures (the designer's rule)
 
-With ElevenLabs or any other paid generator, make exactly ONE take of
-each thing (generations_count 1) unless the designer asks for more.
+With ElevenLabs or any other paid generator, make TWO takes of each
+thing (generations_count 2) unless the designer asks otherwise.
 Say what it will cost before anything over a few cents.
