@@ -75,3 +75,9 @@ designer to do anything: just keep committing and pushing to the same branch.
 - Check visible changes in the running game with screenshots before
   saying they work.
 - After changing MECHANICS.md, rebuild the PDF: `python3 tools/build_docs_pdf.py`.
+
+## Generating sound, music and pictures (the designer's rule)
+
+With ElevenLabs or any other paid generator, make exactly ONE take of
+each thing (generations_count 1) unless the designer asks for more.
+Say what it will cost before anything over a few cents.
