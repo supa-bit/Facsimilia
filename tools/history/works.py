@@ -1,11 +1,41 @@
 """Writes data/works_history.json: history's canals, great works and frontier walls (run from the repository root)."""
 import json
 W = []
+# What each canal or great work costs (talents, workers, goods) and does (realm effects, as wonders' keys), and its culture.
+GAME = {
+    "diolkos": (300, 2000, ["dressed_stone"], {"trade": 0.02}, 5),
+    "pharaohs_canal": (1500, 10000, ["tools"], {"trade": 0.08}, 15),
+    "trajans_canal": (1500, 10000, ["tools"], {"trade": 0.08}, 10),
+    "nero_corinth": (2500, 6000, ["tools"], {"trade": 0.04, "sea_cost": -0.03}, 15),
+    "naviglio_grande": (800, 4000, ["tools"], {"trade": 0.03, "field": 0.02}, 8),
+    "canal_du_midi": (2500, 12000, ["tools", "bricks"], {"trade": 0.06}, 20),
+    "mahmudiyah": (800, 30000, ["tools"], {"trade": 0.05}, 5),
+    "suez": (8000, 30000, ["steel", "tools"], {"trade": 0.15, "sea_cost": -0.1}, 35),
+    "corinth_canal": (2000, 3000, ["steel", "tools"], {"trade": 0.04, "sea_cost": -0.03}, 15),
+    "danube_black_sea": (3000, 20000, ["steel"], {"trade": 0.03}, 5),
+    "fucine_drain": (2500, 30000, ["tools"], {"field": 0.03}, 15),
+    "pontine_marshes": (2500, 10000, ["steel", "tools"], {"field": 0.03, "growth": 0.03}, 10),
+    "aswan_dam": (3000, 15000, ["steel"], {"field": 0.06}, 15),
+    "aswan_high_dam": (8000, 30000, ["steel"], {"field": 0.08, "growth": 0.03}, 25),
+    "ataturk_dam": (8000, 20000, ["steel"], {"field": 0.05, "growth": 0.02}, 15),
+    "long_walls_athens": (800, 5000, ["dressed_stone"], {"garrison": 4}, 10),
+    "fossatum_africae": (1500, 8000, ["dressed_stone"], {"garrison": 3}, 10),
+    "strata_diocletiana": (1500, 8000, ["dressed_stone"], {"garrison": 3, "trade": 0.02}, 10),
+    "hexamilion": (1000, 6000, ["dressed_stone"], {"garrison": 4}, 10),
+    "anastasian_wall": (1500, 8000, ["dressed_stone"], {"garrison": 5}, 10),
+    "gorgan_wall": (3000, 15000, ["bricks"], {"garrison": 5}, 15),
+    "derbent_walls": (1500, 8000, ["dressed_stone"], {"garrison": 5}, 10),
+}
+
 def w(id, name, kind, builder, start, done, pts, effect, note="", fall=None, fall_why=""):
+    cost, workers, goods, effects, culture = GAME[id]
     d = {"id": id, "name": name, "kind": kind, "builder": builder, "start": start, "done": done,
-         "points": [[n, lo, la] for n, lo, la in pts], "effect": effect, "note": note}
+         "points": [[n, lo, la] for n, lo, la in pts], "effect": effect, "note": note,
+         "cost": cost, "workers": workers, "goods": goods, "effects": effects, "culture": culture}
     if fall is not None:
         d["fall"] = fall; d["fall_why"] = fall_why
+    if kind == "wall":
+        d["material"] = "earthwork" if id in ("fossatum_africae", "strata_diocletiana", "gorgan_wall") else "stone_wall"
     W.append(d)
 # Canals
 w("diolkos","The Diolkos of Corinth","canal",None,-600,-600,[("Lechaion",22.89,37.93),("Schoinos",22.98,37.92)],"Ships hauled across the Isthmus: a short way between the gulfs.","A paved slipway, standing in 300 BC.")
@@ -35,6 +65,6 @@ w("derbent_walls","The Walls of Derbent","wall",None,552,570,[("Derbent",48.29,4
 for x in W:
     for n, lo, la in x["points"]:
         assert -10 <= lo <= 55 and 10 <= la <= 48, (x["id"], n)
-json.dump({"about": "History's canals, great works and frontier walls (the Ledger topic 'Buildings and works': 'Buildable great works' and 'Draw fortified lines'). Each has its real places (lon, lat), the years history built it, its builder (a civilization key, or null), and what it did. Who else builds them, how walls are drawn and what they do wait on the decisions 'Great works others build', 'How frontier walls are drawn', 'What frontier walls do' and 'History's frontier walls'. Hadrian's and the Antonine Walls, the Danevirke and the Kiel canal lie north of the map's edge (48 degrees) and come with 'The whole globe: order'. Not yet used by the game. Made by tools/history/works.py. Sources: Barrington Atlas (Talbert, 2000); Tacitus and Suetonius on the Fucine works; Procopius, 'Buildings'; Sauer and others, 'Persia's Imperial Power in Late Antiquity' (2013) on the Gorgan Wall. Our own summary, free for any use.", "works": W},
+json.dump({"about": "History's canals, great works and frontier walls (the Ledger topic 'Buildings and works': 'Buildable great works' and 'Draw fortified lines'). Each has its real places (lon, lat), the years history built it, its builder (a civilization key, or null), and what it did. Who else builds them, how walls are drawn and what they do wait on the decisions 'Great works others build', 'How frontier walls are drawn', 'What frontier walls do' and 'History's frontier walls'. Hadrian's and the Antonine Walls, the Danevirke and the Kiel canal lie north of the map's edge (48 degrees) and come with 'The whole globe: order'. Canals and great works are built as wonders are (your answer 'Great works others build': only their own history's, and you can race them); 'cost' is talents, 'workers' men from manpower while it is built, 'goods' what the realm must make or import, 'effects' what it gives the realm holding it. Walls wait on the frontier wall answers. Made by tools/history/works.py. Sources: Barrington Atlas (Talbert, 2000); Tacitus and Suetonius on the Fucine works; Procopius, 'Buildings'; Sauer and others, 'Persia's Imperial Power in Late Antiquity' (2013) on the Gorgan Wall. Our own summary, free for any use.", "works": W},
           open("data/works_history.json", "w"), indent=1, ensure_ascii=False)
 print(len(W), "works")

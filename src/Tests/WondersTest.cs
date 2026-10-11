@@ -34,6 +34,7 @@ public partial class WondersTest : TestRunner
         var latium = provs.First(p => p.Name == "Latium");
 
         Check(cat.All.Count >= 35, $"a list across the ages: {cat.All.Count}");
+        Check(cat.All.Count(w => !w.IsWonder) >= 15 && map.Game.Wonders.ContainsKey("diolkos"), "history's canals and great works, built as wonders are; the Diolkos stands in 300 BC");
         Check(cat["eiffel"] != null && cat["hagia_sophia"] != null, "wonders through the ages");
         Check(map.Game.Wonders.ContainsKey("great_pyramid") && map.Game.Wonders.ContainsKey("mausoleum"), "the old wonders stand in 300 BC");
         Check(!map.Game.Wonders.ContainsKey("pharos") && !map.Game.Wonders.ContainsKey("colosseum"), "later wonders aren't built yet");
@@ -73,6 +74,20 @@ public partial class WondersTest : TestRunner
         Check(map.ScoreBreakdown(rome).First(x => x.Category == "Culture").Detail.Contains("1 wonder"), "wonders count for culture");
         Check(map.CanBuildWonder(coast, cat["pharos"]!) == "It already stands.", "each wonder once in the world");
 
+        // A wonder whose builder isn't a realm of the game: whoever holds the place begins it on history's date.
+        int keepYear = map.DemoYear;
+        map.DemoYear = -180;
+        map.WondersYear();
+        var altar = map.Game.WonderWorks.FirstOrDefault(x => x.Id == "pergamon_altar");
+        Check(altar != null && altar.Realm != rome, "the Altar of Pergamon is begun by whoever holds Pergamon");
+        map.DemoYear = keepYear;
+
+        // Hurrying: a quarter faster at triple the cost.
+        var slow = MapView.WonderPrice(cat["colosseum"]!);
+        var fast = MapView.WonderPrice(cat["colosseum"]!, 1);
+        Check(fast.Silver == slow.Silver * 3 && fast.Workers == slow.Workers * 3 && fast.Years < slow.Years && fast.Years >= slow.Years * 0.75,
+            $"hurrying costs triple and saves up to a quarter of the time ({slow.Years} -> {fast.Years} years)");
+
         // Falls on history's dates; only yours can be saved.
         map.Game.Wonders["temple_artemis"] = new WonderSite { Province = latium.Id, Year = map.DemoYear };
         map.Game.Wonders["hanging_gardens"].Province = provs.First(p => p.RealmId == egypt).Id;
@@ -80,7 +95,18 @@ public partial class WondersTest : TestRunner
         map.DemoYear = 262;
         s.Treasury = 100000;
         map.WondersYear();
+        var ask = map.Game.Offers.FirstOrDefault(o => o.Kind == MapView.WonderSaveOffer && o.Subject == "temple_artemis");
+        Check(ask != null && map.Game.Wonders.ContainsKey("temple_artemis"), "you are asked before your wonder falls, and it stands while you decide");
+        map.AnswerOffer(ask!, true);
         Check(map.Game.Wonders.TryGetValue("temple_artemis", out var artemis) && artemis.Saved, "you can save your wonder from its fall");
+        map.WondersYear();
+        Check(map.Game.Wonders.ContainsKey("temple_artemis"), "a saved wonder stands for good");
+        // Declining lets it fall.
+        map.Game.Wonders["mausoleum"].Province = latium.Id;
+        map.DemoYear = 1404;
+        map.WondersYear();
+        map.AnswerOffer(map.Game.Offers.First(o => o.Subject == "mausoleum"), false);
+        Check(map.Game.FallenWonders.Contains("mausoleum"), "a wonder you don't save falls");
         Check(map.Game.FallenWonders.Contains("hanging_gardens") && !map.Game.Wonders.ContainsKey("hanging_gardens"), "others' wonders fall as history had");
         Check(map.Game.Wonders.ContainsKey("great_pyramid"), "the Great Pyramid still stands");
         map.DemoYear = year;

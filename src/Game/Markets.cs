@@ -11,7 +11,7 @@ public sealed record Market(string Id, string Name, double Lon, double Lat, int 
 }
 
 /// <summary>A pirate haven (data/pirates.json): it raids shipping and coasts within reach until suppressed.</summary>
-public sealed record PirateHaven(string Id, string Name, double Lon, double Lat, int From, int Until, double ReachKm)
+public sealed record PirateHaven(string Id, string Name, double Lon, double Lat, int From, int Until, double ReachKm, double Might)
 {
     public bool ActiveIn(int year) => From <= year && year < Until;
 }
@@ -39,7 +39,8 @@ public sealed class MarketCatalog
             foreach (var h in doc.RootElement.GetProperty("havens").EnumerateArray())
                 c.Havens.Add(new PirateHaven(h.GetProperty("id").GetString()!, h.GetProperty("name").GetString()!,
                     h.GetProperty("lon").GetDouble(), h.GetProperty("lat").GetDouble(), h.GetProperty("from").GetInt32(),
-                    h.GetProperty("until").GetInt32(), h.GetProperty("reach_km").GetDouble()));
+                    h.GetProperty("until").GetInt32(), h.GetProperty("reach_km").GetDouble(),
+                    h.TryGetProperty("might", out var mg) ? mg.GetDouble() : 5));
         return c;
     }
 }

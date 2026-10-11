@@ -79,6 +79,9 @@ public partial class MapView
         double far = Math.Min(1, (km - FarKm) / FarKm);
         if (ProvinceStateOf(p.Id).Level("road") > 0)
             far *= 0.5;
+        // A road all the way to the capital (the Ledger: roads extend administrative reach).
+        if (RoadsToCapitalCached(p.RealmId).TryGetValue(p.Id, out var kind))
+            far *= 1 - kind.Reach;
         return (-0.5 * far, 0.1 * far);
     }
 

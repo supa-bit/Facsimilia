@@ -341,12 +341,17 @@ public sealed class GameState
     public HashSet<(int Imposer, int Target)> Embargoes { get; } = new();
     /// <summary>Pirate havens suppressed before history's date (decision "Pirates").</summary>
     public HashSet<string> SuppressedHavens { get; } = new();
+    /// <summary>When each haven was last suppressed, or first appeared again (for its return and its growing strength).</summary>
+    public Dictionary<string, int> HavenYear { get; } = new();
     /// <summary>Wonders standing in the world, by id (the Ledger topic "Buildings and works": wonders).</summary>
     public Dictionary<string, WonderSite> Wonders { get; } = new();
     /// <summary>Wonders under way, by any realm.</summary>
     public List<WonderWork> WonderWorks { get; } = new();
     /// <summary>Wonders fallen, never to be built again.</summary>
     public HashSet<string> FallenWonders { get; } = new();
+    /// <summary>Roads on the map, built or being built (the Ledger topic "Buildings and works": roads).</summary>
+    public List<Road> Roads { get; } = new();
+    public int NextRoadId { get; set; } = 1;
     /// <summary>Months warships have patrolled each haven this year and before.</summary>
     public Dictionary<string, int> PatrolMonths { get; } = new();
     /// <summary>War indemnities being paid (decision "War indemnities").</summary>
@@ -423,7 +428,9 @@ public sealed class GameState
             ["suppressed_havens"] = new GArray(SuppressedHavens.Select(x => (Variant)x).ToArray()),
             ["wonders"] = new GArray(Wonders.Select(w => (Variant)new GArray { w.Key, w.Value.ToArray() }).ToArray()),
             ["wonder_works"] = new GArray(WonderWorks.Select(w => (Variant)w.ToArray()).ToArray()),
+            ["roads"] = new GArray(Roads.Select(r => (Variant)r.ToDict()).ToArray()), ["next_road"] = NextRoadId,
             ["fallen_wonders"] = new GArray(FallenWonders.Select(x => (Variant)x).ToArray()),
+            ["haven_years"] = new GArray(HavenYear.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["patrols"] = new GArray(PatrolMonths.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
         };
@@ -466,9 +473,16 @@ public sealed class GameState
         if (d.TryGetValue("wonder_works", out var wws))
             foreach (var v in wws.AsGodotArray())
                 g.WonderWorks.Add(WonderWork.FromArray(v.AsGodotArray()));
+        if (d.TryGetValue("roads", out var rds))
+            foreach (var v in rds.AsGodotArray())
+                g.Roads.Add(Road.FromDict(v.AsGodotDictionary()));
+        g.NextRoadId = d.TryGetValue("next_road", out var nrd) ? nrd.AsInt32() : g.Roads.Select(r => r.Id).DefaultIfEmpty(0).Max() + 1;
         if (d.TryGetValue("fallen_wonders", out var fws))
             foreach (var v in fws.AsGodotArray())
                 g.FallenWonders.Add(v.AsString());
+        if (d.TryGetValue("haven_years", out var hy))
+            foreach (var v in hy.AsGodotArray())
+                g.HavenYear[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
         if (d.TryGetValue("patrols", out var pat))
             foreach (var v in pat.AsGodotArray())
                 g.PatrolMonths[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();

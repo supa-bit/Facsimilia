@@ -2195,6 +2195,239 @@ Your answers on the Ledger's "Technology and knowledge" topic.
   spies stealing techs — needs Diplomacy; the tree's look ("Both") — a
   tree and a timeline view, with the interface work.
 
+## Buildings and works, part three: roads **(built, 11 Oct 2026)**
+
+From your answers on the Ledger (How roads are drawn, Kinds of road,
+What roads do, Roads others build, Which kinds of road, What a road
+costs, Enemies on your roads):
+
+- **Kinds by material** (`data/roads.json`), each faster and carrying more:
+  earth road, gravel road, paved stone road (needs Surveying with the
+  groma), macadam road (Macadam roads, 1820) and asphalt road (Motorways,
+  1930). Railways are not roads and come with their own network later.
+- **Drawing one**: in a province's Buildings tab, pick a kind under "Draw
+  a road", click one of your towns, then another. The road finds the
+  easiest ground through your own land. A bar shows its length, bridges,
+  silver, workers, years and upkeep, with Build and Cancel; right-click
+  stops drawing.
+- **Cost**: silver per km (more over rough ground) plus each bridge;
+  workers per km taken from manpower while it is built; years at 100 km
+  a year, up to four times faster as the realm learns transport and
+  construction (your note on finding a formula for building faster
+  through the ages); upkeep each year of 1% of its price.
+- **What roads do**: everyone marches faster on them, invaders too (a
+  paved road halves the ground's cost whatever the ground); the provinces
+  they cross trade more; a road all the way to the capital takes much of
+  the far-province penalty away; ideas travel along them (up to +10%
+  research at 5,000 km of road). Disease travelling along roads waits on
+  "Epidemics that travel" (Population and people).
+- **Breaking your own**: each of your roads has a Break button (it speeds
+  no one) and Repair (a quarter of its price, a year).
+- **Neglect**: three years of unpaid upkeep and a road falls a kind
+  (paved to gravel to earth to nothing).
+- **History's roads** (`data/roads_history.json`, 26): those older than
+  300 BC stand at the start (the Royal Road, the Via Latina, Via Appia and
+  Via Valeria); later ones are laid by their builders on their dates, a
+  leg at a time where they hold both ends (Rome's viae, the Via Egnatia,
+  Trajan's roads). Railways among them wait for the railway network.
+
+## Buildings and works, part three: canals, great works and frontier walls **(built, 11 Oct 2026)**
+
+From your answers (Canals and great works, Which canals and great works,
+Great works others build, Frontier walls, How frontier walls are drawn,
+What frontier walls do, History's frontier walls):
+
+- **History's canals and great works** (`data/works_history.json`, 15)
+  are built as wonders are: each once in the world, history's builder (or
+  whoever holds the place) begins it on its date, you can race them from
+  that date, hurry them, and they fall on history's dates (the Canal of the
+  Pharaohs silting up). They give realm effects: the canals trade and
+  cheaper sailing (Suez +15% trade, -10% sea travel), the drains and dams
+  more field crops (the Fucine Lake +3%, the Aswan High Dam +8%). The
+  Diolkos of Corinth stands in 300 BC. They are listed with the wonders in
+  a province's Buildings tab.
+- **Canals you dig** (`data/roads.json`, "canals"): pick a kind under "Dig
+  a canal", click your land by the sea or a river, then by another water.
+  Without the pound lock (1373) a canal can't climb hills; with it, a canal
+  with locks can; Great ship canals (1869) open the ship canal. A canal
+  costs silver, workers and years like a road, brings trade to the
+  provinces it crosses, and your ships sail through it. Unkept, it silts up.
+- **Frontier walls you draw** (`data/roads.json`, "walls"): ditch and
+  rampart, or stone wall. Pick one under "Draw a frontier wall", click
+  your land where it starts and keep clicking along your border; each
+  click adds a stretch, then Build. Once finished it takes its garrison
+  from manpower (25 or 40 men a km); unmanned it decays in three years.
+  Armies of another realm (not an ally) lose 40 or 90 km of march for
+  each crossing; provinces along it are better held (garrison +1 or +2).
+  Stopping raids waits on raiding (the campaign question "Raids").
+- **History's walls**: the Long Walls of Athens stand in 300 BC and fall
+  to Sulla in 86 BC; Rome builds the Fossatum Africae, the Strata
+  Diocletiana, the Hexamilion and the Anastasian Wall on their dates where
+  it holds both ends. Walls whose builders aren't realms of the game
+  (Gorgan, Derbent) aren't built by others (your answer: only their own
+  history's).
+
+## Your answers of 11 October 2026 **(recorded)**
+
+92 answers from the Ledger. Built so far: the three wonder answers and
+the pirates' (below); the rest wait on their systems (see ROADMAP.md).
+
+### Buildings and works
+
+- **Which canals and great works**: History's own plus any canal you draw between two waters.
+- **Great works others build**: Yes, as wonders: only their own history's, and you can race them.
+- **What a road costs**: Also workers taken from manpower, like wonders. Your note: "need to find formula for lessening time it takes as eras/years progress"
+- **Enemies on your roads**: Everyone, but you can break your own roads to slow an invader.
+- **Which kinds of road**: your own answer. Your note: "railway is not a road, and they should primarily be split by material and hence speed and bandwidth"
+- **How frontier walls are drawn**: Click point to point along your border; cost by length and ground.
+- **What frontier walls do**: Stop raids, slow armies crossing; need a garrison from manpower or they decay.
+- **History's frontier walls**: Yes, only their own history's.
+- **Hurrying a wonder**: More silver and workers make it faster. Your note: "Up to a quarter faster at triple the cost"
+- **Wonders whose builders aren't in the game**: Whoever holds the place builds it on history's date.
+- **Saving a wonder from its fall**: Ask me each time.
+
+### Cities and settlements
+
+- **Moving the capital, in detail**: Also: administrative reach centres on the new capital at once.
+- **What holds a city back, in detail**: Each city has a water limit (aqueducts raise it), a food limit (what its land and trade bring in) and disease that grows with size (baths and sewers lower it).
+- **Choosing spare, plunder or raze**: Spare: loyalty; plunder: silver and slaves, buildings damaged; raze: the city becomes a ruin and others fear you.
+- **City tiers**: your own answer. Your note: "At least 15 tiers"
+
+### Diplomacy
+
+- **Client kings**: Clients keep their ruler and laws, pay tribute or troops; you can install or remove kings.
+- **Demands and insults**: Send demands and insults.
+- **How envoys work**: Envoys are characters who travel for weeks or months; their skill matters; you have a few.
+- **Hostages**: Hostages guarantee treaties and learn your ways.
+- **International bodies**: They appear as history had them and can bind members.
+- **Leagues**: Members, a leader and votes on war; you can join, lead or break them.
+- **Making peace**: Build a treaty from items the other side weighs.
+- **Pretexts by era**: A full list by era.
+- **Who you can deal with**: Only realms you know, widening with contacts and trade.
+- **More kinds of treaty**: Non-aggression, military access, trade, subsidy, marriage alliance, hostage exchange, federation (foedus), defensive league.
+- **Paying off invaders**: Pay tribute to buy peace from raiders.
+- **Trust and fear**: Separate trust (do you keep your word) and fear (your might and aggression).
+- **What can be given**: Silver, goods, famous objects, land, and help (troops, grain).
+- **Protectorates**: You guarantee a realm's independence and may intervene in its affairs.
+
+### Government, laws and administration
+
+- **Which estates**: By realm and era: Senate and equites, priests, army, cities, nobles, merchants, peasants.
+- **The kinds of government**: Yes, once I've checked the draft.
+- **How a law passes**: Each law costs some of the four points as well as time and silver.
+- **What the points buy**: Authority: laws and reforms; Piety: religious acts; Loyalty: holding estates and armies; Legitimacy: succession and claims. Your note: "some are multifaceted"
+
+### Land, resources and goods
+
+- **Adopting new crops**: A crop arrives by trade on history's date; you pay to spread it province by province. Your note: "Non-player realms adopt them whenever they historically do, if they never do historically then they don’t in the game."
+- **History's named mines**: About 30 of the great ones.
+- **Prospecting**: Pay to survey a province once the technology is known; history's finds come on their dates for everyone.
+- **How stores work**: Also sold when prices are high, by your order.
+
+### Population and people
+
+- **Which social classes**: Nobles, priests, citizens, freedmen, peasants, slaves, foreigners, changing by era and culture.
+- **What each class wants**: Each class needs a basket of goods; going short angers it.
+- **How literacy rises**: Schools, libraries, towns, printing, religion; it falls in war and collapse.
+- **Towns and countryside**: Towns from history's sizes (Rome about 300,000 by 1 BC), the rest countryside; people move to towns that have work.
+
+### Provinces
+
+- **Province focuses**: Farming, herding, crafts, trade, mining, soldiers.
+- **Choosing governors**: Characters you appoint; their skills change taxes, unrest and corruption; they may grow too strong.
+- **The province kinds**: Core, conquered, allied city, client kingdom, temple-state, colony, frontier march.
+- **Redrawing your provinces**: Split or join provinces in the province panel, at a cost of loyalty for a while.
+
+### Sound and music
+
+- **Ambient sound**: Sounds of what's under the camera: sea, market, wind on the steppe.
+- **Sound effects**: Clicks, coins, marching, battle, sea, crowds, varied by era.
+- **How music is chosen**: By situation, culture and era, crossfading.
+- **Separate volumes**: Music, effects and ambient apart.
+
+### The court: characters and families
+
+- **What councillors do**: You give each a task (collect taxes, watch the court, win a people over) and their skill decides it.
+- **Councillors' own will**: They have opinions, ambitions and may resign or plot.
+- **The court screen**: A hall with the ruler, family, council and courtiers as coins.
+- **Personal unions**: The junior realm keeps its laws and may break away when no common heir remains.
+- **Marriages and treaties**: A royal marriage can seal an alliance, but doesn't make one by itself. Your note: "can be chosen as a law to automatically make an alliance"
+- **Marrying across faiths and peoples**: By each culture's and era's rules.
+- **Marriage offers**: Other courts send offers you can accept or refuse.
+- **What a family controls**: Only what its members hold: offices, armies they command, their estates. Your note: "if a member holds a title to rule, the family is named as the ruling family and all close members holds the "royal" trait instead of their "noble" trait"
+- **Family life when playing the realm**: The ruling family's events still reach you.
+- **Switching mid-game**: You can switch between realm and family. Your note: "Let's find the best way to do this"
+- **Finding plots**: The spymaster and loyal friends uncover plots; you learn the plotters.
+- **Plots abroad**: Plot against foreign rulers and courts.
+- **Punishing plotters**: Pardon, exile, imprison, execute, each with consequences. Your note: "at least 2 more options such as enslave or send to colosseum"
+- **Who gets a portrait**: Everyone at court.
+- **Ambitious regents**: A regent may try to keep power or take the throne.
+- **Which magistrates**: Each republic's own offices and ladder of office.
+- **Governors in republics**: Former magistrates govern provinces.
+- **The Senate and the assemblies**: A senate and assemblies that vote on war, laws and commands.
+- **Skills through life**: Skills grow with age, education and office, fade in old age.
+- **How skills are shown**: Both. Your note: "use creative words and 1-100"
+- **Co-rulers**: Raise an heir to co-ruler.
+- **Disputed successions**: Rival claimants can start a war of succession.
+- **Succession laws**: History's laws by culture: eldest son, any son chosen, brother first, elective, tanistry, shared kingdom.
+- **Traits changing**: Traits come and go with life's events.
+- **The family tree**: Filters: living, heirs, claimants, marriages; click to open anyone.
+
+### The map
+
+- **Which coasts change**: Also drainage and reclamation you build.
+- **The whole globe: order**: India, then Central Asia and China, then Africa, then the Americas.
+- **What the map editor edits**: Borders, provinces, towns, names, starting realms.
+- **Passes, fords and straits, in detail**: Armies must use them to cross mountains, rivers and straits; holding one blocks it; winter closes passes.
+
+### Time and turns
+
+- **Finer time**: Months are fine. Your note: "add weeks"
+- **What stops time**: A list in Settings where you tick what stops time.
+- **Years per turn with the clock**: Keep both: the clock and the turn button.
+
+### Trade
+
+- **Other realms' trade treaties and embargoes**: Yes, history's treaties on their dates, and their own by their aims.
+- **How many merchants**: Both.
+- **What a merchant earns**: your own answer. Your note: "Silver, Steer goods & bring news"
+- **Suppressing pirates**: Need enough warships. Your note: "Suppressed havens return later also"
+- **How your actions alter route shifts**: Both.
+
+### War: armies, units and generals
+
+- **Which laws decide standing troops**: A number per realm from history (start_realms.json).
+
+### War: mercenaries
+
+- **Captains who rise, in detail**: To a lordship or a throne, if they hold land and their men are loyal.
+
+### War: reforms
+
+- **What makes a reform available**: History's causes plus a technology.
+- **Who is angered by reforms**: Your rival's strength rises.
+- **Which army reforms first**: Every reform we can source to 1 AD.
+- **Refusing a reform**: You can take it later from a reforms list.
+
+
+### Built from these answers (11 Oct 2026)
+
+- **Hurrying a wonder**: a wonder can be built up to a quarter faster at
+  up to three times the silver and workers (the province panel offers a
+  hurried button).
+- **Wonders whose builders aren't in the game**: whoever holds the place
+  begins it on history's date (up to 50 years late), with the goods it needs.
+- **Saving a wonder from its fall**: when history's date comes, an offer
+  appears in Diplomacy; the wonder stands while you decide. Accepting
+  pays half its price and it stands for good; declining, or leaving the
+  offer for two years, lets it fall.
+- **Suppressing pirates**: each haven has a naval strength (Illyrians and
+  Cretans 4, Cilicians 8, Barbary corsairs 10) that grows 1% a year
+  unchecked, up to three times. Patrol months count only when your
+  warships in reach are at least as strong. A suppressed haven returns 40
+  years later unless the realm holding its coast keeps warships there at
+  least as strong as the pirates first were.
+
 ## Buildings and works, part one **(built, 4 Oct 2026)**
 
 From the designer's answers on the Ledger (Buildings and works):
@@ -2250,8 +2483,8 @@ building a wonder, what wonders do):
   provinces. Each adds its culture to the score.
 - **Falls.** Wonders fall on history's dates (the Colossus in 226 BC, the
   Temple of Artemis to the Goths in AD 262). Only yours can be saved: when
-  the date comes your engineers save it for half its price, if the
-  treasury has it.
+  the date comes you are asked in Diplomacy whether to save it for half
+  its price (changed 11 Oct 2026, your answer "Ask me each time").
 
 ## Battles and generals, part 4a: mercenary companies **(built, 28 Sep 2026)**
 

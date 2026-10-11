@@ -27,7 +27,20 @@ public partial class MapView
         if (Population == null || Provinces == null)
             return 0;
         int node = Population.NodeAtLonLat(w.Lon, w.Lat, LonMin, LonMax, LatMin, LatMax);
-        return node >= 0 ? NodeProvinces()[node] : 0;
+        if (node < 0)
+            return 0;
+        // A place on the shore may fall in the sea: take the nearest land.
+        var np = NodeProvinces();
+        int width = Population.Width;
+        for (int r = 0; r <= 3; r++)
+            for (int dy = -r; dy <= r; dy++)
+                for (int dx = -r; dx <= r; dx++)
+                {
+                    int x = node % width + dx, y = node / width + dy;
+                    if (x >= 0 && y >= 0 && x < width && y < Population.Height && np[y * width + x] != 0)
+                        return np[y * width + x];
+                }
+        return 0;
     }
 
     /// <summary>History's builder still begins a wonder this many years after history finished it (if it could not before).</summary>
@@ -52,9 +65,10 @@ public partial class MapView
     public bool WonderOpen(WonderDef w) => !Game.Wonders.ContainsKey(w.Id) && !Game.FallenWonders.Contains(w.Id);
 
     /// <summary>Why a realm can't start a wonder in a province now, or null.</summary>
-    public string? CanBuildWonder(Province p, WonderDef w, int? realmId = null)
+    public string? CanBuildWonder(Province p, WonderDef w, int? realmId = null, double hurry = 0)
     {
         int realm = realmId ?? PlayerRealmId;
+        var (silver, workers, _) = WonderPrice(w, hurry);
         var rs = Game.Realm(realm);
         if (!WonderOpen(w))
             return Game.FallenWonders.Contains(w.Id) ? "It has fallen." : "It already stands.";
@@ -66,10 +80,10 @@ public partial class MapView
             return "Already under way.";
         if (w.Needs != null && !ProvinceHas(p.Id, w.Needs))
             return w.Needs == "coast" ? "Needs a coast." : "Can't be built here.";
-        if (rs.Treasury < w.Cost)
-            return $"Not enough silver: {Money(w.Cost)} needed.";
-        if (rs.Manpower < w.Workers)
-            return $"Needs {w.Workers:N0} workers from your manpower ({rs.Manpower:N0} free).";
+        if (rs.Treasury < silver)
+            return $"Not enough silver: {Money(silver)} needed.";
+        if (rs.Manpower < workers)
+            return $"Needs {workers:N0} workers from your manpower ({rs.Manpower:N0} free).";
         var missing = MissingWonderGoods(realm, w);
         if (missing.Count > 0)
             return "Your realm needs " + string.Join(", ", missing) + ".";
@@ -93,16 +107,30 @@ public partial class MapView
         return missing;
     }
 
-    /// <summary>Starts a wonder: silver paid, workers taken from manpower.</summary>
-    public bool StartWonder(Province p, WonderDef w, int? realmId = null)
+    /// <summary>Hurrying (your answer "Hurrying a wonder"): at most this much faster...</summary>
+    public const double HurryMaxFaster = 0.25;
+    /// <summary>...at this many times the silver and workers.</summary>
+    public const double HurryMaxCost = 3;
+
+    /// <summary>What a wonder costs and takes when hurried by a share from 0 (not at all) to 1 (a quarter faster at triple the cost).</summary>
+    public static (double Silver, double Workers, int Years) WonderPrice(WonderDef w, double hurry = 0)
+    {
+        hurry = Math.Clamp(hurry, 0, 1);
+        double factor = 1 + (HurryMaxCost - 1) * hurry;
+        return (w.Cost * factor, w.Workers * factor, Math.Max(1, (int)Math.Ceiling(w.Years * (1 - HurryMaxFaster * hurry))));
+    }
+
+    /// <summary>Starts a wonder: silver paid, workers taken from manpower; hurrying costs more and takes less time.</summary>
+    public bool StartWonder(Province p, WonderDef w, int? realmId = null, double hurry = 0)
     {
         int realm = realmId ?? PlayerRealmId;
-        if (CanBuildWonder(p, w, realm) != null)
+        if (CanBuildWonder(p, w, realm, hurry) != null)
             return false;
         var rs = Game.Realm(realm);
-        rs.Treasury -= w.Cost;
-        rs.Manpower -= w.Workers;
-        Game.WonderWorks.Add(new WonderWork { Id = w.Id, Realm = realm, Province = p.Id, Left = w.Years, Workers = w.Workers, Paid = w.Cost });
+        var (silver, workers, years) = WonderPrice(w, hurry);
+        rs.Treasury -= silver;
+        rs.Manpower -= workers;
+        Game.WonderWorks.Add(new WonderWork { Id = w.Id, Realm = realm, Province = p.Id, Left = years, Workers = workers, Paid = silver });
         _census = null;
         return true;
     }
@@ -118,11 +146,12 @@ public partial class MapView
         if (Provinces == null)
             return events;
         var cat = WonderCatalog.Instance;
-        // History's builders begin, if they hold the place and can bear it.
+        // History's builders begin, if they hold the place and can bear it. A wonder whose
+        // builder isn't a realm of the game is begun by whoever holds the place (your answer).
         foreach (var w in cat.All)
         {
-            int builder = CivRealm(w.Builder);
-            if (builder == 0 || builder == PlayerRealmId || w.Start > DemoYear || DemoYear > w.Done + LateBuilderYears
+            int builder = w.Builder != null ? CivRealm(w.Builder) : WonderProvince(w) is int at and > 0 && Provinces.Provinces.TryGetValue(at, out var held) ? held.RealmId : 0;
+            if (builder <= 0 || builder == PlayerRealmId || w.Start > DemoYear || DemoYear > w.Done + LateBuilderYears
                 || !WonderOpen(w) || Game.WonderWorks.Any(x => x.Id == w.Id && x.Realm == builder))
                 continue;
             int prov = WonderProvince(w);
@@ -182,21 +211,53 @@ public partial class MapView
                 continue;
             int holder = Provinces.Provinces.TryGetValue(site.Province, out var p) ? p.RealmId : 0;
             double save = w.Cost * WonderCatalog.SaveShare;
-            if (holder == PlayerRealmId && PlayerState.Treasury >= save)
+            // Yours: you are asked each time (your answer "Saving a wonder from its fall"); it stands while you decide.
+            if (holder == PlayerRealmId && !site.Asked)
             {
-                PlayerState.Treasury -= save;
-                site.Saved = true;
-                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
-                    $"History would have the {w.Name} {w.FallWhy}; your engineers save it for {Money(save)}."));
+                site.Asked = true;
+                Game.Offers.Add(new Offer { Kind = WonderSaveOffer, From = PlayerRealmId, Subject = w.Id, Year = DemoYear, Silver = save,
+                    Text = $"History would have the {w.Name} {w.FallWhy}. Your engineers can save it" });
+                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"The {w.Name} is in danger: decide in Diplomacy whether to save it for {Money(save)}."));
                 continue;
             }
-            Game.Wonders.Remove(w.Id);
-            Game.FallenWonders.Add(w.Id);
-            events.Add(new ChronicleEvent(ChronicleKind.Disaster, PlayerRealmId, $"The {w.Name} falls: {w.FallWhy}." +
-                    (holder == PlayerRealmId ? $" Saving it needed {Money(save)}." : "")));
+            if (Game.Offers.Any(o => o.Kind == WonderSaveOffer && o.Subject == w.Id))
+                continue;
+            FallWonder(w, events);
         }
         RefreshWonderEffects();
         return events;
+    }
+
+    public const string WonderSaveOffer = "wonder_save";
+
+    void FallWonder(WonderDef w, List<ChronicleEvent> events)
+    {
+        Game.Wonders.Remove(w.Id);
+        Game.FallenWonders.Add(w.Id);
+        events.Add(new ChronicleEvent(ChronicleKind.Disaster, PlayerRealmId, $"The {w.Name} falls: {w.FallWhy}."));
+    }
+
+    /// <summary>Your answer to saving a wonder: pay and it stands for good, or let it fall as history had.</summary>
+    internal string? AnswerWonderSave(Offer offer, bool accept)
+    {
+        if (WonderCatalog.Instance[offer.Subject] is not { } w || !Game.Wonders.TryGetValue(w.Id, out var site))
+            return null;
+        if (accept)
+        {
+            if (PlayerState.Treasury < offer.Silver)
+            {
+                Game.Offers.Add(offer);
+                return $"Saving the {w.Name} needs {Money(offer.Silver)}.";
+            }
+            PlayerState.Treasury -= offer.Silver;
+            site.Saved = true;
+            RefreshWonderEffects();
+            return $"Your engineers save the {w.Name} for {Money(offer.Silver)}.";
+        }
+        var events = new List<ChronicleEvent>();
+        FallWonder(w, events);
+        RefreshWonderEffects();
+        return events[0].Text;
     }
 
     /// <summary>Ends a work: the workers come home (a few lost); an abandoned work gives back half its silver.</summary>

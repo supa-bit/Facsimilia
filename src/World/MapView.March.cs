@@ -70,7 +70,7 @@ public partial class MapView
     }
 
     /// <summary>The ground's cost of a step from node i to node j in km (sea steps are cheap for a fleet, closed to others).</summary>
-    double StepCost(int i, int j, bool fleet)
+    double StepCost(int i, int j, bool fleet, int realm = 0)
     {
         var pop = Population!;
         int w = pop.Width;
@@ -80,7 +80,9 @@ public partial class MapView
         float c = _moveCost![j];
         if (c < 0)
             return fleet ? km * Conquest.SeaCostShare : double.PositiveInfinity;
-        return km * c;
+        if (fleet && CanalStep(i, j))
+            return km * Conquest.SeaCostShare;   // through a canal
+        return km * c * RoadPace(i, j) + WallCrossing(i, j, realm);   // roads speed everyone, invaders too; walls hold back strangers
     }
 
     /// <summary>Whose land an army of this realm may march through: its own, its friends', its enemies' at war, and land no realm holds.</summary>
@@ -132,7 +134,7 @@ public partial class MapView
                     int j = ny * w + nx;
                     if (pop.NodeRegion[j] != 0 && !Enter(owners[j]) && j != target)
                         continue;
-                    double step = StepCost(i, j, fleet);
+                    double step = StepCost(i, j, fleet, realmId);
                     if (double.IsInfinity(step))
                         continue;
                     double next = c + step;
@@ -174,7 +176,7 @@ public partial class MapView
         int at = a.Node;
         foreach (int j in a.Route)
         {
-            km += StepCost(at, j, fleet);
+            km += StepCost(at, j, fleet, s.RealmId);
             at = j;
         }
         return Math.Max(0.1, km / Math.Max(1, MonthBudget(s, a, 5)));
@@ -277,7 +279,7 @@ public partial class MapView
                 a.Route.Clear();   // the way closed (a peace, a new border): halt
                 break;
             }
-            double step = StepCost(a.Node, next, fleet);
+            double step = StepCost(a.Node, next, fleet, s.RealmId);
             if (double.IsInfinity(step))
             {
                 a.Route.Clear();

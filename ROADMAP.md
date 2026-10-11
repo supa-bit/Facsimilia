@@ -101,15 +101,37 @@ mercenaries.
       embargoes and trade treaties, pirate havens and their suppression.
       Asked on the Ledger: route shifts, merchants, others' treaties,
       pirates. Later: moving trade lines, caravans, chartered companies.
-- [ ] **Buildings and works**, part one built (4 Oct 2026): 80 buildings
+- [x] **Buildings and works**, part one built (4 Oct 2026): 80 buildings
       (one for nearly every good, plus warehouses, libraries, schools,
       baths, theatres, mints, agoras), each with named levels at rising
       cost; a building queue with more slots for big towns; unpaid upkeep
       decays buildings after 3 years; sieges damage them. Part two built
       (4 Oct 2026): 38 wonders through the ages, each once in the world,
       raced against history's builders, costing silver, workers and
-      goods, falling on history's dates unless you save yours. Next:
-      roads, canals and frontier walls on the map.
+      goods, falling on history's dates unless you save yours. Follow-ups
+      built (11 Oct 2026): hurrying, wonders without a builder, being asked
+      before a fall. Part three, roads, built (11 Oct 2026): kinds by
+      material, drawn town to town, history's roads, breaking and neglect.
+      Canals, great works and frontier walls built the same day: history's
+      canals and great works as wonders, canals you dig between two
+      waters, walls you draw that slow strangers and need a garrison.
+- [x] **Trade: pirates follow-ups** (11 Oct 2026): pirate strength that
+      grows unchecked, patrols that must be strong enough, havens that
+      return when no one watches.
+
+Answered 11 Oct 2026 and waiting on their systems (recorded in MECHANICS.md,
+"Your answers of 11 October 2026"): the court (council, plots, marriages,
+succession, regents, republics' offices and Senate, skills, traits,
+portraits, the family tree, playing a family); diplomacy (envoys, client
+kings, hostages, leagues, treaties, peace, demands, tribute, trust and fear,
+gifts, protectorates, international bodies, pretexts by era); government
+(estates, points, laws, the list of governments once checked); cities
+(tiers, limits, sacking, moving the capital); population (classes and their
+needs, literacy, towns and countryside); provinces (kinds, focuses,
+governors, redrawing); land (crops, mines, stores, prospecting); the map
+(globe order, editor, passes, coasts); war (reforms, standing troops);
+trade (merchants, others' treaties, route shifts); sound; time (weeks, what
+stops time).
 
 ## Right now
 

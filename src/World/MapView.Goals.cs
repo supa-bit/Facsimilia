@@ -103,7 +103,7 @@ public partial class MapView
         double integration = mine.Count > 0 ? mine.Average(p => ProvinceStateOf(p.Id).Integration) : 0;
         var wonders = WondersOf(realmId);
         list.Add(("Culture", s.Techs.Count * 0.5 + buildings * 0.5 + integration * 10 + wonders.Sum(w => w.Culture),
-            $"{s.Techs.Count} technologies, {buildings} buildings, {wonders.Count} wonder{(wonders.Count == 1 ? "" : "s")}, {integration:P0} integrated"));
+            $"{s.Techs.Count} technologies, {buildings} buildings, {wonders.Count(w => w.IsWonder)} wonder{(wonders.Count(w => w.IsWonder) == 1 ? "" : "s")}, {wonders.Count(w => !w.IsWonder)} great works, {integration:P0} integrated"));
         list.Add(("Dynasty", DynastyScore(realmId, out string dyn), dyn));
         double goals = GoalsOf(realmId).Where(g => s.GoalsDone.ContainsKey(g.Id)).Sum(g => g.Points);
         list.Add(("Goals", goals, $"{s.GoalsDone.Count} reached"));

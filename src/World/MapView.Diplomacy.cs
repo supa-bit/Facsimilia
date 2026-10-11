@@ -324,6 +324,8 @@ public partial class MapView
     public string? AnswerOffer(Offer offer, bool accept)
     {
         Game.Offers.Remove(offer);
+        if (offer.Kind == WonderSaveOffer)
+            return AnswerWonderSave(offer, accept);
         if (!accept)
             return offer.Kind == "ransom" ? null : $"You turn down {RealmName(offer.From)}'s offer.";
         switch (offer.Kind)

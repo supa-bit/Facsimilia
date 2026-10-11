@@ -223,6 +223,11 @@ public partial class MapView
         if (!_leftDown)
             return false;
         _leftDown = false;
+        if (DrawingRoad != null && Mode == MapMode.Inspect && !_leftDragged)
+        {
+            RoadClick(GetGlobalMousePosition());
+            return true;
+        }
         if (Mode == MapMode.Inspect && !_leftDragged)
             SelectProvince(ProvinceAtWorld(GetGlobalMousePosition())?.Id ?? 0);
         else if (Mode == MapMode.EditProvinces)

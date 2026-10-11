@@ -28,6 +28,9 @@ public sealed class WonderDef
     public double Culture { get; init; }
     public string? Needs { get; init; }
     public string Description { get; init; } = "";
+    /// <summary>"wonder", or a great work: "canal", "great_work" (built the same way, the Ledger: "as wonders").</summary>
+    public string Kind { get; init; } = "wonder";
+    public bool IsWonder => Kind == "wonder";
     /// <summary>The years history took (at least one).</summary>
     public int Years => Math.Max(1, Done - Start);
 }
@@ -54,15 +57,18 @@ public sealed class WonderSite
     public int Province { get; set; }
     public int Year { get; set; }
     public bool Saved { get; set; }
+    /// <summary>You were asked whether to save it from its fall.</summary>
+    public bool Asked { get; set; }
 
-    public GArray ToArray() => new() { Province, Year, Saved };
-    public static WonderSite FromArray(GArray a) => new() { Province = a[0].AsInt32(), Year = a[1].AsInt32(), Saved = a[2].AsBool() };
+    public GArray ToArray() => new() { Province, Year, Saved, Asked };
+    public static WonderSite FromArray(GArray a) => new()
+    { Province = a[0].AsInt32(), Year = a[1].AsInt32(), Saved = a[2].AsBool(), Asked = a.Count > 3 && a[3].AsBool() };
 }
 
 /// <summary>The wonders of the world (the Ledger topic "Buildings and works": wonders).</summary>
 public sealed class WonderCatalog
 {
-    public const string Path = "res://data/wonders.json";
+    public const string Path = "res://data/wonders.json", WorksPath = "res://data/works_history.json";
     static WonderCatalog? _instance;
     public static WonderCatalog Instance => _instance ??= Load();
 
@@ -100,6 +106,38 @@ public sealed class WonderCatalog
                 Needs = w.TryGetProperty("needs", out var n) ? n.GetString() : null,
                 Description = w.GetProperty("description").GetString()!,
             });
+        // History's canals and great works, built as wonders are (frontier walls are drawn instead).
+        if (Godot.FileAccess.FileExists(WorksPath))
+        {
+            using var works = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(WorksPath));
+            foreach (var w in works.RootElement.GetProperty("works").EnumerateArray())
+            {
+                string kind = w.GetProperty("kind").GetString()!;
+                if (kind == "wall")
+                    continue;
+                var first = w.GetProperty("points")[0];
+                c.All.Add(new WonderDef
+                {
+                    Id = w.GetProperty("id").GetString()!,
+                    Name = w.GetProperty("name").GetString()!,
+                    Kind = kind,
+                    Lon = first[1].GetDouble(),
+                    Lat = first[2].GetDouble(),
+                    Builder = w.GetProperty("builder").ValueKind == JsonValueKind.Null ? null : w.GetProperty("builder").GetString(),
+                    Start = w.GetProperty("start").GetInt32(),
+                    Done = w.GetProperty("done").GetInt32(),
+                    Fall = w.TryGetProperty("fall", out var f) ? f.GetInt32() : null,
+                    FallWhy = w.TryGetProperty("fall_why", out var fw) ? fw.GetString()! : "",
+                    Cost = w.GetProperty("cost").GetDouble(),
+                    Workers = w.GetProperty("workers").GetDouble(),
+                    Goods = w.GetProperty("goods").EnumerateArray().Select(x => x.GetString()!).ToArray(),
+                    Effects = w.GetProperty("effects").EnumerateObject().ToDictionary(p => p.Name, p => p.Value.GetDouble()),
+                    Culture = w.GetProperty("culture").GetDouble(),
+                    Needs = kind == "canal" ? "coast" : null,
+                    Description = w.GetProperty("effect").GetString()! + (w.GetProperty("note").GetString() is { Length: > 0 } note ? " " + note : ""),
+                });
+            }
+        }
         return c;
     }
 }

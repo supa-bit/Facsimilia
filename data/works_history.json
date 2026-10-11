@@ -1,5 +1,5 @@
 {
- "about": "History's canals, great works and frontier walls (the Ledger topic 'Buildings and works': 'Buildable great works' and 'Draw fortified lines'). Each has its real places (lon, lat), the years history built it, its builder (a civilization key, or null), and what it did. Who else builds them, how walls are drawn and what they do wait on the decisions 'Great works others build', 'How frontier walls are drawn', 'What frontier walls do' and 'History's frontier walls'. Hadrian's and the Antonine Walls, the Danevirke and the Kiel canal lie north of the map's edge (48 degrees) and come with 'The whole globe: order'. Not yet used by the game. Made by tools/history/works.py. Sources: Barrington Atlas (Talbert, 2000); Tacitus and Suetonius on the Fucine works; Procopius, 'Buildings'; Sauer and others, 'Persia's Imperial Power in Late Antiquity' (2013) on the Gorgan Wall. Our own summary, free for any use.",
+ "about": "History's canals, great works and frontier walls (the Ledger topic 'Buildings and works': 'Buildable great works' and 'Draw fortified lines'). Each has its real places (lon, lat), the years history built it, its builder (a civilization key, or null), and what it did. Who else builds them, how walls are drawn and what they do wait on the decisions 'Great works others build', 'How frontier walls are drawn', 'What frontier walls do' and 'History's frontier walls'. Hadrian's and the Antonine Walls, the Danevirke and the Kiel canal lie north of the map's edge (48 degrees) and come with 'The whole globe: order'. Canals and great works are built as wonders are (your answer 'Great works others build': only their own history's, and you can race them); 'cost' is talents, 'workers' men from manpower while it is built, 'goods' what the realm must make or import, 'effects' what it gives the realm holding it. Walls wait on the frontier wall answers. Made by tools/history/works.py. Sources: Barrington Atlas (Talbert, 2000); Tacitus and Suetonius on the Fucine works; Procopius, 'Buildings'; Sauer and others, 'Persia's Imperial Power in Late Antiquity' (2013) on the Gorgan Wall. Our own summary, free for any use.",
  "works": [
   {
    "id": "diolkos",
@@ -21,7 +21,16 @@
     ]
    ],
    "effect": "Ships hauled across the Isthmus: a short way between the gulfs.",
-   "note": "A paved slipway, standing in 300 BC."
+   "note": "A paved slipway, standing in 300 BC.",
+   "cost": 300,
+   "workers": 2000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "trade": 0.02
+   },
+   "culture": 5
   },
   {
    "id": "pharaohs_canal",
@@ -49,6 +58,15 @@
    ],
    "effect": "Opens the Nile to the Red Sea: Indian trade without the desert.",
    "note": "Begun by Necho, finished by Darius; restored by Ptolemy II.",
+   "cost": 1500,
+   "workers": 10000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.08
+   },
+   "culture": 15,
    "fall": -100,
    "fall_why": "silted up; Trajan and later Amr ibn al-As reopened it until 767"
   },
@@ -78,6 +96,15 @@
    ],
    "effect": "As the Pharaohs' canal.",
    "note": "",
+   "cost": 1500,
+   "workers": 10000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.08
+   },
+   "culture": 10,
    "fall": 767,
    "fall_why": "closed by the caliph al-Mansur in 767"
   },
@@ -101,7 +128,17 @@
     ]
    ],
    "effect": "Would join the gulfs; abandoned at Nero's death.",
-   "note": "Begun with 6,000 prisoners of the Jewish war, abandoned in 68."
+   "note": "Begun with 6,000 prisoners of the Jewish war, abandoned in 68.",
+   "cost": 2500,
+   "workers": 6000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.04,
+    "sea_cost": -0.03
+   },
+   "culture": 15
   },
   {
    "id": "naviglio_grande",
@@ -123,7 +160,17 @@
     ]
    ],
    "effect": "Water for Milan's fields and mills, and a waterway for its marble.",
-   "note": ""
+   "note": "",
+   "cost": 800,
+   "workers": 4000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.03,
+    "field": 0.02
+   },
+   "culture": 8
   },
   {
    "id": "canal_du_midi",
@@ -155,7 +202,17 @@
     ]
    ],
    "effect": "Joins the Atlantic's rivers to the Mediterranean.",
-   "note": ""
+   "note": "",
+   "cost": 2500,
+   "workers": 12000,
+   "goods": [
+    "tools",
+    "bricks"
+   ],
+   "effects": {
+    "trade": 0.06
+   },
+   "culture": 20
   },
   {
    "id": "mahmudiyah",
@@ -177,7 +234,16 @@
     ]
    ],
    "effect": "Joins Alexandria to the Nile again.",
-   "note": ""
+   "note": "",
+   "cost": 800,
+   "workers": 30000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.05
+   },
+   "culture": 5
   },
   {
    "id": "suez",
@@ -204,7 +270,18 @@
     ]
    ],
    "effect": "The sea route from the Mediterranean to India.",
-   "note": ""
+   "note": "",
+   "cost": 8000,
+   "workers": 30000,
+   "goods": [
+    "steel",
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.15,
+    "sea_cost": -0.1
+   },
+   "culture": 35
   },
   {
    "id": "corinth_canal",
@@ -226,7 +303,18 @@
     ]
    ],
    "effect": "Joins the Gulf of Corinth and the Saronic Gulf.",
-   "note": ""
+   "note": "",
+   "cost": 2000,
+   "workers": 3000,
+   "goods": [
+    "steel",
+    "tools"
+   ],
+   "effects": {
+    "trade": 0.04,
+    "sea_cost": -0.03
+   },
+   "culture": 15
   },
   {
    "id": "danube_black_sea",
@@ -248,7 +336,16 @@
     ]
    ],
    "effect": "A short way from the Danube to the sea.",
-   "note": ""
+   "note": "",
+   "cost": 3000,
+   "workers": 20000,
+   "goods": [
+    "steel"
+   ],
+   "effects": {
+    "trade": 0.03
+   },
+   "culture": 5
   },
   {
    "id": "fucine_drain",
@@ -270,7 +367,16 @@
     ]
    ],
    "effect": "New farmland from the lake bed.",
-   "note": "Claudius' tunnel, 5.6 km, dug by 30,000 men over 11 years."
+   "note": "Claudius' tunnel, 5.6 km, dug by 30,000 men over 11 years.",
+   "cost": 2500,
+   "workers": 30000,
+   "goods": [
+    "tools"
+   ],
+   "effects": {
+    "field": 0.03
+   },
+   "culture": 15
   },
   {
    "id": "pontine_marshes",
@@ -287,7 +393,18 @@
     ]
    ],
    "effect": "New farmland and an end to malaria; attempted since Appius Claudius.",
-   "note": ""
+   "note": "",
+   "cost": 2500,
+   "workers": 10000,
+   "goods": [
+    "steel",
+    "tools"
+   ],
+   "effects": {
+    "field": 0.03,
+    "growth": 0.03
+   },
+   "culture": 10
   },
   {
    "id": "aswan_dam",
@@ -304,7 +421,16 @@
     ]
    ],
    "effect": "Holds the Nile flood: two harvests a year.",
-   "note": ""
+   "note": "",
+   "cost": 3000,
+   "workers": 15000,
+   "goods": [
+    "steel"
+   ],
+   "effects": {
+    "field": 0.06
+   },
+   "culture": 15
   },
   {
    "id": "aswan_high_dam",
@@ -321,7 +447,17 @@
     ]
    ],
    "effect": "Holds the whole flood; power for Egypt.",
-   "note": ""
+   "note": "",
+   "cost": 8000,
+   "workers": 30000,
+   "goods": [
+    "steel"
+   ],
+   "effects": {
+    "field": 0.08,
+    "growth": 0.03
+   },
+   "culture": 25
   },
   {
    "id": "ataturk_dam",
@@ -338,7 +474,17 @@
     ]
    ],
    "effect": "Water and power for the upper Euphrates.",
-   "note": ""
+   "note": "",
+   "cost": 8000,
+   "workers": 20000,
+   "goods": [
+    "steel"
+   ],
+   "effects": {
+    "field": 0.05,
+    "growth": 0.02
+   },
+   "culture": 15
   },
   {
    "id": "long_walls_athens",
@@ -361,8 +507,18 @@
    ],
    "effect": "Keeps Athens fed by sea under siege.",
    "note": "Pulled down in 404 BC, rebuilt by Conon in 393 BC.",
+   "cost": 800,
+   "workers": 5000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 4
+   },
+   "culture": 10,
    "fall": -86,
-   "fall_why": "destroyed by Sulla in 86 BC"
+   "fall_why": "destroyed by Sulla in 86 BC",
+   "material": "stone_wall"
   },
   {
    "id": "fossatum_africae",
@@ -394,7 +550,17 @@
     ]
    ],
    "effect": "A ditch and wall along the desert's edge: slows raiders from the south.",
-   "note": ""
+   "note": "",
+   "cost": 1500,
+   "workers": 8000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 3
+   },
+   "culture": 10,
+   "material": "earthwork"
   },
   {
    "id": "strata_diocletiana",
@@ -426,7 +592,18 @@
     ]
    ],
    "effect": "A fortified road of forts along the Syrian desert.",
-   "note": ""
+   "note": "",
+   "cost": 1500,
+   "workers": 8000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 3,
+    "trade": 0.02
+   },
+   "culture": 10,
+   "material": "earthwork"
   },
   {
    "id": "hexamilion",
@@ -449,8 +626,18 @@
    ],
    "effect": "A wall across the Isthmus: the Peloponnese held against invaders from the north.",
    "note": "",
+   "cost": 1000,
+   "workers": 6000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 4
+   },
+   "culture": 10,
    "fall": 1446,
-   "fall_why": "broken by the Ottomans in 1446"
+   "fall_why": "broken by the Ottomans in 1446",
+   "material": "stone_wall"
   },
   {
    "id": "anastasian_wall",
@@ -473,8 +660,18 @@
    ],
    "effect": "A second line before Constantinople.",
    "note": "",
+   "cost": 1500,
+   "workers": 8000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 5
+   },
+   "culture": 10,
    "fall": 600,
-   "fall_why": "abandoned for lack of men in the 7th century"
+   "fall_why": "abandoned for lack of men in the 7th century",
+   "material": "stone_wall"
   },
   {
    "id": "gorgan_wall",
@@ -496,7 +693,17 @@
     ]
    ],
    "effect": "Holds the steppe raiders from Iran.",
-   "note": "The Sasanians' 'Red Snake', about 195 km; its end lies beyond the map's edge."
+   "note": "The Sasanians' 'Red Snake', about 195 km; its end lies beyond the map's edge.",
+   "cost": 3000,
+   "workers": 15000,
+   "goods": [
+    "bricks"
+   ],
+   "effects": {
+    "garrison": 5
+   },
+   "culture": 15,
+   "material": "earthwork"
   },
   {
    "id": "derbent_walls",
@@ -518,7 +725,17 @@
     ]
    ],
    "effect": "Closes the Caspian Gates against the peoples of the north.",
-   "note": ""
+   "note": "",
+   "cost": 1500,
+   "workers": 8000,
+   "goods": [
+    "dressed_stone"
+   ],
+   "effects": {
+    "garrison": 5
+   },
+   "culture": 10,
+   "material": "stone_wall"
   }
  ]
 }

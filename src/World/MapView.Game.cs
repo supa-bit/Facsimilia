@@ -136,6 +136,7 @@ public partial class MapView
             StartArmy(Game.Realm(realmId), counts);
         StartGenerals();
         StartWonders();
+        StartRoads();
         MercenariesYear(new Random(StableHash.Of(DemoYear, 4409)));
         RefreshRoleBoosts();
         _census = null;
@@ -170,6 +171,7 @@ public partial class MapView
         Lap("diplomacy");
         events.AddRange(BuildingsYear(new Random(StableHash.Of(DemoYear, 6007))));
         events.AddRange(WondersYear());
+        events.AddRange(RoadsYear());
         ApplyBuildingGrowth();
         Lap("buildings");
         events.AddRange(TechYear());
@@ -211,6 +213,7 @@ public partial class MapView
         {
             Game = GameState.FromDict(data);
             RefreshWonderEffects();
+            _roadsDirty = _roadLayerDirty = true;
         }
         else
         {

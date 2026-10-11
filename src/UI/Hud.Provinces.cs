@@ -146,6 +146,7 @@ public partial class Hud
             _map.ShowReach(_map.Mode == MapMode.PlanConquest);
         };
         _map.ArmyMoveRefused += why => ShowStatus(why, fadeAfter: 3);
+        _map.RoadPlanned += ShowRoadBar;
         _map.MapModeChanged += mode =>
         {
             for (int i = 0; i < Modes.Length; i++)
@@ -153,6 +154,50 @@ public partial class Hud
             RefreshProvincePanel();
             RefreshConquestPanel();
         };
+    }
+
+    // --- Drawing roads -------------------------------------------------------------------
+
+    PanelContainer? _roadBar;
+    Label? _roadText;
+    Button? _roadBuild;
+
+    /// <summary>The bar shown while you draw a road: what it will cost, with Build and Cancel.</summary>
+    void ShowRoadBar(string text)
+    {
+        if (_roadBar == null)
+        {
+            _roadBar = new PanelContainer { MouseFilter = MouseFilterEnum.Stop };
+            _roadBar.SetAnchorsAndOffsetsPreset(LayoutPreset.CenterBottom);
+            _roadBar.GrowHorizontal = GrowDirection.Both;
+            _roadBar.GrowVertical = GrowDirection.Begin;
+            _roadBar.Position = new Vector2(_roadBar.Position.X, _roadBar.Position.Y - 120);
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 10);
+            _roadBar.AddChild(row);
+            _roadText = ThemeAncient.Label("", fontSize: 16);
+            _roadText.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            _roadText.CustomMinimumSize = new Vector2(640, 0);
+            row.AddChild(_roadText);
+            _roadBuild = new Button { Text = "Build", FocusMode = FocusModeEnum.None };
+            _roadBuild.Pressed += () =>
+            {
+                string? why = _map.OrderPlannedRoad();
+                if (why != null)
+                    ShowStatus(why, fadeAfter: 3);
+                RefreshProvincePanel();
+                RefreshTreasury();
+            };
+            row.AddChild(_roadBuild);
+            var cancel = new Button { Text = "Cancel", FocusMode = FocusModeEnum.None };
+            cancel.Pressed += () => _map.StopDrawingRoad();
+            row.AddChild(cancel);
+            AddChild(_roadBar);
+        }
+        _roadBar.Visible = text != "";
+        _roadText!.Text = text;
+        _roadBuild!.Visible = _map.RoadPreview != null;
+        _roadBuild.Disabled = _map.RoadPreview?.Problem != null;
     }
 
     void CommitRename(string text)
@@ -310,16 +355,16 @@ public partial class Hud
             Line(buildings, $"Neglected for {ps.NeglectYears} year(s): unpaid or unused buildings decay after {MapView.NeglectYearsToDecay}.");
         // Wonders: those standing here, those under way, and those you may begin.
         foreach (var w in _map.WondersIn(p.Id))
-            Line(buildings, $"Wonder: {w.Name}" + (_map.Game.Wonders[w.Id].Saved ? " (saved from its fall)" : ""));
+            Line(buildings, $"{(w.IsWonder ? "Wonder" : "Great work")}: {w.Name}" + (_map.Game.Wonders[w.Id].Saved ? " (saved from its fall)" : ""));
         foreach (var work in _map.Game.WonderWorks.Where(x => x.Province == p.Id))
             Line(buildings, $"Building the {WonderCatalog.Instance[work.Id]?.Name}: {work.Left} year{(work.Left == 1 ? "" : "s")} left" +
                 (work.Realm != _map.PlayerRealmId ? $" ({_map.RealmName(work.Realm)})" : "") + (sieged ? " (halted by the siege)" : ""));
         if (mine)
         {
-            var open = WonderCatalog.Instance.All.Where(w => _map.WonderOpen(w) && w.Start <= _map.DemoYear).ToList();
+            var open = WonderCatalog.Instance.All.Where(w => _map.WonderOpen(w) && w.Start <= _map.DemoYear).OrderBy(w => w.IsWonder ? 0 : 1).ToList();
             if (open.Count > 0)
             {
-                Line(buildings, "Wonders open to build (each once in the world; whoever finishes first has it):");
+                Line(buildings, "Wonders, canals and great works open to build (each once in the world; whoever finishes first has it):");
                 var grid = new GridContainer { Columns = 2 };
                 grid.AddThemeConstantOverride("h_separation", 6);
                 grid.AddThemeConstantOverride("v_separation", 4);
@@ -338,7 +383,7 @@ public partial class Hud
                         FocusMode = FocusModeEnum.None,
                         TooltipText = $"{w.Description}\n{_map.Money(w.Cost)}, {w.Years} years, {w.Workers:N0} workers, needs {string.Join(", ", w.Goods)}." +
                             $"\nEffects: {effects}; +{w.Culture:0} culture." +
-                            (w.Fall is int f ? $"\nIn history it fell in {ThemeAncient.YearText(f)} ({w.FallWhy}); yours can be saved for half its price." : "") +
+                            (w.Fall is int f ? $"\nIn history it fell in {ThemeAncient.YearText(f)} ({w.FallWhy}); yours can be saved for half its price (you are asked when the day comes)." : "") +
                             (rivals.Count > 0 ? "\nUnder way: " + string.Join("; ", rivals) + "." : "") +
                             (problem != null ? "\n" + problem : ""),
                     };
@@ -351,6 +396,121 @@ public partial class Hud
                         RefreshTreasury();
                     };
                     grid.AddChild(button);
+                    // Hurried: a quarter faster at triple the silver and workers (your answer "Hurrying a wonder").
+                    var fast = MapView.WonderPrice(w, 1);
+                    string? fastProblem = _map.CanBuildWonder(p, w, null, 1);
+                    var hurry = new Button
+                    {
+                        Text = $"Hurried: {fast.Years} years ({fast.Silver:0})",
+                        Disabled = fastProblem != null,
+                        FocusMode = FocusModeEnum.None,
+                        TooltipText = $"Build the {w.Name} a quarter faster: {_map.Money(fast.Silver)} and {fast.Workers:N0} workers, {fast.Years} years instead of {w.Years}." +
+                            (fastProblem != null ? "\n" + fastProblem : ""),
+                    };
+                    hurry.AddThemeFontSizeOverride("font_size", 14);
+                    hurry.Pressed += () =>
+                    {
+                        _map.StartWonder(p, def, null, 1);
+                        RefreshProvincePanel();
+                        RefreshTreasury();
+                    };
+                    grid.AddChild(hurry);
+                }
+            }
+        }
+
+        // Roads through this province, and drawing new ones.
+        var roadsHere = _map.Game.Roads.Where(r => r.Nodes.Any(n => _map.ProvinceOfNodePublic(n) == p.Id)).ToList();
+        foreach (var road in roadsHere)
+        {
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 6);
+            buildings.AddChild(row);
+            var rk = RoadCatalog.Instance[road.Kind];
+            var label = ThemeAncient.Label($"{(rk?.Water == true ? "Canal" : rk?.Wall == true ? (road.Manned || !road.Built ? "Wall" : "Wall, unmanned") : "Road")}: {road.Name} ({road.Km:0} km" + (road.Built ? "" : $", {road.Left} year(s) to build") +
+                (road.Broken ? ", broken" : "") + (road.Realm != _map.PlayerRealmId ? $", {_map.RealmName(road.Realm)}" : "") + ")", fontSize: 14);
+            label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+            row.AddChild(label);
+            if (road.Realm != _map.PlayerRealmId || !road.Built)
+                continue;
+            var r = road;
+            var act = new Button
+            {
+                Text = road.Broken ? $"Repair ({_map.RepairCost(road):0})" : "Break",
+                FocusMode = FocusModeEnum.None,
+                TooltipText = road.Broken ? "Mend it in a year." : "Break your own road to slow an invader (everyone marches faster on a road, enemies too).",
+            };
+            act.AddThemeFontSizeOverride("font_size", 13);
+            act.Pressed += () =>
+            {
+                string? why = r.Broken ? _map.RepairRoad(r) : _map.BreakRoad(r);
+                if (why != null)
+                    ShowStatus(why, fadeAfter: 3);
+                RefreshProvincePanel();
+                RefreshTreasury();
+            };
+            row.AddChild(act);
+        }
+        if (mine)
+        {
+            var roadRow = new HBoxContainer();
+            roadRow.AddThemeConstantOverride("separation", 6);
+            buildings.AddChild(roadRow);
+            roadRow.AddChild(ThemeAncient.Label("Draw a road:", fontSize: 14));
+            foreach (var kind in RoadCatalog.Instance.Open(_map.PlayerState))
+            {
+                var k = kind;
+                var draw = new Button
+                {
+                    Text = kind.Name,
+                    FocusMode = FocusModeEnum.None,
+                    TooltipText = $"{kind.Description}\n{_map.Money(kind.Cost)} a km (more over rough ground, {_map.Money(RoadCatalog.Instance.BridgeCost)} a bridge), {kind.Workers:0} workers a km; " +
+                        $"marching {(1 - kind.Pace):P0} faster, trade +{kind.Trade:P0} in the provinces it crosses.\nClick one of your towns, then another.",
+                };
+                draw.AddThemeFontSizeOverride("font_size", 13);
+                draw.Pressed += () => _map.StartDrawingRoad(k);
+                roadRow.AddChild(draw);
+            }
+            var wallRow = new HBoxContainer();
+            wallRow.AddThemeConstantOverride("separation", 6);
+            buildings.AddChild(wallRow);
+            wallRow.AddChild(ThemeAncient.Label("Draw a frontier wall:", fontSize: 14));
+            foreach (var kind in RoadCatalog.Instance.Walls)
+            {
+                var k = kind;
+                var wall = new Button
+                {
+                    Text = kind.Name,
+                    FocusMode = FocusModeEnum.None,
+                    TooltipText = $"{kind.Description}\n{_map.Money(kind.Cost)} a km (more over rough ground), {kind.Workers:0} workers a km while it is built, then {kind.Garrison:0} men a km to man it " +
+                        $"(unmanned it decays). Armies of other realms lose {kind.CrossKm:0} km of their march crossing it; provinces along it are better held." +
+                        "\nClick your land where it starts, then along your border.",
+                };
+                wall.AddThemeFontSizeOverride("font_size", 13);
+                wall.Pressed += () => _map.StartDrawingRoad(k);
+                wallRow.AddChild(wall);
+            }
+            var canals = RoadCatalog.Instance.OpenCanals(_map.PlayerState).ToList();
+            if (canals.Count > 0)
+            {
+                var canalRow = new HBoxContainer();
+                canalRow.AddThemeConstantOverride("separation", 6);
+                buildings.AddChild(canalRow);
+                canalRow.AddChild(ThemeAncient.Label("Dig a canal:", fontSize: 14));
+                foreach (var kind in canals)
+                {
+                    var k = kind;
+                    var dig = new Button
+                    {
+                        Text = kind.Name,
+                        FocusMode = FocusModeEnum.None,
+                        TooltipText = $"{kind.Description}\n{_map.Money(kind.Cost)} a km, {kind.Workers:0} workers a km; trade +{kind.Trade:P0} in the provinces it crosses; your ships sail through it." +
+                            "\nClick your land by the sea or a river, then by another water.",
+                    };
+                    dig.AddThemeFontSizeOverride("font_size", 13);
+                    dig.Pressed += () => _map.StartDrawingRoad(k);
+                    canalRow.AddChild(dig);
                 }
             }
         }

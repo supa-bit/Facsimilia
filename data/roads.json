@@ -1,0 +1,131 @@
+{
+ "about": "The kinds of road (the Ledger topic 'Buildings and works', your note on 'Which kinds of road': split by material, and hence speed and bandwidth; railways are not roads and come separately). 'pace' is the share of the ground's marching cost left on the road (lower is faster, whatever the ground); 'trade' is the share added to the trade of the provinces it crosses; 'reach' is how much of a far province's distance penalty a road to the capital takes away; 'cost' is talents per km and 'workers' men per km taken from manpower while it is built; 'requires' is the technology that opens it. Building takes years by length: 100 km a year, faster as the realm learns transport and construction (your note on 'What a road costs'). Our own figures, free for any use. 'canals' are dug the same way, between two waters (sea or a river) (your answer 'History's own plus any canal you draw between two waters'): ships pass through them; without the pound lock (1373) a canal can't climb hills (ground rougher than 'max_rugged'). 'walls' are frontier walls, drawn point to point along your land (your answers on frontier walls): an army of another realm (not an ally) crossing one loses 'cross_km' of its march for each crossing; each needs 'garrison' men a km held from manpower once finished, or it decays like an unpaid road; provinces it runs through are better held ('province_garrison'). Stopping raids waits on raiding (the campaign question 'Raids').",
+ "km_per_year": 100,
+ "bridge_cost": 6,
+ "upkeep_share": 0.01,
+ "kinds": [
+  {
+   "id": "earth",
+   "name": "Earth road",
+   "pace": 0.8,
+   "trade": 0.03,
+   "reach": 0.2,
+   "cost": 0.2,
+   "workers": 10,
+   "requires": null,
+   "description": "A cleared and levelled track: passable in summer, mud in winter."
+  },
+  {
+   "id": "gravel",
+   "name": "Gravel road",
+   "pace": 0.65,
+   "trade": 0.06,
+   "reach": 0.35,
+   "cost": 0.5,
+   "workers": 20,
+   "requires": null,
+   "description": "A road of packed gravel on a bed of stones (via glareata strata)."
+  },
+  {
+   "id": "paved",
+   "name": "Paved stone road",
+   "pace": 0.5,
+   "trade": 0.12,
+   "reach": 0.5,
+   "cost": 1.2,
+   "workers": 40,
+   "requires": "surveying",
+   "description": "Fitted stone blocks on deep foundations, drained and surveyed straight (via silice strata), as the Via Appia was paved from 295 BC."
+  },
+  {
+   "id": "macadam",
+   "name": "Macadam road",
+   "pace": 0.4,
+   "trade": 0.2,
+   "reach": 0.6,
+   "cost": 1.5,
+   "workers": 30,
+   "requires": "macadam",
+   "description": "McAdam's layers of broken stone, cambered to shed the rain."
+  },
+  {
+   "id": "asphalt",
+   "name": "Asphalt road",
+   "pace": 0.2,
+   "trade": 0.35,
+   "reach": 0.75,
+   "cost": 4,
+   "workers": 30,
+   "requires": "highways",
+   "description": "Asphalt and concrete for motor traffic."
+  }
+ ],
+ "canals": [
+  {
+   "id": "canal",
+   "name": "Canal",
+   "pace": 1,
+   "trade": 0.08,
+   "reach": 0,
+   "cost": 5,
+   "workers": 150,
+   "requires": null,
+   "max_rugged": 40,
+   "description": "A cut between two waters on level ground, like Necho's canal or the Fossa Drusiana."
+  },
+  {
+   "id": "lock_canal",
+   "name": "Canal with locks",
+   "pace": 1,
+   "trade": 0.12,
+   "reach": 0,
+   "cost": 7,
+   "workers": 120,
+   "requires": "pound_lock",
+   "max_rugged": 120,
+   "description": "Pound locks lift boats over the hills, like the Canal du Midi."
+  },
+  {
+   "id": "ship_canal",
+   "name": "Ship canal",
+   "pace": 1,
+   "trade": 0.2,
+   "reach": 0,
+   "cost": 15,
+   "workers": 100,
+   "requires": "suez",
+   "max_rugged": 120,
+   "description": "Wide and deep enough for seagoing ships, like Suez and Kiel."
+  }
+ ],
+ "walls": [
+  {
+   "id": "earthwork",
+   "name": "Ditch and rampart",
+   "pace": 1,
+   "trade": 0,
+   "reach": 0,
+   "cost": 1.5,
+   "workers": 60,
+   "requires": null,
+   "garrison": 25,
+   "cross_km": 40,
+   "province_garrison": 1,
+   "description": "A ditch and an earth rampart with watchtowers, like the Fossatum Africae or the Antonine Wall."
+  },
+  {
+   "id": "stone_wall",
+   "name": "Stone wall",
+   "pace": 1,
+   "trade": 0,
+   "reach": 0,
+   "cost": 4,
+   "workers": 100,
+   "requires": null,
+   "garrison": 40,
+   "cross_km": 90,
+   "province_garrison": 2,
+   "description": "A stone curtain with forts and milecastles, like Hadrian's Wall or the Anastasian Wall."
+  }
+ ]
+}

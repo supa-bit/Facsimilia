@@ -187,6 +187,7 @@ public partial class MapView
     void ScaleArmyMarkers()
     {
         ScaleRouteLines();
+        ScaleRoadLines();
         ScaleCapitals();
         if (_armyLayer == null || _camera == null)
             return;

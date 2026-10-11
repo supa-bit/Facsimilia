@@ -160,6 +160,11 @@ public partial class MapView
                 FinishProvinceStroke();
             return;
         }
+        if (DrawingRoad != null)
+        {
+            StopDrawingRoad();
+            return;
+        }
         switch (Mode)
         {
             case MapMode.Inspect:

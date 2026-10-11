@@ -27,6 +27,24 @@ public partial class MapView
     /// <summary>Warships within this distance of a haven patrol it; this many months of patrols suppress it.</summary>
     public const double PatrolKm = 200;
     public const int PatrolMonthsToSuppress = 6;
+    /// <summary>Pirates unchecked grow this much stronger each year...</summary>
+    public const double PirateGrowth = 0.01;
+    /// <summary>...up to this many times their first strength.</summary>
+    public const double PirateMaxGrowth = 3;
+    /// <summary>A suppressed haven returns after this many years unless the realm holding its coast keeps warships there.</summary>
+    public const int HavenReturnYears = 40;
+
+    /// <summary>The pirates' naval strength now: their first strength, growing while no one checks them.</summary>
+    public double PirateMight(PirateHaven h)
+    {
+        int since = Game.HavenYear.TryGetValue(h.Id, out int y) ? y : h.From;
+        return h.Might * Math.Min(PirateMaxGrowth, 1 + PirateGrowth * Math.Max(0, DemoYear - since));
+    }
+
+    /// <summary>Naval Might each realm keeps within patrol reach of a haven.</summary>
+    Dictionary<int, double> PatrolMight(PirateHaven h) =>
+        Game.Realms.Values.ToDictionary(r => r.RealmId, r => r.Armies.Where(a => a.Node >= 0 && !a.IsEmpty && NodeKm(a.Node, h) <= PatrolKm)
+            .Sum(a => Military.RawMight(a, Domain.Naval)));
     /// <summary>A shortage under a price limit adds this much unrest (black markets and hunger).</summary>
     public const double ShortageUnrest = 0.05;
 
@@ -215,8 +233,10 @@ public partial class MapView
 
     /// <summary>
     /// The pirates' year: they carry off some of the people of coasts in reach;
-    /// a haven taken by conquest, or patrolled by warships for six months, is
-    /// suppressed; at history's date the rest are swept from the sea.
+    /// a haven taken by conquest, or patrolled for six months by warships at
+    /// least as strong as the pirates, is suppressed; it returns after some
+    /// decades unless the coast is watched; at history's date the rest are
+    /// swept from the sea.
     /// </summary>
     internal List<ChronicleEvent> PiratesYear()
     {
@@ -249,12 +269,15 @@ public partial class MapView
             if (conquered || Game.PatrolMonths.GetValueOrDefault(h.Id) >= PatrolMonthsToSuppress)
             {
                 Game.SuppressedHavens.Add(h.Id);
+                Game.HavenYear[h.Id] = DemoYear;
+                Game.PatrolMonths.Remove(h.Id);
                 int by = conquered ? owner : Game.Realms.Values.Where(r => r.Armies.Any(a => a.Node >= 0 && Military.RawMight(a, Domain.Naval) > 0
                     && NodeKm(a.Node, h) <= PatrolKm)).Select(r => r.RealmId).FirstOrDefault();
                 events.Add(new ChronicleEvent(ChronicleKind.War, by > 0 ? by : PlayerRealmId,
                     $"{(by > 0 ? RealmName(by) : "Warships")} sweep {h.Name.Replace("The ", "the ")} from the sea."));
             }
         }
+        HavensReturn(events);
         _census = null;
         return events;
     }
@@ -267,12 +290,35 @@ public partial class MapView
         return DisasterCatalog.Km(h.Lon, h.Lat, lon, lat);
     }
 
-    /// <summary>The month's patrols: warships standing near a haven count toward suppressing it.</summary>
+    /// <summary>The month's patrols: a realm's warships near a haven, at least as strong as the pirates, count toward suppressing it.</summary>
     void PatrolMonth()
     {
         foreach (var h in ActiveHavens())
-            if (Game.Realms.Values.Any(r => r.Armies.Any(a => a.Node >= 0 && !a.IsEmpty && Military.RawMight(a, Domain.Naval) > 0 && NodeKm(a.Node, h) <= PatrolKm)))
+            if (PatrolMight(h).Values.Any(m => m > 0 && m >= PirateMight(h)))
                 Game.PatrolMonths[h.Id] = Game.PatrolMonths.GetValueOrDefault(h.Id) + 1;
+    }
+
+    /// <summary>Suppressed havens come back after some decades, unless the realm holding the coast keeps warships there.</summary>
+    void HavensReturn(List<ChronicleEvent> events)
+    {
+        if (Population == null)
+            return;
+        foreach (var h in MarketCatalog.Instance.Havens.Where(h => h.ActiveIn(DemoYear) && Game.SuppressedHavens.Contains(h.Id)).ToList())
+        {
+            int year = Game.HavenYear.TryGetValue(h.Id, out int y) ? y : DemoYear;
+            int owner = Population.NodeOwner[Population.NodeAtLonLat(h.Lon, h.Lat, LonMin, LonMax, LatMin, LatMax)];
+            if (owner > 0 && PatrolMight(h).GetValueOrDefault(owner) >= h.Might)
+            {
+                Game.HavenYear[h.Id] = DemoYear;   // watched: the clock starts again
+                continue;
+            }
+            if (DemoYear - year < HavenReturnYears)
+                continue;
+            Game.SuppressedHavens.Remove(h.Id);
+            Game.PatrolMonths.Remove(h.Id);
+            Game.HavenYear[h.Id] = DemoYear;
+            events.Add(new ChronicleEvent(ChronicleKind.War, PlayerRealmId, $"With no warships to watch them, {h.Name.Replace("The ", "the ")} put to sea again."));
+        }
     }
 
     // --- Embargoes and trade treaties -----------------------------------------------------------

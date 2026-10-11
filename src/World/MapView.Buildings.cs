@@ -245,7 +245,7 @@ public partial class MapView
     /// A realm's building effects that act on the whole realm, as shares
     /// weighted by the people of the provinces that have them.
     /// </summary>
-    (double Crafts, double Trade, double Manpower, double Upkeep, bool Harbour, double Research) RealmBuildingEffects(int realmId, double realmPeople)
+    internal (double Crafts, double Trade, double Manpower, double Upkeep, bool Harbour, double Research) RealmBuildingEffects(int realmId, double realmPeople)
     {
         var tech = TechCatalog.Instance;
         var rs = Game.Realm(realmId);
@@ -254,6 +254,12 @@ public partial class MapView
         var cat = BuildingCatalog.Instance;
         double crafts = tech.Effect(rs, "crafts"), trade = tech.Effect(rs, "trade"), manpower = tech.Effect(rs, "manpower"), upkeep = 0, research = 0;
         bool harbour = false;
+        // Roads: their upkeep, trade in the provinces they cross, ideas along them.
+        upkeep += RoadUpkeep(realmId);
+        research += RoadResearch(realmId);
+        foreach (var (prov, kind) in ProvinceRoads())
+            if (Provinces.Provinces.TryGetValue(prov, out var rp) && rp.RealmId == realmId)
+                trade += ProvincePopulation(prov) / realmPeople * kind.Trade;
         foreach (var p in Provinces.Provinces.Values)
         {
             if (p.RealmId != realmId)

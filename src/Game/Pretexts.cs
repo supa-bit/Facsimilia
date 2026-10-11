@@ -72,11 +72,13 @@ public sealed class Offer
     public int SiegeProvince { get; init; }          // for a ransom: the siege to lift
     public string Text { get; init; } = "";
     public int Year { get; init; }
+    /// <summary>What the offer is about, when not a realm (a wonder's id).</summary>
+    public string Subject { get; init; } = "";
 
     public GDictionary ToDict() => new()
     {
         ["kind"] = Kind, ["from"] = From, ["silver"] = Silver, ["provinces"] = Provinces.ToArray(),
-        ["siege"] = SiegeProvince, ["text"] = Text, ["year"] = Year,
+        ["siege"] = SiegeProvince, ["text"] = Text, ["year"] = Year, ["subject"] = Subject,
     };
 
     public static Offer FromDict(GDictionary d)
@@ -85,6 +87,7 @@ public sealed class Offer
         {
             Kind = d["kind"].AsString(), From = d["from"].AsInt32(), Silver = d["silver"].AsDouble(),
             SiegeProvince = d["siege"].AsInt32(), Text = d["text"].AsString(), Year = d["year"].AsInt32(),
+            Subject = d.TryGetValue("subject", out var sub) ? sub.AsString() : "",
         };
         o.Provinces.AddRange(d["provinces"].AsInt32Array());
         return o;

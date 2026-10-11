@@ -76,6 +76,19 @@ public partial class MarketsTest : TestRunner
         map.Game.PatrolMonths["illyria"] = MapView.PatrolMonthsToSuppress;
         var events = map.PiratesYearForTest();
         Check(map.Game.SuppressedHavens.Contains("illyria") && events.Any(e => e.Text.Contains("sweep")), "six months of patrols should sweep the Illyrian pirates from the sea");
+        var illyria = cat.Havens.First(h => h.Id == "illyria");
+        int now = map.DemoYear;
+        map.DemoYear = now + 50;
+        Check(map.PirateMight(illyria) > illyria.Might * 1.4, "pirates left unchecked grow stronger");
+        map.DemoYear = now + MapView.HavenReturnYears - 1;
+        map.PiratesYearForTest();
+        bool early = map.Game.SuppressedHavens.Contains("illyria");
+        map.DemoYear = now + MapView.HavenReturnYears;
+        var back = map.PiratesYearForTest();
+        Check(early && !map.Game.SuppressedHavens.Contains("illyria") && back.Any(e => e.Text.Contains("put to sea again")),
+            "a suppressed haven returns some decades later when no one watches its coast");
+        map.Game.SuppressedHavens.Add("illyria");   // as before, for the save check
+        map.DemoYear = now;
 
         // Saves.
         r.Merchants.Add("alexandria");
