@@ -61,6 +61,7 @@ public partial class MapView
         foreach (var d in strikes)
         {
             var dead = new Dictionary<int, double>();
+            var deadIn = new Dictionary<int, double>();
             foreach (int i in Population.LandNodes)
             {
                 float pop = Population.Pop[i];
@@ -78,8 +79,14 @@ public partial class MapView
                 double k = pop * share;
                 Population.Pop[i] = (float)(pop - k);
                 dead[owner] = dead.GetValueOrDefault(owner) + k;
+                int prov = ProvinceOfNode(i);
+                if (prov != 0)
+                    deadIn[prov] = deadIn.GetValueOrDefault(prov) + k;
             }
             double total = dead.Values.Sum();
+            foreach (var (prov, k) in deadIn)
+                if (k >= 500)
+                    ProvinceLog(prov, $"{d.Name}: {k:N0} die.");
             if (total < 100)
                 continue;
             double mine = dead.GetValueOrDefault(PlayerRealmId);

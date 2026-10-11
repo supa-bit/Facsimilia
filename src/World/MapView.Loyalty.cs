@@ -153,6 +153,9 @@ public partial class MapView
             if (s.Owner != p.RealmId)
             {
                 s.Integration = rel == Loyalty.Kinship.Same ? Loyalty.ConqueredSameCulture : 0;
+                s.Log(DemoYear, p.RealmId > 0 ? $"Passes to {RealmName(p.RealmId)}." : "Stands alone, held by no realm.");
+                s.Focus = "";   // a new ruler's own plans
+                s.FocusLevel = 0;
                 s.Owner = p.RealmId;
             }
             if (p.RealmId <= 0)
@@ -176,6 +179,7 @@ public partial class MapView
             Provinces.SetRealm(p.Id, 0, Grid);   // it throws off its ruler and stands alone
             MarkChanged(p.Id);
             var s = Game.Provinces[p.Id];
+            s.Log(DemoYear, $"Rises against {ruler} and throws off its rule.");
             s.Owner = 0;
             s.Unrest = 0;
             TerritoryChanged = true;

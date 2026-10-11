@@ -1,0 +1,835 @@
+{
+ "about": "Each province's historical seat about 300 BC (the Ledger: 'Each province's seat': the historical seat; the largest town where history gives none, as in provinces you make). Coordinates approximate. Made by tools/history/seats.py from the Barrington Atlas of the Greek and Roman World (Talbert, 2000) and the standard histories. Our own summary, free for any use.",
+ "seats": {
+  "Latium": {
+   "name": "Roma",
+   "lon": 12.48,
+   "lat": 41.89
+  },
+  "Campania": {
+   "name": "Capua",
+   "lon": 14.25,
+   "lat": 41.08
+  },
+  "Etruria": {
+   "name": "Volsinii",
+   "lon": 11.99,
+   "lat": 42.64
+  },
+  "Umbria": {
+   "name": "Iguvium",
+   "lon": 12.58,
+   "lat": 43.35
+  },
+  "Picenum": {
+   "name": "Asculum",
+   "lon": 13.58,
+   "lat": 42.85
+  },
+  "Sabina": {
+   "name": "Reate",
+   "lon": 12.86,
+   "lat": 42.4
+  },
+  "Samnium": {
+   "name": "Bovianum",
+   "lon": 14.47,
+   "lat": 41.49
+  },
+  "Apulia": {
+   "name": "Arpi",
+   "lon": 15.55,
+   "lat": 41.5
+  },
+  "Messapia": {
+   "name": "Uria",
+   "lon": 17.65,
+   "lat": 40.47
+  },
+  "Lucania": {
+   "name": "Potentia",
+   "lon": 15.8,
+   "lat": 40.64
+  },
+  "Bruttium": {
+   "name": "Consentia",
+   "lon": 16.25,
+   "lat": 39.3
+  },
+  "Liguria": {
+   "name": "Genua",
+   "lon": 8.93,
+   "lat": 44.41
+  },
+  "Insubria": {
+   "name": "Mediolanum",
+   "lon": 9.19,
+   "lat": 45.46
+  },
+  "Cenomania": {
+   "name": "Brixia",
+   "lon": 10.22,
+   "lat": 45.54
+  },
+  "Boian Gaul": {
+   "name": "Felsina",
+   "lon": 11.34,
+   "lat": 44.49
+  },
+  "Venetia": {
+   "name": "Ateste",
+   "lon": 11.66,
+   "lat": 45.23
+  },
+  "Histria": {
+   "name": "Nesactium",
+   "lon": 13.97,
+   "lat": 44.93
+  },
+  "Sicilian Epikrateia": {
+   "name": "Lilybaeum",
+   "lon": 12.44,
+   "lat": 37.8
+  },
+  "Syracusan Sicily": {
+   "name": "Syracusae",
+   "lon": 15.29,
+   "lat": 37.07
+  },
+  "Central Sicily": {
+   "name": "Enna",
+   "lon": 14.28,
+   "lat": 37.57
+  },
+  "Sardinia": {
+   "name": "Carales",
+   "lon": 9.11,
+   "lat": 39.22
+  },
+  "Corsica": {
+   "name": "Alalia",
+   "lon": 9.53,
+   "lat": 42.1
+  },
+  "Balearic Isles": {
+   "name": "Ebusus",
+   "lon": 1.43,
+   "lat": 38.91
+  },
+  "Melita": {
+   "name": "Melite",
+   "lon": 14.4,
+   "lat": 35.89
+  },
+  "Zeugitana": {
+   "name": "Carthago",
+   "lon": 10.32,
+   "lat": 36.85
+  },
+  "Byzacium": {
+   "name": "Hadrumetum",
+   "lon": 10.64,
+   "lat": 35.83
+  },
+  "Emporia": {
+   "name": "Lepcis",
+   "lon": 14.29,
+   "lat": 32.64
+  },
+  "Tripolitania": {
+   "name": "Oea",
+   "lon": 13.18,
+   "lat": 32.89
+  },
+  "Massylia": {
+   "name": "Cirta",
+   "lon": 6.61,
+   "lat": 36.37
+  },
+  "Masaesylia": {
+   "name": "Siga",
+   "lon": -1.48,
+   "lat": 35.26
+  },
+  "Mauretania": {
+   "name": "Lixus",
+   "lon": -6.11,
+   "lat": 35.2
+  },
+  "Garamantes": {
+   "name": "Garama",
+   "lon": 13.12,
+   "lat": 26.56
+  },
+  "Gadeira": {
+   "name": "Gadir",
+   "lon": -6.29,
+   "lat": 36.53
+  },
+  "Bastetania": {
+   "name": "Basti",
+   "lon": -2.77,
+   "lat": 37.49
+  },
+  "Turdetania": {
+   "name": "Hispalis",
+   "lon": -5.99,
+   "lat": 37.39
+  },
+  "Oretania": {
+   "name": "Castulo",
+   "lon": -3.63,
+   "lat": 38.04
+  },
+  "Contestania": {
+   "name": "Ilici",
+   "lon": -0.7,
+   "lat": 38.25
+  },
+  "Edetania": {
+   "name": "Saguntum",
+   "lon": -0.27,
+   "lat": 39.68
+  },
+  "Ilergetia": {
+   "name": "Iltirta",
+   "lon": 0.62,
+   "lat": 41.62
+  },
+  "Indiketia": {
+   "name": "Emporion",
+   "lon": 3.12,
+   "lat": 42.13
+  },
+  "Celtiberia": {
+   "name": "Numantia",
+   "lon": -2.44,
+   "lat": 41.81
+  },
+  "Carpetania": {
+   "name": "Toletum",
+   "lon": -4.02,
+   "lat": 39.86
+  },
+  "Vettonia": {
+   "name": "Salmantica",
+   "lon": -5.66,
+   "lat": 40.96
+  },
+  "Massalia": {
+   "name": "Massalia",
+   "lon": 5.37,
+   "lat": 43.3
+  },
+  "Arvernia": {
+   "name": "Gergovia",
+   "lon": 3.12,
+   "lat": 45.71
+  },
+  "Aeduia": {
+   "name": "Bibracte",
+   "lon": 4.03,
+   "lat": 46.92
+  },
+  "Biturigia": {
+   "name": "Avaricum",
+   "lon": 2.4,
+   "lat": 47.08
+  },
+  "Helvetia": {
+   "name": "Aventicum",
+   "lon": 7.04,
+   "lat": 46.88
+  },
+  "Allobrogia": {
+   "name": "Vienna",
+   "lon": 4.87,
+   "lat": 45.53
+  },
+  "Volcae Tectosages": {
+   "name": "Tolosa",
+   "lon": 1.44,
+   "lat": 43.6
+  },
+  "Volcae Arecomici": {
+   "name": "Nemausus",
+   "lon": 4.36,
+   "lat": 43.84
+  },
+  "Noricum": {
+   "name": "Noreia",
+   "lon": 14.4,
+   "lat": 46.95
+  },
+  "Dalmatia": {
+   "name": "Delminium",
+   "lon": 17.17,
+   "lat": 43.7
+  },
+  "Illyria": {
+   "name": "Scodra",
+   "lon": 19.51,
+   "lat": 42.07
+  },
+  "Dardania": {
+   "name": "Scupi",
+   "lon": 21.39,
+   "lat": 42.02
+  },
+  "Paeonia": {
+   "name": "Bylazora",
+   "lon": 21.88,
+   "lat": 41.7
+  },
+  "Odrysia": {
+   "name": "Seuthopolis",
+   "lon": 25.36,
+   "lat": 42.62
+  },
+  "Thracian Chersonese": {
+   "name": "Cardia",
+   "lon": 26.72,
+   "lat": 40.53
+  },
+  "Propontis": {
+   "name": "Byzantion",
+   "lon": 28.98,
+   "lat": 41.01
+  },
+  "Scythia Minor": {
+   "name": "Callatis",
+   "lon": 28.59,
+   "lat": 43.81
+  },
+  "Macedonia": {
+   "name": "Pella",
+   "lon": 22.52,
+   "lat": 40.76
+  },
+  "Upper Macedonia": {
+   "name": "Aiane",
+   "lon": 21.83,
+   "lat": 40.17
+  },
+  "Chalcidice": {
+   "name": "Cassandreia",
+   "lon": 23.42,
+   "lat": 40.06
+  },
+  "Thessalia": {
+   "name": "Larisa",
+   "lon": 22.42,
+   "lat": 39.64
+  },
+  "Epirus": {
+   "name": "Ambracia",
+   "lon": 20.99,
+   "lat": 39.16
+  },
+  "Aetolia": {
+   "name": "Thermon",
+   "lon": 21.67,
+   "lat": 38.59
+  },
+  "Acarnania": {
+   "name": "Stratos",
+   "lon": 21.32,
+   "lat": 38.68
+  },
+  "Phocis": {
+   "name": "Delphi",
+   "lon": 22.5,
+   "lat": 38.48
+  },
+  "Boeotia": {
+   "name": "Thebai",
+   "lon": 23.32,
+   "lat": 38.32
+  },
+  "Attica": {
+   "name": "Athenai",
+   "lon": 23.73,
+   "lat": 37.97
+  },
+  "Euboea": {
+   "name": "Chalcis",
+   "lon": 23.59,
+   "lat": 38.46
+  },
+  "Achaea": {
+   "name": "Aigion",
+   "lon": 22.08,
+   "lat": 38.25
+  },
+  "Elis": {
+   "name": "Elis",
+   "lon": 21.38,
+   "lat": 37.89
+  },
+  "Arcadia": {
+   "name": "Megalopolis",
+   "lon": 22.13,
+   "lat": 37.4
+  },
+  "Argolis": {
+   "name": "Argos",
+   "lon": 22.73,
+   "lat": 37.63
+  },
+  "Laconia": {
+   "name": "Sparta",
+   "lon": 22.43,
+   "lat": 37.08
+  },
+  "Messenia": {
+   "name": "Messene",
+   "lon": 21.92,
+   "lat": 37.18
+  },
+  "Creta": {
+   "name": "Gortyn",
+   "lon": 24.95,
+   "lat": 35.06
+  },
+  "Cyclades": {
+   "name": "Delos",
+   "lon": 25.27,
+   "lat": 37.4
+  },
+  "Corcyra": {
+   "name": "Corcyra",
+   "lon": 19.92,
+   "lat": 39.62
+  },
+  "Rhodes": {
+   "name": "Rhodos",
+   "lon": 28.23,
+   "lat": 36.45
+  },
+  "Troad": {
+   "name": "Alexandria Troas",
+   "lon": 26.16,
+   "lat": 39.75
+  },
+  "Mysia": {
+   "name": "Pergamon",
+   "lon": 27.18,
+   "lat": 39.13
+  },
+  "Aeolis": {
+   "name": "Kyme",
+   "lon": 26.94,
+   "lat": 38.76
+  },
+  "Lydia": {
+   "name": "Sardeis",
+   "lon": 28.04,
+   "lat": 38.49
+  },
+  "Ionia": {
+   "name": "Ephesos",
+   "lon": 27.34,
+   "lat": 37.94
+  },
+  "Caria": {
+   "name": "Halicarnassus",
+   "lon": 27.42,
+   "lat": 37.04
+  },
+  "Hellespontine Phrygia": {
+   "name": "Daskyleion",
+   "lon": 28.06,
+   "lat": 40.17
+  },
+  "Bithynia": {
+   "name": "Nicomedia",
+   "lon": 29.92,
+   "lat": 40.77
+  },
+  "Paphlagonia": {
+   "name": "Gangra",
+   "lon": 33.62,
+   "lat": 40.6
+  },
+  "Pontus": {
+   "name": "Amaseia",
+   "lon": 35.83,
+   "lat": 40.65
+  },
+  "Western Pontus": {
+   "name": "Heraclea Pontica",
+   "lon": 31.42,
+   "lat": 41.28
+  },
+  "Greater Phrygia": {
+   "name": "Gordion",
+   "lon": 31.99,
+   "lat": 39.65
+  },
+  "Eastern Phrygia": {
+   "name": "Ancyra",
+   "lon": 32.86,
+   "lat": 39.93
+  },
+  "Lycaonia": {
+   "name": "Iconium",
+   "lon": 32.49,
+   "lat": 37.87
+  },
+  "Pisidia": {
+   "name": "Sagalassos",
+   "lon": 30.52,
+   "lat": 37.68
+  },
+  "Pamphylia": {
+   "name": "Perge",
+   "lon": 30.85,
+   "lat": 36.96
+  },
+  "Lycia": {
+   "name": "Xanthos",
+   "lon": 29.33,
+   "lat": 36.36
+  },
+  "Cilicia": {
+   "name": "Tarsos",
+   "lon": 34.89,
+   "lat": 36.92
+  },
+  "Rough Cilicia": {
+   "name": "Seleucia on the Calycadnus",
+   "lon": 33.93,
+   "lat": 36.38
+  },
+  "Cappadocia": {
+   "name": "Mazaca",
+   "lon": 35.49,
+   "lat": 38.72
+  },
+  "Commagene": {
+   "name": "Samosata",
+   "lon": 38.53,
+   "lat": 37.53
+  },
+  "Cyprus": {
+   "name": "Salamis",
+   "lon": 33.9,
+   "lat": 35.18
+  },
+  "Armenia": {
+   "name": "Armavir",
+   "lon": 44.03,
+   "lat": 40.09
+  },
+  "Sophene": {
+   "name": "Carcathiocerta",
+   "lon": 40.46,
+   "lat": 38.55
+  },
+  "Colchis": {
+   "name": "Phasis",
+   "lon": 41.67,
+   "lat": 42.15
+  },
+  "Caucasian Iberia": {
+   "name": "Mtskheta",
+   "lon": 44.72,
+   "lat": 41.84
+  },
+  "Caucasian Albania": {
+   "name": "Kabalaka",
+   "lon": 47.39,
+   "lat": 41.06
+  },
+  "Atropatene": {
+   "name": "Gazaca",
+   "lon": 47.23,
+   "lat": 36.59
+  },
+  "Seleucis": {
+   "name": "Antiocheia",
+   "lon": 36.16,
+   "lat": 36.2
+  },
+  "Cyrrhestice": {
+   "name": "Beroea",
+   "lon": 37.16,
+   "lat": 36.2
+  },
+  "Coele-Syria": {
+   "name": "Chalcis ad Belum",
+   "lon": 37.04,
+   "lat": 35.85
+  },
+  "Damascene": {
+   "name": "Damaskos",
+   "lon": 36.29,
+   "lat": 33.51
+  },
+  "Phoenicia": {
+   "name": "Tyros",
+   "lon": 35.2,
+   "lat": 33.27
+  },
+  "Galilee": {
+   "name": "Ptolemais",
+   "lon": 35.07,
+   "lat": 32.92
+  },
+  "Samaria": {
+   "name": "Samaria",
+   "lon": 35.19,
+   "lat": 32.28
+  },
+  "Judaea": {
+   "name": "Hierosolyma",
+   "lon": 35.23,
+   "lat": 31.78
+  },
+  "Idumaea": {
+   "name": "Marisa",
+   "lon": 34.9,
+   "lat": 31.6
+  },
+  "Philistia": {
+   "name": "Gaza",
+   "lon": 34.47,
+   "lat": 31.5
+  },
+  "Ammonitis": {
+   "name": "Philadelphia",
+   "lon": 35.93,
+   "lat": 31.95
+  },
+  "Palmyrene": {
+   "name": "Palmyra",
+   "lon": 38.27,
+   "lat": 34.55
+  },
+  "Osrhoene": {
+   "name": "Edessa",
+   "lon": 38.79,
+   "lat": 37.16
+  },
+  "Mesopotamia": {
+   "name": "Nisibis",
+   "lon": 41.22,
+   "lat": 37.07
+  },
+  "Middle Euphrates": {
+   "name": "Dura-Europos",
+   "lon": 40.73,
+   "lat": 34.75
+  },
+  "Adiabene": {
+   "name": "Arbela",
+   "lon": 44.01,
+   "lat": 36.19
+  },
+  "Assyria": {
+   "name": "Nineveh",
+   "lon": 43.15,
+   "lat": 36.36
+  },
+  "Babylonia": {
+   "name": "Babylon",
+   "lon": 44.42,
+   "lat": 32.54
+  },
+  "Mesene": {
+   "name": "Charax Spasinou",
+   "lon": 47.71,
+   "lat": 30.47
+  },
+  "Susiana": {
+   "name": "Susa",
+   "lon": 48.26,
+   "lat": 32.19
+  },
+  "Media": {
+   "name": "Ecbatana",
+   "lon": 48.52,
+   "lat": 34.8
+  },
+  "Media Rhagiana": {
+   "name": "Rhagae",
+   "lon": 51.43,
+   "lat": 35.59
+  },
+  "Persis": {
+   "name": "Persepolis",
+   "lon": 52.89,
+   "lat": 29.93
+  },
+  "Hyrcania": {
+   "name": "Zadrakarta",
+   "lon": 54.43,
+   "lat": 36.84
+  },
+  "Nabataea": {
+   "name": "Petra",
+   "lon": 35.44,
+   "lat": 30.32
+  },
+  "Dedan": {
+   "name": "Dedan",
+   "lon": 37.88,
+   "lat": 26.65
+  },
+  "Tayma": {
+   "name": "Tayma",
+   "lon": 38.55,
+   "lat": 27.63
+  },
+  "Duma": {
+   "name": "Dumat al-Jandal",
+   "lon": 39.87,
+   "lat": 29.81
+  },
+  "Yathrib": {
+   "name": "Yathrib",
+   "lon": 39.61,
+   "lat": 24.47
+  },
+  "Najran": {
+   "name": "Najran",
+   "lon": 44.13,
+   "lat": 17.49
+  },
+  "Ma'in": {
+   "name": "Qarnaw",
+   "lon": 45.07,
+   "lat": 16.08
+  },
+  "Saba": {
+   "name": "Maryab",
+   "lon": 45.32,
+   "lat": 15.43
+  },
+  "Qataban": {
+   "name": "Timna",
+   "lon": 45.89,
+   "lat": 14.97
+  },
+  "Himyar": {
+   "name": "Zafar",
+   "lon": 44.4,
+   "lat": 14.21
+  },
+  "Hadramawt": {
+   "name": "Shabwa",
+   "lon": 47.01,
+   "lat": 15.37
+  },
+  "Gerrha": {
+   "name": "Gerrha",
+   "lon": 50.2,
+   "lat": 25.5
+  },
+  "Dilmun": {
+   "name": "Tylos",
+   "lon": 50.53,
+   "lat": 26.23
+  },
+  "Western Delta": {
+   "name": "Alexandreia",
+   "lon": 29.92,
+   "lat": 31.2
+  },
+  "Eastern Delta": {
+   "name": "Pelousion",
+   "lon": 32.55,
+   "lat": 31.04
+  },
+  "Memphis": {
+   "name": "Memphis",
+   "lon": 31.25,
+   "lat": 29.85
+  },
+  "Arsinoite Fayum": {
+   "name": "Krokodilopolis",
+   "lon": 30.84,
+   "lat": 29.31
+  },
+  "Hermopolite": {
+   "name": "Hermopolis",
+   "lon": 30.8,
+   "lat": 27.78
+  },
+  "Thebais": {
+   "name": "Thebai",
+   "lon": 32.64,
+   "lat": 25.7
+  },
+  "Elephantine": {
+   "name": "Syene",
+   "lon": 32.9,
+   "lat": 24.09
+  },
+  "Marmarica": {
+   "name": "Paraitonion",
+   "lon": 27.24,
+   "lat": 31.35
+  },
+  "Cyrenaica": {
+   "name": "Kyrene",
+   "lon": 21.86,
+   "lat": 32.82
+  },
+  "Ammonium": {
+   "name": "Siwa",
+   "lon": 25.52,
+   "lat": 29.2
+  },
+  "Napata": {
+   "name": "Napata",
+   "lon": 31.83,
+   "lat": 18.54
+  },
+  "Meroe": {
+   "name": "Meroe",
+   "lon": 33.75,
+   "lat": 16.94
+  },
+  "Adulis": {
+   "name": "Adulis",
+   "lon": 39.65,
+   "lat": 15.26
+  },
+  "Aksum": {
+   "name": "Aksum",
+   "lon": 38.72,
+   "lat": 14.13
+  },
+  "Taurica": {
+   "name": "Chersonesos",
+   "lon": 33.49,
+   "lat": 44.61
+  },
+  "Cimmerian Bosporus": {
+   "name": "Panticapaeum",
+   "lon": 36.47,
+   "lat": 45.35
+  },
+  "Sindica": {
+   "name": "Phanagoria",
+   "lon": 36.99,
+   "lat": 45.28
+  },
+  "Tanais": {
+   "name": "Tanais",
+   "lon": 39.27,
+   "lat": 47.27
+  },
+  "Olbia": {
+   "name": "Olbia",
+   "lon": 31.9,
+   "lat": 46.69
+  },
+  "Tyras": {
+   "name": "Tyras",
+   "lon": 30.35,
+   "lat": 46.2
+  }
+ }
+}

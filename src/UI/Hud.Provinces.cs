@@ -23,6 +23,9 @@ public partial class Hud
     readonly Button[] _modeButtons = new Button[3];
     Label _provinceRegion = null!;
     TabContainer _provinceTabs = null!;
+    Button _splitProvince = null!;
+    OptionButton _joinProvince = null!;
+    int _joinedFor;
 
     static readonly (MapMode Mode, string Text, string Tip)[] Modes =
     {
@@ -108,7 +111,7 @@ public partial class Hud
         box.AddChild(_provinceRegion);
         _provinceTabs = new TabContainer { CustomMinimumSize = new Vector2(420, 0) };
         box.AddChild(_provinceTabs);
-        foreach (var name in new[] { "People", "Land", "Buildings", "Military" })
+        foreach (var name in new[] { "People", "Land", "Buildings", "Military", "History" })
         {
             var page = new VBoxContainer { Name = name };
             page.AddThemeConstantOverride("separation", 3);
@@ -125,6 +128,32 @@ public partial class Hud
             TooltipText = "Found a new province, then paint your land into it" };
         _newProvince.Pressed += () => _map.CreatePlayerProvince();
         buttons.AddChild(_newProvince);
+        _splitProvince = new Button { Text = "Split", FocusMode = FocusModeEnum.None,
+            TooltipText = $"Split this province in two across its longest side. Both are restless for a while (+{MapView.RedrawUnrest:P0} unrest)." };
+        _splitProvince.Pressed += () =>
+        {
+            var sel = _map.SelectedProvince;
+            if (sel == null)
+                return;
+            if (_map.CanSplit(sel) is { } why)
+                ShowStatus(why, fadeAfter: 3);
+            else
+                _map.SplitProvince(sel.Id);
+            _joinedFor = 0;
+            RefreshProvincePanel();
+        };
+        buttons.AddChild(_splitProvince);
+        _joinProvince = new OptionButton { FocusMode = FocusModeEnum.None, TooltipText = $"Join a bordering province of yours into this one. Both are restless for a while (+{MapView.RedrawUnrest:P0} unrest)." };
+        _joinProvince.ItemSelected += index =>
+        {
+            var sel = _map.SelectedProvince;
+            int other = _joinProvince.GetItemId((int)index);
+            if (sel != null && other > 0 && _map.JoinProvince(sel.Id, other) is { } why)
+                ShowStatus(why, fadeAfter: 3);
+            _joinedFor = 0;
+            RefreshProvincePanel();
+        };
+        buttons.AddChild(_joinProvince);
 
         _provinceHint = ThemeAncient.Label("", "SubtleLabel", 15);
         _provinceHint.AutowrapMode = TextServer.AutowrapMode.WordSmart;
@@ -242,6 +271,7 @@ public partial class Hud
             _provinceArea.Text = $"Area: {ThemeAncient.GroupThousands((long)Math.Round(p.AreaKm2 / 100) * 100)} km²";
             _provincePeople.Text = _map.Population == null ? ""
                 : $"People: {ThemeAncient.GroupThousands((long)Math.Round(_map.ProvincePopulation(p.Id) / 100) * 100)}" +
+                  (_map.ProvinceSeat(p.Id) is { } seat ? $"\nSeat: {seat}" : "") +
                   (_map.TownsIn(p.Id) is { Count: > 0 } towns ? $"\nTowns: {string.Join(", ", towns)}" : "");
             var region = _map.RegionAtWorld(p.LabelCell * MapView.CellPixels);
             _provinceRegion.Text = region == null ? "" : $"Region: {region.Name}, {region.Continent}";
@@ -253,6 +283,18 @@ public partial class Hud
         _provincePeople.Visible = _provincePeople.Text != "";
         _provinceRegion.Visible = _provinceRegion.Text != "";
         _editBorders.Visible = mine;
+        _splitProvince.Visible = mine && !editing;
+        _joinProvince.Visible = mine && !editing;
+        if (mine && !editing && p != null && _joinedFor != p.Id)
+        {
+            _joinedFor = p.Id;
+            _joinProvince.Clear();
+            _joinProvince.AddItem("Join with...", 0);
+            foreach (int n in _map.Neighbours(p.Id))
+                if (_map.Provinces!.Provinces.TryGetValue(n, out var np) && np.RealmId == _map.PlayerRealmId)
+                    _joinProvince.AddItem(np.Name, n);
+            _joinProvince.Select(0);
+        }
         _editBorders.Text = editing ? "Done Redrawing" : "Redraw Borders";
         _newProvince.Visible = mine || editing;
         _provinceHint.Text = editing
@@ -283,9 +325,54 @@ public partial class Hud
         var land = _provinceTabs.GetNode<VBoxContainer>("Land");
         var buildings = _provinceTabs.GetNode<VBoxContainer>("Buildings");
         var military = _provinceTabs.GetNode<VBoxContainer>("Military");
-        foreach (var page in new Node[] { people, land, buildings, military })
+        var history = _provinceTabs.GetNode<VBoxContainer>("History");
+        foreach (var page in new Node[] { people, land, buildings, military, history })
             Clear(page);
         var ps = _map.ProvinceStateOf(p.Id);
+
+        // Graphs (the Ledger: "Province graphs"): its people, unrest and integration over the years.
+        if (ps.Records.Count >= 2)
+        {
+            foreach (var (title, color, pick) in new (string, Color, Func<(int Year, float People, float Unrest, float Integration), float>)[]
+                     {
+                         ("People", new Color(0.95f, 0.8f, 0.45f), r => r.People),
+                         ("Unrest", new Color(0.9f, 0.35f, 0.3f), r => r.Unrest),
+                         ("Integration", new Color(0.45f, 0.8f, 0.55f), r => r.Integration),
+                     })
+            {
+                var last = pick(ps.Records[^1]);
+                Line(history, title == "People" ? $"{title}: {last:N0}" : $"{title}: {last:P0}", 14);
+                var g = new RealmGraph { CustomMinimumSize = new Vector2(400, 70) };
+                g.Series = new() { (color, false, ps.Records.Select(r => new Vector2(r.Year, pick(r))).ToList()) };
+                history.AddChild(g);
+            }
+        }
+        // History: what happened here, newest first.
+        if (ps.History.Count == 0)
+            Line(history, $"Nothing recorded yet. Held by {_map.RealmName(p.RealmId)}.");
+        foreach (var (year, text) in ps.History.AsEnumerable().Reverse().Take(80))
+            Line(history, $"{ThemeAncient.YearText(year)}: {text}", 14);
+
+        // Focus (the Ledger: "A province's focus"): turning its work slowly.
+        var focus = MapView.FocusById(ps.Focus);
+        Line(land, focus != null
+            ? $"Focus: {focus.Name}, {ps.FocusLevel:P0} taken hold ({focus.Help} At full, other work yields {MapView.FocusCost:P0} less.)"
+            : "No focus: its people work as the land suits them.");
+        if (mine)
+        {
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 4);
+            land.AddChild(row);
+            foreach (var f in MapView.Focuses.Prepend(new ProvinceFocus("", "None", Array.Empty<string>(), "", 0, "No focus.")))
+            {
+                var fid = f.Id;
+                var b = new Button { Text = f.Name, ToggleMode = true, ButtonPressed = ps.Focus == f.Id, FocusMode = FocusModeEnum.None,
+                    TooltipText = f.Help + (f.Id != "" ? $" It takes hold over ten years; changing it starts again." : "") };
+                b.AddThemeFontSizeOverride("font_size", 13);
+                b.Pressed += () => { _map.SetFocus(p.Id, fid); RefreshProvincePanel(); };
+                row.AddChild(b);
+            }
+        }
 
         // People.
         if (ps.Culture != "")

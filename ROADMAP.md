@@ -133,6 +133,9 @@ governors, redrawing); land (crops, mines, stores, prospecting); the map
 trade (merchants, others' treaties, route shifts); sound; time (weeks, what
 stops time).
 
+- [ ] **Provinces**, part one built (11 Oct 2026): focus, seats, split and
+      join, a History tab with graphs. Next: governors, province kinds,
+      history redrawing provinces, Economy and People tabs.
 - [ ] **The Bronze Age and the opening** (asked 11 Oct 2026): an opening
       like a cutscene and history lesson from Göbekli Tepe through
       Çatalhöyük to the first polities, where play begins; the Hattians,

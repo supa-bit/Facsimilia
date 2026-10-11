@@ -2195,6 +2195,36 @@ Your answers on the Ledger's "Technology and knowledge" topic.
   spies stealing techs — needs Diplomacy; the tree's look ("Both") — a
   tree and a timeline view, with the interface work.
 
+## Provinces, part one **(built, 11 Oct 2026)**
+
+From your answers on the Ledger (A province's focus, Province focuses,
+Each province's seat, Redrawing your provinces, More province tabs):
+
+- **A province's focus** (Land tab): farming (fields and orchards +10%),
+  herding (herds +15%), mining (mines and pits +15%), crafts (its share of
+  the realm's made goods +10%), trade (+10% of its share of trade) or
+  soldiers (+15% of its share of levies). Every other kind of land work
+  yields 5% less at full, as hands move over. A focus takes hold a tenth a
+  year, ten years to full; changing it starts again; a new ruler drops it.
+- **Seats** (`data/province_seats.json`, 166 of 245): each province's
+  historical seat about 300 BC (Latium: Roma, Campania: Capua), shown
+  under its people; where history gives none, or the seat lies outside a
+  province you made, its largest town.
+- **Splitting and joining**: "Split" cuts one of your provinces in two
+  across its longest side (the new half is named after its largest town);
+  "Join with..." joins a bordering province of yours into it, keeping the
+  better of each building. Both cost loyalty for a while (+20% unrest).
+- **A province's history** (History tab): what happened there, newest
+  first: who held it, sieges, battles, disasters with their dead,
+  buildings and wonders finished, revolts, its focus.
+- **Province graphs** (top of the History tab): its people, unrest and
+  integration year by year (400 years kept; older years thinned to every
+  tenth).
+- Still to come in Provinces: governors over groups of provinces (they
+  need characters), province kinds (core, conquered, allied city, client
+  kingdom, temple-state, colony, frontier march), history redrawing other
+  realms' provinces, the and the Economy and People tabs.
+
 ## The Bronze Age and the opening **(decided in part, 11 Oct 2026)**
 
 Your wish (11 Oct 2026): to play in the Bronze Age, above all the collapse,

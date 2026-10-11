@@ -174,6 +174,7 @@ public partial class MapView
                 int level = ps.Level(work.Id) + 1;
                 ps.Buildings[work.Id] = level;
                 ps.Works.Remove(work);
+                ps.Log(DemoYear, $"{cat[work.Id]?.LevelName(level) ?? work.Id} built.");
                 if (p.RealmId == PlayerRealmId)
                     events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
                         $"{cat[work.Id]?.LevelName(level) ?? work.Id} finished in {p.Name}."));
@@ -210,35 +211,37 @@ public partial class MapView
             return null;
         var cat = BuildingCatalog.Instance;
         var np = NodeProvinces();
-        var byProvince = new Dictionary<int, (double Field, double Orchard, double Mine, double Gather)>();
+        // Per province: each kind of land work's multiplier from its buildings and its focus.
+        var byProvince = new Dictionary<int, Dictionary<string, double>>();
         foreach (var p in Provinces.Provinces.Values)
         {
             var ps = ProvinceStateOf(p.Id);
-            if (ps.Buildings.Count == 0)
+            if (ps.Buildings.Count == 0 && (ps.Focus == "" || ps.FocusLevel <= 0))
                 continue;
             double famine = cat.Effect(ps, "famine");
             // A granary saves a share of a bad harvest's loss.
             double harvest = NatureOf(RegionOfProvince(p)).Harvest;
             double granary = harvest < 1 && famine > 0 ? (1 - (1 - harvest) * (1 - famine)) / harvest : 1;
-            byProvince[p.Id] = ((1 + cat.Effect(ps, "field")) * granary, 1 + cat.Effect(ps, "orchard"),
-                1 + cat.Effect(ps, "mine"), 1 + cat.Effect(ps, "gather"));
+            var m = new Dictionary<string, double>();
+            foreach (var work in LandWorks)
+            {
+                string key = work == "earth" ? "mine" : work;
+                double b = work is "field" or "orchard" or "mine" or "earth" or "gather" ? 1 + cat.Effect(ps, key) : 1;
+                m[work] = b * (work == "field" ? granary : 1) * FocusFactor(ps, work);
+            }
+            byProvince[p.Id] = m;
         }
         if (byProvince.Count == 0)
             return null;
         int n = Population.Pop.Length;
-        var field = new float[n];
-        var orchard = new float[n];
-        var mine = new float[n];
-        var gather = new float[n];
+        var result = LandWorks.ToDictionary(w => w, _ => new float[n]);
         for (int i = 0; i < n; i++)
         {
-            var f = byProvince.TryGetValue(np.Length > i ? np[i] : 0, out var v) ? v : (1, 1, 1, 1);
-            field[i] = (float)f.Item1;
-            orchard[i] = (float)f.Item2;
-            mine[i] = (float)f.Item3;
-            gather[i] = (float)f.Item4;
+            bool has = byProvince.TryGetValue(np.Length > i ? np[i] : 0, out var v);
+            foreach (var work in LandWorks)
+                result[work][i] = has ? (float)v![work] : 1f;
         }
-        return new Dictionary<string, float[]> { ["field"] = field, ["orchard"] = orchard, ["mine"] = mine, ["earth"] = mine, ["gather"] = gather };
+        return result;
     }
 
     /// <summary>
@@ -265,12 +268,12 @@ public partial class MapView
             if (p.RealmId != realmId)
                 continue;
             var ps = ProvinceStateOf(p.Id);
-            if (ps.Buildings.Count == 0)
+            if (ps.Buildings.Count == 0 && ps.Focus == "")
                 continue;
             double share = ProvincePopulation(p.Id) / realmPeople;
-            crafts += share * cat.Effect(ps, "crafts");
-            trade += share * cat.Effect(ps, "trade");
-            manpower += share * cat.Effect(ps, "manpower");
+            crafts += share * (cat.Effect(ps, "crafts") + FocusRealmEffect(ps, "crafts"));
+            trade += share * (cat.Effect(ps, "trade") + FocusRealmEffect(ps, "trade"));
+            manpower += share * (cat.Effect(ps, "manpower") + FocusRealmEffect(ps, "manpower"));
             research += share * cat.Effect(ps, "research");
             upkeep += cat.Upkeep(ps);
             harbour |= ps.Level("harbour") > 0;

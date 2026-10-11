@@ -33,6 +33,35 @@ public sealed class ProvinceState
     public int NeglectYears { get; set; }
     /// <summary>A tax rate for this province only (decision "Playable 5": optional province rates), or null for the realm's.</summary>
     public TaxRate? Tax { get; set; }
+    /// <summary>The work the province is turned to (the Ledger: "A province's focus"), or "".</summary>
+    public string Focus { get; set; } = "";
+    /// <summary>How far the focus has taken hold, 0..1 (it shifts work slowly).</summary>
+    public double FocusLevel { get; set; }
+    /// <summary>What happened here, year by year (the province's History tab).</summary>
+    public List<(int Year, string Text)> History { get; } = new();
+    /// <summary>The most entries a province's history keeps (the oldest go first).</summary>
+    public const int HistoryMax = 300;
+    /// <summary>The province year by year, for its graphs: people, unrest and integration.</summary>
+    public List<(int Year, float People, float Unrest, float Integration)> Records { get; } = new();
+    /// <summary>The most yearly records kept; older ones are thinned to every tenth year.</summary>
+    public const int RecordsMax = 400;
+
+    public void Record(int year, double people)
+    {
+        Records.Add((year, (float)people, (float)Unrest, (float)Integration));
+        if (Records.Count <= RecordsMax)
+            return;
+        // Keep the old years sparser: drop one of the oldest that isn't on a tenth year.
+        int k = Records.FindIndex(r => r.Year % 10 != 0);
+        Records.RemoveAt(k >= 0 && k < Records.Count - 50 ? k : 0);
+    }
+
+    public void Log(int year, string text)
+    {
+        History.Add((year, text));
+        if (History.Count > HistoryMax)
+            History.RemoveAt(0);
+    }
 
     public int Level(string building) => Buildings.TryGetValue(building, out int n) ? n : 0;
 
@@ -46,6 +75,9 @@ public sealed class ProvinceState
             ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner,
             ["buildings"] = b, ["tax"] = Tax is { } t ? (int)t : -1, ["neglect"] = NeglectYears,
             ["works"] = new GArray(Works.Select(w => (Variant)new GArray { w.Id, w.Left }).ToArray()),
+            ["focus"] = Focus, ["focus_level"] = FocusLevel,
+            ["records"] = new GArray(Records.Select(r => (Variant)new GArray { r.Year, r.People, r.Unrest, r.Integration }).ToArray()),
+            ["history"] = new GArray(History.Select(h => (Variant)new GArray { h.Year, h.Text }).ToArray()),
         };
     }
 
@@ -57,7 +89,18 @@ public sealed class ProvinceState
             Integration = d["integration"].AsDouble(), Unrest = d["unrest"].AsDouble(), Owner = d["owner"].AsInt32(),
             NeglectYears = d.TryGetValue("neglect", out var ng) ? ng.AsInt32() : 0,
             Tax = d.TryGetValue("tax", out var t) && t.AsInt32() >= 0 ? (TaxRate)t.AsInt32() : null,
+            Focus = d.TryGetValue("focus", out var fo) ? fo.AsString() : "",
+            FocusLevel = d.TryGetValue("focus_level", out var fl) ? fl.AsDouble() : 0,
         };
+        if (d.TryGetValue("records", out var recs))
+            foreach (var v in recs.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                p.Records.Add((a[0].AsInt32(), a[1].AsSingle(), a[2].AsSingle(), a[3].AsSingle()));
+            }
+        if (d.TryGetValue("history", out var hist))
+            foreach (var v in hist.AsGodotArray())
+                p.History.Add((v.AsGodotArray()[0].AsInt32(), v.AsGodotArray()[1].AsString()));
         if (d.TryGetValue("works", out var works))
             foreach (var v in works.AsGodotArray())
                 p.Works.Add(new BuildWork(v.AsGodotArray()[0].AsString(), v.AsGodotArray()[1].AsInt32()));

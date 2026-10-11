@@ -96,6 +96,7 @@ public partial class MapView
             };
             siege.Cells.AddRange(t.Cells);
             Game.Sieges.Add(siege);
+            ProvinceLog(siege.ProvinceId, $"Besieged by {RealmName(siege.Attacker)}.");
             if (!Game.Sieges.Any(s => s != siege && s.Attacker == t.Attacker && s.ArmyId == army.Id)
                 && SendArmy(t.Attacker, army, t.Node) != null)
                 army.Node = t.Node;   // no way by land or sea: the army is taken there (old saves, islands without a fleet)

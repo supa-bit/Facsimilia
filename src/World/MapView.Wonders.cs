@@ -188,6 +188,7 @@ public partial class MapView
             if (w == null || !Game.WonderWorks.Contains(work) || !WonderOpen(w))
                 continue;
             Game.Wonders[w.Id] = new WonderSite { Province = work.Province, Year = DemoYear };
+            ProvinceLog(work.Province, $"The {w.Name} is finished by {RealmName(work.Realm)}.");
             EndWonderWork(work, true);
             string where = Provinces.Provinces.TryGetValue(work.Province, out var at) ? at.Name : "";
             if (work.Realm == PlayerRealmId)
