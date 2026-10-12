@@ -81,3 +81,6 @@ designer to do anything: just keep committing and pushing to the same branch.
 With ElevenLabs or any other paid generator, make TWO takes of each
 thing (generations_count 2) unless the designer asks otherwise.
 Say what it will cost before anything over a few cents.
+ElevenLabs' voice design always makes three previews and can't be set to
+two, so ask before designing a voice (or pick from the existing voice
+library, which costs nothing).
