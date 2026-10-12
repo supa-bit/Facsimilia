@@ -1,0 +1,1859 @@
+{
+ "about": "Builds data/voice_lines.json: every spoken line in the game. Voices: bard (before 600), chronicler (600-1800), newsreader (from 1800), adviser (tutorial), warrior (war cries).",
+ "lines": [
+  {
+   "id": "opening_01_gobekli",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "gobekli",
+   "text": "[slowly] Listen. Before the first field was sown, before the first village, the hunters of the hills came together. On a ridge above the plain of Harran they raised great pillars of stone, carved with foxes, boars and vultures, and set them in rings. It was a place of gathering more than a home: they came to build, to feast, and to remember. This is Göbekli Tepe, more than eleven thousand years ago, the oldest place we know where many hands worked as one.",
+   "subtitle": "Listen. Before the first field was sown, before the first village, the hunters of the hills came together. On a ridge above the plain of Harran they raised great pillars of stone, carved with foxes, boars and vultures, and set them in rings. It was a place of gathering more than a home: they came to build, to feast, and to remember. This is Göbekli Tepe, more than eleven thousand years ago, the oldest place we know where many hands worked as one.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_02_grain",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "grain",
+   "text": "In those same hills grew wild wheat. Year after year the people gathered it, kept the best seed, and sowed it again, until the grass of the hills became einkorn, and the hunters became farmers. Sheep and goats followed them home. At Jericho, by a spring in the valley of the Jordan, men raised a wall and a tower of stone, ten thousand years ago. [pause] Bread had made them stay.",
+   "subtitle": "In those same hills grew wild wheat. Year after year the people gathered it, kept the best seed, and sowed it again, until the grass of the hills became einkorn, and the hunters became farmers. Sheep and goats followed them home. At Jericho, by a spring in the valley of the Jordan, men raised a wall and a tower of stone, ten thousand years ago. Bread had made them stay.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_03_catal",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "catal",
+   "text": "On the plain of Konya the houses of Çatalhöyük stood wall against wall, a town with no streets. Its people walked across the rooftops and climbed down ladders into their homes. They painted bulls and leopards on the plaster, set horns into the walls, and buried their dead beneath the floors where they slept. Thousands of people lived there, for more than a thousand years, and no house was greater than the rest. No palace. No king. [softly] Not yet.",
+   "subtitle": "On the plain of Konya the houses of Çatalhöyük stood wall against wall, a town with no streets. Its people walked across the rooftops and climbed down ladders into their homes. They painted bulls and leopards on the plaster, set horns into the walls, and buried their dead beneath the floors where they slept. Thousands of people lived there, for more than a thousand years, and no house was greater than the rest. No palace. No king. Not yet.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_04_rivers",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "rivers",
+   "text": "Then the farmers came down to the great rivers. Between the Tigris and the Euphrates there was little rain, but there was water, if you could lead it. They dug canals, and the mud gave back grain a hundredfold. At Eridu they built a shrine to the god of the sweet waters, and rebuilt it, layer upon layer, each one larger than the last. Copper came from the mountains. Someone had to share out the water, store the harvest, and judge between neighbours.",
+   "subtitle": "Then the farmers came down to the great rivers. Between the Tigris and the Euphrates there was little rain, but there was water, if you could lead it. They dug canals, and the mud gave back grain a hundredfold. At Eridu they built a shrine to the god of the sweet waters, and rebuilt it, layer upon layer, each one larger than the last. Copper came from the mountains. Someone had to share out the water, store the harvest, and judge between neighbours.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_05_uruk",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "uruk",
+   "text": "Uruk grew until forty thousand people lived within its walls, the greatest city the world had seen. Its temples rose on platforms above the plain, and the priests who kept their storehouses pressed marks into clay to count the barley, the sheep, the beer and the workers. [pause] Counting became writing. And with writing came those who commanded what was written.",
+   "subtitle": "Uruk grew until forty thousand people lived within its walls, the greatest city the world had seen. Its temples rose on platforms above the plain, and the priests who kept their storehouses pressed marks into clay to count the barley, the sheep, the beer and the workers. Counting became writing. And with writing came those who commanded what was written.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_06_polity",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "polity",
+   "text": "By five thousand years ago the towns had become something new. Kish and Ur, Lagash and Umma, each with its god, its ruler, its law, its fields and its border, and an army to hold them. On the Nile a king named Narmer wore the crowns of both Upper and Lower Egypt. The settlement had become a state: a power that could tax, build, and make war. [dramatically] Here, history begins.",
+   "subtitle": "By five thousand years ago the towns had become something new. Kish and Ur, Lagash and Umma, each with its god, its ruler, its law, its fields and its border, and an army to hold them. On the Nile a king named Narmer wore the crowns of both Upper and Lower Egypt. The settlement had become a state: a power that could tax, build, and make war. Here, history begins.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_07_bridge",
+   "voice": "bard",
+   "plays": "opening",
+   "key": "bridge",
+   "text": "Three thousand years of kings followed. Bronze empires rose and fell together: Hittites and Egyptians, Mycenae and Ugarit, until the great collapse swept them away. Iron came, and alphabets, and coins. Assyria, Babylon and Persia each ruled the world they knew. Then Alexander of Macedon marched to the edge of India, and died at thirty-two, and his generals tore his empire apart. [pause] It is the year 300 before Christ. [dramatically] The world is yours to shape.",
+   "subtitle": "Three thousand years of kings followed. Bronze empires rose and fell together: Hittites and Egyptians, Mycenae and Ugarit, until the great collapse swept them away. Iron came, and alphabets, and coins. Assyria, Babylon and Persia each ruled the world they knew. Then Alexander of Macedon marched to the edge of India, and died at thirty-two, and his generals tore his empire apart. It is the year 300 before Christ. The world is yours to shape.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_realm",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "realm",
+   "text": "This is your treasury, my lord. Heavier taxes fill the chests, but they slow the growth of your people and stir them to anger. Below, the purity of your coin, and its worth in your neighbours' money.",
+   "subtitle": "This is your treasury, my lord. Heavier taxes fill the chests, but they slow the growth of your people and stir them to anger. Below, the purity of your coin, and its worth in your neighbours' money.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_goods",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "goods",
+   "text": "Here is all your people make, and all they need. Where they go short, they grow restless. Trade along the routes will fill the want.",
+   "subtitle": "Here is all your people make, and all they need. Where they go short, they grow restless. Trade along the routes will fill the want.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_diplomacy",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "diplomacy",
+   "text": "A wise ruler finds a just cause before he strikes. A war without a pretext angers every court in the world. The offers of other realms wait here.",
+   "subtitle": "A wise ruler finds a just cause before he strikes. A war without a pretext angers every court in the world. The offers of other realms wait here.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_armies",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "armies",
+   "text": "Each army has its own companies. Raise them, join them, and march them. An army must stand within reach before it can lay siege.",
+   "subtitle": "Each army has its own companies. Raise them, join them, and march them. An army must stand within reach before it can lay siege.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_research",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "research",
+   "text": "Your scholars await your command. Each art opens only in its time, and only once its foundations are known. Towns, schools and libraries give you scholars.",
+   "subtitle": "Your scholars await your command. Each art opens only in its time, and only once its foundations are known. Towns, schools and libraries give you scholars.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_goals",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "goals",
+   "text": "These are the aims your history sets before you. Pursue them or not, as you will. Your fame is counted in people, land, wealth, culture, dynasty and deeds.",
+   "subtitle": "These are the aims your history sets before you. Pursue them or not, as you will. Your fame is counted in people, land, wealth, culture, dynasty and deeds.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_realms",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "realms",
+   "text": "Every realm of the world, side by side. Choose a column to order them; the chart shows who has led over the years.",
+   "subtitle": "Every realm of the world, side by side. Choose a column to order them; the chart shows who has led over the years.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_province",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "province",
+   "text": "A province: its people, its land, its buildings and its garrison. Your own may be taxed and built upon.",
+   "subtitle": "A province: its people, its land, its buildings and its garrison. Your own may be taxed and built upon.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_01",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "0",
+   "text": "My lord, first look to the treasury: the coins at the top. See what your taxes bring.",
+   "subtitle": "My lord, first look to the treasury: the coins at the top. See what your taxes bring.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_02",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "1",
+   "text": "Now call your scholars, with T, and choose an art for them to study.",
+   "subtitle": "Now call your scholars, with T, and choose an art for them to study.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_03",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "2",
+   "text": "Choose one of your provinces, open its buildings, and set your people to raise something new.",
+   "subtitle": "Choose one of your provinces, open its buildings, and set your people to raise something new.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_04",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "3",
+   "text": "A realm needs swords. Open your armies and raise more soldiers.",
+   "subtitle": "A realm needs swords. Open your armies and raise more soldiers.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_05",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "4",
+   "text": "Look upon the peoples of your lands: choose the culture view, in the corner below.",
+   "subtitle": "Look upon the peoples of your lands: choose the culture view, in the corner below.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_06",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "5",
+   "text": "Let a year pass, with Advance Year or Enter, and hear what the chronicle tells.",
+   "subtitle": "Let a year pass, with Advance Year or Enter, and hear what the chronicle tells.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_07",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "6",
+   "text": "Open diplomacy, and see what just causes you hold against your neighbours.",
+   "subtitle": "Open diplomacy, and see what just causes you hold against your neighbours.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_08",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "7",
+   "text": "[firmly] Declare war upon a neighbour, with a pretext if you have one.",
+   "subtitle": "Declare war upon a neighbour, with a pretext if you have one.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_09",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "8",
+   "text": "Turn to conquest, with the key 3, and mark the land you mean to take, within reach of your army.",
+   "subtitle": "Turn to conquest, with the key 3, and mark the land you mean to take, within reach of your army.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_10",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "9",
+   "text": "Hold firm until a province is won, or make peace through diplomacy.",
+   "subtitle": "Hold firm until a province is won, or make peace through diplomacy.",
+   "lang": "en"
+  },
+  {
+   "id": "tutorial_11",
+   "voice": "adviser",
+   "plays": "tutorial_step",
+   "key": "10",
+   "text": "[warmly] You know the essentials now, my lord. The rest is history, and it is yours to make.",
+   "subtitle": "You know the essentials now, my lord. The rest is history, and it is yours to make.",
+   "lang": "en"
+  },
+  {
+   "id": "age_antiquity",
+   "voice": "bard",
+   "plays": "age",
+   "key": "Antiquity",
+   "text": "The age of bronze and marble. Kings claim descent from gods, and the sea is a road for every ambition.",
+   "subtitle": "The age of bronze and marble. Kings claim descent from gods, and the sea is a road for every ambition.",
+   "lang": "en"
+  },
+  {
+   "id": "age_late_antiquity",
+   "voice": "bard",
+   "plays": "age",
+   "key": "Late Antiquity",
+   "text": "[slowly] The old world changes. The emperors move east, new faiths fill the temples, and peoples beyond the rivers press against the frontiers. Late Antiquity begins.",
+   "subtitle": "The old world changes. The emperors move east, new faiths fill the temples, and peoples beyond the rivers press against the frontiers. Late Antiquity begins.",
+   "lang": "en"
+  },
+  {
+   "id": "age_the_middle_ages",
+   "voice": "chronicler",
+   "plays": "age",
+   "key": "The Middle Ages",
+   "text": "Here begins the account of the Middle Ages. The great empire of the west is no more; kings, abbots and caliphs divide its lands, and the sword and the cross and the crescent shall decide what follows.",
+   "subtitle": "Here begins the account of the Middle Ages. The great empire of the west is no more; kings, abbots and caliphs divide its lands, and the sword and the cross and the crescent shall decide what follows.",
+   "lang": "en"
+  },
+  {
+   "id": "age_the_early_modern_age",
+   "voice": "chronicler",
+   "plays": "age",
+   "key": "The Early Modern Age",
+   "text": "Mark this year well. Printing presses carry words faster than any messenger, cannon break the oldest walls, and ships set out across oceans no one has charted. A new age is come.",
+   "subtitle": "Mark this year well. Printing presses carry words faster than any messenger, cannon break the oldest walls, and ships set out across oceans no one has charted. A new age is come.",
+   "lang": "en"
+  },
+  {
+   "id": "age_the_modern_age",
+   "voice": "newsreader",
+   "plays": "age",
+   "key": "The Modern Age",
+   "text": "Good evening. Steam, iron and the printed newspaper are changing the world faster than any age before. Revolutions have toppled kings. The Modern Age has begun.",
+   "subtitle": "Good evening. Steam, iron and the printed newspaper are changing the world faster than any age before. Revolutions have toppled kings. The Modern Age has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_great_pyramid",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "great_pyramid",
+   "text": "[slowly] The last capstone is set. The Great Pyramid rises from the sand at Giza, a mountain made by hands, and it will outlast every king who sees it.",
+   "subtitle": "The last capstone is set. The Great Pyramid rises from the sand at Giza, a mountain made by hands, and it will outlast every king who sees it.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_hanging_gardens",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "hanging_gardens",
+   "text": "In Babylon, gardens climb terrace on terrace into the sky, green above the desert, watered from the Euphrates by engines no traveller can explain.",
+   "subtitle": "In Babylon, gardens climb terrace on terrace into the sky, green above the desert, watered from the Euphrates by engines no traveller can explain.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_temple_artemis",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "temple_artemis",
+   "text": "The Temple of Artemis at Ephesus stands again, its forest of marble columns greater than before. Pilgrims and bankers crowd its steps.",
+   "subtitle": "The Temple of Artemis at Ephesus stands again, its forest of marble columns greater than before. Pilgrims and bankers crowd its steps.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_statue_zeus",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "statue_zeus",
+   "text": "At Olympia, Zeus sits enthroned in gold and ivory. If he rose to his feet, they say, he would lift the roof from his temple.",
+   "subtitle": "At Olympia, Zeus sits enthroned in gold and ivory. If he rose to his feet, they say, he would lift the roof from his temple.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_mausoleum",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "mausoleum",
+   "text": "The tomb at Halicarnassus is finished, a temple raised on a tower, crowned with a chariot of marble. From now on every great tomb will be called a mausoleum.",
+   "subtitle": "The tomb at Halicarnassus is finished, a temple raised on a tower, crowned with a chariot of marble. From now on every great tomb will be called a mausoleum.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_colossus",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "colossus",
+   "text": "Over the harbour of Rhodes, the sun god stands in bronze, taller than any statue ever cast. The ships pass beneath his gaze.",
+   "subtitle": "Over the harbour of Rhodes, the sun god stands in bronze, taller than any statue ever cast. The ships pass beneath his gaze.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_pharos",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "pharos",
+   "text": "On the island of Pharos, the great light is kindled. By night its fire, and by day its smoke, guide every ship to Alexandria.",
+   "subtitle": "On the island of Pharos, the great light is kindled. By night its fire, and by day its smoke, guide every ship to Alexandria.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_library",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "library",
+   "text": "The Library of Alexandria opens its doors. Every book that can be bought, borrowed or copied is gathered here, and scholars come from every land.",
+   "subtitle": "The Library of Alexandria opens its doors. Every book that can be bought, borrowed or copied is gathered here, and scholars come from every land.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_serapeum",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "serapeum",
+   "text": "The Serapeum of Alexandria is finished: a temple for Serapis, a god for Greeks and Egyptians alike.",
+   "subtitle": "The Serapeum of Alexandria is finished: a temple for Serapis, a god for Greeks and Egyptians alike.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_pergamon_altar",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "pergamon_altar",
+   "text": "On the hill of Pergamon, the great altar of Zeus is complete. Around it, in stone, the gods make war upon the giants.",
+   "subtitle": "On the hill of Pergamon, the great altar of Zeus is complete. Around it, in stone, the gods make war upon the giants.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_mausoleum_augustus",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "mausoleum_augustus",
+   "text": "On the Campus Martius rises a tomb for the first of the emperors, ringed with evergreen trees, crowned with his statue in bronze.",
+   "subtitle": "On the Campus Martius rises a tomb for the first of the emperors, ringed with evergreen trees, crowned with his statue in bronze.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_herods_temple",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "herods_temple",
+   "text": "The Temple at Jerusalem shines again, rebuilt in white stone and gold, the greatest sanctuary of the east.",
+   "subtitle": "The Temple at Jerusalem shines again, rebuilt in white stone and gold, the greatest sanctuary of the east.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_baalbek",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "baalbek",
+   "text": "At Baalbek, the temple of Jupiter is finished, the largest in the Roman world, raised on stones no other people could move.",
+   "subtitle": "At Baalbek, the temple of Jupiter is finished, the largest in the Roman world, raised on stones no other people could move.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_al_khazneh",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "al_khazneh",
+   "text": "At Petra, the Treasury stands carved from the rose-red cliff, its face greeting every caravan that enters the gorge.",
+   "subtitle": "At Petra, the Treasury stands carved from the rose-red cliff, its face greeting every caravan that enters the gorge.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_temple_bel",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "temple_bel",
+   "text": "The temple of Bel is finished at Palmyra, where the caravan roads of east and west meet in the desert.",
+   "subtitle": "The temple of Bel is finished at Palmyra, where the caravan roads of east and west meet in the desert.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_colosseum",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "colosseum",
+   "text": "[excited] The great amphitheatre is finished! Fifty thousand voices fill it for the opening games, a hundred days of spectacle.",
+   "subtitle": "The great amphitheatre is finished! Fifty thousand voices fill it for the opening games, a hundred days of spectacle.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_trajans_forum",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "trajans_forum",
+   "text": "The new forum is complete, paid for with conquered gold. Its column tells the whole war in stone, spiralling up to the sky.",
+   "subtitle": "The new forum is complete, paid for with conquered gold. Its column tells the whole war in stone, spiralling up to the sky.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_pantheon",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "pantheon",
+   "text": "The Pantheon is finished, temple of all the gods. Its dome of concrete opens to the sky, and no one will build a greater one for thirteen hundred years.",
+   "subtitle": "The Pantheon is finished, temple of all the gods. Its dome of concrete opens to the sky, and no one will build a greater one for thirteen hundred years.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_baths_caracalla",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "baths_caracalla",
+   "text": "The great baths are opened: hot rooms and cold, libraries and gardens, sixteen hundred bathers at once.",
+   "subtitle": "The great baths are opened: hot rooms and cold, libraries and gardens, sixteen hundred bathers at once.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_theodosian_walls",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "theodosian_walls",
+   "text": "The land walls of Constantinople are complete: a moat, an outer wall and an inner wall, and ninety-six towers. They will hold for a thousand years.",
+   "subtitle": "The land walls of Constantinople are complete: a moat, an outer wall and an inner wall, and ninety-six towers. They will hold for a thousand years.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_hagia_sophia",
+   "voice": "bard",
+   "plays": "wonder_done",
+   "key": "hagia_sophia",
+   "text": "[slowly] Hagia Sophia is finished. Its dome seems to hang from heaven on a golden chain. The emperor, they say, cried out: Solomon, I have surpassed you.",
+   "subtitle": "Hagia Sophia is finished. Its dome seems to hang from heaven on a golden chain. The emperor, they say, cried out: Solomon, I have surpassed you.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_dome_rock",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "dome_rock",
+   "text": "Upon the Temple Mount, the Dome of the Rock is complete, its gold and mosaics shining over Jerusalem.",
+   "subtitle": "Upon the Temple Mount, the Dome of the Rock is complete, its gold and mosaics shining over Jerusalem.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_damascus_mosque",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "damascus_mosque",
+   "text": "The Great Mosque of Damascus is complete, its walls a garden of golden mosaic, its minarets calling over the city.",
+   "subtitle": "The Great Mosque of Damascus is complete, its walls a garden of golden mosaic, its minarets calling over the city.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_cordoba_mosque",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "cordoba_mosque",
+   "text": "At Córdoba the great mosque has grown its last hall of arches, red and white, a forest of stone in the heart of Andalus.",
+   "subtitle": "At Córdoba the great mosque has grown its last hall of arches, red and white, a forest of stone in the heart of Andalus.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_aachen_chapel",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "aachen_chapel",
+   "text": "At Aachen the emperor's chapel is consecrated, its columns brought from Ravenna and from Rome.",
+   "subtitle": "At Aachen the emperor's chapel is consecrated, its columns brought from Ravenna and from Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_st_marks",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "st_marks",
+   "text": "In Venice, the church of Saint Mark is consecrated, glittering with gold won by trade across the sea.",
+   "subtitle": "In Venice, the church of Saint Mark is consecrated, glittering with gold won by trade across the sea.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_notre_dame",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "notre_dame",
+   "text": "On the island in the Seine, the cathedral of Notre-Dame is finished, its towers rising over Paris.",
+   "subtitle": "On the island in the Seine, the cathedral of Notre-Dame is finished, its towers rising over Paris.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_chartres",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "chartres",
+   "text": "Chartres cathedral stands complete. Its windows tell all of scripture in glass of a blue no one can match.",
+   "subtitle": "Chartres cathedral stands complete. Its windows tell all of scripture in glass of a blue no one can match.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_alhambra",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "alhambra",
+   "text": "Above Granada, the red palace is complete: courts of lions and myrtles, and water running through every hall.",
+   "subtitle": "Above Granada, the red palace is complete: courts of lions and myrtles, and water running through every hall.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_florence_dome",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "florence_dome",
+   "text": "Brunelleschi's dome is closed over Florence, raised without a frame to hold it. Nothing like it has stood since the Pantheon.",
+   "subtitle": "Brunelleschi's dome is closed over Florence, raised without a frame to hold it. Nothing like it has stood since the Pantheon.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_topkapi",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "topkapi",
+   "text": "The new palace of the sultans stands above the Bosphorus, the seat of their government and their court.",
+   "subtitle": "The new palace of the sultans stands above the Bosphorus, the seat of their government and their court.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_st_peters",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "st_peters",
+   "text": "Saint Peter's in Rome is consecrated, after more than a century of building, the greatest church in Christendom.",
+   "subtitle": "Saint Peter's in Rome is consecrated, after more than a century of building, the greatest church in Christendom.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_suleymaniye",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "suleymaniye",
+   "text": "Sinan's mosque for Suleiman is complete, with its schools, its hospital and its library, crowning the hills of Istanbul.",
+   "subtitle": "Sinan's mosque for Suleiman is complete, with its schools, its hospital and its library, crowning the hills of Istanbul.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_escorial",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "escorial",
+   "text": "The Escorial is finished: palace, monastery, library and tomb of kings, in grey granite in the hills of Castile.",
+   "subtitle": "The Escorial is finished: palace, monastery, library and tomb of kings, in grey granite in the hills of Castile.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_versailles",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "versailles",
+   "text": "The palace of Versailles is complete. The nobles of the realm now live at court, under the eye of their king.",
+   "subtitle": "The palace of Versailles is complete. The nobles of the realm now live at court, under the eye of their king.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_st_pauls",
+   "voice": "chronicler",
+   "plays": "wonder_done",
+   "key": "st_pauls",
+   "text": "Saint Paul's cathedral is finished, its dome risen over a London rebuilt from the ashes of the Great Fire.",
+   "subtitle": "Saint Paul's cathedral is finished, its dome risen over a London rebuilt from the ashes of the Great Fire.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_westminster",
+   "voice": "newsreader",
+   "plays": "wonder_done",
+   "key": "westminster",
+   "text": "The new Palace of Westminster is complete. Parliament sits again beside the Thames, under its great clock tower.",
+   "subtitle": "The new Palace of Westminster is complete. Parliament sits again beside the Thames, under its great clock tower.",
+   "lang": "en"
+  },
+  {
+   "id": "wonder_eiffel",
+   "voice": "newsreader",
+   "plays": "wonder_done",
+   "key": "eiffel",
+   "text": "[excited] The tower on the Champ de Mars is complete, three hundred metres of iron, the tallest structure ever built by human hands.",
+   "subtitle": "The tower on the Champ de Mars is complete, three hundred metres of iron, the tallest structure ever built by human hands.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m226_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-226:earthquake",
+   "text": "The earth shook at Rhodes, and the great bronze Colossus has fallen, broken at the knees.",
+   "subtitle": "The earth shook at Rhodes, and the great bronze Colossus has fallen, broken at the knees.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m217_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-217:earthquake",
+   "text": "As the armies met at Lake Trasimene, an earthquake shook Italy, and no soldier in the fighting felt it.",
+   "subtitle": "As the armies met at Lake Trasimene, an earthquake shook Italy, and no soldier in the fighting felt it.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m198_eruption",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-198:eruption",
+   "text": "Fire and smoke boil from the sea between Thera and Therasia, and a new island rises from the waves.",
+   "subtitle": "Fire and smoke boil from the sea between Thera and Therasia, and a new island rises from the waves.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m148_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-148:earthquake",
+   "text": "The earth has shaken Antioch, and houses lie fallen in its streets.",
+   "subtitle": "The earth has shaken Antioch, and houses lie fallen in its streets.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m65_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-65:earthquake",
+   "text": "An earthquake has ruined Antioch, and many of its people lie beneath the stones.",
+   "subtitle": "An earthquake has ruined Antioch, and many of its people lie beneath the stones.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_m31_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "-31:earthquake",
+   "text": "An earthquake strikes Judaea. Thousands are dead, and the cattle lie in the fields.",
+   "subtitle": "An earthquake strikes Judaea. Thousands are dead, and the cattle lie in the fields.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_17_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "17:earthquake",
+   "text": "[sadly] In a single night, twelve cities of Asia fell. Sardis is in ruins.",
+   "subtitle": "In a single night, twelve cities of Asia fell. Sardis is in ruins.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_62_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "62:earthquake",
+   "text": "The earth has shaken Pompeii and Herculaneum. Temples and houses lie cracked and broken.",
+   "subtitle": "The earth has shaken Pompeii and Herculaneum. Temples and houses lie cracked and broken.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_79_eruption",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "79:eruption",
+   "text": "[gravely] Vesuvius has woken. A cloud like a great pine rose over the bay, and Pompeii and Herculaneum lie buried under ash.",
+   "subtitle": "Vesuvius has woken. A cloud like a great pine rose over the bay, and Pompeii and Herculaneum lie buried under ash.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_115_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "115:earthquake",
+   "text": "Antioch is levelled by an earthquake, while the emperor himself was within its walls.",
+   "subtitle": "Antioch is levelled by an earthquake, while the emperor himself was within its walls.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_165_plague",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "165:plague",
+   "text": "[sadly] The plague comes from the east with the returning legions. City after city counts its dead.",
+   "subtitle": "The plague comes from the east with the returning legions. City after city counts its dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_249_plague",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "249:plague",
+   "text": "A new pestilence spreads through the empire. In Alexandria, they say, the living are fewer than the dead.",
+   "subtitle": "A new pestilence spreads through the empire. In Alexandria, they say, the living are fewer than the dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_365_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "365:earthquake",
+   "text": "The earth shook Crete and Egypt, and the sea rose and cast ships onto the rooftops of Alexandria.",
+   "subtitle": "The earth shook Crete and Egypt, and the sea rose and cast ships onto the rooftops of Alexandria.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_526_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "526:earthquake",
+   "text": "[gravely] Antioch is fallen in fire and earthquake, on the very day of its festival.",
+   "subtitle": "Antioch is fallen in fire and earthquake, on the very day of its festival.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_541_plague",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "541:plague",
+   "text": "[gravely] A plague has come from Egypt to Constantinople. Each day the dead are counted in thousands.",
+   "subtitle": "A plague has come from Egypt to Constantinople. Each day the dead are counted in thousands.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_551_earthquake",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "551:earthquake",
+   "text": "An earthquake and a great wave have destroyed Berytus, and its famous school of law.",
+   "subtitle": "An earthquake and a great wave have destroyed Berytus, and its famous school of law.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_558_plague",
+   "voice": "bard",
+   "plays": "disaster",
+   "key": "558:plague",
+   "text": "The plague returns, as it has before, and the cities mourn once more.",
+   "subtitle": "The plague returns, as it has before, and the cities mourn once more.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_627_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "627:plague",
+   "text": "Plague is fallen upon Persia, and the King of Kings himself is dead of it.",
+   "subtitle": "Plague is fallen upon Persia, and the King of Kings himself is dead of it.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_639_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "639:plague",
+   "text": "Plague strikes the army at Amwas, in Palestine, and many of its commanders are dead.",
+   "subtitle": "Plague strikes the army at Amwas, in Palestine, and many of its commanders are dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_747_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "747:plague",
+   "text": "The plague comes again, the last great wave, and empties the cities of the east.",
+   "subtitle": "The plague comes again, the last great wave, and empties the cities of the east.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_749_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "749:earthquake",
+   "text": "The earth shook in Galilee. Whole cities by the lake have fallen.",
+   "subtitle": "The earth shook in Galilee. Whole cities by the lake have fallen.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_856_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "856:earthquake",
+   "text": "An earthquake has struck Damghan, in Persia, and many thousands are dead.",
+   "subtitle": "An earthquake has struck Damghan, in Persia, and many thousands are dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_893_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "893:earthquake",
+   "text": "Dvin, the capital of Armenia, is thrown down by an earthquake, and few are left alive.",
+   "subtitle": "Dvin, the capital of Armenia, is thrown down by an earthquake, and few are left alive.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1065_famine",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1065:famine",
+   "text": "[sadly] The Nile has failed. Year after year the waters stay low, and Egypt starves. They call it the Great Calamity.",
+   "subtitle": "The Nile has failed. Year after year the waters stay low, and Egypt starves. They call it the Great Calamity.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1138_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1138:earthquake",
+   "text": "Aleppo is shaken to the ground. Its walls and its citadel have fallen.",
+   "subtitle": "Aleppo is shaken to the ground. Its walls and its citadel have fallen.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1169_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1169:earthquake",
+   "text": "The earth has shaken Catania. The cathedral fell upon the faithful at their prayers.",
+   "subtitle": "The earth has shaken Catania. The cathedral fell upon the faithful at their prayers.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1200_famine",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1200:famine",
+   "text": "The Nile is low, and famine lies on Egypt. The poor wander the roads in search of bread.",
+   "subtitle": "The Nile is low, and famine lies on Egypt. The poor wander the roads in search of bread.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1202_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1202:earthquake",
+   "text": "Earthquake strikes all of Syria, from Acre to Damascus.",
+   "subtitle": "Earthquake strikes all of Syria, from Acre to Damascus.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1303_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1303:earthquake",
+   "text": "The sea has risen over Crete and Egypt, and an earthquake throws down the great lighthouse at Alexandria.",
+   "subtitle": "The sea has risen over Crete and Egypt, and an earthquake throws down the great lighthouse at Alexandria.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1347_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1347:plague",
+   "text": "[gravely] A great pestilence comes out of the east, carried by ships. In every land, a third of the people are dying. Men call it the Great Mortality.",
+   "subtitle": "A great pestilence comes out of the east, carried by ships. In every land, a third of the people are dying. Men call it the Great Mortality.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1361_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1361:plague",
+   "text": "The pestilence has returned. This time, it is the children who die.",
+   "subtitle": "The pestilence has returned. This time, it is the children who die.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1400_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1400:plague",
+   "text": "Plague is come again to Italy and to Egypt.",
+   "subtitle": "Plague is come again to Italy and to Egypt.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1456_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1456:earthquake",
+   "text": "An earthquake has struck Naples, and the towns of the Kingdom lie in ruin.",
+   "subtitle": "An earthquake has struck Naples, and the towns of the Kingdom lie in ruin.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1509_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1509:earthquake",
+   "text": "The earth shook Constantinople for days on end. The people call it the Little Day of Judgement.",
+   "subtitle": "The earth shook Constantinople for days on end. The people call it the Little Day of Judgement.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1575_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1575:plague",
+   "text": "Plague has come to Venice and Milan. The dead are carried out by the boatload.",
+   "subtitle": "Plague has come to Venice and Milan. The dead are carried out by the boatload.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1629_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1629:plague",
+   "text": "Plague came with the armies over the Alps, and the cities of the north of Italy are emptied.",
+   "subtitle": "Plague came with the armies over the Alps, and the cities of the north of Italy are emptied.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1631_eruption",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1631:eruption",
+   "text": "Vesuvius is awake once more, and towns at its foot are buried in fire and ash.",
+   "subtitle": "Vesuvius is awake once more, and towns at its foot are buried in fire and ash.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1656_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1656:plague",
+   "text": "Plague is in Naples. Half the city, they say, is dead.",
+   "subtitle": "Plague is in Naples. Half the city, they say, is dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1669_eruption",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1669:eruption",
+   "text": "[gravely] Etna has broken open, and a river of fire flows over its villages to the walls of Catania.",
+   "subtitle": "Etna has broken open, and a river of fire flows over its villages to the walls of Catania.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1693_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1693:earthquake",
+   "text": "The earth has thrown down the cities of the Val di Noto in Sicily. Catania is in ruins.",
+   "subtitle": "The earth has thrown down the cities of the Val di Noto in Sicily. Catania is in ruins.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1720_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1720:plague",
+   "text": "Plague has come to Marseille from a ship out of the Levant. Half the city is dead.",
+   "subtitle": "Plague has come to Marseille from a ship out of the Levant. Half the city is dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1743_plague",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1743:plague",
+   "text": "Plague is in Messina, brought by a ship from the Morea.",
+   "subtitle": "Plague is in Messina, brought by a ship from the Morea.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1755_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1755:earthquake",
+   "text": "[gravely] Lisbon is fallen. An earthquake, then fire, then a wave from the sea have destroyed the city, on the morning of All Saints.",
+   "subtitle": "Lisbon is fallen. An earthquake, then fire, then a wave from the sea have destroyed the city, on the morning of All Saints.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1759_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1759:earthquake",
+   "text": "Earthquakes strike Syria and Lebanon. Damascus and Safed suffer heavy losses.",
+   "subtitle": "Earthquakes strike Syria and Lebanon. Damascus and Safed suffer heavy losses.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1783_earthquake",
+   "voice": "chronicler",
+   "plays": "disaster",
+   "key": "1783:earthquake",
+   "text": "Earthquakes have struck Calabria and Messina, month after month. Whole towns are gone.",
+   "subtitle": "Earthquakes have struck Calabria and Messina, month after month. Whole towns are gone.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1812_plague",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1812:plague",
+   "text": "Plague is reported in Constantinople and in Malta, where the harbour has been closed.",
+   "subtitle": "Plague is reported in Constantinople and in Malta, where the harbour has been closed.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1831_plague",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1831:plague",
+   "text": "Cholera has reached the Mediterranean. Quarantines are declared in the ports.",
+   "subtitle": "Cholera has reached the Mediterranean. Quarantines are declared in the ports.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1865_plague",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1865:plague",
+   "text": "Cholera has spread from the pilgrimage at Mecca, along the routes of the steamships.",
+   "subtitle": "Cholera has spread from the pilgrimage at Mecca, along the routes of the steamships.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1908_earthquake",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1908:earthquake",
+   "text": "[gravely] An earthquake and a great wave have destroyed Messina and Reggio. Tens of thousands are feared dead.",
+   "subtitle": "An earthquake and a great wave have destroyed Messina and Reggio. Tens of thousands are feared dead.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1918_plague",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1918:plague",
+   "text": "[gravely] A new influenza is sweeping the world in the last months of the war. No nation is spared.",
+   "subtitle": "A new influenza is sweeping the world in the last months of the war. No nation is spared.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1939_earthquake",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1939:earthquake",
+   "text": "A massive earthquake has struck Erzincan, in eastern Turkey, in the depths of winter.",
+   "subtitle": "A massive earthquake has struck Erzincan, in eastern Turkey, in the depths of winter.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_1999_earthquake",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "1999:earthquake",
+   "text": "An earthquake struck Izmit in the early hours. The death toll is rising.",
+   "subtitle": "An earthquake struck Izmit in the early hours. The death toll is rising.",
+   "lang": "en"
+  },
+  {
+   "id": "disaster_2023_earthquake",
+   "voice": "newsreader",
+   "plays": "disaster",
+   "key": "2023:earthquake",
+   "text": "[gravely] Two great earthquakes have struck southern Turkey and northern Syria. Rescuers are searching the rubble across the region.",
+   "subtitle": "Two great earthquakes have struck southern Turkey and northern Syria. Rescuers are searching the rubble across the region.",
+   "lang": "en"
+  },
+  {
+   "id": "war_01_rome_samnites_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>samnites@-298",
+   "text": "Rome marches against the Samnites, in the hills of central Italy. The third war between them has begun.",
+   "subtitle": "Rome marches against the Samnites, in the hills of central Italy. The third war between them has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "war_01_rome_samnites_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>samnites@-298",
+   "text": "Peace is made between Rome and the Samnites.",
+   "subtitle": "Peace is made between Rome and the Samnites.",
+   "lang": "en"
+  },
+  {
+   "id": "war_02_rome_etruscans_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>etruscans@-298",
+   "text": "Rome turns north, against the Etruscan cities and their Umbrian allies.",
+   "subtitle": "Rome turns north, against the Etruscan cities and their Umbrian allies.",
+   "lang": "en"
+  },
+  {
+   "id": "war_02_rome_etruscans_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>etruscans@-298",
+   "text": "The Etruscan cities lay down their arms. There is peace with Rome.",
+   "subtitle": "The Etruscan cities lay down their arms. There is peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_03_seleucid_antigonus_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>antigonus@-296",
+   "text": "Seleucus moves against Demetrius, the Besieger, for the coast of Syria and the passes of Cilicia.",
+   "subtitle": "Seleucus moves against Demetrius, the Besieger, for the coast of Syria and the passes of Cilicia.",
+   "lang": "en"
+  },
+  {
+   "id": "war_03_seleucid_antigonus_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>antigonus@-296",
+   "text": "Peace between Seleucus and the house of Antigonus.",
+   "subtitle": "Peace between Seleucus and the house of Antigonus.",
+   "lang": "en"
+  },
+  {
+   "id": "war_04_antigonus_greek_world_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "antigonus>greek_world@-295",
+   "text": "Demetrius the Besieger reaches for the crown of Macedon.",
+   "subtitle": "Demetrius the Besieger reaches for the crown of Macedon.",
+   "lang": "en"
+  },
+  {
+   "id": "war_04_antigonus_greek_world_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "antigonus>greek_world@-295",
+   "text": "The war for Macedon is over. There is peace among the Greeks.",
+   "subtitle": "The war for Macedon is over. There is peace among the Greeks.",
+   "lang": "en"
+  },
+  {
+   "id": "war_05_lysimachus_getae_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "lysimachus>getae@-292",
+   "text": "Lysimachus crosses the Danube, against Dromichaetes, king of the Getae.",
+   "subtitle": "Lysimachus crosses the Danube, against Dromichaetes, king of the Getae.",
+   "lang": "en"
+  },
+  {
+   "id": "war_05_lysimachus_getae_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "lysimachus>getae@-292",
+   "text": "Peace is made between Lysimachus and the Getae.",
+   "subtitle": "Peace is made between Lysimachus and the Getae.",
+   "lang": "en"
+  },
+  {
+   "id": "war_06_epirus_greek_world_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "epirus>greek_world@-288",
+   "text": "Pyrrhus of Epirus and Lysimachus fall upon Macedon, to share it between them.",
+   "subtitle": "Pyrrhus of Epirus and Lysimachus fall upon Macedon, to share it between them.",
+   "lang": "en"
+  },
+  {
+   "id": "war_06_epirus_greek_world_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "epirus>greek_world@-288",
+   "text": "The war for Macedon is ended.",
+   "subtitle": "The war for Macedon is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_07_lysimachus_antigonus_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "lysimachus>antigonus@-287",
+   "text": "Lysimachus marches on the cities of Asia that Demetrius held.",
+   "subtitle": "Lysimachus marches on the cities of Asia that Demetrius held.",
+   "lang": "en"
+  },
+  {
+   "id": "war_07_lysimachus_antigonus_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "lysimachus>antigonus@-287",
+   "text": "Peace between Lysimachus and Demetrius.",
+   "subtitle": "Peace between Lysimachus and Demetrius.",
+   "lang": "en"
+  },
+  {
+   "id": "war_08_seleucid_lysimachus_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>lysimachus@-282",
+   "text": "[dramatically] The last of Alexander's companions go to war: Seleucus, against Lysimachus.",
+   "subtitle": "The last of Alexander's companions go to war: Seleucus, against Lysimachus.",
+   "lang": "en"
+  },
+  {
+   "id": "war_08_seleucid_lysimachus_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>lysimachus@-282",
+   "text": "The war of the old kings is over. There is peace.",
+   "subtitle": "The war of the old kings is over. There is peace.",
+   "lang": "en"
+  },
+  {
+   "id": "war_09_rome_lucanians_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>lucanians@-282",
+   "text": "Rome marches south, against the Lucanians and the Bruttians.",
+   "subtitle": "Rome marches south, against the Lucanians and the Bruttians.",
+   "lang": "en"
+  },
+  {
+   "id": "war_09_rome_lucanians_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>lucanians@-282",
+   "text": "The Lucanians and the Bruttians make peace with Rome.",
+   "subtitle": "The Lucanians and the Bruttians make peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_10_rome_tarentum_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>tarentum@-281",
+   "text": "Tarentum has called on Pyrrhus of Epirus, and Rome is at war with the Greeks of Italy.",
+   "subtitle": "Tarentum has called on Pyrrhus of Epirus, and Rome is at war with the Greeks of Italy.",
+   "lang": "en"
+  },
+  {
+   "id": "war_10_rome_tarentum_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>tarentum@-281",
+   "text": "The war with Tarentum is ended. There is peace in the south of Italy.",
+   "subtitle": "The war with Tarentum is ended. There is peace in the south of Italy.",
+   "lang": "en"
+  },
+  {
+   "id": "war_11_danube_celts_greek_world_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "danube_celts>greek_world@-280",
+   "text": "[gravely] The Gauls are on the march. A great host pours south out of the Danube lands, into Macedon and Greece.",
+   "subtitle": "The Gauls are on the march. A great host pours south out of the Danube lands, into Macedon and Greece.",
+   "lang": "en"
+  },
+  {
+   "id": "war_11_danube_celts_greek_world_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "danube_celts>greek_world@-280",
+   "text": "The Gallic host is gone from Greece.",
+   "subtitle": "The Gallic host is gone from Greece.",
+   "lang": "en"
+  },
+  {
+   "id": "war_12_epirus_rome_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "epirus>rome@-280",
+   "text": "Pyrrhus sails for Italy with his elephants, to fight for Tarentum against Rome.",
+   "subtitle": "Pyrrhus sails for Italy with his elephants, to fight for Tarentum against Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_12_epirus_rome_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "epirus>rome@-280",
+   "text": "Pyrrhus makes peace with Rome.",
+   "subtitle": "Pyrrhus makes peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_13_seleucid_egypt_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>egypt@-274",
+   "text": "The First Syrian War begins: Antiochus against Ptolemy, for the lands between them.",
+   "subtitle": "The First Syrian War begins: Antiochus against Ptolemy, for the lands between them.",
+   "lang": "en"
+  },
+  {
+   "id": "war_13_seleucid_egypt_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>egypt@-274",
+   "text": "The First Syrian War is ended.",
+   "subtitle": "The First Syrian War is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_14_rome_carthage_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>carthage@-264",
+   "text": "[dramatically] Rome and Carthage are at war, for Sicily. The First Punic War has begun.",
+   "subtitle": "Rome and Carthage are at war, for Sicily. The First Punic War has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "war_14_rome_carthage_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>carthage@-264",
+   "text": "Peace between Rome and Carthage. The First Punic War is over.",
+   "subtitle": "Peace between Rome and Carthage. The First Punic War is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_15_seleucid_egypt_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>egypt@-260",
+   "text": "The Second Syrian War begins, between the Seleucid king and Ptolemy.",
+   "subtitle": "The Second Syrian War begins, between the Seleucid king and Ptolemy.",
+   "lang": "en"
+  },
+  {
+   "id": "war_15_seleucid_egypt_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>egypt@-260",
+   "text": "The Second Syrian War is ended, sealed by a royal marriage.",
+   "subtitle": "The Second Syrian War is ended, sealed by a royal marriage.",
+   "lang": "en"
+  },
+  {
+   "id": "war_16_egypt_seleucid_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "egypt>seleucid@-246",
+   "text": "Ptolemy the Third marches into Syria, to avenge his sister. The Third Syrian War has begun.",
+   "subtitle": "Ptolemy the Third marches into Syria, to avenge his sister. The Third Syrian War has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "war_16_egypt_seleucid_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "egypt>seleucid@-246",
+   "text": "The Third Syrian War is ended.",
+   "subtitle": "The Third Syrian War is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_17_rome_carthage_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>carthage@-238",
+   "text": "Rome reaches for Sardinia and Corsica, while Carthage is weak.",
+   "subtitle": "Rome reaches for Sardinia and Corsica, while Carthage is weak.",
+   "lang": "en"
+  },
+  {
+   "id": "war_17_rome_carthage_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>carthage@-238",
+   "text": "Carthage yields, and makes peace with Rome over the islands.",
+   "subtitle": "Carthage yields, and makes peace with Rome over the islands.",
+   "lang": "en"
+  },
+  {
+   "id": "war_18_carthage_iberia_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "carthage>iberia@-237",
+   "text": "Hamilcar Barca sails for Spain, to win Carthage a new empire.",
+   "subtitle": "Hamilcar Barca sails for Spain, to win Carthage a new empire.",
+   "lang": "en"
+  },
+  {
+   "id": "war_18_carthage_iberia_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "carthage>iberia@-237",
+   "text": "The Barcids' war in Spain is ended.",
+   "subtitle": "The Barcids' war in Spain is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_19_rome_illyria_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>illyria@-229",
+   "text": "Rome sends her fleet against Queen Teuta of the Illyrians, and her pirates.",
+   "subtitle": "Rome sends her fleet against Queen Teuta of the Illyrians, and her pirates.",
+   "lang": "en"
+  },
+  {
+   "id": "war_19_rome_illyria_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>illyria@-229",
+   "text": "Queen Teuta makes peace with Rome.",
+   "subtitle": "Queen Teuta makes peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_20_rome_cisalpine_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>cisalpine@-225",
+   "text": "Rome marches north against the Gauls of the Po.",
+   "subtitle": "Rome marches north against the Gauls of the Po.",
+   "lang": "en"
+  },
+  {
+   "id": "war_20_rome_cisalpine_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>cisalpine@-225",
+   "text": "The Gauls of the Po have made peace with Rome.",
+   "subtitle": "The Gauls of the Po have made peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_21_seleucid_egypt_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>egypt@-219",
+   "text": "The Fourth Syrian War begins, between Antiochus and Ptolemy.",
+   "subtitle": "The Fourth Syrian War begins, between Antiochus and Ptolemy.",
+   "lang": "en"
+  },
+  {
+   "id": "war_21_seleucid_egypt_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>egypt@-219",
+   "text": "The Fourth Syrian War is ended.",
+   "subtitle": "The Fourth Syrian War is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_22_rome_carthage_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>carthage@-218",
+   "text": "[dramatically] Hannibal has crossed the Ebro. Rome and Carthage are at war once more.",
+   "subtitle": "Hannibal has crossed the Ebro. Rome and Carthage are at war once more.",
+   "lang": "en"
+  },
+  {
+   "id": "war_22_rome_carthage_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>carthage@-218",
+   "text": "Peace between Rome and Carthage. The Second Punic War is over.",
+   "subtitle": "Peace between Rome and Carthage. The Second Punic War is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_23_rome_syracuse_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>syracuse@-214",
+   "text": "Rome lays siege to Syracuse, defended by the engines of Archimedes.",
+   "subtitle": "Rome lays siege to Syracuse, defended by the engines of Archimedes.",
+   "lang": "en"
+  },
+  {
+   "id": "war_23_rome_syracuse_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>syracuse@-214",
+   "text": "The war for Syracuse is over.",
+   "subtitle": "The war for Syracuse is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_24_seleucid_egypt_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "seleucid>egypt@-202",
+   "text": "Antiochus the Great marches south. The Fifth Syrian War has begun.",
+   "subtitle": "Antiochus the Great marches south. The Fifth Syrian War has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "war_24_seleucid_egypt_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "seleucid>egypt@-202",
+   "text": "The Fifth Syrian War is ended.",
+   "subtitle": "The Fifth Syrian War is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_25_rome_greek_world_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>greek_world@-200",
+   "text": "Rome crosses the sea against Philip of Macedon.",
+   "subtitle": "Rome crosses the sea against Philip of Macedon.",
+   "lang": "en"
+  },
+  {
+   "id": "war_25_rome_greek_world_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>greek_world@-200",
+   "text": "Peace between Rome and Macedon. The Greeks are declared free.",
+   "subtitle": "Peace between Rome and Macedon. The Greeks are declared free.",
+   "lang": "en"
+  },
+  {
+   "id": "war_26_rome_seleucid_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>seleucid@-192",
+   "text": "Rome goes to war with Antiochus the Great, king of Asia.",
+   "subtitle": "Rome goes to war with Antiochus the Great, king of Asia.",
+   "lang": "en"
+  },
+  {
+   "id": "war_26_rome_seleucid_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>seleucid@-192",
+   "text": "Peace between Rome and Antiochus.",
+   "subtitle": "Peace between Rome and Antiochus.",
+   "lang": "en"
+  },
+  {
+   "id": "war_27_rome_celtiberia_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>celtiberia@-181",
+   "text": "Rome marches into the uplands of Spain, against the Celtiberians.",
+   "subtitle": "Rome marches into the uplands of Spain, against the Celtiberians.",
+   "lang": "en"
+  },
+  {
+   "id": "war_27_rome_celtiberia_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>celtiberia@-181",
+   "text": "The war in Spain is over at last.",
+   "subtitle": "The war in Spain is over at last.",
+   "lang": "en"
+  },
+  {
+   "id": "war_28_rome_lusitania_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>lusitania@-155",
+   "text": "The Lusitanians rise against Rome, led by the shepherd Viriathus.",
+   "subtitle": "The Lusitanians rise against Rome, led by the shepherd Viriathus.",
+   "lang": "en"
+  },
+  {
+   "id": "war_28_rome_lusitania_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>lusitania@-155",
+   "text": "The Lusitanian War is ended.",
+   "subtitle": "The Lusitanian War is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_29_rome_carthage_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>carthage@-149",
+   "text": "[gravely] Rome declares war on Carthage, for the third and last time.",
+   "subtitle": "Rome declares war on Carthage, for the third and last time.",
+   "lang": "en"
+  },
+  {
+   "id": "war_29_rome_carthage_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>carthage@-149",
+   "text": "The Third Punic War is over.",
+   "subtitle": "The Third Punic War is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_30_rome_gaul_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>gaul@-125",
+   "text": "Rome marches into southern Gaul, beyond the Alps.",
+   "subtitle": "Rome marches into southern Gaul, beyond the Alps.",
+   "lang": "en"
+  },
+  {
+   "id": "war_30_rome_gaul_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>gaul@-125",
+   "text": "Peace in southern Gaul.",
+   "subtitle": "Peace in southern Gaul.",
+   "lang": "en"
+  },
+  {
+   "id": "war_31_rome_massylii_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>massylii@-112",
+   "text": "Rome goes to war with Jugurtha, king of Numidia.",
+   "subtitle": "Rome goes to war with Jugurtha, king of Numidia.",
+   "lang": "en"
+  },
+  {
+   "id": "war_31_rome_massylii_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>massylii@-112",
+   "text": "The war with Jugurtha is ended.",
+   "subtitle": "The war with Jugurtha is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "war_32_rome_pontus_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>pontus@-89",
+   "text": "[dramatically] Mithridates of Pontus has risen against Rome, and the cities of Asia rise with him.",
+   "subtitle": "Mithridates of Pontus has risen against Rome, and the cities of Asia rise with him.",
+   "lang": "en"
+  },
+  {
+   "id": "war_32_rome_pontus_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>pontus@-89",
+   "text": "The war with Mithridates is over.",
+   "subtitle": "The war with Mithridates is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_33_rome_armenia_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>armenia@-69",
+   "text": "Rome marches into Armenia, against Tigranes, the King of Kings.",
+   "subtitle": "Rome marches into Armenia, against Tigranes, the King of Kings.",
+   "lang": "en"
+  },
+  {
+   "id": "war_33_rome_armenia_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>armenia@-69",
+   "text": "Tigranes makes peace with Rome.",
+   "subtitle": "Tigranes makes peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_34_rome_seleucid_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>seleucid@-64",
+   "text": "Pompey marches into Syria. The last of the Seleucids face Rome.",
+   "subtitle": "Pompey marches into Syria. The last of the Seleucids face Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "war_34_rome_seleucid_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>seleucid@-64",
+   "text": "The war in Syria is over.",
+   "subtitle": "The war in Syria is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_35_rome_gaul_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>gaul@-58",
+   "text": "Caesar marches into Gaul.",
+   "subtitle": "Caesar marches into Gaul.",
+   "lang": "en"
+  },
+  {
+   "id": "war_35_rome_gaul_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>gaul@-58",
+   "text": "The war in Gaul is over.",
+   "subtitle": "The war in Gaul is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_36_rome_egypt_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>egypt@-31",
+   "text": "Octavian goes to war with Antony and Cleopatra, for Egypt.",
+   "subtitle": "Octavian goes to war with Antony and Cleopatra, for Egypt.",
+   "lang": "en"
+  },
+  {
+   "id": "war_36_rome_egypt_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>egypt@-31",
+   "text": "The war for Egypt is over.",
+   "subtitle": "The war for Egypt is over.",
+   "lang": "en"
+  },
+  {
+   "id": "war_37_rome_getae_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>getae@101",
+   "text": "The emperor crosses the Danube against Decebalus and the Dacians.",
+   "subtitle": "The emperor crosses the Danube against Decebalus and the Dacians.",
+   "lang": "en"
+  },
+  {
+   "id": "war_37_rome_getae_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>getae@101",
+   "text": "Peace on the Danube.",
+   "subtitle": "Peace on the Danube.",
+   "lang": "en"
+  },
+  {
+   "id": "war_38_rome_nabatea_begin",
+   "voice": "bard",
+   "plays": "war_begin",
+   "key": "rome>nabatea@106",
+   "text": "Rome marches into the kingdom of the Nabataeans.",
+   "subtitle": "Rome marches into the kingdom of the Nabataeans.",
+   "lang": "en"
+  },
+  {
+   "id": "war_38_rome_nabatea_peace",
+   "voice": "bard",
+   "plays": "war_peace",
+   "key": "rome>nabatea@106",
+   "text": "The Nabataean kingdom is at peace with Rome.",
+   "subtitle": "The Nabataean kingdom is at peace with Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "cry_latin_feri",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "latin",
+   "text": "[shouting] Feri! Feri!",
+   "subtitle": "Strike! Strike!",
+   "lang": "la"
+  },
+  {
+   "id": "cry_latin_ad_arma",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "latin",
+   "text": "[shouting] Ad arma! Ad arma!",
+   "subtitle": "To arms! To arms!",
+   "lang": "la"
+  },
+  {
+   "id": "cry_latin_roma",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "latin",
+   "text": "[shouting] Pro Roma! Pro patria!",
+   "subtitle": "For Rome! For the fatherland!",
+   "lang": "la"
+  },
+  {
+   "id": "cry_greek_alala",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "greek",
+   "text": "[shouting] Alalalai! Alalalai!",
+   "subtitle": "(the Greek war cry)",
+   "lang": "grc"
+  },
+  {
+   "id": "cry_greek_enyalios",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "greek",
+   "text": "[shouting] Enyalie! Alalalai!",
+   "subtitle": "Enyalios! (the god of battle)",
+   "lang": "grc"
+  },
+  {
+   "id": "cry_greek_paides",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "greek",
+   "text": "[shouting] O paides Hellenon, ite!",
+   "subtitle": "Sons of the Greeks, go forward!",
+   "lang": "grc"
+  },
+  {
+   "id": "cry_punic_baal",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "punic",
+   "text": "[shouting] Baal Hammon! Baal Hammon!",
+   "subtitle": "Baal Hammon! (the lord of Carthage)",
+   "lang": "phn"
+  },
+  {
+   "id": "cry_gaulish_taranis",
+   "voice": "warrior",
+   "plays": "war_cry",
+   "key": "celtic",
+   "text": "[shouting] Taranis! Taranis!",
+   "subtitle": "Taranis! (the thunder god)",
+   "lang": "xtg"
+  }
+ ]
+}

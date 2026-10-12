@@ -142,6 +142,31 @@ stops time).
       the Hittites, Ugarit and the Late Bronze Age collapse. Waits on the
       Bronze Age questions on the Ledger.
 
+Answered 12 Oct 2026 and waiting on their systems (recorded in MECHANICS.md,
+"Your answers of 12 October 2026"): more road kinds (corduroy, cobbles,
+plank, concrete) and railways as their own network; fog that hides the land
+itself, terra incognita at the start; events (a few a year, quoting the
+sources, chains, time stops and then a few months to choose, a PDF of
+picture prompts for image models); four levels of history's pull, set
+separately and changeable mid-game; great people (at least 12 kinds,
+moving to patrons); every major migration; the interface (nested hover
+cards, Codex, search, keys, size, colour-blind palettes and an easy-on-the-
+eyes mode, undo, notes, a searchable chronicle, statistics, comparing
+realms, more alerts, outliner, pinning, more map views, a guided first game
+with an adviser at court); other realms by exactly your rules; province
+kinds as history had them, governors who can grow too strong; saves (keep
+everything, named, ironman), a Windows program, mods; music (generated
+pieces, each culture's instruments, by situation, instruments as
+technologies); sound effects (all 46 "Now" sounds, war, ships and crowds by
+era, horns and cries by culture); armies (retraining, slave soldiers,
+traditions, nuclear weapons in extremis and terrorist states from 1900).
+
+- [~] **Voices** (12 Oct 2026): the script is written (206 lines:
+      opening, tutorial, ages, wonders, disasters, history's wars, war
+      cries; `docs/Voice-script.md`) and the five voices are being chosen
+      (bard, chronicler, newsreader, adviser, warrior). Next: two takes of
+      every line, then playing them in the game.
+
 ## Right now
 
 Small, cheap, and they protect everything built after them.

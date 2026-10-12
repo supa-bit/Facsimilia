@@ -2848,3 +2848,134 @@ moving to the next. The tests are under `src/Tests/`, one scene-tree
 script per suite, run with
 `godot --headless --path . --script res://src/Tests/<Name>.cs`; each
 exits with 1 if any check fails.
+
+## Your answers of 12 October 2026 **(recorded)**
+
+72 answers from the Ledger. Built so far: the spoken voice's scripts
+(below, "Voices"); the rest wait on their systems (see ROADMAP.md).
+
+### Buildings and works
+
+- **The road kinds, checked**: Add more kinds between them - Corduroy log roads, cobbles, plank roads, concrete. Say which in the note.
+- **Railways**: Their own network, drawn station to station - Very fast for armies and goods, costly, need coal and iron.
+
+### Fog of war: what your realm knows
+
+- **What fog hides**: Also the land itself - Unknown coasts and rivers blank, as on ancient maps.
+- **Terra incognita**: At the start your realm knows only what its people knew; the rest is drawn as old maps drew it
+
+### History: events, people, migrations and new realms
+
+- **How many events**: A few a year, more in crises
+- **How events are written**: Quoting the ancient sources where they exist, with a note on what really happened
+- **Event chains**: Events lead to others over years (a feud, a prophecy, a scandal)
+- **Time and choices**: You have a few months to choose, then the default happens Your note: "Time stops but can be played and then the few months begins, then the default is chosen"
+- **Pictures for events**: Public-domain art and photos of ancient places Your note: "I can feed this to image models, just craft a pdf of prompts"
+- **History's pull levels**: Four: Faithful, Guided (default), Loose, Free
+- **Pulls for different things**: Separate settings for borders, wars, religions, births and disasters
+- **Changing the pull mid-game**: Allowed
+- **When history is changed**: Later events need their conditions; missing actors are replaced by the closest match
+- **Which great people**: Philosophers, scientists, poets, artists, builders, saints and generals Your note: "At least 12 kinds"
+- **Great people moving**: They move to realms that offer patronage
+- **What great people do**: Each gives an effect (a technology, a building, a book, a victory) during their life
+- **Which migrations**: All the major ones - Galatians 279 BC, Cimbri and Teutones 113 BC, Helvetii 58 BC, Goths, Huns, Vandals, Lombards, Slavs, Avars, Bulgars, Arabs, Magyars, Vikings, Seljuks, Mongols.
+
+### Interface
+
+- **What pops up**: A window only for major events and choices; the rest in the chronicle and outliner
+- **Nested hover cards**: Hover a word in a card for its own card (as in Crusader Kings 3)
+- **Hover card timing**: Appear after a short pause; hold a key to pin them
+- **What a province's card shows**: As now
+- **The Codex**: An in-game encyclopedia on every realm, people, good, unit, tech and great person, with history notes
+- **Search**: A search box for places, characters and realms
+- **Changeable keys**: Keys for everything, changeable in Settings
+- **Interface size**: A size setting for panels and text
+- **Colour-blind colours**: Colour-blind palettes for the map views Your note: "Try to also craft a mode to ease the strain on my eyes that have issues stemming from scleromyositis"
+- **Undo**: Undo orders given this month before time moves
+- **Your notes**: Pin notes on the map and in the chronicle
+- **A searchable chronicle**: Filter by kind, realm and place, search, and read the whole game's history
+- **Statistics screen**: Graphs of everything over time for any realm
+- **Realms table columns**: Choose your columns and sort by any
+- **Comparing two realms**: Side by side, with graphs
+- **Alerts**: Alerts for idle armies, an empty treasury, unrest; each can be switched off Your note: "More toggleable alerts for important issues"
+- **Outliner contents**: Armies, fleets, sieges, research, building, envoys, plots, family, with each group collapsible
+- **Pinning**: Pin any province, character or realm to the outliner
+- **More map views**: Also trade goods, supply, literacy, roads, terrain passability, religion spread, and history's borders
+- **Map view keys**: A key for each view and a favourites bar
+- **Tutorial depth**: A guided first game covering every system over its first years
+- **An adviser**: An adviser at court who suggests what to do, in period voice
+
+### Other realms
+
+- **Same rules as you**: Exactly your rules - No discounts, no gifts, no faster refills. If a rival is weak, it is weak.
+- **Writing the aims**: A few aims per realm per era, sourced
+- **Which ruler traits matter**: The full trait list
+- **How your deeds change their view**: Everything counted, shown in their hover card
+- **Seeing their plans**: Only what spies and envoys learn
+- **Buildings by history**: History's own on their dates, then by need
+
+### Provinces
+
+- **What each province kind does**: As history had them - Core: full tax and levies. Conquered: less of both until integrated. Allied city: governs itself, sends troops not tax. Client kingdom: its own king, tribute, may rebel. Temple-state: priests rule, calm and pious, little tax. Colony: your people, fast loyalty, grows slowly. Frontier march: strong garrison, less tax, raises men.
+- **Changing a province's kind**: You choose, at a cost and with conditions - A conquered province becomes core when integrated; a client kingdom can be annexed after some years; a frontier march can be made of a border province.
+- **Who can govern**: Your family, nobles and courtiers; a governorship of a few neighbouring provinces - As the Roman provinciae or the Persian satrapies; in republics former magistrates (your answer 'Governors in republics').
+- **Governors who grow too strong**: Their power grows with years in post, troops and wealth; a strong, disloyal one may refuse recall or rebel - You can recall them before they grow, at the cost of their goodwill.
+
+### Saves, speed and data
+
+- **Save size**: Keep everything
+- **Named saves**: Any number of named saves
+- **Ironman**: An optional one-save mode
+- **Speed in later eras**: Allow slower years later
+- **A program to share**: A Windows program you can run without Godot, later a store page
+- **Mods**: A mods folder that can add or change data
+
+### Sound and music
+
+- **Who makes the music**: Generated pieces go in now; you replace any you remake
+- **Each culture's instruments**: Yes, each culture its own instruments - Greek: lyre and aulos. Rome: tibia and cornu. Egypt: harp and sistrum. Mesopotamia: harp and lyre. Celts: carnyx and horns.
+- **Instruments by situation**: Yes - War: trumpets and horns (salpinx, tuba, cornu, carnyx). Temples: sistrum, cymbals, pipes. Peace and court: lyre, kithara, harp. Feasts: aulos, barbitos, frame drum.
+- **Instruments that arrive with history**: When your realm learns them (a technology) - The hydraulis would be a technology you can research.
+- **Jingles, bells and cymbals**: your own answer Your note: "This was misunderstood, I told you it was not the generator, it worked fine, the jingling I heard was from other games not the generation"
+- **Which sound effects first**: All the 'Now' sounds (46) - Everything the game can already play: about 1,600 credits.
+- **How sounds change with the era**: War, ships and crowds change; the interface stays - Bronze and chariots, iron and legions, mail and horses, gunpowder, engines.
+- **Sounds by culture**: Yes, for war horns and cries - Celtic carnyx, Roman cornu, Greek salpinx, Persian and Egyptian trumpets.
+- **What gets a spoken voice (soon: free for a week)**: As (a), plus a line for every disaster, war and peace in history's own events - About 40,000 characters, two takes 80,000.
+- **The narrator's voice**: A narrator for each age (an ancient bard, a medieval chronicler, a modern newsreader)
+- **Voices in ancient languages**: Yes, short lines and war cries in their own tongue, subtitles in English - Pronunciation of dead languages is a reconstruction.
+
+### War: armies, units and generals
+
+- **Retraining old units**: The price difference and months of training; keeps half their experience
+- **Slave soldiers**: Both
+- **How traditions form**: From history, plus earned ones
+- **Losing traditions**: Both
+- **Order of modern arms**: When the timeline reaches gunpowder
+- **Other realms and nuclear weapons**: As history: never used after 1945 unless you use them first Your note: "Also in extremis, a nuclear capable state won't let its history be destroyed without using its last resort, so any nuclear capable realm has a chance of using one that increases as it loses large swathes of provinces. There will also be terrorist states in the game starting around 1900 like in the real world."
+
+### Voices **(scripts written, 12 Oct 2026)**
+
+From What gets a spoken voice, The narrator's voice, Voices in ancient
+languages and An adviser:
+
+- **The script**: 206 lines, about 19,300 characters, in
+  `data/voice_lines.json` (built by `tools/voice/build_lines.py`; a
+  readable copy is `docs/Voice-script.md`): the opening history lesson
+  in seven scenes (Göbekli Tepe, the first grain and Jericho,
+  Çatalhöyük, the rivers and Eridu, Uruk and writing, the first
+  states, and a bridge to 300 BC), 8 tips and 11 first steps, 5 new
+  ages, 38 wonders finished, 53 disasters, and the start and the peace
+  of history's 38 wars, plus 8 war cries.
+- **Narrators by age**: the bard speaks for anything before 600, the
+  chronicler from 600 to 1800, the newsreader from 1800. A line belongs
+  to the year history gives it (a wonder's narrator is set by the year
+  history finished it, even if you finish it sooner).
+- **The adviser at court** speaks the tutorial, in period voice.
+- **War cries in their own tongue** (Latin, Greek, Punic, Gaulish),
+  with English subtitles; the pronunciation is a reconstruction.
+- **Wonder lines name no builder**, since anyone may finish them; war
+  lines say only that peace is made, since history may not repeat.
+- Two takes of each line, made with ElevenLabs' newest voice model
+  (free for a week), saved as `assets/voice/<line>.mp3` and
+  `assets/voice/takes/<line>_b.mp3`. Playing them in the game comes
+  next, with the sound effects.
