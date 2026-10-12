@@ -2966,6 +2966,9 @@ languages and An adviser:
   states, and a bridge to 300 BC), 8 tips and 11 first steps, 5 new
   ages, 38 wonders finished, 53 disasters, and the start and the peace
   of history's 38 wars, plus 8 war cries.
+- **The voices you chose** (12 Oct 2026): bard 2, chronicler 2,
+  newsreader 1, adviser 1, warrior 2, all saved in the ElevenLabs voice
+  library.
 - **Narrators by age**: the bard speaks for anything before 600, the
   chronicler from 600 to 1800, the newsreader from 1800. A line belongs
   to the year history gives it (a wonder's narrator is set by the year
