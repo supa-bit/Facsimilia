@@ -1,9 +1,9 @@
 """Fetch a free photograph for each of the opening's ancient places.
 
-For each place in data/opening.json this looks up its Wikipedia article
-(ARTICLES below), takes the photographs the article shows, and keeps the
-first whose licence on Wikimedia Commons allows any use, commercial
-included, with credit: public domain, CC0, CC BY or CC BY-SA (never
+For each place in data/opening.json this reads its Wikimedia Commons
+category (CATEGORIES, else ARTICLES below) and keeps the first photograph
+whose licence on its Commons page allows any use, commercial included,
+with credit: public domain, CC0, CC BY or CC BY-SA (never
 "non-commercial" or "no derivatives"). Maps and drawings are skipped.
 
 Writes assets/opening/sites/<key>.jpg (at most 960 pixels wide) and
@@ -18,6 +18,7 @@ Overrides: OVERRIDE maps a place to a Commons file name to use instead.
 Usage: python3 tools/fetch_opening_photos.py
 Needs Pillow.
 """
+import html
 import io
 import json
 import os
@@ -34,7 +35,7 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 OUT = os.path.join(ROOT, "assets", "opening", "sites")
 INDEX = os.path.join(ROOT, "data", "opening_photos.json")
 UA = "FacsimiliaGameAssets/1.0 (https://github.com/supa-bit/Facsimilia; credits kept in the game)"
-PAUSE = 6.0   # Wikimedia throttles shared cloud addresses hard
+PAUSE = 4.0   # Wikimedia throttles shared cloud addresses hard
 
 ARTICLES = {
     "abu_hureyra": "Tell Abu Hureyra", "franchthi": "Franchthi Cave", "gobekli_tepe": "Göbekli Tepe",
@@ -49,10 +50,13 @@ ARTICLES = {
     "badari": "Badarian culture", "susa": "Susa", "tell_brak": "Tell Brak", "uruk": "Uruk",
     "naqada": "Naqada", "hierakonpolis": "Nekhen", "arslantepe": "Arslantepe", "ggantija": "Ġgantija",
 }
+# Commons categories where they differ from the article's name.
+CATEGORIES = {
+    "ain_ghazal": "Ain Ghazal", "ubaid": "Tell al-Ubaid", "merimde": "Merimde Beni Salama",
+    "cucuteni": "Cucuteni-Trypillia culture", "hierakonpolis": "Hierakonpolis", "vinca": "Vinča-Belo Brdo",
+}
 OVERRIDE = {}
 
-FREE = re.compile(r"\{\{\s*(cc-zero|cc0|pd[-\w]*|public domain|cc-by(-sa)?-[\d.]+[\w,-]*|cc-by(-sa)?-all|"
-                  r"self\|[^}]*?(cc-by(-sa)?-[\d.]+|cc-zero|pd)[^}]*|fal|attribution|copyrighted free use)", re.I)
 NOT_FREE = re.compile(r"(-nc\b|-nd\b|noncommercial|non-commercial|fair use|non-free)", re.I)
 SKIP_NAME = re.compile(r"(map|karte|carte|plan\b|location|\.svg$|\.tif|diagram|chart|logo|flag)", re.I)
 
@@ -73,45 +77,36 @@ def get(url, binary=False):
             time.sleep(wait)
 
 
-def article_images(title):
-    t = urllib.parse.quote(title.replace(" ", "_"), safe="")
-    names = []
+def category_files(category):
+    """The photographs in a Commons category, in the order the category page lists them."""
+    url = "https://commons.wikimedia.org/wiki/" + urllib.parse.quote("Category:" + category.replace(" ", "_"))
     try:
-        media = json.loads(get(f"https://en.wikipedia.org/api/rest_v1/page/media-list/{t}"))
-        for item in media.get("items", []):
-            if item.get("type") == "image" and item.get("title", "").startswith("File:"):
-                names.append(item["title"][5:])
+        page = get(url)
     except Exception as e:  # noqa: BLE001
-        print(f"  media-list {title}: {e}", file=sys.stderr)
-    return [n for n in names if not SKIP_NAME.search(n)]
+        print(f"  category {category}: {e}", file=sys.stderr)
+        return []
+    names = []
+    for m in re.finditer(r'href="/wiki/File:([^"#?]+)"', page):
+        name = urllib.parse.unquote(m.group(1)).replace("_", " ")
+        if name not in names and re.search(r"\.jpe?g$", name, re.I) and not SKIP_NAME.search(name):
+            names.append(name)
+    return names
 
 
 def licence(file_name):
-    """The free licence and author of a Commons file, or None."""
-    title = urllib.parse.quote(("File:" + file_name).replace(" ", "_"), safe=":")
-    text = get(f"https://commons.wikimedia.org/w/index.php?title={title}&action=raw")
-    if NOT_FREE.search(text):
+    """The free licence and author of a Commons file, read from its page; None unless free for any use."""
+    page = get("https://commons.wikimedia.org/wiki/" + urllib.parse.quote("File:" + file_name.replace(" ", "_")))
+    shorts = [html.unescape(re.sub(r"<[^>]+>", "", m)).strip()
+              for m in re.findall(r'licensetpl(?:_|&#95;)short"[^>]*>(.*?)</span>', page, re.S)]
+    if not shorts or any(NOT_FREE.search(x) or re.search(r"\b(NC|ND)\b", x) for x in shorts):
         return None
-    m = FREE.search(text)
-    if not m:
+    free = [x for x in shorts if re.match(r"(CC BY|CC0|Public domain|PD)", x, re.I)]
+    if not free:
         return None
-    lic = m.group(1).split("|")[-1] if m.group(1).lower().startswith("self") else m.group(1)
-    a = re.search(r"\|\s*[Aa]uthor\s*=\s*(.+)", text)
-    author = clean(a.group(1)) if a else "unknown"
-    if author.lower() in ("author", "unknown", "own work", "self"):
-        u = re.search(r"\[\[\s*[Uu]ser:([^|\]]+)", a.group(1) if a else text)
-        author = u.group(1).strip() if u else author
-    return {"licence": lic.strip().upper().replace("CC-", "CC ").replace("PD-", "Public domain: "),
-            "author": author}
-
-
-def clean(wiki):
-    s = re.sub(r"\[\[(?:[^|\]]*\|)?([^\]]+)\]\]", r"\1", wiki)
-    s = re.sub(r"\[https?://\S+ ([^\]]+)\]", r"\1", s)
-    s = re.sub(r"\{\{[Uu]ser:[^}|]*\|?([^}]*)\}\}", r"\1", s)
-    s = re.sub(r"\{\{[^}]*\|([^}|]+)\}\}", r"\1", s)
-    s = re.sub(r"<[^>]+>|'''?|\{\{|\}\}", "", s)
-    return s.strip()[:120] or "unknown"
+    a = re.search(r'fileinfotpl(?:_|&#95;)aut".*?</td>\s*<td[^>]*>(.*?)</td>', page, re.S)
+    author = html.unescape(re.sub(r"<[^>]+>", " ", a.group(1))) if a else "unknown"
+    author = re.sub(r"\s+", " ", author).strip()[:120] or "unknown"
+    return {"licence": free[0], "author": author}
 
 
 def download(file_name, key):
@@ -139,7 +134,7 @@ def main():
         key = place["key"]
         if key in index and os.path.exists(os.path.join(OUT, f"{key}.jpg")):
             continue
-        candidates = [OVERRIDE[key]] if key in OVERRIDE else article_images(ARTICLES[key])
+        candidates = [OVERRIDE[key]] if key in OVERRIDE else category_files(CATEGORIES.get(key, ARTICLES[key]))
         for name in candidates[:8]:
             try:
                 lic = licence(name)
