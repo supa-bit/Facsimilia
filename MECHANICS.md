@@ -2241,6 +2241,50 @@ Age fits in; When settlements become polities; What the opening shows;
 Watching the opening; Is the opening simulated?; How the collapse plays;
 What makes the Bronze Age different; When to build the Bronze Age.
 
+### The opening **(built, 13 Oct 2026)**
+
+From your answers What the opening shows (the map coming to life, and
+each place can be opened), Watching the opening (plays by itself, and you
+can pause, slow it down or speed it up) and Is the opening simulated?:
+
+- **When**: a new game begins with it, before you choose your realm.
+  Skip at any time (Skip, or Esc); Settings, Gameplay, "Show the opening"
+  turns it off.
+- **The years** run from 10,000 BC to 300 BC across the map, in seven
+  chapters, one for each of the bard's scenes (Göbekli Tepe, the first
+  grain and Jericho, Çatalhöyük, the rivers and Eridu, Uruk, the first
+  states, and the bridge to 300 BC). Each chapter begins with its year
+  read aloud, then the scene; the clock runs while it is told and the
+  view moves to where the story is (the hills of the Fertile Crescent
+  first, the whole map by the end). It lasts about five minutes.
+- **People** spread and multiply as HYDE 3.2.1 has them, one picture
+  every thousand years (`data/opening/pop_<year>.png`, made by
+  `tools/build_opening_population.py`), blended as steady growth in
+  between: hunters barely show, farmland glows, towns and cities shine.
+  The last picture is the game's own 300 BC population, so the opening
+  hands over exactly the world you then play.
+- **The places**: 38 ancient sites (`data/opening.json`) light up in
+  their years, their names showing for a while. Click one (the years
+  pause) to read and hear its story; Continue, and the bard says "And so
+  the years run on" and picks up where he stopped.
+- **The step of the story** (18 of them, from the hunters to the first
+  states) shows under the year; "Tell me" pauses and reads it out.
+- **Controls**: Pause (Space), Slower (half speed), Faster (two or four
+  times; the bard is cut short when the next scene begins), Skip. At half
+  speed there is time between scenes, and the bard reads the thousands of
+  years as the clock passes them.
+- **The first time** you watch it, the bard explains the controls before
+  the years begin.
+- **Narrators off** (Settings, Audio): the words stay on screen for as
+  long as they would take to say.
+- **Not yet**: a picture for each place (a question on the Ledger,
+  "Pictures for the opening's places"); the game's own population and
+  farming engine running the opening, rather than HYDE's record (your
+  answer to Is the opening simulated?, kept for when the engine can
+  start before 300 BC); ending at 3500 BC instead of 300 BC, when the
+  Bronze Age start (your answer to When settlements become polities) is
+  built.
+
 ## Buildings and works, part three: roads **(built, 11 Oct 2026)**
 
 From your answers on the Ledger (How roads are drawn, Kinds of road,
@@ -3070,9 +3114,11 @@ languages and An adviser:
 - **Also spoken**: the adviser reads each first step of the tutorial
   and each tip; choosing a realm plays its introduction; the end of the
   game (or the fall of your realm) has its last word.
-- **Not yet spoken** (their systems aren't built): the opening
-  cutscene, the adviser's warnings, lessons and replies, envoys'
-  answers, history lessons, war and victory cries. Great works (canals,
+- **The opening's lines** (scenes, years, places, steps, help) play in
+  the opening (see "The opening").
+- **Not yet spoken** (their systems aren't built): the adviser's
+  warnings, lessons and replies, envoys' answers, history lessons, war
+  and victory cries. Great works (canals,
   dams) have no lines of their own and use "the work is finished".
 - **One line at a time**: while one is spoken, at most one more waits;
   anything more is dropped, so speech never falls behind play.

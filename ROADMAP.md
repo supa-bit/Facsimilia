@@ -140,7 +140,12 @@ stops time).
       like a cutscene and history lesson from Göbekli Tepe through
       Çatalhöyük to the first polities, where play begins; the Hattians,
       the Hittites, Ugarit and the Late Bronze Age collapse. Waits on the
-      Bronze Age questions on the Ledger.
+      Bronze Age questions on the Ledger. The opening is built (13 Oct
+      2026): 10,000 BC to 300 BC on the map, the bard's seven scenes, 38
+      places to open, people spreading as HYDE has them, pause, slower,
+      faster and skip. Next: a picture for each place, the game's own
+      engine running it, and ending at 3500 BC once the Bronze Age start
+      is built.
 
 Answered 12 Oct 2026 and waiting on their systems (recorded in MECHANICS.md,
 "Your answers of 12 October 2026"): more road kinds (corduroy, cobbles,
@@ -177,7 +182,7 @@ traditions, nuclear weapons in extremis and terrorist states from 1900).
       tips, plus realm introductions and the end; Settings has "Narrators
       speak" and "Voice Volume"; the main menu's Voices screen plays take
       A and B of every line and keeps your choice. Still to hook up when
-      their systems exist: the opening cutscene, warnings, lessons,
+      their systems exist: warnings, lessons,
       replies, envoys, war and victory cries.
 
 ## Right now

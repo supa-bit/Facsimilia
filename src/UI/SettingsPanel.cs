@@ -76,6 +76,10 @@ public partial class SettingsPanel : Control
         fight.Toggled += on => store.SetFightBattles(on);
         gameplay.AddChild(Row("Fight battles yourself", fight,
             "When your army meets an enemy, time stops and the battle map opens. Off: your generals fight every battle for you."));
+        var opening = new CheckBox { ButtonPressed = store.ShowOpening };
+        opening.Toggled += on => store.SetShowOpening(on);
+        gameplay.AddChild(Row("Show the opening", opening,
+            "A new game begins with the story from Göbekli Tepe to 300 BC. It can always be skipped."));
 
         var back = new Button { Text = "Back" };
         back.Pressed += () => EmitSignal(SignalName.Closed);

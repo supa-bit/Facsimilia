@@ -53,6 +53,14 @@ public partial class GameRoot : Node2D
     async Task StartNewGame()
     {
         await RunLoadingScreen("FACSIMILIA", "The known world, 300 BC", IntroMinSeconds, null);
+        if (SettingsStore.Instance.ShowOpening && Voice.Instance != null)
+        {
+            // The opening: from Göbekli Tepe to 300 BC (src/UI/Opening.cs), then the realms to choose from.
+            var opening = new Opening { Theme = ThemeAncient.Build() };
+            _uiLayer.AddChild(opening);
+            await ToSignal(opening, Opening.SignalName.Finished);
+            opening.QueueFree();
+        }
         CivSelect = CivSelectScene.Instantiate<CivSelect>();
         CivSelect.Theme = ThemeAncient.Build();
         _uiLayer.AddChild(CivSelect);

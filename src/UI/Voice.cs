@@ -108,6 +108,12 @@ public partial class Voice : Node
         return FileAccess.FileExists(path) ? AudioStreamMP3.LoadFromFile(path) : null;
     }
 
+    /// <summary>The chosen take of a line, for scenes that play their own sound (the opening).</summary>
+    public AudioStream? StreamOf(string id) => Load(id, Catalog.TakeOf(id));
+
+    /// <summary>The volume the narrators speak at, in decibels.</summary>
+    public static float VolumeDb => Mathf.LinearToDb(Mathf.Max(SettingsStore.Instance.VoiceVolume, 0.0001f));
+
     bool Play(string id, string take)
     {
         if (Load(id, take) is not { } stream)

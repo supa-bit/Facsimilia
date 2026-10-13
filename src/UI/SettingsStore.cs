@@ -43,6 +43,24 @@ public partial class SettingsStore : Node
         Save();
     }
 
+    /// <summary>A new game begins with the opening, from Göbekli Tepe to 300 BC (it can always be skipped).</summary>
+    public bool ShowOpening { get; private set; } = true;
+
+    /// <summary>Whether the opening has been watched before; its first showing explains the controls aloud.</summary>
+    public bool OpeningSeen { get; private set; }
+
+    public void SetShowOpening(bool value)
+    {
+        ShowOpening = value;
+        Save();
+    }
+
+    public void MarkOpeningSeen()
+    {
+        OpeningSeen = true;
+        Save();
+    }
+
     public void SetFightBattles(bool value)
     {
         FightBattles = value;
@@ -115,6 +133,8 @@ public partial class SettingsStore : Node
         AutosaveInterval = ValidInterval(config.GetValue("gameplay", "autosave_interval", AutosaveInterval).AsInt32());
         FightBattles = config.GetValue("gameplay", "fight_battles", FightBattles).AsBool();
         VoiceEnabled = config.GetValue("audio", "voice_enabled", VoiceEnabled).AsBool();
+        ShowOpening = config.GetValue("gameplay", "show_opening", ShowOpening).AsBool();
+        OpeningSeen = config.GetValue("gameplay", "opening_seen", OpeningSeen).AsBool();
         VoiceVolume = Mathf.Clamp(config.GetValue("audio", "voice_volume", VoiceVolume).AsSingle(), 0f, 1f);
     }
 
@@ -126,6 +146,8 @@ public partial class SettingsStore : Node
         config.SetValue("gameplay", "autosave_interval", AutosaveInterval);
         config.SetValue("gameplay", "fight_battles", FightBattles);
         config.SetValue("audio", "voice_enabled", VoiceEnabled);
+        config.SetValue("gameplay", "show_opening", ShowOpening);
+        config.SetValue("gameplay", "opening_seen", OpeningSeen);
         config.SetValue("audio", "voice_volume", VoiceVolume);
         config.Save(SavePath);
     }
