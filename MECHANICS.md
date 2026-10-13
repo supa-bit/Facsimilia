@@ -2953,7 +2953,7 @@ exits with 1 if any check fails.
 - **Order of modern arms**: When the timeline reaches gunpowder
 - **Other realms and nuclear weapons**: As history: never used after 1945 unless you use them first Your note: "Also in extremis, a nuclear capable state won't let its history be destroyed without using its last resort, so any nuclear capable realm has a chance of using one that increases as it loses large swathes of provinces. There will also be terrorist states in the game starting around 1900 like in the real world."
 
-### Voices **(all 1009 lines voiced, 13 Oct 2026)**
+### Voices **(all 1024 lines voiced, 13 Oct 2026)**
 
 From What gets a spoken voice, The narrator's voice, Voices in ancient
 languages and An adviser:
@@ -3035,6 +3035,9 @@ languages and An adviser:
   vaccination, railways, electricity, the atomic bomb, space flight
   and more); a temple built, pilgrims, a heresy put down and a
   festival, told by each narrator; and 6 more tips from the adviser.
+  Then 15 more short adviser replies ("Good news, my lord!", "Bad news,
+  my lord", "A letter has come for you").
+
 - **The voices you chose** (12 Oct 2026): bard 2, chronicler 2,
   newsreader 1, adviser 1, warrior 2, all saved in the ElevenLabs voice
   library.

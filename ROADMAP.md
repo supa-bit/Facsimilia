@@ -161,7 +161,7 @@ technologies); sound effects (all 46 "Now" sounds, war, ships and crowds by
 era, horns and cries by culture); armies (retraining, slave soldiers,
 traditions, nuclear weapons in extremis and terrorist states from 1900).
 
-- [~] **Voices** (12-13 Oct 2026): the script is written (1009 lines:
+- [~] **Voices** (12-13 Oct 2026): the script is written (1024 lines:
       opening, tutorial, ages, wonders, disasters, history's wars, war
       cries, plus history lessons, moments of play in each narrator's
       voice, the adviser's lessons, warnings and replies, victory cries, the

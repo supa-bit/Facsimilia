@@ -8903,6 +8903,141 @@
    "lang": "en"
   },
   {
+   "id": "reply_no_silver",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "no_silver",
+   "text": "We have not the silver for that, my lord.",
+   "subtitle": "We have not the silver for that, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_no_men",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "no_men",
+   "text": "We have not the men for that, my lord.",
+   "subtitle": "We have not the men for that, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_enemy_stronger",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "enemy_stronger",
+   "text": "Their army is stronger than ours, my lord. Think carefully.",
+   "subtitle": "Their army is stronger than ours, my lord. Think carefully.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_good_news",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "good_news",
+   "text": "Good news, my lord!",
+   "subtitle": "Good news, my lord!",
+   "lang": "en"
+  },
+  {
+   "id": "reply_bad_news",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "bad_news",
+   "text": "[gravely] Bad news, my lord.",
+   "subtitle": "Bad news, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_news_from_front",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "news_from_front",
+   "text": "News from the front, my lord.",
+   "subtitle": "News from the front, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_letter",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "letter",
+   "text": "A letter has come for you, my lord.",
+   "subtitle": "A letter has come for you, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_as_before",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "as_before",
+   "text": "All is as it was, my lord.",
+   "subtitle": "All is as it was, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_well_done",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "well_done",
+   "text": "Well done, my lord. History will remember this.",
+   "subtitle": "Well done, my lord. History will remember this.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_careful",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "careful",
+   "text": "Careful, my lord. This cannot be undone.",
+   "subtitle": "Careful, my lord. This cannot be undone.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_patience",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "patience",
+   "text": "Patience, my lord. Great things take time.",
+   "subtitle": "Patience, my lord. Great things take time.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_welcome_new",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "welcome_new",
+   "text": "Welcome, my lord. Your realm awaits your command.",
+   "subtitle": "Welcome, my lord. Your realm awaits your command.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_all_quiet",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "all_quiet",
+   "text": "The realm is quiet, my lord.",
+   "subtitle": "The realm is quiet, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_harvest_in",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "harvest_in",
+   "text": "The harvest is in, my lord.",
+   "subtitle": "The harvest is in, my lord.",
+   "lang": "en"
+  },
+  {
+   "id": "reply_your_turn",
+   "voice": "adviser",
+   "plays": "adviser_reply",
+   "key": "your_turn",
+   "text": "The world waits upon your word, my lord.",
+   "subtitle": "The world waits upon your word, my lord.",
+   "lang": "en"
+  },
+  {
    "id": "reply_yes_1",
    "voice": "adviser",
    "plays": "adviser_reply",

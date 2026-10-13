@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-1009 lines, 80,900 characters.
+1024 lines, 81,448 characters.
 
 ## The opening (the bard)
 
@@ -855,6 +855,21 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **reply_learned** (adviser): Our scholars have learned something new, my lord.
 - **reply_goodnight** (adviser): Rest well, my lord. The realm will keep until morning.
 - **reply_farewell** (adviser): Farewell, my lord. History will wait for your return.
+- **reply_no_silver** (adviser): We have not the silver for that, my lord.
+- **reply_no_men** (adviser): We have not the men for that, my lord.
+- **reply_enemy_stronger** (adviser): Their army is stronger than ours, my lord. Think carefully.
+- **reply_good_news** (adviser): Good news, my lord!
+- **reply_bad_news** (adviser): [gravely] Bad news, my lord.
+- **reply_news_from_front** (adviser): News from the front, my lord.
+- **reply_letter** (adviser): A letter has come for you, my lord.
+- **reply_as_before** (adviser): All is as it was, my lord.
+- **reply_well_done** (adviser): Well done, my lord. History will remember this.
+- **reply_careful** (adviser): Careful, my lord. This cannot be undone.
+- **reply_patience** (adviser): Patience, my lord. Great things take time.
+- **reply_welcome_new** (adviser): Welcome, my lord. Your realm awaits your command.
+- **reply_all_quiet** (adviser): The realm is quiet, my lord.
+- **reply_harvest_in** (adviser): The harvest is in, my lord.
+- **reply_your_turn** (adviser): The world waits upon your word, my lord.
 - **reply_yes_1** (adviser): As you command, my lord.
 - **reply_yes_2** (adviser): It shall be done.
 - **reply_yes_3** (adviser): At once, my lord.

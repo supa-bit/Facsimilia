@@ -1654,6 +1654,26 @@ for k, t in {
 }.items():
     add(f"tip_{k}", "adviser", "tip", k, t)
 
+# Quick extra replies (13 Oct 2026, more lines while free).
+for k, t in {
+    "no_silver": "We have not the silver for that, my lord.",
+    "no_men": "We have not the men for that, my lord.",
+    "enemy_stronger": "Their army is stronger than ours, my lord. Think carefully.",
+    "good_news": "Good news, my lord!",
+    "bad_news": "[gravely] Bad news, my lord.",
+    "news_from_front": "News from the front, my lord.",
+    "letter": "A letter has come for you, my lord.",
+    "as_before": "All is as it was, my lord.",
+    "well_done": "Well done, my lord. History will remember this.",
+    "careful": "Careful, my lord. This cannot be undone.",
+    "patience": "Patience, my lord. Great things take time.",
+    "welcome_new": "Welcome, my lord. Your realm awaits your command.",
+    "all_quiet": "The realm is quiet, my lord.",
+    "harvest_in": "The harvest is in, my lord.",
+    "your_turn": "The world waits upon your word, my lord.",
+}.items():
+    add(f"reply_{k}", "adviser", "adviser_reply", k, t)
+
 # ------------------------------------------------------- adviser replies
 REPLIES = {
     "yes_1": "As you command, my lord.",
