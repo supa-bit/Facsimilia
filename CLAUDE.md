@@ -69,9 +69,15 @@ designer to do anything: just keep committing and pushing to the same branch.
 ## Building and testing
 
 - Build: `dotnet build` (the session hook installs .NET and Godot).
-- Tests: `godot --headless --path . --script res://src/Tests/<Name>Test.cs`
-  for each file in `src/Tests/`; all must pass before pushing. GitHub runs
-  them too (the Tests workflow).
+- Tests (the designer's rule, 13 Oct 2026: this is not a live game, so the
+  long tests need not run every time): `tools/run_tests.sh` runs the quick
+  ones (all but the slow ones listed in it), `tools/run_tests.sh full`
+  runs every test, `tools/run_tests.sh VoiceTest OpeningTest` runs just
+  those. Every commit: the quick tests plus any test for what changed must
+  pass before pushing. Every third commit (and before a milestone merge
+  into `master`): the full run. End each commit message with a line
+  "Tests: quick" or "Tests: full", so the last full run is easy to find.
+  GitHub runs every test on each push anyway (the Tests workflow).
 - Check visible changes in the running game with screenshots before
   saying they work.
 - After changing MECHANICS.md, rebuild the PDF: `python3 tools/build_docs_pdf.py`.
