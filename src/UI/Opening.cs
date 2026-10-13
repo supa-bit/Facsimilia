@@ -488,7 +488,7 @@ void fragment() {
         {
             _photo.Texture = GD.Load<Texture2D>(path);
             _photo.Visible = true;
-            _photoCredit.Text = $"{site.Name} today. Photo: {credit.Author}, {credit.Licence}, via Wikimedia Commons (full credits: assets/opening/sites/CREDITS.md).";
+            _photoCredit.Text = $"Photo: {credit.Author}, {credit.Licence}, via Wikimedia Commons (full credits: assets/opening/sites/CREDITS.md).";
         }
     }
 

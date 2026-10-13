@@ -55,7 +55,19 @@ CATEGORIES = {
     "ain_ghazal": "Ain Ghazal", "ubaid": "Tell al-Ubaid", "merimde": "Merimde Beni Salama",
     "cucuteni": "Cucuteni-Trypillia culture", "hierakonpolis": "Hierakonpolis", "vinca": "Vinča-Belo Brdo",
 }
-OVERRIDE = {}
+# Chosen by hand where the category's first free photo shows the wrong age or nothing useful.
+OVERRIDE = {
+    "khirokitia": "Choirokoitia-excavations.jpg",
+    "vinca": "Archaeological site in Vinča, exhibition.jpg",
+    "merimde": "Merimde clay head, Predynastic Period, Maadi Era, 4th millennium BCE.jpg",
+    "uruk": "Uruk Archaeological site at Warka.jpg",
+    "susa": "IranSusaRuinenfeld.jpg",
+    "halaf": "Bowl from Tell Arpachiyah, Iraq. The bowl was found fragmented, and the pieces were scattered over the floor before the building was slight. 6000-5000 BCE. British Museum.jpg",
+    "samarra": "Samarra bowl.jpg",
+    "ubaid": "Tel Ubaid.jpg",
+    "ghassul": "The Ghassulian star.jpg",
+    "badari": "Polished bowl with rippled surface. Matmar, grave 2110. Badarian culture.jpg",
+}
 
 NOT_FREE = re.compile(r"(-nc\b|-nd\b|noncommercial|non-commercial|fair use|non-free)", re.I)
 SKIP_NAME = re.compile(r"(map|karte|carte|plan\b|location|\.svg$|\.tif|diagram|chart|logo|flag)", re.I)
@@ -106,6 +118,12 @@ def licence(file_name):
     a = re.search(r'fileinfotpl(?:_|&#95;)aut".*?</td>\s*<td[^>]*>(.*?)</td>', page, re.S)
     author = html.unescape(re.sub(r"<[^>]+>", " ", a.group(1))) if a else "unknown"
     author = re.sub(r"\s+", " ", author).strip()[:120] or "unknown"
+    if author.lower() in ("unknown", "myself", "own work", "author", "self", "i"):
+        # "Own work": the photographer is the uploader, named in the author cell's or file history's user link.
+        cell = a.group(1) if a else ""
+        u = re.search(r'/wiki/User:([^"#?]+)"', cell) or re.search(r'/wiki/User:([^"#?]+)"', page)
+        if u:
+            author = urllib.parse.unquote(u.group(1)).replace("_", " ")
     return {"licence": free[0], "author": author}
 
 
