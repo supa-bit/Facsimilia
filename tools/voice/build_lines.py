@@ -1314,6 +1314,268 @@ for k, texts in BRONZE.items():
     for i, t in enumerate(texts):
         add(f"moment_{k}_bard_{i + 1}", "bard", "moment", k, t)
 
+# ------------------------------------------- the history lesson goes on
+# Asked 13 Oct 2026 (more lines while voicing is free): the story after
+# 300 BC, each part told by the narrator of its own age.
+LATER = [
+    ("punic", -264, "Rome and Carthage, the land power and the sea power, fought three wars across a hundred "
+     "and twenty years. Hannibal crossed the Alps with his elephants and crushed the Romans at Cannae, "
+     "[pause] but Rome would not make peace, and in the end Carthage was burned to the ground."),
+    ("greece_falls", -146, "In the same year that Carthage fell, Rome sacked Corinth. The kingdoms of "
+     "Alexander's heirs fell one by one, until only Egypt was left, and its last queen, Cleopatra."),
+    ("caesar", -44, "Julius Caesar conquered Gaul, crossed the Rubicon and made himself master of Rome. "
+     "[pause] On the Ides of March, at a meeting of the senate, his own friends stabbed him to death."),
+    ("augustus", -27, "His heir Octavian beat Antony and Cleopatra, and took the name Augustus. He called "
+     "himself only the first citizen, but he was the first emperor, and the Roman peace lasted two hundred years."),
+    ("christianity", 312, "In Judaea, under Roman rule, a teacher named Jesus was crucified. His followers "
+     "carried his word across the empire, and in time even the emperor Constantine took the cross."),
+    ("rome_falls", 476, "[gravely] The empire split in two. In the west, Goths, Vandals and Franks broke "
+     "through the frontiers, and Rome itself was sacked. In four hundred and seventy-six, the last emperor "
+     "of the west was sent away to live out his days in Campania."),
+    ("justinian", 537, "In Constantinople, the emperor Justinian gathered the laws of Rome into one book, "
+     "raised the great church of Hagia Sophia, and sent his generals to win back Africa and Italy. "
+     "[pause] Then the plague came."),
+    ("islam", 632, "In Arabia, the prophet Muhammad preached one God. Within a hundred years of his death, "
+     "the armies of the caliphs ruled from Spain to the river Indus."),
+    ("vikings", 793, "Out of the north came the Northmen in their long ships. They raided Lindisfarne, "
+     "sailed up the rivers to Paris, traded at Constantinople, and settled from Normandy to the rivers of Russia."),
+    ("charlemagne", 800, "On Christmas Day in the year eight hundred, the pope crowned Charlemagne, king of "
+     "the Franks, emperor in Rome. His empire did not long outlive him, but the idea of it lasted a thousand years."),
+    ("crusades", 1099, "Called by the pope, the knights of the west marched to take Jerusalem, and in "
+     "ten ninety-nine they took it, in blood. Within a century, Saladin had taken it back."),
+    ("mongols", 1258, "[gravely] From the steppe came the Mongols of Genghis Khan and his heirs. In twelve "
+     "fifty-eight they took Baghdad and killed the last caliph. Their empire was the greatest the world had seen."),
+    ("black_death", 1347, "[gravely] In thirteen forty-seven a plague came from the east on Genoese ships. "
+     "In five years, perhaps a third of all Europe died."),
+    ("constantinople", 1453, "In fourteen fifty-three the young sultan Mehmed brought great cannon against "
+     "the walls of Constantinople. The city fell, and the last Roman emperor died fighting in the breach."),
+    ("printing", 1455, "In Mainz, Johannes Gutenberg printed a Bible with movable type. Within fifty years, "
+     "millions of books had poured from the presses of Europe."),
+    ("discovery", 1492, "Columbus sailed west and found a new world. Da Gama sailed round Africa to India. "
+     "The sea roads of the world were opened, and the old world was never the same."),
+    ("reformation", 1517, "At Wittenberg, a monk named Martin Luther posted his theses against the "
+     "selling of pardons, and the church of the west was split in two. A century of wars of religion followed."),
+    ("ottomans", 1529, "Suleiman the Magnificent ruled from Hungary to Baghdad, and laid siege to Vienna. "
+     "His fleets were masters of the eastern sea."),
+    ("westphalia", 1648, "The Thirty Years' War laid waste to Germany. At the peace of Westphalia, the "
+     "powers agreed that each state was master in its own house."),
+    ("enlightenment", 1750, "In the salons of Paris and the coffee houses of London, men and women asked "
+     "what makes a ruler's power just. Reason, they said, not birth."),
+    ("revolution", 1789, "[dramatically] In seventeen eighty-nine the people of Paris stormed the Bastille. "
+     "The king lost his crown, then his head, and the old order of Europe began to fall."),
+    ("napoleon", 1804, "Napoleon Bonaparte, a soldier from Corsica, crowned himself emperor of the French. "
+     "He beat every army in Europe, until Russia and its winter broke him, and Waterloo finished him."),
+    ("industry", 1830, "Steam engines drove the mills, and railways crossed the land. The cities swelled "
+     "with workers, smoke darkened the sky, and the world began to change faster than ever before."),
+    ("nations", 1871, "Italy was united, and then Germany, proclaimed an empire in the Hall of Mirrors at "
+     "Versailles. The old empires shook, as their peoples demanded nations of their own."),
+    ("great_war", 1914, "[gravely] In nineteen fourteen, a shot in Sarajevo set the great powers at war. "
+     "Four years in the trenches killed millions, and four empires fell."),
+    ("second_war", 1939, "[gravely] Twenty years later came a second world war, more terrible still, with "
+     "its bombed cities and its death camps. It ended with a new weapon: the atomic bomb."),
+    ("cold_war", 1961, "Two great powers, America and the Soviet Union, faced each other across a divided "
+     "Europe, each with enough bombs to end the world. [pause] Then, in nineteen eighty-nine, the wall came down."),
+    ("today", 2000, "And so we come to our own times. [pause] The story is not finished. It is yours to write."),
+]
+for i, (k, y, t) in enumerate(LATER):
+    add(f"lesson_{len(LESSON) + i + 1:02d}_{k}", narrator(y), "lesson", k, t)
+
+# -------------------------------------------------- the battle, as it goes
+BATTLE = {
+    "battle_begins": ("The armies stand face to face. The gods are watching.",
+                      "The armies are drawn up, and the battle begins.",
+                      "The battle has begun. Reports from the front are coming in."),
+    "cavalry_charge": ("Our horsemen ride down upon the enemy's flank!",
+                       "Our cavalry charges, and the ground shakes beneath them!",
+                       "Our cavalry has charged the enemy's flank."),
+    "flank_turned": ("Their flank is turned! They are caught between us!",
+                     "We have turned their flank, and they are falling back.",
+                     "The enemy's flank has been turned."),
+    "line_breaking": ("[urgently] Our line is bending! It cannot hold for long!",
+                      "[urgently] Our line is breaking! Send help, or all is lost!",
+                      "[urgently] Our line is under great pressure, and may give way."),
+    "reserves": ("The reserves march forward to fill the gap.",
+                 "The reserve is sent in.",
+                 "Reserves have been committed to the battle."),
+    "enemy_routs": ("[triumphantly] They break! They run! The field is ours!",
+                    "[triumphantly] The enemy flees in disorder!",
+                    "The enemy is in full retreat."),
+    "we_rout": ("[gravely] Our men throw down their shields, and flee.",
+                "[gravely] Our army breaks, and runs.",
+                "[gravely] Our forces are falling back in disorder."),
+    "general_falls": ("Their general has fallen! Their men lose heart.",
+                      "The enemy's commander is slain!",
+                      "The enemy commander is reported killed."),
+    "our_general_falls": ("[gravely] Our general is struck down!",
+                          "[gravely] Our commander has fallen on the field.",
+                          "[gravely] We regret to report that our commanding general has been killed."),
+    "standard_taken": ("We have taken their standard!",
+                       "Their banners are ours!",
+                       "Enemy colours have been captured."),
+    "nightfall": ("Night falls, and the armies part. Tomorrow, the gods will decide.",
+                  "Darkness ends the fighting. It will begin again at dawn.",
+                  "Fighting has died down for the night."),
+    "pursuit": ("Our horsemen ride after the fleeing enemy, and cut them down.",
+                "We pursue the beaten enemy.",
+                "Our forces are pursuing the retreating enemy."),
+    # The turning of the year.
+    "spring": ("Spring has come. The roads are open, and the armies can march.",
+               "Spring returns, and with it the season for war.",
+               "Spring has arrived, and with it the campaigning season."),
+    "autumn": ("Autumn. The harvest is gathered, and the year turns.",
+               "The harvest is gathered in, and the days grow short.",
+               "Autumn, and the harvest figures are in."),
+    "winter_quarters": ("Winter closes the passes. The armies go to their winter quarters.",
+                        "Winter has come, and snow closes the roads.",
+                        "Winter has set in, and the roads are hard going."),
+    "new_century": ("[slowly] A new century begins.",
+                    "[slowly] A new century dawns.",
+                    "[slowly] The new century has begun."),
+    "realm_fallen": ("[gravely] Your realm is no more. Its name lives only in the songs.",
+                     "[gravely] Your realm has fallen, and others will write its history now.",
+                     "[gravely] Your nation has ceased to exist."),
+}
+for k, texts in BATTLE.items():
+    for v, t in zip(("bard", "chronicler", "newsreader"), texts):
+        add(f"moment_{k}_{v}_1", v, "moment", k, t)
+for i, t in enumerate(["The elephants are maddened, and trample their own men!",
+                       "Their elephants come on, like walking towers!"]):
+    add(f"moment_elephants_bard_{i + 1}", "bard", "moment", "elephants", t)
+
+# The years for earlier and later starts.
+for y, words in [(3000, "three thousand"), (2500, "two thousand five hundred"), (2000, "two thousand"),
+                 (1500, "fifteen hundred"), (1200, "twelve hundred"), (1000, "one thousand"),
+                 (500, "five hundred"), (300, "three hundred")]:
+    add(f"year_bc{y}", "bard", "opening_year", str(-y), f"[slowly] {words[0].upper() + words[1:]} years before Christ.")
+
+# ------------------------------------- more of the adviser, for what's to come
+for k, t in {
+    "religion": "Our people's faith matters to them more than any tax, my lord. Honour their temples and "
+                "they will bear much. Insult them, and not even your soldiers will stand by you.",
+    "mercenaries": "Hired soldiers fight well while they are paid, my lord. Let the silver run dry, and "
+                   "they may turn on us, as they once turned on Carthage.",
+    "vassals": "A vassal keeps its own king and its own laws, but follows us in war and pays us tribute. "
+               "It is cheaper than conquest, and safe enough, while it fears us.",
+    "succession": "When a ruler dies, the realm is in danger. Name an heir, my lord, and keep the great "
+                  "families content, or they will fight over your crown.",
+    "spies": "A wise ruler knows what his rivals plan before they do. Our agents can watch their courts "
+             "and their armies, [pause] but a spy who is caught can start a war.",
+    "colonies": "Where good land lies empty across the sea, our people may settle and found new cities. "
+                "A colony costs much at first, but it grows, and remembers its mother city.",
+    "granaries": "Fill the granaries in the good years, my lord, and the bad years will not starve us.",
+    "festivals": "Bread and games, my lord. A festival costs silver, but it buys the people's goodwill "
+                 "when we need it most.",
+}.items():
+    add(f"lesson_adviser_{k}", "adviser", "lesson_adviser", k, t)
+for k, t in {
+    "mercenaries_unpaid": "My lord, the hired soldiers have not been paid. They grow dangerous.",
+    "succession_crisis": "The great families are quarrelling over the succession, my lord.",
+    "spy_caught": "One of our agents has been caught, my lord.",
+    "new_teaching": "A new teaching is spreading among the people, my lord, and the priests are troubled.",
+    "settlers_ready": "The settlers are ready to sail, my lord. Where shall they go?",
+    "festival_asked": "The people ask for a festival, my lord.",
+}.items():
+    add(f"alert_{k}", "adviser", "alert", k, t)
+
+# -------------------------------------------------------- envoys' answers
+ENVOYS = {
+    "accept": "The envoy has returned, my lord. They accept.",
+    "refuse": "They refuse, my lord.",
+    "insulted": "They have insulted our envoy, my lord.",
+    "gift_thanks": "They thank you for your gift, my lord.",
+    "demands": "An envoy has come, my lord, with demands.",
+    "offer_alliance": "An envoy offers us an alliance, my lord.",
+    "offer_marriage": "They offer a marriage between our houses, my lord.",
+    "sue_for_peace": "The enemy sues for peace, my lord.",
+}
+for k, t in ENVOYS.items():
+    add(f"envoy_{k}", "adviser", "envoy", k, t)
+
+# ------------------------------------- sea fights, sieges, markets and court
+# Asked 13 Oct 2026 (more lines until voicing costs credits): each told
+# once by each narrator of the ages.
+MORE = {
+    # At sea.
+    "ships_ram": ("Our ships drive in with their rams! Timbers split, and the sea pours in!",
+                  "Our ships close and grapple, and the boarders leap across!",
+                  "Our ships have engaged the enemy fleet."),
+    "ships_sink": ("[gravely] Our ship goes down, and the sea takes her rowers.",
+                   "[gravely] One of our ships is sinking. Few will reach the shore.",
+                   "[gravely] We regret to report the loss of one of our ships with most of her crew."),
+    "fleet_flees": ("Their ships turn and row for home! The sea is ours!",
+                    "The enemy fleet breaks off and flees!",
+                    "The enemy fleet has withdrawn to its harbours."),
+    "blockade": ("Our ships close the harbour. Nothing goes in, and nothing comes out.",
+                 "Our fleet blockades their ports. Their trade is dying.",
+                 "A naval blockade of the enemy's ports is now in force."),
+    "landing": ("Our army steps ashore on the enemy's coast!",
+                "Our soldiers have landed on the enemy's shore.",
+                "Our troops have made a landing on the enemy coast."),
+    # Sieges.
+    "walls_breached": ("[triumphantly] The wall is down! Into the breach!",
+                       "[triumphantly] There is a breach in the walls! Storm the town!",
+                       "The defences have been breached."),
+    "assault_failed": ("[gravely] The assault is thrown back from the walls, and our dead lie in the ditch.",
+                       "[gravely] The storming has failed. The ladders are thrown down.",
+                       "[gravely] Our assault on the defences has been repulsed with heavy losses."),
+    "sally": ("The defenders burst from their gates and fall upon our camp!",
+              "The garrison sallies out against our lines!",
+              "The garrison has launched a counter-attack against our siege lines."),
+    "surrender": ("The gates open. The city gives itself up.",
+                  "The town surrenders, and the keys are brought out to us.",
+                  "The garrison has surrendered."),
+    "siege_lifted": ("The siege is broken, and the besiegers march away.",
+                     "The siege is lifted, and the town is saved.",
+                     "The siege has been lifted."),
+    # Markets and money.
+    "market_boom": ("The markets are full, and the merchants are rich.",
+                    "Trade flourishes, and the fairs are crowded.",
+                    "Trade is booming, and the markets are at record highs."),
+    "prices_soar": ("Bread costs twice what it did. The people grumble.",
+                    "Prices climb, and the poor can hardly buy their bread.",
+                    "Prices have risen sharply, and wages cannot keep up."),
+    "bank_fails": ("The money lenders have fled, and their debts with them.",
+                   "The great bank has failed, and many are ruined.",
+                   "A major bank has collapsed, and panic is spreading."),
+    "treasure_found": ("A hoard of gold has been found, buried long ago!",
+                       "A rich new mine has been found in our lands.",
+                       "Rich new deposits have been discovered in our territory."),
+    # The court.
+    "ruler_of_age": ("The young ruler is grown, and takes up the reins of power.",
+                     "The young sovereign has come of age, and the regency is ended.",
+                     "The young head of state has come of age and taken up full powers."),
+    "regency": ("The ruler is a child, and others will rule in their name.",
+                "The sovereign is too young to rule, and a regent governs in their stead.",
+                "A regency council will govern until the head of state comes of age."),
+    "ruler_ill": ("[quietly] The ruler is sick, and the healers can do nothing.",
+                  "[quietly] The sovereign lies ill, and the court fears the worst.",
+                  "[quietly] There is grave concern for the health of the head of state."),
+    "ruler_honoured": ("The people hail the ruler as wise and just.",
+                       "The sovereign's name is honoured throughout the land.",
+                       "The head of state enjoys great popularity."),
+    "plot_uncovered": ("A plot against the ruler is uncovered, and the plotters seized!",
+                       "A conspiracy against the crown has been discovered!",
+                       "A plot against the government has been uncovered, and arrests have been made."),
+}
+for k, texts in MORE.items():
+    for v, t in zip(("bard", "chronicler", "newsreader"), texts):
+        add(f"moment_{k}_{v}_1", v, "moment", k, t)
+
+# More short answers from the adviser.
+for k, t in {
+    "full_treasury": "The treasury is full, my lord.",
+    "no_ships": "We have no ships there, my lord.",
+    "already_marching": "The army is already on the march, my lord.",
+    "not_ours": "That land is not ours, my lord.",
+    "at_peace": "We are at peace with them, my lord.",
+    "too_far": "It is too far, my lord. Our men would starve on the road.",
+    "built": "The work is finished, my lord.",
+    "learned": "Our scholars have learned something new, my lord.",
+    "goodnight": "Rest well, my lord. The realm will keep until morning.",
+    "farewell": "Farewell, my lord. History will wait for your return.",
+}.items():
+    add(f"reply_{k}", "adviser", "adviser_reply", k, t)
+
 # ------------------------------------------------------- adviser replies
 REPLIES = {
     "yes_1": "As you command, my lord.",
@@ -1372,6 +1634,7 @@ heads = {"opening": "The opening (the bard)", "tip": "Tips (the adviser at court
          "lesson": "The longer history lesson (the bard)", "moment": "Moments in play (each age's narrator)",
          "lesson_adviser": "The guided first game (the adviser)", "alert": "Warnings (the adviser)",
          "adviser_reply": "Replies and greetings (the adviser)",
+         "envoy": "Envoys' answers (the adviser)",
          "opening_stage": "The opening: its stages (the bard)", "opening_year": "The opening: the years",
          "opening_site": "The opening: places you can open when paused (the bard)",
          "opening_help": "The opening: how to watch it", "realm_intro": "The realms of 300 BC (the bard)",

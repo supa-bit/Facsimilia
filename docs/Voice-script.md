@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-773 lines, 63,441 characters.
+951 lines, 76,316 characters.
 
 ## The opening (the bard)
 
@@ -250,6 +250,34 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **lesson_09_iron** (bard): Out of the ruins came smaller peoples and new ideas: Phoenicians who sailed to the edge of the world, Israelites with their one god, Greeks with their alphabet and their cities. And iron, which any village smith could work, armed whole peoples.
 - **lesson_10_empires** (bard): Assyria rose, and ruled by terror from Nineveh. Babylon rose again, and hung its gardens over the Euphrates. Then Cyrus the Persian took them all, and his heirs ruled from the Aegean to the Indus, by roads and by letters and by the King's peace.
 - **lesson_11_alexander** (bard): [dramatically] And then a young king came out of Macedon. In twelve years Alexander crossed the Persian empire from end to end, and reached the rivers of India. At Babylon, at thirty-two, he died. [pause] Asked to whom he left his empire, he said: to the strongest.
+- **lesson_12_punic** (bard): Rome and Carthage, the land power and the sea power, fought three wars across a hundred and twenty years. Hannibal crossed the Alps with his elephants and crushed the Romans at Cannae, [pause] but Rome would not make peace, and in the end Carthage was burned to the ground.
+- **lesson_13_greece_falls** (bard): In the same year that Carthage fell, Rome sacked Corinth. The kingdoms of Alexander's heirs fell one by one, until only Egypt was left, and its last queen, Cleopatra.
+- **lesson_14_caesar** (bard): Julius Caesar conquered Gaul, crossed the Rubicon and made himself master of Rome. [pause] On the Ides of March, at a meeting of the senate, his own friends stabbed him to death.
+- **lesson_15_augustus** (bard): His heir Octavian beat Antony and Cleopatra, and took the name Augustus. He called himself only the first citizen, but he was the first emperor, and the Roman peace lasted two hundred years.
+- **lesson_16_christianity** (bard): In Judaea, under Roman rule, a teacher named Jesus was crucified. His followers carried his word across the empire, and in time even the emperor Constantine took the cross.
+- **lesson_17_rome_falls** (bard): [gravely] The empire split in two. In the west, Goths, Vandals and Franks broke through the frontiers, and Rome itself was sacked. In four hundred and seventy-six, the last emperor of the west was sent away to live out his days in Campania.
+- **lesson_18_justinian** (bard): In Constantinople, the emperor Justinian gathered the laws of Rome into one book, raised the great church of Hagia Sophia, and sent his generals to win back Africa and Italy. [pause] Then the plague came.
+- **lesson_19_islam** (chronicler): In Arabia, the prophet Muhammad preached one God. Within a hundred years of his death, the armies of the caliphs ruled from Spain to the river Indus.
+- **lesson_20_vikings** (chronicler): Out of the north came the Northmen in their long ships. They raided Lindisfarne, sailed up the rivers to Paris, traded at Constantinople, and settled from Normandy to the rivers of Russia.
+- **lesson_21_charlemagne** (chronicler): On Christmas Day in the year eight hundred, the pope crowned Charlemagne, king of the Franks, emperor in Rome. His empire did not long outlive him, but the idea of it lasted a thousand years.
+- **lesson_22_crusades** (chronicler): Called by the pope, the knights of the west marched to take Jerusalem, and in ten ninety-nine they took it, in blood. Within a century, Saladin had taken it back.
+- **lesson_23_mongols** (chronicler): [gravely] From the steppe came the Mongols of Genghis Khan and his heirs. In twelve fifty-eight they took Baghdad and killed the last caliph. Their empire was the greatest the world had seen.
+- **lesson_24_black_death** (chronicler): [gravely] In thirteen forty-seven a plague came from the east on Genoese ships. In five years, perhaps a third of all Europe died.
+- **lesson_25_constantinople** (chronicler): In fourteen fifty-three the young sultan Mehmed brought great cannon against the walls of Constantinople. The city fell, and the last Roman emperor died fighting in the breach.
+- **lesson_26_printing** (chronicler): In Mainz, Johannes Gutenberg printed a Bible with movable type. Within fifty years, millions of books had poured from the presses of Europe.
+- **lesson_27_discovery** (chronicler): Columbus sailed west and found a new world. Da Gama sailed round Africa to India. The sea roads of the world were opened, and the old world was never the same.
+- **lesson_28_reformation** (chronicler): At Wittenberg, a monk named Martin Luther posted his theses against the selling of pardons, and the church of the west was split in two. A century of wars of religion followed.
+- **lesson_29_ottomans** (chronicler): Suleiman the Magnificent ruled from Hungary to Baghdad, and laid siege to Vienna. His fleets were masters of the eastern sea.
+- **lesson_30_westphalia** (chronicler): The Thirty Years' War laid waste to Germany. At the peace of Westphalia, the powers agreed that each state was master in its own house.
+- **lesson_31_enlightenment** (chronicler): In the salons of Paris and the coffee houses of London, men and women asked what makes a ruler's power just. Reason, they said, not birth.
+- **lesson_32_revolution** (chronicler): [dramatically] In seventeen eighty-nine the people of Paris stormed the Bastille. The king lost his crown, then his head, and the old order of Europe began to fall.
+- **lesson_33_napoleon** (newsreader): Napoleon Bonaparte, a soldier from Corsica, crowned himself emperor of the French. He beat every army in Europe, until Russia and its winter broke him, and Waterloo finished him.
+- **lesson_34_industry** (newsreader): Steam engines drove the mills, and railways crossed the land. The cities swelled with workers, smoke darkened the sky, and the world began to change faster than ever before.
+- **lesson_35_nations** (newsreader): Italy was united, and then Germany, proclaimed an empire in the Hall of Mirrors at Versailles. The old empires shook, as their peoples demanded nations of their own.
+- **lesson_36_great_war** (newsreader): [gravely] In nineteen fourteen, a shot in Sarajevo set the great powers at war. Four years in the trenches killed millions, and four empires fell.
+- **lesson_37_second_war** (newsreader): [gravely] Twenty years later came a second world war, more terrible still, with its bombed cities and its death camps. It ended with a new weapon: the atomic bomb.
+- **lesson_38_cold_war** (newsreader): Two great powers, America and the Soviet Union, faced each other across a divided Europe, each with enough bombs to end the world. [pause] Then, in nineteen eighty-nine, the wall came down.
+- **lesson_39_today** (newsreader): And so we come to our own times. [pause] The story is not finished. It is yours to write.
 
 ## Moments in play (each age's narrator)
 
@@ -612,6 +640,116 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **moment_writing_learnt_bard_2** (bard): Now our deeds will be written down, and remembered.
 - **moment_chariots_bard_1** (bard): Horses and chariots: the lords of war ride to battle.
 - **moment_chariots_bard_2** (bard): The chariot has come to our land.
+- **moment_battle_begins_bard_1** (bard): The armies stand face to face. The gods are watching.
+- **moment_battle_begins_chronicler_1** (chronicler): The armies are drawn up, and the battle begins.
+- **moment_battle_begins_newsreader_1** (newsreader): The battle has begun. Reports from the front are coming in.
+- **moment_cavalry_charge_bard_1** (bard): Our horsemen ride down upon the enemy's flank!
+- **moment_cavalry_charge_chronicler_1** (chronicler): Our cavalry charges, and the ground shakes beneath them!
+- **moment_cavalry_charge_newsreader_1** (newsreader): Our cavalry has charged the enemy's flank.
+- **moment_flank_turned_bard_1** (bard): Their flank is turned! They are caught between us!
+- **moment_flank_turned_chronicler_1** (chronicler): We have turned their flank, and they are falling back.
+- **moment_flank_turned_newsreader_1** (newsreader): The enemy's flank has been turned.
+- **moment_line_breaking_bard_1** (bard): [urgently] Our line is bending! It cannot hold for long!
+- **moment_line_breaking_chronicler_1** (chronicler): [urgently] Our line is breaking! Send help, or all is lost!
+- **moment_line_breaking_newsreader_1** (newsreader): [urgently] Our line is under great pressure, and may give way.
+- **moment_reserves_bard_1** (bard): The reserves march forward to fill the gap.
+- **moment_reserves_chronicler_1** (chronicler): The reserve is sent in.
+- **moment_reserves_newsreader_1** (newsreader): Reserves have been committed to the battle.
+- **moment_enemy_routs_bard_1** (bard): [triumphantly] They break! They run! The field is ours!
+- **moment_enemy_routs_chronicler_1** (chronicler): [triumphantly] The enemy flees in disorder!
+- **moment_enemy_routs_newsreader_1** (newsreader): The enemy is in full retreat.
+- **moment_we_rout_bard_1** (bard): [gravely] Our men throw down their shields, and flee.
+- **moment_we_rout_chronicler_1** (chronicler): [gravely] Our army breaks, and runs.
+- **moment_we_rout_newsreader_1** (newsreader): [gravely] Our forces are falling back in disorder.
+- **moment_general_falls_bard_1** (bard): Their general has fallen! Their men lose heart.
+- **moment_general_falls_chronicler_1** (chronicler): The enemy's commander is slain!
+- **moment_general_falls_newsreader_1** (newsreader): The enemy commander is reported killed.
+- **moment_our_general_falls_bard_1** (bard): [gravely] Our general is struck down!
+- **moment_our_general_falls_chronicler_1** (chronicler): [gravely] Our commander has fallen on the field.
+- **moment_our_general_falls_newsreader_1** (newsreader): [gravely] We regret to report that our commanding general has been killed.
+- **moment_standard_taken_bard_1** (bard): We have taken their standard!
+- **moment_standard_taken_chronicler_1** (chronicler): Their banners are ours!
+- **moment_standard_taken_newsreader_1** (newsreader): Enemy colours have been captured.
+- **moment_nightfall_bard_1** (bard): Night falls, and the armies part. Tomorrow, the gods will decide.
+- **moment_nightfall_chronicler_1** (chronicler): Darkness ends the fighting. It will begin again at dawn.
+- **moment_nightfall_newsreader_1** (newsreader): Fighting has died down for the night.
+- **moment_pursuit_bard_1** (bard): Our horsemen ride after the fleeing enemy, and cut them down.
+- **moment_pursuit_chronicler_1** (chronicler): We pursue the beaten enemy.
+- **moment_pursuit_newsreader_1** (newsreader): Our forces are pursuing the retreating enemy.
+- **moment_spring_bard_1** (bard): Spring has come. The roads are open, and the armies can march.
+- **moment_spring_chronicler_1** (chronicler): Spring returns, and with it the season for war.
+- **moment_spring_newsreader_1** (newsreader): Spring has arrived, and with it the campaigning season.
+- **moment_autumn_bard_1** (bard): Autumn. The harvest is gathered, and the year turns.
+- **moment_autumn_chronicler_1** (chronicler): The harvest is gathered in, and the days grow short.
+- **moment_autumn_newsreader_1** (newsreader): Autumn, and the harvest figures are in.
+- **moment_winter_quarters_bard_1** (bard): Winter closes the passes. The armies go to their winter quarters.
+- **moment_winter_quarters_chronicler_1** (chronicler): Winter has come, and snow closes the roads.
+- **moment_winter_quarters_newsreader_1** (newsreader): Winter has set in, and the roads are hard going.
+- **moment_new_century_bard_1** (bard): [slowly] A new century begins.
+- **moment_new_century_chronicler_1** (chronicler): [slowly] A new century dawns.
+- **moment_new_century_newsreader_1** (newsreader): [slowly] The new century has begun.
+- **moment_realm_fallen_bard_1** (bard): [gravely] Your realm is no more. Its name lives only in the songs.
+- **moment_realm_fallen_chronicler_1** (chronicler): [gravely] Your realm has fallen, and others will write its history now.
+- **moment_realm_fallen_newsreader_1** (newsreader): [gravely] Your nation has ceased to exist.
+- **moment_elephants_bard_1** (bard): The elephants are maddened, and trample their own men!
+- **moment_elephants_bard_2** (bard): Their elephants come on, like walking towers!
+- **moment_ships_ram_bard_1** (bard): Our ships drive in with their rams! Timbers split, and the sea pours in!
+- **moment_ships_ram_chronicler_1** (chronicler): Our ships close and grapple, and the boarders leap across!
+- **moment_ships_ram_newsreader_1** (newsreader): Our ships have engaged the enemy fleet.
+- **moment_ships_sink_bard_1** (bard): [gravely] Our ship goes down, and the sea takes her rowers.
+- **moment_ships_sink_chronicler_1** (chronicler): [gravely] One of our ships is sinking. Few will reach the shore.
+- **moment_ships_sink_newsreader_1** (newsreader): [gravely] We regret to report the loss of one of our ships with most of her crew.
+- **moment_fleet_flees_bard_1** (bard): Their ships turn and row for home! The sea is ours!
+- **moment_fleet_flees_chronicler_1** (chronicler): The enemy fleet breaks off and flees!
+- **moment_fleet_flees_newsreader_1** (newsreader): The enemy fleet has withdrawn to its harbours.
+- **moment_blockade_bard_1** (bard): Our ships close the harbour. Nothing goes in, and nothing comes out.
+- **moment_blockade_chronicler_1** (chronicler): Our fleet blockades their ports. Their trade is dying.
+- **moment_blockade_newsreader_1** (newsreader): A naval blockade of the enemy's ports is now in force.
+- **moment_landing_bard_1** (bard): Our army steps ashore on the enemy's coast!
+- **moment_landing_chronicler_1** (chronicler): Our soldiers have landed on the enemy's shore.
+- **moment_landing_newsreader_1** (newsreader): Our troops have made a landing on the enemy coast.
+- **moment_walls_breached_bard_1** (bard): [triumphantly] The wall is down! Into the breach!
+- **moment_walls_breached_chronicler_1** (chronicler): [triumphantly] There is a breach in the walls! Storm the town!
+- **moment_walls_breached_newsreader_1** (newsreader): The defences have been breached.
+- **moment_assault_failed_bard_1** (bard): [gravely] The assault is thrown back from the walls, and our dead lie in the ditch.
+- **moment_assault_failed_chronicler_1** (chronicler): [gravely] The storming has failed. The ladders are thrown down.
+- **moment_assault_failed_newsreader_1** (newsreader): [gravely] Our assault on the defences has been repulsed with heavy losses.
+- **moment_sally_bard_1** (bard): The defenders burst from their gates and fall upon our camp!
+- **moment_sally_chronicler_1** (chronicler): The garrison sallies out against our lines!
+- **moment_sally_newsreader_1** (newsreader): The garrison has launched a counter-attack against our siege lines.
+- **moment_surrender_bard_1** (bard): The gates open. The city gives itself up.
+- **moment_surrender_chronicler_1** (chronicler): The town surrenders, and the keys are brought out to us.
+- **moment_surrender_newsreader_1** (newsreader): The garrison has surrendered.
+- **moment_siege_lifted_bard_1** (bard): The siege is broken, and the besiegers march away.
+- **moment_siege_lifted_chronicler_1** (chronicler): The siege is lifted, and the town is saved.
+- **moment_siege_lifted_newsreader_1** (newsreader): The siege has been lifted.
+- **moment_market_boom_bard_1** (bard): The markets are full, and the merchants are rich.
+- **moment_market_boom_chronicler_1** (chronicler): Trade flourishes, and the fairs are crowded.
+- **moment_market_boom_newsreader_1** (newsreader): Trade is booming, and the markets are at record highs.
+- **moment_prices_soar_bard_1** (bard): Bread costs twice what it did. The people grumble.
+- **moment_prices_soar_chronicler_1** (chronicler): Prices climb, and the poor can hardly buy their bread.
+- **moment_prices_soar_newsreader_1** (newsreader): Prices have risen sharply, and wages cannot keep up.
+- **moment_bank_fails_bard_1** (bard): The money lenders have fled, and their debts with them.
+- **moment_bank_fails_chronicler_1** (chronicler): The great bank has failed, and many are ruined.
+- **moment_bank_fails_newsreader_1** (newsreader): A major bank has collapsed, and panic is spreading.
+- **moment_treasure_found_bard_1** (bard): A hoard of gold has been found, buried long ago!
+- **moment_treasure_found_chronicler_1** (chronicler): A rich new mine has been found in our lands.
+- **moment_treasure_found_newsreader_1** (newsreader): Rich new deposits have been discovered in our territory.
+- **moment_ruler_of_age_bard_1** (bard): The young ruler is grown, and takes up the reins of power.
+- **moment_ruler_of_age_chronicler_1** (chronicler): The young sovereign has come of age, and the regency is ended.
+- **moment_ruler_of_age_newsreader_1** (newsreader): The young head of state has come of age and taken up full powers.
+- **moment_regency_bard_1** (bard): The ruler is a child, and others will rule in their name.
+- **moment_regency_chronicler_1** (chronicler): The sovereign is too young to rule, and a regent governs in their stead.
+- **moment_regency_newsreader_1** (newsreader): A regency council will govern until the head of state comes of age.
+- **moment_ruler_ill_bard_1** (bard): [quietly] The ruler is sick, and the healers can do nothing.
+- **moment_ruler_ill_chronicler_1** (chronicler): [quietly] The sovereign lies ill, and the court fears the worst.
+- **moment_ruler_ill_newsreader_1** (newsreader): [quietly] There is grave concern for the health of the head of state.
+- **moment_ruler_honoured_bard_1** (bard): The people hail the ruler as wise and just.
+- **moment_ruler_honoured_chronicler_1** (chronicler): The sovereign's name is honoured throughout the land.
+- **moment_ruler_honoured_newsreader_1** (newsreader): The head of state enjoys great popularity.
+- **moment_plot_uncovered_bard_1** (bard): A plot against the ruler is uncovered, and the plotters seized!
+- **moment_plot_uncovered_chronicler_1** (chronicler): A conspiracy against the crown has been discovered!
+- **moment_plot_uncovered_newsreader_1** (newsreader): A plot against the government has been uncovered, and arrests have been made.
 
 ## The guided first game (the adviser)
 
@@ -642,6 +780,14 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **lesson_adviser_history** (adviser): History pulls the world along its old course. Other realms will try to do what they did in their time. You may follow history, or break it.
 - **lesson_adviser_goals** (adviser): Your realm has ambitions of its own, as it did in history. Fulfil them, and your fame will grow. Ignore them, and choose your own.
 - **lesson_adviser_score** (adviser): In the end, your reign will be judged: by your people, your lands, your wealth, your culture, your dynasty and your deeds.
+- **lesson_adviser_religion** (adviser): Our people's faith matters to them more than any tax, my lord. Honour their temples and they will bear much. Insult them, and not even your soldiers will stand by you.
+- **lesson_adviser_mercenaries** (adviser): Hired soldiers fight well while they are paid, my lord. Let the silver run dry, and they may turn on us, as they once turned on Carthage.
+- **lesson_adviser_vassals** (adviser): A vassal keeps its own king and its own laws, but follows us in war and pays us tribute. It is cheaper than conquest, and safe enough, while it fears us.
+- **lesson_adviser_succession** (adviser): When a ruler dies, the realm is in danger. Name an heir, my lord, and keep the great families content, or they will fight over your crown.
+- **lesson_adviser_spies** (adviser): A wise ruler knows what his rivals plan before they do. Our agents can watch their courts and their armies, [pause] but a spy who is caught can start a war.
+- **lesson_adviser_colonies** (adviser): Where good land lies empty across the sea, our people may settle and found new cities. A colony costs much at first, but it grows, and remembers its mother city.
+- **lesson_adviser_granaries** (adviser): Fill the granaries in the good years, my lord, and the bad years will not starve us.
+- **lesson_adviser_festivals** (adviser): Bread and games, my lord. A festival costs silver, but it buys the people's goodwill when we need it most.
 
 ## Warnings (the adviser)
 
@@ -672,9 +818,25 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **alert_building_done** (adviser): My lord, the builders have finished. What shall they build next?
 - **alert_debt_high** (adviser): My lord, our debts are growing dangerous.
 - **alert_famine_coming** (adviser): My lord, the granaries are low. If the harvest fails, the people will starve.
+- **alert_mercenaries_unpaid** (adviser): My lord, the hired soldiers have not been paid. They grow dangerous.
+- **alert_succession_crisis** (adviser): The great families are quarrelling over the succession, my lord.
+- **alert_spy_caught** (adviser): One of our agents has been caught, my lord.
+- **alert_new_teaching** (adviser): A new teaching is spreading among the people, my lord, and the priests are troubled.
+- **alert_settlers_ready** (adviser): The settlers are ready to sail, my lord. Where shall they go?
+- **alert_festival_asked** (adviser): The people ask for a festival, my lord.
 
 ## Replies and greetings (the adviser)
 
+- **reply_full_treasury** (adviser): The treasury is full, my lord.
+- **reply_no_ships** (adviser): We have no ships there, my lord.
+- **reply_already_marching** (adviser): The army is already on the march, my lord.
+- **reply_not_ours** (adviser): That land is not ours, my lord.
+- **reply_at_peace** (adviser): We are at peace with them, my lord.
+- **reply_too_far** (adviser): It is too far, my lord. Our men would starve on the road.
+- **reply_built** (adviser): The work is finished, my lord.
+- **reply_learned** (adviser): Our scholars have learned something new, my lord.
+- **reply_goodnight** (adviser): Rest well, my lord. The realm will keep until morning.
+- **reply_farewell** (adviser): Farewell, my lord. History will wait for your return.
 - **reply_yes_1** (adviser): As you command, my lord.
 - **reply_yes_2** (adviser): It shall be done.
 - **reply_yes_3** (adviser): At once, my lord.
@@ -691,6 +853,17 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **reply_year_1** (adviser): Another year has passed, my lord.
 - **reply_year_2** (adviser): A new year begins.
 - **reply_saved** (adviser): The chronicle is written, my lord. It will keep.
+
+## Envoys' answers (the adviser)
+
+- **envoy_accept** (adviser): The envoy has returned, my lord. They accept.
+- **envoy_refuse** (adviser): They refuse, my lord.
+- **envoy_insulted** (adviser): They have insulted our envoy, my lord.
+- **envoy_gift_thanks** (adviser): They thank you for your gift, my lord.
+- **envoy_demands** (adviser): An envoy has come, my lord, with demands.
+- **envoy_offer_alliance** (adviser): An envoy offers us an alliance, my lord.
+- **envoy_offer_marriage** (adviser): They offer a marriage between our houses, my lord.
+- **envoy_sue_for_peace** (adviser): The enemy sues for peace, my lord.
 
 ## The opening: its stages (the bard)
 
@@ -723,6 +896,14 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **year_bc5000** (bard): [slowly] Five thousand years before Christ.
 - **year_bc4000** (bard): [slowly] Four thousand years before Christ.
 - **year_bc3500** (bard): [slowly] Three thousand five hundred years before Christ.
+- **year_bc3000** (bard): [slowly] Three thousand years before Christ.
+- **year_bc2500** (bard): [slowly] Two thousand five hundred years before Christ.
+- **year_bc2000** (bard): [slowly] Two thousand years before Christ.
+- **year_bc1500** (bard): [slowly] Fifteen hundred years before Christ.
+- **year_bc1200** (bard): [slowly] Twelve hundred years before Christ.
+- **year_bc1000** (bard): [slowly] One thousand years before Christ.
+- **year_bc500** (bard): [slowly] Five hundred years before Christ.
+- **year_bc300** (bard): [slowly] Three hundred years before Christ.
 
 ## The opening: places you can open when paused (the bard)
 

@@ -2953,7 +2953,7 @@ exits with 1 if any check fails.
 - **Order of modern arms**: When the timeline reaches gunpowder
 - **Other realms and nuclear weapons**: As history: never used after 1945 unless you use them first Your note: "Also in extremis, a nuclear capable state won't let its history be destroyed without using its last resort, so any nuclear capable realm has a chance of using one that increases as it loses large swathes of provinces. There will also be terrorist states in the game starting around 1900 like in the real world."
 
-### Voices **(all 773 lines voiced, 13 Oct 2026)**
+### Voices **(all 951 lines voiced, 13 Oct 2026)**
 
 From What gets a spoken voice, The narrator's voice, Voices in ancient
 languages and An adviser:
@@ -3001,6 +3001,33 @@ languages and An adviser:
   the rest), and 14 Bronze Age moments for earlier starts (the Sea
   Peoples, the tin trade cut, a palace burned, learning bronze, iron,
   writing and the chariot).
+- **The story goes on, battles and the turning year** (13 Oct 2026),
+  111 more for 884 in all: 28 more history lessons after 300 BC, each
+  read by the narrator of its own age (the Punic wars, Caesar,
+  Augustus, the fall of the west, Justinian, Islam, the Vikings,
+  Charlemagne, the crusades, the Mongols, the Black Death, 1453,
+  printing, the voyages, the Reformation, Westphalia, the revolution,
+  Napoleon, industry, the two world wars, the Cold War and our own
+  times); 12 moments of a battle told by each narrator (the armies
+  meet, a cavalry charge, a flank turned, our line breaking, the
+  reserves, a rout either way, a general falls, a standard taken,
+  nightfall, the pursuit) plus 2 for war elephants; spring, autumn,
+  winter quarters and a new century; the end of a fallen realm; 8 more
+  years for earlier starts (3000 to 300 BC); 8 more lessons and 6 more
+  warnings from the adviser (faith, mercenaries, vassals, succession,
+  spies, colonies, granaries, festivals); and 8 envoys' answers
+  (accepted, refused, insulted, an alliance or marriage offered, peace
+  asked for).
+- **At sea, at the walls, in the market and at court** (13 Oct 2026),
+  67 more for 951 in all, each told once by each narrator: at sea
+  (ramming or boarding, a ship lost, the enemy fleet fleeing, a
+  blockade, a landing); at the walls (a breach, a failed assault, a
+  sally, a surrender, a siege lifted); in the market (a boom, prices
+  soaring, a bank failing, treasure found); and at court (a ruler
+  coming of age, a regency, a ruler ill, a ruler honoured, a plot
+  uncovered). Also 10 more short answers from the adviser ("The
+  treasury is full", "We have no ships there", "It is too far",
+  "Rest well, my lord").
 - **The voices you chose** (12 Oct 2026): bard 2, chronicler 2,
   newsreader 1, adviser 1, warrior 2, all saved in the ElevenLabs voice
   library.
