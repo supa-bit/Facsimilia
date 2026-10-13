@@ -102,9 +102,9 @@ public partial class MapView
                 army.Node = t.Node;   // no way by land or sea: the army is taken there (old saves, islands without a fleet)
             army.Resting = false;
             string text = $"{army.Name} of {RealmName(t.Attacker)} lays siege to {t.Name}.";
-            events.Add(new ChronicleEvent(ChronicleKind.War, t.Attacker, text));
+            events.Add(new ChronicleEvent(ChronicleKind.War, t.Attacker, text, "!moment:siege_begun"));
             if (t.Owner > 0)
-                events.Add(new ChronicleEvent(ChronicleKind.War, t.Owner, text));
+                events.Add(new ChronicleEvent(ChronicleKind.War, t.Owner, text, "!moment:siege_begun"));
         }
         return events;
     }
@@ -176,8 +176,8 @@ public partial class MapView
                         ? $"{RealmName(siege.Owner)} marches to relieve {siege.Name}, and is beaten by {army.Name}"
                         : $"{RealmName(siege.Owner)} relieves {siege.Name}: {army.Name} of {RealmName(siege.Attacker)} is beaten and the siege lifted")
                         + $" ({report.AttackerLost + report.DefenderLost:N0} men fall).";
-                    events.Add(new ChronicleEvent(ChronicleKind.War, siege.Attacker, text));
-                    events.Add(new ChronicleEvent(ChronicleKind.War, siege.Owner, text));
+                    events.Add(new ChronicleEvent(ChronicleKind.War, siege.Attacker, text, won ? "!moment:battle_won" : "!moment:battle_lost"));
+                    events.Add(new ChronicleEvent(ChronicleKind.War, siege.Owner, text, won ? "!moment:battle_lost" : "!moment:siege_lifted"));
                     if (!won)
                     {
                         Game.Sieges.Remove(siege);
@@ -267,9 +267,9 @@ public partial class MapView
         string what = siege.ProvinceId != 0 ? siege.Name : siege.Owner == 0 ? "new land" : $"land from {RealmName(siege.Owner)}";
         int years = DemoYear - siege.StartYear - (siege.StartYear < 0 && DemoYear > 0 ? 1 : 0);
         string text = $"{RealmName(siege.Attacker)} takes {what}" + (years > 1 ? $" after a siege of {years} years." : ".");
-        events.Add(new ChronicleEvent(ChronicleKind.Conquest, siege.Attacker, text));
+        events.Add(new ChronicleEvent(ChronicleKind.Conquest, siege.Attacker, text, "!moment:city_taken"));
         if (siege.Owner > 0)
-            events.Add(new ChronicleEvent(ChronicleKind.Conquest, siege.Owner, text));
+            events.Add(new ChronicleEvent(ChronicleKind.Conquest, siege.Owner, text, "!moment:city_lost"));
         return events;
     }
 }

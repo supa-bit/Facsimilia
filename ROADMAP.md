@@ -172,7 +172,13 @@ traditions, nuclear weapons in extremis and terrorist states from 1900).
       `docs/Voice-script.md`), voiced by the five voices you chose
       (bard 2, chronicler 2, newsreader 1, adviser 1, warrior 2), two takes
       of every line in `assets/voice/` (take B in `assets/voice/takes/`).
-      Next: playing them in the game.
+      Now spoken in the game (13 Oct 2026): the narrator reads out the
+      chronicle's most important news, the adviser the tutorial and
+      tips, plus realm introductions and the end; Settings has "Narrators
+      speak" and "Voice Volume"; the main menu's Voices screen plays take
+      A and B of every line and keeps your choice. Still to hook up when
+      their systems exist: the opening cutscene, warnings, lessons,
+      replies, envoys, war and victory cries.
 
 ## Right now
 

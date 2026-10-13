@@ -177,7 +177,7 @@ public partial class MapView
                 ps.Log(DemoYear, $"{cat[work.Id]?.LevelName(level) ?? work.Id} built.");
                 if (p.RealmId == PlayerRealmId)
                     events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId,
-                        $"{cat[work.Id]?.LevelName(level) ?? work.Id} finished in {p.Name}."));
+                        $"{cat[work.Id]?.LevelName(level) ?? work.Id} finished in {p.Name}.", "moment:building_done"));
             }
         }
         events.AddRange(NeglectYear(rng));

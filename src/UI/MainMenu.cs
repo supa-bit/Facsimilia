@@ -76,6 +76,7 @@ public partial class MainMenu : Control
         loadButton.Disabled = latest == null;
         buttons.AddChild(loadButton);
         buttons.AddChild(MenuButton("Settings", "settings", OpenSettings));
+        buttons.AddChild(MenuButton("Voices", "laurels", OpenVoices));
         buttons.AddChild(MenuButton("Quit to Desktop", "quit", () => GetTree().Quit()));
 
         var footer = ThemeAncient.Label(
@@ -148,6 +149,14 @@ public partial class MainMenu : Control
         };
         button.Pressed += onPressed;
         return button;
+    }
+
+    /// <summary>The Voices screen: listen to both takes of each line and choose one.</summary>
+    void OpenVoices()
+    {
+        var picker = new VoicePicker { Theme = Theme };
+        AddChild(picker);
+        picker.Closed += picker.QueueFree;
     }
 
     void OpenSettings()

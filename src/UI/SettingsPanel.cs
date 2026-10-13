@@ -49,6 +49,17 @@ public partial class SettingsPanel : Control
         };
         volume.ValueChanged += value => store.SetMasterVolume((float)value);
         audio.AddChild(Row("Master Volume", volume));
+        var speak = new CheckBox { ButtonPressed = store.VoiceEnabled };
+        speak.Toggled += on => store.SetVoiceEnabled(on);
+        audio.AddChild(Row("Narrators speak", speak, "The bard, the chronicler and the newsreader read out the great moments."));
+        var voiceVolume = new HSlider
+        {
+            CustomMinimumSize = new Vector2(200, 0),
+            SizeFlagsVertical = SizeFlags.ShrinkCenter,
+            MinValue = 0, MaxValue = 1, Step = 0.01, Value = store.VoiceVolume,
+        };
+        voiceVolume.ValueChanged += value => store.SetVoiceVolume((float)value);
+        audio.AddChild(Row("Voice Volume", voiceVolume));
 
         var gameplay = Tab(tabs, "Gameplay");
         var autosave = new OptionButton();

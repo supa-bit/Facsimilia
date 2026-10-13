@@ -111,6 +111,7 @@ public partial class CivSelect : Control
         if (_selectionMade)
             return;
         _selectionMade = true;
+        Voice.Instance?.Cue($"realm_intro:{civKey}", MapView.StartYear);
         EmitSignal(SignalName.CivChosen, civKey);
     }
 }

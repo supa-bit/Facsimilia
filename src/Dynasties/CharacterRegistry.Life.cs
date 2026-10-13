@@ -24,9 +24,30 @@ public enum ChronicleKind
 /// One thing that happened this year. RealmId is the realm it concerns (for
 /// births, marriages and deaths, the court it happened in), so the chronicle
 /// can show every realm's successions but only the player's own family news.
+/// Cue is what the narrator says about it (a VoiceCatalog cue such as
+/// "moment:battle_won"); one starting with '!' is spoken only when the event
+/// is the player's own.
 /// </summary>
-public sealed record ChronicleEvent(ChronicleKind Kind, int RealmId, string Text)
+public sealed record ChronicleEvent(ChronicleKind Kind, int RealmId, string Text, string? Cue = null)
 {
+    /// <summary>The cue to speak for the player, or null: the event's own, else one fitting its kind at home.</summary>
+    public string? CueFor(int playerRealmId)
+    {
+        if (Cue != null)
+            return Cue.StartsWith('!') ? (RealmId == playerRealmId ? Cue[1..] : null) : Cue;
+        if (RealmId != playerRealmId)
+            return null;
+        return Kind switch
+        {
+            ChronicleKind.Succession => "moment:ruler_died|moment:new_ruler",
+            ChronicleKind.NewHouse => "moment:new_house",
+            ChronicleKind.Birth => "moment:heir_born",
+            ChronicleKind.Marriage => "moment:marriage",
+            ChronicleKind.Revolt => "moment:revolt",
+            _ => null,
+        };
+    }
+
     /// <summary>Successions matter everywhere; family news only at home.</summary>
     public bool IsNewsFor(int playerRealmId) =>
         Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War or ChronicleKind.Peace or ChronicleKind.Disaster

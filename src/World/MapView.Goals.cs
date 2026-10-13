@@ -132,7 +132,7 @@ public partial class MapView
             if (s.GoalsDone.ContainsKey(g.Id) || GoalProgress(PlayerRealmId, g).Progress < 1)
                 continue;
             s.GoalsDone[g.Id] = DemoYear;
-            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"Goal reached: {GoalText(g)} (+{g.Points} points)."));
+            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"Goal reached: {GoalText(g)} (+{g.Points} points).", "moment:goal_reached"));
         }
         return events;
     }

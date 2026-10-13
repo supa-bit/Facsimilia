@@ -3052,5 +3052,40 @@ languages and An adviser:
   lines say only that peace is made, since history may not repeat.
 - Two takes of each line, made with ElevenLabs' newest voice model
   (free while the credits last), saved as `assets/voice/<line>.mp3` and
-  `assets/voice/takes/<line>_b.mp3`. Playing them in the game comes
-  next, with the sound effects.
+  `assets/voice/takes/<line>_b.mp3`.
+
+#### Hearing them in the game (13 Oct 2026)
+
+- **What is spoken**: the news in the chronicle. Each year (or month)
+  the narrator of the year reads out the most important item, in this
+  order: a new age; the start or end of one of history's own wars; a
+  disaster from history (by name); a wonder finished; a great discovery
+  of yours; then the moments of your own realm (a battle or sea fight
+  won or lost, war declared by you or on you, a siege begun or lifted,
+  a city taken or lost, peace, an alliance, a vassal, a ruler's death,
+  a new house, an heir born, a marriage, a revolt, a wonder begun or
+  fallen, a building or goal finished). A new century is greeted when
+  nothing else happened. Other realms' battles and families stay
+  silent; history's wars, disasters and wonders are told to all.
+- **Also spoken**: the adviser reads each first step of the tutorial
+  and each tip; choosing a realm plays its introduction; the end of the
+  game (or the fall of your realm) has its last word.
+- **Not yet spoken** (their systems aren't built): the opening
+  cutscene, the adviser's warnings, lessons and replies, envoys'
+  answers, history lessons, war and victory cries. Great works (canals,
+  dams) have no lines of their own and use "the work is finished".
+- **One line at a time**: while one is spoken, at most one more waits;
+  anything more is dropped, so speech never falls behind play.
+- **Settings, Audio**: "Narrators speak" (on/off) and "Voice Volume".
+- **The Voices screen** (main menu): every line with its words, ▶ A and
+  ▶ B to listen, and "Use A" or "Use B" to choose. Filters by group and
+  by speaker, and "Only lines not yet chosen". A line not chosen plays
+  take A. Run from the Godot editor, choices are saved at once in
+  `data/voice_picks.json` (commit it with GitHub Desktop to keep them);
+  in an exported game, in the player's own folder.
+- **No credits**: playing, choosing and the game itself only use the
+  recordings already in the project; nothing generates speech.
+- Take B stays out of Godot's import (`assets/voice/takes/.gdignore`)
+  and is read straight from its file. When the game is first exported,
+  the export needs `assets/voice/takes/*.mp3` in its "files to include"
+  so chosen B takes travel with it.

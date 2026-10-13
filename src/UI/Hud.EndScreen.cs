@@ -22,6 +22,8 @@ public partial class Hud
         var realm = _map.GetPlayerRealm();
         var s = _map.PlayerState;
         bool fallen = !_map.RealmCensus().ContainsKey(_map.PlayerRealmId);
+        if (final || fallen)
+            Voice.Instance?.Cue(fallen ? "moment:realm_fallen" : "moment:game_end", _map.DemoYear);
         string span = $"{ThemeAncient.YearText(MapView.StartYear)} to {ThemeAncient.YearText(_map.DemoYear)}";
         var head = ThemeAncient.Label(fallen
             ? $"{realm.Name}, {span}. Your realm has fallen; its story ends here."

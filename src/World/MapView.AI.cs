@@ -109,7 +109,7 @@ public partial class MapView
                     .Where(a => !Game.Treaties.Allied(a, realm.Id)).Sum(a => 0.5 * Military.Might(Game.Realm(a), Domain.Land));
                 if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * theirs)
                     continue;
-                events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.')));
+                events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.'), $"war_begin:{GoalKey(goal)}"));
             }
             // A far stronger neighbour may fall on a weak player.
             int player = PlayerRealmId;
@@ -327,8 +327,15 @@ public partial class MapView
                 terms.Provinces.Add(s.ProvinceId);
             terms.Vassal = war.CasusBelli == Pretexts.Subjugation.Id && Math.Abs(war.Score) >= PeaceTerms.VassalCost
                 && war.Attacker == winner;
-            events.Add(new ChronicleEvent(ChronicleKind.Peace, winner, ApplyPeace(war, winner, terms)));
+            // History's own war: the narrator tells how it ended.
+            var campaign = HistoryGoals.FirstOrDefault(g => g.Realm == attacker.CivKey && RealmOfCiv(g.Target) == war.Defender
+                && g.From <= war.Since && war.Since <= g.To);
+            events.Add(new ChronicleEvent(ChronicleKind.Peace, winner, ApplyPeace(war, winner, terms),
+                campaign != null ? $"war_peace:{GoalKey(campaign)}" : null));
         }
         return events;
     }
+
+    /// <summary>A campaign's key in the voice script (data/voice_lines.json): "rome>samnites@-298".</summary>
+    internal static string GoalKey(HistoryGoal g) => $"{g.Realm}>{g.Target}@{g.From}";
 }

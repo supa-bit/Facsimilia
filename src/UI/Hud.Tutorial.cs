@@ -64,6 +64,7 @@ public partial class Hud
 
     void ShowTip(string title, string text, Control panel, string key)
     {
+        Voice.Instance?.Cue($"tip:{key}", _map.DemoYear);
         if (_tipCard == null)
         {
             _tipCard = new PanelContainer { ThemeTypeVariation = "GlassPanel", MouseFilter = MouseFilterEnum.Stop, ZIndex = 40 };
@@ -162,6 +163,8 @@ public partial class Hud
 
     void RenderTutorial()
     {
+        // The adviser reads the step out (tutorial_01 .. tutorial_11, the last when all are done).
+        Voice.Instance?.Cue($"tutorial_step:{_tutorialStep}", _map.DemoYear);
         foreach (Node child in _tutorialRows.GetChildren())
             child.QueueFree();
         var steps = TutorialSteps();

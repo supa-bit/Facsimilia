@@ -225,7 +225,7 @@ public partial class Hud : Control
         {
             Theme = ThemeAncient.Build();   // the look changes with the ages
             if (_entries.Count > 0)
-                LogEvents(new[] { new ChronicleEvent(ChronicleKind.Economy, _map.PlayerRealmId, $"A new age begins: {ThemeAncient.EraName}.") });
+                LogEvents(new[] { new ChronicleEvent(ChronicleKind.Economy, _map.PlayerRealmId, $"A new age begins: {ThemeAncient.EraName}.", $"age:{ThemeAncient.EraName}") });
         }
         var realm = _map.GetPlayerRealm();
         _realmLabel.Text = realm.Name;
@@ -275,6 +275,22 @@ public partial class Hud : Control
         if (_entries.Count > ChronicleLines)
             _entries.RemoveRange(ChronicleLines, _entries.Count - ChronicleLines);
         RenderChronicle();
+        Speak(events);
+    }
+
+    int _centurySpoken = int.MinValue;
+
+    /// <summary>The narrator reads out the most important of the news (src/UI/Voice.cs), or greets a new century.</summary>
+    void Speak(IReadOnlyList<ChronicleEvent> events)
+    {
+        if (Voice.Instance is not { } voice)
+            return;
+        string? cue = voice.Catalog.MostImportant(events.Select(e => e.CueFor(_map.PlayerRealmId)));
+        if (cue == null && _map.DemoYear % 100 == 0 && _centurySpoken != _map.DemoYear)
+            cue = "moment:new_century";
+        if (cue == "moment:new_century")
+            _centurySpoken = _map.DemoYear;
+        voice.Cue(cue, _map.DemoYear);
     }
 
     void RenderChronicle()

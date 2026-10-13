@@ -33,6 +33,7 @@ public partial class AiTest : TestRunner
 
         Check(events.Any(e => e.Kind == ChronicleKind.War && e.Text.Contains("Demetrius")),
             "Demetrius should go to war for Macedon in 295 BC");
+        Check(events.Any(e => e.Cue != null && e.Cue.StartsWith("war_begin:")), "history's wars should be announced by the narrator");
         Check(events.Any(e => e.Kind == ChronicleKind.Peace), "some war should have ended in peace");
         Check(events.Count(e => e.Kind == ChronicleKind.Conquest) > 0, "someone should have taken land");
         var census = map.RealmCensus();

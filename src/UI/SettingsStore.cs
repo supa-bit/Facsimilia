@@ -25,6 +25,24 @@ public partial class SettingsStore : Node
     /// <summary>Your armies' battles open on the battle map (decision "Next 1"); off, your generals fight them.</summary>
     public bool FightBattles { get; private set; } = true;
 
+    /// <summary>The narrators speak (decision "Voices"); off, only the text shows.</summary>
+    public bool VoiceEnabled { get; private set; } = true;
+    public float VoiceVolume { get; private set; } = 1f;  // linear 0..1, on top of the master volume
+
+    public void SetVoiceEnabled(bool value)
+    {
+        VoiceEnabled = value;
+        Save();
+        if (!value)
+            Voice.Instance?.Stop();
+    }
+
+    public void SetVoiceVolume(float value)
+    {
+        VoiceVolume = Mathf.Clamp(value, 0f, 1f);
+        Save();
+    }
+
     public void SetFightBattles(bool value)
     {
         FightBattles = value;
@@ -96,6 +114,8 @@ public partial class SettingsStore : Node
         MasterVolume = config.GetValue("audio", "master_volume", MasterVolume).AsSingle();
         AutosaveInterval = ValidInterval(config.GetValue("gameplay", "autosave_interval", AutosaveInterval).AsInt32());
         FightBattles = config.GetValue("gameplay", "fight_battles", FightBattles).AsBool();
+        VoiceEnabled = config.GetValue("audio", "voice_enabled", VoiceEnabled).AsBool();
+        VoiceVolume = Mathf.Clamp(config.GetValue("audio", "voice_volume", VoiceVolume).AsSingle(), 0f, 1f);
     }
 
     void Save()
@@ -105,6 +125,8 @@ public partial class SettingsStore : Node
         config.SetValue("audio", "master_volume", MasterVolume);
         config.SetValue("gameplay", "autosave_interval", AutosaveInterval);
         config.SetValue("gameplay", "fight_battles", FightBattles);
+        config.SetValue("audio", "voice_enabled", VoiceEnabled);
+        config.SetValue("audio", "voice_volume", VoiceVolume);
         config.Save(SavePath);
     }
 }

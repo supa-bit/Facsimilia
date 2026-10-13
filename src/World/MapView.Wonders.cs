@@ -165,7 +165,8 @@ public partial class MapView
             double men = Math.Min(w.Workers, Math.Max(0, rs.Manpower));
             rs.Manpower -= men;
             Game.WonderWorks.Add(new WonderWork { Id = w.Id, Realm = builder, Province = prov, Left = w.Years, Workers = men, Paid = w.Cost });
-            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"{RealmName(builder)} begins the {w.Name}."));
+            events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"{RealmName(builder)} begins the {w.Name}.",
+                builder == PlayerRealmId ? "moment:wonder_begun" : null));
         }
         // Work goes on: halted while besieged, abandoned if the province is lost.
         int years = Math.Max(1, Game.YearsPerTurn);
@@ -192,9 +193,9 @@ public partial class MapView
             EndWonderWork(work, true);
             string where = Provinces.Provinces.TryGetValue(work.Province, out var at) ? at.Name : "";
             if (work.Realm == PlayerRealmId)
-                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"The {w.Name} is finished in {where}, a wonder of the world."));
+                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"The {w.Name} is finished in {where}, a wonder of the world.", $"wonder_done:{w.Id}|moment:building_done"));
             else
-                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"{RealmName(work.Realm)} finishes the {w.Name}."));
+                events.Add(new ChronicleEvent(ChronicleKind.Economy, PlayerRealmId, $"{RealmName(work.Realm)} finishes the {w.Name}.", $"wonder_done:{w.Id}"));
             foreach (var rival in Game.WonderWorks.Where(x => x.Id == w.Id).ToList())
             {
                 EndWonderWork(rival, false);
@@ -235,7 +236,7 @@ public partial class MapView
     {
         Game.Wonders.Remove(w.Id);
         Game.FallenWonders.Add(w.Id);
-        events.Add(new ChronicleEvent(ChronicleKind.Disaster, PlayerRealmId, $"The {w.Name} falls: {w.FallWhy}."));
+        events.Add(new ChronicleEvent(ChronicleKind.Disaster, PlayerRealmId, $"The {w.Name} falls: {w.FallWhy}.", "moment:wonder_fell"));
     }
 
     /// <summary>Your answer to saving a wonder: pay and it stands for good, or let it fall as history had.</summary>

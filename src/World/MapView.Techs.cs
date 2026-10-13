@@ -99,7 +99,8 @@ public partial class MapView
                 continue;
             foreach (var learnt in Tech.Tick(s, c, DemoYear, chooseForThem: id != PlayerRealmId, TechContextFor(id)))
                 if (id == PlayerRealmId)
-                    events.Add(new ChronicleEvent(ChronicleKind.Economy, id, $"Your scholars master {learnt.Name.ToLowerInvariant()}."));
+                    events.Add(new ChronicleEvent(ChronicleKind.Economy, id, $"Your scholars master {learnt.Name.ToLowerInvariant()}.",
+                        $"!tech_learnt:{learnt.Id}|moment:tech_learnt"));
         }
         RefreshRoleBoosts();
         return events;

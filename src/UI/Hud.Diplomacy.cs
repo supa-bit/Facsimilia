@@ -86,10 +86,10 @@ public partial class Hud
         RefreshMapView();
     }
 
-    void Log(string? text, ChronicleKind kind = ChronicleKind.Peace)
+    void Log(string? text, ChronicleKind kind = ChronicleKind.Peace, string? cue = null)
     {
         if (!string.IsNullOrEmpty(text))
-            LogEvents(new List<ChronicleEvent> { new(kind, _map.PlayerRealmId, text) });
+            LogEvents(new List<ChronicleEvent> { new(kind, _map.PlayerRealmId, text, cue) });
     }
 
     void AfterDiplomacy()
@@ -142,7 +142,18 @@ public partial class Hud
             row.AddChild(label);
             var o = offer;
             var yes = new Button { Text = "Accept", FocusMode = FocusModeEnum.None };
-            yes.Pressed += () => { Log(_map.AnswerOffer(o, true)); AfterDiplomacy(); };
+            yes.Pressed += () =>
+            {
+                Log(_map.AnswerOffer(o, true), cue: o.Kind switch
+                {
+                    "peace" => "moment:peace",
+                    "alliance" => "moment:alliance",
+                    "vassal" => "moment:vassal_gained",
+                    "ransom" => "moment:tribute",
+                    _ => null,
+                });
+                AfterDiplomacy();
+            };
             row.AddChild(yes);
             var no = new Button { Text = "Decline", FocusMode = FocusModeEnum.None };
             no.Pressed += () => { Log(_map.AnswerOffer(o, false)); AfterDiplomacy(); };
@@ -319,7 +330,7 @@ public partial class Hud
             var terms = new PeaceTerms { Tribute = _terms.Tribute, Vassal = _terms.Vassal };
             terms.Provinces.AddRange(_terms.Provinces);
             var (ok, text) = _map.OfferPeace(enemy, terms);
-            Log(text);
+            Log(text, cue: ok ? "moment:peace" : null);
             if (ok)
                 _peaceWith = 0;
             AfterDiplomacy();

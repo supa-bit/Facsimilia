@@ -91,11 +91,13 @@ public partial class MapView
                 continue;
             double mine = dead.GetValueOrDefault(PlayerRealmId);
             bool historic = cat.Events.Contains(d);
+            // The narrator tells history's own disasters by name; chance ones only when they strike us.
+            string cue = historic ? $"disaster:{d.Year}:{d.Kind}|moment:{d.Kind}" : $"!moment:{d.Kind}";
             if (mine >= 100)
                 events.Add(new ChronicleEvent(ChronicleKind.Disaster, PlayerRealmId,
-                    $"{d.Name}: {mine:N0} of our people die."));
+                    $"{d.Name}: {mine:N0} of our people die.", cue));
             else if (historic)
-                events.Add(new ChronicleEvent(ChronicleKind.Disaster, 0, $"{d.Name}: {total:N0} die."));
+                events.Add(new ChronicleEvent(ChronicleKind.Disaster, 0, $"{d.Name}: {total:N0} die.", cue));
         }
         InvalidateProvincePeople();
         return events;

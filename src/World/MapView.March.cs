@@ -541,8 +541,9 @@ public partial class MapView
         string what = naval ? "fleet" : "army";
         string text = $"{report.Title}: {winA.Name} of {RealmName(winS.RealmId)} defeats {loseA.Name} of {RealmName(loseS.RealmId)}" +
             $" ({ThemeAncient.GroupThousands(report.AttackerLost + report.DefenderLost)} {(naval ? "men lost with their ships" : "men fall")}); the beaten {what} falls back.";
-        events.Add(new ChronicleEvent(ChronicleKind.War, att.RealmId, text));
-        events.Add(new ChronicleEvent(ChronicleKind.War, def.RealmId, text));
+        string won = naval ? "!moment:naval_won" : "!moment:battle_won", lost = naval ? "!moment:naval_lost" : "!moment:battle_lost";
+        events.Add(new ChronicleEvent(ChronicleKind.War, att.RealmId, text, report.AttackerWon ? won : lost));
+        events.Add(new ChronicleEvent(ChronicleKind.War, def.RealmId, text, report.AttackerWon ? lost : won));
         return events;
     }
 

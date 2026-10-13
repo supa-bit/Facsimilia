@@ -153,15 +153,16 @@ public partial class MapView
     }
 
     /// <summary>Opens a war (anyone's): aggression, the war itself, and the allies called in.</summary>
-    internal List<ChronicleEvent> StartWar(int attacker, int defender, Pretext pretext, string? why = null)
+    /// <param name="cue">What the narrator says when history's own war begins (a VoiceCatalog cue); others get the player's war cries.</param>
+    internal List<ChronicleEvent> StartWar(int attacker, int defender, Pretext pretext, string? why = null, string? cue = null)
     {
         var events = new List<ChronicleEvent>();
         var war = Diplomacy.Declare(Game, attacker, defender, DemoYear, pretext != Pretexts.None, pretext.Id);
         var state = Game.Realm(attacker);
         state.Aggression = Math.Min(100, state.Aggression + pretext.AggressionOnDeclare);
         string text = $"{RealmName(attacker)} declares war on {RealmName(defender)}: {why ?? pretext.Name.ToLowerInvariant()}.";
-        events.Add(new ChronicleEvent(ChronicleKind.War, attacker, text));
-        events.Add(new ChronicleEvent(ChronicleKind.War, defender, text));
+        events.Add(new ChronicleEvent(ChronicleKind.War, attacker, text, cue ?? "!moment:war_declared"));
+        events.Add(new ChronicleEvent(ChronicleKind.War, defender, text, cue ?? "!moment:war_on_us"));
         events.AddRange(CallAllies(war));
         return events;
     }
@@ -397,8 +398,8 @@ public partial class MapView
                 foreach (var s in Game.Sieges.Where(s => s.Attacker == other && s.Owner == tired && s.Progress >= 0.5 && s.ProvinceId != 0))
                     terms.Provinces.Add(s.ProvinceId);
                 string text = $"{RealmName(tired)} can fight no more. " + ApplyPeace(war, other, terms);
-                events.Add(new ChronicleEvent(ChronicleKind.Peace, tired, text));
-                events.Add(new ChronicleEvent(ChronicleKind.Peace, other, text));
+                events.Add(new ChronicleEvent(ChronicleKind.Peace, tired, text, "!moment:peace"));
+                events.Add(new ChronicleEvent(ChronicleKind.Peace, other, text, "!moment:peace"));
             }
         }
         // Vassals' tribute; aggression fades.

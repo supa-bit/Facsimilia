@@ -18,6 +18,7 @@ config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 
 SettingsStore="*res://src/UI/SettingsStore.cs"
 BuildCheck="*res://src/UI/build_check.gd"
+Voice="*res://src/UI/Voice.cs"
 
 [display]
 
