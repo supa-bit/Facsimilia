@@ -2267,6 +2267,14 @@ can pause, slow it down or speed it up) and Is the opening simulated?:
   their years, their names showing for a while. Click one (the years
   pause) to read and hear its story; Continue, and the bard says "And so
   the years run on" and picks up where he stopped.
+- **Photographs** (your answer to Pictures for the opening's places,
+  13 Oct 2026: free photos): 36 of the 38 places show one, the site or a
+  find from it, with the photographer and licence beneath. Only
+  licences that allow any use, commercial included: public domain, CC0,
+  CC BY or CC BY-SA. All from Wikimedia Commons
+  (`tools/fetch_opening_photos.py`; full credits in
+  `assets/opening/sites/CREDITS.md`). Hacılar and Hamoukar have no free
+  photograph anywhere yet; they show their words alone.
 - **The step of the story** (18 of them, from the hunters to the first
   states) shows under the year; "Tell me" pauses and reads it out.
 - **Controls**: Pause (Space), Slower (half speed), Faster (two or four
@@ -2277,8 +2285,7 @@ can pause, slow it down or speed it up) and Is the opening simulated?:
   the years begin.
 - **Narrators off** (Settings, Audio): the words stay on screen for as
   long as they would take to say.
-- **Not yet**: a picture for each place (a question on the Ledger,
-  "Pictures for the opening's places"); the game's own population and
+- **Not yet**: the game's own population and
   farming engine running the opening, rather than HYDE's record (your
   answer to Is the opening simulated?, kept for when the engine can
   start before 300 BC); ending at 3500 BC instead of 300 BC, when the

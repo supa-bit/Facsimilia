@@ -55,12 +55,15 @@ CATEGORIES = {
     "ain_ghazal": "Ain Ghazal", "ubaid": "Tell al-Ubaid", "merimde": "Merimde Beni Salama",
     "cucuteni": "Cucuteni-Trypillia culture", "hierakonpolis": "Hierakonpolis", "vinca": "Vinča-Belo Brdo",
 }
+# Photographers the Commons page names somewhere the parser doesn't read (artwork pages: "Source/Photographer").
+AUTHOR = {"vinca": "Michel wal"}
+
 # Chosen by hand where the category's first free photo shows the wrong age or nothing useful.
 OVERRIDE = {
     "khirokitia": "Choirokoitia-excavations.jpg",
-    "vinca": "Archaeological site in Vinča, exhibition.jpg",
+    "vinca": "Vinca clay figure 02.jpg",
     "merimde": "Merimde clay head, Predynastic Period, Maadi Era, 4th millennium BCE.jpg",
-    "uruk": "Uruk Archaeological site at Warka.jpg",
+    "uruk": "Ceramic decorative component (insert) in the shape of a bull once decorated a wall. The hindlegs, external genital organs, and the tail have survived. From Uruk, Iraq. 2nd half of the 4th millennium BCE. Vorderasiatisches Museum, Berlin.jpg",
     "susa": "IranSusaRuinenfeld.jpg",
     "halaf": "Bowl from Tell Arpachiyah, Iraq. The bowl was found fragmented, and the pieces were scattered over the floor before the building was slight. 6000-5000 BCE. British Museum.jpg",
     "samarra": "Samarra bowl.jpg",
@@ -163,6 +166,8 @@ def main():
             except Exception as e:  # noqa: BLE001
                 print(f"  {key}: {name}: {e}", file=sys.stderr)
                 continue
+            if key in AUTHOR:
+                lic["author"] = AUTHOR[key]
             index[key] = {"file": name, **lic,
                           "page": "https://commons.wikimedia.org/wiki/File:" + urllib.parse.quote(name.replace(" ", "_"))}
             print(f"{key}: {name} ({lic['licence']}, {lic['author']}) {w}x{h}")

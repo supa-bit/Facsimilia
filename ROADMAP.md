@@ -143,7 +143,8 @@ stops time).
       Bronze Age questions on the Ledger. The opening is built (13 Oct
       2026): 10,000 BC to 300 BC on the map, the bard's seven scenes, 38
       places to open, people spreading as HYDE has them, pause, slower,
-      faster and skip. Next: a picture for each place, the game's own
+      faster and skip; free photographs of 36 places, credited. Next: the
+      game's own
       engine running it, and ending at 3500 BC once the Bronze Age start
       is built.
 
