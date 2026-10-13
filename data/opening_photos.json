@@ -5,10 +5,28 @@
   "author": "Alexia Smith ,Amy Oechsner,Peter Rowley-Conwy,Andrew M. T. Moore",
   "page": "https://commons.wikimedia.org/wiki/File:Superimposed_structures_within_Trench_E_showing_Neolithic_2A_%2810%2C600-9%2C300_cal_BP%29_rectilinear_structure_atop_Epipalaeolithic_1A_%2813%2C300-12%2C800_cal_BP%29_pit_dwellings_in_the_foreground._Abu_Hureyra%2C_Syria.jpg"
  },
+ "franchthi": {
+  "file": "003Σπήλαιο Φράχθι Ερμιονίδας.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Efi tsif",
+  "page": "https://commons.wikimedia.org/wiki/File:003%CE%A3%CF%80%CE%AE%CE%BB%CE%B1%CE%B9%CE%BF_%CE%A6%CF%81%CE%AC%CF%87%CE%B8%CE%B9_%CE%95%CF%81%CE%BC%CE%B9%CE%BF%CE%BD%CE%AF%CE%B4%CE%B1%CF%82.jpg"
+ },
+ "gobekli_tepe": {
+  "file": "Göbekli Tepe, Urfa.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Teomancimit",
+  "page": "https://commons.wikimedia.org/wiki/File:G%C3%B6bekli_Tepe%2C_Urfa.jpg"
+ },
  "jarmo": {
   "file": "Jarmo_(Qal'at_Jarmo),_late_8th_century_BCE_to_late_6th_century_BCE._Sulaymaniyah,_Iraq,_March_2021._Aftermaths_of_1948-1955_excavations_conducted_by_the_Oriental_Institute_of_the_University_of_Chicago.jpg",
   "licence": "CC BY-SA-4.0",
   "author": "Osama Shukir Muhammed Amin FRCP(Glasg)",
   "page": "https://commons.wikimedia.org/wiki/File:Jarmo_%28Qal%27at_Jarmo%29%2C_late_8th_century_BCE_to_late_6th_century_BCE._Sulaymaniyah%2C_Iraq%2C_March_2021._Aftermaths_of_1948-1955_excavations_conducted_by_the_Oriental_Institute_of_the_University_of_Chicago.jpg"
+ },
+ "jericho": {
+  "file": "Tell es-sultan.jpg",
+  "licence": "Public domain",
+  "author": "Fullo88 at Italian Wikipedia",
+  "page": "https://commons.wikimedia.org/wiki/File:Tell_es-sultan.jpg"
  }
 }
