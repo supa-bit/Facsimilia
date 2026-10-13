@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-951 lines, 76,316 characters.
+1009 lines, 80,900 characters.
 
 ## The opening (the bard)
 
@@ -24,6 +24,12 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **tip_goals** (adviser): These are the aims your history sets before you. Pursue them or not, as you will. Your fame is counted in people, land, wealth, culture, dynasty and deeds.
 - **tip_realms** (adviser): Every realm of the world, side by side. Choose a column to order them; the chart shows who has led over the years.
 - **tip_province** (adviser): A province: its people, its land, its buildings and its garrison. Your own may be taxed and built upon.
+- **tip_speed** (adviser): The years pass as fast or as slow as you wish, my lord. Pause whenever you must think.
+- **tip_map** (adviser): Change the map to see what matters: who rules where, what each land grows, and where the people are restless.
+- **tip_chronicle** (adviser): Everything that happens is written in the chronicle, my lord. Read it, and you will know your realm's story.
+- **tip_save** (adviser): You may stop whenever you wish, my lord. The chronicle keeps your place, and the story will wait.
+- **tip_buildings** (adviser): In each province you may build farms, workshops, walls and temples. Each takes time, and silver.
+- **tip_wonders** (adviser): The great works of history may be raised by any realm that can pay for them. Whoever finishes first wins the glory.
 
 ## First steps (the adviser at court)
 
@@ -750,6 +756,18 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **moment_plot_uncovered_bard_1** (bard): A plot against the ruler is uncovered, and the plotters seized!
 - **moment_plot_uncovered_chronicler_1** (chronicler): A conspiracy against the crown has been discovered!
 - **moment_plot_uncovered_newsreader_1** (newsreader): A plot against the government has been uncovered, and arrests have been made.
+- **moment_temple_built_bard_1** (bard): A new temple rises, and the gods are honoured.
+- **moment_temple_built_chronicler_1** (chronicler): A great church is consecrated, and the bells ring out.
+- **moment_temple_built_newsreader_1** (newsreader): A new cathedral has been consecrated before great crowds.
+- **moment_pilgrims_bard_1** (bard): Pilgrims come from far and wide to our holy places.
+- **moment_pilgrims_chronicler_1** (chronicler): Pilgrims crowd the roads to our shrines.
+- **moment_pilgrims_newsreader_1** (newsreader): Record numbers of pilgrims have visited our shrines this year.
+- **moment_heresy_crushed_bard_1** (bard): The false teachers are driven out, and the old ways restored.
+- **moment_heresy_crushed_chronicler_1** (chronicler): The heresy is put down, and its teachers silenced.
+- **moment_heresy_crushed_newsreader_1** (newsreader): The authorities have suppressed the dissident movement.
+- **moment_festival_held_bard_1** (bard): The festival is held, with feasting and games. The people are glad.
+- **moment_festival_held_chronicler_1** (chronicler): The feast day is kept with processions and music, and the people rejoice.
+- **moment_festival_held_newsreader_1** (newsreader): The national celebrations passed off with great crowds and goodwill.
 
 ## The guided first game (the adviser)
 
@@ -864,6 +882,49 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **envoy_offer_alliance** (adviser): An envoy offers us an alliance, my lord.
 - **envoy_offer_marriage** (adviser): They offer a marriage between our houses, my lord.
 - **envoy_sue_for_peace** (adviser): The enemy sues for peace, my lord.
+
+## Great discoveries (each age's narrator)
+
+- **tech_arch_vault** (bard): Our builders have learned the arch and the vault. Now our roofs can span great halls, and our bridges cross wide rivers.
+- **tech_anatomy** (bard): Our physicians have studied the body from within, and learned how it works. Medicine will never be the same.
+- **tech_lighthouse_engineering** (bard): Our engineers can raise great towers of light, to guide ships safely into harbour.
+- **tech_merchant_galleys** (bard): Our shipwrights build great merchant ships, to carry grain and wine across the sea.
+- **tech_concrete** (bard): Our builders have learned to make concrete from lime and volcanic ash. It sets hard, even under the sea.
+- **tech_military_roads** (bard): Paved roads now run straight across our land, and our armies march swiftly upon them.
+- **tech_stirrup_saddle** (bard): The horned saddle holds our riders firm, and they strike harder from horseback.
+- **tech_silk_road** (bard): Caravans now cross the whole of Asia, and silk comes to us from the far land of the Seres.
+- **tech_solidus** (bard): We strike a sound gold coin, trusted from one end of the world to the other.
+- **tech_stirrup** (chronicler): With the stirrup, the rider sits firm in the saddle, and can strike with all his weight.
+- **tech_horizontal_windmill** (chronicler): In the windy lands of Persia, sails turn upon the wind to grind the grain.
+- **tech_paper** (chronicler): Paper has come to us from the east, cheaper than parchment, and books multiply.
+- **tech_algebra** (chronicler): Our scholars have learned algebra, the art of restoring and balancing, and can solve what was hidden.
+- **tech_crossbow** (chronicler): The crossbow: a weapon any peasant can learn, and one that can pierce a knight's armour.
+- **tech_gothic_vault** (chronicler): Ribbed vaults and flying buttresses: our churches rise higher than ever, and fill with light.
+- **tech_windmill** (chronicler): Windmills turn upon the hills, and grind our grain wherever the wind blows.
+- **tech_magnetic_compass** (chronicler): With the magnetic compass, our sailors can find the north even under a clouded sky.
+- **tech_gunpowder** (chronicler): Saltpetre, sulphur and charcoal: our alchemists have made a powder that burns like thunder.
+- **tech_spinning_wheel** (chronicler): The spinning wheel turns thread faster than any hand, and cloth grows cheaper.
+- **tech_cannon** (chronicler): Cannon roar for the first time, and no castle wall is safe for ever.
+- **tech_caravel** (chronicler): The caravel can sail against the wind. The open ocean awaits our captains.
+- **tech_printing_press** (chronicler): With the printing press, a book can be made a thousand times over, and knowledge spreads as never before.
+- **tech_newspapers** (chronicler): The first newspapers are printed, and the news of the world comes to every town.
+- **tech_telescope** (chronicler): Through the telescope, our astronomers see new stars and the moons of other worlds. The heavens are changed for ever.
+- **tech_musket** (chronicler): Musket and bayonet: every soldier is now both pikeman and marksman.
+- **tech_steam_engine** (chronicler): The first steam engines pump the water from our mines.
+- **tech_spinning_jenny** (chronicler): The spinning jenny spins many threads at once. The mills will change the world.
+- **tech_watt_engine** (chronicler): Watt's engine turns wheels with steam, and a factory no longer needs a river.
+- **tech_vaccination** (chronicler): Our doctors have learned to guard against the smallpox with cowpox. Vaccination will save countless lives.
+- **tech_railways** (newsreader): The first railway is open. Goods and passengers now travel faster than any horse.
+- **tech_telegraph** (newsreader): The telegraph is here. A message can now cross the country in minutes.
+- **tech_internal_combustion** (newsreader): A new engine burns its fuel inside itself. The age of the motor car is coming.
+- **tech_electricity** (newsreader): Electric power lights our streets and drives our machines.
+- **tech_radio** (newsreader): Radio waves carry messages across the ocean, without any wire at all.
+- **tech_antibiotics** (newsreader): Doctors have a new weapon: antibiotics. Wounds and fevers that once killed can now be cured.
+- **tech_jet_engine** (newsreader): The jet engine is here. Aircraft will fly faster and higher than ever before.
+- **tech_nuclear_weapons** (newsreader): [gravely] The atomic bomb. A single weapon can now destroy a city.
+- **tech_computers** (newsreader): The first electronic computers can work out in seconds what took clerks a lifetime.
+- **tech_nuclear_power** (newsreader): The first atomic power station is supplying electricity.
+- **tech_space_flight** (newsreader): A satellite circles the Earth. The space age has begun.
 
 ## The opening: its stages (the bard)
 

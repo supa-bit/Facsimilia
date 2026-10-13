@@ -1576,6 +1576,84 @@ for k, t in {
 }.items():
     add(f"reply_{k}", "adviser", "adviser_reply", k, t)
 
+# ------------------------------------------- great discoveries, by name
+# Asked 13 Oct 2026 (more lines while free): the narrator of the age
+# announces the milestones of the tech tree (ids from data/techs.json).
+TECH_LINES = {
+    "arch_vault": "Our builders have learned the arch and the vault. Now our roofs can span great halls, and our bridges cross wide rivers.",
+    "anatomy": "Our physicians have studied the body from within, and learned how it works. Medicine will never be the same.",
+    "lighthouse_engineering": "Our engineers can raise great towers of light, to guide ships safely into harbour.",
+    "merchant_galleys": "Our shipwrights build great merchant ships, to carry grain and wine across the sea.",
+    "concrete": "Our builders have learned to make concrete from lime and volcanic ash. It sets hard, even under the sea.",
+    "military_roads": "Paved roads now run straight across our land, and our armies march swiftly upon them.",
+    "stirrup_saddle": "The horned saddle holds our riders firm, and they strike harder from horseback.",
+    "silk_road": "Caravans now cross the whole of Asia, and silk comes to us from the far land of the Seres.",
+    "solidus": "We strike a sound gold coin, trusted from one end of the world to the other.",
+    "stirrup": "With the stirrup, the rider sits firm in the saddle, and can strike with all his weight.",
+    "horizontal_windmill": "In the windy lands of Persia, sails turn upon the wind to grind the grain.",
+    "paper": "Paper has come to us from the east, cheaper than parchment, and books multiply.",
+    "algebra": "Our scholars have learned algebra, the art of restoring and balancing, and can solve what was hidden.",
+    "crossbow": "The crossbow: a weapon any peasant can learn, and one that can pierce a knight's armour.",
+    "gothic_vault": "Ribbed vaults and flying buttresses: our churches rise higher than ever, and fill with light.",
+    "windmill": "Windmills turn upon the hills, and grind our grain wherever the wind blows.",
+    "magnetic_compass": "With the magnetic compass, our sailors can find the north even under a clouded sky.",
+    "gunpowder": "Saltpetre, sulphur and charcoal: our alchemists have made a powder that burns like thunder.",
+    "spinning_wheel": "The spinning wheel turns thread faster than any hand, and cloth grows cheaper.",
+    "cannon": "Cannon roar for the first time, and no castle wall is safe for ever.",
+    "caravel": "The caravel can sail against the wind. The open ocean awaits our captains.",
+    "printing_press": "With the printing press, a book can be made a thousand times over, and knowledge spreads as never before.",
+    "newspapers": "The first newspapers are printed, and the news of the world comes to every town.",
+    "telescope": "Through the telescope, our astronomers see new stars and the moons of other worlds. The heavens are changed for ever.",
+    "musket": "Musket and bayonet: every soldier is now both pikeman and marksman.",
+    "steam_engine": "The first steam engines pump the water from our mines.",
+    "spinning_jenny": "The spinning jenny spins many threads at once. The mills will change the world.",
+    "watt_engine": "Watt's engine turns wheels with steam, and a factory no longer needs a river.",
+    "vaccination": "Our doctors have learned to guard against the smallpox with cowpox. Vaccination will save countless lives.",
+    "railways": "The first railway is open. Goods and passengers now travel faster than any horse.",
+    "telegraph": "The telegraph is here. A message can now cross the country in minutes.",
+    "internal_combustion": "A new engine burns its fuel inside itself. The age of the motor car is coming.",
+    "electricity": "Electric power lights our streets and drives our machines.",
+    "radio": "Radio waves carry messages across the ocean, without any wire at all.",
+    "antibiotics": "Doctors have a new weapon: antibiotics. Wounds and fevers that once killed can now be cured.",
+    "jet_engine": "The jet engine is here. Aircraft will fly faster and higher than ever before.",
+    "nuclear_weapons": "[gravely] The atomic bomb. A single weapon can now destroy a city.",
+    "computers": "The first electronic computers can work out in seconds what took clerks a lifetime.",
+    "nuclear_power": "The first atomic power station is supplying electricity.",
+    "space_flight": "A satellite circles the Earth. The space age has begun.",
+}
+_techs = {t["id"]: t for t in json.loads((ROOT / "data/techs.json").read_text())["techs"]}
+for k, t in TECH_LINES.items():
+    add(f"tech_{k}", narrator(_techs[k]["available_from"]), "tech_learnt", k, t)
+
+# Faith and festivals, told once by each narrator.
+for k, texts in {
+    "temple_built": ("A new temple rises, and the gods are honoured.",
+                     "A great church is consecrated, and the bells ring out.",
+                     "A new cathedral has been consecrated before great crowds."),
+    "pilgrims": ("Pilgrims come from far and wide to our holy places.",
+                 "Pilgrims crowd the roads to our shrines.",
+                 "Record numbers of pilgrims have visited our shrines this year."),
+    "heresy_crushed": ("The false teachers are driven out, and the old ways restored.",
+                       "The heresy is put down, and its teachers silenced.",
+                       "The authorities have suppressed the dissident movement."),
+    "festival_held": ("The festival is held, with feasting and games. The people are glad.",
+                      "The feast day is kept with processions and music, and the people rejoice.",
+                      "The national celebrations passed off with great crowds and goodwill."),
+}.items():
+    for v, t in zip(("bard", "chronicler", "newsreader"), texts):
+        add(f"moment_{k}_{v}_1", v, "moment", k, t)
+
+# More tips from the adviser.
+for k, t in {
+    "speed": "The years pass as fast or as slow as you wish, my lord. Pause whenever you must think.",
+    "map": "Change the map to see what matters: who rules where, what each land grows, and where the people are restless.",
+    "chronicle": "Everything that happens is written in the chronicle, my lord. Read it, and you will know your realm's story.",
+    "save": "You may stop whenever you wish, my lord. The chronicle keeps your place, and the story will wait.",
+    "buildings": "In each province you may build farms, workshops, walls and temples. Each takes time, and silver.",
+    "wonders": "The great works of history may be raised by any realm that can pay for them. Whoever finishes first wins the glory.",
+}.items():
+    add(f"tip_{k}", "adviser", "tip", k, t)
+
 # ------------------------------------------------------- adviser replies
 REPLIES = {
     "yes_1": "As you command, my lord.",
@@ -1635,6 +1713,7 @@ heads = {"opening": "The opening (the bard)", "tip": "Tips (the adviser at court
          "lesson_adviser": "The guided first game (the adviser)", "alert": "Warnings (the adviser)",
          "adviser_reply": "Replies and greetings (the adviser)",
          "envoy": "Envoys' answers (the adviser)",
+         "tech_learnt": "Great discoveries (each age's narrator)",
          "opening_stage": "The opening: its stages (the bard)", "opening_year": "The opening: the years",
          "opening_site": "The opening: places you can open when paused (the bard)",
          "opening_help": "The opening: how to watch it", "realm_intro": "The realms of 300 BC (the bard)",

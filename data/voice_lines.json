@@ -8381,6 +8381,528 @@
    "lang": "en"
   },
   {
+   "id": "tech_arch_vault",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "arch_vault",
+   "text": "Our builders have learned the arch and the vault. Now our roofs can span great halls, and our bridges cross wide rivers.",
+   "subtitle": "Our builders have learned the arch and the vault. Now our roofs can span great halls, and our bridges cross wide rivers.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_anatomy",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "anatomy",
+   "text": "Our physicians have studied the body from within, and learned how it works. Medicine will never be the same.",
+   "subtitle": "Our physicians have studied the body from within, and learned how it works. Medicine will never be the same.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_lighthouse_engineering",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "lighthouse_engineering",
+   "text": "Our engineers can raise great towers of light, to guide ships safely into harbour.",
+   "subtitle": "Our engineers can raise great towers of light, to guide ships safely into harbour.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_merchant_galleys",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "merchant_galleys",
+   "text": "Our shipwrights build great merchant ships, to carry grain and wine across the sea.",
+   "subtitle": "Our shipwrights build great merchant ships, to carry grain and wine across the sea.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_concrete",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "concrete",
+   "text": "Our builders have learned to make concrete from lime and volcanic ash. It sets hard, even under the sea.",
+   "subtitle": "Our builders have learned to make concrete from lime and volcanic ash. It sets hard, even under the sea.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_military_roads",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "military_roads",
+   "text": "Paved roads now run straight across our land, and our armies march swiftly upon them.",
+   "subtitle": "Paved roads now run straight across our land, and our armies march swiftly upon them.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_stirrup_saddle",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "stirrup_saddle",
+   "text": "The horned saddle holds our riders firm, and they strike harder from horseback.",
+   "subtitle": "The horned saddle holds our riders firm, and they strike harder from horseback.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_silk_road",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "silk_road",
+   "text": "Caravans now cross the whole of Asia, and silk comes to us from the far land of the Seres.",
+   "subtitle": "Caravans now cross the whole of Asia, and silk comes to us from the far land of the Seres.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_solidus",
+   "voice": "bard",
+   "plays": "tech_learnt",
+   "key": "solidus",
+   "text": "We strike a sound gold coin, trusted from one end of the world to the other.",
+   "subtitle": "We strike a sound gold coin, trusted from one end of the world to the other.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_stirrup",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "stirrup",
+   "text": "With the stirrup, the rider sits firm in the saddle, and can strike with all his weight.",
+   "subtitle": "With the stirrup, the rider sits firm in the saddle, and can strike with all his weight.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_horizontal_windmill",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "horizontal_windmill",
+   "text": "In the windy lands of Persia, sails turn upon the wind to grind the grain.",
+   "subtitle": "In the windy lands of Persia, sails turn upon the wind to grind the grain.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_paper",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "paper",
+   "text": "Paper has come to us from the east, cheaper than parchment, and books multiply.",
+   "subtitle": "Paper has come to us from the east, cheaper than parchment, and books multiply.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_algebra",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "algebra",
+   "text": "Our scholars have learned algebra, the art of restoring and balancing, and can solve what was hidden.",
+   "subtitle": "Our scholars have learned algebra, the art of restoring and balancing, and can solve what was hidden.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_crossbow",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "crossbow",
+   "text": "The crossbow: a weapon any peasant can learn, and one that can pierce a knight's armour.",
+   "subtitle": "The crossbow: a weapon any peasant can learn, and one that can pierce a knight's armour.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_gothic_vault",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "gothic_vault",
+   "text": "Ribbed vaults and flying buttresses: our churches rise higher than ever, and fill with light.",
+   "subtitle": "Ribbed vaults and flying buttresses: our churches rise higher than ever, and fill with light.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_windmill",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "windmill",
+   "text": "Windmills turn upon the hills, and grind our grain wherever the wind blows.",
+   "subtitle": "Windmills turn upon the hills, and grind our grain wherever the wind blows.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_magnetic_compass",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "magnetic_compass",
+   "text": "With the magnetic compass, our sailors can find the north even under a clouded sky.",
+   "subtitle": "With the magnetic compass, our sailors can find the north even under a clouded sky.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_gunpowder",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "gunpowder",
+   "text": "Saltpetre, sulphur and charcoal: our alchemists have made a powder that burns like thunder.",
+   "subtitle": "Saltpetre, sulphur and charcoal: our alchemists have made a powder that burns like thunder.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_spinning_wheel",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "spinning_wheel",
+   "text": "The spinning wheel turns thread faster than any hand, and cloth grows cheaper.",
+   "subtitle": "The spinning wheel turns thread faster than any hand, and cloth grows cheaper.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_cannon",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "cannon",
+   "text": "Cannon roar for the first time, and no castle wall is safe for ever.",
+   "subtitle": "Cannon roar for the first time, and no castle wall is safe for ever.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_caravel",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "caravel",
+   "text": "The caravel can sail against the wind. The open ocean awaits our captains.",
+   "subtitle": "The caravel can sail against the wind. The open ocean awaits our captains.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_printing_press",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "printing_press",
+   "text": "With the printing press, a book can be made a thousand times over, and knowledge spreads as never before.",
+   "subtitle": "With the printing press, a book can be made a thousand times over, and knowledge spreads as never before.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_newspapers",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "newspapers",
+   "text": "The first newspapers are printed, and the news of the world comes to every town.",
+   "subtitle": "The first newspapers are printed, and the news of the world comes to every town.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_telescope",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "telescope",
+   "text": "Through the telescope, our astronomers see new stars and the moons of other worlds. The heavens are changed for ever.",
+   "subtitle": "Through the telescope, our astronomers see new stars and the moons of other worlds. The heavens are changed for ever.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_musket",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "musket",
+   "text": "Musket and bayonet: every soldier is now both pikeman and marksman.",
+   "subtitle": "Musket and bayonet: every soldier is now both pikeman and marksman.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_steam_engine",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "steam_engine",
+   "text": "The first steam engines pump the water from our mines.",
+   "subtitle": "The first steam engines pump the water from our mines.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_spinning_jenny",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "spinning_jenny",
+   "text": "The spinning jenny spins many threads at once. The mills will change the world.",
+   "subtitle": "The spinning jenny spins many threads at once. The mills will change the world.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_watt_engine",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "watt_engine",
+   "text": "Watt's engine turns wheels with steam, and a factory no longer needs a river.",
+   "subtitle": "Watt's engine turns wheels with steam, and a factory no longer needs a river.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_vaccination",
+   "voice": "chronicler",
+   "plays": "tech_learnt",
+   "key": "vaccination",
+   "text": "Our doctors have learned to guard against the smallpox with cowpox. Vaccination will save countless lives.",
+   "subtitle": "Our doctors have learned to guard against the smallpox with cowpox. Vaccination will save countless lives.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_railways",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "railways",
+   "text": "The first railway is open. Goods and passengers now travel faster than any horse.",
+   "subtitle": "The first railway is open. Goods and passengers now travel faster than any horse.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_telegraph",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "telegraph",
+   "text": "The telegraph is here. A message can now cross the country in minutes.",
+   "subtitle": "The telegraph is here. A message can now cross the country in minutes.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_internal_combustion",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "internal_combustion",
+   "text": "A new engine burns its fuel inside itself. The age of the motor car is coming.",
+   "subtitle": "A new engine burns its fuel inside itself. The age of the motor car is coming.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_electricity",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "electricity",
+   "text": "Electric power lights our streets and drives our machines.",
+   "subtitle": "Electric power lights our streets and drives our machines.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_radio",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "radio",
+   "text": "Radio waves carry messages across the ocean, without any wire at all.",
+   "subtitle": "Radio waves carry messages across the ocean, without any wire at all.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_antibiotics",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "antibiotics",
+   "text": "Doctors have a new weapon: antibiotics. Wounds and fevers that once killed can now be cured.",
+   "subtitle": "Doctors have a new weapon: antibiotics. Wounds and fevers that once killed can now be cured.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_jet_engine",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "jet_engine",
+   "text": "The jet engine is here. Aircraft will fly faster and higher than ever before.",
+   "subtitle": "The jet engine is here. Aircraft will fly faster and higher than ever before.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_nuclear_weapons",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "nuclear_weapons",
+   "text": "[gravely] The atomic bomb. A single weapon can now destroy a city.",
+   "subtitle": "The atomic bomb. A single weapon can now destroy a city.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_computers",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "computers",
+   "text": "The first electronic computers can work out in seconds what took clerks a lifetime.",
+   "subtitle": "The first electronic computers can work out in seconds what took clerks a lifetime.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_nuclear_power",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "nuclear_power",
+   "text": "The first atomic power station is supplying electricity.",
+   "subtitle": "The first atomic power station is supplying electricity.",
+   "lang": "en"
+  },
+  {
+   "id": "tech_space_flight",
+   "voice": "newsreader",
+   "plays": "tech_learnt",
+   "key": "space_flight",
+   "text": "A satellite circles the Earth. The space age has begun.",
+   "subtitle": "A satellite circles the Earth. The space age has begun.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_temple_built_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "temple_built",
+   "text": "A new temple rises, and the gods are honoured.",
+   "subtitle": "A new temple rises, and the gods are honoured.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_temple_built_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "temple_built",
+   "text": "A great church is consecrated, and the bells ring out.",
+   "subtitle": "A great church is consecrated, and the bells ring out.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_temple_built_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "temple_built",
+   "text": "A new cathedral has been consecrated before great crowds.",
+   "subtitle": "A new cathedral has been consecrated before great crowds.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_pilgrims_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "pilgrims",
+   "text": "Pilgrims come from far and wide to our holy places.",
+   "subtitle": "Pilgrims come from far and wide to our holy places.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_pilgrims_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "pilgrims",
+   "text": "Pilgrims crowd the roads to our shrines.",
+   "subtitle": "Pilgrims crowd the roads to our shrines.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_pilgrims_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "pilgrims",
+   "text": "Record numbers of pilgrims have visited our shrines this year.",
+   "subtitle": "Record numbers of pilgrims have visited our shrines this year.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heresy_crushed_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "heresy_crushed",
+   "text": "The false teachers are driven out, and the old ways restored.",
+   "subtitle": "The false teachers are driven out, and the old ways restored.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heresy_crushed_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "heresy_crushed",
+   "text": "The heresy is put down, and its teachers silenced.",
+   "subtitle": "The heresy is put down, and its teachers silenced.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heresy_crushed_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "heresy_crushed",
+   "text": "The authorities have suppressed the dissident movement.",
+   "subtitle": "The authorities have suppressed the dissident movement.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_festival_held_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "festival_held",
+   "text": "The festival is held, with feasting and games. The people are glad.",
+   "subtitle": "The festival is held, with feasting and games. The people are glad.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_festival_held_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "festival_held",
+   "text": "The feast day is kept with processions and music, and the people rejoice.",
+   "subtitle": "The feast day is kept with processions and music, and the people rejoice.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_festival_held_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "festival_held",
+   "text": "The national celebrations passed off with great crowds and goodwill.",
+   "subtitle": "The national celebrations passed off with great crowds and goodwill.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_speed",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "speed",
+   "text": "The years pass as fast or as slow as you wish, my lord. Pause whenever you must think.",
+   "subtitle": "The years pass as fast or as slow as you wish, my lord. Pause whenever you must think.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_map",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "map",
+   "text": "Change the map to see what matters: who rules where, what each land grows, and where the people are restless.",
+   "subtitle": "Change the map to see what matters: who rules where, what each land grows, and where the people are restless.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_chronicle",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "chronicle",
+   "text": "Everything that happens is written in the chronicle, my lord. Read it, and you will know your realm's story.",
+   "subtitle": "Everything that happens is written in the chronicle, my lord. Read it, and you will know your realm's story.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_save",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "save",
+   "text": "You may stop whenever you wish, my lord. The chronicle keeps your place, and the story will wait.",
+   "subtitle": "You may stop whenever you wish, my lord. The chronicle keeps your place, and the story will wait.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_buildings",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "buildings",
+   "text": "In each province you may build farms, workshops, walls and temples. Each takes time, and silver.",
+   "subtitle": "In each province you may build farms, workshops, walls and temples. Each takes time, and silver.",
+   "lang": "en"
+  },
+  {
+   "id": "tip_wonders",
+   "voice": "adviser",
+   "plays": "tip",
+   "key": "wonders",
+   "text": "The great works of history may be raised by any realm that can pay for them. Whoever finishes first wins the glory.",
+   "subtitle": "The great works of history may be raised by any realm that can pay for them. Whoever finishes first wins the glory.",
+   "lang": "en"
+  },
+  {
    "id": "reply_yes_1",
    "voice": "adviser",
    "plays": "adviser_reply",
