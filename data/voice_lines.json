@@ -5546,6 +5546,1239 @@
    "lang": "en"
   },
   {
+   "id": "site_gobekli_tepe",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "gobekli_tepe",
+   "text": "Göbekli Tepe, on a ridge above the plain of Harran. More than eleven thousand years ago, hunters raised rings of great T-shaped pillars here, some taller than a man, carved with foxes, boars, snakes and vultures. Few lived here for long; people came together to build and to feast. [pause] It is the oldest monument of its kind we know.",
+   "subtitle": "Göbekli Tepe, on a ridge above the plain of Harran. More than eleven thousand years ago, hunters raised rings of great T-shaped pillars here, some taller than a man, carved with foxes, boars, snakes and vultures. Few lived here for long; people came together to build and to feast. It is the oldest monument of its kind we know.",
+   "lang": "en"
+  },
+  {
+   "id": "site_karahan_tepe",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "karahan_tepe",
+   "text": "Karahan Tepe, a day's walk from Göbekli Tepe, is just as old. Its builders cut a chamber into the living rock and left a forest of pillars rising from its floor, watched over by a carved human head. The hills of Harran hold a dozen such places; Göbekli Tepe was not alone.",
+   "subtitle": "Karahan Tepe, a day's walk from Göbekli Tepe, is just as old. Its builders cut a chamber into the living rock and left a forest of pillars rising from its floor, watched over by a carved human head. The hills of Harran hold a dozen such places; Göbekli Tepe was not alone.",
+   "lang": "en"
+  },
+  {
+   "id": "site_nevali_cori",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "nevali_cori",
+   "text": "Nevalı Çori lay in a valley now drowned beneath a dam on the Euphrates. Its people lived in long stone houses and built a shrine with carved pillars, like those of Göbekli Tepe. On the slopes of Karacadağ nearby, wild einkorn was first tamed into a crop.",
+   "subtitle": "Nevalı Çori lay in a valley now drowned beneath a dam on the Euphrates. Its people lived in long stone houses and built a shrine with carved pillars, like those of Göbekli Tepe. On the slopes of Karacadağ nearby, wild einkorn was first tamed into a crop.",
+   "lang": "en"
+  },
+  {
+   "id": "site_abu_hureyra",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "abu_hureyra",
+   "text": "Abu Hureyra, on the Euphrates in Syria. Its people hunted gazelle and gathered wild grain, and when a cold, dry age came, they may have begun to sow it themselves. It grew into one of the largest villages of its time. Its mound now lies beneath the waters of a lake.",
+   "subtitle": "Abu Hureyra, on the Euphrates in Syria. Its people hunted gazelle and gathered wild grain, and when a cold, dry age came, they may have begun to sow it themselves. It grew into one of the largest villages of its time. Its mound now lies beneath the waters of a lake.",
+   "lang": "en"
+  },
+  {
+   "id": "site_jericho",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "jericho",
+   "text": "Jericho, beside a spring in the Jordan valley. About ten thousand years ago its people built a stone wall and a round tower eight metres high, with a stair inside. No one knows whether it guarded against enemies, floods, or simply showed what the town could do together. People have lived here ever since.",
+   "subtitle": "Jericho, beside a spring in the Jordan valley. About ten thousand years ago its people built a stone wall and a round tower eight metres high, with a stair inside. No one knows whether it guarded against enemies, floods, or simply showed what the town could do together. People have lived here ever since.",
+   "lang": "en"
+  },
+  {
+   "id": "site_ganj_dareh",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "ganj_dareh",
+   "text": "Ganj Dareh, high in the Zagros mountains of Iran. Here, ten thousand years ago, people began to herd goats, killing the young males and keeping the females for their kids and milk. It is the earliest sign we have of goats being tamed.",
+   "subtitle": "Ganj Dareh, high in the Zagros mountains of Iran. Here, ten thousand years ago, people began to herd goats, killing the young males and keeping the females for their kids and milk. It is the earliest sign we have of goats being tamed.",
+   "lang": "en"
+  },
+  {
+   "id": "site_cayonu",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "cayonu",
+   "text": "Çayönü, in the hills above the Tigris. Its people built their houses on stone grills to keep them dry, and hammered native copper into beads and pins nearly ten thousand years ago, some of the first worked metal in the world. Here too, wild pigs were among the first to be tamed.",
+   "subtitle": "Çayönü, in the hills above the Tigris. Its people built their houses on stone grills to keep them dry, and hammered native copper into beads and pins nearly ten thousand years ago, some of the first worked metal in the world. Here too, wild pigs were among the first to be tamed.",
+   "lang": "en"
+  },
+  {
+   "id": "site_asikli",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "asikli",
+   "text": "Aşıklı Höyük, in Cappadocia, beside a river beneath the volcanoes. Its people lived in close-packed houses of mud brick and worked obsidian, the black volcanic glass that gave the sharpest blades of the age. Here we can see sheep being penned and kept, among the first.",
+   "subtitle": "Aşıklı Höyük, in Cappadocia, beside a river beneath the volcanoes. Its people lived in close-packed houses of mud brick and worked obsidian, the black volcanic glass that gave the sharpest blades of the age. Here we can see sheep being penned and kept, among the first.",
+   "lang": "en"
+  },
+  {
+   "id": "site_ain_ghazal",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "ain_ghazal",
+   "text": "'Ain Ghazal, near Amman in Jordan, was one of the largest villages of its age, home to perhaps two or three thousand people. They modelled statues of plaster over frames of reed, with wide eyes of shell and bitumen, and buried them with care. Then the land grew dry, and the village dwindled.",
+   "subtitle": "'Ain Ghazal, near Amman in Jordan, was one of the largest villages of its age, home to perhaps two or three thousand people. They modelled statues of plaster over frames of reed, with wide eyes of shell and bitumen, and buried them with care. Then the land grew dry, and the village dwindled.",
+   "lang": "en"
+  },
+  {
+   "id": "site_catalhoyuk",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "catalhoyuk",
+   "text": "Çatalhöyük, on the plain of Konya. For more than a thousand years, thousands of people lived here in houses packed so close there were no streets; they came and went through their roofs. They painted hunts and leopards on their walls, set bulls' horns in the plaster, and buried their dead beneath their floors. [pause] No house was grander than the rest.",
+   "subtitle": "Çatalhöyük, on the plain of Konya. For more than a thousand years, thousands of people lived here in houses packed so close there were no streets; they came and went through their roofs. They painted hunts and leopards on their walls, set bulls' horns in the plaster, and buried their dead beneath their floors. No house was grander than the rest.",
+   "lang": "en"
+  },
+  {
+   "id": "site_khirokitia",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "khirokitia",
+   "text": "Khirokitia, on Cyprus. The island's first farmers came by boat, bringing wheat, sheep, goats, pigs and even deer to a land that had none. Here they built round houses of stone and mud brick on a hillside, behind a wall, and lived there for some fifteen hundred years.",
+   "subtitle": "Khirokitia, on Cyprus. The island's first farmers came by boat, bringing wheat, sheep, goats, pigs and even deer to a land that had none. Here they built round houses of stone and mud brick on a hillside, behind a wall, and lived there for some fifteen hundred years.",
+   "lang": "en"
+  },
+  {
+   "id": "site_jarmo",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "jarmo",
+   "text": "Jarmo, in the foothills of the Zagros. A village of some twenty houses, where people grew wheat and barley, kept goats and sheep, and in time made some of the first pottery of the region. It was one of the first places where scholars went looking for the beginnings of farming.",
+   "subtitle": "Jarmo, in the foothills of the Zagros. A village of some twenty houses, where people grew wheat and barley, kept goats and sheep, and in time made some of the first pottery of the region. It was one of the first places where scholars went looking for the beginnings of farming.",
+   "lang": "en"
+  },
+  {
+   "id": "site_hacilar",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "hacilar",
+   "text": "Hacılar, in the lake country of Anatolia. Its villagers made lively painted pots and little clay figures of women, and lived in houses of mud brick on stone footings. Fire destroyed the village more than once, and each time it was built again.",
+   "subtitle": "Hacılar, in the lake country of Anatolia. Its villagers made lively painted pots and little clay figures of women, and lived in houses of mud brick on stone footings. Fire destroyed the village more than once, and each time it was built again.",
+   "lang": "en"
+  },
+  {
+   "id": "site_sesklo",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "sesklo",
+   "text": "Sesklo, in Thessaly, one of the first farming villages of Europe. Its people came from Anatolia across the Aegean, bringing wheat, sheep and goats, and lived in stone-footed houses with fine painted pottery. From villages like this, farming spread across the continent.",
+   "subtitle": "Sesklo, in Thessaly, one of the first farming villages of Europe. Its people came from Anatolia across the Aegean, bringing wheat, sheep and goats, and lived in stone-footed houses with fine painted pottery. From villages like this, farming spread across the continent.",
+   "lang": "en"
+  },
+  {
+   "id": "site_franchthi",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "franchthi",
+   "text": "Franchthi Cave, in the Argolid of Greece. People lived here for twenty thousand years: as hunters, then as fishermen who sailed to the island of Melos for obsidian, and at last as farmers. It holds one of the oldest records of seafaring in the Mediterranean.",
+   "subtitle": "Franchthi Cave, in the Argolid of Greece. People lived here for twenty thousand years: as hunters, then as fishermen who sailed to the island of Melos for obsidian, and at last as farmers. It holds one of the oldest records of seafaring in the Mediterranean.",
+   "lang": "en"
+  },
+  {
+   "id": "site_lepenski_vir",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "lepenski_vir",
+   "text": "Lepenski Vir, on the Danube in the Iron Gates gorge. Fishers of the great river built houses with floors of red plaster, and carved river boulders into faces half man and half fish. They lived on the river's bounty for two thousand years before farmers came.",
+   "subtitle": "Lepenski Vir, on the Danube in the Iron Gates gorge. Fishers of the great river built houses with floors of red plaster, and carved river boulders into faces half man and half fish. They lived on the river's bounty for two thousand years before farmers came.",
+   "lang": "en"
+  },
+  {
+   "id": "site_samarra",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "samarra",
+   "text": "Samarra, on the Tigris. About six thousand years before Christ, farmers here dug canals to carry river water to their fields, for there was too little rain to grow grain without it. Their pots were painted with whirling women, fish and birds. Irrigation would make Mesopotamia bloom.",
+   "subtitle": "Samarra, on the Tigris. About six thousand years before Christ, farmers here dug canals to carry river water to their fields, for there was too little rain to grow grain without it. Their pots were painted with whirling women, fish and birds. Irrigation would make Mesopotamia bloom.",
+   "lang": "en"
+  },
+  {
+   "id": "site_halaf",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "halaf",
+   "text": "Tell Halaf, in northern Syria, gave its name to a people of farming villages that stretched from the Mediterranean to the Zagros some eight thousand years ago. They made the finest painted pottery of their age, lived in round houses, and traded obsidian and shells across great distances.",
+   "subtitle": "Tell Halaf, in northern Syria, gave its name to a people of farming villages that stretched from the Mediterranean to the Zagros some eight thousand years ago. They made the finest painted pottery of their age, lived in round houses, and traded obsidian and shells across great distances.",
+   "lang": "en"
+  },
+  {
+   "id": "site_merimde",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "merimde",
+   "text": "Merimde Beni Salama, on the western edge of the Nile delta, was one of Egypt's first farming villages. Its people grew wheat and barley, kept cattle, pigs and sheep, and buried their dead among their houses.",
+   "subtitle": "Merimde Beni Salama, on the western edge of the Nile delta, was one of Egypt's first farming villages. Its people grew wheat and barley, kept cattle, pigs and sheep, and buried their dead among their houses.",
+   "lang": "en"
+  },
+  {
+   "id": "site_nabta_playa",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "nabta_playa",
+   "text": "Nabta Playa, in the desert west of the Nile. When the Sahara was green, cattle herders gathered here beside a seasonal lake, and set up a circle of stones that may have marked the summer sun. When the rains failed, they moved east, to the Nile.",
+   "subtitle": "Nabta Playa, in the desert west of the Nile. When the Sahara was green, cattle herders gathered here beside a seasonal lake, and set up a circle of stones that may have marked the summer sun. When the rains failed, they moved east, to the Nile.",
+   "lang": "en"
+  },
+  {
+   "id": "site_eridu",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "eridu",
+   "text": "Eridu, on the edge of the marshes in the far south of Mesopotamia. The Sumerians remembered it as the first city, where kingship came down from heaven. For three thousand years its people rebuilt the temple of Enki, god of the sweet waters, each one larger, on top of the last: eighteen temples, one above another.",
+   "subtitle": "Eridu, on the edge of the marshes in the far south of Mesopotamia. The Sumerians remembered it as the first city, where kingship came down from heaven. For three thousand years its people rebuilt the temple of Enki, god of the sweet waters, each one larger, on top of the last: eighteen temples, one above another.",
+   "lang": "en"
+  },
+  {
+   "id": "site_ubaid",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "ubaid",
+   "text": "Tell al-Ubaid, near Ur, gave its name to the people who first settled the south of Mesopotamia. They drained the marshes, dug canals and built temples on platforms, and their ways and their pottery spread up the rivers as far as Syria, and across the Gulf.",
+   "subtitle": "Tell al-Ubaid, near Ur, gave its name to the people who first settled the south of Mesopotamia. They drained the marshes, dug canals and built temples on platforms, and their ways and their pottery spread up the rivers as far as Syria, and across the Gulf.",
+   "lang": "en"
+  },
+  {
+   "id": "site_byblos",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "byblos",
+   "text": "Byblos, on the coast of Lebanon. Fishermen and farmers settled here seven thousand years ago. It would become one of the oldest cities still lived in, trading cedar with Egypt, and the Greeks would name papyrus after it, and so the Bible too.",
+   "subtitle": "Byblos, on the coast of Lebanon. Fishermen and farmers settled here seven thousand years ago. It would become one of the oldest cities still lived in, trading cedar with Egypt, and the Greeks would name papyrus after it, and so the Bible too.",
+   "lang": "en"
+  },
+  {
+   "id": "site_vinca",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "vinca",
+   "text": "Vinča, on the Danube near Belgrade. Seven thousand years ago it was one of the great settlements of Europe, with hundreds of houses. Its people smelted copper earlier than almost anyone, made masked clay figures, and scratched signs on their pots that some think a kind of writing.",
+   "subtitle": "Vinča, on the Danube near Belgrade. Seven thousand years ago it was one of the great settlements of Europe, with hundreds of houses. Its people smelted copper earlier than almost anyone, made masked clay figures, and scratched signs on their pots that some think a kind of writing.",
+   "lang": "en"
+  },
+  {
+   "id": "site_yumuktepe",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "yumuktepe",
+   "text": "Yumuktepe, at Mersin on the coast of Cilicia, was lived in for eight thousand years. Some seven thousand years ago it was a walled fortress, with narrow windows for archers: one of the oldest forts we know.",
+   "subtitle": "Yumuktepe, at Mersin on the coast of Cilicia, was lived in for eight thousand years. Some seven thousand years ago it was a walled fortress, with narrow windows for archers: one of the oldest forts we know.",
+   "lang": "en"
+  },
+  {
+   "id": "site_ghassul",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "ghassul",
+   "text": "Teleilat Ghassul, near the Dead Sea, gave its name to a people who painted the walls of their houses with stars and masked figures, and cast copper in moulds. A hoard of their copper maces and crowns was hidden in a cave by the Dead Sea, and found six thousand years later.",
+   "subtitle": "Teleilat Ghassul, near the Dead Sea, gave its name to a people who painted the walls of their houses with stars and masked figures, and cast copper in moulds. A hoard of their copper maces and crowns was hidden in a cave by the Dead Sea, and found six thousand years later.",
+   "lang": "en"
+  },
+  {
+   "id": "site_varna",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "varna",
+   "text": "Varna, on the Black Sea coast. In a cemetery more than six thousand years old lay a man buried with a sceptre, bracelets and more than a kilogram of gold, the oldest worked gold in the world. Someone here was far richer than the rest, and was buried so.",
+   "subtitle": "Varna, on the Black Sea coast. In a cemetery more than six thousand years old lay a man buried with a sceptre, bracelets and more than a kilogram of gold, the oldest worked gold in the world. Someone here was far richer than the rest, and was buried so.",
+   "lang": "en"
+  },
+  {
+   "id": "site_cucuteni",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "cucuteni",
+   "text": "Cucuteni and Trypillia, between the Carpathians and the Dnieper. Their farmers built the largest settlements of their age, thousands of houses in great rings, and then, every few generations, burned them to the ground on purpose. Why, no one knows.",
+   "subtitle": "Cucuteni and Trypillia, between the Carpathians and the Dnieper. Their farmers built the largest settlements of their age, thousands of houses in great rings, and then, every few generations, burned them to the ground on purpose. Why, no one knows.",
+   "lang": "en"
+  },
+  {
+   "id": "site_badari",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "badari",
+   "text": "El-Badari, in Upper Egypt, gave its name to farmers who made thin, polished pots with blackened rims, and laid their dead in graves with palettes for green eye paint. They were the forerunners of the Egyptians.",
+   "subtitle": "El-Badari, in Upper Egypt, gave its name to farmers who made thin, polished pots with blackened rims, and laid their dead in graves with palettes for green eye paint. They were the forerunners of the Egyptians.",
+   "lang": "en"
+  },
+  {
+   "id": "site_tell_brak",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "tell_brak",
+   "text": "Tell Brak, in the north of Mesopotamia, grew into one of the first cities, perhaps even before Uruk. Six thousand years ago it already sprawled across the plain. Its people raised the Eye Temple, filled with hundreds of small stone figures with staring eyes.",
+   "subtitle": "Tell Brak, in the north of Mesopotamia, grew into one of the first cities, perhaps even before Uruk. Six thousand years ago it already sprawled across the plain. Its people raised the Eye Temple, filled with hundreds of small stone figures with staring eyes.",
+   "lang": "en"
+  },
+  {
+   "id": "site_susa",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "susa",
+   "text": "Susa, on the plain of Khuzestan in Iran, was founded on a great platform of mud brick more than six thousand years ago. Its people buried their dead with beautiful painted beakers. It would become the heart of Elam, and much later a capital of the Persian kings.",
+   "subtitle": "Susa, on the plain of Khuzestan in Iran, was founded on a great platform of mud brick more than six thousand years ago. Its people buried their dead with beautiful painted beakers. It would become the heart of Elam, and much later a capital of the Persian kings.",
+   "lang": "en"
+  },
+  {
+   "id": "site_sialk",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "sialk",
+   "text": "Tepe Sialk, near Kashan on the Iranian plateau, was lived in for five thousand years. Its villagers were among the first to smelt copper from ore, and painted their pots with leaping ibex.",
+   "subtitle": "Tepe Sialk, near Kashan on the Iranian plateau, was lived in for five thousand years. Its villagers were among the first to smelt copper from ore, and painted their pots with leaping ibex.",
+   "lang": "en"
+  },
+  {
+   "id": "site_naqada",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "naqada",
+   "text": "Naqada, in Upper Egypt. Over a thousand years, its people grew from villages into small kingdoms, with walled towns, painted boats on their pots, and rich graves for their chiefs. Their way of life spread down the whole Nile, and from it came the pharaohs.",
+   "subtitle": "Naqada, in Upper Egypt. Over a thousand years, its people grew from villages into small kingdoms, with walled towns, painted boats on their pots, and rich graves for their chiefs. Their way of life spread down the whole Nile, and from it came the pharaohs.",
+   "lang": "en"
+  },
+  {
+   "id": "site_hierakonpolis",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "hierakonpolis",
+   "text": "Nekhen, which the Greeks called Hierakonpolis, the city of the falcon. Its chiefs were buried in a painted tomb, kept wild animals, and worshipped Horus. From here the kings of Upper Egypt set out to unite the land.",
+   "subtitle": "Nekhen, which the Greeks called Hierakonpolis, the city of the falcon. Its chiefs were buried in a painted tomb, kept wild animals, and worshipped Horus. From here the kings of Upper Egypt set out to unite the land.",
+   "lang": "en"
+  },
+  {
+   "id": "site_ggantija",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "ggantija",
+   "text": "Ġgantija, on the island of Gozo, by Malta. More than five and a half thousand years ago, farmers raised temples of huge stones here, older than the pyramids. Later islanders said that giants had built them.",
+   "subtitle": "Ġgantija, on the island of Gozo, by Malta. More than five and a half thousand years ago, farmers raised temples of huge stones here, older than the pyramids. Later islanders said that giants had built them.",
+   "lang": "en"
+  },
+  {
+   "id": "site_hamoukar",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "hamoukar",
+   "text": "Hamoukar, in north-eastern Syria, was a town of obsidian workers. About three thousand five hundred years before Christ it was attacked and burned; clay sling bullets by the thousand lie in its ruins. [gravely] It is one of the oldest battles we know.",
+   "subtitle": "Hamoukar, in north-eastern Syria, was a town of obsidian workers. About three thousand five hundred years before Christ it was attacked and burned; clay sling bullets by the thousand lie in its ruins. It is one of the oldest battles we know.",
+   "lang": "en"
+  },
+  {
+   "id": "site_arslantepe",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "arslantepe",
+   "text": "Arslantepe, near Malatya in eastern Anatolia. Its rulers built a palace where they handed out food from storerooms, sealed with thousands of clay seals. Some of the oldest swords in the world, of arsenic bronze, were found there.",
+   "subtitle": "Arslantepe, near Malatya in eastern Anatolia. Its rulers built a palace where they handed out food from storerooms, sealed with thousands of clay seals. Some of the oldest swords in the world, of arsenic bronze, were found there.",
+   "lang": "en"
+  },
+  {
+   "id": "site_uruk",
+   "voice": "bard",
+   "plays": "opening_site",
+   "key": "uruk",
+   "text": "Uruk, on the Euphrates. Three and a half thousand years before Christ, it was the greatest settlement on Earth, its temples of Eanna and Anu rising above the plain. Here scribes first wrote on clay, and here, the legend says, King Gilgamesh would one day build its walls.",
+   "subtitle": "Uruk, on the Euphrates. Three and a half thousand years before Christ, it was the greatest settlement on Earth, its temples of Eanna and Anu rising above the plain. Here scribes first wrote on clay, and here, the legend says, King Gilgamesh would one day build its walls.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_hunters",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "hunters",
+   "text": "[slowly] Twelve thousand years ago, the ice was retreating. Hunters followed gazelle and wild cattle across the hills, gathering wild grain, nuts and lentils as the seasons turned.",
+   "subtitle": "Twelve thousand years ago, the ice was retreating. Hunters followed gazelle and wild cattle across the hills, gathering wild grain, nuts and lentils as the seasons turned.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_gathering",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "gathering",
+   "text": "Then people began to gather in great numbers, to build together and to feast. And some of them stayed.",
+   "subtitle": "Then people began to gather in great numbers, to build together and to feast. And some of them stayed.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_villages",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "villages",
+   "text": "The first villages rose where the wild grain grew thick: round houses, then square ones, clustered close together.",
+   "subtitle": "The first villages rose where the wild grain grew thick: round houses, then square ones, clustered close together.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_crops",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "crops",
+   "text": "Year after year they kept the best seed and sowed it again. Einkorn, emmer and barley, lentils, peas, chickpeas and flax: the founder crops, which feed us still.",
+   "subtitle": "Year after year they kept the best seed and sowed it again. Einkorn, emmer and barley, lentils, peas, chickpeas and flax: the founder crops, which feed us still.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_herds",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "herds",
+   "text": "Goats in the Zagros, sheep in the Taurus, cattle and pigs in the valleys of the great rivers. The wild herds became flocks, and the hunters became herders.",
+   "subtitle": "Goats in the Zagros, sheep in the Taurus, cattle and pigs in the valleys of the great rivers. The wild herds became flocks, and the hunters became herders.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_pottery",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "pottery",
+   "text": "About eight and a half thousand years ago, people learned to fire clay into pots, to store grain and to cook. From now on, every village leaves its broken pottery for us to read.",
+   "subtitle": "About eight and a half thousand years ago, people learned to fire clay into pots, to store grain and to cook. From now on, every village leaves its broken pottery for us to read.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_spread",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "spread",
+   "text": "Farming spread out of Anatolia: by sea to Greece and Cyprus, up the Danube into Europe, along the coasts to Italy and Spain, and up the Nile.",
+   "subtitle": "Farming spread out of Anatolia: by sea to Greece and Cyprus, up the Danube into Europe, along the coasts to Italy and Spain, and up the Nile.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_sahara",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "sahara",
+   "text": "In the green Sahara, herders drove their cattle between lakes and grasslands. When the rains moved south, they moved with them, and some came to the Nile.",
+   "subtitle": "In the green Sahara, herders drove their cattle between lakes and grasslands. When the rains moved south, they moved with them, and some came to the Nile.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_irrigation",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "irrigation",
+   "text": "In the dry south of Mesopotamia, grain grows only where water is led to it. Canal by canal, marsh and desert were turned to fields.",
+   "subtitle": "In the dry south of Mesopotamia, grain grows only where water is led to it. Canal by canal, marsh and desert were turned to fields.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_copper",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "copper",
+   "text": "Copper was first hammered cold, then melted, then smelted from green stone. Metal made its owners rich, and those who held it, powerful.",
+   "subtitle": "Copper was first hammered cold, then melted, then smelted from green stone. Metal made its owners rich, and those who held it, powerful.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_temples",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "temples",
+   "text": "Temples grew larger, rebuilt again and again on the same holy ground. Their priests stored the harvest, and shared it out.",
+   "subtitle": "Temples grew larger, rebuilt again and again on the same holy ground. Their priests stored the harvest, and shared it out.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_rank",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "rank",
+   "text": "Graves began to differ: most with a pot or two, a few with gold and copper. Some families were rising above the rest.",
+   "subtitle": "Graves began to differ: most with a pot or two, a few with gold and copper. Some families were rising above the rest.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_war",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "war",
+   "text": "Walls rose around the towns, and sling stones piled up in their ruins. Where there was wealth to take, there was war.",
+   "subtitle": "Walls rose around the towns, and sling stones piled up in their ruins. Where there was wealth to take, there was war.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_plough",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "plough",
+   "text": "The plough drawn by oxen, the wheel, the donkey to carry, wool from the sheep and milk from the herds: in a few centuries, the farmer's world was changed.",
+   "subtitle": "The plough drawn by oxen, the wheel, the donkey to carry, wool from the sheep and milk from the herds: in a few centuries, the farmer's world was changed.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_sails",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "sails",
+   "text": "Sails appeared on the Nile and in the Gulf. Boats carried copper, timber, stone and grain farther than anyone could walk.",
+   "subtitle": "Sails appeared on the Nile and in the Gulf. Boats carried copper, timber, stone and grain farther than anyone could walk.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_cities",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "cities",
+   "text": "In Uruk and its neighbours, villages became towns, and towns became cities, with thousands of people who did not farm at all.",
+   "subtitle": "In Uruk and its neighbours, villages became towns, and towns became cities, with thousands of people who did not farm at all.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_writing",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "writing",
+   "text": "To keep count of grain, beer and workers, the temple scribes pressed signs into clay. In time those signs became writing, and history begins to speak for itself.",
+   "subtitle": "To keep count of grain, beer and workers, the temple scribes pressed signs into clay. In time those signs became writing, and history begins to speak for itself.",
+   "lang": "en"
+  },
+  {
+   "id": "stage_polities",
+   "voice": "bard",
+   "plays": "opening_stage",
+   "key": "polities",
+   "text": "[dramatically] The settlements have become states: lands with rulers, gods, laws, borders and armies. The lesson is over. [pause] Your reign begins.",
+   "subtitle": "The settlements have become states: lands with rulers, gods, laws, borders and armies. The lesson is over. Your reign begins.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc10000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-10000",
+   "text": "[slowly] Ten thousand years before Christ.",
+   "subtitle": "Ten thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc9000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-9000",
+   "text": "[slowly] Nine thousand years before Christ.",
+   "subtitle": "Nine thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc8000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-8000",
+   "text": "[slowly] Eight thousand years before Christ.",
+   "subtitle": "Eight thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc7000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-7000",
+   "text": "[slowly] Seven thousand years before Christ.",
+   "subtitle": "Seven thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc6000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-6000",
+   "text": "[slowly] Six thousand years before Christ.",
+   "subtitle": "Six thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc5000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-5000",
+   "text": "[slowly] Five thousand years before Christ.",
+   "subtitle": "Five thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc4000",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-4000",
+   "text": "[slowly] Four thousand years before Christ.",
+   "subtitle": "Four thousand years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "year_bc3500",
+   "voice": "bard",
+   "plays": "opening_year",
+   "key": "-3500",
+   "text": "[slowly] Three thousand five hundred years before Christ.",
+   "subtitle": "Three thousand five hundred years before Christ.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_help_pause",
+   "voice": "bard",
+   "plays": "opening_help",
+   "key": "pause",
+   "text": "Pause whenever you wish, and open any place that is lit, to hear its story.",
+   "subtitle": "Pause whenever you wish, and open any place that is lit, to hear its story.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_help_speed",
+   "voice": "bard",
+   "plays": "opening_help",
+   "key": "speed",
+   "text": "Slow the years, or hurry them on. Or skip ahead, if you know this tale already.",
+   "subtitle": "Slow the years, or hurry them on. Or skip ahead, if you know this tale already.",
+   "lang": "en"
+  },
+  {
+   "id": "opening_help_resume",
+   "voice": "bard",
+   "plays": "opening_help",
+   "key": "resume",
+   "text": "And so the years run on.",
+   "subtitle": "And so the years run on.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_rome",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "rome",
+   "text": "Rome, a republic of farmers and soldiers on the Tiber. Its consuls lead the legions, its allies fill the ranks, and the whole of Italy is within its reach. Carthage and the Samnites stand in its way.",
+   "subtitle": "Rome, a republic of farmers and soldiers on the Tiber. Its consuls lead the legions, its allies fill the ranks, and the whole of Italy is within its reach. Carthage and the Samnites stand in its way.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_samnites",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "samnites",
+   "text": "The Samnite League, hardy hill peoples of the Apennines. They have fought Rome twice and will not bow easily.",
+   "subtitle": "The Samnite League, hardy hill peoples of the Apennines. They have fought Rome twice and will not bow easily.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_etruscans",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "etruscans",
+   "text": "The Etruscan League, twelve cities of an ancient and wealthy people, masters of bronze, augury and the sea. Their glory is fading as Rome rises beside them.",
+   "subtitle": "The Etruscan League, twelve cities of an ancient and wealthy people, masters of bronze, augury and the sea. Their glory is fading as Rome rises beside them.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_cisalpine",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "cisalpine",
+   "text": "The Cisalpine Gauls, the Boii and their kin, who took the Po valley from the Etruscans. Their warriors once burned Rome itself.",
+   "subtitle": "The Cisalpine Gauls, the Boii and their kin, who took the Po valley from the Etruscans. Their warriors once burned Rome itself.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_veneti",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "veneti",
+   "text": "The Veneti, horse breeders and traders at the head of the Adriatic, through whose lands the amber road runs south.",
+   "subtitle": "The Veneti, horse breeders and traders at the head of the Adriatic, through whose lands the amber road runs south.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_ligurians",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "ligurians",
+   "text": "The Ligurians, fierce mountain peoples between the Alps and the sea, who yield to no one for long.",
+   "subtitle": "The Ligurians, fierce mountain peoples between the Alps and the sea, who yield to no one for long.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_lucanians",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "lucanians",
+   "text": "The Lucanians and Bruttians, Oscan peoples of the far south of Italy, pressing hard on the Greek cities of the coast.",
+   "subtitle": "The Lucanians and Bruttians, Oscan peoples of the far south of Italy, pressing hard on the Greek cities of the coast.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_iapygians",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "iapygians",
+   "text": "The Messapians and Peucetians of the heel of Italy, a proud people with their own tongue, rivals of Tarentum.",
+   "subtitle": "The Messapians and Peucetians of the heel of Italy, a proud people with their own tongue, rivals of Tarentum.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_tarentum",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "tarentum",
+   "text": "Tarentum and the Italiote League, the richest Greek city of Italy, with a great harbour and fine cavalry, but few soldiers of its own. It hires generals from across the sea.",
+   "subtitle": "Tarentum and the Italiote League, the richest Greek city of Italy, with a great harbour and fine cavalry, but few soldiers of its own. It hires generals from across the sea.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_syracuse",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "syracuse",
+   "text": "Syracuse, the greatest city of Sicily, under the tyrant Agathokles, who has fought Carthage in Sicily and in Africa itself, and now calls himself king.",
+   "subtitle": "Syracuse, the greatest city of Sicily, under the tyrant Agathokles, who has fought Carthage in Sicily and in Africa itself, and now calls himself king.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_massalia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "massalia",
+   "text": "Massalia, a Greek city on the coast of Gaul, founded by the Phocaeans. Its merchants trade wine and tin up the Rhône, and its ally is Rome.",
+   "subtitle": "Massalia, a Greek city on the coast of Gaul, founded by the Phocaeans. Its merchants trade wine and tin up the Rhône, and its ally is Rome.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_gaul",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "gaul",
+   "text": "The Gallic tribes, many peoples, many chiefs, rich in iron, gold and warriors. United, they could shake the world.",
+   "subtitle": "The Gallic tribes, many peoples, many chiefs, rich in iron, gold and warriors. United, they could shake the world.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_danube_celts",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "danube_celts",
+   "text": "The Celts of the Danube, warrior peoples on the move. Their eyes are turned south, to Macedon and the riches of Greece.",
+   "subtitle": "The Celts of the Danube, warrior peoples on the move. Their eyes are turned south, to Macedon and the riches of Greece.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_iberia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "iberia",
+   "text": "The Iberian peoples of the east coast of Spain, towns of farmers, silversmiths and fierce warriors, long in contact with Greeks and Phoenicians.",
+   "subtitle": "The Iberian peoples of the east coast of Spain, towns of farmers, silversmiths and fierce warriors, long in contact with Greeks and Phoenicians.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_celtiberia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "celtiberia",
+   "text": "The Celtiberians of the Spanish meseta, hill fort peoples famed for their swords. They will make any invader pay dearly.",
+   "subtitle": "The Celtiberians of the Spanish meseta, hill fort peoples famed for their swords. They will make any invader pay dearly.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_lusitania",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "lusitania",
+   "text": "The Lusitanians and Gallaeci of the far west, herders and raiders of the mountains and the Atlantic coast.",
+   "subtitle": "The Lusitanians and Gallaeci of the far west, herders and raiders of the mountains and the Atlantic coast.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_carthage",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "carthage",
+   "text": "Carthage, queen of the western sea. A great merchant republic of Phoenician blood, with fleets, trading posts on every coast and hired armies from every shore.",
+   "subtitle": "Carthage, queen of the western sea. A great merchant republic of Phoenician blood, with fleets, trading posts on every coast and hired armies from every shore.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_massylii",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "massylii",
+   "text": "The Massylian Numidians of the east, horsemen of the North African hills, whose riders are the best in the world.",
+   "subtitle": "The Massylian Numidians of the east, horsemen of the North African hills, whose riders are the best in the world.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_masaesyli",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "masaesyli",
+   "text": "The Masaesylian Numidians of the west, a great kingdom of horsemen between Carthage and the Mauri.",
+   "subtitle": "The Masaesylian Numidians of the west, a great kingdom of horsemen between Carthage and the Mauri.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_mauri",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "mauri",
+   "text": "The Mauri of the far west of Africa, beyond the pillars of Herakles, a land of mountains and elephants.",
+   "subtitle": "The Mauri of the far west of Africa, beyond the pillars of Herakles, a land of mountains and elephants.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_garamantes",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "garamantes",
+   "text": "The Garamantes of the Sahara, who dig tunnels for water beneath the desert, and drive their chariots to the far south.",
+   "subtitle": "The Garamantes of the Sahara, who dig tunnels for water beneath the desert, and drive their chariots to the far south.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_egypt",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "egypt",
+   "text": "Egypt, ruled by Ptolemy, the Macedonian who seized it after Alexander's death. The richest land on Earth, with Alexandria, its great new city, rising by the sea.",
+   "subtitle": "Egypt, ruled by Ptolemy, the Macedonian who seized it after Alexander's death. The richest land on Earth, with Alexandria, its great new city, rising by the sea.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_kush",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "kush",
+   "text": "The Kingdom of Kush, on the Nile beyond Egypt, ruled from Napata and Meroë. Land of gold, iron, ebony and archers, whose kings once ruled Egypt itself.",
+   "subtitle": "The Kingdom of Kush, on the Nile beyond Egypt, ruled from Napata and Meroë. Land of gold, iron, ebony and archers, whose kings once ruled Egypt itself.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_greek_world",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "greek_world",
+   "text": "Macedon, held by Kassander, Alexander's old enemy. The homeland of the conquerors, and master of much of Greece.",
+   "subtitle": "Macedon, held by Kassander, Alexander's old enemy. The homeland of the conquerors, and master of much of Greece.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_antigonus",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "antigonus",
+   "text": "The sea kingdom of Demetrios, the Besieger of Cities. Beaten at Ipsus, he still holds a great fleet, Cyprus and cities across the Aegean, and dreams of more.",
+   "subtitle": "The sea kingdom of Demetrios, the Besieger of Cities. Beaten at Ipsus, he still holds a great fleet, Cyprus and cities across the Aegean, and dreams of more.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_aetolia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "aetolia",
+   "text": "The Aetolian League, a union of tough mountain cantons in western Greece, who once drove back the Macedonians.",
+   "subtitle": "The Aetolian League, a union of tough mountain cantons in western Greece, who once drove back the Macedonians.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_sparta",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "sparta",
+   "text": "Sparta, once the greatest military power in Greece, now a shadow of itself, but still proud, and still dangerous.",
+   "subtitle": "Sparta, once the greatest military power in Greece, now a shadow of itself, but still proud, and still dangerous.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_epirus",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "epirus",
+   "text": "Epirus, kingdom of the Molossians, whose young king Pyrrhos is cousin to Alexander, and dreams of glory to match.",
+   "subtitle": "Epirus, kingdom of the Molossians, whose young king Pyrrhos is cousin to Alexander, and dreams of glory to match.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_rhodes",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "rhodes",
+   "text": "Rhodes, a free island republic of merchants and sailors, which has just withstood a great siege, and will raise a giant bronze statue of the sun god in thanks.",
+   "subtitle": "Rhodes, a free island republic of merchants and sailors, which has just withstood a great siege, and will raise a giant bronze statue of the sun god in thanks.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_crete",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "crete",
+   "text": "The cities of Crete, an island of ancient memory, now famous for its archers and its pirates.",
+   "subtitle": "The cities of Crete, an island of ancient memory, now famous for its archers and its pirates.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_illyria",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "illyria",
+   "text": "The Illyrian kingdom on the Adriatic coast, a land of warriors and raiders by land and sea.",
+   "subtitle": "The Illyrian kingdom on the Adriatic coast, a land of warriors and raiders by land and sea.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_dardania",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "dardania",
+   "text": "The Dardanians and Triballi, warlike peoples of the central Balkans.",
+   "subtitle": "The Dardanians and Triballi, warlike peoples of the central Balkans.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_paeonia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "paeonia",
+   "text": "Paeonia, a small kingdom in the valley of the Axios, squeezed between greater neighbours.",
+   "subtitle": "Paeonia, a small kingdom in the valley of the Axios, squeezed between greater neighbours.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_odrysia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "odrysia",
+   "text": "The Odrysian kingdom of Thrace, under Seuthes, who rules from his new city of Seuthopolis and will not bend the knee to Lysimachos.",
+   "subtitle": "The Odrysian kingdom of Thrace, under Seuthes, who rules from his new city of Seuthopolis and will not bend the knee to Lysimachos.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_getae",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "getae",
+   "text": "The Getae of the lower Danube, horsemen and farmers, whose king Dromichaites will humble Lysimachos himself.",
+   "subtitle": "The Getae of the lower Danube, horsemen and farmers, whose king Dromichaites will humble Lysimachos himself.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_lysimachus",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "lysimachus",
+   "text": "The kingdom of Lysimachos, Alexander's bodyguard, now king of Thrace and of much of Anatolia after his victory at Ipsus.",
+   "subtitle": "The kingdom of Lysimachos, Alexander's bodyguard, now king of Thrace and of much of Anatolia after his victory at Ipsus.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_byzantium",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "byzantium",
+   "text": "Byzantium, a Greek city on the Bosporus, holding the gate between the Black Sea and the Aegean, and growing rich on the tolls.",
+   "subtitle": "Byzantium, a Greek city on the Bosporus, holding the gate between the Black Sea and the Aegean, and growing rich on the tolls.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_bithynia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "bithynia",
+   "text": "Bithynia, a Thracian kingdom in north-western Anatolia, where Zipoites defies the Macedonian kings.",
+   "subtitle": "Bithynia, a Thracian kingdom in north-western Anatolia, where Zipoites defies the Macedonian kings.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_heraclea",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "heraclea",
+   "text": "Heraclea Pontica, a rich Greek city on the Black Sea coast, with a fleet of its own.",
+   "subtitle": "Heraclea Pontica, a rich Greek city on the Black Sea coast, with a fleet of its own.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_pontus",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "pontus",
+   "text": "Pontus, on the southern shore of the Black Sea, where Mithridates, of Persian royal blood, is founding a kingdom of his own.",
+   "subtitle": "Pontus, on the southern shore of the Black Sea, where Mithridates, of Persian royal blood, is founding a kingdom of his own.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_cappadocia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "cappadocia",
+   "text": "Cappadocia, a land of horses and high plateaus in the heart of Anatolia, ruled by a Persian dynasty that has outlasted Alexander.",
+   "subtitle": "Cappadocia, a land of horses and high plateaus in the heart of Anatolia, ruled by a Persian dynasty that has outlasted Alexander.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_armenia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "armenia",
+   "text": "Armenia, the high mountain kingdom of the Orontids, rich in horses and in metal.",
+   "subtitle": "Armenia, the high mountain kingdom of the Orontids, rich in horses and in metal.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_atropatene",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "atropatene",
+   "text": "Atropatene, in the north of Media, held by its Persian satrap Atropates as a kingdom of his own.",
+   "subtitle": "Atropatene, in the north of Media, held by its Persian satrap Atropates as a kingdom of his own.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_kartli",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "kartli",
+   "text": "Kartli, in the Caucasus, where Parnavaz is founding the first Georgian kingdom.",
+   "subtitle": "Kartli, in the Caucasus, where Parnavaz is founding the first Georgian kingdom.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_colchis",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "colchis",
+   "text": "Colchis, on the eastern shore of the Black Sea, the land of the golden fleece, rich in gold and timber.",
+   "subtitle": "Colchis, on the eastern shore of the Black Sea, the land of the golden fleece, rich in gold and timber.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_albania",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "albania",
+   "text": "Caucasian Albania, the peoples of the eastern Caucasus and the Kura valley.",
+   "subtitle": "Caucasian Albania, the peoples of the eastern Caucasus and the Kura valley.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_bosporus",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "bosporus",
+   "text": "The Bosporan kingdom on the Cimmerian Bosporus, which feeds Athens with its grain.",
+   "subtitle": "The Bosporan kingdom on the Cimmerian Bosporus, which feeds Athens with its grain.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_scythia",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "scythia",
+   "text": "The Scythians, the great horse archers of the steppe, now pressed back into the Crimea.",
+   "subtitle": "The Scythians, the great horse archers of the steppe, now pressed back into the Crimea.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_sarmatians",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "sarmatians",
+   "text": "The Sarmatians, steppe horsemen from beyond the Don, whose armoured lancers are moving west.",
+   "subtitle": "The Sarmatians, steppe horsemen from beyond the Don, whose armoured lancers are moving west.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_seleucid",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "seleucid",
+   "text": "The kingdom of Seleukos, the greatest of Alexander's heirs, from the Mediterranean to the Indus. Babylon, Syria and Persia are his, and he has five hundred war elephants.",
+   "subtitle": "The kingdom of Seleukos, the greatest of Alexander's heirs, from the Mediterranean to the Indus. Babylon, Syria and Persia are his, and he has five hundred war elephants.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_nabatea",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "nabatea",
+   "text": "The Nabataeans, Arab masters of the incense road, who hide their water in cisterns and their riches at Petra.",
+   "subtitle": "The Nabataeans, Arab masters of the incense road, who hide their water in cisterns and their riches at Petra.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_lihyan",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "lihyan",
+   "text": "Lihyan, an Arab kingdom at the oasis of Dedan, on the incense road to the north.",
+   "subtitle": "Lihyan, an Arab kingdom at the oasis of Dedan, on the incense road to the north.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_saba",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "saba",
+   "text": "Saba, the kingdom of Sheba, in the green mountains of Arabia, rich from incense and myrrh, with its great dam at Marib.",
+   "subtitle": "Saba, the kingdom of Sheba, in the green mountains of Arabia, rich from incense and myrrh, with its great dam at Marib.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_main",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "main",
+   "text": "Ma'in, a kingdom of caravan merchants in Arabia, whose traders carry incense to Gaza and Egypt.",
+   "subtitle": "Ma'in, a kingdom of caravan merchants in Arabia, whose traders carry incense to Gaza and Egypt.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_qataban",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "qataban",
+   "text": "Qataban, a kingdom of southern Arabia, rich in incense, ruled from Timna.",
+   "subtitle": "Qataban, a kingdom of southern Arabia, rich in incense, ruled from Timna.",
+   "lang": "en"
+  },
+  {
+   "id": "realm_hadramawt",
+   "voice": "bard",
+   "plays": "realm_intro",
+   "key": "hadramawt",
+   "text": "Hadramawt, land of frankincense in southern Arabia, ruled from Shabwa.",
+   "subtitle": "Hadramawt, land of frankincense in southern Arabia, ruled from Shabwa.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_sea_peoples_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "sea_peoples",
+   "text": "[gravely] Ships have come from the sea, and the coast is burning.",
+   "subtitle": "Ships have come from the sea, and the coast is burning.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_sea_peoples_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "sea_peoples",
+   "text": "The peoples of the sea are on the move, with their families and their ox carts.",
+   "subtitle": "The peoples of the sea are on the move, with their families and their ox carts.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tin_cut_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tin_cut",
+   "text": "The tin no longer comes. Without it, there is no bronze.",
+   "subtitle": "The tin no longer comes. Without it, there is no bronze.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tin_cut_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tin_cut",
+   "text": "The caravans from the east have stopped, and the smiths sit idle.",
+   "subtitle": "The caravans from the east have stopped, and the smiths sit idle.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_palace_burned_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "palace_burned",
+   "text": "The palace burns, and with it the storerooms and the tablets.",
+   "subtitle": "The palace burns, and with it the storerooms and the tablets.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_palace_burned_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "palace_burned",
+   "text": "The great house has fallen. The scribes are gone.",
+   "subtitle": "The great house has fallen. The scribes are gone.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_bronze_learnt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "bronze_learnt",
+   "text": "Copper and tin, melted together, make bronze, harder than either.",
+   "subtitle": "Copper and tin, melted together, make bronze, harder than either.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_bronze_learnt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "bronze_learnt",
+   "text": "Our smiths have learned to make bronze.",
+   "subtitle": "Our smiths have learned to make bronze.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_iron_learnt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "iron_learnt",
+   "text": "Iron, from common stone, in the hands of every smith.",
+   "subtitle": "Iron, from common stone, in the hands of every smith.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_iron_learnt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "iron_learnt",
+   "text": "Our smiths have learned to work iron.",
+   "subtitle": "Our smiths have learned to work iron.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_writing_learnt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "writing_learnt",
+   "text": "Our scribes have learned to write.",
+   "subtitle": "Our scribes have learned to write.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_writing_learnt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "writing_learnt",
+   "text": "Now our deeds will be written down, and remembered.",
+   "subtitle": "Now our deeds will be written down, and remembered.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_chariots_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "chariots",
+   "text": "Horses and chariots: the lords of war ride to battle.",
+   "subtitle": "Horses and chariots: the lords of war ride to battle.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_chariots_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "chariots",
+   "text": "The chariot has come to our land.",
+   "subtitle": "The chariot has come to our land.",
+   "lang": "en"
+  },
+  {
    "id": "reply_yes_1",
    "voice": "adviser",
    "plays": "adviser_reply",

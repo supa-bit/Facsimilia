@@ -2953,7 +2953,7 @@ exits with 1 if any check fails.
 - **Order of modern arms**: When the timeline reaches gunpowder
 - **Other realms and nuclear weapons**: As history: never used after 1945 unless you use them first Your note: "Also in extremis, a nuclear capable state won't let its history be destroyed without using its last resort, so any nuclear capable realm has a chance of using one that increases as it loses large swathes of provinces. There will also be terrorist states in the game starting around 1900 like in the real world."
 
-### Voices **(all 636 lines voiced, 13 Oct 2026)**
+### Voices **(all 773 lines voiced, 13 Oct 2026)**
 
 From What gets a spoken voice, The narrator's voice, Voices in ancient
 languages and An adviser:
@@ -2987,6 +2987,20 @@ languages and An adviser:
   adviser; and 16 replies and greetings from the adviser ("As you
   command, my lord", "We cannot afford it, my lord", "Another year has
   passed").
+- **The opening, spoken when you pause** (13 Oct 2026), 137 more for
+  773 in all: when you pause the opening and click a place or a step
+  for its explanation, the most important part is read aloud by the
+  bard alongside the text. 38 ancient places (Göbekli Tepe, Jericho,
+  Çatalhöyük, Eridu, Uruk and 33 more), 18 steps of the story (hunters,
+  gathering, villages, crops, herds, pottery, irrigation, copper,
+  temples, war, the plough, sails, cities, writing...), 8 years spoken
+  slowly as the clock passes them ("Ten thousand years before
+  Christ"), and 3 help lines (how to pause, change speed and go on).
+  Also 56 realm introductions, one for each realm you can pick at 300
+  BC (Carthage, Egypt, Seleukos, Rome, the Arabian incense kingdoms and
+  the rest), and 14 Bronze Age moments for earlier starts (the Sea
+  Peoples, the tin trade cut, a palace burned, learning bronze, iron,
+  writing and the chariot).
 - **The voices you chose** (12 Oct 2026): bard 2, chronicler 2,
   newsreader 1, adviser 1, warrior 2, all saved in the ElevenLabs voice
   library.

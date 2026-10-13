@@ -1001,6 +1001,319 @@ ALERTS = {
 for k, t in ALERTS.items():
     add(f"alert_{k}", "adviser", "alert", k, t)
 
+
+# ------------------------------------------- the opening: places to open
+# Answers 'What the opening shows' (b: pause on a site to read about it) and
+# 13 Oct 2026 (the most important part of each explanation is spoken aloud
+# with the text). The bard speaks each, when you pause and open the place.
+SITES = [
+    ("gobekli_tepe", -9600, "Göbekli Tepe, on a ridge above the plain of Harran. More than eleven thousand years "
+     "ago, hunters raised rings of great T-shaped pillars here, some taller than a man, carved with foxes, "
+     "boars, snakes and vultures. Few lived here for long; people came together to build and to feast. "
+     "[pause] It is the oldest monument of its kind we know."),
+    ("karahan_tepe", -9400, "Karahan Tepe, a day's walk from Göbekli Tepe, is just as old. Its builders cut a "
+     "chamber into the living rock and left a forest of pillars rising from its floor, watched over by a carved "
+     "human head. The hills of Harran hold a dozen such places; Göbekli Tepe was not alone."),
+    ("nevali_cori", -8400, "Nevalı Çori lay in a valley now drowned beneath a dam on the Euphrates. Its people "
+     "lived in long stone houses and built a shrine with carved pillars, like those of Göbekli Tepe. On the "
+     "slopes of Karacadağ nearby, wild einkorn was first tamed into a crop."),
+    ("abu_hureyra", -9500, "Abu Hureyra, on the Euphrates in Syria. Its people hunted gazelle and gathered "
+     "wild grain, and when a cold, dry age came, they may have begun to sow it themselves. It grew into one of "
+     "the largest villages of its time. Its mound now lies beneath the waters of a lake."),
+    ("jericho", -8000, "Jericho, beside a spring in the Jordan valley. About ten thousand years ago its people "
+     "built a stone wall and a round tower eight metres high, with a stair inside. No one knows whether it "
+     "guarded against enemies, floods, or simply showed what the town could do together. People have lived "
+     "here ever since."),
+    ("ganj_dareh", -8000, "Ganj Dareh, high in the Zagros mountains of Iran. Here, ten thousand years ago, "
+     "people began to herd goats, killing the young males and keeping the females for their kids and milk. "
+     "It is the earliest sign we have of goats being tamed."),
+    ("cayonu", -8600, "Çayönü, in the hills above the Tigris. Its people built their houses on stone grills to "
+     "keep them dry, and hammered native copper into beads and pins nearly ten thousand years ago, some of "
+     "the first worked metal in the world. Here too, wild pigs were among the first to be tamed."),
+    ("asikli", -8200, "Aşıklı Höyük, in Cappadocia, beside a river beneath the volcanoes. Its people lived in "
+     "close-packed houses of mud brick and worked obsidian, the black volcanic glass that gave the sharpest "
+     "blades of the age. Here we can see sheep being penned and kept, among the first."),
+    ("ain_ghazal", -7200, "'Ain Ghazal, near Amman in Jordan, was one of the largest villages of its age, home "
+     "to perhaps two or three thousand people. They modelled statues of plaster over frames of reed, with wide "
+     "eyes of shell and bitumen, and buried them with care. Then the land grew dry, and the village dwindled."),
+    ("catalhoyuk", -7100, "Çatalhöyük, on the plain of Konya. For more than a thousand years, thousands of "
+     "people lived here in houses packed so close there were no streets; they came and went through their "
+     "roofs. They painted hunts and leopards on their walls, set bulls' horns in the plaster, and buried their "
+     "dead beneath their floors. [pause] No house was grander than the rest."),
+    ("khirokitia", -7000, "Khirokitia, on Cyprus. The island's first farmers came by boat, bringing wheat, "
+     "sheep, goats, pigs and even deer to a land that had none. Here they built round houses of stone and mud "
+     "brick on a hillside, behind a wall, and lived there for some fifteen hundred years."),
+    ("jarmo", -7000, "Jarmo, in the foothills of the Zagros. A village of some twenty houses, where people grew "
+     "wheat and barley, kept goats and sheep, and in time made some of the first pottery of the region. It was "
+     "one of the first places where scholars went looking for the beginnings of farming."),
+    ("hacilar", -6700, "Hacılar, in the lake country of Anatolia. Its villagers made lively painted pots and "
+     "little clay figures of women, and lived in houses of mud brick on stone footings. Fire destroyed the "
+     "village more than once, and each time it was built again."),
+    ("sesklo", -6800, "Sesklo, in Thessaly, one of the first farming villages of Europe. Its people came from "
+     "Anatolia across the Aegean, bringing wheat, sheep and goats, and lived in stone-footed houses with fine "
+     "painted pottery. From villages like this, farming spread across the continent."),
+    ("franchthi", -7000, "Franchthi Cave, in the Argolid of Greece. People lived here for twenty thousand "
+     "years: as hunters, then as fishermen who sailed to the island of Melos for obsidian, and at last as "
+     "farmers. It holds one of the oldest records of seafaring in the Mediterranean."),
+    ("lepenski_vir", -7000, "Lepenski Vir, on the Danube in the Iron Gates gorge. Fishers of the great river "
+     "built houses with floors of red plaster, and carved river boulders into faces half man and half fish. "
+     "They lived on the river's bounty for two thousand years before farmers came."),
+    ("samarra", -6000, "Samarra, on the Tigris. About six thousand years before Christ, farmers here dug "
+     "canals to carry river water to their fields, for there was too little rain to grow grain without it. "
+     "Their pots were painted with whirling women, fish and birds. Irrigation would make Mesopotamia bloom."),
+    ("halaf", -6000, "Tell Halaf, in northern Syria, gave its name to a people of farming villages that "
+     "stretched from the Mediterranean to the Zagros some eight thousand years ago. They made the finest "
+     "painted pottery of their age, lived in round houses, and traded obsidian and shells across great "
+     "distances."),
+    ("merimde", -5000, "Merimde Beni Salama, on the western edge of the Nile delta, was one of Egypt's first "
+     "farming villages. Its people grew wheat and barley, kept cattle, pigs and sheep, and buried their dead "
+     "among their houses."),
+    ("nabta_playa", -5000, "Nabta Playa, in the desert west of the Nile. When the Sahara was green, cattle "
+     "herders gathered here beside a seasonal lake, and set up a circle of stones that may have marked the "
+     "summer sun. When the rains failed, they moved east, to the Nile."),
+    ("eridu", -5400, "Eridu, on the edge of the marshes in the far south of Mesopotamia. The Sumerians "
+     "remembered it as the first city, where kingship came down from heaven. For three thousand years its "
+     "people rebuilt the temple of Enki, god of the sweet waters, each one larger, on top of the last: "
+     "eighteen temples, one above another."),
+    ("ubaid", -5500, "Tell al-Ubaid, near Ur, gave its name to the people who first settled the south of "
+     "Mesopotamia. They drained the marshes, dug canals and built temples on platforms, and their ways and "
+     "their pottery spread up the rivers as far as Syria, and across the Gulf."),
+    ("byblos", -5000, "Byblos, on the coast of Lebanon. Fishermen and farmers settled here seven thousand "
+     "years ago. It would become one of the oldest cities still lived in, trading cedar with Egypt, and the "
+     "Greeks would name papyrus after it, and so the Bible too."),
+    ("vinca", -5400, "Vinča, on the Danube near Belgrade. Seven thousand years ago it was one of the great "
+     "settlements of Europe, with hundreds of houses. Its people smelted copper earlier than almost anyone, "
+     "made masked clay figures, and scratched signs on their pots that some think a kind of writing."),
+    ("yumuktepe", -4900, "Yumuktepe, at Mersin on the coast of Cilicia, was lived in for eight thousand "
+     "years. Some seven thousand years ago it was a walled fortress, with narrow windows for archers: one of "
+     "the oldest forts we know."),
+    ("ghassul", -4500, "Teleilat Ghassul, near the Dead Sea, gave its name to a people who painted the walls "
+     "of their houses with stars and masked figures, and cast copper in moulds. A hoard of their copper maces "
+     "and crowns was hidden in a cave by the Dead Sea, and found six thousand years later."),
+    ("varna", -4500, "Varna, on the Black Sea coast. In a cemetery more than six thousand years old lay a man "
+     "buried with a sceptre, bracelets and more than a kilogram of gold, the oldest worked gold in the world. "
+     "Someone here was far richer than the rest, and was buried so."),
+    ("cucuteni", -4800, "Cucuteni and Trypillia, between the Carpathians and the Dnieper. Their farmers built "
+     "the largest settlements of their age, thousands of houses in great rings, and then, every few "
+     "generations, burned them to the ground on purpose. Why, no one knows."),
+    ("badari", -4400, "El-Badari, in Upper Egypt, gave its name to farmers who made thin, polished pots with "
+     "blackened rims, and laid their dead in graves with palettes for green eye paint. They were the "
+     "forerunners of the Egyptians."),
+    ("tell_brak", -4400, "Tell Brak, in the north of Mesopotamia, grew into one of the first cities, perhaps "
+     "even before Uruk. Six thousand years ago it already sprawled across the plain. Its people raised the Eye "
+     "Temple, filled with hundreds of small stone figures with staring eyes."),
+    ("susa", -4200, "Susa, on the plain of Khuzestan in Iran, was founded on a great platform of mud brick "
+     "more than six thousand years ago. Its people buried their dead with beautiful painted beakers. It would "
+     "become the heart of Elam, and much later a capital of the Persian kings."),
+    ("sialk", -4000, "Tepe Sialk, near Kashan on the Iranian plateau, was lived in for five thousand years. "
+     "Its villagers were among the first to smelt copper from ore, and painted their pots with leaping ibex."),
+    ("naqada", -4000, "Naqada, in Upper Egypt. Over a thousand years, its people grew from villages into "
+     "small kingdoms, with walled towns, painted boats on their pots, and rich graves for their chiefs. Their "
+     "way of life spread down the whole Nile, and from it came the pharaohs."),
+    ("hierakonpolis", -3500, "Nekhen, which the Greeks called Hierakonpolis, the city of the falcon. Its "
+     "chiefs were buried in a painted tomb, kept wild animals, and worshipped Horus. From here the kings of "
+     "Upper Egypt set out to unite the land."),
+    ("ggantija", -3600, "Ġgantija, on the island of Gozo, by Malta. More than five and a half thousand years "
+     "ago, farmers raised temples of huge stones here, older than the pyramids. Later islanders said that "
+     "giants had built them."),
+    ("hamoukar", -3500, "Hamoukar, in north-eastern Syria, was a town of obsidian workers. About three "
+     "thousand five hundred years before Christ it was attacked and burned; clay sling bullets by the "
+     "thousand lie in its ruins. [gravely] It is one of the oldest battles we know."),
+    ("arslantepe", -3400, "Arslantepe, near Malatya in eastern Anatolia. Its rulers built a palace where "
+     "they handed out food from storerooms, sealed with thousands of clay seals. Some of the oldest swords in "
+     "the world, of arsenic bronze, were found there."),
+    ("uruk", -3500, "Uruk, on the Euphrates. Three and a half thousand years before Christ, it was the "
+     "greatest settlement on Earth, its temples of Eanna and Anu rising above the plain. Here scribes first "
+     "wrote on clay, and here, the legend says, King Gilgamesh would one day build its walls."),
+]
+for k, year, t in SITES:
+    add(f"site_{k}", "bard", "opening_site", k, t)
+
+# The stages of the opening, as the map comes to life.
+STAGES = [
+    ("hunters", "[slowly] Twelve thousand years ago, the ice was retreating. Hunters followed gazelle and wild "
+     "cattle across the hills, gathering wild grain, nuts and lentils as the seasons turned."),
+    ("gathering", "Then people began to gather in great numbers, to build together and to feast. And some of "
+     "them stayed."),
+    ("villages", "The first villages rose where the wild grain grew thick: round houses, then square ones, "
+     "clustered close together."),
+    ("crops", "Year after year they kept the best seed and sowed it again. Einkorn, emmer and barley, lentils, "
+     "peas, chickpeas and flax: the founder crops, which feed us still."),
+    ("herds", "Goats in the Zagros, sheep in the Taurus, cattle and pigs in the valleys of the great rivers. "
+     "The wild herds became flocks, and the hunters became herders."),
+    ("pottery", "About eight and a half thousand years ago, people learned to fire clay into pots, to store "
+     "grain and to cook. From now on, every village leaves its broken pottery for us to read."),
+    ("spread", "Farming spread out of Anatolia: by sea to Greece and Cyprus, up the Danube into Europe, along "
+     "the coasts to Italy and Spain, and up the Nile."),
+    ("sahara", "In the green Sahara, herders drove their cattle between lakes and grasslands. When the rains "
+     "moved south, they moved with them, and some came to the Nile."),
+    ("irrigation", "In the dry south of Mesopotamia, grain grows only where water is led to it. Canal by "
+     "canal, marsh and desert were turned to fields."),
+    ("copper", "Copper was first hammered cold, then melted, then smelted from green stone. Metal made its "
+     "owners rich, and those who held it, powerful."),
+    ("temples", "Temples grew larger, rebuilt again and again on the same holy ground. Their priests stored "
+     "the harvest, and shared it out."),
+    ("rank", "Graves began to differ: most with a pot or two, a few with gold and copper. Some families were "
+     "rising above the rest."),
+    ("war", "Walls rose around the towns, and sling stones piled up in their ruins. Where there was wealth to "
+     "take, there was war."),
+    ("plough", "The plough drawn by oxen, the wheel, the donkey to carry, wool from the sheep and milk from "
+     "the herds: in a few centuries, the farmer's world was changed."),
+    ("sails", "Sails appeared on the Nile and in the Gulf. Boats carried copper, timber, stone and grain "
+     "farther than anyone could walk."),
+    ("cities", "In Uruk and its neighbours, villages became towns, and towns became cities, with thousands of "
+     "people who did not farm at all."),
+    ("writing", "To keep count of grain, beer and workers, the temple scribes pressed signs into clay. In "
+     "time those signs became writing, and history begins to speak for itself."),
+    ("polities", "[dramatically] The settlements have become states: lands with rulers, gods, laws, borders "
+     "and armies. The lesson is over. [pause] Your reign begins."),
+]
+for k, t in STAGES:
+    add(f"stage_{k}", "bard", "opening_stage", k, t)
+
+# The years, as they run on screen.
+YEARS = [(10000, "ten thousand"), (9000, "nine thousand"), (8000, "eight thousand"), (7000, "seven thousand"),
+         (6000, "six thousand"), (5000, "five thousand"), (4000, "four thousand"),
+         (3500, "three thousand five hundred")]
+for y, words in YEARS:
+    add(f"year_bc{y}", "bard", "opening_year", str(-y), f"[slowly] {words[0].upper() + words[1:]} years before Christ.")
+
+HELP = [
+    ("pause", "Pause whenever you wish, and open any place that is lit, to hear its story."),
+    ("speed", "Slow the years, or hurry them on. Or skip ahead, if you know this tale already."),
+    ("resume", "And so the years run on."),
+]
+for k, t in HELP:
+    add(f"opening_help_{k}", "bard", "opening_help", k, t)
+
+# ------------------------------------------------- the realms of 300 BC
+# Spoken when you choose a realm to play.
+REALMS = {
+    "rome": "Rome, a republic of farmers and soldiers on the Tiber. Its consuls lead the legions, its allies "
+            "fill the ranks, and the whole of Italy is within its reach. Carthage and the Samnites stand in "
+            "its way.",
+    "samnites": "The Samnite League, hardy hill peoples of the Apennines. They have fought Rome twice "
+                "and will not bow easily.",
+    "etruscans": "The Etruscan League, twelve cities of an ancient and wealthy people, masters of bronze, "
+                 "augury and the sea. Their glory is fading as Rome rises beside them.",
+    "cisalpine": "The Cisalpine Gauls, the Boii and their kin, who took the Po valley from the Etruscans. Their "
+                 "warriors once burned Rome itself.",
+    "veneti": "The Veneti, horse breeders and traders at the head of the Adriatic, through whose lands the "
+              "amber road runs south.",
+    "ligurians": "The Ligurians, fierce mountain peoples between the Alps and the sea, who yield to no one "
+                 "for long.",
+    "lucanians": "The Lucanians and Bruttians, Oscan peoples of the far south of Italy, pressing hard on the "
+                 "Greek cities of the coast.",
+    "iapygians": "The Messapians and Peucetians of the heel of Italy, a proud people with their own tongue, "
+                 "rivals of Tarentum.",
+    "tarentum": "Tarentum and the Italiote League, the richest Greek city of Italy, with a great harbour and "
+                "fine cavalry, but few soldiers of its own. It hires generals from across the sea.",
+    "syracuse": "Syracuse, the greatest city of Sicily, under the tyrant Agathokles, who has fought Carthage "
+                "in Sicily and in Africa itself, and now calls himself king.",
+    "massalia": "Massalia, a Greek city on the coast of Gaul, founded by the Phocaeans. Its merchants trade "
+                "wine and tin up the Rhône, and its ally is Rome.",
+    "gaul": "The Gallic tribes, many peoples, many chiefs, rich in iron, gold and warriors. United, they "
+            "could shake the world.",
+    "danube_celts": "The Celts of the Danube, warrior peoples on the move. Their eyes are turned south, to "
+                    "Macedon and the riches of Greece.",
+    "iberia": "The Iberian peoples of the east coast of Spain, towns of farmers, silversmiths and fierce "
+              "warriors, long in contact with Greeks and Phoenicians.",
+    "celtiberia": "The Celtiberians of the Spanish meseta, hill fort peoples famed for their swords. They will "
+                  "make any invader pay dearly.",
+    "lusitania": "The Lusitanians and Gallaeci of the far west, herders and raiders of the mountains and the "
+                 "Atlantic coast.",
+    "carthage": "Carthage, queen of the western sea. A great merchant republic of Phoenician blood, with "
+                "fleets, trading posts on every coast and hired armies from every shore.",
+    "massylii": "The Massylian Numidians of the east, horsemen of the North African hills, whose riders are "
+                "the best in the world.",
+    "masaesyli": "The Masaesylian Numidians of the west, a great kingdom of horsemen between Carthage and the "
+                 "Mauri.",
+    "mauri": "The Mauri of the far west of Africa, beyond the pillars of Herakles, a land of mountains and "
+             "elephants.",
+    "garamantes": "The Garamantes of the Sahara, who dig tunnels for water beneath the desert, and drive their "
+                  "chariots to the far south.",
+    "egypt": "Egypt, ruled by Ptolemy, the Macedonian who seized it after Alexander's death. The richest land "
+             "on Earth, with Alexandria, its great new city, rising by the sea.",
+    "kush": "The Kingdom of Kush, on the Nile beyond Egypt, ruled from Napata and Meroë. Land of gold, iron, ebony and "
+            "archers, whose kings once ruled Egypt itself.",
+    "greek_world": "Macedon, held by Kassander, Alexander's old enemy. The homeland of the conquerors, and "
+                   "master of much of Greece.",
+    "antigonus": "The sea kingdom of Demetrios, the Besieger of Cities. Beaten at Ipsus, he still holds a great "
+                 "fleet, Cyprus and cities across the Aegean, and dreams of more.",
+    "aetolia": "The Aetolian League, a union of tough mountain cantons in western Greece, who once drove back "
+               "the Macedonians.",
+    "sparta": "Sparta, once the greatest military power in Greece, now a shadow of itself, but still proud, "
+              "and still dangerous.",
+    "epirus": "Epirus, kingdom of the Molossians, whose young king Pyrrhos is cousin to Alexander, and "
+              "dreams of glory to match.",
+    "rhodes": "Rhodes, a free island republic of merchants and sailors, which has just withstood a great "
+              "siege, and will raise a giant bronze statue of the sun god in thanks.",
+    "crete": "The cities of Crete, an island of ancient memory, now famous for its archers and its pirates.",
+    "illyria": "The Illyrian kingdom on the Adriatic coast, a land of warriors and raiders by land and sea.",
+    "dardania": "The Dardanians and Triballi, warlike peoples of the central Balkans.",
+    "paeonia": "Paeonia, a small kingdom in the valley of the Axios, squeezed between greater neighbours.",
+    "odrysia": "The Odrysian kingdom of Thrace, under Seuthes, who rules from his new city of Seuthopolis and "
+               "will not bend the knee to Lysimachos.",
+    "getae": "The Getae of the lower Danube, horsemen and farmers, whose king Dromichaites will humble "
+             "Lysimachos himself.",
+    "lysimachus": "The kingdom of Lysimachos, Alexander's bodyguard, now king of Thrace and of much of "
+                  "Anatolia after his victory at Ipsus.",
+    "byzantium": "Byzantium, a Greek city on the Bosporus, holding the gate between the Black Sea and the "
+                 "Aegean, and growing rich on the tolls.",
+    "bithynia": "Bithynia, a Thracian kingdom in north-western Anatolia, where Zipoites defies the "
+                "Macedonian kings.",
+    "heraclea": "Heraclea Pontica, a rich Greek city on the Black Sea coast, with a fleet of its own.",
+    "pontus": "Pontus, on the southern shore of the Black Sea, where Mithridates, of Persian royal blood, is "
+              "founding a kingdom of his own.",
+    "cappadocia": "Cappadocia, a land of horses and high plateaus in the heart of Anatolia, ruled by a Persian "
+                  "dynasty that has outlasted Alexander.",
+    "armenia": "Armenia, the high mountain kingdom of the Orontids, rich in horses and in metal.",
+    "atropatene": "Atropatene, in the north of Media, held by its Persian satrap Atropates as a kingdom of his "
+                  "own.",
+    "kartli": "Kartli, in the Caucasus, where Parnavaz is founding the first Georgian kingdom.",
+    "colchis": "Colchis, on the eastern shore of the Black Sea, the land of the golden fleece, rich in gold "
+               "and timber.",
+    "albania": "Caucasian Albania, the peoples of the eastern Caucasus and the Kura valley.",
+    "bosporus": "The Bosporan kingdom on the Cimmerian Bosporus, which feeds Athens with its grain.",
+    "scythia": "The Scythians, the great horse archers of the steppe, now pressed back into the Crimea.",
+    "sarmatians": "The Sarmatians, steppe horsemen from beyond the Don, whose armoured lancers are moving "
+                  "west.",
+    "seleucid": "The kingdom of Seleukos, the greatest of Alexander's heirs, from the Mediterranean to the "
+                "Indus. Babylon, Syria and Persia are his, and he has five hundred war elephants.",
+    "nabatea": "The Nabataeans, Arab masters of the incense road, who hide their water in cisterns and their "
+               "riches at Petra.",
+    "lihyan": "Lihyan, an Arab kingdom at the oasis of Dedan, on the incense road to the north.",
+    "saba": "Saba, the kingdom of Sheba, in the green mountains of Arabia, rich from incense and myrrh, with "
+            "its great dam at Marib.",
+    "main": "Ma'in, a kingdom of caravan merchants in Arabia, whose traders carry incense to Gaza and Egypt.",
+    "qataban": "Qataban, a kingdom of southern Arabia, rich in incense, ruled from Timna.",
+    "hadramawt": "Hadramawt, land of frankincense in southern Arabia, ruled from Shabwa.",
+}
+for k, t in REALMS.items():
+    add(f"realm_{k}", "bard", "realm_intro", k, t)
+
+# --------------------------------------------- the Bronze Age (to come)
+# Answers 'How the collapse plays' (from its causes): the bard tells them.
+BRONZE = {
+    "sea_peoples": ["[gravely] Ships have come from the sea, and the coast is burning.",
+                    "The peoples of the sea are on the move, with their families and their ox carts."],
+    "tin_cut": ["The tin no longer comes. Without it, there is no bronze.",
+                "The caravans from the east have stopped, and the smiths sit idle."],
+    "palace_burned": ["The palace burns, and with it the storerooms and the tablets.",
+                      "The great house has fallen. The scribes are gone."],
+    "bronze_learnt": ["Copper and tin, melted together, make bronze, harder than either.",
+                      "Our smiths have learned to make bronze."],
+    "iron_learnt": ["Iron, from common stone, in the hands of every smith.",
+                    "Our smiths have learned to work iron."],
+    "writing_learnt": ["Our scribes have learned to write.",
+                       "Now our deeds will be written down, and remembered."],
+    "chariots": ["Horses and chariots: the lords of war ride to battle.",
+                 "The chariot has come to our land."],
+}
+for k, texts in BRONZE.items():
+    for i, t in enumerate(texts):
+        add(f"moment_{k}_bard_{i + 1}", "bard", "moment", k, t)
+
 # ------------------------------------------------------- adviser replies
 REPLIES = {
     "yes_1": "As you command, my lord.",
@@ -1059,6 +1372,9 @@ heads = {"opening": "The opening (the bard)", "tip": "Tips (the adviser at court
          "lesson": "The longer history lesson (the bard)", "moment": "Moments in play (each age's narrator)",
          "lesson_adviser": "The guided first game (the adviser)", "alert": "Warnings (the adviser)",
          "adviser_reply": "Replies and greetings (the adviser)",
+         "opening_stage": "The opening: its stages (the bard)", "opening_year": "The opening: the years",
+         "opening_site": "The opening: places you can open when paused (the bard)",
+         "opening_help": "The opening: how to watch it", "realm_intro": "The realms of 300 BC (the bard)",
          "victory_cry": "Victory cries (in their own tongue)"}
 for plays, head in heads.items():
     md += [f"## {head}", ""]

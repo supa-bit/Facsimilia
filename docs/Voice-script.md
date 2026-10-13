@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-636 lines, 43,339 characters.
+773 lines, 63,441 characters.
 
 ## The opening (the bard)
 
@@ -598,6 +598,20 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **moment_great_victory_chronicler_2** (chronicler): The enemy was utterly routed.
 - **moment_great_victory_newsreader_1** (newsreader): In a historic victory, our forces have routed the enemy.
 - **moment_great_victory_newsreader_2** (newsreader): Celebrations are breaking out across the country.
+- **moment_sea_peoples_bard_1** (bard): [gravely] Ships have come from the sea, and the coast is burning.
+- **moment_sea_peoples_bard_2** (bard): The peoples of the sea are on the move, with their families and their ox carts.
+- **moment_tin_cut_bard_1** (bard): The tin no longer comes. Without it, there is no bronze.
+- **moment_tin_cut_bard_2** (bard): The caravans from the east have stopped, and the smiths sit idle.
+- **moment_palace_burned_bard_1** (bard): The palace burns, and with it the storerooms and the tablets.
+- **moment_palace_burned_bard_2** (bard): The great house has fallen. The scribes are gone.
+- **moment_bronze_learnt_bard_1** (bard): Copper and tin, melted together, make bronze, harder than either.
+- **moment_bronze_learnt_bard_2** (bard): Our smiths have learned to make bronze.
+- **moment_iron_learnt_bard_1** (bard): Iron, from common stone, in the hands of every smith.
+- **moment_iron_learnt_bard_2** (bard): Our smiths have learned to work iron.
+- **moment_writing_learnt_bard_1** (bard): Our scribes have learned to write.
+- **moment_writing_learnt_bard_2** (bard): Now our deeds will be written down, and remembered.
+- **moment_chariots_bard_1** (bard): Horses and chariots: the lords of war ride to battle.
+- **moment_chariots_bard_2** (bard): The chariot has come to our land.
 
 ## The guided first game (the adviser)
 
@@ -677,6 +691,144 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **reply_year_1** (adviser): Another year has passed, my lord.
 - **reply_year_2** (adviser): A new year begins.
 - **reply_saved** (adviser): The chronicle is written, my lord. It will keep.
+
+## The opening: its stages (the bard)
+
+- **stage_hunters** (bard): [slowly] Twelve thousand years ago, the ice was retreating. Hunters followed gazelle and wild cattle across the hills, gathering wild grain, nuts and lentils as the seasons turned.
+- **stage_gathering** (bard): Then people began to gather in great numbers, to build together and to feast. And some of them stayed.
+- **stage_villages** (bard): The first villages rose where the wild grain grew thick: round houses, then square ones, clustered close together.
+- **stage_crops** (bard): Year after year they kept the best seed and sowed it again. Einkorn, emmer and barley, lentils, peas, chickpeas and flax: the founder crops, which feed us still.
+- **stage_herds** (bard): Goats in the Zagros, sheep in the Taurus, cattle and pigs in the valleys of the great rivers. The wild herds became flocks, and the hunters became herders.
+- **stage_pottery** (bard): About eight and a half thousand years ago, people learned to fire clay into pots, to store grain and to cook. From now on, every village leaves its broken pottery for us to read.
+- **stage_spread** (bard): Farming spread out of Anatolia: by sea to Greece and Cyprus, up the Danube into Europe, along the coasts to Italy and Spain, and up the Nile.
+- **stage_sahara** (bard): In the green Sahara, herders drove their cattle between lakes and grasslands. When the rains moved south, they moved with them, and some came to the Nile.
+- **stage_irrigation** (bard): In the dry south of Mesopotamia, grain grows only where water is led to it. Canal by canal, marsh and desert were turned to fields.
+- **stage_copper** (bard): Copper was first hammered cold, then melted, then smelted from green stone. Metal made its owners rich, and those who held it, powerful.
+- **stage_temples** (bard): Temples grew larger, rebuilt again and again on the same holy ground. Their priests stored the harvest, and shared it out.
+- **stage_rank** (bard): Graves began to differ: most with a pot or two, a few with gold and copper. Some families were rising above the rest.
+- **stage_war** (bard): Walls rose around the towns, and sling stones piled up in their ruins. Where there was wealth to take, there was war.
+- **stage_plough** (bard): The plough drawn by oxen, the wheel, the donkey to carry, wool from the sheep and milk from the herds: in a few centuries, the farmer's world was changed.
+- **stage_sails** (bard): Sails appeared on the Nile and in the Gulf. Boats carried copper, timber, stone and grain farther than anyone could walk.
+- **stage_cities** (bard): In Uruk and its neighbours, villages became towns, and towns became cities, with thousands of people who did not farm at all.
+- **stage_writing** (bard): To keep count of grain, beer and workers, the temple scribes pressed signs into clay. In time those signs became writing, and history begins to speak for itself.
+- **stage_polities** (bard): [dramatically] The settlements have become states: lands with rulers, gods, laws, borders and armies. The lesson is over. [pause] Your reign begins.
+
+## The opening: the years
+
+- **year_bc10000** (bard): [slowly] Ten thousand years before Christ.
+- **year_bc9000** (bard): [slowly] Nine thousand years before Christ.
+- **year_bc8000** (bard): [slowly] Eight thousand years before Christ.
+- **year_bc7000** (bard): [slowly] Seven thousand years before Christ.
+- **year_bc6000** (bard): [slowly] Six thousand years before Christ.
+- **year_bc5000** (bard): [slowly] Five thousand years before Christ.
+- **year_bc4000** (bard): [slowly] Four thousand years before Christ.
+- **year_bc3500** (bard): [slowly] Three thousand five hundred years before Christ.
+
+## The opening: places you can open when paused (the bard)
+
+- **site_gobekli_tepe** (bard): Göbekli Tepe, on a ridge above the plain of Harran. More than eleven thousand years ago, hunters raised rings of great T-shaped pillars here, some taller than a man, carved with foxes, boars, snakes and vultures. Few lived here for long; people came together to build and to feast. [pause] It is the oldest monument of its kind we know.
+- **site_karahan_tepe** (bard): Karahan Tepe, a day's walk from Göbekli Tepe, is just as old. Its builders cut a chamber into the living rock and left a forest of pillars rising from its floor, watched over by a carved human head. The hills of Harran hold a dozen such places; Göbekli Tepe was not alone.
+- **site_nevali_cori** (bard): Nevalı Çori lay in a valley now drowned beneath a dam on the Euphrates. Its people lived in long stone houses and built a shrine with carved pillars, like those of Göbekli Tepe. On the slopes of Karacadağ nearby, wild einkorn was first tamed into a crop.
+- **site_abu_hureyra** (bard): Abu Hureyra, on the Euphrates in Syria. Its people hunted gazelle and gathered wild grain, and when a cold, dry age came, they may have begun to sow it themselves. It grew into one of the largest villages of its time. Its mound now lies beneath the waters of a lake.
+- **site_jericho** (bard): Jericho, beside a spring in the Jordan valley. About ten thousand years ago its people built a stone wall and a round tower eight metres high, with a stair inside. No one knows whether it guarded against enemies, floods, or simply showed what the town could do together. People have lived here ever since.
+- **site_ganj_dareh** (bard): Ganj Dareh, high in the Zagros mountains of Iran. Here, ten thousand years ago, people began to herd goats, killing the young males and keeping the females for their kids and milk. It is the earliest sign we have of goats being tamed.
+- **site_cayonu** (bard): Çayönü, in the hills above the Tigris. Its people built their houses on stone grills to keep them dry, and hammered native copper into beads and pins nearly ten thousand years ago, some of the first worked metal in the world. Here too, wild pigs were among the first to be tamed.
+- **site_asikli** (bard): Aşıklı Höyük, in Cappadocia, beside a river beneath the volcanoes. Its people lived in close-packed houses of mud brick and worked obsidian, the black volcanic glass that gave the sharpest blades of the age. Here we can see sheep being penned and kept, among the first.
+- **site_ain_ghazal** (bard): 'Ain Ghazal, near Amman in Jordan, was one of the largest villages of its age, home to perhaps two or three thousand people. They modelled statues of plaster over frames of reed, with wide eyes of shell and bitumen, and buried them with care. Then the land grew dry, and the village dwindled.
+- **site_catalhoyuk** (bard): Çatalhöyük, on the plain of Konya. For more than a thousand years, thousands of people lived here in houses packed so close there were no streets; they came and went through their roofs. They painted hunts and leopards on their walls, set bulls' horns in the plaster, and buried their dead beneath their floors. [pause] No house was grander than the rest.
+- **site_khirokitia** (bard): Khirokitia, on Cyprus. The island's first farmers came by boat, bringing wheat, sheep, goats, pigs and even deer to a land that had none. Here they built round houses of stone and mud brick on a hillside, behind a wall, and lived there for some fifteen hundred years.
+- **site_jarmo** (bard): Jarmo, in the foothills of the Zagros. A village of some twenty houses, where people grew wheat and barley, kept goats and sheep, and in time made some of the first pottery of the region. It was one of the first places where scholars went looking for the beginnings of farming.
+- **site_hacilar** (bard): Hacılar, in the lake country of Anatolia. Its villagers made lively painted pots and little clay figures of women, and lived in houses of mud brick on stone footings. Fire destroyed the village more than once, and each time it was built again.
+- **site_sesklo** (bard): Sesklo, in Thessaly, one of the first farming villages of Europe. Its people came from Anatolia across the Aegean, bringing wheat, sheep and goats, and lived in stone-footed houses with fine painted pottery. From villages like this, farming spread across the continent.
+- **site_franchthi** (bard): Franchthi Cave, in the Argolid of Greece. People lived here for twenty thousand years: as hunters, then as fishermen who sailed to the island of Melos for obsidian, and at last as farmers. It holds one of the oldest records of seafaring in the Mediterranean.
+- **site_lepenski_vir** (bard): Lepenski Vir, on the Danube in the Iron Gates gorge. Fishers of the great river built houses with floors of red plaster, and carved river boulders into faces half man and half fish. They lived on the river's bounty for two thousand years before farmers came.
+- **site_samarra** (bard): Samarra, on the Tigris. About six thousand years before Christ, farmers here dug canals to carry river water to their fields, for there was too little rain to grow grain without it. Their pots were painted with whirling women, fish and birds. Irrigation would make Mesopotamia bloom.
+- **site_halaf** (bard): Tell Halaf, in northern Syria, gave its name to a people of farming villages that stretched from the Mediterranean to the Zagros some eight thousand years ago. They made the finest painted pottery of their age, lived in round houses, and traded obsidian and shells across great distances.
+- **site_merimde** (bard): Merimde Beni Salama, on the western edge of the Nile delta, was one of Egypt's first farming villages. Its people grew wheat and barley, kept cattle, pigs and sheep, and buried their dead among their houses.
+- **site_nabta_playa** (bard): Nabta Playa, in the desert west of the Nile. When the Sahara was green, cattle herders gathered here beside a seasonal lake, and set up a circle of stones that may have marked the summer sun. When the rains failed, they moved east, to the Nile.
+- **site_eridu** (bard): Eridu, on the edge of the marshes in the far south of Mesopotamia. The Sumerians remembered it as the first city, where kingship came down from heaven. For three thousand years its people rebuilt the temple of Enki, god of the sweet waters, each one larger, on top of the last: eighteen temples, one above another.
+- **site_ubaid** (bard): Tell al-Ubaid, near Ur, gave its name to the people who first settled the south of Mesopotamia. They drained the marshes, dug canals and built temples on platforms, and their ways and their pottery spread up the rivers as far as Syria, and across the Gulf.
+- **site_byblos** (bard): Byblos, on the coast of Lebanon. Fishermen and farmers settled here seven thousand years ago. It would become one of the oldest cities still lived in, trading cedar with Egypt, and the Greeks would name papyrus after it, and so the Bible too.
+- **site_vinca** (bard): Vinča, on the Danube near Belgrade. Seven thousand years ago it was one of the great settlements of Europe, with hundreds of houses. Its people smelted copper earlier than almost anyone, made masked clay figures, and scratched signs on their pots that some think a kind of writing.
+- **site_yumuktepe** (bard): Yumuktepe, at Mersin on the coast of Cilicia, was lived in for eight thousand years. Some seven thousand years ago it was a walled fortress, with narrow windows for archers: one of the oldest forts we know.
+- **site_ghassul** (bard): Teleilat Ghassul, near the Dead Sea, gave its name to a people who painted the walls of their houses with stars and masked figures, and cast copper in moulds. A hoard of their copper maces and crowns was hidden in a cave by the Dead Sea, and found six thousand years later.
+- **site_varna** (bard): Varna, on the Black Sea coast. In a cemetery more than six thousand years old lay a man buried with a sceptre, bracelets and more than a kilogram of gold, the oldest worked gold in the world. Someone here was far richer than the rest, and was buried so.
+- **site_cucuteni** (bard): Cucuteni and Trypillia, between the Carpathians and the Dnieper. Their farmers built the largest settlements of their age, thousands of houses in great rings, and then, every few generations, burned them to the ground on purpose. Why, no one knows.
+- **site_badari** (bard): El-Badari, in Upper Egypt, gave its name to farmers who made thin, polished pots with blackened rims, and laid their dead in graves with palettes for green eye paint. They were the forerunners of the Egyptians.
+- **site_tell_brak** (bard): Tell Brak, in the north of Mesopotamia, grew into one of the first cities, perhaps even before Uruk. Six thousand years ago it already sprawled across the plain. Its people raised the Eye Temple, filled with hundreds of small stone figures with staring eyes.
+- **site_susa** (bard): Susa, on the plain of Khuzestan in Iran, was founded on a great platform of mud brick more than six thousand years ago. Its people buried their dead with beautiful painted beakers. It would become the heart of Elam, and much later a capital of the Persian kings.
+- **site_sialk** (bard): Tepe Sialk, near Kashan on the Iranian plateau, was lived in for five thousand years. Its villagers were among the first to smelt copper from ore, and painted their pots with leaping ibex.
+- **site_naqada** (bard): Naqada, in Upper Egypt. Over a thousand years, its people grew from villages into small kingdoms, with walled towns, painted boats on their pots, and rich graves for their chiefs. Their way of life spread down the whole Nile, and from it came the pharaohs.
+- **site_hierakonpolis** (bard): Nekhen, which the Greeks called Hierakonpolis, the city of the falcon. Its chiefs were buried in a painted tomb, kept wild animals, and worshipped Horus. From here the kings of Upper Egypt set out to unite the land.
+- **site_ggantija** (bard): Ġgantija, on the island of Gozo, by Malta. More than five and a half thousand years ago, farmers raised temples of huge stones here, older than the pyramids. Later islanders said that giants had built them.
+- **site_hamoukar** (bard): Hamoukar, in north-eastern Syria, was a town of obsidian workers. About three thousand five hundred years before Christ it was attacked and burned; clay sling bullets by the thousand lie in its ruins. [gravely] It is one of the oldest battles we know.
+- **site_arslantepe** (bard): Arslantepe, near Malatya in eastern Anatolia. Its rulers built a palace where they handed out food from storerooms, sealed with thousands of clay seals. Some of the oldest swords in the world, of arsenic bronze, were found there.
+- **site_uruk** (bard): Uruk, on the Euphrates. Three and a half thousand years before Christ, it was the greatest settlement on Earth, its temples of Eanna and Anu rising above the plain. Here scribes first wrote on clay, and here, the legend says, King Gilgamesh would one day build its walls.
+
+## The opening: how to watch it
+
+- **opening_help_pause** (bard): Pause whenever you wish, and open any place that is lit, to hear its story.
+- **opening_help_speed** (bard): Slow the years, or hurry them on. Or skip ahead, if you know this tale already.
+- **opening_help_resume** (bard): And so the years run on.
+
+## The realms of 300 BC (the bard)
+
+- **realm_rome** (bard): Rome, a republic of farmers and soldiers on the Tiber. Its consuls lead the legions, its allies fill the ranks, and the whole of Italy is within its reach. Carthage and the Samnites stand in its way.
+- **realm_samnites** (bard): The Samnite League, hardy hill peoples of the Apennines. They have fought Rome twice and will not bow easily.
+- **realm_etruscans** (bard): The Etruscan League, twelve cities of an ancient and wealthy people, masters of bronze, augury and the sea. Their glory is fading as Rome rises beside them.
+- **realm_cisalpine** (bard): The Cisalpine Gauls, the Boii and their kin, who took the Po valley from the Etruscans. Their warriors once burned Rome itself.
+- **realm_veneti** (bard): The Veneti, horse breeders and traders at the head of the Adriatic, through whose lands the amber road runs south.
+- **realm_ligurians** (bard): The Ligurians, fierce mountain peoples between the Alps and the sea, who yield to no one for long.
+- **realm_lucanians** (bard): The Lucanians and Bruttians, Oscan peoples of the far south of Italy, pressing hard on the Greek cities of the coast.
+- **realm_iapygians** (bard): The Messapians and Peucetians of the heel of Italy, a proud people with their own tongue, rivals of Tarentum.
+- **realm_tarentum** (bard): Tarentum and the Italiote League, the richest Greek city of Italy, with a great harbour and fine cavalry, but few soldiers of its own. It hires generals from across the sea.
+- **realm_syracuse** (bard): Syracuse, the greatest city of Sicily, under the tyrant Agathokles, who has fought Carthage in Sicily and in Africa itself, and now calls himself king.
+- **realm_massalia** (bard): Massalia, a Greek city on the coast of Gaul, founded by the Phocaeans. Its merchants trade wine and tin up the Rhône, and its ally is Rome.
+- **realm_gaul** (bard): The Gallic tribes, many peoples, many chiefs, rich in iron, gold and warriors. United, they could shake the world.
+- **realm_danube_celts** (bard): The Celts of the Danube, warrior peoples on the move. Their eyes are turned south, to Macedon and the riches of Greece.
+- **realm_iberia** (bard): The Iberian peoples of the east coast of Spain, towns of farmers, silversmiths and fierce warriors, long in contact with Greeks and Phoenicians.
+- **realm_celtiberia** (bard): The Celtiberians of the Spanish meseta, hill fort peoples famed for their swords. They will make any invader pay dearly.
+- **realm_lusitania** (bard): The Lusitanians and Gallaeci of the far west, herders and raiders of the mountains and the Atlantic coast.
+- **realm_carthage** (bard): Carthage, queen of the western sea. A great merchant republic of Phoenician blood, with fleets, trading posts on every coast and hired armies from every shore.
+- **realm_massylii** (bard): The Massylian Numidians of the east, horsemen of the North African hills, whose riders are the best in the world.
+- **realm_masaesyli** (bard): The Masaesylian Numidians of the west, a great kingdom of horsemen between Carthage and the Mauri.
+- **realm_mauri** (bard): The Mauri of the far west of Africa, beyond the pillars of Herakles, a land of mountains and elephants.
+- **realm_garamantes** (bard): The Garamantes of the Sahara, who dig tunnels for water beneath the desert, and drive their chariots to the far south.
+- **realm_egypt** (bard): Egypt, ruled by Ptolemy, the Macedonian who seized it after Alexander's death. The richest land on Earth, with Alexandria, its great new city, rising by the sea.
+- **realm_kush** (bard): The Kingdom of Kush, on the Nile beyond Egypt, ruled from Napata and Meroë. Land of gold, iron, ebony and archers, whose kings once ruled Egypt itself.
+- **realm_greek_world** (bard): Macedon, held by Kassander, Alexander's old enemy. The homeland of the conquerors, and master of much of Greece.
+- **realm_antigonus** (bard): The sea kingdom of Demetrios, the Besieger of Cities. Beaten at Ipsus, he still holds a great fleet, Cyprus and cities across the Aegean, and dreams of more.
+- **realm_aetolia** (bard): The Aetolian League, a union of tough mountain cantons in western Greece, who once drove back the Macedonians.
+- **realm_sparta** (bard): Sparta, once the greatest military power in Greece, now a shadow of itself, but still proud, and still dangerous.
+- **realm_epirus** (bard): Epirus, kingdom of the Molossians, whose young king Pyrrhos is cousin to Alexander, and dreams of glory to match.
+- **realm_rhodes** (bard): Rhodes, a free island republic of merchants and sailors, which has just withstood a great siege, and will raise a giant bronze statue of the sun god in thanks.
+- **realm_crete** (bard): The cities of Crete, an island of ancient memory, now famous for its archers and its pirates.
+- **realm_illyria** (bard): The Illyrian kingdom on the Adriatic coast, a land of warriors and raiders by land and sea.
+- **realm_dardania** (bard): The Dardanians and Triballi, warlike peoples of the central Balkans.
+- **realm_paeonia** (bard): Paeonia, a small kingdom in the valley of the Axios, squeezed between greater neighbours.
+- **realm_odrysia** (bard): The Odrysian kingdom of Thrace, under Seuthes, who rules from his new city of Seuthopolis and will not bend the knee to Lysimachos.
+- **realm_getae** (bard): The Getae of the lower Danube, horsemen and farmers, whose king Dromichaites will humble Lysimachos himself.
+- **realm_lysimachus** (bard): The kingdom of Lysimachos, Alexander's bodyguard, now king of Thrace and of much of Anatolia after his victory at Ipsus.
+- **realm_byzantium** (bard): Byzantium, a Greek city on the Bosporus, holding the gate between the Black Sea and the Aegean, and growing rich on the tolls.
+- **realm_bithynia** (bard): Bithynia, a Thracian kingdom in north-western Anatolia, where Zipoites defies the Macedonian kings.
+- **realm_heraclea** (bard): Heraclea Pontica, a rich Greek city on the Black Sea coast, with a fleet of its own.
+- **realm_pontus** (bard): Pontus, on the southern shore of the Black Sea, where Mithridates, of Persian royal blood, is founding a kingdom of his own.
+- **realm_cappadocia** (bard): Cappadocia, a land of horses and high plateaus in the heart of Anatolia, ruled by a Persian dynasty that has outlasted Alexander.
+- **realm_armenia** (bard): Armenia, the high mountain kingdom of the Orontids, rich in horses and in metal.
+- **realm_atropatene** (bard): Atropatene, in the north of Media, held by its Persian satrap Atropates as a kingdom of his own.
+- **realm_kartli** (bard): Kartli, in the Caucasus, where Parnavaz is founding the first Georgian kingdom.
+- **realm_colchis** (bard): Colchis, on the eastern shore of the Black Sea, the land of the golden fleece, rich in gold and timber.
+- **realm_albania** (bard): Caucasian Albania, the peoples of the eastern Caucasus and the Kura valley.
+- **realm_bosporus** (bard): The Bosporan kingdom on the Cimmerian Bosporus, which feeds Athens with its grain.
+- **realm_scythia** (bard): The Scythians, the great horse archers of the steppe, now pressed back into the Crimea.
+- **realm_sarmatians** (bard): The Sarmatians, steppe horsemen from beyond the Don, whose armoured lancers are moving west.
+- **realm_seleucid** (bard): The kingdom of Seleukos, the greatest of Alexander's heirs, from the Mediterranean to the Indus. Babylon, Syria and Persia are his, and he has five hundred war elephants.
+- **realm_nabatea** (bard): The Nabataeans, Arab masters of the incense road, who hide their water in cisterns and their riches at Petra.
+- **realm_lihyan** (bard): Lihyan, an Arab kingdom at the oasis of Dedan, on the incense road to the north.
+- **realm_saba** (bard): Saba, the kingdom of Sheba, in the green mountains of Arabia, rich from incense and myrrh, with its great dam at Marib.
+- **realm_main** (bard): Ma'in, a kingdom of caravan merchants in Arabia, whose traders carry incense to Gaza and Egypt.
+- **realm_qataban** (bard): Qataban, a kingdom of southern Arabia, rich in incense, ruled from Timna.
+- **realm_hadramawt** (bard): Hadramawt, land of frankincense in southern Arabia, ruled from Shabwa.
 
 ## Victory cries (in their own tongue)
 
