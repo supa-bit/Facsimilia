@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-461 lines, 35,604 characters.
+636 lines, 43,339 characters.
 
 ## The opening (the bard)
 
@@ -454,6 +454,150 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **moment_game_end_chronicler_2** (chronicler): Thus ends the account of these years.
 - **moment_game_end_newsreader_1** (newsreader): And that is the end of the news.
 - **moment_game_end_newsreader_2** (newsreader): That is all for tonight. Good night.
+- **moment_naval_won_bard_1** (bard): The sea is ours. Their ships burn on the water.
+- **moment_naval_won_bard_2** (bard): Our oars beat faster, and their fleet is broken.
+- **moment_naval_won_chronicler_1** (chronicler): In this year our fleet met the enemy at sea and prevailed.
+- **moment_naval_won_chronicler_2** (chronicler): The enemy's ships are taken or sunk.
+- **moment_naval_won_newsreader_1** (newsreader): Our navy has won a decisive battle at sea.
+- **moment_naval_won_newsreader_2** (newsreader): The enemy fleet has been defeated.
+- **moment_naval_lost_bard_1** (bard): [sadly] The sea has taken our ships, and our sailors with them.
+- **moment_naval_lost_bard_2** (bard): Our fleet is scattered, and the enemy rules the waves.
+- **moment_naval_lost_chronicler_1** (chronicler): Our fleet was defeated at sea, and many ships were lost.
+- **moment_naval_lost_chronicler_2** (chronicler): The enemy has broken our fleet.
+- **moment_naval_lost_newsreader_1** (newsreader): Our navy has suffered a heavy defeat.
+- **moment_naval_lost_newsreader_2** (newsreader): Several of our ships have been lost at sea.
+- **moment_fleet_storm_bard_1** (bard): The sea god is angry. A storm has swallowed our ships.
+- **moment_fleet_storm_bard_2** (bard): Wind and wave have done what no enemy could.
+- **moment_fleet_storm_chronicler_1** (chronicler): A great storm arose, and many of our ships were wrecked.
+- **moment_fleet_storm_chronicler_2** (chronicler): The fleet was lost to the tempest.
+- **moment_fleet_storm_newsreader_1** (newsreader): A storm has sunk part of our fleet.
+- **moment_fleet_storm_newsreader_2** (newsreader): Severe weather has caused heavy losses at sea.
+- **moment_army_destroyed_bard_1** (bard): [gravely] An army of ours is no more. Mourn them.
+- **moment_army_destroyed_bard_2** (bard): Not one company came home.
+- **moment_army_destroyed_chronicler_1** (chronicler): Our army was destroyed, and few escaped.
+- **moment_army_destroyed_chronicler_2** (chronicler): The host is lost, and the land laments.
+- **moment_army_destroyed_newsreader_1** (newsreader): One of our armies has been destroyed.
+- **moment_army_destroyed_newsreader_2** (newsreader): Heavy casualties are reported after the collapse of our forces.
+- **moment_general_died_bard_1** (bard): A great captain has fallen. The soldiers weep.
+- **moment_general_died_bard_2** (bard): Our general is dead, and the camp is silent.
+- **moment_general_died_chronicler_1** (chronicler): Our general fell in this year, and was mourned by his men.
+- **moment_general_died_chronicler_2** (chronicler): The commander of our army is dead.
+- **moment_general_died_newsreader_1** (newsreader): A senior general has died.
+- **moment_general_died_newsreader_2** (newsreader): The army is mourning the loss of its commander.
+- **moment_revolt_crushed_bard_1** (bard): The rebels are scattered. Order returns.
+- **moment_revolt_crushed_bard_2** (bard): The rising is put down, and the leaders are taken.
+- **moment_revolt_crushed_chronicler_1** (chronicler): The rebellion was crushed, and peace restored.
+- **moment_revolt_crushed_chronicler_2** (chronicler): The rebels were defeated and dispersed.
+- **moment_revolt_crushed_newsreader_1** (newsreader): The uprising has been put down.
+- **moment_revolt_crushed_newsreader_2** (newsreader): Government forces have restored order.
+- **moment_independence_bard_1** (bard): A province has broken away. It answers to us no more.
+- **moment_independence_bard_2** (bard): They have thrown off our rule, and named their own lord.
+- **moment_independence_chronicler_1** (chronicler): In this year a province threw off our rule.
+- **moment_independence_chronicler_2** (chronicler): The rebels have made themselves masters of their land.
+- **moment_independence_newsreader_1** (newsreader): A region has declared its independence.
+- **moment_independence_newsreader_2** (newsreader): A new state has proclaimed itself on our former territory.
+- **moment_vassal_gained_bard_1** (bard): They bow before us now, and pay what they owe.
+- **moment_vassal_gained_bard_2** (bard): A new realm swears to follow us.
+- **moment_vassal_gained_chronicler_1** (chronicler): A lesser lord has sworn fealty to our crown.
+- **moment_vassal_gained_chronicler_2** (chronicler): They are become our vassals, and owe us tribute.
+- **moment_vassal_gained_newsreader_1** (newsreader): A neighbouring state has accepted our protection.
+- **moment_vassal_gained_newsreader_2** (newsreader): A new client state has signed a treaty of subordination.
+- **moment_alliance_broken_bard_1** (bard): [angrily] They have broken their oath. Let the gods punish them.
+- **moment_alliance_broken_bard_2** (bard): The alliance is over. Friends become strangers.
+- **moment_alliance_broken_chronicler_1** (chronicler): The alliance was broken, and the oaths forgotten.
+- **moment_alliance_broken_chronicler_2** (chronicler): Our former allies have turned from us.
+- **moment_alliance_broken_newsreader_1** (newsreader): The alliance has collapsed.
+- **moment_alliance_broken_newsreader_2** (newsreader): Our former ally has withdrawn from the treaty.
+- **moment_truce_broken_bard_1** (bard): The peace is broken. Who can trust their word now?
+- **moment_truce_broken_bard_2** (bard): They swore peace, and now they march again.
+- **moment_truce_broken_chronicler_1** (chronicler): The truce was broken, and the war renewed.
+- **moment_truce_broken_chronicler_2** (chronicler): The peace has not held.
+- **moment_truce_broken_newsreader_1** (newsreader): The ceasefire has broken down.
+- **moment_truce_broken_newsreader_2** (newsreader): Fighting has resumed despite the truce.
+- **moment_trade_route_bard_1** (bard): New roads for our merchants, and new markets for our goods.
+- **moment_trade_route_bard_2** (bard): Caravans and ships carry our wares to distant lands.
+- **moment_trade_route_chronicler_1** (chronicler): A new road of trade was opened in this year.
+- **moment_trade_route_chronicler_2** (chronicler): Our merchants travel to new markets.
+- **moment_trade_route_newsreader_1** (newsreader): A new trade route has opened.
+- **moment_trade_route_newsreader_2** (newsreader): Exports are expected to grow along the new route.
+- **moment_pirates_bard_1** (bard): Pirates prowl our coasts and take our ships.
+- **moment_pirates_bard_2** (bard): Sea wolves raid our harbours.
+- **moment_pirates_chronicler_1** (chronicler): Pirates have attacked our merchants at sea.
+- **moment_pirates_chronicler_2** (chronicler): The coasts are troubled by raiders from the sea.
+- **moment_pirates_newsreader_1** (newsreader): Piracy is disrupting our shipping.
+- **moment_pirates_newsreader_2** (newsreader): Pirates have seized another merchant vessel.
+- **moment_raid_bard_1** (bard): Raiders came in the night, and burned the fields.
+- **moment_raid_bard_2** (bard): [gravely] The villages smoke. The raiders have come and gone.
+- **moment_raid_chronicler_1** (chronicler): Raiders have plundered our borderlands.
+- **moment_raid_chronicler_2** (chronicler): The marches were ravaged by the enemy.
+- **moment_raid_newsreader_1** (newsreader): Border regions have been attacked by raiders.
+- **moment_raid_newsreader_2** (newsreader): Villages near the border have been looted.
+- **moment_flood_bard_1** (bard): The river has risen, and swallowed the fields.
+- **moment_flood_bard_2** (bard): The waters cover the land, and the people flee to the hills.
+- **moment_flood_chronicler_1** (chronicler): A great flood came, and the river covered the land.
+- **moment_flood_chronicler_2** (chronicler): The waters rose, and many houses were carried away.
+- **moment_flood_newsreader_1** (newsreader): Severe flooding has hit the region.
+- **moment_flood_newsreader_2** (newsreader): Thousands have been forced from their homes by rising waters.
+- **moment_drought_bard_1** (bard): No rain has fallen. The earth cracks and the wells run dry.
+- **moment_drought_bard_2** (bard): The sky is brass, and the fields are dust.
+- **moment_drought_chronicler_1** (chronicler): There was great drought in this year, and the crops withered.
+- **moment_drought_chronicler_2** (chronicler): No rain fell, and the rivers shrank.
+- **moment_drought_newsreader_1** (newsreader): A severe drought is affecting the harvest.
+- **moment_drought_newsreader_2** (newsreader): Water shortages are reported after months without rain.
+- **moment_fire_bard_1** (bard): Fire runs through the city, from roof to roof.
+- **moment_fire_bard_2** (bard): [gravely] The city burns, and the people flee.
+- **moment_fire_chronicler_1** (chronicler): A great fire broke out in the city.
+- **moment_fire_chronicler_2** (chronicler): Much of the city was consumed by fire.
+- **moment_fire_newsreader_1** (newsreader): A major fire has swept through the city.
+- **moment_fire_newsreader_2** (newsreader): Firefighters are battling a huge blaze.
+- **moment_good_harvest_bard_1** (bard): [warmly] The granaries overflow. The gods are kind this year.
+- **moment_good_harvest_bard_2** (bard): A golden harvest. Let the people feast.
+- **moment_good_harvest_chronicler_1** (chronicler): The harvest was plentiful, and bread was cheap.
+- **moment_good_harvest_chronicler_2** (chronicler): God gave a good harvest in this year.
+- **moment_good_harvest_newsreader_1** (newsreader): Farmers report a record harvest.
+- **moment_good_harvest_newsreader_2** (newsreader): Food prices are falling after an excellent harvest.
+- **moment_golden_age_bard_1** (bard): [warmly] These are the golden days. Songs will be sung of them.
+- **moment_golden_age_bard_2** (bard): The realm has never been so rich, nor so proud.
+- **moment_golden_age_chronicler_1** (chronicler): The realm flourishes as never before.
+- **moment_golden_age_chronicler_2** (chronicler): These were years of plenty and of peace.
+- **moment_golden_age_newsreader_1** (newsreader): The country is enjoying a period of unprecedented prosperity.
+- **moment_golden_age_newsreader_2** (newsreader): Economists are calling it a golden age.
+- **moment_assassination_bard_1** (bard): [gravely] A knife in the dark. A great one is murdered.
+- **moment_assassination_bard_2** (bard): Treachery! Blood is spilled in the palace.
+- **moment_assassination_chronicler_1** (chronicler): In this year a great lord was murdered by his enemies.
+- **moment_assassination_chronicler_2** (chronicler): He was slain by treachery.
+- **moment_assassination_newsreader_1** (newsreader): A prominent figure has been assassinated.
+- **moment_assassination_newsreader_2** (newsreader): Police are investigating the killing.
+- **moment_civil_war_bard_1** (bard): [gravely] Brother fights brother. The realm is torn in two.
+- **moment_civil_war_bard_2** (bard): Our own people have taken up arms against us.
+- **moment_civil_war_chronicler_1** (chronicler): Civil war broke out in the realm.
+- **moment_civil_war_chronicler_2** (chronicler): The kingdom is divided, and each side has its army.
+- **moment_civil_war_newsreader_1** (newsreader): The country has descended into civil war.
+- **moment_civil_war_newsreader_2** (newsreader): Rival factions are fighting for control of the state.
+- **moment_integrated_bard_1** (bard): They speak our tongue now, and honour our gods.
+- **moment_integrated_bard_2** (bard): The conquered have become our own.
+- **moment_integrated_chronicler_1** (chronicler): The people of the province now hold to our ways.
+- **moment_integrated_chronicler_2** (chronicler): The conquered province is at last at one with the realm.
+- **moment_integrated_newsreader_1** (newsreader): The province is now fully integrated.
+- **moment_integrated_newsreader_2** (newsreader): Officials say the region has been successfully absorbed.
+- **moment_city_founded_bard_1** (bard): A new city rises. May it stand a thousand years.
+- **moment_city_founded_bard_2** (bard): We have marked out the walls of a new town.
+- **moment_city_founded_chronicler_1** (chronicler): In this year a new town was founded.
+- **moment_city_founded_chronicler_2** (chronicler): A city was built where there was none.
+- **moment_city_founded_newsreader_1** (newsreader): A new city has been officially founded.
+- **moment_city_founded_newsreader_2** (newsreader): Construction has begun on a planned new town.
+- **moment_religion_bard_1** (bard): New gods come to our land, and the people listen.
+- **moment_religion_bard_2** (bard): Strange priests preach a new faith in our cities.
+- **moment_religion_chronicler_1** (chronicler): A new faith spreads among the people.
+- **moment_religion_chronicler_2** (chronicler): Many have turned to a new religion.
+- **moment_religion_newsreader_1** (newsreader): A new religious movement is gaining followers.
+- **moment_religion_newsreader_2** (newsreader): Religious change is sweeping the country.
+- **moment_great_victory_bard_1** (bard): [dramatically] A victory for the ages! Our name will be remembered.
+- **moment_great_victory_bard_2** (bard): Never was such a victory, nor such a defeat for our foes.
+- **moment_great_victory_chronicler_1** (chronicler): In this year was won a great victory, the like of which was never seen.
+- **moment_great_victory_chronicler_2** (chronicler): The enemy was utterly routed.
+- **moment_great_victory_newsreader_1** (newsreader): In a historic victory, our forces have routed the enemy.
+- **moment_great_victory_newsreader_2** (newsreader): Celebrations are breaking out across the country.
 
 ## The guided first game (the adviser)
 
@@ -499,6 +643,40 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **alert_siege_starving** (adviser): My lord, the besieged city is starving. It will not hold much longer.
 - **alert_loan_due** (adviser): My lord, a loan falls due, and the lenders are waiting.
 - **alert_heir_missing** (adviser): My lord, you have no heir. Think of the succession.
+- **alert_enemy_near** (adviser): My lord, an enemy army is marching towards us.
+- **alert_pirates_near** (adviser): My lord, pirates are troubling our coasts.
+- **alert_plague_near** (adviser): My lord, a plague rages in a neighbouring land. It may reach us.
+- **alert_winter** (adviser): My lord, winter is coming. The armies should seek their quarters.
+- **alert_storm_season** (adviser): My lord, the sea is dangerous in this season. Keep the ships in harbour.
+- **alert_ally_asks** (adviser): My lord, our ally calls for our help.
+- **alert_truce_ending** (adviser): My lord, the truce will soon end.
+- **alert_coin_distrusted** (adviser): My lord, the merchants no longer trust our coin.
+- **alert_general_ambitious** (adviser): My lord, a general grows too popular with his soldiers.
+- **alert_court_plot** (adviser): My lord, there are whispers of a plot at court.
+- **alert_fleet_idle** (adviser): My lord, our fleet lies idle in harbour.
+- **alert_research_done** (adviser): My lord, the scholars have finished their work. What shall they study next?
+- **alert_building_done** (adviser): My lord, the builders have finished. What shall they build next?
+- **alert_debt_high** (adviser): My lord, our debts are growing dangerous.
+- **alert_famine_coming** (adviser): My lord, the granaries are low. If the harvest fails, the people will starve.
+
+## Replies and greetings (the adviser)
+
+- **reply_yes_1** (adviser): As you command, my lord.
+- **reply_yes_2** (adviser): It shall be done.
+- **reply_yes_3** (adviser): At once, my lord.
+- **reply_yes_4** (adviser): A wise choice, my lord.
+- **reply_yes_5** (adviser): I will see to it.
+- **reply_doubt_1** (adviser): If you are certain, my lord.
+- **reply_doubt_2** (adviser): [hesitantly] That is... bold, my lord.
+- **reply_cannot_1** (adviser): We cannot afford it, my lord.
+- **reply_cannot_2** (adviser): That is not yet possible, my lord.
+- **reply_cannot_3** (adviser): Our scholars do not yet know how.
+- **reply_greet_1** (adviser): Good morning, my lord. The realm awaits.
+- **reply_greet_2** (adviser): Welcome back, my lord.
+- **reply_greet_3** (adviser): My lord, there is much to do.
+- **reply_year_1** (adviser): Another year has passed, my lord.
+- **reply_year_2** (adviser): A new year begins.
+- **reply_saved** (adviser): The chronicle is written, my lord. It will keep.
 
 ## Victory cries (in their own tongue)
 

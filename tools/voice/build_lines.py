@@ -705,6 +705,203 @@ MOMENTS = {
                        "That is all for tonight. Good night."],
     },
 }
+# Answer of 13 Oct 2026 (use the rest of the credits for more lines):
+# more moments, two ways each for each narrator.
+MOMENTS.update({
+    "naval_won": {
+        "bard": ["The sea is ours. Their ships burn on the water.",
+                 "Our oars beat faster, and their fleet is broken."],
+        "chronicler": ["In this year our fleet met the enemy at sea and prevailed.",
+                       "The enemy's ships are taken or sunk."],
+        "newsreader": ["Our navy has won a decisive battle at sea.",
+                       "The enemy fleet has been defeated."],
+    },
+    "naval_lost": {
+        "bard": ["[sadly] The sea has taken our ships, and our sailors with them.",
+                 "Our fleet is scattered, and the enemy rules the waves."],
+        "chronicler": ["Our fleet was defeated at sea, and many ships were lost.",
+                       "The enemy has broken our fleet."],
+        "newsreader": ["Our navy has suffered a heavy defeat.",
+                       "Several of our ships have been lost at sea."],
+    },
+    "fleet_storm": {
+        "bard": ["The sea god is angry. A storm has swallowed our ships.",
+                 "Wind and wave have done what no enemy could."],
+        "chronicler": ["A great storm arose, and many of our ships were wrecked.",
+                       "The fleet was lost to the tempest."],
+        "newsreader": ["A storm has sunk part of our fleet.",
+                       "Severe weather has caused heavy losses at sea."],
+    },
+    "army_destroyed": {
+        "bard": ["[gravely] An army of ours is no more. Mourn them.",
+                 "Not one company came home."],
+        "chronicler": ["Our army was destroyed, and few escaped.",
+                       "The host is lost, and the land laments."],
+        "newsreader": ["One of our armies has been destroyed.",
+                       "Heavy casualties are reported after the collapse of our forces."],
+    },
+    "general_died": {
+        "bard": ["A great captain has fallen. The soldiers weep.",
+                 "Our general is dead, and the camp is silent."],
+        "chronicler": ["Our general fell in this year, and was mourned by his men.",
+                       "The commander of our army is dead."],
+        "newsreader": ["A senior general has died.",
+                       "The army is mourning the loss of its commander."],
+    },
+    "revolt_crushed": {
+        "bard": ["The rebels are scattered. Order returns.",
+                 "The rising is put down, and the leaders are taken."],
+        "chronicler": ["The rebellion was crushed, and peace restored.",
+                       "The rebels were defeated and dispersed."],
+        "newsreader": ["The uprising has been put down.",
+                       "Government forces have restored order."],
+    },
+    "independence": {
+        "bard": ["A province has broken away. It answers to us no more.",
+                 "They have thrown off our rule, and named their own lord."],
+        "chronicler": ["In this year a province threw off our rule.",
+                       "The rebels have made themselves masters of their land."],
+        "newsreader": ["A region has declared its independence.",
+                       "A new state has proclaimed itself on our former territory."],
+    },
+    "vassal_gained": {
+        "bard": ["They bow before us now, and pay what they owe.",
+                 "A new realm swears to follow us."],
+        "chronicler": ["A lesser lord has sworn fealty to our crown.",
+                       "They are become our vassals, and owe us tribute."],
+        "newsreader": ["A neighbouring state has accepted our protection.",
+                       "A new client state has signed a treaty of subordination."],
+    },
+    "alliance_broken": {
+        "bard": ["[angrily] They have broken their oath. Let the gods punish them.",
+                 "The alliance is over. Friends become strangers."],
+        "chronicler": ["The alliance was broken, and the oaths forgotten.",
+                       "Our former allies have turned from us."],
+        "newsreader": ["The alliance has collapsed.",
+                       "Our former ally has withdrawn from the treaty."],
+    },
+    "truce_broken": {
+        "bard": ["The peace is broken. Who can trust their word now?",
+                 "They swore peace, and now they march again."],
+        "chronicler": ["The truce was broken, and the war renewed.",
+                       "The peace has not held."],
+        "newsreader": ["The ceasefire has broken down.",
+                       "Fighting has resumed despite the truce."],
+    },
+    "trade_route": {
+        "bard": ["New roads for our merchants, and new markets for our goods.",
+                 "Caravans and ships carry our wares to distant lands."],
+        "chronicler": ["A new road of trade was opened in this year.",
+                       "Our merchants travel to new markets."],
+        "newsreader": ["A new trade route has opened.",
+                       "Exports are expected to grow along the new route."],
+    },
+    "pirates": {
+        "bard": ["Pirates prowl our coasts and take our ships.",
+                 "Sea wolves raid our harbours."],
+        "chronicler": ["Pirates have attacked our merchants at sea.",
+                       "The coasts are troubled by raiders from the sea."],
+        "newsreader": ["Piracy is disrupting our shipping.",
+                       "Pirates have seized another merchant vessel."],
+    },
+    "raid": {
+        "bard": ["Raiders came in the night, and burned the fields.",
+                 "[gravely] The villages smoke. The raiders have come and gone."],
+        "chronicler": ["Raiders have plundered our borderlands.",
+                       "The marches were ravaged by the enemy."],
+        "newsreader": ["Border regions have been attacked by raiders.",
+                       "Villages near the border have been looted."],
+    },
+    "flood": {
+        "bard": ["The river has risen, and swallowed the fields.",
+                 "The waters cover the land, and the people flee to the hills."],
+        "chronicler": ["A great flood came, and the river covered the land.",
+                       "The waters rose, and many houses were carried away."],
+        "newsreader": ["Severe flooding has hit the region.",
+                       "Thousands have been forced from their homes by rising waters."],
+    },
+    "drought": {
+        "bard": ["No rain has fallen. The earth cracks and the wells run dry.",
+                 "The sky is brass, and the fields are dust."],
+        "chronicler": ["There was great drought in this year, and the crops withered.",
+                       "No rain fell, and the rivers shrank."],
+        "newsreader": ["A severe drought is affecting the harvest.",
+                       "Water shortages are reported after months without rain."],
+    },
+    "fire": {
+        "bard": ["Fire runs through the city, from roof to roof.",
+                 "[gravely] The city burns, and the people flee."],
+        "chronicler": ["A great fire broke out in the city.",
+                       "Much of the city was consumed by fire."],
+        "newsreader": ["A major fire has swept through the city.",
+                       "Firefighters are battling a huge blaze."],
+    },
+    "good_harvest": {
+        "bard": ["[warmly] The granaries overflow. The gods are kind this year.",
+                 "A golden harvest. Let the people feast."],
+        "chronicler": ["The harvest was plentiful, and bread was cheap.",
+                       "God gave a good harvest in this year."],
+        "newsreader": ["Farmers report a record harvest.",
+                       "Food prices are falling after an excellent harvest."],
+    },
+    "golden_age": {
+        "bard": ["[warmly] These are the golden days. Songs will be sung of them.",
+                 "The realm has never been so rich, nor so proud."],
+        "chronicler": ["The realm flourishes as never before.",
+                       "These were years of plenty and of peace."],
+        "newsreader": ["The country is enjoying a period of unprecedented prosperity.",
+                       "Economists are calling it a golden age."],
+    },
+    "assassination": {
+        "bard": ["[gravely] A knife in the dark. A great one is murdered.",
+                 "Treachery! Blood is spilled in the palace."],
+        "chronicler": ["In this year a great lord was murdered by his enemies.",
+                       "He was slain by treachery."],
+        "newsreader": ["A prominent figure has been assassinated.",
+                       "Police are investigating the killing."],
+    },
+    "civil_war": {
+        "bard": ["[gravely] Brother fights brother. The realm is torn in two.",
+                 "Our own people have taken up arms against us."],
+        "chronicler": ["Civil war broke out in the realm.",
+                       "The kingdom is divided, and each side has its army."],
+        "newsreader": ["The country has descended into civil war.",
+                       "Rival factions are fighting for control of the state."],
+    },
+    "integrated": {
+        "bard": ["They speak our tongue now, and honour our gods.",
+                 "The conquered have become our own."],
+        "chronicler": ["The people of the province now hold to our ways.",
+                       "The conquered province is at last at one with the realm."],
+        "newsreader": ["The province is now fully integrated.",
+                       "Officials say the region has been successfully absorbed."],
+    },
+    "city_founded": {
+        "bard": ["A new city rises. May it stand a thousand years.",
+                 "We have marked out the walls of a new town."],
+        "chronicler": ["In this year a new town was founded.",
+                       "A city was built where there was none."],
+        "newsreader": ["A new city has been officially founded.",
+                       "Construction has begun on a planned new town."],
+    },
+    "religion": {
+        "bard": ["New gods come to our land, and the people listen.",
+                 "Strange priests preach a new faith in our cities."],
+        "chronicler": ["A new faith spreads among the people.",
+                       "Many have turned to a new religion."],
+        "newsreader": ["A new religious movement is gaining followers.",
+                       "Religious change is sweeping the country."],
+    },
+    "great_victory": {
+        "bard": ["[dramatically] A victory for the ages! Our name will be remembered.",
+                 "Never was such a victory, nor such a defeat for our foes."],
+        "chronicler": ["In this year was won a great victory, the like of which was never seen.",
+                       "The enemy was utterly routed."],
+        "newsreader": ["In a historic victory, our forces have routed the enemy.",
+                       "Celebrations are breaking out across the country."],
+    },
+})
+
 for moment, by in MOMENTS.items():
     for v, texts in by.items():
         for i, t in enumerate(texts):
@@ -785,9 +982,46 @@ ALERTS = {
     "siege_starving": "My lord, the besieged city is starving. It will not hold much longer.",
     "loan_due": "My lord, a loan falls due, and the lenders are waiting.",
     "heir_missing": "My lord, you have no heir. Think of the succession.",
+    "enemy_near": "My lord, an enemy army is marching towards us.",
+    "pirates_near": "My lord, pirates are troubling our coasts.",
+    "plague_near": "My lord, a plague rages in a neighbouring land. It may reach us.",
+    "winter": "My lord, winter is coming. The armies should seek their quarters.",
+    "storm_season": "My lord, the sea is dangerous in this season. Keep the ships in harbour.",
+    "ally_asks": "My lord, our ally calls for our help.",
+    "truce_ending": "My lord, the truce will soon end.",
+    "coin_distrusted": "My lord, the merchants no longer trust our coin.",
+    "general_ambitious": "My lord, a general grows too popular with his soldiers.",
+    "court_plot": "My lord, there are whispers of a plot at court.",
+    "fleet_idle": "My lord, our fleet lies idle in harbour.",
+    "research_done": "My lord, the scholars have finished their work. What shall they study next?",
+    "building_done": "My lord, the builders have finished. What shall they build next?",
+    "debt_high": "My lord, our debts are growing dangerous.",
+    "famine_coming": "My lord, the granaries are low. If the harvest fails, the people will starve.",
 }
 for k, t in ALERTS.items():
     add(f"alert_{k}", "adviser", "alert", k, t)
+
+# ------------------------------------------------------- adviser replies
+REPLIES = {
+    "yes_1": "As you command, my lord.",
+    "yes_2": "It shall be done.",
+    "yes_3": "At once, my lord.",
+    "yes_4": "A wise choice, my lord.",
+    "yes_5": "I will see to it.",
+    "doubt_1": "If you are certain, my lord.",
+    "doubt_2": "[hesitantly] That is... bold, my lord.",
+    "cannot_1": "We cannot afford it, my lord.",
+    "cannot_2": "That is not yet possible, my lord.",
+    "cannot_3": "Our scholars do not yet know how.",
+    "greet_1": "Good morning, my lord. The realm awaits.",
+    "greet_2": "Welcome back, my lord.",
+    "greet_3": "My lord, there is much to do.",
+    "year_1": "Another year has passed, my lord.",
+    "year_2": "A new year begins.",
+    "saved": "The chronicle is written, my lord. It will keep.",
+}
+for k, t in REPLIES.items():
+    add(f"reply_{k}", "adviser", "adviser_reply", k, t)
 
 # ------------------------------------------------------- victory cheers
 CHEERS = [
@@ -824,6 +1058,7 @@ heads = {"opening": "The opening (the bard)", "tip": "Tips (the adviser at court
          "war_cry": "War cries (in their own tongue)",
          "lesson": "The longer history lesson (the bard)", "moment": "Moments in play (each age's narrator)",
          "lesson_adviser": "The guided first game (the adviser)", "alert": "Warnings (the adviser)",
+         "adviser_reply": "Replies and greetings (the adviser)",
          "victory_cry": "Victory cries (in their own tongue)"}
 for plays, head in heads.items():
     md += [f"## {head}", ""]
