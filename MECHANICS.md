@@ -2953,7 +2953,7 @@ exits with 1 if any check fails.
 - **Order of modern arms**: When the timeline reaches gunpowder
 - **Other realms and nuclear weapons**: As history: never used after 1945 unless you use them first Your note: "Also in extremis, a nuclear capable state won't let its history be destroyed without using its last resort, so any nuclear capable realm has a chance of using one that increases as it loses large swathes of provinces. There will also be terrorist states in the game starting around 1900 like in the real world."
 
-### Voices **(scripts written, 12 Oct 2026)**
+### Voices **(all lines voiced, 13 Oct 2026)**
 
 From What gets a spoken voice, The narrator's voice, Voices in ancient
 languages and An adviser:
@@ -2966,6 +2966,16 @@ languages and An adviser:
   states, and a bridge to 300 BC), 8 tips and 11 first steps, 5 new
   ages, 38 wonders finished, 53 disasters, and the start and the peace
   of history's 38 wars, plus 8 war cries.
+- **More lines** (13 Oct 2026), 255 more for 461 in all (about 35,600
+  characters): a history lesson by the bard for each of 11 great
+  figures (Sargon to Alexander); 31 moments of play (a battle won or
+  lost, a siege, a city taken, a revolt, a ruler's death, an heir, a
+  marriage, a new art, a famine, a plague and more), each told two or
+  three ways by each of the three narrators; 27 longer lessons from the
+  adviser, one for each part of the game; 12 warnings from the adviser
+  (an empty treasury, a province near revolt, unpaid soldiers, no
+  heir...); and 4 victory cries (Io triumphe, Victoria, Nike, Ie
+  Paian).
 - **The voices you chose** (12 Oct 2026): bard 2, chronicler 2,
   newsreader 1, adviser 1, warrior 2, all saved in the ElevenLabs voice
   library.
@@ -2979,6 +2989,6 @@ languages and An adviser:
 - **Wonder lines name no builder**, since anyone may finish them; war
   lines say only that peace is made, since history may not repeat.
 - Two takes of each line, made with ElevenLabs' newest voice model
-  (free for a week), saved as `assets/voice/<line>.mp3` and
+  (free while the credits last), saved as `assets/voice/<line>.mp3` and
   `assets/voice/takes/<line>_b.mp3`. Playing them in the game comes
   next, with the sound effects.

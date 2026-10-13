@@ -161,9 +161,11 @@ technologies); sound effects (all 46 "Now" sounds, war, ships and crowds by
 era, horns and cries by culture); armies (retraining, slave soldiers,
 traditions, nuclear weapons in extremis and terrorist states from 1900).
 
-- [~] **Voices** (12 Oct 2026): the script is written (206 lines:
+- [~] **Voices** (12-13 Oct 2026): the script is written (461 lines:
       opening, tutorial, ages, wonders, disasters, history's wars, war
-      cries; `docs/Voice-script.md`), voiced by the five voices you chose
+      cries, plus history lessons, moments of play in each narrator's
+      voice, the adviser's lessons and warnings, and victory cries;
+      `docs/Voice-script.md`), voiced by the five voices you chose
       (bard 2, chronicler 2, newsreader 1, adviser 1, warrior 2), two takes
       of every line in `assets/voice/` (take B in `assets/voice/takes/`).
       Next: playing them in the game.
