@@ -397,6 +397,408 @@ CRIES = [
 for k, culture, lang, t, sub in CRIES:
     add(f"cry_{k}", "warrior", "war_cry", culture, t, lang=lang, subtitle=sub)
 
+
+# ---------------------------------------------------- the longer lesson
+# Answer of 13 Oct 2026 (use the rest of the free voice time): the opening's
+# bridge told at length, scene by scene, for the full history lesson.
+LESSON = [
+    ("sargon", "Some four thousand three hundred years ago, a cupbearer of the king of Kish rose up and "
+     "took the crown. Sargon of Akkad marched from the Upper Sea to the Lower Sea, and for the first time "
+     "one man ruled many cities and many peoples. [pause] The first empire was born, and it would not be the last."),
+    ("ur", "When Akkad fell, the kings of Ur gathered the land again. They built a great stepped temple to "
+     "the moon god, kept accounts of every sheep and every worker, and wrote down the oldest laws we know. "
+     "Then famine and invaders came, and Ur too was lamented in song."),
+    ("hammurabi", "In Babylon, King Hammurabi set his laws in stone for all to see: an eye for an eye, a "
+     "fair price for a boat, a punishment for the careless builder. [pause] Justice, he said, so that "
+     "the strong should not oppress the weak."),
+    ("hattians", "In the high country of Anatolia lived the Hattians, who worshipped the sun goddess of "
+     "Arinna and the storm god of the mountains. Merchants from Assyria came to trade tin and cloth at "
+     "Kanesh, and left their letters in clay. Into these lands came a new people, speaking a new tongue."),
+    ("hittites", "They took the Hattians' gods, their cities and their name. From Hattusa, behind walls "
+     "of great stone, the Hittite kings ruled the land of Hatti. They rode in chariots, wrote in clay, "
+     "and swore treaties in the names of a thousand gods. [dramatically] They even sacked Babylon."),
+    ("kadesh", "Egypt and Hatti met at Kadesh, on the river Orontes, in the greatest chariot battle the "
+     "world had seen. Both kings claimed the victory. [pause] Years later they made peace, and the "
+     "treaty they swore is the oldest we still have."),
+    ("ugarit", "On the coast of Syria stood Ugarit, a city of merchants. Ships from Cyprus and Crete "
+     "crowded its harbour, and its scribes wrote in many scripts, among them an alphabet of only thirty "
+     "letters. Kings across the world wrote to one another as brothers."),
+    ("collapse", "[gravely] Then, some three thousand two hundred years ago, it all came apart. Drought "
+     "and famine, earthquakes, raiders from the sea. The last letters of Ugarit beg for ships and "
+     "soldiers that never came. Hattusa burned. Mycenae fell silent. Egypt alone held on, and barely."),
+    ("iron", "Out of the ruins came smaller peoples and new ideas: Phoenicians who sailed to the edge of "
+     "the world, Israelites with their one god, Greeks with their alphabet and their cities. And iron, "
+     "which any village smith could work, armed whole peoples."),
+    ("empires", "Assyria rose, and ruled by terror from Nineveh. Babylon rose again, and hung its gardens "
+     "over the Euphrates. Then Cyrus the Persian took them all, and his heirs ruled from the Aegean to "
+     "the Indus, by roads and by letters and by the King's peace."),
+    ("alexander", "[dramatically] And then a young king came out of Macedon. In twelve years Alexander "
+     "crossed the Persian empire from end to end, and reached the rivers of India. At Babylon, at "
+     "thirty-two, he died. [pause] Asked to whom he left his empire, he said: to the strongest."),
+]
+for i, (k, t) in enumerate(LESSON):
+    add(f"lesson_{i + 1:02d}_{k}", "bard", "lesson", k, t)
+
+# ------------------------------------------------------- moments in play
+# The narrator of the age speaks of your own realm at the game's moments.
+# Generic lines (no names); the chronicle shows the particulars.
+MOMENTS = {
+    "war_declared": {
+        "bard": ["We have gone to war. Let the gods judge between us.",
+                 "[dramatically] The spears are taken down from the walls. We march to war.",
+                 "War is declared. May our cause be as strong as our arms."],
+        "chronicler": ["In this year war was declared, and the realm made ready.",
+                       "The banners are raised; our lord has gone to war.",
+                       "War is proclaimed, and the levies gather."],
+        "newsreader": ["Good evening. The government has declared war.",
+                       "War has been declared. Mobilisation is under way.",
+                       "Our nation is at war tonight."],
+    },
+    "war_on_us": {
+        "bard": ["[gravely] An enemy marches against us. To arms!",
+                 "War has come to our borders, unasked.",
+                 "They have declared war upon us. Gather the men."],
+        "chronicler": ["In this year an enemy made war upon the realm.",
+                       "War is come upon us, and the people are afraid.",
+                       "Our neighbours have broken the peace and taken up arms against us."],
+        "newsreader": ["We interrupt this broadcast. A foreign power has declared war on our nation.",
+                       "War has been declared upon us. The army is on alert.",
+                       "Hostile forces have crossed our border."],
+    },
+    "peace": {
+        "bard": ["The war is over. Let the fields be sown again.",
+                 "Peace is sworn, and the gates are opened.",
+                 "[softly] The spears are laid down. There is peace."],
+        "chronicler": ["In this year peace was made, and the realm gave thanks.",
+                       "A treaty is sealed, and the war is ended.",
+                       "Peace is restored, praise be."],
+        "newsreader": ["A peace treaty has been signed. The war is over.",
+                       "Hostilities have ended this evening.",
+                       "Crowds have gathered in the streets to celebrate the peace."],
+    },
+    "battle_won": {
+        "bard": ["[excited] Victory! The enemy breaks and flees from the field.",
+                 "The field is ours. The enemy's standards lie in the dust.",
+                 "Our army has won the day. Songs will be sung of it."],
+        "chronicler": ["In this battle our host prevailed, and the enemy was put to flight.",
+                       "A great victory, and many prisoners taken.",
+                       "The day is ours, and the enemy is scattered."],
+        "newsreader": ["Reports from the front tell of a decisive victory.",
+                       "Our forces have won a major battle today.",
+                       "The enemy is in retreat after a hard-fought engagement."],
+    },
+    "battle_lost": {
+        "bard": ["[sadly] Our army is broken. The survivors stream home.",
+                 "The day is lost, and many brave men with it.",
+                 "Defeat. The enemy holds the field."],
+        "chronicler": ["In this battle our host was overthrown, and many were slain.",
+                       "A heavy defeat, and great lamentation in the land.",
+                       "The enemy prevailed, and our army fled."],
+        "newsreader": ["Our forces have suffered a serious defeat.",
+                       "Heavy losses are reported after today's battle.",
+                       "The army is falling back after a grave reverse."],
+    },
+    "siege_begun": {
+        "bard": ["The walls are surrounded. Now begins the long hunger.",
+                 "We lay siege. Let them count their grain."],
+        "chronicler": ["The city is besieged, and its gates are shut.",
+                       "Our army sits down before the walls."],
+        "newsreader": ["The city is under siege tonight.",
+                       "Our forces have encircled the city."],
+    },
+    "city_taken": {
+        "bard": ["[excited] The gates are open. The city is ours!",
+                 "The walls have fallen, and the city bows to us."],
+        "chronicler": ["The city is taken, and its keys are brought to our lord.",
+                       "After long siege, the city has surrendered."],
+        "newsreader": ["The city has fallen to our forces.",
+                       "Our troops have entered the city."],
+    },
+    "city_lost": {
+        "bard": ["[sadly] The city has fallen to the enemy.",
+                 "Our city is lost. Its people weep in the streets."],
+        "chronicler": ["The city is lost to the enemy, God help its people.",
+                       "Our city has surrendered to the foe."],
+        "newsreader": ["The city has fallen to enemy forces.",
+                       "We have lost the city after a long siege."],
+    },
+    "revolt": {
+        "bard": ["[gravely] The people have risen. A province is in revolt.",
+                 "Rebellion! They have thrown off our rule.",
+                 "Smoke rises over the province. The people are in arms."],
+        "chronicler": ["In this year the province rose in rebellion.",
+                       "The commons are risen, and the lord's officers are driven out.",
+                       "Rebellion breaks out, and there is great disorder."],
+        "newsreader": ["Unrest has turned to open revolt in one of our provinces.",
+                       "Rioting is reported, and the authorities have lost control.",
+                       "A rebellion has broken out tonight."],
+    },
+    "ruler_died": {
+        "bard": ["[sadly] The king is dead. Let the mourning begin.",
+                 "Our ruler has gone to the gods."],
+        "chronicler": ["In this year our lord departed this life. May he rest in peace.",
+                       "The ruler is dead, and the bells are tolled."],
+        "newsreader": ["We regret to announce the death of our head of state.",
+                       "The nation is in mourning tonight."],
+    },
+    "new_ruler": {
+        "bard": ["A new ruler takes the throne. Long may they reign.",
+                 "The crown passes on. Hail the new ruler!"],
+        "chronicler": ["The heir is crowned, and the lords swear their oaths.",
+                       "A new reign begins."],
+        "newsreader": ["A new head of state has taken office.",
+                       "The new ruler has been sworn in today."],
+    },
+    "new_house": {
+        "bard": ["The old line is ended. A new house rules.",
+                 "No heir remained. Another family takes the throne."],
+        "chronicler": ["The old dynasty is no more, and a new house is raised to the throne.",
+                       "With no heir of the blood, the crown passes to another house."],
+        "newsreader": ["A new dynasty has come to power.",
+                       "The succession has passed to a new family."],
+    },
+    "heir_born": {
+        "bard": ["[warmly] A child is born to the ruler's house.",
+                 "The house has an heir. Let there be feasting."],
+        "chronicler": ["In this year a child was born to our lord, and there was rejoicing.",
+                       "An heir is born, and the bells are rung."],
+        "newsreader": ["The royal family has announced a birth.",
+                       "A new heir has been born to the ruling house."],
+    },
+    "marriage": {
+        "bard": ["A marriage is made, and two houses are joined.",
+                 "Wedding songs ring through the palace."],
+        "chronicler": ["In this year a marriage was made, binding two great houses.",
+                       "The wedding is celebrated with great pomp."],
+        "newsreader": ["A royal wedding took place today.",
+                       "The marriage was celebrated before a large crowd."],
+    },
+    "tech_learnt": {
+        "bard": ["Our scholars have learned a new art.",
+                 "[curious] A new art is mastered. Who knows what it will bring?",
+                 "The wise have found a new way. The realm grows stronger."],
+        "chronicler": ["In this year our learned men mastered a new art.",
+                       "New knowledge is come to the realm.",
+                       "The scholars report a new discovery."],
+        "newsreader": ["Scientists have announced a breakthrough.",
+                       "A new invention is changing the way we live.",
+                       "Researchers report a major advance."],
+    },
+    "goal_reached": {
+        "bard": ["[warmly] An ambition is fulfilled. History will remember it.",
+                 "What our forebears dreamed, we have done."],
+        "chronicler": ["A great aim of the realm is accomplished.",
+                       "Let it be written: the ambition is achieved."],
+        "newsreader": ["A historic goal has been achieved.",
+                       "The government has hailed a historic achievement."],
+    },
+    "building_done": {
+        "bard": ["The work is finished, and the builders are paid.",
+                 "New walls rise where there were none."],
+        "chronicler": ["The building is completed.",
+                       "The masons have finished their work."],
+        "newsreader": ["The new building has been opened.",
+                       "Construction has been completed."],
+    },
+    "wonder_begun": {
+        "bard": ["A great work is begun. It will outlast us all.",
+                 "The foundations are laid of a wonder of the world."],
+        "chronicler": ["In this year the foundations were laid of a great work.",
+                       "A wonder is begun, and many hands are called to it."],
+        "newsreader": ["Work has begun on an ambitious new monument.",
+                       "Construction has started on a landmark project."],
+    },
+    "wonder_fell": {
+        "bard": ["[sadly] A wonder of the world has fallen.",
+                 "What was raised to last forever lies in ruins."],
+        "chronicler": ["A great work has fallen, and the people mourn it.",
+                       "The wonder lies in ruins."],
+        "newsreader": ["A famous landmark has been destroyed.",
+                       "One of the world's great monuments has collapsed."],
+    },
+    "debt": {
+        "bard": ["The treasury is empty. We live on borrowed silver.",
+                 "Our debts grow heavier each year."],
+        "chronicler": ["The treasury is bare, and the realm is in debt.",
+                       "The lenders press for their money."],
+        "newsreader": ["The national debt has reached a new high.",
+                       "The treasury has run out of funds."],
+    },
+    "tribute": {
+        "bard": ["Tribute arrives, silver and gifts.",
+                 "Our enemies pay what they owe."],
+        "chronicler": ["Tribute is brought to the treasury.",
+                       "The tribute is paid in full."],
+        "newsreader": ["Reparations have been received.",
+                       "The payment has arrived in full."],
+    },
+    "trade_treaty": {
+        "bard": ["Merchants will come and go in peace. A treaty is made.",
+                 "Our markets are opened to their ships."],
+        "chronicler": ["A treaty of trade is concluded.",
+                       "The merchants rejoice at the new agreement."],
+        "newsreader": ["A trade agreement has been signed.",
+                       "The new trade deal opens our markets."],
+    },
+    "coin_debased": {
+        "bard": ["The mint has thinned the silver in our coin.",
+                 "Less silver, more coins. The merchants will notice."],
+        "chronicler": ["The coinage is debased, and prices rise.",
+                       "The money is made lighter, and the people grumble."],
+        "newsreader": ["The currency has been devalued.",
+                       "The government has cut the value of the currency."],
+    },
+    "mercenaries": {
+        "bard": ["Hired swords join our army, for a price.",
+                 "Mercenaries are paid, and they march with us."],
+        "chronicler": ["Companies of hired soldiers enter our service.",
+                       "The mercenaries are paid their wages."],
+        "newsreader": ["Foreign volunteers have joined our forces.",
+                       "Contract soldiers have been hired."],
+    },
+    "alliance": {
+        "bard": ["An alliance is sworn. Their enemies are ours.",
+                 "Oaths are sworn over the sacrifice. We stand together."],
+        "chronicler": ["A league is sworn, and the realms are bound in friendship.",
+                       "An alliance is made, sealed with oaths."],
+        "newsreader": ["A new alliance has been signed.",
+                       "The two nations have agreed to stand together."],
+    },
+    "plague": {
+        "bard": ["[gravely] Plague is among us. The dead are many.",
+                 "Sickness spreads through the cities."],
+        "chronicler": ["The pestilence is come upon the realm.",
+                       "Plague, and the dead lie unburied."],
+        "newsreader": ["An epidemic is spreading through the country.",
+                       "Health officials report a serious outbreak."],
+    },
+    "earthquake": {
+        "bard": ["The earth has shaken, and houses have fallen.",
+                 "[gravely] An earthquake strikes. The gods are angry."],
+        "chronicler": ["The earth shook, and many buildings fell.",
+                       "An earthquake has struck the realm."],
+        "newsreader": ["A powerful earthquake has struck.",
+                       "Rescue teams are searching collapsed buildings."],
+    },
+    "famine": {
+        "bard": ["[sadly] The harvest has failed. Hunger walks the land.",
+                 "The granaries are empty."],
+        "chronicler": ["Famine is in the land, and bread is dear.",
+                       "The harvest failed, and the poor are starving."],
+        "newsreader": ["Food shortages are reported across the country.",
+                       "The harvest has failed, and prices have soared."],
+    },
+    "eruption": {
+        "bard": ["The mountain spits fire, and ash falls like snow.",
+                 "A volcano has woken."],
+        "chronicler": ["The mountain has burst into fire.",
+                       "Fire pours from the mountain, and ash darkens the sky."],
+        "newsreader": ["A volcanic eruption has forced thousands to flee.",
+                       "The volcano has erupted."],
+    },
+    "game_end": {
+        "bard": ["[slowly] So ends our tale. Others will tell what came after.",
+                 "The story is told. Let it be remembered."],
+        "chronicler": ["Here ends the chronicle.",
+                       "Thus ends the account of these years."],
+        "newsreader": ["And that is the end of the news.",
+                       "That is all for tonight. Good night."],
+    },
+}
+for moment, by in MOMENTS.items():
+    for v, texts in by.items():
+        for i, t in enumerate(texts):
+            add(f"moment_{moment}_{v}_{i + 1}", v, "moment", moment, t)
+
+# --------------------------------------------------- the adviser's lessons
+# Answer 'A guided first game covering every system over its first years'.
+LESSONS = {
+    "taxes": "Taxes are the lifeblood of the realm, my lord, but bleed the people too much and they "
+             "will not grow, nor love you. Raise them in war, lower them in peace.",
+    "goods": "Every province makes something: grain, wine, timber, iron. What we lack, we must buy, "
+             "and what we have in plenty, we may sell. A hungry city is a dangerous city.",
+    "trade": "Merchants follow the routes by land and sea. Send your own along them, and keep the "
+             "pirates away, and silver will flow into your markets.",
+    "coin": "Our coin is trusted for its silver. Thin the silver and you may pay more soldiers today, "
+            "but prices will rise, and the merchants will remember.",
+    "debt": "If the treasury runs dry, we may borrow, but lenders want their silver back, with more. "
+            "Debt is a fine servant and a cruel master.",
+    "people": "Your people are farmers, craftsmen, merchants and slaves, and each want different "
+              "things. Feed them, keep them safe, and they will grow in number.",
+    "cultures": "Not all your subjects share your tongue and your gods. Conquered peoples need years "
+                "to accept your rule. Be patient, or be ready for rebellion.",
+    "unrest": "Watch the unrest in your provinces, my lord. Heavy taxes, hunger, war and foreign rule "
+              "all stir it. When it boils over, the province rises.",
+    "buildings": "Build granaries against famine, walls against raiders, markets for trade and temples "
+                 "for the gods. Each takes silver and time, and some need what we have not yet learned.",
+    "roads": "A good road brings your soldiers, your tax collectors and your merchants faster. Draw one "
+             "from town to town, and the far provinces will feel nearer.",
+    "provinces": "Each province may be given a purpose: farms, mines, trade or soldiers. And when they "
+                 "grow too large or too small, you may redraw them.",
+    "research": "Your scholars study one art at a time. Each opens the way to others. Choose those that "
+                "serve your aims, and build schools and libraries to find more scholars.",
+    "armies": "An army is made of companies, each with its arms and its training. Keep them paid and "
+              "fed, or they will melt away, or worse, turn on you.",
+    "manpower": "Every soldier is a man taken from the fields. Our manpower refills slowly. Spend it "
+                "carelessly, and you will have no army when you need one most.",
+    "generals": "A good general is worth a legion. Choose them for their skill, not their birth, and "
+                "watch that none grows more loved by the soldiers than you are.",
+    "marching": "Armies march slowly over mountains and swiftly along roads and rivers. Plan your "
+                "campaigns with the seasons; winter kills more men than battle.",
+    "supply": "An army eats its way across the land. Far from home, without supply, it will starve. "
+              "Keep it near your own provinces, or near the sea and your ships.",
+    "sieges": "Walled cities do not fall in a day. Surround them, starve them, and storm them only when "
+              "the walls are breached. Patience takes more cities than courage.",
+    "fleets": "Ships carry your armies and guard your merchants. But the sea is cruel in winter, and "
+              "storms have sunk more fleets than any enemy.",
+    "pretexts": "Before you strike, find a just cause: an old claim, an insult, a broken treaty. The "
+                "other kings are watching, and they remember who starts wars without one.",
+    "peace": "When the war has gone on long enough, offer terms. Take what you have won, demand "
+             "tribute, or make them your vassals. A war too long ruins the victor too.",
+    "allies": "Allies will come to your aid, and you to theirs. Choose them well; an alliance with the "
+              "weak drags you into their wars.",
+    "court": "Your family is your strength and your danger. Marry them wisely, educate your heirs, and "
+             "keep an eye on ambitious cousins.",
+    "wonders": "A wonder of the world brings glory, pilgrims and the favour of the gods. But they cost "
+               "a fortune and take a generation to build.",
+    "history": "History pulls the world along its old course. Other realms will try to do what they did "
+               "in their time. You may follow history, or break it.",
+    "goals": "Your realm has ambitions of its own, as it did in history. Fulfil them, and your fame "
+             "will grow. Ignore them, and choose your own.",
+    "score": "In the end, your reign will be judged: by your people, your lands, your wealth, your "
+             "culture, your dynasty and your deeds.",
+}
+for k, t in LESSONS.items():
+    add(f"lesson_adviser_{k}", "adviser", "lesson_adviser", k, t)
+
+# ------------------------------------------------------- adviser warnings
+ALERTS = {
+    "idle_army": "My lord, an army stands idle. Shall it march, or be sent home to the fields?",
+    "empty_treasury": "My lord, the treasury is nearly empty.",
+    "unrest": "My lord, a province is close to revolt.",
+    "shortage": "My lord, our people go short of what they need.",
+    "unpaid_army": "My lord, the soldiers have not been paid. They grumble.",
+    "manpower_low": "My lord, there are few men left to fill the ranks.",
+    "no_research": "My lord, the scholars sit idle. Give them something to study.",
+    "war_exhaustion": "My lord, the people are weary of this war.",
+    "rival_arming": "My lord, our rival is gathering armies on our border.",
+    "siege_starving": "My lord, the besieged city is starving. It will not hold much longer.",
+    "loan_due": "My lord, a loan falls due, and the lenders are waiting.",
+    "heir_missing": "My lord, you have no heir. Think of the succession.",
+}
+for k, t in ALERTS.items():
+    add(f"alert_{k}", "adviser", "alert", k, t)
+
+# ------------------------------------------------------- victory cheers
+CHEERS = [
+    ("latin_io", "latin", "la", "[shouting] Io triumphe! Io triumphe!", "Hail, triumph!"),
+    ("latin_victoria", "latin", "la", "[shouting] Victoria! Victoria!", "Victory! Victory!"),
+    ("greek_nike", "greek", "grc", "[shouting] Nike! Nike!", "Victory! Victory!"),
+    ("greek_paian", "greek", "grc", "[shouting] Ie Paian! Ie Paian!", "Hail, Healer! (the victory hymn)"),
+]
+for k, culture, lang, t, sub in CHEERS:
+    add(f"cheer_{k}", "warrior", "victory_cry", culture, t, lang=lang, subtitle=sub)
+
 out = {
     "about": __doc__.strip().splitlines()[0] + " Voices: bard (before 600), chronicler "
              "(600-1800), newsreader (from 1800), adviser (tutorial), warrior (war cries).",
@@ -419,7 +821,10 @@ heads = {"opening": "The opening (the bard)", "tip": "Tips (the adviser at court
          "tutorial_step": "First steps (the adviser at court)", "age": "New ages",
          "wonder_done": "Wonders finished", "disaster": "Disasters",
          "war_begin": "History's wars: war begins", "war_peace": "History's wars: peace",
-         "war_cry": "War cries (in their own tongue)"}
+         "war_cry": "War cries (in their own tongue)",
+         "lesson": "The longer history lesson (the bard)", "moment": "Moments in play (each age's narrator)",
+         "lesson_adviser": "The guided first game (the adviser)", "alert": "Warnings (the adviser)",
+         "victory_cry": "Victory cries (in their own tongue)"}
 for plays, head in heads.items():
     md += [f"## {head}", ""]
     for l in lines:

@@ -2,7 +2,7 @@
 
 Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voice_lines.json`. Words in [brackets] tell the voice how to speak; they are not spoken.
 
-206 lines, 19,338 characters.
+461 lines, 35,604 characters.
 
 ## The opening (the bard)
 
@@ -236,3 +236,273 @@ Every line the game speaks, built by `tools/voice/build_lines.py` into `data/voi
 - **cry_greek_paides** (warrior): [shouting] O paides Hellenon, ite! *(Sons of the Greeks, go forward!)*
 - **cry_punic_baal** (warrior): [shouting] Baal Hammon! Baal Hammon! *(Baal Hammon! (the lord of Carthage))*
 - **cry_gaulish_taranis** (warrior): [shouting] Taranis! Taranis! *(Taranis! (the thunder god))*
+
+## The longer history lesson (the bard)
+
+- **lesson_01_sargon** (bard): Some four thousand three hundred years ago, a cupbearer of the king of Kish rose up and took the crown. Sargon of Akkad marched from the Upper Sea to the Lower Sea, and for the first time one man ruled many cities and many peoples. [pause] The first empire was born, and it would not be the last.
+- **lesson_02_ur** (bard): When Akkad fell, the kings of Ur gathered the land again. They built a great stepped temple to the moon god, kept accounts of every sheep and every worker, and wrote down the oldest laws we know. Then famine and invaders came, and Ur too was lamented in song.
+- **lesson_03_hammurabi** (bard): In Babylon, King Hammurabi set his laws in stone for all to see: an eye for an eye, a fair price for a boat, a punishment for the careless builder. [pause] Justice, he said, so that the strong should not oppress the weak.
+- **lesson_04_hattians** (bard): In the high country of Anatolia lived the Hattians, who worshipped the sun goddess of Arinna and the storm god of the mountains. Merchants from Assyria came to trade tin and cloth at Kanesh, and left their letters in clay. Into these lands came a new people, speaking a new tongue.
+- **lesson_05_hittites** (bard): They took the Hattians' gods, their cities and their name. From Hattusa, behind walls of great stone, the Hittite kings ruled the land of Hatti. They rode in chariots, wrote in clay, and swore treaties in the names of a thousand gods. [dramatically] They even sacked Babylon.
+- **lesson_06_kadesh** (bard): Egypt and Hatti met at Kadesh, on the river Orontes, in the greatest chariot battle the world had seen. Both kings claimed the victory. [pause] Years later they made peace, and the treaty they swore is the oldest we still have.
+- **lesson_07_ugarit** (bard): On the coast of Syria stood Ugarit, a city of merchants. Ships from Cyprus and Crete crowded its harbour, and its scribes wrote in many scripts, among them an alphabet of only thirty letters. Kings across the world wrote to one another as brothers.
+- **lesson_08_collapse** (bard): [gravely] Then, some three thousand two hundred years ago, it all came apart. Drought and famine, earthquakes, raiders from the sea. The last letters of Ugarit beg for ships and soldiers that never came. Hattusa burned. Mycenae fell silent. Egypt alone held on, and barely.
+- **lesson_09_iron** (bard): Out of the ruins came smaller peoples and new ideas: Phoenicians who sailed to the edge of the world, Israelites with their one god, Greeks with their alphabet and their cities. And iron, which any village smith could work, armed whole peoples.
+- **lesson_10_empires** (bard): Assyria rose, and ruled by terror from Nineveh. Babylon rose again, and hung its gardens over the Euphrates. Then Cyrus the Persian took them all, and his heirs ruled from the Aegean to the Indus, by roads and by letters and by the King's peace.
+- **lesson_11_alexander** (bard): [dramatically] And then a young king came out of Macedon. In twelve years Alexander crossed the Persian empire from end to end, and reached the rivers of India. At Babylon, at thirty-two, he died. [pause] Asked to whom he left his empire, he said: to the strongest.
+
+## Moments in play (each age's narrator)
+
+- **moment_war_declared_bard_1** (bard): We have gone to war. Let the gods judge between us.
+- **moment_war_declared_bard_2** (bard): [dramatically] The spears are taken down from the walls. We march to war.
+- **moment_war_declared_bard_3** (bard): War is declared. May our cause be as strong as our arms.
+- **moment_war_declared_chronicler_1** (chronicler): In this year war was declared, and the realm made ready.
+- **moment_war_declared_chronicler_2** (chronicler): The banners are raised; our lord has gone to war.
+- **moment_war_declared_chronicler_3** (chronicler): War is proclaimed, and the levies gather.
+- **moment_war_declared_newsreader_1** (newsreader): Good evening. The government has declared war.
+- **moment_war_declared_newsreader_2** (newsreader): War has been declared. Mobilisation is under way.
+- **moment_war_declared_newsreader_3** (newsreader): Our nation is at war tonight.
+- **moment_war_on_us_bard_1** (bard): [gravely] An enemy marches against us. To arms!
+- **moment_war_on_us_bard_2** (bard): War has come to our borders, unasked.
+- **moment_war_on_us_bard_3** (bard): They have declared war upon us. Gather the men.
+- **moment_war_on_us_chronicler_1** (chronicler): In this year an enemy made war upon the realm.
+- **moment_war_on_us_chronicler_2** (chronicler): War is come upon us, and the people are afraid.
+- **moment_war_on_us_chronicler_3** (chronicler): Our neighbours have broken the peace and taken up arms against us.
+- **moment_war_on_us_newsreader_1** (newsreader): We interrupt this broadcast. A foreign power has declared war on our nation.
+- **moment_war_on_us_newsreader_2** (newsreader): War has been declared upon us. The army is on alert.
+- **moment_war_on_us_newsreader_3** (newsreader): Hostile forces have crossed our border.
+- **moment_peace_bard_1** (bard): The war is over. Let the fields be sown again.
+- **moment_peace_bard_2** (bard): Peace is sworn, and the gates are opened.
+- **moment_peace_bard_3** (bard): [softly] The spears are laid down. There is peace.
+- **moment_peace_chronicler_1** (chronicler): In this year peace was made, and the realm gave thanks.
+- **moment_peace_chronicler_2** (chronicler): A treaty is sealed, and the war is ended.
+- **moment_peace_chronicler_3** (chronicler): Peace is restored, praise be.
+- **moment_peace_newsreader_1** (newsreader): A peace treaty has been signed. The war is over.
+- **moment_peace_newsreader_2** (newsreader): Hostilities have ended this evening.
+- **moment_peace_newsreader_3** (newsreader): Crowds have gathered in the streets to celebrate the peace.
+- **moment_battle_won_bard_1** (bard): [excited] Victory! The enemy breaks and flees from the field.
+- **moment_battle_won_bard_2** (bard): The field is ours. The enemy's standards lie in the dust.
+- **moment_battle_won_bard_3** (bard): Our army has won the day. Songs will be sung of it.
+- **moment_battle_won_chronicler_1** (chronicler): In this battle our host prevailed, and the enemy was put to flight.
+- **moment_battle_won_chronicler_2** (chronicler): A great victory, and many prisoners taken.
+- **moment_battle_won_chronicler_3** (chronicler): The day is ours, and the enemy is scattered.
+- **moment_battle_won_newsreader_1** (newsreader): Reports from the front tell of a decisive victory.
+- **moment_battle_won_newsreader_2** (newsreader): Our forces have won a major battle today.
+- **moment_battle_won_newsreader_3** (newsreader): The enemy is in retreat after a hard-fought engagement.
+- **moment_battle_lost_bard_1** (bard): [sadly] Our army is broken. The survivors stream home.
+- **moment_battle_lost_bard_2** (bard): The day is lost, and many brave men with it.
+- **moment_battle_lost_bard_3** (bard): Defeat. The enemy holds the field.
+- **moment_battle_lost_chronicler_1** (chronicler): In this battle our host was overthrown, and many were slain.
+- **moment_battle_lost_chronicler_2** (chronicler): A heavy defeat, and great lamentation in the land.
+- **moment_battle_lost_chronicler_3** (chronicler): The enemy prevailed, and our army fled.
+- **moment_battle_lost_newsreader_1** (newsreader): Our forces have suffered a serious defeat.
+- **moment_battle_lost_newsreader_2** (newsreader): Heavy losses are reported after today's battle.
+- **moment_battle_lost_newsreader_3** (newsreader): The army is falling back after a grave reverse.
+- **moment_siege_begun_bard_1** (bard): The walls are surrounded. Now begins the long hunger.
+- **moment_siege_begun_bard_2** (bard): We lay siege. Let them count their grain.
+- **moment_siege_begun_chronicler_1** (chronicler): The city is besieged, and its gates are shut.
+- **moment_siege_begun_chronicler_2** (chronicler): Our army sits down before the walls.
+- **moment_siege_begun_newsreader_1** (newsreader): The city is under siege tonight.
+- **moment_siege_begun_newsreader_2** (newsreader): Our forces have encircled the city.
+- **moment_city_taken_bard_1** (bard): [excited] The gates are open. The city is ours!
+- **moment_city_taken_bard_2** (bard): The walls have fallen, and the city bows to us.
+- **moment_city_taken_chronicler_1** (chronicler): The city is taken, and its keys are brought to our lord.
+- **moment_city_taken_chronicler_2** (chronicler): After long siege, the city has surrendered.
+- **moment_city_taken_newsreader_1** (newsreader): The city has fallen to our forces.
+- **moment_city_taken_newsreader_2** (newsreader): Our troops have entered the city.
+- **moment_city_lost_bard_1** (bard): [sadly] The city has fallen to the enemy.
+- **moment_city_lost_bard_2** (bard): Our city is lost. Its people weep in the streets.
+- **moment_city_lost_chronicler_1** (chronicler): The city is lost to the enemy, God help its people.
+- **moment_city_lost_chronicler_2** (chronicler): Our city has surrendered to the foe.
+- **moment_city_lost_newsreader_1** (newsreader): The city has fallen to enemy forces.
+- **moment_city_lost_newsreader_2** (newsreader): We have lost the city after a long siege.
+- **moment_revolt_bard_1** (bard): [gravely] The people have risen. A province is in revolt.
+- **moment_revolt_bard_2** (bard): Rebellion! They have thrown off our rule.
+- **moment_revolt_bard_3** (bard): Smoke rises over the province. The people are in arms.
+- **moment_revolt_chronicler_1** (chronicler): In this year the province rose in rebellion.
+- **moment_revolt_chronicler_2** (chronicler): The commons are risen, and the lord's officers are driven out.
+- **moment_revolt_chronicler_3** (chronicler): Rebellion breaks out, and there is great disorder.
+- **moment_revolt_newsreader_1** (newsreader): Unrest has turned to open revolt in one of our provinces.
+- **moment_revolt_newsreader_2** (newsreader): Rioting is reported, and the authorities have lost control.
+- **moment_revolt_newsreader_3** (newsreader): A rebellion has broken out tonight.
+- **moment_ruler_died_bard_1** (bard): [sadly] The king is dead. Let the mourning begin.
+- **moment_ruler_died_bard_2** (bard): Our ruler has gone to the gods.
+- **moment_ruler_died_chronicler_1** (chronicler): In this year our lord departed this life. May he rest in peace.
+- **moment_ruler_died_chronicler_2** (chronicler): The ruler is dead, and the bells are tolled.
+- **moment_ruler_died_newsreader_1** (newsreader): We regret to announce the death of our head of state.
+- **moment_ruler_died_newsreader_2** (newsreader): The nation is in mourning tonight.
+- **moment_new_ruler_bard_1** (bard): A new ruler takes the throne. Long may they reign.
+- **moment_new_ruler_bard_2** (bard): The crown passes on. Hail the new ruler!
+- **moment_new_ruler_chronicler_1** (chronicler): The heir is crowned, and the lords swear their oaths.
+- **moment_new_ruler_chronicler_2** (chronicler): A new reign begins.
+- **moment_new_ruler_newsreader_1** (newsreader): A new head of state has taken office.
+- **moment_new_ruler_newsreader_2** (newsreader): The new ruler has been sworn in today.
+- **moment_new_house_bard_1** (bard): The old line is ended. A new house rules.
+- **moment_new_house_bard_2** (bard): No heir remained. Another family takes the throne.
+- **moment_new_house_chronicler_1** (chronicler): The old dynasty is no more, and a new house is raised to the throne.
+- **moment_new_house_chronicler_2** (chronicler): With no heir of the blood, the crown passes to another house.
+- **moment_new_house_newsreader_1** (newsreader): A new dynasty has come to power.
+- **moment_new_house_newsreader_2** (newsreader): The succession has passed to a new family.
+- **moment_heir_born_bard_1** (bard): [warmly] A child is born to the ruler's house.
+- **moment_heir_born_bard_2** (bard): The house has an heir. Let there be feasting.
+- **moment_heir_born_chronicler_1** (chronicler): In this year a child was born to our lord, and there was rejoicing.
+- **moment_heir_born_chronicler_2** (chronicler): An heir is born, and the bells are rung.
+- **moment_heir_born_newsreader_1** (newsreader): The royal family has announced a birth.
+- **moment_heir_born_newsreader_2** (newsreader): A new heir has been born to the ruling house.
+- **moment_marriage_bard_1** (bard): A marriage is made, and two houses are joined.
+- **moment_marriage_bard_2** (bard): Wedding songs ring through the palace.
+- **moment_marriage_chronicler_1** (chronicler): In this year a marriage was made, binding two great houses.
+- **moment_marriage_chronicler_2** (chronicler): The wedding is celebrated with great pomp.
+- **moment_marriage_newsreader_1** (newsreader): A royal wedding took place today.
+- **moment_marriage_newsreader_2** (newsreader): The marriage was celebrated before a large crowd.
+- **moment_tech_learnt_bard_1** (bard): Our scholars have learned a new art.
+- **moment_tech_learnt_bard_2** (bard): [curious] A new art is mastered. Who knows what it will bring?
+- **moment_tech_learnt_bard_3** (bard): The wise have found a new way. The realm grows stronger.
+- **moment_tech_learnt_chronicler_1** (chronicler): In this year our learned men mastered a new art.
+- **moment_tech_learnt_chronicler_2** (chronicler): New knowledge is come to the realm.
+- **moment_tech_learnt_chronicler_3** (chronicler): The scholars report a new discovery.
+- **moment_tech_learnt_newsreader_1** (newsreader): Scientists have announced a breakthrough.
+- **moment_tech_learnt_newsreader_2** (newsreader): A new invention is changing the way we live.
+- **moment_tech_learnt_newsreader_3** (newsreader): Researchers report a major advance.
+- **moment_goal_reached_bard_1** (bard): [warmly] An ambition is fulfilled. History will remember it.
+- **moment_goal_reached_bard_2** (bard): What our forebears dreamed, we have done.
+- **moment_goal_reached_chronicler_1** (chronicler): A great aim of the realm is accomplished.
+- **moment_goal_reached_chronicler_2** (chronicler): Let it be written: the ambition is achieved.
+- **moment_goal_reached_newsreader_1** (newsreader): A historic goal has been achieved.
+- **moment_goal_reached_newsreader_2** (newsreader): The government has hailed a historic achievement.
+- **moment_building_done_bard_1** (bard): The work is finished, and the builders are paid.
+- **moment_building_done_bard_2** (bard): New walls rise where there were none.
+- **moment_building_done_chronicler_1** (chronicler): The building is completed.
+- **moment_building_done_chronicler_2** (chronicler): The masons have finished their work.
+- **moment_building_done_newsreader_1** (newsreader): The new building has been opened.
+- **moment_building_done_newsreader_2** (newsreader): Construction has been completed.
+- **moment_wonder_begun_bard_1** (bard): A great work is begun. It will outlast us all.
+- **moment_wonder_begun_bard_2** (bard): The foundations are laid of a wonder of the world.
+- **moment_wonder_begun_chronicler_1** (chronicler): In this year the foundations were laid of a great work.
+- **moment_wonder_begun_chronicler_2** (chronicler): A wonder is begun, and many hands are called to it.
+- **moment_wonder_begun_newsreader_1** (newsreader): Work has begun on an ambitious new monument.
+- **moment_wonder_begun_newsreader_2** (newsreader): Construction has started on a landmark project.
+- **moment_wonder_fell_bard_1** (bard): [sadly] A wonder of the world has fallen.
+- **moment_wonder_fell_bard_2** (bard): What was raised to last forever lies in ruins.
+- **moment_wonder_fell_chronicler_1** (chronicler): A great work has fallen, and the people mourn it.
+- **moment_wonder_fell_chronicler_2** (chronicler): The wonder lies in ruins.
+- **moment_wonder_fell_newsreader_1** (newsreader): A famous landmark has been destroyed.
+- **moment_wonder_fell_newsreader_2** (newsreader): One of the world's great monuments has collapsed.
+- **moment_debt_bard_1** (bard): The treasury is empty. We live on borrowed silver.
+- **moment_debt_bard_2** (bard): Our debts grow heavier each year.
+- **moment_debt_chronicler_1** (chronicler): The treasury is bare, and the realm is in debt.
+- **moment_debt_chronicler_2** (chronicler): The lenders press for their money.
+- **moment_debt_newsreader_1** (newsreader): The national debt has reached a new high.
+- **moment_debt_newsreader_2** (newsreader): The treasury has run out of funds.
+- **moment_tribute_bard_1** (bard): Tribute arrives, silver and gifts.
+- **moment_tribute_bard_2** (bard): Our enemies pay what they owe.
+- **moment_tribute_chronicler_1** (chronicler): Tribute is brought to the treasury.
+- **moment_tribute_chronicler_2** (chronicler): The tribute is paid in full.
+- **moment_tribute_newsreader_1** (newsreader): Reparations have been received.
+- **moment_tribute_newsreader_2** (newsreader): The payment has arrived in full.
+- **moment_trade_treaty_bard_1** (bard): Merchants will come and go in peace. A treaty is made.
+- **moment_trade_treaty_bard_2** (bard): Our markets are opened to their ships.
+- **moment_trade_treaty_chronicler_1** (chronicler): A treaty of trade is concluded.
+- **moment_trade_treaty_chronicler_2** (chronicler): The merchants rejoice at the new agreement.
+- **moment_trade_treaty_newsreader_1** (newsreader): A trade agreement has been signed.
+- **moment_trade_treaty_newsreader_2** (newsreader): The new trade deal opens our markets.
+- **moment_coin_debased_bard_1** (bard): The mint has thinned the silver in our coin.
+- **moment_coin_debased_bard_2** (bard): Less silver, more coins. The merchants will notice.
+- **moment_coin_debased_chronicler_1** (chronicler): The coinage is debased, and prices rise.
+- **moment_coin_debased_chronicler_2** (chronicler): The money is made lighter, and the people grumble.
+- **moment_coin_debased_newsreader_1** (newsreader): The currency has been devalued.
+- **moment_coin_debased_newsreader_2** (newsreader): The government has cut the value of the currency.
+- **moment_mercenaries_bard_1** (bard): Hired swords join our army, for a price.
+- **moment_mercenaries_bard_2** (bard): Mercenaries are paid, and they march with us.
+- **moment_mercenaries_chronicler_1** (chronicler): Companies of hired soldiers enter our service.
+- **moment_mercenaries_chronicler_2** (chronicler): The mercenaries are paid their wages.
+- **moment_mercenaries_newsreader_1** (newsreader): Foreign volunteers have joined our forces.
+- **moment_mercenaries_newsreader_2** (newsreader): Contract soldiers have been hired.
+- **moment_alliance_bard_1** (bard): An alliance is sworn. Their enemies are ours.
+- **moment_alliance_bard_2** (bard): Oaths are sworn over the sacrifice. We stand together.
+- **moment_alliance_chronicler_1** (chronicler): A league is sworn, and the realms are bound in friendship.
+- **moment_alliance_chronicler_2** (chronicler): An alliance is made, sealed with oaths.
+- **moment_alliance_newsreader_1** (newsreader): A new alliance has been signed.
+- **moment_alliance_newsreader_2** (newsreader): The two nations have agreed to stand together.
+- **moment_plague_bard_1** (bard): [gravely] Plague is among us. The dead are many.
+- **moment_plague_bard_2** (bard): Sickness spreads through the cities.
+- **moment_plague_chronicler_1** (chronicler): The pestilence is come upon the realm.
+- **moment_plague_chronicler_2** (chronicler): Plague, and the dead lie unburied.
+- **moment_plague_newsreader_1** (newsreader): An epidemic is spreading through the country.
+- **moment_plague_newsreader_2** (newsreader): Health officials report a serious outbreak.
+- **moment_earthquake_bard_1** (bard): The earth has shaken, and houses have fallen.
+- **moment_earthquake_bard_2** (bard): [gravely] An earthquake strikes. The gods are angry.
+- **moment_earthquake_chronicler_1** (chronicler): The earth shook, and many buildings fell.
+- **moment_earthquake_chronicler_2** (chronicler): An earthquake has struck the realm.
+- **moment_earthquake_newsreader_1** (newsreader): A powerful earthquake has struck.
+- **moment_earthquake_newsreader_2** (newsreader): Rescue teams are searching collapsed buildings.
+- **moment_famine_bard_1** (bard): [sadly] The harvest has failed. Hunger walks the land.
+- **moment_famine_bard_2** (bard): The granaries are empty.
+- **moment_famine_chronicler_1** (chronicler): Famine is in the land, and bread is dear.
+- **moment_famine_chronicler_2** (chronicler): The harvest failed, and the poor are starving.
+- **moment_famine_newsreader_1** (newsreader): Food shortages are reported across the country.
+- **moment_famine_newsreader_2** (newsreader): The harvest has failed, and prices have soared.
+- **moment_eruption_bard_1** (bard): The mountain spits fire, and ash falls like snow.
+- **moment_eruption_bard_2** (bard): A volcano has woken.
+- **moment_eruption_chronicler_1** (chronicler): The mountain has burst into fire.
+- **moment_eruption_chronicler_2** (chronicler): Fire pours from the mountain, and ash darkens the sky.
+- **moment_eruption_newsreader_1** (newsreader): A volcanic eruption has forced thousands to flee.
+- **moment_eruption_newsreader_2** (newsreader): The volcano has erupted.
+- **moment_game_end_bard_1** (bard): [slowly] So ends our tale. Others will tell what came after.
+- **moment_game_end_bard_2** (bard): The story is told. Let it be remembered.
+- **moment_game_end_chronicler_1** (chronicler): Here ends the chronicle.
+- **moment_game_end_chronicler_2** (chronicler): Thus ends the account of these years.
+- **moment_game_end_newsreader_1** (newsreader): And that is the end of the news.
+- **moment_game_end_newsreader_2** (newsreader): That is all for tonight. Good night.
+
+## The guided first game (the adviser)
+
+- **lesson_adviser_taxes** (adviser): Taxes are the lifeblood of the realm, my lord, but bleed the people too much and they will not grow, nor love you. Raise them in war, lower them in peace.
+- **lesson_adviser_goods** (adviser): Every province makes something: grain, wine, timber, iron. What we lack, we must buy, and what we have in plenty, we may sell. A hungry city is a dangerous city.
+- **lesson_adviser_trade** (adviser): Merchants follow the routes by land and sea. Send your own along them, and keep the pirates away, and silver will flow into your markets.
+- **lesson_adviser_coin** (adviser): Our coin is trusted for its silver. Thin the silver and you may pay more soldiers today, but prices will rise, and the merchants will remember.
+- **lesson_adviser_debt** (adviser): If the treasury runs dry, we may borrow, but lenders want their silver back, with more. Debt is a fine servant and a cruel master.
+- **lesson_adviser_people** (adviser): Your people are farmers, craftsmen, merchants and slaves, and each want different things. Feed them, keep them safe, and they will grow in number.
+- **lesson_adviser_cultures** (adviser): Not all your subjects share your tongue and your gods. Conquered peoples need years to accept your rule. Be patient, or be ready for rebellion.
+- **lesson_adviser_unrest** (adviser): Watch the unrest in your provinces, my lord. Heavy taxes, hunger, war and foreign rule all stir it. When it boils over, the province rises.
+- **lesson_adviser_buildings** (adviser): Build granaries against famine, walls against raiders, markets for trade and temples for the gods. Each takes silver and time, and some need what we have not yet learned.
+- **lesson_adviser_roads** (adviser): A good road brings your soldiers, your tax collectors and your merchants faster. Draw one from town to town, and the far provinces will feel nearer.
+- **lesson_adviser_provinces** (adviser): Each province may be given a purpose: farms, mines, trade or soldiers. And when they grow too large or too small, you may redraw them.
+- **lesson_adviser_research** (adviser): Your scholars study one art at a time. Each opens the way to others. Choose those that serve your aims, and build schools and libraries to find more scholars.
+- **lesson_adviser_armies** (adviser): An army is made of companies, each with its arms and its training. Keep them paid and fed, or they will melt away, or worse, turn on you.
+- **lesson_adviser_manpower** (adviser): Every soldier is a man taken from the fields. Our manpower refills slowly. Spend it carelessly, and you will have no army when you need one most.
+- **lesson_adviser_generals** (adviser): A good general is worth a legion. Choose them for their skill, not their birth, and watch that none grows more loved by the soldiers than you are.
+- **lesson_adviser_marching** (adviser): Armies march slowly over mountains and swiftly along roads and rivers. Plan your campaigns with the seasons; winter kills more men than battle.
+- **lesson_adviser_supply** (adviser): An army eats its way across the land. Far from home, without supply, it will starve. Keep it near your own provinces, or near the sea and your ships.
+- **lesson_adviser_sieges** (adviser): Walled cities do not fall in a day. Surround them, starve them, and storm them only when the walls are breached. Patience takes more cities than courage.
+- **lesson_adviser_fleets** (adviser): Ships carry your armies and guard your merchants. But the sea is cruel in winter, and storms have sunk more fleets than any enemy.
+- **lesson_adviser_pretexts** (adviser): Before you strike, find a just cause: an old claim, an insult, a broken treaty. The other kings are watching, and they remember who starts wars without one.
+- **lesson_adviser_peace** (adviser): When the war has gone on long enough, offer terms. Take what you have won, demand tribute, or make them your vassals. A war too long ruins the victor too.
+- **lesson_adviser_allies** (adviser): Allies will come to your aid, and you to theirs. Choose them well; an alliance with the weak drags you into their wars.
+- **lesson_adviser_court** (adviser): Your family is your strength and your danger. Marry them wisely, educate your heirs, and keep an eye on ambitious cousins.
+- **lesson_adviser_wonders** (adviser): A wonder of the world brings glory, pilgrims and the favour of the gods. But they cost a fortune and take a generation to build.
+- **lesson_adviser_history** (adviser): History pulls the world along its old course. Other realms will try to do what they did in their time. You may follow history, or break it.
+- **lesson_adviser_goals** (adviser): Your realm has ambitions of its own, as it did in history. Fulfil them, and your fame will grow. Ignore them, and choose your own.
+- **lesson_adviser_score** (adviser): In the end, your reign will be judged: by your people, your lands, your wealth, your culture, your dynasty and your deeds.
+
+## Warnings (the adviser)
+
+- **alert_idle_army** (adviser): My lord, an army stands idle. Shall it march, or be sent home to the fields?
+- **alert_empty_treasury** (adviser): My lord, the treasury is nearly empty.
+- **alert_unrest** (adviser): My lord, a province is close to revolt.
+- **alert_shortage** (adviser): My lord, our people go short of what they need.
+- **alert_unpaid_army** (adviser): My lord, the soldiers have not been paid. They grumble.
+- **alert_manpower_low** (adviser): My lord, there are few men left to fill the ranks.
+- **alert_no_research** (adviser): My lord, the scholars sit idle. Give them something to study.
+- **alert_war_exhaustion** (adviser): My lord, the people are weary of this war.
+- **alert_rival_arming** (adviser): My lord, our rival is gathering armies on our border.
+- **alert_siege_starving** (adviser): My lord, the besieged city is starving. It will not hold much longer.
+- **alert_loan_due** (adviser): My lord, a loan falls due, and the lenders are waiting.
+- **alert_heir_missing** (adviser): My lord, you have no heir. Think of the succession.
+
+## Victory cries (in their own tongue)
+
+- **cheer_latin_io** (warrior): [shouting] Io triumphe! Io triumphe! *(Hail, triumph!)*
+- **cheer_latin_victoria** (warrior): [shouting] Victoria! Victoria! *(Victory! Victory!)*
+- **cheer_greek_nike** (warrior): [shouting] Nike! Nike! *(Victory! Victory!)*
+- **cheer_greek_paian** (warrior): [shouting] Ie Paian! Ie Paian! *(Hail, Healer! (the victory hymn))*

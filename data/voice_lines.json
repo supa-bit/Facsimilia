@@ -1854,6 +1854,2301 @@
    "text": "[shouting] Taranis! Taranis!",
    "subtitle": "Taranis! (the thunder god)",
    "lang": "xtg"
+  },
+  {
+   "id": "lesson_01_sargon",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "sargon",
+   "text": "Some four thousand three hundred years ago, a cupbearer of the king of Kish rose up and took the crown. Sargon of Akkad marched from the Upper Sea to the Lower Sea, and for the first time one man ruled many cities and many peoples. [pause] The first empire was born, and it would not be the last.",
+   "subtitle": "Some four thousand three hundred years ago, a cupbearer of the king of Kish rose up and took the crown. Sargon of Akkad marched from the Upper Sea to the Lower Sea, and for the first time one man ruled many cities and many peoples. The first empire was born, and it would not be the last.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_02_ur",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "ur",
+   "text": "When Akkad fell, the kings of Ur gathered the land again. They built a great stepped temple to the moon god, kept accounts of every sheep and every worker, and wrote down the oldest laws we know. Then famine and invaders came, and Ur too was lamented in song.",
+   "subtitle": "When Akkad fell, the kings of Ur gathered the land again. They built a great stepped temple to the moon god, kept accounts of every sheep and every worker, and wrote down the oldest laws we know. Then famine and invaders came, and Ur too was lamented in song.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_03_hammurabi",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "hammurabi",
+   "text": "In Babylon, King Hammurabi set his laws in stone for all to see: an eye for an eye, a fair price for a boat, a punishment for the careless builder. [pause] Justice, he said, so that the strong should not oppress the weak.",
+   "subtitle": "In Babylon, King Hammurabi set his laws in stone for all to see: an eye for an eye, a fair price for a boat, a punishment for the careless builder. Justice, he said, so that the strong should not oppress the weak.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_04_hattians",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "hattians",
+   "text": "In the high country of Anatolia lived the Hattians, who worshipped the sun goddess of Arinna and the storm god of the mountains. Merchants from Assyria came to trade tin and cloth at Kanesh, and left their letters in clay. Into these lands came a new people, speaking a new tongue.",
+   "subtitle": "In the high country of Anatolia lived the Hattians, who worshipped the sun goddess of Arinna and the storm god of the mountains. Merchants from Assyria came to trade tin and cloth at Kanesh, and left their letters in clay. Into these lands came a new people, speaking a new tongue.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_05_hittites",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "hittites",
+   "text": "They took the Hattians' gods, their cities and their name. From Hattusa, behind walls of great stone, the Hittite kings ruled the land of Hatti. They rode in chariots, wrote in clay, and swore treaties in the names of a thousand gods. [dramatically] They even sacked Babylon.",
+   "subtitle": "They took the Hattians' gods, their cities and their name. From Hattusa, behind walls of great stone, the Hittite kings ruled the land of Hatti. They rode in chariots, wrote in clay, and swore treaties in the names of a thousand gods. They even sacked Babylon.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_06_kadesh",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "kadesh",
+   "text": "Egypt and Hatti met at Kadesh, on the river Orontes, in the greatest chariot battle the world had seen. Both kings claimed the victory. [pause] Years later they made peace, and the treaty they swore is the oldest we still have.",
+   "subtitle": "Egypt and Hatti met at Kadesh, on the river Orontes, in the greatest chariot battle the world had seen. Both kings claimed the victory. Years later they made peace, and the treaty they swore is the oldest we still have.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_07_ugarit",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "ugarit",
+   "text": "On the coast of Syria stood Ugarit, a city of merchants. Ships from Cyprus and Crete crowded its harbour, and its scribes wrote in many scripts, among them an alphabet of only thirty letters. Kings across the world wrote to one another as brothers.",
+   "subtitle": "On the coast of Syria stood Ugarit, a city of merchants. Ships from Cyprus and Crete crowded its harbour, and its scribes wrote in many scripts, among them an alphabet of only thirty letters. Kings across the world wrote to one another as brothers.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_08_collapse",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "collapse",
+   "text": "[gravely] Then, some three thousand two hundred years ago, it all came apart. Drought and famine, earthquakes, raiders from the sea. The last letters of Ugarit beg for ships and soldiers that never came. Hattusa burned. Mycenae fell silent. Egypt alone held on, and barely.",
+   "subtitle": "Then, some three thousand two hundred years ago, it all came apart. Drought and famine, earthquakes, raiders from the sea. The last letters of Ugarit beg for ships and soldiers that never came. Hattusa burned. Mycenae fell silent. Egypt alone held on, and barely.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_09_iron",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "iron",
+   "text": "Out of the ruins came smaller peoples and new ideas: Phoenicians who sailed to the edge of the world, Israelites with their one god, Greeks with their alphabet and their cities. And iron, which any village smith could work, armed whole peoples.",
+   "subtitle": "Out of the ruins came smaller peoples and new ideas: Phoenicians who sailed to the edge of the world, Israelites with their one god, Greeks with their alphabet and their cities. And iron, which any village smith could work, armed whole peoples.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_10_empires",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "empires",
+   "text": "Assyria rose, and ruled by terror from Nineveh. Babylon rose again, and hung its gardens over the Euphrates. Then Cyrus the Persian took them all, and his heirs ruled from the Aegean to the Indus, by roads and by letters and by the King's peace.",
+   "subtitle": "Assyria rose, and ruled by terror from Nineveh. Babylon rose again, and hung its gardens over the Euphrates. Then Cyrus the Persian took them all, and his heirs ruled from the Aegean to the Indus, by roads and by letters and by the King's peace.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_11_alexander",
+   "voice": "bard",
+   "plays": "lesson",
+   "key": "alexander",
+   "text": "[dramatically] And then a young king came out of Macedon. In twelve years Alexander crossed the Persian empire from end to end, and reached the rivers of India. At Babylon, at thirty-two, he died. [pause] Asked to whom he left his empire, he said: to the strongest.",
+   "subtitle": "And then a young king came out of Macedon. In twelve years Alexander crossed the Persian empire from end to end, and reached the rivers of India. At Babylon, at thirty-two, he died. Asked to whom he left his empire, he said: to the strongest.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "We have gone to war. Let the gods judge between us.",
+   "subtitle": "We have gone to war. Let the gods judge between us.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "[dramatically] The spears are taken down from the walls. We march to war.",
+   "subtitle": "The spears are taken down from the walls. We march to war.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "War is declared. May our cause be as strong as our arms.",
+   "subtitle": "War is declared. May our cause be as strong as our arms.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "In this year war was declared, and the realm made ready.",
+   "subtitle": "In this year war was declared, and the realm made ready.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "The banners are raised; our lord has gone to war.",
+   "subtitle": "The banners are raised; our lord has gone to war.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "War is proclaimed, and the levies gather.",
+   "subtitle": "War is proclaimed, and the levies gather.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "Good evening. The government has declared war.",
+   "subtitle": "Good evening. The government has declared war.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "War has been declared. Mobilisation is under way.",
+   "subtitle": "War has been declared. Mobilisation is under way.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_declared_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_declared",
+   "text": "Our nation is at war tonight.",
+   "subtitle": "Our nation is at war tonight.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "[gravely] An enemy marches against us. To arms!",
+   "subtitle": "An enemy marches against us. To arms!",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "War has come to our borders, unasked.",
+   "subtitle": "War has come to our borders, unasked.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "They have declared war upon us. Gather the men.",
+   "subtitle": "They have declared war upon us. Gather the men.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "In this year an enemy made war upon the realm.",
+   "subtitle": "In this year an enemy made war upon the realm.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "War is come upon us, and the people are afraid.",
+   "subtitle": "War is come upon us, and the people are afraid.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "Our neighbours have broken the peace and taken up arms against us.",
+   "subtitle": "Our neighbours have broken the peace and taken up arms against us.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "We interrupt this broadcast. A foreign power has declared war on our nation.",
+   "subtitle": "We interrupt this broadcast. A foreign power has declared war on our nation.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "War has been declared upon us. The army is on alert.",
+   "subtitle": "War has been declared upon us. The army is on alert.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_war_on_us_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "war_on_us",
+   "text": "Hostile forces have crossed our border.",
+   "subtitle": "Hostile forces have crossed our border.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "peace",
+   "text": "The war is over. Let the fields be sown again.",
+   "subtitle": "The war is over. Let the fields be sown again.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "peace",
+   "text": "Peace is sworn, and the gates are opened.",
+   "subtitle": "Peace is sworn, and the gates are opened.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "peace",
+   "text": "[softly] The spears are laid down. There is peace.",
+   "subtitle": "The spears are laid down. There is peace.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "peace",
+   "text": "In this year peace was made, and the realm gave thanks.",
+   "subtitle": "In this year peace was made, and the realm gave thanks.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "peace",
+   "text": "A treaty is sealed, and the war is ended.",
+   "subtitle": "A treaty is sealed, and the war is ended.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "peace",
+   "text": "Peace is restored, praise be.",
+   "subtitle": "Peace is restored, praise be.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "peace",
+   "text": "A peace treaty has been signed. The war is over.",
+   "subtitle": "A peace treaty has been signed. The war is over.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "peace",
+   "text": "Hostilities have ended this evening.",
+   "subtitle": "Hostilities have ended this evening.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_peace_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "peace",
+   "text": "Crowds have gathered in the streets to celebrate the peace.",
+   "subtitle": "Crowds have gathered in the streets to celebrate the peace.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "[excited] Victory! The enemy breaks and flees from the field.",
+   "subtitle": "Victory! The enemy breaks and flees from the field.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "The field is ours. The enemy's standards lie in the dust.",
+   "subtitle": "The field is ours. The enemy's standards lie in the dust.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "Our army has won the day. Songs will be sung of it.",
+   "subtitle": "Our army has won the day. Songs will be sung of it.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "In this battle our host prevailed, and the enemy was put to flight.",
+   "subtitle": "In this battle our host prevailed, and the enemy was put to flight.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "A great victory, and many prisoners taken.",
+   "subtitle": "A great victory, and many prisoners taken.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "The day is ours, and the enemy is scattered.",
+   "subtitle": "The day is ours, and the enemy is scattered.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "Reports from the front tell of a decisive victory.",
+   "subtitle": "Reports from the front tell of a decisive victory.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "Our forces have won a major battle today.",
+   "subtitle": "Our forces have won a major battle today.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_won_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_won",
+   "text": "The enemy is in retreat after a hard-fought engagement.",
+   "subtitle": "The enemy is in retreat after a hard-fought engagement.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "[sadly] Our army is broken. The survivors stream home.",
+   "subtitle": "Our army is broken. The survivors stream home.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "The day is lost, and many brave men with it.",
+   "subtitle": "The day is lost, and many brave men with it.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "Defeat. The enemy holds the field.",
+   "subtitle": "Defeat. The enemy holds the field.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "In this battle our host was overthrown, and many were slain.",
+   "subtitle": "In this battle our host was overthrown, and many were slain.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "A heavy defeat, and great lamentation in the land.",
+   "subtitle": "A heavy defeat, and great lamentation in the land.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "The enemy prevailed, and our army fled.",
+   "subtitle": "The enemy prevailed, and our army fled.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "Our forces have suffered a serious defeat.",
+   "subtitle": "Our forces have suffered a serious defeat.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "Heavy losses are reported after today's battle.",
+   "subtitle": "Heavy losses are reported after today's battle.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_battle_lost_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "battle_lost",
+   "text": "The army is falling back after a grave reverse.",
+   "subtitle": "The army is falling back after a grave reverse.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "The walls are surrounded. Now begins the long hunger.",
+   "subtitle": "The walls are surrounded. Now begins the long hunger.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "We lay siege. Let them count their grain.",
+   "subtitle": "We lay siege. Let them count their grain.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "The city is besieged, and its gates are shut.",
+   "subtitle": "The city is besieged, and its gates are shut.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "Our army sits down before the walls.",
+   "subtitle": "Our army sits down before the walls.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "The city is under siege tonight.",
+   "subtitle": "The city is under siege tonight.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_siege_begun_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "siege_begun",
+   "text": "Our forces have encircled the city.",
+   "subtitle": "Our forces have encircled the city.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "[excited] The gates are open. The city is ours!",
+   "subtitle": "The gates are open. The city is ours!",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "The walls have fallen, and the city bows to us.",
+   "subtitle": "The walls have fallen, and the city bows to us.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "The city is taken, and its keys are brought to our lord.",
+   "subtitle": "The city is taken, and its keys are brought to our lord.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "After long siege, the city has surrendered.",
+   "subtitle": "After long siege, the city has surrendered.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "The city has fallen to our forces.",
+   "subtitle": "The city has fallen to our forces.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_taken_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "city_taken",
+   "text": "Our troops have entered the city.",
+   "subtitle": "Our troops have entered the city.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "[sadly] The city has fallen to the enemy.",
+   "subtitle": "The city has fallen to the enemy.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "Our city is lost. Its people weep in the streets.",
+   "subtitle": "Our city is lost. Its people weep in the streets.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "The city is lost to the enemy, God help its people.",
+   "subtitle": "The city is lost to the enemy, God help its people.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "Our city has surrendered to the foe.",
+   "subtitle": "Our city has surrendered to the foe.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "The city has fallen to enemy forces.",
+   "subtitle": "The city has fallen to enemy forces.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_city_lost_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "city_lost",
+   "text": "We have lost the city after a long siege.",
+   "subtitle": "We have lost the city after a long siege.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "[gravely] The people have risen. A province is in revolt.",
+   "subtitle": "The people have risen. A province is in revolt.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "Rebellion! They have thrown off our rule.",
+   "subtitle": "Rebellion! They have thrown off our rule.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "Smoke rises over the province. The people are in arms.",
+   "subtitle": "Smoke rises over the province. The people are in arms.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "In this year the province rose in rebellion.",
+   "subtitle": "In this year the province rose in rebellion.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "The commons are risen, and the lord's officers are driven out.",
+   "subtitle": "The commons are risen, and the lord's officers are driven out.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "Rebellion breaks out, and there is great disorder.",
+   "subtitle": "Rebellion breaks out, and there is great disorder.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "Unrest has turned to open revolt in one of our provinces.",
+   "subtitle": "Unrest has turned to open revolt in one of our provinces.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "Rioting is reported, and the authorities have lost control.",
+   "subtitle": "Rioting is reported, and the authorities have lost control.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_revolt_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "revolt",
+   "text": "A rebellion has broken out tonight.",
+   "subtitle": "A rebellion has broken out tonight.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "[sadly] The king is dead. Let the mourning begin.",
+   "subtitle": "The king is dead. Let the mourning begin.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "Our ruler has gone to the gods.",
+   "subtitle": "Our ruler has gone to the gods.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "In this year our lord departed this life. May he rest in peace.",
+   "subtitle": "In this year our lord departed this life. May he rest in peace.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "The ruler is dead, and the bells are tolled.",
+   "subtitle": "The ruler is dead, and the bells are tolled.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "We regret to announce the death of our head of state.",
+   "subtitle": "We regret to announce the death of our head of state.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_ruler_died_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "ruler_died",
+   "text": "The nation is in mourning tonight.",
+   "subtitle": "The nation is in mourning tonight.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "A new ruler takes the throne. Long may they reign.",
+   "subtitle": "A new ruler takes the throne. Long may they reign.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "The crown passes on. Hail the new ruler!",
+   "subtitle": "The crown passes on. Hail the new ruler!",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "The heir is crowned, and the lords swear their oaths.",
+   "subtitle": "The heir is crowned, and the lords swear their oaths.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "A new reign begins.",
+   "subtitle": "A new reign begins.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "A new head of state has taken office.",
+   "subtitle": "A new head of state has taken office.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_ruler_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "new_ruler",
+   "text": "The new ruler has been sworn in today.",
+   "subtitle": "The new ruler has been sworn in today.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "The old line is ended. A new house rules.",
+   "subtitle": "The old line is ended. A new house rules.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "No heir remained. Another family takes the throne.",
+   "subtitle": "No heir remained. Another family takes the throne.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "The old dynasty is no more, and a new house is raised to the throne.",
+   "subtitle": "The old dynasty is no more, and a new house is raised to the throne.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "With no heir of the blood, the crown passes to another house.",
+   "subtitle": "With no heir of the blood, the crown passes to another house.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "A new dynasty has come to power.",
+   "subtitle": "A new dynasty has come to power.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_new_house_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "new_house",
+   "text": "The succession has passed to a new family.",
+   "subtitle": "The succession has passed to a new family.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "[warmly] A child is born to the ruler's house.",
+   "subtitle": "A child is born to the ruler's house.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "The house has an heir. Let there be feasting.",
+   "subtitle": "The house has an heir. Let there be feasting.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "In this year a child was born to our lord, and there was rejoicing.",
+   "subtitle": "In this year a child was born to our lord, and there was rejoicing.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "An heir is born, and the bells are rung.",
+   "subtitle": "An heir is born, and the bells are rung.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "The royal family has announced a birth.",
+   "subtitle": "The royal family has announced a birth.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_heir_born_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "heir_born",
+   "text": "A new heir has been born to the ruling house.",
+   "subtitle": "A new heir has been born to the ruling house.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "A marriage is made, and two houses are joined.",
+   "subtitle": "A marriage is made, and two houses are joined.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "Wedding songs ring through the palace.",
+   "subtitle": "Wedding songs ring through the palace.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "In this year a marriage was made, binding two great houses.",
+   "subtitle": "In this year a marriage was made, binding two great houses.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "The wedding is celebrated with great pomp.",
+   "subtitle": "The wedding is celebrated with great pomp.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "A royal wedding took place today.",
+   "subtitle": "A royal wedding took place today.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_marriage_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "marriage",
+   "text": "The marriage was celebrated before a large crowd.",
+   "subtitle": "The marriage was celebrated before a large crowd.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "Our scholars have learned a new art.",
+   "subtitle": "Our scholars have learned a new art.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "[curious] A new art is mastered. Who knows what it will bring?",
+   "subtitle": "A new art is mastered. Who knows what it will bring?",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_bard_3",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "The wise have found a new way. The realm grows stronger.",
+   "subtitle": "The wise have found a new way. The realm grows stronger.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "In this year our learned men mastered a new art.",
+   "subtitle": "In this year our learned men mastered a new art.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "New knowledge is come to the realm.",
+   "subtitle": "New knowledge is come to the realm.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_chronicler_3",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "The scholars report a new discovery.",
+   "subtitle": "The scholars report a new discovery.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "Scientists have announced a breakthrough.",
+   "subtitle": "Scientists have announced a breakthrough.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "A new invention is changing the way we live.",
+   "subtitle": "A new invention is changing the way we live.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tech_learnt_newsreader_3",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "tech_learnt",
+   "text": "Researchers report a major advance.",
+   "subtitle": "Researchers report a major advance.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "[warmly] An ambition is fulfilled. History will remember it.",
+   "subtitle": "An ambition is fulfilled. History will remember it.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "What our forebears dreamed, we have done.",
+   "subtitle": "What our forebears dreamed, we have done.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "A great aim of the realm is accomplished.",
+   "subtitle": "A great aim of the realm is accomplished.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "Let it be written: the ambition is achieved.",
+   "subtitle": "Let it be written: the ambition is achieved.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "A historic goal has been achieved.",
+   "subtitle": "A historic goal has been achieved.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_goal_reached_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "goal_reached",
+   "text": "The government has hailed a historic achievement.",
+   "subtitle": "The government has hailed a historic achievement.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "The work is finished, and the builders are paid.",
+   "subtitle": "The work is finished, and the builders are paid.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "New walls rise where there were none.",
+   "subtitle": "New walls rise where there were none.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "The building is completed.",
+   "subtitle": "The building is completed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "The masons have finished their work.",
+   "subtitle": "The masons have finished their work.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "The new building has been opened.",
+   "subtitle": "The new building has been opened.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_building_done_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "building_done",
+   "text": "Construction has been completed.",
+   "subtitle": "Construction has been completed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "A great work is begun. It will outlast us all.",
+   "subtitle": "A great work is begun. It will outlast us all.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "The foundations are laid of a wonder of the world.",
+   "subtitle": "The foundations are laid of a wonder of the world.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "In this year the foundations were laid of a great work.",
+   "subtitle": "In this year the foundations were laid of a great work.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "A wonder is begun, and many hands are called to it.",
+   "subtitle": "A wonder is begun, and many hands are called to it.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "Work has begun on an ambitious new monument.",
+   "subtitle": "Work has begun on an ambitious new monument.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_begun_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "wonder_begun",
+   "text": "Construction has started on a landmark project.",
+   "subtitle": "Construction has started on a landmark project.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "[sadly] A wonder of the world has fallen.",
+   "subtitle": "A wonder of the world has fallen.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "What was raised to last forever lies in ruins.",
+   "subtitle": "What was raised to last forever lies in ruins.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "A great work has fallen, and the people mourn it.",
+   "subtitle": "A great work has fallen, and the people mourn it.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "The wonder lies in ruins.",
+   "subtitle": "The wonder lies in ruins.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "A famous landmark has been destroyed.",
+   "subtitle": "A famous landmark has been destroyed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_wonder_fell_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "wonder_fell",
+   "text": "One of the world's great monuments has collapsed.",
+   "subtitle": "One of the world's great monuments has collapsed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "debt",
+   "text": "The treasury is empty. We live on borrowed silver.",
+   "subtitle": "The treasury is empty. We live on borrowed silver.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "debt",
+   "text": "Our debts grow heavier each year.",
+   "subtitle": "Our debts grow heavier each year.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "debt",
+   "text": "The treasury is bare, and the realm is in debt.",
+   "subtitle": "The treasury is bare, and the realm is in debt.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "debt",
+   "text": "The lenders press for their money.",
+   "subtitle": "The lenders press for their money.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "debt",
+   "text": "The national debt has reached a new high.",
+   "subtitle": "The national debt has reached a new high.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_debt_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "debt",
+   "text": "The treasury has run out of funds.",
+   "subtitle": "The treasury has run out of funds.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "Tribute arrives, silver and gifts.",
+   "subtitle": "Tribute arrives, silver and gifts.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "Our enemies pay what they owe.",
+   "subtitle": "Our enemies pay what they owe.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "Tribute is brought to the treasury.",
+   "subtitle": "Tribute is brought to the treasury.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "The tribute is paid in full.",
+   "subtitle": "The tribute is paid in full.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "Reparations have been received.",
+   "subtitle": "Reparations have been received.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_tribute_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "tribute",
+   "text": "The payment has arrived in full.",
+   "subtitle": "The payment has arrived in full.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "Merchants will come and go in peace. A treaty is made.",
+   "subtitle": "Merchants will come and go in peace. A treaty is made.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "Our markets are opened to their ships.",
+   "subtitle": "Our markets are opened to their ships.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "A treaty of trade is concluded.",
+   "subtitle": "A treaty of trade is concluded.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "The merchants rejoice at the new agreement.",
+   "subtitle": "The merchants rejoice at the new agreement.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "A trade agreement has been signed.",
+   "subtitle": "A trade agreement has been signed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_trade_treaty_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "trade_treaty",
+   "text": "The new trade deal opens our markets.",
+   "subtitle": "The new trade deal opens our markets.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "The mint has thinned the silver in our coin.",
+   "subtitle": "The mint has thinned the silver in our coin.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "Less silver, more coins. The merchants will notice.",
+   "subtitle": "Less silver, more coins. The merchants will notice.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "The coinage is debased, and prices rise.",
+   "subtitle": "The coinage is debased, and prices rise.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "The money is made lighter, and the people grumble.",
+   "subtitle": "The money is made lighter, and the people grumble.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "The currency has been devalued.",
+   "subtitle": "The currency has been devalued.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_coin_debased_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "coin_debased",
+   "text": "The government has cut the value of the currency.",
+   "subtitle": "The government has cut the value of the currency.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "Hired swords join our army, for a price.",
+   "subtitle": "Hired swords join our army, for a price.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "Mercenaries are paid, and they march with us.",
+   "subtitle": "Mercenaries are paid, and they march with us.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "Companies of hired soldiers enter our service.",
+   "subtitle": "Companies of hired soldiers enter our service.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "The mercenaries are paid their wages.",
+   "subtitle": "The mercenaries are paid their wages.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "Foreign volunteers have joined our forces.",
+   "subtitle": "Foreign volunteers have joined our forces.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_mercenaries_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "mercenaries",
+   "text": "Contract soldiers have been hired.",
+   "subtitle": "Contract soldiers have been hired.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "An alliance is sworn. Their enemies are ours.",
+   "subtitle": "An alliance is sworn. Their enemies are ours.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "Oaths are sworn over the sacrifice. We stand together.",
+   "subtitle": "Oaths are sworn over the sacrifice. We stand together.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "A league is sworn, and the realms are bound in friendship.",
+   "subtitle": "A league is sworn, and the realms are bound in friendship.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "An alliance is made, sealed with oaths.",
+   "subtitle": "An alliance is made, sealed with oaths.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "A new alliance has been signed.",
+   "subtitle": "A new alliance has been signed.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_alliance_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "alliance",
+   "text": "The two nations have agreed to stand together.",
+   "subtitle": "The two nations have agreed to stand together.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "plague",
+   "text": "[gravely] Plague is among us. The dead are many.",
+   "subtitle": "Plague is among us. The dead are many.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "plague",
+   "text": "Sickness spreads through the cities.",
+   "subtitle": "Sickness spreads through the cities.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "plague",
+   "text": "The pestilence is come upon the realm.",
+   "subtitle": "The pestilence is come upon the realm.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "plague",
+   "text": "Plague, and the dead lie unburied.",
+   "subtitle": "Plague, and the dead lie unburied.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "plague",
+   "text": "An epidemic is spreading through the country.",
+   "subtitle": "An epidemic is spreading through the country.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_plague_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "plague",
+   "text": "Health officials report a serious outbreak.",
+   "subtitle": "Health officials report a serious outbreak.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "The earth has shaken, and houses have fallen.",
+   "subtitle": "The earth has shaken, and houses have fallen.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "[gravely] An earthquake strikes. The gods are angry.",
+   "subtitle": "An earthquake strikes. The gods are angry.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "The earth shook, and many buildings fell.",
+   "subtitle": "The earth shook, and many buildings fell.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "An earthquake has struck the realm.",
+   "subtitle": "An earthquake has struck the realm.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "A powerful earthquake has struck.",
+   "subtitle": "A powerful earthquake has struck.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_earthquake_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "earthquake",
+   "text": "Rescue teams are searching collapsed buildings.",
+   "subtitle": "Rescue teams are searching collapsed buildings.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "famine",
+   "text": "[sadly] The harvest has failed. Hunger walks the land.",
+   "subtitle": "The harvest has failed. Hunger walks the land.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "famine",
+   "text": "The granaries are empty.",
+   "subtitle": "The granaries are empty.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "famine",
+   "text": "Famine is in the land, and bread is dear.",
+   "subtitle": "Famine is in the land, and bread is dear.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "famine",
+   "text": "The harvest failed, and the poor are starving.",
+   "subtitle": "The harvest failed, and the poor are starving.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "famine",
+   "text": "Food shortages are reported across the country.",
+   "subtitle": "Food shortages are reported across the country.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_famine_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "famine",
+   "text": "The harvest has failed, and prices have soared.",
+   "subtitle": "The harvest has failed, and prices have soared.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "The mountain spits fire, and ash falls like snow.",
+   "subtitle": "The mountain spits fire, and ash falls like snow.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "A volcano has woken.",
+   "subtitle": "A volcano has woken.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "The mountain has burst into fire.",
+   "subtitle": "The mountain has burst into fire.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "Fire pours from the mountain, and ash darkens the sky.",
+   "subtitle": "Fire pours from the mountain, and ash darkens the sky.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "A volcanic eruption has forced thousands to flee.",
+   "subtitle": "A volcanic eruption has forced thousands to flee.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_eruption_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "eruption",
+   "text": "The volcano has erupted.",
+   "subtitle": "The volcano has erupted.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_bard_1",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "[slowly] So ends our tale. Others will tell what came after.",
+   "subtitle": "So ends our tale. Others will tell what came after.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_bard_2",
+   "voice": "bard",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "The story is told. Let it be remembered.",
+   "subtitle": "The story is told. Let it be remembered.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_chronicler_1",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "Here ends the chronicle.",
+   "subtitle": "Here ends the chronicle.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_chronicler_2",
+   "voice": "chronicler",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "Thus ends the account of these years.",
+   "subtitle": "Thus ends the account of these years.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_newsreader_1",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "And that is the end of the news.",
+   "subtitle": "And that is the end of the news.",
+   "lang": "en"
+  },
+  {
+   "id": "moment_game_end_newsreader_2",
+   "voice": "newsreader",
+   "plays": "moment",
+   "key": "game_end",
+   "text": "That is all for tonight. Good night.",
+   "subtitle": "That is all for tonight. Good night.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_taxes",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "taxes",
+   "text": "Taxes are the lifeblood of the realm, my lord, but bleed the people too much and they will not grow, nor love you. Raise them in war, lower them in peace.",
+   "subtitle": "Taxes are the lifeblood of the realm, my lord, but bleed the people too much and they will not grow, nor love you. Raise them in war, lower them in peace.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_goods",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "goods",
+   "text": "Every province makes something: grain, wine, timber, iron. What we lack, we must buy, and what we have in plenty, we may sell. A hungry city is a dangerous city.",
+   "subtitle": "Every province makes something: grain, wine, timber, iron. What we lack, we must buy, and what we have in plenty, we may sell. A hungry city is a dangerous city.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_trade",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "trade",
+   "text": "Merchants follow the routes by land and sea. Send your own along them, and keep the pirates away, and silver will flow into your markets.",
+   "subtitle": "Merchants follow the routes by land and sea. Send your own along them, and keep the pirates away, and silver will flow into your markets.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_coin",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "coin",
+   "text": "Our coin is trusted for its silver. Thin the silver and you may pay more soldiers today, but prices will rise, and the merchants will remember.",
+   "subtitle": "Our coin is trusted for its silver. Thin the silver and you may pay more soldiers today, but prices will rise, and the merchants will remember.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_debt",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "debt",
+   "text": "If the treasury runs dry, we may borrow, but lenders want their silver back, with more. Debt is a fine servant and a cruel master.",
+   "subtitle": "If the treasury runs dry, we may borrow, but lenders want their silver back, with more. Debt is a fine servant and a cruel master.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_people",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "people",
+   "text": "Your people are farmers, craftsmen, merchants and slaves, and each want different things. Feed them, keep them safe, and they will grow in number.",
+   "subtitle": "Your people are farmers, craftsmen, merchants and slaves, and each want different things. Feed them, keep them safe, and they will grow in number.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_cultures",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "cultures",
+   "text": "Not all your subjects share your tongue and your gods. Conquered peoples need years to accept your rule. Be patient, or be ready for rebellion.",
+   "subtitle": "Not all your subjects share your tongue and your gods. Conquered peoples need years to accept your rule. Be patient, or be ready for rebellion.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_unrest",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "unrest",
+   "text": "Watch the unrest in your provinces, my lord. Heavy taxes, hunger, war and foreign rule all stir it. When it boils over, the province rises.",
+   "subtitle": "Watch the unrest in your provinces, my lord. Heavy taxes, hunger, war and foreign rule all stir it. When it boils over, the province rises.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_buildings",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "buildings",
+   "text": "Build granaries against famine, walls against raiders, markets for trade and temples for the gods. Each takes silver and time, and some need what we have not yet learned.",
+   "subtitle": "Build granaries against famine, walls against raiders, markets for trade and temples for the gods. Each takes silver and time, and some need what we have not yet learned.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_roads",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "roads",
+   "text": "A good road brings your soldiers, your tax collectors and your merchants faster. Draw one from town to town, and the far provinces will feel nearer.",
+   "subtitle": "A good road brings your soldiers, your tax collectors and your merchants faster. Draw one from town to town, and the far provinces will feel nearer.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_provinces",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "provinces",
+   "text": "Each province may be given a purpose: farms, mines, trade or soldiers. And when they grow too large or too small, you may redraw them.",
+   "subtitle": "Each province may be given a purpose: farms, mines, trade or soldiers. And when they grow too large or too small, you may redraw them.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_research",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "research",
+   "text": "Your scholars study one art at a time. Each opens the way to others. Choose those that serve your aims, and build schools and libraries to find more scholars.",
+   "subtitle": "Your scholars study one art at a time. Each opens the way to others. Choose those that serve your aims, and build schools and libraries to find more scholars.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_armies",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "armies",
+   "text": "An army is made of companies, each with its arms and its training. Keep them paid and fed, or they will melt away, or worse, turn on you.",
+   "subtitle": "An army is made of companies, each with its arms and its training. Keep them paid and fed, or they will melt away, or worse, turn on you.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_manpower",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "manpower",
+   "text": "Every soldier is a man taken from the fields. Our manpower refills slowly. Spend it carelessly, and you will have no army when you need one most.",
+   "subtitle": "Every soldier is a man taken from the fields. Our manpower refills slowly. Spend it carelessly, and you will have no army when you need one most.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_generals",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "generals",
+   "text": "A good general is worth a legion. Choose them for their skill, not their birth, and watch that none grows more loved by the soldiers than you are.",
+   "subtitle": "A good general is worth a legion. Choose them for their skill, not their birth, and watch that none grows more loved by the soldiers than you are.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_marching",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "marching",
+   "text": "Armies march slowly over mountains and swiftly along roads and rivers. Plan your campaigns with the seasons; winter kills more men than battle.",
+   "subtitle": "Armies march slowly over mountains and swiftly along roads and rivers. Plan your campaigns with the seasons; winter kills more men than battle.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_supply",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "supply",
+   "text": "An army eats its way across the land. Far from home, without supply, it will starve. Keep it near your own provinces, or near the sea and your ships.",
+   "subtitle": "An army eats its way across the land. Far from home, without supply, it will starve. Keep it near your own provinces, or near the sea and your ships.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_sieges",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "sieges",
+   "text": "Walled cities do not fall in a day. Surround them, starve them, and storm them only when the walls are breached. Patience takes more cities than courage.",
+   "subtitle": "Walled cities do not fall in a day. Surround them, starve them, and storm them only when the walls are breached. Patience takes more cities than courage.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_fleets",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "fleets",
+   "text": "Ships carry your armies and guard your merchants. But the sea is cruel in winter, and storms have sunk more fleets than any enemy.",
+   "subtitle": "Ships carry your armies and guard your merchants. But the sea is cruel in winter, and storms have sunk more fleets than any enemy.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_pretexts",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "pretexts",
+   "text": "Before you strike, find a just cause: an old claim, an insult, a broken treaty. The other kings are watching, and they remember who starts wars without one.",
+   "subtitle": "Before you strike, find a just cause: an old claim, an insult, a broken treaty. The other kings are watching, and they remember who starts wars without one.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_peace",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "peace",
+   "text": "When the war has gone on long enough, offer terms. Take what you have won, demand tribute, or make them your vassals. A war too long ruins the victor too.",
+   "subtitle": "When the war has gone on long enough, offer terms. Take what you have won, demand tribute, or make them your vassals. A war too long ruins the victor too.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_allies",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "allies",
+   "text": "Allies will come to your aid, and you to theirs. Choose them well; an alliance with the weak drags you into their wars.",
+   "subtitle": "Allies will come to your aid, and you to theirs. Choose them well; an alliance with the weak drags you into their wars.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_court",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "court",
+   "text": "Your family is your strength and your danger. Marry them wisely, educate your heirs, and keep an eye on ambitious cousins.",
+   "subtitle": "Your family is your strength and your danger. Marry them wisely, educate your heirs, and keep an eye on ambitious cousins.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_wonders",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "wonders",
+   "text": "A wonder of the world brings glory, pilgrims and the favour of the gods. But they cost a fortune and take a generation to build.",
+   "subtitle": "A wonder of the world brings glory, pilgrims and the favour of the gods. But they cost a fortune and take a generation to build.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_history",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "history",
+   "text": "History pulls the world along its old course. Other realms will try to do what they did in their time. You may follow history, or break it.",
+   "subtitle": "History pulls the world along its old course. Other realms will try to do what they did in their time. You may follow history, or break it.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_goals",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "goals",
+   "text": "Your realm has ambitions of its own, as it did in history. Fulfil them, and your fame will grow. Ignore them, and choose your own.",
+   "subtitle": "Your realm has ambitions of its own, as it did in history. Fulfil them, and your fame will grow. Ignore them, and choose your own.",
+   "lang": "en"
+  },
+  {
+   "id": "lesson_adviser_score",
+   "voice": "adviser",
+   "plays": "lesson_adviser",
+   "key": "score",
+   "text": "In the end, your reign will be judged: by your people, your lands, your wealth, your culture, your dynasty and your deeds.",
+   "subtitle": "In the end, your reign will be judged: by your people, your lands, your wealth, your culture, your dynasty and your deeds.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_idle_army",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "idle_army",
+   "text": "My lord, an army stands idle. Shall it march, or be sent home to the fields?",
+   "subtitle": "My lord, an army stands idle. Shall it march, or be sent home to the fields?",
+   "lang": "en"
+  },
+  {
+   "id": "alert_empty_treasury",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "empty_treasury",
+   "text": "My lord, the treasury is nearly empty.",
+   "subtitle": "My lord, the treasury is nearly empty.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_unrest",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "unrest",
+   "text": "My lord, a province is close to revolt.",
+   "subtitle": "My lord, a province is close to revolt.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_shortage",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "shortage",
+   "text": "My lord, our people go short of what they need.",
+   "subtitle": "My lord, our people go short of what they need.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_unpaid_army",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "unpaid_army",
+   "text": "My lord, the soldiers have not been paid. They grumble.",
+   "subtitle": "My lord, the soldiers have not been paid. They grumble.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_manpower_low",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "manpower_low",
+   "text": "My lord, there are few men left to fill the ranks.",
+   "subtitle": "My lord, there are few men left to fill the ranks.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_no_research",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "no_research",
+   "text": "My lord, the scholars sit idle. Give them something to study.",
+   "subtitle": "My lord, the scholars sit idle. Give them something to study.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_war_exhaustion",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "war_exhaustion",
+   "text": "My lord, the people are weary of this war.",
+   "subtitle": "My lord, the people are weary of this war.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_rival_arming",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "rival_arming",
+   "text": "My lord, our rival is gathering armies on our border.",
+   "subtitle": "My lord, our rival is gathering armies on our border.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_siege_starving",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "siege_starving",
+   "text": "My lord, the besieged city is starving. It will not hold much longer.",
+   "subtitle": "My lord, the besieged city is starving. It will not hold much longer.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_loan_due",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "loan_due",
+   "text": "My lord, a loan falls due, and the lenders are waiting.",
+   "subtitle": "My lord, a loan falls due, and the lenders are waiting.",
+   "lang": "en"
+  },
+  {
+   "id": "alert_heir_missing",
+   "voice": "adviser",
+   "plays": "alert",
+   "key": "heir_missing",
+   "text": "My lord, you have no heir. Think of the succession.",
+   "subtitle": "My lord, you have no heir. Think of the succession.",
+   "lang": "en"
+  },
+  {
+   "id": "cheer_latin_io",
+   "voice": "warrior",
+   "plays": "victory_cry",
+   "key": "latin",
+   "text": "[shouting] Io triumphe! Io triumphe!",
+   "subtitle": "Hail, triumph!",
+   "lang": "la"
+  },
+  {
+   "id": "cheer_latin_victoria",
+   "voice": "warrior",
+   "plays": "victory_cry",
+   "key": "latin",
+   "text": "[shouting] Victoria! Victoria!",
+   "subtitle": "Victory! Victory!",
+   "lang": "la"
+  },
+  {
+   "id": "cheer_greek_nike",
+   "voice": "warrior",
+   "plays": "victory_cry",
+   "key": "greek",
+   "text": "[shouting] Nike! Nike!",
+   "subtitle": "Victory! Victory!",
+   "lang": "grc"
+  },
+  {
+   "id": "cheer_greek_paian",
+   "voice": "warrior",
+   "plays": "victory_cry",
+   "key": "greek",
+   "text": "[shouting] Ie Paian! Ie Paian!",
+   "subtitle": "Hail, Healer! (the victory hymn)",
+   "lang": "grc"
   }
  ]
 }
