@@ -45,7 +45,9 @@ void fragment() {
     Label _year = null!, _stage = null!, _subtitle = null!, _speedLabel = null!;
     Button _pause = null!;
     PanelContainer _aside = null!;
-    Label _asideTitle = null!, _asideText = null!;
+    Label _asideTitle = null!, _asideText = null!, _photoCredit = null!;
+    TextureRect _photo = null!;
+    Dictionary<string, (string Author, string Licence, string File)> _photos = new();
     AudioStreamPlayer _narrator = null!, _voiceAside = null!;
 
     // Where the story is: chapter, fraction of it told (0..1), and what the narrator does next.
@@ -91,6 +93,7 @@ void fragment() {
         BuildCaptions();
         BuildControls();
         BuildAside();
+        LoadPhotoCredits();
         _narrator = new AudioStreamPlayer { Name = "Narrator" };
         _voiceAside = new AudioStreamPlayer { Name = "Aside" };
         AddChild(_narrator);
@@ -229,6 +232,17 @@ void fragment() {
         _asideTitle = ThemeAncient.Label("", "HeaderLabel", 26);
         box.AddChild(_asideTitle);
         box.AddChild(ThemeAncient.Ornament(260));
+        // The place as it is today (decision "Pictures for the opening's places": free photographs).
+        _photo = new TextureRect
+        {
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize, StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
+            CustomMinimumSize = new Vector2(460, 300), Visible = false,
+        };
+        box.AddChild(_photo);
+        _photoCredit = ThemeAncient.Label("", "SubtleLabel", 13);
+        _photoCredit.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        _photoCredit.CustomMinimumSize = new Vector2(460, 0);
+        box.AddChild(_photoCredit);
         _asideText = ThemeAncient.Label("", fontSize: 18);
         _asideText.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _asideText.CustomMinimumSize = new Vector2(460, 0);
@@ -466,7 +480,31 @@ void fragment() {
         _speedLabel.Text = Speeds[_speed] switch { 0.5f => "½ ×", 1f => "1 ×", var s => $"{s:0} ×" };
     }
 
-    void OpenSite(OpeningSite site) => OpenAside(site.Name, $"From about {OpeningScript.YearText(site.Year)}", OpeningScript.SiteLine(site.Key));
+    void OpenSite(OpeningSite site)
+    {
+        OpenAside(site.Name, $"From about {OpeningScript.YearText(site.Year)}", OpeningScript.SiteLine(site.Key));
+        string path = $"{PhotoDir}{site.Key}.jpg";
+        if (ResourceLoader.Exists(path) && _photos.TryGetValue(site.Key, out var credit))
+        {
+            _photo.Texture = GD.Load<Texture2D>(path);
+            _photo.Visible = true;
+            _photoCredit.Text = $"{site.Name} today. Photo: {credit.Author}, {credit.Licence}, via Wikimedia Commons (full credits: assets/opening/sites/CREDITS.md).";
+        }
+    }
+
+    const string PhotoDir = "res://assets/opening/sites/";
+    const string PhotosPath = "res://data/opening_photos.json";
+
+    /// <summary>Who took each place's photograph and under what licence (tools/fetch_opening_photos.py).</summary>
+    void LoadPhotoCredits()
+    {
+        if (!FileAccess.FileExists(PhotosPath))
+            return;
+        using var doc = System.Text.Json.JsonDocument.Parse(FileAccess.GetFileAsString(PhotosPath));
+        foreach (var p in doc.RootElement.EnumerateObject())
+            _photos[p.Name] = (p.Value.GetProperty("author").GetString()!, p.Value.GetProperty("licence").GetString()!,
+                p.Value.GetProperty("file").GetString()!);
+    }
 
     void OpenStage(OpeningStage stage) => OpenAside("The story so far", OpeningScript.YearText(stage.Year), OpeningScript.StageLine(stage.Key));
 
@@ -478,6 +516,8 @@ void fragment() {
         _resuming = false;
         _openedWhilePaused = true;
         _asideTitle.Text = title;
+        _photo.Visible = false;
+        _photoCredit.Text = "";
         _asideText.Text = $"{when}\n\n{_lines[lineId]?.Subtitle}";
         _aside.Visible = true;
         Say(_voiceAside, lineId);

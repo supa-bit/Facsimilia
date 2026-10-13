@@ -76,7 +76,24 @@ public partial class OpeningTest : TestRunner
         Check(OpeningScript.YearIn(script.Chapters[0], 0.5) == -9500, "the clock runs evenly through a chapter");
         Check(OpeningScript.YearText(-9600) == "9,600 BC", "years are written as BC");
 
-        Finish($"Opening tests passed: {script.Chapters.Count} scenes, {script.Stages.Count} steps, {script.Sites.Count} places, {script.Frames.Count} frames of people.");
+        // Photographs of the places: each one credited, and only licences that allow any use.
+        int photos = 0;
+        if (Godot.FileAccess.FileExists("res://data/opening_photos.json"))
+        {
+            using var doc = System.Text.Json.JsonDocument.Parse(Godot.FileAccess.GetFileAsString("res://data/opening_photos.json"));
+            foreach (var p in doc.RootElement.EnumerateObject())
+            {
+                photos++;
+                string lic = p.Value.GetProperty("licence").GetString()!;
+                Check(script.Sites.Any(s => s.Key == p.Name), $"the photo {p.Name} should belong to a place");
+                Check(Godot.FileAccess.FileExists($"res://assets/opening/sites/{p.Name}.jpg"), $"the photo of {p.Name} should be there");
+                Check(!System.Text.RegularExpressions.Regex.IsMatch(lic, "NC|ND", System.Text.RegularExpressions.RegexOptions.IgnoreCase),
+                    $"the photo of {p.Name} should be free for any use, is {lic}");
+                Check(p.Value.GetProperty("author").GetString()!.Length > 0, $"the photo of {p.Name} should name its author");
+            }
+        }
+
+        Finish($"Opening tests passed: {script.Chapters.Count} scenes, {script.Stages.Count} steps, {script.Sites.Count} places, {script.Frames.Count} frames of people, {photos} photographs.");
         return Task.CompletedTask;
     }
 }
