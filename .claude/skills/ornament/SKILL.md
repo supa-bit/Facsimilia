@@ -33,9 +33,11 @@ skill is how to get it. `tools/ornament/ornament.py` does five things:
 - **Never redraw.** A strip is a cut of a real photograph. It may be
   straightened (a band on a curved pot) and evened out in light, and nothing
   more. Cracks and wear stay.
-- **Keep the object's own way up.** Never turn a strip over to make it
-  "look right". If a band hangs (points down), it goes on a top edge
-  (`--edge top`). For a bottom edge, find a real band that stands.
+- **Keep the object's own way up.** Never turn a strip over. The designer
+  caught a lotus band from Owen Jones printed points-down, and showed with
+  photographs of real ivories that the lotus stands upright. When the
+  designer questions a detail, check it against original objects; never
+  explain it away.
 - **Match the date to the people and age** it is used for. The tool shows
   the date, and the date decides.
 
@@ -64,8 +66,8 @@ Files go to `assets/ui/ornament/work/` unless `--out FOLDER` is given (put
    band. Then work out the box in the full-size photograph's pixels.
 4. **Cut.** `cut met_248904_attic_krater.jpg greek_geometric_meander 1000 640 2240 890`
    (x0 y0 x1 y1). Options:
-   - `--edge top` for a band that hangs;
-   - `--edge bottom` for one that stands;
+   - `--edge top` or `--edge bottom` records where the band sat on the
+     original: a kheker frieze crowns a wall, so it is `top`, points up;
    - `--mirror` flips left to right, for symmetric pairs only.
 
    On a round pot, cut from the middle of the band, where it faces the

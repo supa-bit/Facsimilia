@@ -83,7 +83,7 @@ NOT_ORIGINAL = [
     (r"plaster cast|\bcast of\b|electrotype", "a cast"),
     (r"reconstruct", "a reconstruction"),
     (r"restored|restoration", "heavily restored: check the record"),
-    (r"imitation|in the style of|forgery|forged|pastiche|revival", "an imitation or revival"),
+    (r"imitation|in the style of|\bin (the )?\w+ style\b|forgery|forged|pastiche|revival", "an imitation or revival"),
     (r"\b(18|19|20)th[- ]century (copy|drawing|watercolou?r)", "a later drawing"),
 ]
 
@@ -175,11 +175,12 @@ def save_sources(out, s):
 # --- finding and cutting strips --------------------------------------------------------
 
 def cut(out, photo, name, box, edge="any", flip=False, spec=None):
-    """Saves a box of a photograph as a strip. edge says which edge of a panel
-    the strip may sit on: "top" for a band that hangs, "bottom" for one that
-    stands, "any" for symmetric bands. Keep the object's own orientation:
-    never turn a strip over to make it look right. flip=True only mirrors
-    left to right (for symmetric pairs)."""
+    """Saves a box of a photograph as a strip. edge records where the band sat
+    on the original ("top" for a wall-top frieze such as the Egyptian kheker,
+    "bottom" for a base band, "any" when unknown or used anywhere). Keep the
+    object's own way up: never turn a strip over to make it look right (the
+    designer caught an upside-down lotus from a 19th-century plate; the real
+    ones stand upright). flip=True only mirrors left to right."""
     path = photo if os.path.exists(photo) else os.path.join(out, photo)
     im = Image.open(path).convert("RGB")
     strip = spec if spec is not None else im.crop(tuple(box))
@@ -292,7 +293,7 @@ def main():
         p.add_argument("numbers", nargs="+", type=int,
                        help="cut: x0 y0 x1 y1; straighten: four corners then width and height")
         p.add_argument("--edge", choices=["any", "top", "bottom"], default="any",
-                       help="top = a band that hangs, bottom = one that stands")
+                       help="where the band sat on the original: top (wall-top frieze) or bottom (base band)")
         if cmd == "cut":
             p.add_argument("--mirror", action="store_true", help="mirror left to right")
     p = sub.add_parser("tile"); p.add_argument("name")

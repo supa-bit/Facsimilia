@@ -1,4 +1,48 @@
 {
+ "assyrian_lotus_bud.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "325874",
+  "number": "67.22.8",
+  "title": "Incised furniture plaque with a frieze of lotus blossoms and buds",
+  "people": "Assyrian",
+  "place": "Mesopotamia",
+  "date": "ca. 9th–8th century BCE",
+  "material": "Ivory, paint traces",
+  "page": "https://www.metmuseum.org/art/collection/search/325874",
+  "image": "https://images.metmuseum.org/CRDImages/an/original/DP115146.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_325874_assyrian_lotus_plaque.jpg",
+  "box": [
+   2097,
+   719,
+   3654,
+   1326
+  ],
+  "edge": "any",
+  "mirrored": false
+ },
+ "egyptian_kheker_meketre.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "562132",
+  "number": "20.3.974",
+  "title": "Relief fragment, tomb of Meketre",
+  "people": "Middle Kingdom",
+  "place": "Egypt, Upper Egypt, Thebes, MMA excavations, 1920",
+  "date": "ca. 1981–1975 B.C.",
+  "material": "Limestone, paint",
+  "page": "https://www.metmuseum.org/art/collection/search/562132",
+  "image": "https://images.metmuseum.org/CRDImages/eg/original/20.3.974_01.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_562132_meketre_kheker.jpg",
+  "box": [
+   650,
+   735,
+   1165,
+   990
+  ],
+  "edge": "top",
+  "mirrored": false
+ },
  "greek_geometric_meander.png": {
   "museum": "The Metropolitan Museum of Art",
   "id": "248904",
@@ -32,6 +76,32 @@
   "material": "Terracotta",
   "page": "https://www.metmuseum.org/art/collection/search/248904",
   "image": "https://images.metmuseum.org/CRDImages/gr/original/DP-42350-001.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_325874_assyrian_lotus_plaque.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "325874",
+  "number": "67.22.8",
+  "title": "Incised furniture plaque with a frieze of lotus blossoms and buds",
+  "people": "Assyrian",
+  "place": "Mesopotamia",
+  "date": "ca. 9th–8th century BCE",
+  "material": "Ivory, paint traces",
+  "page": "https://www.metmuseum.org/art/collection/search/325874",
+  "image": "https://images.metmuseum.org/CRDImages/an/original/DP115146.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_562132_meketre_kheker.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "562132",
+  "number": "20.3.974",
+  "title": "Relief fragment, tomb of Meketre",
+  "people": "Middle Kingdom",
+  "place": "Egypt, Upper Egypt, Thebes, MMA excavations, 1920",
+  "date": "ca. 1981–1975 B.C.",
+  "material": "Limestone, paint",
+  "page": "https://www.metmuseum.org/art/collection/search/562132",
+  "image": "https://images.metmuseum.org/CRDImages/eg/original/20.3.974_01.jpg",
   "licence": "Public domain (Met Open Access, CC0)"
  }
 }
