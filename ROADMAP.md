@@ -159,7 +159,9 @@ moving to patrons); every major migration; the interface (nested hover
 cards, Codex, search, keys, size, colour-blind palettes and an easy-on-the-
 eyes mode, undo, notes, a searchable chronicle, statistics, comparing
 realms, more alerts, outliner, pinning, more map views, a guided first game
-with an adviser at court); other realms by exactly your rules; province
+with an adviser at court; the Fresco look with real ornament from
+photographs of original objects, varied by people and age, 14 Oct 2026,
+tool built: `tools/ornament/`); other realms by exactly your rules; province
 kinds as history had them, governors who can grow too strong; saves (keep
 everything, named, ironman), a Windows program, mods; music (generated
 pieces, each culture's instruments, by situation, instruments as

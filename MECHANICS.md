@@ -3218,3 +3218,28 @@ languages and An adviser:
   and is read straight from its file. When the game is first exported,
   the export needs `assets/voice/takes/*.mp3` in its "files to include"
   so chosen B takes travel with it.
+
+### The interface's ornament **(your rules, 14 Oct 2026; tool built)**
+
+You chose the Fresco look (warm plaster, a band of ornament across the top
+of each panel, a short rule under headings, rows told apart by a faint
+tint), but with real ornament, varied by people and by age. Your rules:
+
+- **Only the original objects**: photographs of things the people made
+  themselves (painted pottery, mosaics, tiles, textiles, carving,
+  manuscripts), each with its museum record (object, people, place, date,
+  museum number) as the proof.
+- **No 19th-century pattern books** (Owen Jones's *Grammar of Ornament*,
+  Racinet, Meyer): European artists' redrawings, not the ornament itself.
+- **No modern recreations**: no facsimiles, replicas, casts or
+  reconstructions. If there isn't enough proof of how it looked, it isn't
+  used.
+- **Nothing redrawn**; a band keeps its own way up (a hanging band goes on
+  a top edge only); its date must fit the people and age it stands for.
+
+The tool is `tools/ornament/ornament.py`; how to use it is in
+`.claude/skills/ornament/SKILL.md`. It searches the Met and the Cleveland
+Museum of Art (both public domain), refuses facsimiles and copies, keeps
+each object's record and writes the credits. First strip: the hatched
+meander round the rim of an Athenian krater of about 750–735 BCE (the Met,
+14.130.14).
