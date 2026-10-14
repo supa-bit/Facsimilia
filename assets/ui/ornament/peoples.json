@@ -1,0 +1,17 @@
+{
+ "_about": "Which real band goes with which people and age (designer's rules, 14 Oct 2026: only photographs of original objects; each strip's museum record is in work/sources.json and work/CREDITS.md). 'from'/'to' are years (negative = BC) the object's own date supports.",
+ "bands": [
+  {"strip": "egyptian_kheker_meketre", "peoples": ["Egyptian"], "from": -2100, "to": -1000, "object": "Kheker frieze, relief from the tomb of Meketre, c. 1981-1975 BCE"},
+  {"strip": "assyrian_lotus_bud", "peoples": ["Assyrian", "Phoenician", "Levantine"], "from": -900, "to": -600, "object": "Ivory furniture plaque, lotus blossoms and buds, 9th-8th c. BCE"},
+  {"strip": "greek_geometric_meander", "peoples": ["Greek"], "from": -900, "to": -500, "object": "Rim of an Attic Geometric krater, c. 750-735 BCE"},
+  {"strip": "persian_persepolis_rosettes", "peoples": ["Persian"], "from": -550, "to": -330, "object": "Persepolis relief, rosette band, c. 405-359 BCE"},
+  {"strip": "roman_mosaic_cubes", "peoples": ["Roman", "Latin", "Italic"], "from": -100, "to": 400, "object": "Roman mosaic floor panel, 2nd c. CE"},
+  {"strip": "chinese_shang_dragons", "peoples": ["Chinese"], "from": -1600, "to": -1000, "object": "Shang rectangular cauldron (fangding), 12th-11th c. BCE"},
+  {"strip": "byzantine_marble_interlace", "peoples": ["Byzantine", "Greek"], "from": 1000, "to": 1453, "object": "Marble panel with a griffin, interlace border, 1250-1300"},
+  {"strip": "french_hours_border_rouen", "peoples": ["French", "Frankish"], "from": 1400, "to": 1550, "edge": "side", "object": "Book of Hours leaf, Rouen, c. 1510"},
+  {"strip": "ottoman_iznik_saz_border", "peoples": ["Ottoman", "Turkish"], "from": 1500, "to": 1700, "object": "Iznik tile panel border, second half 16th c."},
+  {"strip": "indian_burhanpur_flower_band", "peoples": ["Indian", "Deccani", "Mughal"], "from": 1650, "to": 1800, "object": "Painted cotton tent lining, Burhanpur, 1700-1740"},
+  {"strip": "inca_diamond_band", "peoples": ["Inca", "Andean"], "from": 1400, "to": 1600, "object": "Tunic with diamond band, Inca, 1460-1540"}
+ ],
+ "still_missing": ["Celtic (La Tene metalwork has no flat band in the Met or Cleveland; try Commons photos under CC BY / CC BY-SA)", "Islamic Iran and Arabia without inscriptions (the lustre friezes found carry Qur'anic text, not to be cut into decoration)", "Maya (the vessels are round and their rim bands are glyph texts)", "Africa south of Egypt, Southeast Asia, Japan, Korea, the Steppe, Mesoamerica beyond the Maya, later European ages"]
+}

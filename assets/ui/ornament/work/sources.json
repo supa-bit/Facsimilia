@@ -21,6 +21,67 @@
   "edge": "any",
   "mirrored": false
  },
+ "byzantine_marble_interlace.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "472849",
+  "number": "2000.81",
+  "title": "Panel with a Griffin",
+  "people": "Byzantine",
+  "place": "Greece or the Balkans (possibly)",
+  "date": "1250–1300",
+  "material": "Marble",
+  "page": "https://www.metmuseum.org/art/collection/search/472849",
+  "image": "https://images.metmuseum.org/CRDImages/md/original/DT4642.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_472849_byzantine_griffin_panel.jpg",
+  "box": [
+   300,
+   365,
+   2620,
+   545
+  ],
+  "edge": "top",
+  "mirrored": false
+ },
+ "chinese_shang_dragons.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "60594",
+  "number": "49.135.2",
+  "title": "Rectangular cauldron (fangding)",
+  "people": "China",
+  "place": "",
+  "date": "12th–11th century BCE",
+  "material": "Bronze",
+  "page": "https://www.metmuseum.org/art/collection/search/60594",
+  "image": "https://images.metmuseum.org/CRDImages/as/original/DP140735.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_60594_shang_fangding.jpg",
+  "box": [
+   930,
+   815,
+   2480,
+   850,
+   2475,
+   1085,
+   950,
+   1050
+  ],
+  "edge": "top",
+  "mirrored": false
+ },
+ "cma_162148_book_of_hours_rouen.jpg": {
+  "museum": "The Cleveland Museum of Art",
+  "id": "162148",
+  "number": "2001.79.b",
+  "title": "Leaf from a Book of Hours: Text with Illustrated Border (verso)",
+  "people": "France, Rouen",
+  "place": "",
+  "date": "c. 1510",
+  "material": "ink, tempera, and liquid gold on vellum",
+  "page": "https://clevelandart.org/art/2001.79.b",
+  "image": "https://openaccess-cdn.clevelandart.org/2001.79.b/2001.79.b_print.jpg",
+  "licence": "CC0 (Cleveland Museum of Art Open Access)"
+ },
  "egyptian_kheker_meketre.png": {
   "museum": "The Metropolitan Museum of Art",
   "id": "562132",
@@ -41,6 +102,28 @@
    990
   ],
   "edge": "top",
+  "mirrored": false
+ },
+ "french_hours_border_rouen.png": {
+  "museum": "The Cleveland Museum of Art",
+  "id": "162148",
+  "number": "2001.79.b",
+  "title": "Leaf from a Book of Hours: Text with Illustrated Border (verso)",
+  "people": "France, Rouen",
+  "place": "",
+  "date": "c. 1510",
+  "material": "ink, tempera, and liquid gold on vellum",
+  "page": "https://clevelandart.org/art/2001.79.b",
+  "image": "https://openaccess-cdn.clevelandart.org/2001.79.b/2001.79.b_print.jpg",
+  "licence": "CC0 (Cleveland Museum of Art Open Access)",
+  "cut_from": "cma_162148_book_of_hours_rouen.jpg",
+  "box": [
+   2064,
+   90,
+   2601,
+   3210
+  ],
+  "edge": "side",
   "mirrored": false
  },
  "greek_geometric_meander.png": {
@@ -65,6 +148,50 @@
   "edge": "any",
   "mirrored": false
  },
+ "inca_diamond_band.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "314528",
+  "number": "1982.365",
+  "title": "Tunic with Diamond Band",
+  "people": "Inca",
+  "place": "Peru",
+  "date": "1460–1540",
+  "material": "Camelid hair, cotton",
+  "page": "https://www.metmuseum.org/art/collection/search/314528",
+  "image": "https://images.metmuseum.org/CRDImages/ao/original/DP107698.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_314528_inca_tunic.jpg",
+  "box": [
+   395,
+   2040,
+   3085,
+   2478
+  ],
+  "edge": "any",
+  "mirrored": false
+ },
+ "indian_burhanpur_flower_band.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "455064",
+  "number": "2005.251",
+  "title": "Panel of a Tent Lining",
+  "people": "India",
+  "place": "India, Deccan, Burhanpur",
+  "date": "1700–1740",
+  "material": "Cotton; plain weave, mordant painted and dyed, resist dyed",
+  "page": "https://www.metmuseum.org/art/collection/search/455064",
+  "image": "https://images.metmuseum.org/CRDImages/is/original/DP123176.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_455064_burhanpur_tent_lining.jpg",
+  "box": [
+   35,
+   3060,
+   2395,
+   3580
+  ],
+  "edge": "bottom",
+  "mirrored": false
+ },
  "met_248904_attic_krater.jpg": {
   "museum": "The Metropolitan Museum of Art",
   "id": "248904",
@@ -76,6 +203,45 @@
   "material": "Terracotta",
   "page": "https://www.metmuseum.org/art/collection/search/248904",
   "image": "https://images.metmuseum.org/CRDImages/gr/original/DP-42350-001.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_253565_roman_mosaic.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "253565",
+  "number": "38.11.12",
+  "title": "Mosaic floor panel",
+  "people": "Roman",
+  "place": "",
+  "date": "2nd century CE",
+  "material": "Stone, tile, and glass",
+  "page": "https://www.metmuseum.org/art/collection/search/253565",
+  "image": "https://images.metmuseum.org/CRDImages/gr/original/DP140137.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_314528_inca_tunic.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "314528",
+  "number": "1982.365",
+  "title": "Tunic with Diamond Band",
+  "people": "Inca",
+  "place": "Peru",
+  "date": "1460–1540",
+  "material": "Camelid hair, cotton",
+  "page": "https://www.metmuseum.org/art/collection/search/314528",
+  "image": "https://images.metmuseum.org/CRDImages/ao/original/DP107698.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_323723_persepolis_relief.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "323723",
+  "number": "39.133",
+  "title": "Relief: figure in a procession",
+  "people": "Achaemenid",
+  "place": "Iran",
+  "date": "ca. 405–359 BCE",
+  "material": "Limestone",
+  "page": "https://www.metmuseum.org/art/collection/search/323723",
+  "image": "https://images.metmuseum.org/CRDImages/an/original/DP-12499-017.jpg",
   "licence": "Public domain (Met Open Access, CC0)"
  },
  "met_325874_assyrian_lotus_plaque.jpg": {
@@ -91,6 +257,45 @@
   "image": "https://images.metmuseum.org/CRDImages/an/original/DP115146.jpg",
   "licence": "Public domain (Met Open Access, CC0)"
  },
+ "met_447013_iznik_tile_panel.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "447013",
+  "number": "17.190.2083",
+  "title": "Tile Panel",
+  "people": "Turkey",
+  "place": "Turkey, Iznik",
+  "date": "second half 16th century",
+  "material": "Stonepaste; polychrome painted under transparent glaze.",
+  "page": "https://www.metmuseum.org/art/collection/search/447013",
+  "image": "https://images.metmuseum.org/CRDImages/is/original/DT11978.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_455064_burhanpur_tent_lining.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "455064",
+  "number": "2005.251",
+  "title": "Panel of a Tent Lining",
+  "people": "India",
+  "place": "India, Deccan, Burhanpur",
+  "date": "1700–1740",
+  "material": "Cotton; plain weave, mordant painted and dyed, resist dyed",
+  "page": "https://www.metmuseum.org/art/collection/search/455064",
+  "image": "https://images.metmuseum.org/CRDImages/is/original/DP123176.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_472849_byzantine_griffin_panel.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "472849",
+  "number": "2000.81",
+  "title": "Panel with a Griffin",
+  "people": "Byzantine",
+  "place": "Greece or the Balkans (possibly)",
+  "date": "1250–1300",
+  "material": "Marble",
+  "page": "https://www.metmuseum.org/art/collection/search/472849",
+  "image": "https://images.metmuseum.org/CRDImages/md/original/DT4642.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
  "met_562132_meketre_kheker.jpg": {
   "museum": "The Metropolitan Museum of Art",
   "id": "562132",
@@ -103,5 +308,84 @@
   "page": "https://www.metmuseum.org/art/collection/search/562132",
   "image": "https://images.metmuseum.org/CRDImages/eg/original/20.3.974_01.jpg",
   "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "met_60594_shang_fangding.jpg": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "60594",
+  "number": "49.135.2",
+  "title": "Rectangular cauldron (fangding)",
+  "people": "China",
+  "place": "",
+  "date": "12th–11th century BCE",
+  "material": "Bronze",
+  "page": "https://www.metmuseum.org/art/collection/search/60594",
+  "image": "https://images.metmuseum.org/CRDImages/as/original/DP140735.jpg",
+  "licence": "Public domain (Met Open Access, CC0)"
+ },
+ "ottoman_iznik_saz_border.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "447013",
+  "number": "17.190.2083",
+  "title": "Tile Panel",
+  "people": "Turkey",
+  "place": "Turkey, Iznik",
+  "date": "second half 16th century",
+  "material": "Stonepaste; polychrome painted under transparent glaze.",
+  "page": "https://www.metmuseum.org/art/collection/search/447013",
+  "image": "https://images.metmuseum.org/CRDImages/is/original/DT11978.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_447013_iznik_tile_panel.jpg",
+  "box": [
+   560,
+   235,
+   3115,
+   575
+  ],
+  "edge": "top",
+  "mirrored": false
+ },
+ "persian_persepolis_rosettes.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "323723",
+  "number": "39.133",
+  "title": "Relief: figure in a procession",
+  "people": "Achaemenid",
+  "place": "Iran",
+  "date": "ca. 405–359 BCE",
+  "material": "Limestone",
+  "page": "https://www.metmuseum.org/art/collection/search/323723",
+  "image": "https://images.metmuseum.org/CRDImages/an/original/DP-12499-017.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_323723_persepolis_relief.jpg",
+  "box": [
+   760,
+   230,
+   1960,
+   790
+  ],
+  "edge": "top",
+  "mirrored": false
+ },
+ "roman_mosaic_cubes.png": {
+  "museum": "The Metropolitan Museum of Art",
+  "id": "253565",
+  "number": "38.11.12",
+  "title": "Mosaic floor panel",
+  "people": "Roman",
+  "place": "",
+  "date": "2nd century CE",
+  "material": "Stone, tile, and glass",
+  "page": "https://www.metmuseum.org/art/collection/search/253565",
+  "image": "https://images.metmuseum.org/CRDImages/gr/original/DP140137.jpg",
+  "licence": "Public domain (Met Open Access, CC0)",
+  "cut_from": "met_253565_roman_mosaic.jpg",
+  "box": [
+   400,
+   57,
+   3080,
+   680
+  ],
+  "edge": "top",
+  "mirrored": false
  }
 }

@@ -83,7 +83,7 @@ NOT_ORIGINAL = [
     (r"plaster cast|\bcast of\b|electrotype", "a cast"),
     (r"reconstruct", "a reconstruction"),
     (r"restored|restoration", "heavily restored: check the record"),
-    (r"imitation|in the style of|\bin (the )?\w+ style\b|forgery|forged|pastiche|revival", "an imitation or revival"),
+    (r"imitation|in the style of|\bin (the )?\w+ style\b|forgery|forged|pastiche|revival|-inspired|inspired by", "an imitation or revival"),
     (r"\b(18|19|20)th[- ]century (copy|drawing|watercolou?r)", "a later drawing"),
 ]
 
@@ -99,14 +99,20 @@ def not_original(*texts):
 def met_search(q, limit):
     data = json.loads(get("https://collectionapi.metmuseum.org/public/collection/v1.1/search?"
                           + urllib.parse.urlencode({"q": q, "hasImages": "true", "limit": limit})))
-    return [met_record(i) for i in (data.get("objectIDs") or [])[:limit]]
+    found = []
+    for i in (data.get("objectIDs") or [])[:limit]:
+        try:
+            found.append(met_record(i))
+        except urllib.error.HTTPError as e:   # the search index lists some records the museum has withdrawn
+            print(f"  {i}: record not available ({e.code}), skipped", file=sys.stderr)
+    return found
 
 
 def met_record(oid):
     d = json.loads(get(f"https://collectionapi.metmuseum.org/public/collection/v1/objects/{oid}"))
     place = ", ".join(x for x in (d.get("country"), d.get("region"), d.get("city"), d.get("excavation")) if x)
     return {"museum": "The Metropolitan Museum of Art", "id": str(oid), "number": d.get("accessionNumber"),
-            "title": d.get("title"), "people": d.get("culture") or d.get("period") or d.get("dynasty"),
+            "title": d.get("title"), "people": d.get("culture") or d.get("dynasty") or d.get("period") or d.get("country"),
             "place": place, "date": d.get("objectDate"), "material": d.get("medium"),
             "page": d.get("objectURL"), "image": d.get("primaryImage"),
             "licence": "Public domain (Met Open Access, CC0)" if d.get("isPublicDomain") else None,
@@ -275,7 +281,7 @@ def credits(out):
             where = ", ".join(x for x in (v.get("people"), v.get("place"), v.get("date")) if x)
             lines.append(f"- `{k}`: {v.get('title', '?')} ({where}); {v.get('material') or ''}. "
                          f"{v.get('museum', '?')} {v.get('number') or ''}, {v.get('page') or ''}. {v.get('licence', '?')}."
-                         + (f" Sits on the {v['edge']} edge." if v.get("edge") in ("top", "bottom") else ""))
+                         + (f" Sits on the {v['edge']} edge." if v.get("edge") in ("top", "bottom", "side") else ""))
     with open(os.path.join(out, "CREDITS.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
     print(os.path.join(out, "CREDITS.md"))
@@ -292,8 +298,8 @@ def main():
         p = sub.add_parser(cmd); p.add_argument("photo"); p.add_argument("name")
         p.add_argument("numbers", nargs="+", type=int,
                        help="cut: x0 y0 x1 y1; straighten: four corners then width and height")
-        p.add_argument("--edge", choices=["any", "top", "bottom"], default="any",
-                       help="where the band sat on the original: top (wall-top frieze) or bottom (base band)")
+        p.add_argument("--edge", choices=["any", "top", "bottom", "side"], default="any",
+                       help="where the band sat on the original: top (wall-top frieze), bottom (base band) or side (an upright border, as in a manuscript margin)")
         if cmd == "cut":
             p.add_argument("--mirror", action="store_true", help="mirror left to right")
     p = sub.add_parser("tile"); p.add_argument("name")
