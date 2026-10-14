@@ -523,6 +523,8 @@ public partial class MapView
         ProvinceLog(ProvinceOfNode(defArmy.Node >= 0 ? defArmy.Node : attArmy.Node),
             $"{report.Title}: {RealmName(report.AttackerWon ? att.RealmId : def.RealmId)} defeats {RealmName(report.AttackerWon ? def.RealmId : att.RealmId)}.");
         var (winS, winA, loseS, loseA) = report.AttackerWon ? (att, attArmy, def, defArmy) : (def, defArmy, att, attArmy);
+        GeneralDeeds(winS.GeneralOf(winA), true);
+        GeneralDeeds(loseS.GeneralOf(loseA), false);
         MaybeFall(loseS, loseS.GeneralOf(loseA), rng, events);
         var war = Game.Wars.Between(att.RealmId, def.RealmId);
         if (war != null)

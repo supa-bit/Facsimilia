@@ -107,6 +107,8 @@ public sealed class RealmState
     public HashSet<string> Techs { get; } = new();
     /// <summary>The effects of the wonders the realm holds, worked out each year (not saved).</summary>
     public Dictionary<string, double> WonderEffects { get; } = new();
+    /// <summary>The effects of the ruler's skills and traits (CharacterRegistry.RulerEffects), worked out each year (not saved).</summary>
+    public Dictionary<string, double> RulerEffects { get; } = new();
     /// <summary>
     /// Research by branch (decision "Researching several at once"): the share
     /// of effort each branch gets, the points it has gathered, and what it studies.

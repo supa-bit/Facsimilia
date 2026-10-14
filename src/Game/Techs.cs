@@ -129,7 +129,7 @@ public sealed class TechCatalog
     /// <summary>The sum of one effect over what a realm knows, and the wonders it holds.</summary>
     public double Effect(RealmState r, string key)
     {
-        double sum = r.WonderEffects.GetValueOrDefault(key);
+        double sum = r.WonderEffects.GetValueOrDefault(key) + r.RulerEffects.GetValueOrDefault(key);
         foreach (var id in r.Techs)
             if (this[id] is { } t)
                 sum += t.Effect(key);

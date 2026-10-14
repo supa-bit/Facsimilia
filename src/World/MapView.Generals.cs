@@ -40,6 +40,10 @@ public partial class MapView
     General NewGeneral(RealmState s, string name, string origin, int born, int characterId, Random rng)
     {
         var g = General.Make(s.NextGeneralId++, name, origin, born, characterId, rng, DemoYear);
+        // A family member commands with his own war skills (the last five of his twelve).
+        if (characterId >= 0 && Registry.Characters.TryGetValue(characterId, out var c))
+            for (int k = 0; k < Skills.Count; k++)
+                g.BaseSkills[k] = Math.Clamp(Registry.Skill(c, CharSkills.FirstWar + k, DemoYear), 1, 10);
         s.Generals.Add(g);
         return g;
     }
@@ -187,6 +191,21 @@ public partial class MapView
         return NewGeneral(s, c.Name, General.Family, c.BirthYear, c.Id, new Random(StableHash.Of(characterId, 131)));
     }
 
+    /// <summary>A family commander's deeds become part of who he is: victor, famed commander, veteran, defeated.</summary>
+    void GeneralDeeds(General? g, bool won)
+    {
+        if (g == null || g.CharacterId < 0 || !Registry.Characters.TryGetValue(g.CharacterId, out var c) || !c.IsAlive)
+            return;
+        if (won && g.Victories >= 3)
+            Registry.AddTrait(c, "victor");
+        if (won && g.Victories >= 8)
+            Registry.AddTrait(c, "famous_commander");
+        if (g.Battles >= 5)
+            Registry.AddTrait(c, "wounded_veteran");
+        if (!won && g.Battles - g.Victories >= 3)
+            Registry.AddTrait(c, "defeated");
+    }
+
     /// <summary>A beaten general may fall on the field.</summary>
     void MaybeFall(RealmState s, General? g, Random rng, List<ChronicleEvent> events)
     {
@@ -199,7 +218,7 @@ public partial class MapView
         {
             bool ruler = Registry.Realms.TryGetValue(s.RealmId, out var r) && r.RulerId == c.Id;
             if (!ruler)
-                Registry.Kill(c, DemoYear);   // a ruler's death in battle is left to the succession rules
+                Registry.Kill(c, DemoYear, DeathCauses.Battle);   // a ruler's death in battle is left to the succession rules
         }
         events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"{g.Name} of {RealmName(s.RealmId)} falls in battle."));
     }

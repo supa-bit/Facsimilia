@@ -1,0 +1,4376 @@
+{
+ "about": "Character traits (decision 'Traits': at least 250, personality, education, health, body, lifestyle and earned ones; partly inherited), plus faith and philosophy, bloodline, reputation (the designer's four new kinds, 14 Oct 2026) and bonds between two people. group (faith): religion (one, from one's people), devotion (a mystery cult) or philosophy (a school). opinion (reputation): what strangers think of the holder. skills: added to the character's skills (each 1-10, 5 ordinary). effects: what the trait does to the realm while its holder rules (the same keys as technologies: tax, research, unrest, corruption, integration, growth, siege...). opposite: traits that cannot be held together and make two people dislike each other. inherit: chance a child takes it from each parent who has it. health: death risk multiplier. fertility: chance of children multiplier.",
+ "traits": [
+  {
+   "id": "brave",
+   "name": "Brave",
+   "kind": "personality",
+   "description": "Faces danger without flinching.",
+   "skills": {
+    "leadership": 2,
+    "tactics": 1
+   },
+   "opposite": [
+    "craven"
+   ]
+  },
+  {
+   "id": "craven",
+   "name": "Craven",
+   "kind": "personality",
+   "description": "Avoids danger at any cost.",
+   "skills": {
+    "leadership": -2,
+    "intrigue": 1
+   },
+   "opposite": [
+    "brave"
+   ]
+  },
+  {
+   "id": "just",
+   "name": "Just",
+   "kind": "personality",
+   "description": "Judges fairly, high and low alike.",
+   "skills": {
+    "statecraft": 2
+   },
+   "effects": {
+    "unrest": -0.02,
+    "corruption": -0.01
+   },
+   "opposite": [
+    "arbitrary"
+   ]
+  },
+  {
+   "id": "arbitrary",
+   "name": "Arbitrary",
+   "kind": "personality",
+   "description": "Judges as the mood takes him.",
+   "skills": {
+    "statecraft": -2,
+    "intrigue": 1
+   },
+   "effects": {
+    "unrest": 0.015
+   },
+   "opposite": [
+    "just"
+   ]
+  },
+  {
+   "id": "kind",
+   "name": "Kind",
+   "kind": "personality",
+   "description": "Gentle with servants, children and the defeated.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "effects": {
+    "unrest": -0.01
+   },
+   "opposite": [
+    "cruel"
+   ]
+  },
+  {
+   "id": "cruel",
+   "name": "Cruel",
+   "kind": "personality",
+   "description": "Takes pleasure in others' pain.",
+   "skills": {
+    "diplomacy": -2,
+    "intrigue": 1
+   },
+   "effects": {
+    "unrest": 0.02,
+    "integration": -0.02
+   },
+   "opposite": [
+    "kind"
+   ]
+  },
+  {
+   "id": "generous",
+   "name": "Generous",
+   "kind": "personality",
+   "description": "Gives freely: feasts, gifts, largesse.",
+   "skills": {
+    "diplomacy": 1,
+    "oratory": 1
+   },
+   "effects": {
+    "tax": -0.02,
+    "unrest": -0.01
+   },
+   "opposite": [
+    "greedy"
+   ]
+  },
+  {
+   "id": "greedy",
+   "name": "Greedy",
+   "kind": "personality",
+   "description": "Wants more, and takes it.",
+   "skills": {
+    "stewardship": 2,
+    "diplomacy": -1
+   },
+   "effects": {
+    "tax": 0.02,
+    "unrest": 0.01,
+    "corruption": 0.01
+   },
+   "opposite": [
+    "generous"
+   ]
+  },
+  {
+   "id": "honest",
+   "name": "Honest",
+   "kind": "personality",
+   "description": "Says what is true, even when it costs.",
+   "skills": {
+    "diplomacy": 1,
+    "intrigue": -2
+   },
+   "opposite": [
+    "deceitful"
+   ]
+  },
+  {
+   "id": "deceitful",
+   "name": "Deceitful",
+   "kind": "personality",
+   "description": "Lies easily and well.",
+   "skills": {
+    "intrigue": 2,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "honest"
+   ]
+  },
+  {
+   "id": "humble",
+   "name": "Humble",
+   "kind": "personality",
+   "description": "Seeks no praise.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "proud"
+   ]
+  },
+  {
+   "id": "proud",
+   "name": "Proud",
+   "kind": "personality",
+   "description": "Nothing is beneath him; much is beneath others.",
+   "skills": {
+    "oratory": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "humble"
+   ]
+  },
+  {
+   "id": "patient",
+   "name": "Patient",
+   "kind": "personality",
+   "description": "Waits for the right moment.",
+   "skills": {
+    "stewardship": 1,
+    "siegecraft": 1
+   },
+   "opposite": [
+    "wrathful"
+   ]
+  },
+  {
+   "id": "wrathful",
+   "name": "Wrathful",
+   "kind": "personality",
+   "description": "Quick to anger and slow to forgive.",
+   "skills": {
+    "tactics": 1,
+    "diplomacy": -2
+   },
+   "effects": {
+    "unrest": 0.01
+   },
+   "opposite": [
+    "patient"
+   ]
+  },
+  {
+   "id": "diligent",
+   "name": "Diligent",
+   "kind": "personality",
+   "description": "Works long and checks the accounts himself.",
+   "skills": {
+    "stewardship": 1,
+    "statecraft": 1,
+    "learning": 1
+   },
+   "effects": {
+    "corruption": -0.01
+   },
+   "opposite": [
+    "slothful"
+   ]
+  },
+  {
+   "id": "slothful",
+   "name": "Slothful",
+   "kind": "personality",
+   "description": "Leaves the work to others.",
+   "skills": {
+    "stewardship": -1,
+    "statecraft": -1,
+    "learning": -1
+   },
+   "effects": {
+    "corruption": 0.01
+   },
+   "opposite": [
+    "diligent"
+   ]
+  },
+  {
+   "id": "temperate",
+   "name": "Temperate",
+   "kind": "personality",
+   "description": "Moderate in food and drink.",
+   "skills": {
+    "stewardship": 1
+   },
+   "opposite": [
+    "gluttonous"
+   ]
+  },
+  {
+   "id": "gluttonous",
+   "name": "Gluttonous",
+   "kind": "personality",
+   "description": "Eats and drinks past all measure.",
+   "skills": {
+    "stewardship": -1
+   },
+   "opposite": [
+    "temperate"
+   ]
+  },
+  {
+   "id": "chaste",
+   "name": "Chaste",
+   "kind": "personality",
+   "description": "Keeps to his marriage bed, or none.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "lustful"
+   ]
+  },
+  {
+   "id": "lustful",
+   "name": "Lustful",
+   "kind": "personality",
+   "description": "Chases pleasure, and others' wives.",
+   "skills": {
+    "intrigue": 1
+   },
+   "opposite": [
+    "chaste"
+   ]
+  },
+  {
+   "id": "trusting",
+   "name": "Trusting",
+   "kind": "personality",
+   "description": "Believes the best of people.",
+   "skills": {
+    "diplomacy": 1,
+    "intrigue": -2
+   },
+   "opposite": [
+    "paranoid"
+   ]
+  },
+  {
+   "id": "paranoid",
+   "name": "Paranoid",
+   "kind": "personality",
+   "description": "Sees plots everywhere, some of them real.",
+   "skills": {
+    "intrigue": 2,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "trusting"
+   ]
+  },
+  {
+   "id": "gregarious",
+   "name": "Gregarious",
+   "kind": "personality",
+   "description": "Loves company, talk and feasts.",
+   "skills": {
+    "diplomacy": 1,
+    "oratory": 1
+   },
+   "opposite": [
+    "shy"
+   ]
+  },
+  {
+   "id": "shy",
+   "name": "Shy",
+   "kind": "personality",
+   "description": "Avoids crowds and speeches.",
+   "skills": {
+    "oratory": -2,
+    "learning": 1
+   },
+   "opposite": [
+    "gregarious"
+   ]
+  },
+  {
+   "id": "content",
+   "name": "Content",
+   "kind": "personality",
+   "description": "Wants nothing more than what he has.",
+   "skills": {
+    "stewardship": 1
+   },
+   "opposite": [
+    "ambitious"
+   ]
+  },
+  {
+   "id": "ambitious",
+   "name": "Ambitious",
+   "kind": "personality",
+   "description": "Wants more: power, glory, a throne.",
+   "skills": {
+    "statecraft": 1,
+    "intrigue": 1,
+    "leadership": 1
+   },
+   "opposite": [
+    "content"
+   ]
+  },
+  {
+   "id": "calm",
+   "name": "Calm",
+   "kind": "personality",
+   "description": "Unshaken in crisis.",
+   "skills": {
+    "intrigue": 1,
+    "tactics": 1
+   },
+   "opposite": [
+    "rash"
+   ]
+  },
+  {
+   "id": "rash",
+   "name": "Rash",
+   "kind": "personality",
+   "description": "Acts first and thinks later.",
+   "skills": {
+    "tactics": -1,
+    "leadership": 1
+   },
+   "opposite": [
+    "calm"
+   ]
+  },
+  {
+   "id": "forgiving",
+   "name": "Forgiving",
+   "kind": "personality",
+   "description": "Lets old wrongs lie.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "effects": {
+    "integration": 0.01
+   },
+   "opposite": [
+    "vengeful"
+   ]
+  },
+  {
+   "id": "vengeful",
+   "name": "Vengeful",
+   "kind": "personality",
+   "description": "Never forgets a wrong.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "forgiving"
+   ]
+  },
+  {
+   "id": "pious",
+   "name": "Pious",
+   "kind": "personality",
+   "description": "Honours the gods in all things.",
+   "skills": {
+    "piety": 2
+   },
+   "effects": {
+    "unrest": -0.01
+   },
+   "opposite": [
+    "cynical"
+   ]
+  },
+  {
+   "id": "cynical",
+   "name": "Cynical",
+   "kind": "personality",
+   "description": "Doubts the gods and those who speak for them.",
+   "skills": {
+    "piety": -2,
+    "learning": 1
+   },
+   "opposite": [
+    "pious"
+   ]
+  },
+  {
+   "id": "zealous",
+   "name": "Zealous",
+   "kind": "personality",
+   "description": "Would see the gods honoured everywhere, by force if need be.",
+   "skills": {
+    "piety": 2,
+    "diplomacy": -1
+   },
+   "effects": {
+    "integration": -0.02
+   },
+   "opposite": [
+    "tolerant"
+   ]
+  },
+  {
+   "id": "tolerant",
+   "name": "Tolerant",
+   "kind": "personality",
+   "description": "Lets every people keep its gods.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "effects": {
+    "integration": 0.02
+   },
+   "opposite": [
+    "zealous"
+   ]
+  },
+  {
+   "id": "modest",
+   "name": "Modest",
+   "kind": "personality",
+   "description": "Dresses plainly and lives simply.",
+   "skills": {
+    "stewardship": 1
+   },
+   "opposite": [
+    "vain"
+   ]
+  },
+  {
+   "id": "vain",
+   "name": "Vain",
+   "kind": "personality",
+   "description": "Loves fine clothes, flattery and statues of himself.",
+   "skills": {
+    "oratory": 1,
+    "stewardship": -1
+   },
+   "opposite": [
+    "modest"
+   ]
+  },
+  {
+   "id": "loyal",
+   "name": "Loyal",
+   "kind": "personality",
+   "description": "Keeps faith with lord, kin and friends.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "opposite": [
+    "fickle"
+   ]
+  },
+  {
+   "id": "fickle",
+   "name": "Fickle",
+   "kind": "personality",
+   "description": "Changes friends and sides with the wind.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "loyal"
+   ]
+  },
+  {
+   "id": "cautious",
+   "name": "Cautious",
+   "kind": "personality",
+   "description": "Weighs every risk.",
+   "skills": {
+    "logistics": 1,
+    "tactics": 1
+   },
+   "opposite": [
+    "reckless"
+   ]
+  },
+  {
+   "id": "reckless",
+   "name": "Reckless",
+   "kind": "personality",
+   "description": "Gambles everything on the throw.",
+   "skills": {
+    "leadership": 1,
+    "logistics": -1
+   },
+   "opposite": [
+    "cautious"
+   ]
+  },
+  {
+   "id": "merciful",
+   "name": "Merciful",
+   "kind": "personality",
+   "description": "Spares the beaten.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "effects": {
+    "integration": 0.01
+   },
+   "opposite": [
+    "ruthless"
+   ]
+  },
+  {
+   "id": "ruthless",
+   "name": "Ruthless",
+   "kind": "personality",
+   "description": "Does what must be done, whatever it costs others.",
+   "skills": {
+    "statecraft": 1,
+    "intrigue": 1
+   },
+   "effects": {
+    "unrest": 0.01
+   },
+   "opposite": [
+    "merciful"
+   ]
+  },
+  {
+   "id": "cheerful",
+   "name": "Cheerful",
+   "kind": "personality",
+   "description": "Lifts every room he enters.",
+   "skills": {
+    "oratory": 1,
+    "diplomacy": 1
+   },
+   "opposite": [
+    "melancholic"
+   ]
+  },
+  {
+   "id": "melancholic",
+   "name": "Melancholic",
+   "kind": "personality",
+   "description": "Darkness sits on him; the old physicians blamed black bile.",
+   "skills": {
+    "learning": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "cheerful"
+   ]
+  },
+  {
+   "id": "curious",
+   "name": "Curious",
+   "kind": "personality",
+   "description": "Asks why, and how, and what lies beyond.",
+   "skills": {
+    "learning": 2
+   },
+   "effects": {
+    "research": 0.02
+   },
+   "opposite": [
+    "incurious"
+   ]
+  },
+  {
+   "id": "incurious",
+   "name": "Incurious",
+   "kind": "personality",
+   "description": "Content with what his fathers knew.",
+   "skills": {
+    "learning": -2
+   },
+   "opposite": [
+    "curious"
+   ]
+  },
+  {
+   "id": "frugal",
+   "name": "Frugal",
+   "kind": "personality",
+   "description": "Spends nothing he need not.",
+   "skills": {
+    "stewardship": 2
+   },
+   "effects": {
+    "tax": 0.01
+   },
+   "opposite": [
+    "extravagant"
+   ]
+  },
+  {
+   "id": "extravagant",
+   "name": "Extravagant",
+   "kind": "personality",
+   "description": "Spends as if the treasury had no floor.",
+   "skills": {
+    "stewardship": -2,
+    "oratory": 1
+   },
+   "effects": {
+    "tax": -0.02
+   },
+   "opposite": [
+    "frugal"
+   ]
+  },
+  {
+   "id": "steadfast",
+   "name": "Steadfast",
+   "kind": "personality",
+   "description": "Holds his course whatever comes.",
+   "skills": {
+    "leadership": 1
+   },
+   "opposite": [
+    "wavering"
+   ]
+  },
+  {
+   "id": "wavering",
+   "name": "Wavering",
+   "kind": "personality",
+   "description": "Cannot make up his mind.",
+   "skills": {
+    "leadership": -1,
+    "statecraft": -1
+   },
+   "opposite": [
+    "steadfast"
+   ]
+  },
+  {
+   "id": "eloquent",
+   "name": "Eloquent",
+   "kind": "personality",
+   "description": "Speaks beautifully, and men listen.",
+   "skills": {
+    "oratory": 2
+   },
+   "effects": {
+    "unrest": -0.01
+   },
+   "opposite": [
+    "tongue_tied"
+   ]
+  },
+  {
+   "id": "tongue_tied",
+   "name": "Tongue-tied",
+   "kind": "personality",
+   "description": "Stumbles over his words.",
+   "skills": {
+    "oratory": -2
+   },
+   "opposite": [
+    "eloquent"
+   ]
+  },
+  {
+   "id": "shrewd",
+   "name": "Shrewd",
+   "kind": "personality",
+   "description": "Sees the angle in every bargain.",
+   "skills": {
+    "intrigue": 1,
+    "stewardship": 1
+   },
+   "opposite": [
+    "gullible"
+   ]
+  },
+  {
+   "id": "gullible",
+   "name": "Gullible",
+   "kind": "personality",
+   "description": "Believes what he is told.",
+   "skills": {
+    "intrigue": -2
+   },
+   "opposite": [
+    "shrewd"
+   ]
+  },
+  {
+   "id": "disciplined",
+   "name": "Disciplined",
+   "kind": "personality",
+   "description": "Keeps himself and others to the rule.",
+   "skills": {
+    "leadership": 1,
+    "logistics": 1
+   },
+   "opposite": [
+    "wayward"
+   ]
+  },
+  {
+   "id": "wayward",
+   "name": "Wayward",
+   "kind": "personality",
+   "description": "Will not be ruled, even by himself.",
+   "skills": {
+    "leadership": -1
+   },
+   "opposite": [
+    "disciplined"
+   ]
+  },
+  {
+   "id": "hospitable",
+   "name": "Hospitable",
+   "kind": "personality",
+   "description": "No guest leaves his house unfed.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "opposite": [
+    "suspicious"
+   ]
+  },
+  {
+   "id": "suspicious",
+   "name": "Suspicious",
+   "kind": "personality",
+   "description": "Trusts no stranger at his table.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "hospitable"
+   ]
+  },
+  {
+   "id": "stubborn",
+   "name": "Stubborn",
+   "kind": "personality",
+   "description": "Will not yield an inch.",
+   "skills": {
+    "siegecraft": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "pliable"
+   ]
+  },
+  {
+   "id": "pliable",
+   "name": "Pliable",
+   "kind": "personality",
+   "description": "Bends to whoever spoke last.",
+   "skills": {
+    "diplomacy": 1,
+    "statecraft": -1
+   },
+   "opposite": [
+    "stubborn"
+   ]
+  },
+  {
+   "id": "energetic",
+   "name": "Energetic",
+   "kind": "personality",
+   "description": "Rides at dawn and works past midnight.",
+   "skills": {
+    "leadership": 1,
+    "logistics": 1
+   },
+   "opposite": [
+    "languid"
+   ]
+  },
+  {
+   "id": "languid",
+   "name": "Languid",
+   "kind": "personality",
+   "description": "Rises late and moves slowly.",
+   "skills": {
+    "logistics": -1
+   },
+   "opposite": [
+    "energetic"
+   ]
+  },
+  {
+   "id": "honourable",
+   "name": "Honourable",
+   "kind": "personality",
+   "description": "Keeps his oaths, to friend and foe.",
+   "skills": {
+    "diplomacy": 2,
+    "intrigue": -1
+   },
+   "opposite": [
+    "treacherous"
+   ]
+  },
+  {
+   "id": "treacherous",
+   "name": "Treacherous",
+   "kind": "personality",
+   "description": "Breaks oaths when it pays.",
+   "skills": {
+    "intrigue": 2,
+    "diplomacy": -2
+   },
+   "opposite": [
+    "honourable"
+   ]
+  },
+  {
+   "id": "witty",
+   "name": "Witty",
+   "kind": "personality",
+   "description": "Quick with a jest that cuts.",
+   "skills": {
+    "oratory": 1,
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "stoic",
+   "name": "Stoic",
+   "kind": "personality",
+   "description": "Bears pain and loss without complaint, as Zeno taught.",
+   "skills": {
+    "learning": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "superstitious",
+   "name": "Superstitious",
+   "kind": "personality",
+   "description": "Reads omens in birds, dreams and entrails.",
+   "skills": {
+    "piety": 1,
+    "learning": -1
+   }
+  },
+  {
+   "id": "sadistic",
+   "name": "Sadistic",
+   "kind": "personality",
+   "description": "Cruelty is his pleasure, not his tool.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -3
+   },
+   "effects": {
+    "unrest": 0.03
+   }
+  },
+  {
+   "id": "compassionate",
+   "name": "Compassionate",
+   "kind": "personality",
+   "description": "Feels others' suffering as his own.",
+   "skills": {
+    "diplomacy": 2,
+    "intrigue": -1
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "callous",
+   "name": "Callous",
+   "kind": "personality",
+   "description": "Feels nothing for others.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "eccentric",
+   "name": "Eccentric",
+   "kind": "personality",
+   "description": "Odd in his habits and his tastes.",
+   "skills": {
+    "learning": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "flatterer",
+   "name": "Flatterer",
+   "kind": "personality",
+   "description": "Tells the powerful what they wish to hear.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": 1,
+    "oratory": -1
+   }
+  },
+  {
+   "id": "blunt",
+   "name": "Blunt",
+   "kind": "personality",
+   "description": "Says what he thinks, to anyone.",
+   "skills": {
+    "oratory": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "secretive",
+   "name": "Secretive",
+   "kind": "personality",
+   "description": "Keeps his own counsel.",
+   "skills": {
+    "intrigue": 2
+   }
+  },
+  {
+   "id": "charismatic",
+   "name": "Charismatic",
+   "kind": "personality",
+   "description": "Men follow him without knowing why.",
+   "skills": {
+    "leadership": 2,
+    "oratory": 1
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "arrogant",
+   "name": "Arrogant",
+   "kind": "personality",
+   "description": "Despises his equals and ignores his betters.",
+   "skills": {
+    "diplomacy": -2,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "fearless",
+   "name": "Fearless",
+   "kind": "personality",
+   "description": "Has never known fear.",
+   "skills": {
+    "leadership": 2
+   }
+  },
+  {
+   "id": "timid",
+   "name": "Timid",
+   "kind": "personality",
+   "description": "Startles at shadows.",
+   "skills": {
+    "leadership": -2
+   }
+  },
+  {
+   "id": "dutiful",
+   "name": "Dutiful",
+   "kind": "personality",
+   "description": "Does what is asked of him, and more.",
+   "skills": {
+    "statecraft": 1,
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "rebellious",
+   "name": "Rebellious",
+   "kind": "personality",
+   "description": "Defies every authority over him.",
+   "skills": {
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "romantic",
+   "name": "Romantic",
+   "kind": "personality",
+   "description": "Loves deeply and writes about it.",
+   "skills": {
+    "oratory": 1
+   }
+  },
+  {
+   "id": "jealous",
+   "name": "Jealous",
+   "kind": "personality",
+   "description": "Cannot bear another's good fortune.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "devoted",
+   "name": "Devoted",
+   "kind": "personality",
+   "description": "Gives himself wholly to those he loves.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "edu_statecraft_novice",
+   "name": "Taught in statecraft",
+   "kind": "education",
+   "description": "Raised and schooled in statecraft.",
+   "skills": {
+    "statecraft": 1
+   }
+  },
+  {
+   "id": "edu_statecraft_trained",
+   "name": "Trained in statecraft",
+   "kind": "education",
+   "description": "Raised and schooled in statecraft.",
+   "skills": {
+    "statecraft": 2
+   }
+  },
+  {
+   "id": "edu_statecraft_learned",
+   "name": "Accomplished in statecraft",
+   "kind": "education",
+   "description": "Raised and schooled in statecraft.",
+   "skills": {
+    "statecraft": 3
+   }
+  },
+  {
+   "id": "edu_statecraft_master",
+   "name": "Master of statecraft",
+   "kind": "education",
+   "description": "Raised and schooled in statecraft.",
+   "skills": {
+    "statecraft": 5
+   }
+  },
+  {
+   "id": "edu_stewardship_novice",
+   "name": "Taught in stewardship",
+   "kind": "education",
+   "description": "Raised and schooled in stewardship.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "edu_stewardship_trained",
+   "name": "Trained in stewardship",
+   "kind": "education",
+   "description": "Raised and schooled in stewardship.",
+   "skills": {
+    "stewardship": 2
+   }
+  },
+  {
+   "id": "edu_stewardship_learned",
+   "name": "Accomplished in stewardship",
+   "kind": "education",
+   "description": "Raised and schooled in stewardship.",
+   "skills": {
+    "stewardship": 3
+   }
+  },
+  {
+   "id": "edu_stewardship_master",
+   "name": "Master of stewardship",
+   "kind": "education",
+   "description": "Raised and schooled in stewardship.",
+   "skills": {
+    "stewardship": 5
+   }
+  },
+  {
+   "id": "edu_diplomacy_novice",
+   "name": "Taught in diplomacy",
+   "kind": "education",
+   "description": "Raised and schooled in diplomacy.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "edu_diplomacy_trained",
+   "name": "Trained in diplomacy",
+   "kind": "education",
+   "description": "Raised and schooled in diplomacy.",
+   "skills": {
+    "diplomacy": 2
+   }
+  },
+  {
+   "id": "edu_diplomacy_learned",
+   "name": "Accomplished in diplomacy",
+   "kind": "education",
+   "description": "Raised and schooled in diplomacy.",
+   "skills": {
+    "diplomacy": 3
+   }
+  },
+  {
+   "id": "edu_diplomacy_master",
+   "name": "Master of diplomacy",
+   "kind": "education",
+   "description": "Raised and schooled in diplomacy.",
+   "skills": {
+    "diplomacy": 5
+   }
+  },
+  {
+   "id": "edu_intrigue_novice",
+   "name": "Taught in intrigue",
+   "kind": "education",
+   "description": "Raised and schooled in intrigue.",
+   "skills": {
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "edu_intrigue_trained",
+   "name": "Trained in intrigue",
+   "kind": "education",
+   "description": "Raised and schooled in intrigue.",
+   "skills": {
+    "intrigue": 2
+   }
+  },
+  {
+   "id": "edu_intrigue_learned",
+   "name": "Accomplished in intrigue",
+   "kind": "education",
+   "description": "Raised and schooled in intrigue.",
+   "skills": {
+    "intrigue": 3
+   }
+  },
+  {
+   "id": "edu_intrigue_master",
+   "name": "Master of intrigue",
+   "kind": "education",
+   "description": "Raised and schooled in intrigue.",
+   "skills": {
+    "intrigue": 5
+   }
+  },
+  {
+   "id": "edu_learning_novice",
+   "name": "Taught in learning",
+   "kind": "education",
+   "description": "Raised and schooled in learning.",
+   "skills": {
+    "learning": 1
+   }
+  },
+  {
+   "id": "edu_learning_trained",
+   "name": "Trained in learning",
+   "kind": "education",
+   "description": "Raised and schooled in learning.",
+   "skills": {
+    "learning": 2
+   }
+  },
+  {
+   "id": "edu_learning_learned",
+   "name": "Accomplished in learning",
+   "kind": "education",
+   "description": "Raised and schooled in learning.",
+   "skills": {
+    "learning": 3
+   }
+  },
+  {
+   "id": "edu_learning_master",
+   "name": "Master of learning",
+   "kind": "education",
+   "description": "Raised and schooled in learning.",
+   "skills": {
+    "learning": 5
+   }
+  },
+  {
+   "id": "edu_piety_novice",
+   "name": "Taught in the sacred rites",
+   "kind": "education",
+   "description": "Raised and schooled in the sacred rites.",
+   "skills": {
+    "piety": 1
+   }
+  },
+  {
+   "id": "edu_piety_trained",
+   "name": "Trained in the sacred rites",
+   "kind": "education",
+   "description": "Raised and schooled in the sacred rites.",
+   "skills": {
+    "piety": 2
+   }
+  },
+  {
+   "id": "edu_piety_learned",
+   "name": "Accomplished in the sacred rites",
+   "kind": "education",
+   "description": "Raised and schooled in the sacred rites.",
+   "skills": {
+    "piety": 3
+   }
+  },
+  {
+   "id": "edu_piety_master",
+   "name": "Master of the sacred rites",
+   "kind": "education",
+   "description": "Raised and schooled in the sacred rites.",
+   "skills": {
+    "piety": 5
+   }
+  },
+  {
+   "id": "edu_oratory_novice",
+   "name": "Taught in oratory",
+   "kind": "education",
+   "description": "Raised and schooled in oratory.",
+   "skills": {
+    "oratory": 1
+   }
+  },
+  {
+   "id": "edu_oratory_trained",
+   "name": "Trained in oratory",
+   "kind": "education",
+   "description": "Raised and schooled in oratory.",
+   "skills": {
+    "oratory": 2
+   }
+  },
+  {
+   "id": "edu_oratory_learned",
+   "name": "Accomplished in oratory",
+   "kind": "education",
+   "description": "Raised and schooled in oratory.",
+   "skills": {
+    "oratory": 3
+   }
+  },
+  {
+   "id": "edu_oratory_master",
+   "name": "Master of oratory",
+   "kind": "education",
+   "description": "Raised and schooled in oratory.",
+   "skills": {
+    "oratory": 5
+   }
+  },
+  {
+   "id": "edu_tactics_novice",
+   "name": "Taught in tactics",
+   "kind": "education",
+   "description": "Raised and schooled in tactics.",
+   "skills": {
+    "tactics": 1
+   }
+  },
+  {
+   "id": "edu_tactics_trained",
+   "name": "Trained in tactics",
+   "kind": "education",
+   "description": "Raised and schooled in tactics.",
+   "skills": {
+    "tactics": 2
+   }
+  },
+  {
+   "id": "edu_tactics_learned",
+   "name": "Accomplished in tactics",
+   "kind": "education",
+   "description": "Raised and schooled in tactics.",
+   "skills": {
+    "tactics": 3
+   }
+  },
+  {
+   "id": "edu_tactics_master",
+   "name": "Master of tactics",
+   "kind": "education",
+   "description": "Raised and schooled in tactics.",
+   "skills": {
+    "tactics": 5
+   }
+  },
+  {
+   "id": "edu_leadership_novice",
+   "name": "Taught in command",
+   "kind": "education",
+   "description": "Raised and schooled in command.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "edu_leadership_trained",
+   "name": "Trained in command",
+   "kind": "education",
+   "description": "Raised and schooled in command.",
+   "skills": {
+    "leadership": 2
+   }
+  },
+  {
+   "id": "edu_leadership_learned",
+   "name": "Accomplished in command",
+   "kind": "education",
+   "description": "Raised and schooled in command.",
+   "skills": {
+    "leadership": 3
+   }
+  },
+  {
+   "id": "edu_leadership_master",
+   "name": "Master of command",
+   "kind": "education",
+   "description": "Raised and schooled in command.",
+   "skills": {
+    "leadership": 5
+   }
+  },
+  {
+   "id": "edu_siegecraft_novice",
+   "name": "Taught in siegecraft",
+   "kind": "education",
+   "description": "Raised and schooled in siegecraft.",
+   "skills": {
+    "siegecraft": 1
+   }
+  },
+  {
+   "id": "edu_siegecraft_trained",
+   "name": "Trained in siegecraft",
+   "kind": "education",
+   "description": "Raised and schooled in siegecraft.",
+   "skills": {
+    "siegecraft": 2
+   }
+  },
+  {
+   "id": "edu_siegecraft_learned",
+   "name": "Accomplished in siegecraft",
+   "kind": "education",
+   "description": "Raised and schooled in siegecraft.",
+   "skills": {
+    "siegecraft": 3
+   }
+  },
+  {
+   "id": "edu_siegecraft_master",
+   "name": "Master of siegecraft",
+   "kind": "education",
+   "description": "Raised and schooled in siegecraft.",
+   "skills": {
+    "siegecraft": 5
+   }
+  },
+  {
+   "id": "edu_logistics_novice",
+   "name": "Taught in logistics",
+   "kind": "education",
+   "description": "Raised and schooled in logistics.",
+   "skills": {
+    "logistics": 1
+   }
+  },
+  {
+   "id": "edu_logistics_trained",
+   "name": "Trained in logistics",
+   "kind": "education",
+   "description": "Raised and schooled in logistics.",
+   "skills": {
+    "logistics": 2
+   }
+  },
+  {
+   "id": "edu_logistics_learned",
+   "name": "Accomplished in logistics",
+   "kind": "education",
+   "description": "Raised and schooled in logistics.",
+   "skills": {
+    "logistics": 3
+   }
+  },
+  {
+   "id": "edu_logistics_master",
+   "name": "Master of logistics",
+   "kind": "education",
+   "description": "Raised and schooled in logistics.",
+   "skills": {
+    "logistics": 5
+   }
+  },
+  {
+   "id": "edu_seamanship_novice",
+   "name": "Taught in seamanship",
+   "kind": "education",
+   "description": "Raised and schooled in seamanship.",
+   "skills": {
+    "seamanship": 1
+   }
+  },
+  {
+   "id": "edu_seamanship_trained",
+   "name": "Trained in seamanship",
+   "kind": "education",
+   "description": "Raised and schooled in seamanship.",
+   "skills": {
+    "seamanship": 2
+   }
+  },
+  {
+   "id": "edu_seamanship_learned",
+   "name": "Accomplished in seamanship",
+   "kind": "education",
+   "description": "Raised and schooled in seamanship.",
+   "skills": {
+    "seamanship": 3
+   }
+  },
+  {
+   "id": "edu_seamanship_master",
+   "name": "Master of seamanship",
+   "kind": "education",
+   "description": "Raised and schooled in seamanship.",
+   "skills": {
+    "seamanship": 5
+   }
+  },
+  {
+   "id": "hale",
+   "name": "Hale",
+   "kind": "health",
+   "description": "Never ill a day in his life.",
+   "inherit": 0.2,
+   "health": 0.7,
+   "fertility": 1.1
+  },
+  {
+   "id": "sickly",
+   "name": "Sickly",
+   "kind": "health",
+   "description": "Always ailing.",
+   "skills": {
+    "leadership": -1
+   },
+   "inherit": 0.2,
+   "health": 1.8,
+   "fertility": 0.8
+  },
+  {
+   "id": "wounded",
+   "name": "Wounded",
+   "kind": "health",
+   "description": "Carries a wound that has not healed.",
+   "skills": {
+    "leadership": -1
+   },
+   "health": 1.3
+  },
+  {
+   "id": "maimed",
+   "name": "Maimed",
+   "kind": "health",
+   "description": "Lost a hand, a foot or an eye in war.",
+   "skills": {
+    "leadership": -1,
+    "tactics": -1
+   },
+   "health": 1.2
+  },
+  {
+   "id": "one_eyed",
+   "name": "One-eyed",
+   "kind": "health",
+   "description": "Lost an eye, as Philip of Macedon and Antigonus did.",
+   "skills": {
+    "tactics": -1
+   }
+  },
+  {
+   "id": "scarred",
+   "name": "Scarred",
+   "kind": "health",
+   "description": "Battle scars across his face and arms.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "gout",
+   "name": "Gouty",
+   "kind": "health",
+   "description": "His joints swell with the rich man's disease.",
+   "skills": {
+    "logistics": -1
+   },
+   "inherit": 0.1,
+   "health": 1.2
+  },
+  {
+   "id": "consumptive",
+   "name": "Consumptive",
+   "kind": "health",
+   "description": "Coughing blood: the wasting sickness.",
+   "skills": {
+    "leadership": -1,
+    "stewardship": -1
+   },
+   "health": 3.0,
+   "fertility": 0.7
+  },
+  {
+   "id": "pox_scarred",
+   "name": "Pox-scarred",
+   "kind": "health",
+   "description": "Survived the pox; it left its marks.",
+   "health": 0.9
+  },
+  {
+   "id": "fever_survivor",
+   "name": "Survived the fever",
+   "kind": "health",
+   "description": "Lived through the marsh fever; it comes back each summer.",
+   "health": 1.2
+  },
+  {
+   "id": "epileptic",
+   "name": "Epileptic",
+   "kind": "health",
+   "description": "Has the falling sickness, which some call sacred.",
+   "skills": {
+    "piety": 1
+   },
+   "inherit": 0.1,
+   "health": 1.4,
+   "fertility": 0.9
+  },
+  {
+   "id": "lunatic",
+   "name": "Mad",
+   "kind": "health",
+   "description": "His mind has broken.",
+   "skills": {
+    "statecraft": -3,
+    "diplomacy": -2
+   },
+   "effects": {
+    "unrest": 0.03
+   },
+   "inherit": 0.1,
+   "health": 1.3,
+   "fertility": 0.8
+  },
+  {
+   "id": "infirm",
+   "name": "Infirm",
+   "kind": "health",
+   "description": "Old age has weakened body and mind.",
+   "skills": {
+    "statecraft": -1,
+    "leadership": -2
+   },
+   "health": 1.6,
+   "fertility": 0.5
+  },
+  {
+   "id": "barren",
+   "name": "Barren",
+   "kind": "health",
+   "description": "Can have no children.",
+   "fertility": 0.0
+  },
+  {
+   "id": "blind",
+   "name": "Blind",
+   "kind": "health",
+   "description": "Has lost his sight.",
+   "skills": {
+    "tactics": -3,
+    "leadership": -2,
+    "learning": -1
+   },
+   "health": 1.3
+  },
+  {
+   "id": "deaf",
+   "name": "Deaf",
+   "kind": "health",
+   "description": "Cannot hear.",
+   "skills": {
+    "diplomacy": -1,
+    "oratory": -1
+   },
+   "inherit": 0.1
+  },
+  {
+   "id": "lame",
+   "name": "Lame",
+   "kind": "health",
+   "description": "Walks with a stick.",
+   "skills": {
+    "leadership": -1
+   },
+   "health": 1.1
+  },
+  {
+   "id": "leper",
+   "name": "Leprous",
+   "kind": "health",
+   "description": "Has leprosy, and is shunned.",
+   "skills": {
+    "diplomacy": -3
+   },
+   "effects": {
+    "unrest": 0.02
+   },
+   "health": 1.6,
+   "fertility": 0.6
+  },
+  {
+   "id": "weak_heart",
+   "name": "Weak heart",
+   "kind": "health",
+   "description": "His heart flutters and fails him.",
+   "inherit": 0.2,
+   "health": 1.6
+  },
+  {
+   "id": "drunk_liver",
+   "name": "Wasted by wine",
+   "kind": "health",
+   "description": "Years of drink have ruined his body.",
+   "skills": {
+    "stewardship": -1
+   },
+   "health": 1.5,
+   "fertility": 0.8
+  },
+  {
+   "id": "plague_survivor",
+   "name": "Survived the plague",
+   "kind": "health",
+   "description": "Lived through the pestilence."
+  },
+  {
+   "id": "robust",
+   "name": "Robust",
+   "kind": "health",
+   "description": "Strong of body; illness slides off him.",
+   "skills": {
+    "leadership": 1
+   },
+   "inherit": 0.25,
+   "health": 0.8,
+   "fertility": 1.1
+  },
+  {
+   "id": "nearsighted",
+   "name": "Short-sighted",
+   "kind": "health",
+   "description": "Sees clearly only what is close.",
+   "skills": {
+    "tactics": -1,
+    "learning": 1
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "migraines",
+   "name": "Headaches",
+   "kind": "health",
+   "description": "Blinding headaches lay him low for days.",
+   "skills": {
+    "statecraft": -1
+   },
+   "inherit": 0.1
+  },
+  {
+   "id": "stammer",
+   "name": "Stammer",
+   "kind": "health",
+   "description": "Words catch in his throat.",
+   "skills": {
+    "oratory": -2
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "pregnancy_hard",
+   "name": "Hard births",
+   "kind": "health",
+   "description": "Her births are dangerous.",
+   "inherit": 0.15,
+   "fertility": 0.9
+  },
+  {
+   "id": "crippled",
+   "name": "Crippled",
+   "kind": "health",
+   "description": "Cannot walk without help.",
+   "skills": {
+    "leadership": -2,
+    "tactics": -1
+   },
+   "health": 1.3,
+   "fertility": 0.9
+  },
+  {
+   "id": "melancholia",
+   "name": "Black bile",
+   "kind": "health",
+   "description": "Falls into long, dark despairs.",
+   "skills": {
+    "statecraft": -1
+   },
+   "inherit": 0.1,
+   "health": 1.2,
+   "fertility": 0.9
+  },
+  {
+   "id": "long_lived",
+   "name": "Long-lived",
+   "kind": "health",
+   "description": "Comes of a line that lives long.",
+   "inherit": 0.3,
+   "health": 0.8
+  },
+  {
+   "id": "frail",
+   "name": "Frail",
+   "kind": "health",
+   "description": "Thin and easily tired.",
+   "skills": {
+    "leadership": -1
+   },
+   "inherit": 0.25,
+   "health": 1.3,
+   "fertility": 0.9
+  },
+  {
+   "id": "tall",
+   "name": "Tall",
+   "kind": "body",
+   "description": "A head above other men.",
+   "skills": {
+    "leadership": 1
+   },
+   "opposite": [
+    "short"
+   ],
+   "inherit": 0.4
+  },
+  {
+   "id": "short",
+   "name": "Short",
+   "kind": "body",
+   "description": "Shorter than most.",
+   "opposite": [
+    "tall"
+   ],
+   "inherit": 0.4
+  },
+  {
+   "id": "strong",
+   "name": "Strong",
+   "kind": "body",
+   "description": "Strong as an ox.",
+   "skills": {
+    "leadership": 1,
+    "tactics": 1
+   },
+   "opposite": [
+    "weak"
+   ],
+   "inherit": 0.4,
+   "health": 0.9
+  },
+  {
+   "id": "weak",
+   "name": "Weak",
+   "kind": "body",
+   "description": "Weak in the arm.",
+   "skills": {
+    "leadership": -1
+   },
+   "opposite": [
+    "strong"
+   ],
+   "inherit": 0.4,
+   "health": 1.1
+  },
+  {
+   "id": "handsome",
+   "name": "Handsome",
+   "kind": "body",
+   "description": "Fair to look on, and knows it.",
+   "skills": {
+    "diplomacy": 1,
+    "oratory": 1
+   },
+   "opposite": [
+    "ugly"
+   ],
+   "inherit": 0.4,
+   "fertility": 1.1
+  },
+  {
+   "id": "ugly",
+   "name": "Ugly",
+   "kind": "body",
+   "description": "Hard to look at.",
+   "skills": {
+    "diplomacy": -1
+   },
+   "opposite": [
+    "handsome"
+   ],
+   "inherit": 0.4,
+   "fertility": 0.9
+  },
+  {
+   "id": "beautiful",
+   "name": "Beautiful",
+   "kind": "body",
+   "description": "Of famous beauty, the talk of courts.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "inherit": 0.3,
+   "fertility": 1.15
+  },
+  {
+   "id": "quick_witted",
+   "name": "Quick-witted",
+   "kind": "body",
+   "description": "Learns anything fast.",
+   "skills": {
+    "learning": 2,
+    "intrigue": 1,
+    "statecraft": 1
+   },
+   "opposite": [
+    "slow"
+   ],
+   "inherit": 0.35
+  },
+  {
+   "id": "slow",
+   "name": "Slow",
+   "kind": "body",
+   "description": "Learns little, and slowly.",
+   "skills": {
+    "learning": -2,
+    "statecraft": -1
+   },
+   "opposite": [
+    "quick_witted"
+   ],
+   "inherit": 0.35
+  },
+  {
+   "id": "genius",
+   "name": "Genius",
+   "kind": "body",
+   "description": "A mind such as comes once in a generation.",
+   "skills": {
+    "learning": 4,
+    "statecraft": 2,
+    "intrigue": 1
+   },
+   "inherit": 0.15
+  },
+  {
+   "id": "simple",
+   "name": "Simple",
+   "kind": "body",
+   "description": "Of simple mind.",
+   "skills": {
+    "learning": -3,
+    "statecraft": -2,
+    "intrigue": -2
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "giant",
+   "name": "Giant",
+   "kind": "body",
+   "description": "Huge as the heroes of old.",
+   "skills": {
+    "leadership": 2
+   },
+   "opposite": [
+    "dwarf"
+   ],
+   "inherit": 0.2,
+   "health": 1.2
+  },
+  {
+   "id": "dwarf",
+   "name": "Dwarf",
+   "kind": "body",
+   "description": "Small as a child.",
+   "skills": {
+    "leadership": -1
+   },
+   "opposite": [
+    "giant"
+   ],
+   "inherit": 0.2,
+   "health": 1.1,
+   "fertility": 0.8
+  },
+  {
+   "id": "hunchback",
+   "name": "Hunchbacked",
+   "kind": "body",
+   "description": "His back is bent.",
+   "skills": {
+    "diplomacy": -1
+   },
+   "inherit": 0.15,
+   "health": 1.1,
+   "fertility": 0.9
+  },
+  {
+   "id": "clubfoot",
+   "name": "Club-footed",
+   "kind": "body",
+   "description": "Born with a twisted foot.",
+   "skills": {
+    "leadership": -1
+   },
+   "inherit": 0.15
+  },
+  {
+   "id": "harelip",
+   "name": "Hare-lipped",
+   "kind": "body",
+   "description": "Born with a split lip.",
+   "skills": {
+    "oratory": -1
+   },
+   "inherit": 0.15
+  },
+  {
+   "id": "albino",
+   "name": "Pale as milk",
+   "kind": "body",
+   "description": "White of hair and skin, red of eye.",
+   "inherit": 0.1,
+   "health": 1.1
+  },
+  {
+   "id": "fertile",
+   "name": "Fertile",
+   "kind": "body",
+   "description": "Comes of a line with many children.",
+   "opposite": [
+    "low_fertility"
+   ],
+   "inherit": 0.35,
+   "fertility": 1.4
+  },
+  {
+   "id": "low_fertility",
+   "name": "Few children",
+   "kind": "body",
+   "description": "Comes of a line with few children.",
+   "opposite": [
+    "fertile"
+   ],
+   "inherit": 0.35,
+   "fertility": 0.6
+  },
+  {
+   "id": "twin",
+   "name": "A twin",
+   "kind": "body",
+   "description": "Born with a brother or sister."
+  },
+  {
+   "id": "left_handed",
+   "name": "Left-handed",
+   "kind": "body",
+   "description": "Holds the sword in the wrong hand, and wins with it.",
+   "skills": {
+    "tactics": 1
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "sharp_eyed",
+   "name": "Sharp-eyed",
+   "kind": "body",
+   "description": "Sees the hawk before others see the hill.",
+   "skills": {
+    "tactics": 1,
+    "seamanship": 1
+   },
+   "inherit": 0.3
+  },
+  {
+   "id": "great_voice",
+   "name": "Great voice",
+   "kind": "body",
+   "description": "A voice that carries across the assembly.",
+   "skills": {
+    "oratory": 2,
+    "leadership": 1
+   },
+   "inherit": 0.25
+  },
+  {
+   "id": "fat",
+   "name": "Fat",
+   "kind": "body",
+   "description": "Heavy of body.",
+   "skills": {
+    "logistics": -1
+   },
+   "opposite": [
+    "lean"
+   ],
+   "inherit": 0.25,
+   "health": 1.2,
+   "fertility": 0.9
+  },
+  {
+   "id": "lean",
+   "name": "Lean",
+   "kind": "body",
+   "description": "Lean and hard.",
+   "skills": {
+    "logistics": 1
+   },
+   "opposite": [
+    "fat"
+   ],
+   "inherit": 0.25,
+   "health": 0.95
+  },
+  {
+   "id": "red_haired",
+   "name": "Red-haired",
+   "kind": "body",
+   "description": "Hair like fire, said to mark a hot temper.",
+   "inherit": 0.4
+  },
+  {
+   "id": "fair_haired",
+   "name": "Fair-haired",
+   "kind": "body",
+   "description": "Golden hair, rare in the south.",
+   "inherit": 0.4
+  },
+  {
+   "id": "bald",
+   "name": "Bald",
+   "kind": "body",
+   "description": "Lost his hair young.",
+   "inherit": 0.4
+  },
+  {
+   "id": "birthmark",
+   "name": "Birthmark",
+   "kind": "body",
+   "description": "Born with a mark the soothsayers argue over.",
+   "skills": {
+    "piety": 1
+   },
+   "inherit": 0.1
+  },
+  {
+   "id": "musical_ear",
+   "name": "Musical ear",
+   "kind": "body",
+   "description": "Hears every note true.",
+   "skills": {
+    "oratory": 1
+   },
+   "inherit": 0.3
+  },
+  {
+   "id": "spirited_horseman",
+   "name": "Born horseman",
+   "kind": "body",
+   "description": "Rides as if born on horseback.",
+   "skills": {
+    "tactics": 1,
+    "leadership": 1
+   },
+   "inherit": 0.3
+  },
+  {
+   "id": "photographic",
+   "name": "Great memory",
+   "kind": "body",
+   "description": "Forgets nothing he has seen or heard.",
+   "skills": {
+    "learning": 2,
+    "stewardship": 1
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "ambidextrous",
+   "name": "Ambidextrous",
+   "kind": "body",
+   "description": "Fights with either hand.",
+   "skills": {
+    "tactics": 1
+   },
+   "inherit": 0.2
+  },
+  {
+   "id": "tough",
+   "name": "Tough",
+   "kind": "body",
+   "description": "Endures hunger, cold and pain.",
+   "skills": {
+    "logistics": 1,
+    "leadership": 1
+   },
+   "inherit": 0.3,
+   "health": 0.9
+  },
+  {
+   "id": "delicate",
+   "name": "Delicate",
+   "kind": "body",
+   "description": "Fine-boned and fragile.",
+   "skills": {
+    "diplomacy": 1,
+    "leadership": -1
+   },
+   "inherit": 0.3,
+   "health": 1.15
+  },
+  {
+   "id": "hunter",
+   "name": "Hunter",
+   "kind": "lifestyle",
+   "description": "Lives for the hunt: boar, lion, deer.",
+   "skills": {
+    "tactics": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "horseman",
+   "name": "Horseman",
+   "kind": "lifestyle",
+   "description": "Breeds and rides the finest horses.",
+   "skills": {
+    "tactics": 1
+   }
+  },
+  {
+   "id": "charioteer",
+   "name": "Charioteer",
+   "kind": "lifestyle",
+   "description": "Races chariots, at Olympia if he can.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "athlete",
+   "name": "Athlete",
+   "kind": "lifestyle",
+   "description": "Trains in the gymnasium every day.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "olympic_victor",
+   "name": "Victor at the Games",
+   "kind": "lifestyle",
+   "description": "Won the olive crown at Olympia, or at the Pythian Games.",
+   "skills": {
+    "oratory": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "poet",
+   "name": "Poet",
+   "kind": "lifestyle",
+   "description": "Writes verses and has them read at feasts.",
+   "skills": {
+    "oratory": 2,
+    "learning": 1
+   }
+  },
+  {
+   "id": "philosopher",
+   "name": "Philosopher",
+   "kind": "lifestyle",
+   "description": "Studies with the philosophers, and argues.",
+   "skills": {
+    "learning": 2,
+    "statecraft": 1
+   },
+   "effects": {
+    "research": 0.01
+   }
+  },
+  {
+   "id": "historian",
+   "name": "Historian",
+   "kind": "lifestyle",
+   "description": "Writes the history of his own times.",
+   "skills": {
+    "learning": 2
+   }
+  },
+  {
+   "id": "astronomer",
+   "name": "Astronomer",
+   "kind": "lifestyle",
+   "description": "Watches the heavens and keeps their tables.",
+   "skills": {
+    "learning": 2,
+    "seamanship": 1
+   },
+   "effects": {
+    "research": 0.01
+   }
+  },
+  {
+   "id": "physician",
+   "name": "Physician",
+   "kind": "lifestyle",
+   "description": "Studies the body and its humours.",
+   "skills": {
+    "learning": 2
+   },
+   "effects": {
+    "growth": 0.005
+   }
+  },
+  {
+   "id": "mathematician",
+   "name": "Geometer",
+   "kind": "lifestyle",
+   "description": "Delights in number and figure.",
+   "skills": {
+    "learning": 2,
+    "siegecraft": 1
+   }
+  },
+  {
+   "id": "engineer",
+   "name": "Engineer",
+   "kind": "lifestyle",
+   "description": "Designs machines of war and of peace.",
+   "skills": {
+    "siegecraft": 2,
+    "learning": 1
+   },
+   "effects": {
+    "siege": 0.03
+   }
+  },
+  {
+   "id": "architect",
+   "name": "Builder",
+   "kind": "lifestyle",
+   "description": "Loves to plan and raise great buildings.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "patron",
+   "name": "Patron of the arts",
+   "kind": "lifestyle",
+   "description": "Keeps poets, sculptors and philosophers at court.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "effects": {
+    "research": 0.01
+   }
+  },
+  {
+   "id": "collector",
+   "name": "Collector",
+   "kind": "lifestyle",
+   "description": "Gathers statues, books and curiosities.",
+   "skills": {
+    "learning": 1
+   }
+  },
+  {
+   "id": "musician",
+   "name": "Musician",
+   "kind": "lifestyle",
+   "description": "Plays the lyre or the pipes.",
+   "skills": {
+    "oratory": 1
+   }
+  },
+  {
+   "id": "gardener",
+   "name": "Gardener",
+   "kind": "lifestyle",
+   "description": "Tends a famous garden of rare plants.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "mystic",
+   "name": "Mystic",
+   "kind": "lifestyle",
+   "description": "Seeks the gods in trance, dream and mystery rites.",
+   "skills": {
+    "piety": 2
+   }
+  },
+  {
+   "id": "initiate",
+   "name": "Initiate of the Mysteries",
+   "kind": "lifestyle",
+   "description": "Has seen the secret rites at Eleusis or Samothrace.",
+   "skills": {
+    "piety": 1
+   }
+  },
+  {
+   "id": "ascetic",
+   "name": "Ascetic",
+   "kind": "lifestyle",
+   "description": "Denies himself every comfort.",
+   "skills": {
+    "piety": 2,
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "drunkard",
+   "name": "Drunkard",
+   "kind": "lifestyle",
+   "description": "Rarely sober after noon.",
+   "skills": {
+    "stewardship": -2,
+    "statecraft": -1
+   }
+  },
+  {
+   "id": "gambler",
+   "name": "Gambler",
+   "kind": "lifestyle",
+   "description": "Throws the knucklebones for high stakes.",
+   "skills": {
+    "intrigue": 1,
+    "stewardship": -1
+   }
+  },
+  {
+   "id": "reveller",
+   "name": "Reveller",
+   "kind": "lifestyle",
+   "description": "Feasts, drinks and dances through the night.",
+   "skills": {
+    "diplomacy": 1,
+    "stewardship": -1
+   }
+  },
+  {
+   "id": "sailor",
+   "name": "Seafarer",
+   "kind": "lifestyle",
+   "description": "Has sailed far and knows the winds.",
+   "skills": {
+    "seamanship": 2
+   }
+  },
+  {
+   "id": "merchant",
+   "name": "Merchant at heart",
+   "kind": "lifestyle",
+   "description": "Trades on his own account.",
+   "skills": {
+    "stewardship": 2
+   },
+   "effects": {
+    "tax": 0.01
+   }
+  },
+  {
+   "id": "lawgiver",
+   "name": "Lawgiver",
+   "kind": "lifestyle",
+   "description": "Studies and writes the laws.",
+   "skills": {
+    "statecraft": 2
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "orator",
+   "name": "Orator",
+   "kind": "lifestyle",
+   "description": "Trained in the art of speaking before crowds.",
+   "skills": {
+    "oratory": 2
+   }
+  },
+  {
+   "id": "schemer",
+   "name": "Schemer",
+   "kind": "lifestyle",
+   "description": "Spins plots for their own sake.",
+   "skills": {
+    "intrigue": 2
+   }
+  },
+  {
+   "id": "duellist",
+   "name": "Duellist",
+   "kind": "lifestyle",
+   "description": "Fights single combat for honour.",
+   "skills": {
+    "tactics": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "traveller",
+   "name": "Traveller",
+   "kind": "lifestyle",
+   "description": "Has seen Egypt, Babylon and the edge of the world.",
+   "skills": {
+    "diplomacy": 1,
+    "learning": 1
+   }
+  },
+  {
+   "id": "linguist",
+   "name": "Speaks many tongues",
+   "kind": "lifestyle",
+   "description": "Speaks Greek, Aramaic, Egyptian and more.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "effects": {
+    "integration": 0.01
+   }
+  },
+  {
+   "id": "falconer",
+   "name": "Falconer",
+   "kind": "lifestyle",
+   "description": "Hunts with hawks.",
+   "skills": {
+    "tactics": 1
+   }
+  },
+  {
+   "id": "wrestler",
+   "name": "Wrestler",
+   "kind": "lifestyle",
+   "description": "Wrestles in the palaestra.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "scholar",
+   "name": "Scholar",
+   "kind": "lifestyle",
+   "description": "Reads everything and writes commentaries.",
+   "skills": {
+    "learning": 3
+   },
+   "effects": {
+    "research": 0.01
+   }
+  },
+  {
+   "id": "priest",
+   "name": "Holds a priesthood",
+   "kind": "lifestyle",
+   "description": "Serves a god in his own temple.",
+   "skills": {
+    "piety": 2
+   }
+  },
+  {
+   "id": "diviner",
+   "name": "Diviner",
+   "kind": "lifestyle",
+   "description": "Reads the will of the gods in signs.",
+   "skills": {
+    "piety": 1,
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "strategist",
+   "name": "Student of war",
+   "kind": "lifestyle",
+   "description": "Reads Xenophon and the generals' memoirs.",
+   "skills": {
+    "tactics": 2,
+    "logistics": 1
+   }
+  },
+  {
+   "id": "shipwright",
+   "name": "Shipwright",
+   "kind": "lifestyle",
+   "description": "Knows how ships are built and why they sink.",
+   "skills": {
+    "seamanship": 2
+   }
+  },
+  {
+   "id": "administrator",
+   "name": "Administrator",
+   "kind": "lifestyle",
+   "description": "Loves lists, accounts and offices.",
+   "skills": {
+    "stewardship": 1,
+    "statecraft": 1
+   },
+   "effects": {
+    "corruption": -0.01
+   }
+  },
+  {
+   "id": "bibliophile",
+   "name": "Lover of books",
+   "kind": "lifestyle",
+   "description": "Buys books by the cartload.",
+   "skills": {
+    "learning": 1
+   }
+  },
+  {
+   "id": "pilgrim",
+   "name": "Pilgrim",
+   "kind": "lifestyle",
+   "description": "Has visited the great shrines: Delphi, Siwa, Delos.",
+   "skills": {
+    "piety": 2
+   }
+  },
+  {
+   "id": "connoisseur",
+   "name": "Connoisseur",
+   "kind": "lifestyle",
+   "description": "Knows good wine, good food and good art.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "sculptor",
+   "name": "Sculptor",
+   "kind": "lifestyle",
+   "description": "Carves stone with his own hands.",
+   "skills": {
+    "learning": 1
+   }
+  },
+  {
+   "id": "hedonist",
+   "name": "Hedonist",
+   "kind": "lifestyle",
+   "description": "Lives for pleasure, as Aristippus taught.",
+   "skills": {
+    "diplomacy": 1,
+    "piety": -1
+   }
+  },
+  {
+   "id": "dancer",
+   "name": "Dancer",
+   "kind": "lifestyle",
+   "description": "Dances well at feasts.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "breeder",
+   "name": "Horse breeder",
+   "kind": "lifestyle",
+   "description": "Breeds horses famous across the land.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "letters",
+   "name": "Man of letters",
+   "kind": "lifestyle",
+   "description": "Writes letters that are copied and read everywhere.",
+   "skills": {
+    "diplomacy": 1,
+    "oratory": 1
+   }
+  },
+  {
+   "id": "cook",
+   "name": "Gourmet",
+   "kind": "lifestyle",
+   "description": "Keeps the best cook in the kingdom.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "craftsman",
+   "name": "Craftsman",
+   "kind": "lifestyle",
+   "description": "Works metal or wood with his own hands.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "trainer",
+   "name": "Trainer of soldiers",
+   "kind": "lifestyle",
+   "description": "Drills the men himself.",
+   "skills": {
+    "leadership": 2
+   }
+  },
+  {
+   "id": "conqueror",
+   "name": "Conqueror",
+   "kind": "earned",
+   "description": "Has taken great lands by the sword.",
+   "skills": {
+    "leadership": 2,
+    "tactics": 1
+   }
+  },
+  {
+   "id": "victor",
+   "name": "Victorious general",
+   "kind": "earned",
+   "description": "Won a great battle.",
+   "skills": {
+    "tactics": 1,
+    "leadership": 1
+   }
+  },
+  {
+   "id": "defeated",
+   "name": "Defeated",
+   "kind": "earned",
+   "description": "Lost a great battle and lives with it.",
+   "skills": {
+    "leadership": -1
+   }
+  },
+  {
+   "id": "defender",
+   "name": "Defender of the realm",
+   "kind": "earned",
+   "description": "Held the realm against invasion.",
+   "skills": {
+    "leadership": 1,
+    "siegecraft": 1
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "liberator",
+   "name": "Liberator",
+   "kind": "earned",
+   "description": "Freed a city from its tyrant or its conqueror.",
+   "skills": {
+    "oratory": 1
+   }
+  },
+  {
+   "id": "founder",
+   "name": "Founder of cities",
+   "kind": "earned",
+   "description": "Founded a city that bears his name.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "peacemaker",
+   "name": "Peacemaker",
+   "kind": "earned",
+   "description": "Made a peace that held.",
+   "skills": {
+    "diplomacy": 2
+   }
+  },
+  {
+   "id": "wonder_builder",
+   "name": "Builder of wonders",
+   "kind": "earned",
+   "description": "Finished one of the wonders of the world.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "usurper",
+   "name": "Usurper",
+   "kind": "earned",
+   "description": "Took the throne that was another's.",
+   "skills": {
+    "intrigue": 1
+   },
+   "effects": {
+    "unrest": 0.02
+   }
+  },
+  {
+   "id": "kinslayer",
+   "name": "Kinslayer",
+   "kind": "earned",
+   "description": "Killed one of his own blood.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -2
+   },
+   "effects": {
+    "unrest": 0.02
+   }
+  },
+  {
+   "id": "parricide",
+   "name": "Parricide",
+   "kind": "earned",
+   "description": "Killed his own father or mother.",
+   "skills": {
+    "diplomacy": -3
+   },
+   "effects": {
+    "unrest": 0.03
+   }
+  },
+  {
+   "id": "regicide",
+   "name": "Regicide",
+   "kind": "earned",
+   "description": "Killed a king.",
+   "skills": {
+    "intrigue": 2
+   }
+  },
+  {
+   "id": "exile",
+   "name": "Exile",
+   "kind": "earned",
+   "description": "Lived years far from home.",
+   "skills": {
+    "diplomacy": 1,
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "hostage",
+   "name": "Raised as a hostage",
+   "kind": "earned",
+   "description": "Grew up at a foreign court as surety for a treaty.",
+   "skills": {
+    "diplomacy": 2
+   }
+  },
+  {
+   "id": "captive",
+   "name": "Former captive",
+   "kind": "earned",
+   "description": "Was taken in war and ransomed.",
+   "skills": {
+    "leadership": -1
+   }
+  },
+  {
+   "id": "avenger",
+   "name": "Avenger",
+   "kind": "earned",
+   "description": "Took vengeance for his kin.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "oathbreaker",
+   "name": "Oathbreaker",
+   "kind": "earned",
+   "description": "Broke a sworn treaty.",
+   "skills": {
+    "diplomacy": -2
+   }
+  },
+  {
+   "id": "tyrant",
+   "name": "Tyrant",
+   "kind": "earned",
+   "description": "Rules by fear.",
+   "skills": {
+    "intrigue": 1
+   },
+   "effects": {
+    "unrest": 0.03
+   }
+  },
+  {
+   "id": "reformer",
+   "name": "Reformer",
+   "kind": "earned",
+   "description": "Changed the laws and the offices.",
+   "skills": {
+    "statecraft": 2
+   }
+  },
+  {
+   "id": "benefactor",
+   "name": "Benefactor",
+   "kind": "earned",
+   "description": "Built temples, baths and aqueducts for his cities.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "deified",
+   "name": "Honoured as a god",
+   "kind": "earned",
+   "description": "Worshipped with temples and sacrifices in his lifetime.",
+   "skills": {
+    "piety": 1
+   },
+   "effects": {
+    "unrest": -0.02
+   }
+  },
+  {
+   "id": "saviour",
+   "name": "Saviour",
+   "kind": "earned",
+   "description": "Saved a city from siege, famine or plague; called Soter.",
+   "skills": {
+    "oratory": 1
+   },
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "admiral",
+   "name": "Victor at sea",
+   "kind": "earned",
+   "description": "Won a battle at sea.",
+   "skills": {
+    "seamanship": 2
+   }
+  },
+  {
+   "id": "wounded_veteran",
+   "name": "Veteran",
+   "kind": "earned",
+   "description": "Has fought in many campaigns.",
+   "skills": {
+    "tactics": 1,
+    "logistics": 1
+   }
+  },
+  {
+   "id": "famous_commander",
+   "name": "Famed commander",
+   "kind": "earned",
+   "description": "His name alone frightens enemies.",
+   "skills": {
+    "leadership": 2
+   }
+  },
+  {
+   "id": "survivor",
+   "name": "Survivor",
+   "kind": "earned",
+   "description": "Lived through what killed everyone around him."
+  },
+  {
+   "id": "widowed",
+   "name": "Widowed",
+   "kind": "earned",
+   "description": "Lost a husband or wife."
+  },
+  {
+   "id": "bereaved",
+   "name": "Bereaved",
+   "kind": "earned",
+   "description": "Lost a child.",
+   "skills": {
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "disinherited",
+   "name": "Disinherited",
+   "kind": "earned",
+   "description": "Passed over for the throne he was born to.",
+   "skills": {
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "claimant",
+   "name": "Claimant",
+   "kind": "earned",
+   "description": "Claims a throne he does not hold.",
+   "skills": {
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "excommunicated",
+   "name": "Cursed by the priests",
+   "kind": "earned",
+   "description": "The gods' servants have cursed him.",
+   "skills": {
+    "piety": -2
+   },
+   "effects": {
+    "unrest": 0.02
+   }
+  },
+  {
+   "id": "sacrilegious",
+   "name": "Temple robber",
+   "kind": "earned",
+   "description": "Robbed or burned a temple.",
+   "skills": {
+    "piety": -3
+   },
+   "effects": {
+    "unrest": 0.02
+   }
+  },
+  {
+   "id": "pirate_hunter",
+   "name": "Pirate hunter",
+   "kind": "earned",
+   "description": "Swept the pirates from the sea.",
+   "skills": {
+    "seamanship": 1
+   }
+  },
+  {
+   "id": "sacker",
+   "name": "Sacker of cities",
+   "kind": "earned",
+   "description": "Put a city to the sword.",
+   "skills": {
+    "leadership": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "magnanimous",
+   "name": "Magnanimous",
+   "kind": "earned",
+   "description": "Freed his captives and forgave his enemies.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "effects": {
+    "integration": 0.02
+   }
+  },
+  {
+   "id": "king_maker",
+   "name": "Kingmaker",
+   "kind": "earned",
+   "description": "Put another man on a throne.",
+   "skills": {
+    "intrigue": 2
+   }
+  },
+  {
+   "id": "legislator",
+   "name": "Author of laws",
+   "kind": "earned",
+   "description": "His laws bear his name.",
+   "skills": {
+    "statecraft": 1
+   }
+  },
+  {
+   "id": "debtor",
+   "name": "Deep in debt",
+   "kind": "earned",
+   "description": "Owes more than he can pay.",
+   "skills": {
+    "stewardship": -1
+   }
+  },
+  {
+   "id": "rich",
+   "name": "Rich",
+   "kind": "earned",
+   "description": "Has a great private fortune.",
+   "skills": {
+    "stewardship": 1
+   }
+  },
+  {
+   "id": "poor",
+   "name": "Poor",
+   "kind": "earned",
+   "description": "Has nothing but his name."
+  },
+  {
+   "id": "survivor_of_assassin",
+   "name": "Survived an assassin",
+   "kind": "earned",
+   "description": "A knife was raised against him and failed.",
+   "skills": {
+    "intrigue": 1
+   }
+  },
+  {
+   "id": "plotter",
+   "name": "Known plotter",
+   "kind": "earned",
+   "description": "Has been caught plotting.",
+   "skills": {
+    "intrigue": 1,
+    "diplomacy": -1
+   }
+  },
+  {
+   "id": "famed_beauty",
+   "name": "Famed beauty",
+   "kind": "earned",
+   "description": "Poets write of her.",
+   "skills": {
+    "diplomacy": 1
+   }
+  },
+  {
+   "id": "lion_slayer",
+   "name": "Lion slayer",
+   "kind": "earned",
+   "description": "Killed a lion with his own spear.",
+   "skills": {
+    "leadership": 1
+   }
+  },
+  {
+   "id": "olympian",
+   "name": "Worships the Olympians",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Zeus, Athena, Apollo and the gods of the Greeks.",
+   "skills": {},
+   "opposite": [
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "roman_gods",
+   "name": "Worships the gods of Rome",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Jupiter, Juno, Mars and the household gods, by the pontiffs' rules.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "etruscan_rites",
+   "name": "Keeps the Etruscan discipline",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Reads the gods' will in lightning and livers, by the sacred books.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "canaanite",
+   "name": "Worships Baal and Tanit",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The gods of Tyre and Carthage: Baal Hammon, Tanit, Melqart.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "meroitic_gods",
+   "name": "Worships Amun and Apedemak",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The lion god of Meroe and Amun of Napata.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "arabian_gods",
+   "name": "Worships the gods of Arabia",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Dushara, Allat, Almaqah and the gods of the incense road.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "iberian_gods",
+   "name": "Worships the Iberian gods",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The gods of the springs, hills and bulls of Iberia.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "druidic",
+   "name": "Follows the druids",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The gods of oak and river, as the druids teach.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "steppe_gods",
+   "name": "Worships the gods of the steppe",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Tabiti of the hearth, Papaios of the sky and the war god's sword.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "thracian_gods",
+   "name": "Worships the Thracian gods",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The rider god, and Zalmoxis among the Getae.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "illyrian_gods",
+   "name": "Worships the Illyrian gods",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The serpent and the sun of the Illyrians.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "berber_gods",
+   "name": "Worships the gods of Libya",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Ammon, the sun and the moon, and the ancestors.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "zoroastrian",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "zoroastrian",
+   "name": "Follows Zarathustra",
+   "kind": "faith",
+   "group": "religion",
+   "description": "Ahura Mazda, the truth against the lie, the sacred fire.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "caucasian_gods",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "caucasian_gods",
+   "name": "Worships the gods of the Caucasus",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The moon god Armazi and the mountain spirits.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "judaism"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "judaism",
+   "name": "Follows the Law of Moses",
+   "kind": "faith",
+   "group": "religion",
+   "description": "The one God of Israel, his Temple and his Law.",
+   "skills": {},
+   "opposite": [
+    "olympian",
+    "roman_gods",
+    "etruscan_rites",
+    "canaanite",
+    "meroitic_gods",
+    "arabian_gods",
+    "iberian_gods",
+    "druidic",
+    "steppe_gods",
+    "thracian_gods",
+    "illyrian_gods",
+    "berber_gods",
+    "zoroastrian",
+    "caucasian_gods"
+   ],
+   "inherit": 1.0
+  },
+  {
+   "id": "isis",
+   "name": "Devotee of Isis",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Gives her worship to Isis of the many names, healer and mother.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "serapis",
+   "name": "Devotee of Serapis",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Honours Serapis, the new god of Alexandria.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "cybele",
+   "name": "Devotee of the Great Mother",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Follows Cybele of Phrygia, the mother of the gods.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "dionysian",
+   "name": "Initiate of Dionysus",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Has joined the god's ecstatic rites.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "orphic",
+   "name": "Orphic",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Follows the teachings of Orpheus on the soul's journey.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "asklepios",
+   "name": "Devotee of Asklepios",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Seeks healing in the god's sanctuaries.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "eleusinian",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "eleusinian",
+   "name": "Initiate at Eleusis",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Has seen the secret rites of Demeter and Kore.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "samothracian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "samothracian",
+   "name": "Initiate at Samothrace",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Has been initiated by the Great Gods, who save sailors.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "melqart",
+    "ammon"
+   ]
+  },
+  {
+   "id": "melqart",
+   "name": "Devotee of Melqart",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Honours the lord of Tyre, whom the Greeks call Heracles.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "ammon"
+   ]
+  },
+  {
+   "id": "ammon",
+   "name": "Devotee of Ammon",
+   "kind": "faith",
+   "group": "devotion",
+   "description": "Has consulted the oracle of Ammon at Siwa.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "isis",
+    "serapis",
+    "cybele",
+    "dionysian",
+    "orphic",
+    "asklepios",
+    "eleusinian",
+    "samothracian",
+    "melqart"
+   ]
+  },
+  {
+   "id": "stoa",
+   "name": "Of the Stoa",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Zeno: virtue is the only good; accept what fate brings.",
+   "skills": {
+    "statecraft": 1,
+    "learning": 1
+   },
+   "opposite": [
+    "epicurean",
+    "cynic",
+    "academic",
+    "peripatetic",
+    "pythagorean",
+    "sceptic",
+    "cyrenaic"
+   ],
+   "effects": {
+    "unrest": -0.005
+   }
+  },
+  {
+   "id": "epicurean",
+   "name": "Epicurean",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Epicurus: seek quiet pleasure, fear neither death nor gods.",
+   "skills": {
+    "learning": 1,
+    "piety": -1
+   },
+   "opposite": [
+    "stoa",
+    "cynic",
+    "academic",
+    "peripatetic",
+    "pythagorean",
+    "sceptic",
+    "cyrenaic"
+   ]
+  },
+  {
+   "id": "cynic",
+   "name": "Cynic",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Diogenes: scorns wealth, custom and kings.",
+   "skills": {
+    "oratory": 1,
+    "diplomacy": -1
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "academic",
+    "peripatetic",
+    "pythagorean",
+    "sceptic",
+    "cyrenaic"
+   ]
+  },
+  {
+   "id": "academic",
+   "name": "Of the Academy",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Plato: the true forms behind the world.",
+   "skills": {
+    "learning": 2
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "cynic",
+    "peripatetic",
+    "pythagorean",
+    "sceptic",
+    "cyrenaic"
+   ]
+  },
+  {
+   "id": "peripatetic",
+   "name": "Peripatetic",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Aristotle: study everything, from stars to snails.",
+   "skills": {
+    "learning": 2
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "cynic",
+    "academic",
+    "pythagorean",
+    "sceptic",
+    "cyrenaic"
+   ],
+   "effects": {
+    "research": 0.01
+   }
+  },
+  {
+   "id": "pythagorean",
+   "name": "Pythagorean",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Pythagoras: number, the soul's rebirth, no beans.",
+   "skills": {
+    "learning": 1,
+    "piety": 1
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "cynic",
+    "academic",
+    "peripatetic",
+    "sceptic",
+    "cyrenaic"
+   ]
+  },
+  {
+   "id": "sceptic",
+   "name": "Sceptic",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Pyrrho: nothing can be known for certain.",
+   "skills": {
+    "learning": 1,
+    "intrigue": 1
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "cynic",
+    "academic",
+    "peripatetic",
+    "pythagorean",
+    "cyrenaic"
+   ]
+  },
+  {
+   "id": "cyrenaic",
+   "name": "Cyrenaic",
+   "kind": "faith",
+   "group": "philosophy",
+   "description": "Follows Aristippus: pleasure now is the good.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "opposite": [
+    "stoa",
+    "epicurean",
+    "cynic",
+    "academic",
+    "peripatetic",
+    "pythagorean",
+    "sceptic"
+   ]
+  },
+  {
+   "id": "royal_blood",
+   "name": "Royal blood",
+   "kind": "bloodline",
+   "description": "Born of a ruling house.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "inherit": 0.9
+  },
+  {
+   "id": "descent_heracles",
+   "name": "Descended from Heracles",
+   "kind": "bloodline",
+   "description": "His house traces its line to Heracles, son of Zeus, as the Argeads, Ptolemies and Spartan kings did.",
+   "skills": {
+    "leadership": 1
+   },
+   "inherit": 1.0,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "descent_apollo",
+   "name": "Descended from Apollo",
+   "kind": "bloodline",
+   "description": "His house claims Apollo as its father, as the Seleucids did.",
+   "skills": {
+    "piety": 1
+   },
+   "inherit": 1.0,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "descent_dionysus",
+   "name": "Descended from Dionysus",
+   "kind": "bloodline",
+   "description": "His house claims the wine god for an ancestor, as the Ptolemies did.",
+   "skills": {
+    "oratory": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "descent_achilles",
+   "name": "Descended from Achilles",
+   "kind": "bloodline",
+   "description": "His house traces its line to Achilles, as the kings of Epirus did.",
+   "skills": {
+    "tactics": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "argead_blood",
+   "name": "Blood of Philip",
+   "kind": "bloodline",
+   "description": "Descended from Philip of Macedon, Alexander's father.",
+   "skills": {
+    "leadership": 1
+   },
+   "inherit": 1.0,
+   "effects": {
+    "unrest": -0.02
+   }
+  },
+  {
+   "id": "achaemenid_blood",
+   "name": "Blood of the Great Kings",
+   "kind": "bloodline",
+   "description": "Claims descent from the Persian kings of Cyrus's line.",
+   "skills": {
+    "statecraft": 1
+   },
+   "inherit": 1.0,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "persian_nobility",
+   "name": "Persian nobility",
+   "kind": "bloodline",
+   "description": "Of one of the noble families of Persia.",
+   "skills": {
+    "statecraft": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "napatan_line",
+   "name": "Line of Napata",
+   "kind": "bloodline",
+   "description": "Of the royal line chosen by Amun at Napata.",
+   "skills": {
+    "piety": 1
+   },
+   "inherit": 1.0,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "patrician",
+   "name": "Patrician",
+   "kind": "bloodline",
+   "description": "Of one of Rome's oldest families.",
+   "skills": {
+    "oratory": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "ancient_house",
+   "name": "Ancient house",
+   "kind": "bloodline",
+   "description": "Of a house that has ruled for centuries.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "new_man",
+   "name": "New man",
+   "kind": "bloodline",
+   "description": "The first of his family to rise so high.",
+   "skills": {
+    "intrigue": 1
+   },
+   "inherit": 0.0
+  },
+  {
+   "id": "half_foreign",
+   "name": "Of two peoples",
+   "kind": "bloodline",
+   "description": "Father of one people, mother of another.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "inherit": 0.0,
+   "effects": {
+    "integration": 0.01
+   }
+  },
+  {
+   "id": "chieftain_line",
+   "name": "Line of chieftains",
+   "kind": "bloodline",
+   "description": "Of the old chieftains of the tribe.",
+   "skills": {
+    "leadership": 1
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "priestly_line",
+   "name": "Priestly family",
+   "kind": "bloodline",
+   "description": "Of a family that holds a priesthood by birth.",
+   "skills": {
+    "piety": 2
+   },
+   "inherit": 1.0
+  },
+  {
+   "id": "bastard",
+   "name": "Born out of wedlock",
+   "kind": "bloodline",
+   "description": "His father's son, but not his wife's.",
+   "skills": {
+    "intrigue": 1
+   },
+   "inherit": 0.0
+  },
+  {
+   "id": "famed",
+   "name": "Famed",
+   "kind": "reputation",
+   "description": "Known across the world for great deeds.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "opposite": [
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": 15,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "feared",
+   "name": "Feared",
+   "kind": "reputation",
+   "description": "Men lower their eyes when he passes.",
+   "skills": {
+    "intrigue": 1
+   },
+   "opposite": [
+    "famed",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": -5,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "notorious",
+   "name": "Notorious",
+   "kind": "reputation",
+   "description": "His crimes are told in every market.",
+   "skills": {
+    "diplomacy": -1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": -20,
+   "effects": {
+    "unrest": 0.02
+   }
+  },
+  {
+   "id": "honoured",
+   "name": "Honoured",
+   "kind": "reputation",
+   "description": "Known for justice and good faith.",
+   "skills": {
+    "diplomacy": 2
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": 15,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "respected",
+   "name": "Respected",
+   "kind": "reputation",
+   "description": "A steady hand, well spoken of.",
+   "skills": {
+    "diplomacy": 1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": 5
+  },
+  {
+   "id": "mocked",
+   "name": "Mocked",
+   "kind": "reputation",
+   "description": "A figure of fun in the comedies.",
+   "skills": {
+    "oratory": -1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": -10,
+   "effects": {
+    "unrest": 0.01
+   }
+  },
+  {
+   "id": "beloved",
+   "name": "Beloved of the people",
+   "kind": "reputation",
+   "description": "The people cheer him in the streets.",
+   "skills": {
+    "oratory": 1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "hated",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": 10,
+   "effects": {
+    "unrest": -0.03
+   }
+  },
+  {
+   "id": "hated",
+   "name": "Hated by the people",
+   "kind": "reputation",
+   "description": "The people curse his name.",
+   "skills": {},
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "called_wise",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": -15,
+   "effects": {
+    "unrest": 0.03
+   }
+  },
+  {
+   "id": "called_wise",
+   "name": "Called the Wise",
+   "kind": "reputation",
+   "description": "Men come from far away for his judgement.",
+   "skills": {
+    "learning": 1,
+    "diplomacy": 1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_pious",
+    "obscure"
+   ],
+   "opinion": 10
+  },
+  {
+   "id": "called_pious",
+   "name": "Known for piety",
+   "kind": "reputation",
+   "description": "Called pious by priests and people.",
+   "skills": {
+    "piety": 1
+   },
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "obscure"
+   ],
+   "opinion": 5,
+   "effects": {
+    "unrest": -0.01
+   }
+  },
+  {
+   "id": "obscure",
+   "name": "Little known",
+   "kind": "reputation",
+   "description": "Few beyond his own city know his name.",
+   "skills": {},
+   "opposite": [
+    "famed",
+    "feared",
+    "notorious",
+    "honoured",
+    "respected",
+    "mocked",
+    "beloved",
+    "hated",
+    "called_wise",
+    "called_pious"
+   ],
+   "opinion": 0
+  }
+ ],
+ "bonds": [
+  {
+   "id": "friend",
+   "name": "Friend",
+   "value": 35,
+   "description": "Close friends, who trust each other."
+  },
+  {
+   "id": "rival",
+   "name": "Rival",
+   "value": -35,
+   "description": "Rivals for power, honour or love."
+  },
+  {
+   "id": "lover",
+   "name": "Lover",
+   "value": 45,
+   "description": "Lovers, in secret or not."
+  },
+  {
+   "id": "mentor",
+   "name": "Mentor",
+   "value": 30,
+   "description": "Taught the other in youth."
+  },
+  {
+   "id": "student",
+   "name": "Student",
+   "value": 25,
+   "description": "Was taught by the other in youth."
+  },
+  {
+   "id": "sworn_brother",
+   "name": "Sworn brother",
+   "value": 60,
+   "description": "Swore brotherhood before the gods, as warriors did."
+  },
+  {
+   "id": "nemesis",
+   "name": "Nemesis",
+   "value": -80,
+   "description": "Mortal enemies; one of them will not die in bed."
+  }
+ ]
+}

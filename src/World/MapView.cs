@@ -468,6 +468,7 @@ public partial class MapView : Node2D
         }
         var events = marched;
         events.AddRange(Registry.AdvanceYear(DemoYear));
+        RefreshRulerEffects();
         events.AddRange(GameYear());
         RefreshRoadLayer();
         return events;

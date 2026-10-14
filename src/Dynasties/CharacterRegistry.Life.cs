@@ -106,33 +106,33 @@ public sealed partial class CharacterRegistry
         rng ??= _rng;
         var events = new List<ChronicleEvent>();
         var courts = Courts();
+        var life = new Random((int)rng.Randi());
 
         // Deaths. Rulers' deaths trigger succession, in every realm they rule
         // (looked up at the moment of death: an heir who inherited earlier in
         // the same year and then dies is succeeded too).
-        foreach (var c in Living())
+        var living = Living();
+        foreach (var c in living)
         {
             int age = c.AgeIn(year);
-            if (age < 0 || rng.Randf() >= DeathChanceForAge(age))
+            if (age < 0 || rng.Randf() >= DeathChanceForAge(age) * HealthFactor(c))
                 continue;
             var ruled = Realms.Values.Where(r => r.RulerId == c.Id).OrderBy(r => r.Id).ToList();
+            Kill(c, year, NaturalCause(c, age, life));
             if (ruled.Count > 0)
             {
-                Kill(c, year);
                 foreach (var realm in ruled)
                     events.Add(Succeed(realm, c, age, year, rng));
             }
-            else
-            {
-                Kill(c, year);
-                if (courts.TryGetValue(c.Id, out int realmId))
-                    events.Add(new(ChronicleKind.Death, realmId, $"{c.Name} has died at {age}."));
-            }
+            else if (courts.TryGetValue(c.Id, out int realmId))
+                events.Add(new(ChronicleKind.Death, realmId, $"{c.Name} has died {HowDied(c.DeathCause)} at {age}."));
         }
 
         courts = Courts();  // successions change who's at court
+        GrowOlder(year, life, Living());   // a fresh list: new houses founded this year are schooled too
         Marriages(year, courts, rng, events);
-        Births(year, courts, rng, events);
+        FormBonds(year, courts, life);
+        Births(year, courts, rng, events, life);
         return events;
     }
 
@@ -168,7 +168,7 @@ public sealed partial class CharacterRegistry
         if (heir != null && rng.Randf() >= UsurpationChance(dead, heir, year))
         {
             realm.RulerId = heir.Id;
-            return new(ChronicleKind.Succession, realm.Id, $"{realm.Name}: {dead.Name} has died at {age}. {heir.Name} inherits.");
+            return new(ChronicleKind.Succession, realm.Id, $"{realm.Name}: {dead.Name} has died {HowDied(dead.DeathCause)} at {age}. {heir.Name} inherits.");
         }
         var founder = FoundHouse(realm, year, rng);
         string text = heir == null
@@ -189,6 +189,7 @@ public sealed partial class CharacterRegistry
         var name = Names.Pick(realm.Culture, true, rng);
         var founder = CreateCharacter(name, "male", year - rng.RandiRange(30, 50), culture: realm.Culture);
         CreateDynasty("House " + name, founder);
+        AddTrait(founder, "new_man");
         var wife = CreateCharacter(Names.Pick(realm.Culture, false, rng), "female",
             founder.BirthYear + rng.RandiRange(2, 12), culture: realm.Culture);
         Marry(founder, wife);
@@ -304,7 +305,10 @@ public sealed partial class CharacterRegistry
         }
     }
 
-    void Births(int year, Dictionary<int, int> courts, RandomNumberGenerator rng, List<ChronicleEvent> events)
+    // Of births, how many killed the mother: about one in seventy, more with hard births.
+    const double ChildbirthDeath = 0.014;
+
+    void Births(int year, Dictionary<int, int> courts, RandomNumberGenerator rng, List<ChronicleEvent> events, Random life)
     {
         foreach (var mother in Living().Where(c => !c.IsMale && c.SpouseId != -1).ToList())
         {
@@ -316,7 +320,7 @@ public sealed partial class CharacterRegistry
                 continue;  // only the courts keep growing
             var siblings = mother.ChildrenIds.Select(id => Characters[id]).ToList();
             if (siblings.Count >= MaxChildren || siblings.Any(s => s.BirthYear == year)
-                || rng.Randf() >= BirthChance(mother.AgeIn(year)))
+                || rng.Randf() >= BirthChance(mother.AgeIn(year)) * Fertility(mother, father))
                 continue;
             bool male = rng.Randf() < 0.51f;
             var line = father.DynastyId != -1 || mother.DynastyId == -1 ? father : mother;
@@ -324,6 +328,15 @@ public sealed partial class CharacterRegistry
                 male ? "male" : "female", year);
             events.Add(new(ChronicleKind.Birth, realmId,
                 $"A {(male ? "son" : "daughter")}, {child.Name}, is born to {mother.Name} and {father.Name}."));
+            if (life.NextDouble() < ChildbirthDeath * (mother.Has("pregnancy_hard") ? 3 : 1) * (mother.AgeIn(year) > 35 ? 2 : 1))
+            {
+                var ruled = Realms.Values.Where(r => r.RulerId == mother.Id).OrderBy(r => r.Id).ToList();
+                Kill(mother, year, DeathCauses.Childbirth);
+                foreach (var realm in ruled)
+                    events.Add(Succeed(realm, mother, mother.AgeIn(year), year, rng));
+                if (ruled.Count == 0)
+                    events.Add(new(ChronicleKind.Death, realmId, $"{mother.Name} has died in childbirth at {mother.AgeIn(year)}."));
+            }
         }
     }
 

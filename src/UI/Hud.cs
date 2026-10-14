@@ -67,6 +67,8 @@ public partial class Hud : Control
 
         _rulerLabel = Stat(row, "ruler", "Ruler");
         _heirLabel = Stat(row, "heir", "Heir apparent");
+        MakePersonLink(_rulerLabel, RulerId);
+        MakePersonLink(_heirLabel, HeirId);
         _populationLabel = Stat(row, "population", "People living in your realm's territory (HYDE historical estimate, then simulated)");
         _populationItem = _populationLabel.GetParent<Control>();
 
@@ -234,7 +236,12 @@ public partial class Hud : Control
         if (_map.Registry.Characters.TryGetValue(realm.RulerId, out var ruler) && ruler.IsAlive)
         {
             _rulerLabel.Text = $"{ruler.Name}, {ruler.AgeIn(_map.DemoYear)}";
-            _heirLabel.Text = _map.Registry.ResolveHeir(realm)?.Name ?? "None";
+            var heir = _map.Registry.ResolveHeir(realm);
+            _heirLabel.Text = heir?.Name ?? "None";
+            _rulerLabel.GetParent<Control>().TooltipText = "Your ruler: " + HoverCard(ruler);
+            _heirLabel.GetParent<Control>().TooltipText = heir != null ? "Your heir: " + HoverCard(heir) : "Heir apparent: none";
+            if (_personPanel is { Visible: true } && _personId >= 0)
+                ShowPerson(_personId);
         }
         else
         {

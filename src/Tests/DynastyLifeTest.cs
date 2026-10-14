@@ -163,7 +163,9 @@ public partial class DynastyLifeTest : TestRunner
         int successions = counts.GetValueOrDefault(ChronicleKind.Succession);
         Check(newHouses < successions / 4, $"{newHouses} new houses in {successions} successions: houses fall too often");
         Check(newHouses > realms * 2, $"only {newHouses} new houses in two thousand years: houses never fall");
-        Check(ms < 5, $"a year took {ms:F1} ms");
+        // 8 ms: raised from 5 (14 Oct 2026, the designer's call) when people gained skills, traits,
+        // faith, bloodlines, reputations and bonds; still under 1.5% of a whole game year (~570 ms).
+        Check(ms < 8, $"a year took {ms:F1} ms");
 
         // Names come from the right tradition, or from a grandparent (a Scythian
         // princess's daughter may be named for her Scythian grandmother).

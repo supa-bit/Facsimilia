@@ -2623,6 +2623,71 @@ whoever pays best. Each unit keeps its own experience.
 
 ## Dynasties and characters **(decided, built)**
 
+### People: skills, traits, faith, blood, reputation and bonds **(built, 14 Oct 2026)**
+
+From your answers Which skills, Traits (your note: at least 250), How
+skills are shown (your note: creative words and 1-100), Skills through
+life, How characters die, What characters think of each other, and your
+wish of 14 Oct 2026 for four more kinds of trait (faith and philosophy,
+bloodline, reputation, relationships):
+
+- **Twelve skills**, shown 1-100 with words of their own (Oratory runs
+  from "Mumbling" to "Golden-tongued"; Tactics from "Lambs to the
+  slaughter" to "A new Alexander"): statecraft, stewardship, diplomacy,
+  intrigue, learning, piety, oratory, and the five war skills a general
+  has (tactics, leadership, siegecraft, logistics, seamanship). 50 is an
+  ordinary grown person. Half comes from the parents, half is one's own.
+  Children have only part of their skills until sixteen; the body's
+  skills fade from sixty, the others from seventy, while learning,
+  statecraft and piety hold. A family member who takes command brings his
+  own war skills.
+- **350 traits** (`data/traits.json`, which you can edit): personality
+  (83, mostly in opposed pairs), schooling (48: twelve skills, four
+  grades), pastimes (50), body (35, inherited), health (30), deeds (44),
+  faith and philosophy (33), bloodline (16), reputation (11). Each adds to
+  skills; many change the realm while their holder rules; health traits
+  shorten or lengthen life; some change how many children come.
+- **Growing up**: three traits of nature at birth; body and health traits
+  run in families; schooling ends at sixteen in the skill they were best
+  at, graded by how good they were, often taught by a kinsman (a mentor
+  bond); half take up a pastime. Illnesses come with age (gout, a weak
+  heart...), infirmity after 65. Deeds add traits: a family general who
+  wins three battles is a victor, eight a famed commander.
+- **Faith**: everyone worships the gods of their family, or else of their
+  people (the Olympians, Baal and Tanit, Ahura Mazda, the druids' gods...).
+  Some take up a mystery cult (Isis, Serapis, Eleusis, Samothrace...) or,
+  if learned, a school of philosophy (the Stoa, Epicurus, the Academy...).
+  Other gods lower opinions; zealots more, the tolerant not at all.
+- **Bloodline**: royal blood from a reigning parent; "of two peoples" from
+  mixed parents; the great houses' claims: the Seleucids from Apollo, the
+  Ptolemies from Heracles and Dionysus, the Spartan kings from Heracles,
+  the kings of Epirus from Achilles, Pontus, Armenia and Cappadocia from
+  the Persian kings. New houses start as "new men".
+- **Reputation**: each year a ruler's deeds and nature decide what the
+  world says of them: notorious, hated, feared, famed, beloved, honoured,
+  mocked, called the wise, known for piety, respected, or little known.
+  Strangers think better or worse of them for it.
+- **Bonds** with named people: friend, rival, lover, mentor and student,
+  sworn brother, nemesis. They form at court over the years by how well
+  natures fit (shared traits, faith and people; opposed traits; two
+  ambitious men rarely get on); rivals who come to hate each other become
+  nemeses.
+- **How people die**: old age, disease, accident (hunters and riders
+  more), childbirth (about one birth in seventy, more for hard births and
+  mothers over 35), battle; execution and murder come with plots.
+- **Opinions** with their reasons: family, shared and opposed natures,
+  people, faith, philosophy, how the other rules, reputation, looks,
+  bonds and memories (old wrongs fade after twenty years).
+- **The ruler's effect on the realm**: each point of stewardship above an
+  ordinary 50 adds taxes, learning research, statecraft integration and
+  less corruption, oratory and piety calm, siegecraft faster sieges,
+  logistics reach, leadership men; plus the ruler's traits (a cruel ruler
+  stirs unrest, a just one calms it).
+- **The person's panel**: click the ruler or heir at the top. Skills,
+  traits by kind (hover for what each does), family and bonds (click any
+  name), and what they and your ruler think of each other, with reasons.
+  Hovering the ruler or heir shows a short card.
+
 Depth for now: enough for ruling families to live, marry, have children and
 succeed each other for the whole game, without traits, events or
 intrigue (those can be layered on later). Code: `src/Dynasties/`

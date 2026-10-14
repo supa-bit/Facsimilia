@@ -272,9 +272,22 @@ public partial class MapView
             rs.Treasury += work.Paid * WonderCatalog.Refund;
     }
 
+    /// <summary>Each realm's effects from its ruler's skills and traits.</summary>
+    internal void RefreshRulerEffects()
+    {
+        foreach (var r in Game.Realms.Values)
+        {
+            r.RulerEffects.Clear();
+            if (Registry.Realms.TryGetValue(r.RealmId, out var realm) && Registry.Characters.TryGetValue(realm.RulerId, out var ruler) && ruler.IsAlive)
+                foreach (var (k, v) in Registry.RulerEffects(ruler, DemoYear))
+                    r.RulerEffects[k] = v;
+        }
+    }
+
     /// <summary>Each realm's effects from the wonders standing in its provinces.</summary>
     internal void RefreshWonderEffects()
     {
+        RefreshRulerEffects();
         foreach (var r in Game.Realms.Values)
             r.WonderEffects.Clear();
         if (Provinces == null)
