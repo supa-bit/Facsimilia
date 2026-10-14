@@ -391,7 +391,26 @@ public sealed partial class CharacterRegistry
         return rng.NextDouble() < accident ? DeathCauses.Accident : DeathCauses.Disease;
     }
 
-    /// <summary>The chronicle's words for a death: "of a fever", "in childbirth".</summary>
+    /// <summary>
+    /// Names the way someone died from the designer's list (DeathCatalog), by
+    /// the age's names and their own nature and station; the gold bath and
+    /// the mercury elixir only for the rich.
+    /// </summary>
+    public void NameDeath(Character c, int year, Random rng)
+    {
+        if (c.DeathCause is not (DeathCauses.Disease or DeathCauses.Accident or DeathCauses.OldAge))
+            return;
+        bool rich = c.Has("royal_blood") || c.Has("rich") || Realms.Values.Any(r => r.RulerId == c.Id);
+        c.DeathDetail = DeathCatalog.Instance.Pick(c.DeathCause, year, c.AgeIn(year), c.Traits, rich, rng)?.Id;
+    }
+
+    /// <summary>The chronicle's words for how someone died: "of consumption", "gored by a boar while hunting".</summary>
+    public static string HowDied(Character c) =>
+        c.DeathDetail != null && DeathCatalog.Instance[c.DeathDetail] is { } d
+            ? d.Text.Replace("{his}", c.IsMale ? "his" : "her")
+            : HowDied(c.DeathCause);
+
+    /// <summary>The chronicle's words for a kind of death: "of a sickness", "in childbirth".</summary>
     public static string HowDied(string? cause) => cause switch
     {
         DeathCauses.OldAge => "of old age",

@@ -1,0 +1,984 @@
+{
+ "about": "How people die, by name (the designer's list of 14 Oct 2026). kind: disease, accident or old_age (childbirth and battle have their own words). text: the chronicle's words after 'has died' ({his} becomes his or her). from/to: the years the name was used (era-correct names: the wasting sickness, then consumption, then tuberculosis). weight: how common. traits: if listed, only people with one of them can die this way. rich: only rulers and royal blood. min_age/max_age. note: the history behind it.",
+ "deaths": [
+  {
+   "id": "plague",
+   "kind": "disease",
+   "text": "of the plague",
+   "from": -10000,
+   "to": 3000,
+   "weight": 6,
+   "note": "Any pestilence was 'the plague' to those who lived through it."
+  },
+  {
+   "id": "wasting_anc",
+   "kind": "disease",
+   "text": "of the wasting sickness",
+   "from": -10000,
+   "to": 1299,
+   "weight": 3,
+   "note": "Tuberculosis: phthisis to the Greeks."
+  },
+  {
+   "id": "consumption",
+   "kind": "disease",
+   "text": "of consumption",
+   "from": 1300,
+   "to": 1881,
+   "weight": 4,
+   "note": "Tuberculosis."
+  },
+  {
+   "id": "tuberculosis",
+   "kind": "disease",
+   "text": "of tuberculosis",
+   "from": 1882,
+   "to": 3000,
+   "weight": 3
+  },
+  {
+   "id": "marsh_fever",
+   "kind": "disease",
+   "text": "of a fever of the marshes",
+   "from": -10000,
+   "to": 1099,
+   "weight": 4,
+   "note": "Malaria; Rome's summer fever."
+  },
+  {
+   "id": "ague",
+   "kind": "disease",
+   "text": "of the ague",
+   "from": 1100,
+   "to": 1879,
+   "weight": 3,
+   "note": "Malaria."
+  },
+  {
+   "id": "malaria",
+   "kind": "disease",
+   "text": "of malaria",
+   "from": 1880,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "flux_anc",
+   "kind": "disease",
+   "text": "of a flux of the bowels",
+   "from": -10000,
+   "to": 999,
+   "weight": 3,
+   "note": "Dysentery."
+  },
+  {
+   "id": "bloody_flux",
+   "kind": "disease",
+   "text": "of the bloody flux",
+   "from": 1000,
+   "to": 1849,
+   "weight": 3,
+   "note": "Dysentery."
+  },
+  {
+   "id": "dysentery",
+   "kind": "disease",
+   "text": "of dysentery",
+   "from": 1850,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "putrid_fever",
+   "kind": "disease",
+   "text": "of a putrid fever",
+   "from": -10000,
+   "to": 1829,
+   "weight": 2,
+   "note": "Typhus and typhoid."
+  },
+  {
+   "id": "camp_fever",
+   "kind": "disease",
+   "text": "of the camp fever",
+   "from": 1400,
+   "to": 1829,
+   "weight": 1,
+   "note": "Typhus, the soldiers' killer."
+  },
+  {
+   "id": "typhus",
+   "kind": "disease",
+   "text": "of typhus",
+   "from": 1830,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "lung_fever",
+   "kind": "disease",
+   "text": "of a fever of the lungs",
+   "from": -10000,
+   "to": 1849,
+   "weight": 3,
+   "note": "Pneumonia; peripneumonia to the Greeks."
+  },
+  {
+   "id": "pneumonia",
+   "kind": "disease",
+   "text": "of pneumonia",
+   "from": 1850,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "pox",
+   "kind": "disease",
+   "text": "of the pox",
+   "from": -10000,
+   "to": 1979,
+   "weight": 2,
+   "note": "Smallpox."
+  },
+  {
+   "id": "great_pox",
+   "kind": "disease",
+   "text": "of the great pox",
+   "from": 1495,
+   "to": 1909,
+   "weight": 1,
+   "traits": [
+    "lustful"
+   ],
+   "note": "Syphilis, the French disease, from 1495."
+  },
+  {
+   "id": "sweating_sickness",
+   "kind": "disease",
+   "text": "of the sweating sickness",
+   "from": 1485,
+   "to": 1551,
+   "weight": 2,
+   "note": "England's mysterious sweat."
+  },
+  {
+   "id": "dropsy",
+   "kind": "disease",
+   "text": "of the dropsy",
+   "from": -10000,
+   "to": 1899,
+   "weight": 2,
+   "min_age": 40,
+   "note": "Swelling, from a failing heart or kidneys."
+  },
+  {
+   "id": "the_stone",
+   "kind": "disease",
+   "text": "of the stone",
+   "from": -10000,
+   "to": 1899,
+   "weight": 1,
+   "min_age": 35,
+   "note": "Kidney or bladder stones."
+  },
+  {
+   "id": "apoplexy",
+   "kind": "disease",
+   "text": "of an apoplexy",
+   "from": -10000,
+   "to": 1849,
+   "weight": 2,
+   "min_age": 45,
+   "note": "A stroke."
+  },
+  {
+   "id": "stroke",
+   "kind": "disease",
+   "text": "of a stroke",
+   "from": 1850,
+   "to": 3000,
+   "weight": 2,
+   "min_age": 45
+  },
+  {
+   "id": "quinsy",
+   "kind": "disease",
+   "text": "of a quinsy",
+   "from": -10000,
+   "to": 1899,
+   "weight": 1,
+   "note": "An abscess of the throat."
+  },
+  {
+   "id": "falling_sickness",
+   "kind": "disease",
+   "text": "in a fit of the falling sickness",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3,
+   "traits": [
+    "epileptic"
+   ],
+   "note": "Epilepsy, the sacred disease."
+  },
+  {
+   "id": "spotted_fever",
+   "kind": "disease",
+   "text": "of the spotted fever",
+   "from": -10000,
+   "to": 1899,
+   "weight": 1,
+   "max_age": 30,
+   "note": "Meningitis."
+  },
+  {
+   "id": "lockjaw",
+   "kind": "disease",
+   "text": "of lockjaw",
+   "from": -10000,
+   "to": 1929,
+   "weight": 1,
+   "note": "Tetanus, from a small wound."
+  },
+  {
+   "id": "kings_evil",
+   "kind": "disease",
+   "text": "of the king's evil",
+   "from": 1100,
+   "to": 1899,
+   "weight": 1,
+   "note": "Scrofula, which kings were said to cure by touch."
+  },
+  {
+   "id": "st_anthonys_fire",
+   "kind": "disease",
+   "text": "of St Anthony's fire",
+   "from": 900,
+   "to": 1799,
+   "weight": 1,
+   "note": "Ergotism, from blighted rye."
+  },
+  {
+   "id": "crab_sickness",
+   "kind": "disease",
+   "text": "of the crab sickness",
+   "from": -10000,
+   "to": 1499,
+   "weight": 2,
+   "min_age": 40,
+   "note": "Cancer: karkinos, the crab, to Hippocrates."
+  },
+  {
+   "id": "canker",
+   "kind": "disease",
+   "text": "of a canker",
+   "from": 1500,
+   "to": 1899,
+   "weight": 2,
+   "min_age": 40,
+   "note": "Cancer."
+  },
+  {
+   "id": "cancer",
+   "kind": "disease",
+   "text": "of a cancer",
+   "from": 1900,
+   "to": 3000,
+   "weight": 2,
+   "min_age": 40
+  },
+  {
+   "id": "jaundice",
+   "kind": "disease",
+   "text": "of the jaundice",
+   "from": -10000,
+   "to": 1899,
+   "weight": 1
+  },
+  {
+   "id": "mortified_wound",
+   "kind": "disease",
+   "text": "when an old wound mortified",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3,
+   "traits": [
+    "wounded",
+    "maimed",
+    "wounded_veteran"
+   ],
+   "note": "Gangrene."
+  },
+  {
+   "id": "leprosy",
+   "kind": "disease",
+   "text": "of leprosy",
+   "from": -10000,
+   "to": 3000,
+   "weight": 5,
+   "traits": [
+    "leper"
+   ]
+  },
+  {
+   "id": "ruined_liver",
+   "kind": "disease",
+   "text": "of a ruined liver",
+   "from": -10000,
+   "to": 3000,
+   "weight": 5,
+   "traits": [
+    "drunkard",
+    "drunk_liver"
+   ]
+  },
+  {
+   "id": "heart_failed",
+   "kind": "disease",
+   "text": "when {his} heart failed",
+   "from": -10000,
+   "to": 3000,
+   "weight": 4,
+   "traits": [
+    "weak_heart",
+    "fat"
+   ],
+   "min_age": 30
+  },
+  {
+   "id": "cholera",
+   "kind": "disease",
+   "text": "of the cholera",
+   "from": 1817,
+   "to": 3000,
+   "weight": 2,
+   "note": "From 1817, the blue death."
+  },
+  {
+   "id": "influenza",
+   "kind": "disease",
+   "text": "of the influenza",
+   "from": 1500,
+   "to": 3000,
+   "weight": 1,
+   "note": "Named for the stars' influence."
+  },
+  {
+   "id": "green_sickness",
+   "kind": "disease",
+   "text": "of the green sickness",
+   "from": 1550,
+   "to": 1899,
+   "weight": 1,
+   "max_age": 25,
+   "note": "Anaemia of young women."
+  },
+  {
+   "id": "melancholy",
+   "kind": "disease",
+   "text": "of melancholy",
+   "from": -10000,
+   "to": 1899,
+   "weight": 2,
+   "traits": [
+    "melancholic",
+    "melancholia"
+   ],
+   "note": "Died of grief and black bile."
+  },
+  {
+   "id": "surfeit",
+   "kind": "disease",
+   "text": "of a surfeit of rich food",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3,
+   "traits": [
+    "gluttonous",
+    "fat",
+    "reveller"
+   ]
+  },
+  {
+   "id": "gout_heart",
+   "kind": "disease",
+   "text": "when the gout rose to {his} heart",
+   "from": -10000,
+   "to": 1899,
+   "weight": 3,
+   "traits": [
+    "gout"
+   ]
+  },
+  {
+   "id": "wall_repairs",
+   "kind": "accident",
+   "text": "crushed by a wall that fell during repairs",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2,
+   "traits": [
+    "architect",
+    "founder",
+    "wonder_builder"
+   ]
+  },
+  {
+   "id": "temple_roof",
+   "kind": "accident",
+   "text": "crushed when an old temple's roof gave way",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "pious",
+    "priest",
+    "pilgrim"
+   ]
+  },
+  {
+   "id": "crumbling_house",
+   "kind": "accident",
+   "text": "crushed when {his} crumbling house fell in",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "roof_tile",
+   "kind": "accident",
+   "text": "struck by a roof tile thrown from a housetop",
+   "from": -10000,
+   "to": 999,
+   "weight": 1,
+   "note": "As King Pyrrhus was, at Argos in 272 BC."
+  },
+  {
+   "id": "falling_statue",
+   "kind": "accident",
+   "text": "crushed by a falling statue",
+   "from": -10000,
+   "to": 1499,
+   "weight": 1,
+   "note": "As Mitys's murderer was at Argos, says Aristotle."
+  },
+  {
+   "id": "fell_cliff",
+   "kind": "accident",
+   "text": "in a fall from a cliff",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "fell_horse",
+   "kind": "accident",
+   "text": "thrown from {his} horse",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3,
+   "traits": [
+    "horseman",
+    "spirited_horseman",
+    "hunter",
+    "reckless"
+   ]
+  },
+  {
+   "id": "chariot_race",
+   "kind": "accident",
+   "text": "when {his} chariot overturned at the races",
+   "from": -10000,
+   "to": 1100,
+   "weight": 4,
+   "traits": [
+    "charioteer"
+   ]
+  },
+  {
+   "id": "fell_stairs",
+   "kind": "accident",
+   "text": "in a fall down the palace stairs",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "min_age": 50
+  },
+  {
+   "id": "lion_hunt",
+   "kind": "accident",
+   "text": "mauled by a lion on the hunt",
+   "from": -10000,
+   "to": 1700,
+   "weight": 4,
+   "traits": [
+    "hunter",
+    "lion_slayer"
+   ]
+  },
+  {
+   "id": "boar",
+   "kind": "accident",
+   "text": "gored by a boar while hunting",
+   "from": -10000,
+   "to": 3000,
+   "weight": 4,
+   "traits": [
+    "hunter",
+    "falconer"
+   ]
+  },
+  {
+   "id": "bear",
+   "kind": "accident",
+   "text": "mauled by a bear",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "hunter"
+   ]
+  },
+  {
+   "id": "elephant",
+   "kind": "accident",
+   "text": "trampled by an elephant",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "viper",
+   "kind": "accident",
+   "text": "bitten by a viper",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "asp",
+   "kind": "accident",
+   "text": "bitten by an asp",
+   "from": -10000,
+   "to": 500,
+   "weight": 1
+  },
+  {
+   "id": "scorpion",
+   "kind": "accident",
+   "text": "stung by scorpions",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "own_horse",
+   "kind": "accident",
+   "text": "bitten by {his} own horse",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "horseman",
+    "breeder"
+   ]
+  },
+  {
+   "id": "pet_monkey",
+   "kind": "accident",
+   "text": "bitten by a pet monkey",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "rich": true,
+   "note": "As King Alexander of Greece was, in 1920."
+  },
+  {
+   "id": "river_crossing",
+   "kind": "accident",
+   "text": "drowned crossing a river",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3,
+   "note": "As Emperor Frederick Barbarossa was, in 1190."
+  },
+  {
+   "id": "shipwreck",
+   "kind": "accident",
+   "text": "lost at sea in a shipwreck",
+   "from": -10000,
+   "to": 3000,
+   "weight": 4,
+   "traits": [
+    "sailor",
+    "traveller",
+    "admiral"
+   ]
+  },
+  {
+   "id": "vat_of_wine",
+   "kind": "accident",
+   "text": "drowned in a vat of wine",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "drunkard",
+    "reveller"
+   ]
+  },
+  {
+   "id": "lightning",
+   "kind": "accident",
+   "text": "struck by lightning",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "house_fire",
+   "kind": "accident",
+   "text": "in a fire that burned {his} house",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2
+  },
+  {
+   "id": "fishbone",
+   "kind": "accident",
+   "text": "choked on a fishbone",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "grape_seed",
+   "kind": "accident",
+   "text": "choked on a grape seed",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "min_age": 60,
+   "note": "As the poet Anacreon was."
+  },
+  {
+   "id": "laughed",
+   "kind": "accident",
+   "text": "laughing at {his} own joke",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "witty",
+    "cheerful"
+   ],
+   "note": "As Chrysippus the Stoic was, they say."
+  },
+  {
+   "id": "tortoise",
+   "kind": "accident",
+   "text": "struck by a tortoise an eagle dropped on {his} head",
+   "from": -10000,
+   "to": 500,
+   "weight": 1,
+   "traits": [
+    "bald"
+   ],
+   "note": "As Aeschylus was, they say."
+  },
+  {
+   "id": "crowd_games",
+   "kind": "accident",
+   "text": "crushed by the crowd at the games",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "lead_wine",
+   "kind": "accident",
+   "text": "poisoned, without knowing, by wine sweetened in lead pots",
+   "from": -500,
+   "to": 700,
+   "weight": 2,
+   "rich": true,
+   "note": "Roman sapa, boiled in lead."
+  },
+  {
+   "id": "arsenic_paint",
+   "kind": "accident",
+   "text": "poisoned, without knowing, by the arsenic in {his} green wallpaper",
+   "from": 1775,
+   "to": 1900,
+   "weight": 1,
+   "rich": true,
+   "note": "Scheele's green."
+  },
+  {
+   "id": "ergot_bread",
+   "kind": "accident",
+   "text": "poisoned by blighted rye bread",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "mouldy_grain",
+   "kind": "accident",
+   "text": "poisoned by mouldy grain from the stores",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "bad_well",
+   "kind": "accident",
+   "text": "after drinking from a foul well",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "hemlock_parsley",
+   "kind": "accident",
+   "text": "after eating hemlock mistaken for parsley",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1
+  },
+  {
+   "id": "death_cap",
+   "kind": "accident",
+   "text": "after a dish of mushrooms",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "rich": true,
+   "note": "As Emperor Claudius was, some said."
+  },
+  {
+   "id": "mystery_fruit",
+   "kind": "accident",
+   "text": "after eating a strange fruit brought by traders",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "curious",
+    "traveller",
+    "gluttonous",
+    "connoisseur"
+   ]
+  },
+  {
+   "id": "mystery_insects",
+   "kind": "accident",
+   "text": "after eating roasted insects at a foreign feast",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "traveller",
+    "curious"
+   ]
+  },
+  {
+   "id": "mystery_nut",
+   "kind": "accident",
+   "text": "after eating an unknown nut",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "curious",
+    "gluttonous"
+   ]
+  },
+  {
+   "id": "gold_bath",
+   "kind": "accident",
+   "text": "after bathing in gold for beauty",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "vain",
+    "beautiful",
+    "handsome",
+    "famed_beauty"
+   ],
+   "rich": true
+  },
+  {
+   "id": "drinkable_gold",
+   "kind": "accident",
+   "text": "after drinking liquid gold to stay young",
+   "from": 1400,
+   "to": 1700,
+   "weight": 1,
+   "traits": [
+    "vain"
+   ],
+   "rich": true,
+   "note": "As Diane de Poitiers did, in 1566."
+  },
+  {
+   "id": "mercury_pox",
+   "kind": "accident",
+   "text": "after taking mercury for the great pox",
+   "from": 1495,
+   "to": 1909,
+   "weight": 2,
+   "traits": [
+    "lustful"
+   ]
+  },
+  {
+   "id": "mercury_elixir",
+   "kind": "accident",
+   "text": "after drinking an elixir of mercury for long life",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "mystic",
+    "physician",
+    "astronomer"
+   ],
+   "rich": true,
+   "note": "As Qin Shi Huang did, in 210 BC."
+  },
+  {
+   "id": "opium",
+   "kind": "accident",
+   "text": "of too much opium",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "hedonist",
+    "melancholic",
+    "drunkard"
+   ]
+  },
+  {
+   "id": "laudanum",
+   "kind": "accident",
+   "text": "of too much laudanum",
+   "from": 1600,
+   "to": 1920,
+   "weight": 1,
+   "traits": [
+    "hedonist",
+    "melancholic"
+   ]
+  },
+  {
+   "id": "bled_dry",
+   "kind": "accident",
+   "text": "bled too far by {his} physicians",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "min_age": 40,
+   "rich": true
+  },
+  {
+   "id": "banquet_bladder",
+   "kind": "accident",
+   "text": "when {his} bladder burst at a banquet, too polite to leave the table",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "reveller",
+    "gluttonous"
+   ],
+   "note": "As Tycho Brahe did, in 1601."
+  },
+  {
+   "id": "melons",
+   "kind": "accident",
+   "text": "of a surfeit of melons",
+   "from": -10000,
+   "to": 3000,
+   "weight": 1,
+   "traits": [
+    "gluttonous"
+   ],
+   "note": "As Pope Paul II did, they said, in 1471."
+  },
+  {
+   "id": "lampreys",
+   "kind": "accident",
+   "text": "of a surfeit of lampreys",
+   "from": 900,
+   "to": 1500,
+   "weight": 1,
+   "traits": [
+    "gluttonous",
+    "connoisseur"
+   ],
+   "note": "As King Henry I of England did, in 1135."
+  },
+  {
+   "id": "rose_petals",
+   "kind": "accident",
+   "text": "smothered by rose petals at a feast",
+   "from": -100,
+   "to": 500,
+   "weight": 1,
+   "traits": [
+    "reveller",
+    "hedonist"
+   ],
+   "rich": true,
+   "note": "As Elagabalus's guests were, the story goes."
+  },
+  {
+   "id": "dancing",
+   "kind": "accident",
+   "text": "dancing without rest for days",
+   "from": 1200,
+   "to": 1600,
+   "weight": 1,
+   "traits": [
+    "dancer"
+   ],
+   "note": "As in the dancing plague of 1518."
+  },
+  {
+   "id": "asleep",
+   "kind": "old_age",
+   "text": "peacefully in {his} sleep",
+   "from": -10000,
+   "to": 3000,
+   "weight": 4
+  },
+  {
+   "id": "full_of_years",
+   "kind": "old_age",
+   "text": "full of years",
+   "from": -10000,
+   "to": 3000,
+   "weight": 4
+  },
+  {
+   "id": "surrounded",
+   "kind": "old_age",
+   "text": "surrounded by {his} grandchildren",
+   "from": -10000,
+   "to": 3000,
+   "weight": 2,
+   "min_age": 70
+  },
+  {
+   "id": "worn_out",
+   "kind": "old_age",
+   "text": "worn out by long years",
+   "from": -10000,
+   "to": 3000,
+   "weight": 3
+  }
+ ]
+}

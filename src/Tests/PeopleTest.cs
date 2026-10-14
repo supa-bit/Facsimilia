@@ -87,6 +87,25 @@ public partial class PeopleTest : TestRunner
         Check(causes.ContainsKey(DeathCauses.OldAge) && causes.ContainsKey(DeathCauses.Disease),
             $"old age and disease are among the causes: {string.Join(", ", causes.Select(kv => $"{kv.Key} {kv.Value}"))}");
 
+        // The designer's named deaths: dozens of each, in the age's own words.
+        var deaths = DeathCatalog.Instance;
+        Check(deaths.All.Count(x => x.Kind == DeathCauses.Disease) >= 30 && deaths.All.Count(x => x.Kind == DeathCauses.Accident) >= 30,
+            "a few dozen named diseases and accidents");
+        Check(deaths.All.SelectMany(x => x.Traits).All(t => cat[t] != null), "the traits named in deaths exist");
+        var none = new List<string>();
+        Check(deaths.Possible(DeathCauses.Disease, -300, 40, none, false).Any(x => x.Id == "wasting_anc")
+              && !deaths.Possible(DeathCauses.Disease, -300, 40, none, false).Any(x => x.Id is "consumption" or "tuberculosis"),
+            "in 300 BC it is the wasting sickness, not consumption or tuberculosis");
+        Check(deaths.Possible(DeathCauses.Disease, 1700, 40, none, false).Any(x => x.Id == "consumption"), "in 1700 it is consumption");
+        Check(!deaths.Possible(DeathCauses.Accident, -300, 40, new[] { "vain" }, false).Any(x => x.Id == "gold_bath")
+              && deaths.Possible(DeathCauses.Accident, -300, 40, new[] { "vain" }, true).Any(x => x.Id == "gold_bath"),
+            "only the rich and vain bathe in gold");
+        Check(!deaths.Possible(DeathCauses.Accident, 1400, 40, new[] { "lustful" }, true).Any(x => x.Id == "mercury_pox"),
+            "no mercury for the great pox before 1495");
+        var named = dead.Where(x => x.DeathDetail != null).ToList();
+        Check(named.Count > dead.Count / 2, $"most deaths are named ({named.Count} of {dead.Count})");
+        Check(named.All(x => !CharacterRegistry.HowDied(x).Contains("{his}")), "the words fit the person");
+
         // Opinions have reasons.
         var a = reg.CreateCharacter("Ptolemy", "male", -360);
         var b = reg.CreateCharacter("Berenice", "female", -340);

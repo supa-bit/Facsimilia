@@ -2675,6 +2675,17 @@ bloodline, reputation, relationships):
 - **How people die**: old age, disease, accident (hunters and riders
   more), childbirth (about one birth in seventy, more for hard births and
   mothers over 35), battle; execution and murder come with plots.
+- **Named deaths** (your list of 14 Oct 2026, `data/deaths.json`, 96
+  entries): 42 diseases and 50 accidents, plus four ways to die of old age,
+  each in the words of its age. Tuberculosis is "the wasting sickness",
+  then "consumption" from 1300, "tuberculosis" from 1882; malaria "a fever
+  of the marshes", then "the ague"; any pestilence "the plague". Some
+  only for certain people: hunters are gored by boars and mauled by
+  lions, charioteers overturned at the races, drunkards die of ruined
+  livers or drown in vats of wine; only the rich and vain bathe in gold;
+  mercury for the great pox only after 1495. History's own odd ends are
+  there: Pyrrhus's roof tile, Aeschylus's tortoise, Chrysippus laughing at
+  his own joke, Henry I's lampreys, Tycho Brahe's bladder.
 - **Opinions** with their reasons: family, shared and opposed natures,
   people, faith, philosophy, how the other rules, reputation, looks,
   bonds and memories (old wrongs fade after twenty years).

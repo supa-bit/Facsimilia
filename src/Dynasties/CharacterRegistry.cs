@@ -227,6 +227,8 @@ public sealed partial class CharacterRegistry
                 cd["skills"] = new GArray(c.BaseSkills.Select(v => Variant.From(v)));
             if (c.DeathCause != null)
                 cd["death_cause"] = c.DeathCause;
+            if (c.DeathDetail != null)
+                cd["death_detail"] = c.DeathDetail;
             if (c.Bonds.Count > 0)
                 cd["bonds"] = new GArray(c.Bonds.Select(b => (Variant)new GArray { b.Kind, b.With, b.Since }));
             if (c.Memories.Count > 0)
@@ -292,6 +294,7 @@ public sealed partial class CharacterRegistry
                 Traits = cd["traits"].AsGodotArray().Select(v => v.AsString()).ToList(),
                 BaseSkills = cd.TryGetValue("skills", out var sk) ? sk.AsGodotArray().Select(v => v.AsInt32()).ToArray() : null,
                 DeathCause = cd.TryGetValue("death_cause", out var dc) ? dc.AsString() : null,
+                DeathDetail = cd.TryGetValue("death_detail", out var dd) ? dd.AsString() : null,
                 Memories = cd.TryGetValue("memories", out var mem)
                     ? mem.AsGodotArray().Select(v => v.AsGodotArray()).Select(m => new Memory(m[0].AsInt32(), m[1].AsString(), m[2].AsInt32(), m[3].AsInt32())).ToList()
                     : new List<Memory>(),

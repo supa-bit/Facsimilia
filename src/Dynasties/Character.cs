@@ -30,6 +30,9 @@ public sealed class Character
     /// <summary>How they died (DeathCauses), once dead.</summary>
     public string? DeathCause { get; set; }
 
+    /// <summary>The named way they died (DeathCatalog id), when there is one.</summary>
+    public string? DeathDetail { get; set; }
+
     /// <summary>What they remember of others, for or against (opinions).</summary>
     public List<Memory> Memories { get; set; } = new();
 

@@ -119,13 +119,14 @@ public sealed partial class CharacterRegistry
                 continue;
             var ruled = Realms.Values.Where(r => r.RulerId == c.Id).OrderBy(r => r.Id).ToList();
             Kill(c, year, NaturalCause(c, age, life));
+            NameDeath(c, year, life);
             if (ruled.Count > 0)
             {
                 foreach (var realm in ruled)
                     events.Add(Succeed(realm, c, age, year, rng));
             }
             else if (courts.TryGetValue(c.Id, out int realmId))
-                events.Add(new(ChronicleKind.Death, realmId, $"{c.Name} has died {HowDied(c.DeathCause)} at {age}."));
+                events.Add(new(ChronicleKind.Death, realmId, $"{c.Name} has died {HowDied(c)} at {age}."));
         }
 
         courts = Courts();  // successions change who's at court
@@ -168,7 +169,7 @@ public sealed partial class CharacterRegistry
         if (heir != null && rng.Randf() >= UsurpationChance(dead, heir, year))
         {
             realm.RulerId = heir.Id;
-            return new(ChronicleKind.Succession, realm.Id, $"{realm.Name}: {dead.Name} has died {HowDied(dead.DeathCause)} at {age}. {heir.Name} inherits.");
+            return new(ChronicleKind.Succession, realm.Id, $"{realm.Name}: {dead.Name} has died {HowDied(dead)} at {age}. {heir.Name} inherits.");
         }
         var founder = FoundHouse(realm, year, rng);
         string text = heir == null

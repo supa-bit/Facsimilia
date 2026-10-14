@@ -51,7 +51,7 @@ public partial class Hud
     {
         int year = _map.DemoYear;
         return c.IsAlive ? $"aged {c.AgeIn(year)}"
-            : $"died {ThemeAncient.YearText(c.DeathYear)} {CharacterRegistry.HowDied(c.DeathCause)} at {c.DeathYear - c.BirthYear}".Replace("  ", " ");
+            : $"died {ThemeAncient.YearText(c.DeathYear)} {CharacterRegistry.HowDied(c)} at {c.DeathYear - c.BirthYear}".Replace("  ", " ");
     }
 
     void ShowPerson(int id)
