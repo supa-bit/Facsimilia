@@ -24,6 +24,8 @@ public partial class SettingsStore : Node
 
     /// <summary>Your armies' battles open on the battle map (decision "Next 1"); off, your generals fight them.</summary>
     public bool FightBattles { get; private set; } = true;
+    /// <summary>Keep years over a century old in brief (your answer "Keeping history in saves": a setting). Off: keep everything.</summary>
+    public bool ThinOldYears { get; private set; }
 
     /// <summary>The narrators speak (decision "Voices"); off, only the text shows.</summary>
     public bool VoiceEnabled { get; private set; } = true;
@@ -64,6 +66,12 @@ public partial class SettingsStore : Node
     public void SetFightBattles(bool value)
     {
         FightBattles = value;
+        Save();
+    }
+
+    public void SetThinOldYears(bool value)
+    {
+        ThinOldYears = value;
         Save();
     }
 
@@ -132,6 +140,7 @@ public partial class SettingsStore : Node
         MasterVolume = config.GetValue("audio", "master_volume", MasterVolume).AsSingle();
         AutosaveInterval = ValidInterval(config.GetValue("gameplay", "autosave_interval", AutosaveInterval).AsInt32());
         FightBattles = config.GetValue("gameplay", "fight_battles", FightBattles).AsBool();
+        ThinOldYears = config.GetValue("gameplay", "thin_old_years", ThinOldYears).AsBool();
         VoiceEnabled = config.GetValue("audio", "voice_enabled", VoiceEnabled).AsBool();
         ShowOpening = config.GetValue("gameplay", "show_opening", ShowOpening).AsBool();
         OpeningSeen = config.GetValue("gameplay", "opening_seen", OpeningSeen).AsBool();
@@ -145,6 +154,7 @@ public partial class SettingsStore : Node
         config.SetValue("audio", "master_volume", MasterVolume);
         config.SetValue("gameplay", "autosave_interval", AutosaveInterval);
         config.SetValue("gameplay", "fight_battles", FightBattles);
+        config.SetValue("gameplay", "thin_old_years", ThinOldYears);
         config.SetValue("audio", "voice_enabled", VoiceEnabled);
         config.SetValue("gameplay", "show_opening", ShowOpening);
         config.SetValue("gameplay", "opening_seen", OpeningSeen);

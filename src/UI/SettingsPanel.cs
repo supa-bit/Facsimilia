@@ -76,6 +76,11 @@ public partial class SettingsPanel : Control
         fight.Toggled += on => store.SetFightBattles(on);
         gameplay.AddChild(Row("Fight battles yourself", fight,
             "When your army meets an enemy, time stops and the battle map opens. Off: your generals fight every battle for you."));
+        var thin = new CheckBox { ButtonPressed = store.ThinOldYears };
+        thin.Toggled += on => store.SetThinOldYears(on);
+        gameplay.AddChild(Row("Thin out old years", thin,
+            "Off: saves keep everything - the whole chronicle, every battle report, every province's history. On: years more than a century old are kept in brief " +
+            "(the chronicle keeps wars, conquests, revolts, disasters and successions; battle reports keep their numbers but not the blow-by-blow), so very long games save faster."));
         var opening = new CheckBox { ButtonPressed = store.ShowOpening };
         opening.Toggled += on => store.SetShowOpening(on);
         gameplay.AddChild(Row("Show the opening", opening,

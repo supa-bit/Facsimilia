@@ -43,8 +43,6 @@ public sealed class ProvinceState
     public double FocusLevel { get; set; }
     /// <summary>What happened here, year by year (the province's History tab).</summary>
     public List<(int Year, string Text)> History { get; } = new();
-    /// <summary>The most entries a province's history keeps (the oldest go first).</summary>
-    public const int HistoryMax = 300;
     /// <summary>The province year by year, for its graphs: people, unrest and integration.</summary>
     public List<(int Year, float People, float Unrest, float Integration)> Records { get; } = new();
     /// <summary>The most yearly records kept; older ones are thinned to every tenth year.</summary>
@@ -62,9 +60,7 @@ public sealed class ProvinceState
 
     public void Log(int year, string text)
     {
-        History.Add((year, text));
-        if (History.Count > HistoryMax)
-            History.RemoveAt(0);
+        History.Add((year, text));   // kept whole (your answer "Save size": keep everything)
     }
 
     public int Level(string building) => Buildings.TryGetValue(building, out int n) ? n : 0;

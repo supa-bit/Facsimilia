@@ -219,6 +219,8 @@ public partial class GameRoot : Node2D
             var yearClock = System.Diagnostics.Stopwatch.StartNew();
             Map.FightBattlesYourself = SettingsStore.Instance.FightBattles;
             var events = Map.AdvanceYear();
+            if (SettingsStore.Instance.ThinOldYears && Map.DemoYear % 10 == 0)
+                Map.Game.ThinOldYears(Map.DemoYear, MapView.GreatChronicleKinds);
             while (Map.Pending != null)
             {
                 // A battle of yours: fight it on the battle map, then the year goes on.

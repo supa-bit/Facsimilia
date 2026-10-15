@@ -3566,7 +3566,16 @@ Twelve of the new follow-up questions, answered while the work went on.
 ### Saves, speed and data
 
 - **Autosaves**: A setting (you choose how often). Already in Settings: every 5, 10, 15, 20 or 25 years, or off.
-- **Keeping history in saves**: A setting (you choose whether old years are thinned).
+- **Keeping history in saves** *(built, 15 Oct 2026, with "Save size: keep everything")*:
+  a setting, "Thin out old years" (Settings, Gameplay), off at first. Saves
+  now keep everything: the whole chronicle as you read it (before, it wasn't
+  saved at all, and a loaded game's chronicle began empty), every battle
+  report (before, the last 300) and every province's history (before, its
+  last 300 entries). With the setting on, every tenth year the game thins
+  years more than a century old: the chronicle keeps only wars, peace,
+  conquests, revolts, disasters and successions; battle reports keep their
+  numbers but lose the blow-by-blow; a province keeps one entry a decade;
+  each realm's graphs keep every 25th year.
 - **What mods can change**: Data first, pictures and sounds later.
 - **A store page**: Later, when the game is ready.
 

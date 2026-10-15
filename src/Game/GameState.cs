@@ -476,16 +476,43 @@ public sealed class GameState
     public HashSet<string> CompaniesSeen { get; } = new();
     /// <summary>History's campaigns checked at their end date (index in history_goals.json -> it happened as in history).</summary>
     public Dictionary<int, bool> HistoryChecks { get; } = new();
-    /// <summary>The battles fought, newest last (the last BattlesKept).</summary>
+    /// <summary>The battles fought, newest last.</summary>
     public List<BattleReport> Battles { get; } = new();
     /// <summary>Months of the present year already marched (armies move month by month).</summary>
     public int MonthsMarched { get; set; }
-    public const int BattlesKept = 300;
-    public void AddBattle(BattleReport r)
+    /// <summary>Every battle is kept (your answer "Save size": keep everything); thinning old years drops only their blow-by-blow.</summary>
+    public void AddBattle(BattleReport r) => Battles.Add(r);
+
+    /// <summary>
+    /// The chronicle as you read it, the whole game long (your answer "Save
+    /// size": keep everything): year, kind (a ChronicleKind), realm and text.
+    /// </summary>
+    public List<(int Year, int Kind, int Realm, string Text)> Chronicle { get; } = new();
+
+    /// <summary>With "Thin out old years" on, years older than this are kept in brief.</summary>
+    public const int ThinAfterYears = 100;
+
+    /// <summary>
+    /// Thins years older than ThinAfterYears (your answer "Keeping history
+    /// in saves": a setting): the chronicle keeps only its great events
+    /// (wars, peace, conquests, revolts, disasters, successions), battle
+    /// reports lose their phases, provinces keep one entry a decade, and
+    /// each realm's graphs keep every 25th year.
+    /// </summary>
+    public void ThinOldYears(int year, IReadOnlyCollection<int> greatKinds)
     {
-        Battles.Add(r);
-        if (Battles.Count > BattlesKept)
-            Battles.RemoveRange(0, Battles.Count - BattlesKept);
+        int before = year - ThinAfterYears;
+        Chronicle.RemoveAll(e => e.Year < before && !greatKinds.Contains(e.Kind));
+        foreach (var b in Battles)
+            if (b.Year < before)
+                b.Phases.Clear();
+        foreach (var p in Provinces.Values)
+        {
+            var seen = new HashSet<int>();
+            p.History.RemoveAll(h => h.Year < before && !seen.Add(h.Year / 10));
+        }
+        foreach (var r in Realms.Values)
+            r.History.RemoveAll(h => (int)h[0] < before && (int)h[0] % 25 != 0);
     }
     GDictionary HistoryChecksDict()
     {
@@ -533,6 +560,7 @@ public sealed class GameState
             ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
             ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
+            ["chronicle"] = new GArray(Chronicle.Select(e => (Variant)new GArray { e.Year, e.Kind, e.Realm, e.Text }).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
             ["companies"] = new GArray(Companies.Select(c => (Variant)c.ToDict()).ToArray()), ["next_company"] = NextCompanyId,
             ["companies_seen"] = new GArray(CompaniesSeen.Select(c => (Variant)c).ToArray()),
@@ -622,6 +650,12 @@ public sealed class GameState
         if (d.TryGetValue("battles", out var bt))
             foreach (Variant v in bt.AsGodotArray())
                 g.Battles.Add(BattleReport.FromDict(v.AsGodotDictionary()));
+        if (d.TryGetValue("chronicle", out var chr))
+            foreach (Variant v in chr.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                g.Chronicle.Add((a[0].AsInt32(), a[1].AsInt32(), a[2].AsInt32(), a[3].AsString()));
+            }
         if (d.TryGetValue("sieges", out var sg))
             foreach (Variant v in sg.AsGodotArray())
                 g.Sieges.Add(Siege.FromDict(v.AsGodotDictionary()));

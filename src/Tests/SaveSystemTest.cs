@@ -135,6 +135,21 @@ public partial class SaveSystemTest : TestRunner
             "moved save (PNG grid) doesn't load");
 
         SaveSystem.DeleteDir(TestRoot);
+        // The whole chronicle is kept and saved (your answer "Save size": keep
+        // everything); thinning old years keeps only the great events.
+        var gs = new Game.GameState();
+        gs.Chronicle.Add((-300, (int)Dynasties.ChronicleKind.Birth, 1, "A son is born."));
+        gs.Chronicle.Add((-300, (int)Dynasties.ChronicleKind.War, 1, "War with Carthage."));
+        gs.Chronicle.Add((-150, (int)Dynasties.ChronicleKind.Birth, 1, "A daughter is born."));
+        var gb = new Game.BattleReport { Year = -300, Place = "Here" };
+        gb.Phases.Add("They fought.");
+        gs.AddBattle(gb);
+        var gr = Game.GameState.FromDict(gs.ToDict());
+        Check(gr.Chronicle.Count == 3 && gr.Chronicle[1].Text == "War with Carthage." && gr.Battles.Count == 1, "the chronicle and battles should be saved");
+        gr.ThinOldYears(-150, World.MapView.GreatChronicleKinds);
+        Check(gr.Chronicle.Count == 2 && gr.Chronicle.All(e => e.Text != "A son is born.") && gr.Battles[0].Phases.Count == 0,
+            "thinning should keep old wars but drop old births and blow-by-blow accounts");
+
         Finish("SaveSystem tests passed: round-trip per slot, slot summaries, overwrite, failed-save safety, " +
             "crash recovery, delete, newest-save Continue, and the old single save moving into slot 1.");
     }

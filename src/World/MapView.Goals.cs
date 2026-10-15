@@ -138,6 +138,13 @@ public partial class MapView
     }
 
     /// <summary>Every 5 years (and at the start), each realm's people, silver, soldiers and score, for the realms table.</summary>
+    /// <summary>The chronicle's great events, kept when old years are thinned.</summary>
+    public static readonly int[] GreatChronicleKinds =
+    {
+        (int)ChronicleKind.Succession, (int)ChronicleKind.NewHouse, (int)ChronicleKind.War, (int)ChronicleKind.Peace,
+        (int)ChronicleKind.Conquest, (int)ChronicleKind.Revolt, (int)ChronicleKind.Disaster,
+    };
+
     internal void RecordHistory()
     {
         if (DemoYear % 5 != 0 && DemoYear != StartYear)

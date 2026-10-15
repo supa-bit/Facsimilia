@@ -202,7 +202,10 @@ public partial class Hud : Control
     {
         _map = map;
         _entries.Clear();
-        _entries.Add($"{ThemeAncient.YearText(map.DemoYear)} — The reign of {map.GetPlayerRealm().Name} begins.");
+        if (map.Game.Chronicle.Count == 0)
+            map.Game.Chronicle.Add((map.DemoYear, (int)ChronicleKind.Succession, map.PlayerRealmId, $"The reign of {map.GetPlayerRealm().Name} begins."));
+        foreach (var e in map.Game.Chronicle.TakeLast(ChronicleLines).Reverse())
+            _entries.Add($"{ThemeAncient.YearText(e.Year)} — {e.Text}");   // a loaded game shows where its chronicle left off
         RenderChronicle();
         ConnectProvinceSignals();
         RefreshProvincePanel();
@@ -278,7 +281,10 @@ public partial class Hud : Control
             _entries.Insert(0, $"{when} — A quiet year.");
         else
             foreach (var e in news)
+            {
                 _entries.Insert(0, $"{when} — {e.Text}");
+                _map.Game.Chronicle.Add((_map.DemoYear, (int)e.Kind, e.RealmId, e.Text));   // the whole game's chronicle, saved
+            }
         if (_entries.Count > ChronicleLines)
             _entries.RemoveRange(ChronicleLines, _entries.Count - ChronicleLines);
         RenderChronicle();
