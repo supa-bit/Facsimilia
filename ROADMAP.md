@@ -169,6 +169,20 @@ technologies); sound effects (all 46 "Now" sounds, war, ships and crowds by
 era, horns and cries by culture); armies (retraining, slave soldiers,
 traditions, nuclear weapons in extremis and terrorist states from 1900).
 
+Answered 15 Oct 2026 (recorded in MECHANICS.md, "Your answers of 15
+October 2026"): forty more, among them state monopolies (both run by you
+and farmed out, history's goods easily and others at a cost); how generals
+grow (perks after victories fitting how they won, each skill from its own
+work, and defeat teaching both bad perks and small lessons); admirals with
+their own skills, Rome's yearly consuls, Carthage punishing its generals;
+siege choices and occupation until the peace; migrations, civil wars,
+pretenders, great collapses (on their dates, with choices for you), new
+realms only where conditions allow, slave revolts, disasters and your
+answers to them, omens only where the signs were real; new religions,
+missionaries and slow conversion; claims, appeasement, vassals' freedom,
+allies' duty. 82 questions remain open (Culture and religion, Later eras,
+War at sea, campaigns and supply, and the battle map).
+
 - [~] **Voices** (12-13 Oct 2026): the script is written (1024 lines:
       opening, tutorial, ages, wonders, disasters, history's wars, war
       cries, plus history lessons, moments of play in each narrator's

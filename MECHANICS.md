@@ -3436,3 +3436,65 @@ Museum of Art (both public domain), refuses facsimiles and copies, keeps
 each object's record and writes the credits. First strip: the hatched
 meander round the rim of an Athenian krater of about 750–735 BCE (the Met,
 14.130.14).
+
+## Your answers of 15 October 2026 **(recorded)**
+
+Forty questions you answered on the Ledger (read 15 Oct 2026). Each becomes its feature's instructions; your notes win where they differ.
+
+### Culture and religion
+
+- **New religions**: They arise where history had them; if that place is gone, nearby in similar conditions.
+- **Missionaries**: Send missionaries (characters) to provinces or courts.
+- **Speed of conversion**: Slow, with bursts when rulers convert.
+
+### History: events, people, migrations and new realms
+
+- **How migrating peoples behave**: They seek land: they raid, fight or settle, and can be bargained with.
+- **Answering a migration**: Fight, pay, or settle them as allies on your land.
+- **Playing a migrating people**: Yes, lead a people to new land.
+- **History's new realms in your land**: Only if unrest and conditions are there: Parthia rises only if your hold on Parthia is weak.
+- **Names for new realms**: History's name where one exists, else from their people and land.
+- **Civil wars**: The realm splits between claimants; you pick a side or lead one.
+- **Pretenders**: Claimants, real or false, raise support and armies.
+- **Great collapses**: Collapses happen when strain builds, not on a date. Your note: "All major collapses still happen on their dates, for the player realm too, we have to come up with options for the player for each collapse, so the game continues."
+- **Disaster effects**: Earthquakes ruin buildings and harbours; eruptions bury towns and darken skies; plagues shake faiths and labour; famines raise prices and riots.
+- **Your answers to disasters**: Relief, rebuilding, prayer and scapegoats, each with costs.
+- **Omens and warnings**: your own answer. Your note: "Only if the signs actually matched disasters, such as retreating water prior to a tsunami, maybe they thought it was Poseidon drinking it up, but a red fox walking down a red road before an earthquake no matter the accompanying story, is not a real omen. If that makes sense"
+- **Slave revolts**: History's revolts happen where their conditions exist.
+- **Unrest of the enslaved in your realm**: Full revolts can happen.
+- **History checks across all eras**: Hundreds of checkpoints across all eras.
+- **Later borders**: Draw key dates from our districts by hand from the sources.
+
+### Treasury and money
+
+- **How a monopoly works**: Both, chosen for each good: Run some monopolies yourself and farm out others, as the Ptolemies and Romans did.
+- **Which goods can be monopolised**: History's list, plus any other at a higher cost: History's monopolies come easily; others are possible but anger the people and the merchants more.
+
+### War: campaigns, marching, supply and sieges
+
+- **Occupation until the peace**: Occupation during war, handed over by the treaty: War score counts what you hold.
+- **Siege choices**: Starve, storm or mine; build works and engines; defenders may sally or surrender on terms.
+
+### War: generals
+
+- **How generals earn perks**: A chance after each victory, fitting how he won: E.g. winning with cavalry may give 'cavalry commander'.
+- **How generals gain skill**: Tactics from battles, siegecraft from sieges, logistics from long marches: Each skill grows from its own work.
+- **What defeat teaches**: Both.
+- **How many waiting generals**: One per 5 armies, at least 2.
+- **Who picks generals, by government**: As above, plus Carthage's council choosing and punishing generals.
+- **Rome's yearly consuls**: Elected yearly; you can ask the Senate to prorogue: Costs influence; may be refused.
+- **Carthage crucifying failed generals**: Yes, as your choice (with consequences).
+- **Admirals' skills**: your own answer. Your note: "Their own, same amount as generals, obviously a few overlapping"
+- **Who can be an admiral**: Anyone; skills decide. Your note: "It is not easy nor common to excel in both, but possible to excel in all including air and space eventually"
+- **What men of prowess can be**: Also engineers and admirals.
+- **How often men of prowess arrive**: On history's dates, plus rarely by chance: E.g. Xanthippus 255 BC.
+
+### War: pretexts, peace and treaties
+
+- **Offers to appease**: Offers of silver, hostages, a province or submission, as history's embassies did.
+- **How often you are offered peace**: Whenever the other side's situation changes enough.
+- **Making claims**: Claims can be forged or dug up by your officials, at a cost and risk.
+- **Aggression fading**: Aggression fades faster with peace and good deeds.
+- **Vassals' freedom**: Levels from ally to province-in-waiting; you tighten or loosen them.
+- **Absorbing vassals**: Vassals can be absorbed over years, or bequeathed.
+- **Allies' duty**: Allies must answer or lose trust; defensive and offensive alliances differ.
