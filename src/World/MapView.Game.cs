@@ -165,6 +165,7 @@ public partial class MapView
         events.AddRange(GeneralsYear(new Random(StableHash.Of(DemoYear, 3571))));
         events.AddRange(ArmyLoyaltyYear(new Random(StableHash.Of(DemoYear, 6271))));
         events.AddRange(TraditionsYear());
+        events.AddRange(ReformsYear());
         events.AddRange(MercenariesYear(new Random(StableHash.Of(DemoYear, 4409))));
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");

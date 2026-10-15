@@ -129,6 +129,28 @@ public partial class GameEconomyTest : TestRunner
             map.MustersMonth(arrivals);
         Check(r.Musters.Count == 0 && Math.Abs(legio.Units[hastati.Index] - (hastatiBefore + 1)) < 1e-6, $"the recruits should reach the army ({travel} month(s) on the road)");
 
+        // Military reforms: offered when history's cause is present and the
+        // technology known; silver and years to take effect; the rival grows.
+        double menBefore = r.Manpower, multBefore = r.ManpowerMultiplier, rivalBefore = r.RivalStrength;
+        r.Manpower = 0;   // short of men, as Rome was in Gracchus' day
+        map.ReformsYear();
+        Check(r.ReformsOffered.Contains("lex_militaris"), "Rome, short of men, should be offered Gaius Gracchus' military law");
+        Check(!r.ReformsOffered.Contains("marian_reforms"), "the Marian reforms need the cohort, which Rome doesn't know in 300 BC");
+        r.Treasury = 1000;
+        Check(map.EnactReform("lex_militaris") && r.ReformsPending["lex_militaris"] == 2 && r.Treasury < 1000 && r.RivalStrength > rivalBefore,
+            "beginning a reform should cost silver now and anger the rival");
+        map.ReformsYear();
+        map.ReformsYear();
+        Check(r.Reforms.ContainsKey("lex_militaris") && r.ManpowerMultiplier > multBefore, "after its years the reform should take effect");
+        r.Manpower = menBefore;
+        // Other realms take theirs in history's year (Xanthippus drilled Carthage's army in 255 BC).
+        int year = map.DemoYear;
+        map.DemoYear = -255;
+        map.ReformsYear();
+        Check(map.Game.Realm(map.CivRealmIds["carthage"]).Reforms.ContainsKey("xanthippus"), "Carthage should take Xanthippus' drill in 255 BC");
+        Check(!map.Game.Realm(map.CivRealmIds["carthage"]).Reforms.ContainsKey("barcid_army"), "the Barcid army comes later (237 BC)");
+        map.DemoYear = year;
+
         // Army traditions: history's at the start, shaping units; they fade unused.
         int carthage = map.CivRealmIds["carthage"];
         Check(r.Traditions.ContainsKey("manipular_legion") && r.Traditions.ContainsKey("roman_camp"), "Rome should start with its traditions");
@@ -190,6 +212,7 @@ public partial class GameEconomyTest : TestRunner
             && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
                 && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
+        Check(map2.Game.Realm(rome).Reforms.ContainsKey("lex_militaris"), "reforms didn't survive the save");
         Check(map2.Game.Realm(rome).Musters.Count == 1, "recruits on the way didn't survive the save");
         Check(map2.Game.Realm(rome).Traditions.ContainsKey("manipular_legion") && Guards.Count(map2.Game.Realm(rome)) == 3,
             "traditions and guards didn't survive the save");
@@ -198,7 +221,7 @@ public partial class GameEconomyTest : TestRunner
             "the ravage of war and the years of peace didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +
-            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, raising units in their provinces, army loyalty, veterans' land, traditions, guards and " +
+            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, raising units in their provinces, military reforms, army loyalty, veterans' land, traditions, guards and " +
             $"saving all work. {events.Count} events in the first year.");
         map.Free();
         map2.Free();

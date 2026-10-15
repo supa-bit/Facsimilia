@@ -36,9 +36,16 @@ public partial class MapView
                     army.GeneralLoyalty = 0;   // a new general must win them over
                 }
                 else
-                    army.GeneralLoyalty = Math.Min(1, army.GeneralLoyalty + ArmyLoyalty.PerYear);
+                    army.GeneralLoyalty = Math.Min(1, army.GeneralLoyalty
+                        + ArmyLoyalty.PerYear * Math.Max(0, 1 + ReformCatalog.Instance.Effect(s, "loyalty_rate")));   // Marius' volunteers looked to their general
             }
 
+            if (s.VeteransWaiting >= 1 && ReformCatalog.Instance.Effect(s, "veterans_paid") > 0
+                && s.Treasury >= ArmyLoyalty.PayOffCost(s.VeteransWaiting))
+            {
+                s.Treasury -= ArmyLoyalty.PayOffCost(s.VeteransWaiting);   // Augustus' military treasury pays them in silver
+                ArmyLoyalty.Clear(s);
+            }
             if (s.VeteransWaiting >= 1)
             {
                 if (id != PlayerRealmId)
@@ -77,6 +84,7 @@ public partial class MapView
         if (general != null)
             s.Generals.Remove(general);
         s.RivalStrength = Math.Clamp(s.RivalStrength + 10, 0, 100);
+        s.LastMutinyYear = DemoYear;
         int province = army.Node >= 0 ? ProvinceOfNode(army.Node) : 0;
         string text = $"{who} and {army.Name} turn against {RealmName(realmId)}";
         if (province != 0 && Provinces!.Provinces.TryGetValue(province, out var p) && p.RealmId == realmId && province != CapitalProvince(realmId))

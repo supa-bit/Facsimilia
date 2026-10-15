@@ -45,6 +45,7 @@ public partial class MapView
     /// </summary>
     internal void TraditionsAfterBattle(BattleReport report, RealmState winner, Army winArmy, RealmState loser, Army loseArmy, List<ChronicleEvent> events)
     {
+        RememberBattle(report, winner, loser);
         var cat = TraditionCatalog.Instance;
         foreach (var (s, a) in new[] { (winner, winArmy), (loser, loseArmy) })
         {

@@ -1,0 +1,473 @@
+{
+ "about": "Military reforms to 1 AD (decisions 'Military reforms', 'Which army reforms first', 'What makes a reform available', 'What reforms cost', 'Refusing a reform', 'Who is angered by reforms'). Each belongs to a realm (civ). The realm that plays it is offered it when history's cause is present and it knows the technology (if one is named); other realms take it in the year history did. cost: talents; years: until it takes effect; rival: points the rival faction gains. cause kinds: at_war_years (at war that many years), at_war_with (a realm), manpower_low (under a quarter of what it could call up), defeat (a heavy defeat in the last ten years), defeat_by (by a realm), defeat_or_manpower, unrest_culture (a restless province of that people), pirates (pirates at sea), after_civil_war (a loyal army turned on the realm), holds_culture (a province of that people), fought_culture (a battle against that people in the last ten years), no_war_years (peace that long). effects: manpower and upkeep scale the realm's call-up and army pay; loyalty_rate speeds how fast armies grow loyal to their generals; veterans_paid pays veterans in silver from the treasury instead of land; might_<arm>, garrison and unrest as for technologies. Sources as given; our own summary, free for any use.",
+ "reforms": [
+  {
+   "id": "velites",
+   "name": "The velites",
+   "civ": "rome",
+   "year": -211,
+   "cause": {
+    "kind": "at_war_years",
+    "years": 5
+   },
+   "cost": 120,
+   "years": 2,
+   "rival": 4,
+   "effects": {
+    "might_light_infantry": 0.08
+   },
+   "source": "Livy 26.4",
+   "text": "In the war with Hannibal the youngest and poorest were trained as light troops riding behind the cavalry; they became the velites."
+  },
+  {
+   "id": "scipio_spain",
+   "name": "Scipio's Spanish drill",
+   "civ": "rome",
+   "year": -210,
+   "cause": {
+    "kind": "at_war_with",
+    "civ": "carthage"
+   },
+   "cost": 150,
+   "years": 2,
+   "rival": 6,
+   "effects": {
+    "might_heavy_infantry": 0.05
+   },
+   "source": "Polybius 10.20; Livy 26.51",
+   "text": "Scipio drilled his legions at New Carthage and took up the Spanish sword."
+  },
+  {
+   "id": "lex_militaris",
+   "name": "Gaius Gracchus' military law",
+   "civ": "rome",
+   "year": -123,
+   "cause": {
+    "kind": "manpower_low"
+   },
+   "cost": 150,
+   "years": 2,
+   "rival": 10,
+   "effects": {
+    "manpower": 0.05,
+    "unrest": -0.02,
+    "upkeep": 0.05
+   },
+   "source": "Plutarch, Gaius Gracchus 5",
+   "text": "The state clothes its soldiers at no cost to them, and no one under seventeen may be enlisted."
+  },
+  {
+   "id": "marian_reforms",
+   "name": "The Marian reforms",
+   "civ": "rome",
+   "year": -107,
+   "cause": {
+    "kind": "defeat_or_manpower"
+   },
+   "tech": "cohort",
+   "cost": 400,
+   "years": 4,
+   "rival": 15,
+   "effects": {
+    "manpower": 0.4,
+    "upkeep": 0.15,
+    "loyalty_rate": 0.5,
+    "might_heavy_infantry": 0.05
+   },
+   "source": "Sallust, Jugurtha 86; Plutarch, Marius 9, 13",
+   "text": "Marius enlisted the landless poor as volunteers and armed them at the state's cost; the legion fought in cohorts and carried its own baggage. The soldiers looked to their general for land."
+  },
+  {
+   "id": "allied_citizenship",
+   "name": "Citizenship for the Italian allies",
+   "civ": "rome",
+   "year": -89,
+   "cause": {
+    "kind": "unrest_culture",
+    "culture": "italic"
+   },
+   "cost": 300,
+   "years": 3,
+   "rival": 12,
+   "effects": {
+    "manpower": 0.2,
+    "unrest": -0.03
+   },
+   "source": "Appian, Civil Wars 1.49; Velleius 2.16",
+   "text": "After the Social War the allies became citizens, and their soldiers served in the legions."
+  },
+  {
+   "id": "lex_gabinia",
+   "name": "The Gabinian command at sea",
+   "civ": "rome",
+   "year": -67,
+   "cause": {
+    "kind": "pirates"
+   },
+   "cost": 250,
+   "years": 1,
+   "rival": 10,
+   "effects": {
+    "might_warships": 0.1
+   },
+   "source": "Plutarch, Pompey 25-26",
+   "text": "Pompey was given 500 ships and three years to clear the sea of pirates; he did it in three months."
+  },
+  {
+   "id": "augustan_army",
+   "name": "The standing army of Augustus",
+   "civ": "rome",
+   "year": -13,
+   "cause": {
+    "kind": "after_civil_war"
+   },
+   "tech": "professional_army",
+   "cost": 600,
+   "years": 5,
+   "rival": 15,
+   "effects": {
+    "loyalty_rate": -0.4,
+    "upkeep": 0.1,
+    "veterans_paid": 1
+   },
+   "source": "Cassius Dio 54.25, 55.23-25; Suetonius, Augustus 49",
+   "text": "Fixed terms of service and a military treasury that paid veterans in silver instead of land; the legions looked to the emperor, not their generals."
+  },
+  {
+   "id": "egyptian_phalanx",
+   "name": "Egyptians in the phalanx",
+   "civ": "egypt",
+   "year": -217,
+   "cause": {
+    "kind": "at_war_with",
+    "civ": "seleucid"
+   },
+   "cost": 250,
+   "years": 2,
+   "rival": 8,
+   "effects": {
+    "manpower": 0.4,
+    "unrest": 0.03
+   },
+   "source": "Polybius 5.65, 5.107",
+   "text": "Ptolemy IV armed and drilled 20,000 Egyptians as phalangites; they won Raphia, then turned their arms against the dynasty."
+  },
+  {
+   "id": "seleucid_cataphracts",
+   "name": "The Seleucid cataphracts",
+   "civ": "seleucid",
+   "year": -205,
+   "cause": {
+    "kind": "holds_culture",
+    "culture": "median"
+   },
+   "tech": "cataphract_armour",
+   "cost": 250,
+   "years": 3,
+   "rival": 6,
+   "effects": {
+    "might_cavalry": 0.08
+   },
+   "source": "Polybius 16.18 (Panium), 30.25",
+   "text": "After his march to the east Antiochus III armoured horse and rider in mail on the Parthian model."
+  },
+  {
+   "id": "seleucid_romanised",
+   "name": "Antiochus IV's Roman-armed men",
+   "civ": "seleucid",
+   "year": -166,
+   "cause": {
+    "kind": "defeat_by",
+    "civ": "rome"
+   },
+   "tech": "legion_camps",
+   "cost": 200,
+   "years": 3,
+   "rival": 6,
+   "effects": {
+    "might_heavy_infantry": 0.04
+   },
+   "source": "Polybius 30.25",
+   "text": "At the parade at Daphne 5,000 men marched armed in the Roman fashion."
+  },
+  {
+   "id": "macedon_recovery",
+   "name": "Philip V's rebuilding of Macedon",
+   "civ": "greek_world",
+   "year": -185,
+   "cause": {
+    "kind": "defeat"
+   },
+   "cost": 200,
+   "years": 5,
+   "rival": 6,
+   "effects": {
+    "manpower": 0.2
+   },
+   "source": "Livy 39.24; Polybius 23.10",
+   "text": "After Cynoscephalae Philip moved Thracians into Macedon and urged his people to raise children, so that the land would have soldiers again."
+  },
+  {
+   "id": "thureophoroi",
+   "name": "The thureos shield",
+   "civ": "aetolia",
+   "year": -275,
+   "cause": {
+    "kind": "fought_culture",
+    "culture": "celtic"
+   },
+   "cost": 100,
+   "years": 2,
+   "rival": 3,
+   "effects": {
+    "might_light_infantry": 0.06
+   },
+   "source": "Plutarch, Philopoemen 9; Pausanias 10.20",
+   "text": "After the Galatian invasion Greek armies took up the long oval Celtic shield and fought as thureophoroi."
+  },
+  {
+   "id": "cleomenes_reform",
+   "name": "Cleomenes' revolution at Sparta",
+   "civ": "sparta",
+   "year": -227,
+   "cause": {
+    "kind": "manpower_low"
+   },
+   "cost": 150,
+   "years": 2,
+   "rival": 15,
+   "effects": {
+    "manpower": 0.5,
+    "might_heavy_infantry": 0.05
+   },
+   "source": "Plutarch, Cleomenes 11",
+   "text": "Cleomenes cancelled debts, made 4,000 new citizens of the perioikoi, and armed them with the Macedonian pike."
+  },
+  {
+   "id": "nabis_reform",
+   "name": "Nabis frees the helots",
+   "civ": "sparta",
+   "year": -207,
+   "cause": {
+    "kind": "defeat"
+   },
+   "cost": 150,
+   "years": 2,
+   "rival": 15,
+   "effects": {
+    "manpower": 0.3,
+    "unrest": 0.02
+   },
+   "source": "Polybius 13.6, 16.13; Livy 34.31",
+   "text": "Nabis freed slaves and helots and filled his army with them and with mercenaries."
+  },
+  {
+   "id": "syracuse_hiero",
+   "name": "Hiero's army and Archimedes' engines",
+   "civ": "syracuse",
+   "year": -265,
+   "cause": {
+    "kind": "at_war_years",
+    "years": 3
+   },
+   "tech": "mechanics",
+   "cost": 250,
+   "years": 4,
+   "rival": 5,
+   "effects": {
+    "might_missile": 0.05,
+    "garrison": 1
+   },
+   "source": "Polybius 1.9, 8.5-7; Plutarch, Marcellus 14-17",
+   "text": "Hiero II built a citizen army and walls, and Archimedes armed them with engines that held Rome off for two years."
+  },
+  {
+   "id": "pyrrhus_italian",
+   "name": "Pyrrhus' mixed line",
+   "civ": "epirus",
+   "year": -279,
+   "cause": {
+    "kind": "at_war_with",
+    "civ": "rome"
+   },
+   "cost": 120,
+   "years": 1,
+   "rival": 4,
+   "effects": {
+    "might_heavy_infantry": 0.04
+   },
+   "source": "Polybius 18.28",
+   "text": "Against Rome Pyrrhus set Italian companies between the sections of his phalanx."
+  },
+  {
+   "id": "xanthippus",
+   "name": "The drill of Xanthippus",
+   "civ": "carthage",
+   "year": -255,
+   "cause": {
+    "kind": "defeat_by",
+    "civ": "rome"
+   },
+   "cost": 150,
+   "years": 1,
+   "rival": 8,
+   "effects": {
+    "might_cavalry": 0.05,
+    "might_elephants": 0.1
+   },
+   "source": "Polybius 1.32-34",
+   "text": "A Spartan mercenary drilled Carthage's army and taught it to fight Rome on open ground with elephants and horse."
+  },
+  {
+   "id": "barcid_army",
+   "name": "The Barcid army of Spain",
+   "civ": "carthage",
+   "year": -237,
+   "cause": {
+    "kind": "holds_culture",
+    "culture": "iberian"
+   },
+   "cost": 300,
+   "years": 4,
+   "rival": 12,
+   "effects": {
+    "manpower": 0.3,
+    "loyalty_rate": 0.5
+   },
+   "source": "Polybius 2.1, 3.13; Diodorus 25.10",
+   "text": "Hamilcar, Hasdrubal and Hannibal raised a professional army in Spain, bound to their family more than to the city."
+  },
+  {
+   "id": "masinissa",
+   "name": "Masinissa's kingdom",
+   "civ": "massylii",
+   "year": -200,
+   "cause": {
+    "kind": "holds_culture",
+    "culture": "berber"
+   },
+   "cost": 200,
+   "years": 4,
+   "rival": 6,
+   "effects": {
+    "manpower": 0.2,
+    "might_elephants": 0.1
+   },
+   "source": "Polybius 36.16; Appian, Punic Wars 106",
+   "text": "Masinissa settled his people as farmers and built a kingdom with infantry and elephants as well as horse."
+  },
+  {
+   "id": "juba_legions",
+   "name": "Juba's Roman-trained legions",
+   "civ": "massylii",
+   "year": -49,
+   "cause": {
+    "kind": "at_war_years",
+    "years": 2
+   },
+   "tech": "cohort",
+   "cost": 250,
+   "years": 3,
+   "rival": 6,
+   "effects": {
+    "might_heavy_infantry": 0.06
+   },
+   "source": "Caesar, Civil War 2.40; African War 48",
+   "text": "Juba I drilled Numidian foot in the Roman manner, in cohorts."
+  },
+  {
+   "id": "mithridates_legions",
+   "name": "Mithridates' Roman-style army",
+   "civ": "pontus",
+   "year": -74,
+   "cause": {
+    "kind": "defeat_by",
+    "civ": "rome"
+   },
+   "tech": "cohort",
+   "cost": 300,
+   "years": 3,
+   "rival": 8,
+   "effects": {
+    "might_heavy_infantry": 0.08
+   },
+   "source": "Plutarch, Lucullus 7; Appian, Mithridatic Wars 87",
+   "text": "After Sulla's victories Mithridates gave up gilded show-arms and had Roman exiles drill his men as legions."
+  },
+  {
+   "id": "tigranes_army",
+   "name": "The army of Tigranes the Great",
+   "civ": "armenia",
+   "year": -95,
+   "cause": {
+    "kind": "holds_culture",
+    "culture": "median"
+   },
+   "tech": "cataphract_armour",
+   "cost": 300,
+   "years": 4,
+   "rival": 8,
+   "effects": {
+    "manpower": 0.3,
+    "might_cavalry": 0.05
+   },
+   "source": "Plutarch, Lucullus 26-28",
+   "text": "Tigranes raised a vast army of cataphracts and levies from the peoples he conquered."
+  },
+  {
+   "id": "burebista",
+   "name": "Burebista unites the Getae",
+   "civ": "getae",
+   "year": -82,
+   "cause": {
+    "kind": "no_war_years",
+    "years": 10
+   },
+   "cost": 150,
+   "years": 5,
+   "rival": 10,
+   "effects": {
+    "manpower": 0.5
+   },
+   "source": "Strabo 7.3.11",
+   "text": "Burebista united the Getae and Dacians and could put 200,000 men in the field."
+  },
+  {
+   "id": "viriathus",
+   "name": "Viriathus' way of war",
+   "civ": "lusitania",
+   "year": -147,
+   "cause": {
+    "kind": "defeat_by",
+    "civ": "rome"
+   },
+   "cost": 80,
+   "years": 1,
+   "rival": 4,
+   "effects": {
+    "might_light_infantry": 0.08
+   },
+   "source": "Appian, Iberian Wars 61-75",
+   "text": "A shepherd turned general, Viriathus beat Roman armies for eight years by feigned flight and ambush."
+  },
+  {
+   "id": "vercingetorix",
+   "name": "Vercingetorix's levy",
+   "civ": "gaul",
+   "year": -52,
+   "cause": {
+    "kind": "at_war_with",
+    "civ": "rome"
+   },
+   "cost": 100,
+   "years": 1,
+   "rival": 10,
+   "effects": {
+    "manpower": 0.3,
+    "loyalty_rate": 0.3
+   },
+   "source": "Caesar, Gallic War 7.4, 7.14",
+   "text": "Vercingetorix fixed each people's quota of men and arms, enforced it harshly, and burned the land before the Romans."
+  }
+ ]
+}

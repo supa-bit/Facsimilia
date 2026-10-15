@@ -28,6 +28,9 @@ public partial class ZzShotSack : TestRunner
         legio.Regiments.Insert(0, new Regiment { Type = UnitCatalog.Instance["hastati_principes"].Index, Men = 1000, Xp = 0.9 });
         map.PlayerState.ArmWins[UnitRoles.HeavyInfantry] = 4;
         map.PlayerState.Treasury += 500;
+        map.PlayerState.ReformsOffered.Add("lex_militaris");
+        map.PlayerState.ReformsPending["scipio_spain"] = 1;
+        map.PlayerState.Reforms["velites"] = map.DemoYear;
         map.RaiseUnit(map.PlayerState, UnitCatalog.Instance["equites"], legio);
         map.RaiseUnit(map.PlayerState, UnitCatalog.Instance["hastati_principes"], legio);
         legio.LoyalTo = legio.GeneralId;

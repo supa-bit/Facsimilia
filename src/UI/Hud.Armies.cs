@@ -109,6 +109,8 @@ public partial class Hud
             "Armies march month by month along the route you plot; winter, mountains, marsh and forest slow them. Beyond your land they live on supply lines near your borders, on what they forage, then on their baggage (up to 4 months)." +
             (_map.MovingArmyId != 0 ? "\nClick where the army should march; hold Shift to add stops on the way." : "");
         AddTraditionsRow(s);
+        if (s.ReformsOffered.Count + s.ReformsPending.Count + s.Reforms.Count > 0)
+            AddReformsRow(s);
         if (s.VeteransWaiting >= 1)
             AddVeteransRow(s);
         var selected = _map.SelectedArmy;
@@ -382,4 +384,64 @@ public partial class Hud
         e.Key.StartsWith("might_") ? $"{UnitRoles.Names[Array.IndexOf(UnitRoles.Keys, e.Key[6..])].ToLowerInvariant()} +{e.Value:P0}"
         : e.Key.StartsWith("skill_") ? $"new generals +{e.Value:0} {e.Key[6..]}"
         : e.Key == "siege" ? $"sieges +{e.Value:P0} faster" : e.Key));
+
+    /// <summary>Military reforms: proposed ones to begin (or leave for later), those under way, those done.</summary>
+    void AddReformsRow(RealmState s)
+    {
+        var cat = ReformCatalog.Instance;
+        var frame = new PanelContainer { ThemeTypeVariation = "GlassPanel" };
+        _armyRows.AddChild(frame);
+        var box = new VBoxContainer();
+        box.AddThemeConstantOverride("separation", 4);
+        frame.AddChild(box);
+        box.AddChild(ThemeAncient.Label("Military reforms", "HeaderLabel", 17));
+        foreach (var id in s.ReformsOffered.Where(x => !s.ReformsPending.ContainsKey(x)).ToList())
+        {
+            if (cat[id] is not { } d)
+                continue;
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 8);
+            box.AddChild(row);
+            var text = ThemeAncient.Label($"Proposed: {d.Name}. {d.Text}", fontSize: 15);
+            text.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            text.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+            text.TooltipText = $"Effects: {DescribeReform(d)}.\nCost: {d.Cost:0} talents now, {d.Years} year(s) to take effect; the rival faction grows {d.Rival:0}.\nSource: {d.Source}.\nLeave it for now and it stays here to take later.";
+            text.MouseFilter = MouseFilterEnum.Pass;
+            row.AddChild(text);
+            string? cannot = _map.CanEnactReform(id);
+            var go = new Button { Text = $"Begin ({d.Cost:0} talents)", Disabled = cannot != null, TooltipText = cannot ?? "", FocusMode = FocusModeEnum.None };
+            string rid = id;
+            go.Pressed += () =>
+            {
+                if (_map.EnactReform(rid))
+                {
+                    RefreshArmiesPanel();
+                    RefreshTreasury();
+                }
+            };
+            row.AddChild(go);
+        }
+        foreach (var (id, left) in s.ReformsPending)
+            if (cat[id] is { } d)
+                box.AddChild(ThemeAncient.Label($"Under way: {d.Name}, {left} year(s) to go.", fontSize: 15));
+        if (s.Reforms.Count > 0)
+        {
+            var done = ThemeAncient.Label("Done: " + string.Join(", ", s.Reforms.Keys.Select(id => cat[id]?.Name ?? id)) + ".", fontSize: 15);
+            done.TooltipText = string.Join("\n", s.Reforms.Keys.Select(id => cat[id]).Where(d => d != null).Select(d => $"{d!.Name}: {DescribeReform(d)} ({d.Source})"));
+            done.MouseFilter = MouseFilterEnum.Pass;
+            box.AddChild(done);
+        }
+    }
+
+    static string DescribeReform(ReformDef d) => string.Join(", ", d.Effects.Select(e => e.Key switch
+    {
+        "manpower" => $"men to call up {e.Value:+0%;-0%}",
+        "upkeep" => $"army pay {e.Value:+0%;-0%}",
+        "loyalty_rate" => e.Value >= 0 ? $"armies grow loyal to their generals {e.Value:P0} faster" : $"armies grow loyal to their generals {-e.Value:P0} slower",
+        "veterans_paid" => "veterans paid in silver from the treasury, not land",
+        "unrest" => e.Value < 0 ? $"unrest {e.Value:+0%;-0%}" : $"unrest +{e.Value:P0}",
+        "garrison" => $"garrisons +{e.Value:0}",
+        _ when e.Key.StartsWith("might_") => $"{UnitRoles.Names[Array.IndexOf(UnitRoles.Keys, e.Key[6..])].ToLowerInvariant()} +{e.Value:P0}",
+        _ => e.Key,
+    }));
 }

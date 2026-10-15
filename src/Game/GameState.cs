@@ -151,6 +151,15 @@ public sealed class RealmState
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
     public int NextGeneralId { get; set; } = 1;
+    /// <summary>Military reforms: enacted (id: year), under way (id: years left), offered and not yet taken.</summary>
+    public Dictionary<string, int> Reforms { get; } = new();
+    public Dictionary<string, int> ReformsPending { get; } = new();
+    public HashSet<string> ReformsOffered { get; } = new();
+    /// <summary>What history's causes look for: the last heavy defeat, defeats by each realm, peoples fought, and the last army to turn on the realm (years).</summary>
+    public int LastHeavyDefeat { get; set; }
+    public Dictionary<int, int> DefeatedBy { get; } = new();
+    public Dictionary<string, int> FoughtCultures { get; } = new();
+    public int LastMutinyYear { get; set; }
     /// <summary>Army traditions held (id: the last year it was used); victories won chiefly by each arm, and cities taken, toward earning one.</summary>
     public Dictionary<string, int> Traditions { get; } = new();
     public int[] ArmWins { get; } = new int[UnitRoles.Count];
@@ -200,6 +209,12 @@ public sealed class RealmState
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
+            ["reforms"] = new GArray(Reforms.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
+            ["reforms_pending"] = new GArray(ReformsPending.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
+            ["reforms_offered"] = new GArray(ReformsOffered.Select(x => (Variant)x).ToArray()),
+            ["war_memory"] = new GArray { LastHeavyDefeat, LastMutinyYear,
+                new GArray(DefeatedBy.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
+                new GArray(FoughtCultures.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()) },
             ["musters"] = new GArray(Musters.Select(m => (Variant)m.ToArray()).ToArray()),
             ["traditions"] = new GArray(Traditions.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
             ["arm_wins"] = new GArray(ArmWins.Select(x => (Variant)x).ToArray()), ["cities_taken"] = CitiesTaken,
@@ -335,6 +350,25 @@ public sealed class RealmState
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
         r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
+        if (d.TryGetValue("reforms", out var rf))
+            foreach (var v in rf.AsGodotArray())
+                r.Reforms[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
+        if (d.TryGetValue("reforms_pending", out var rpend))
+            foreach (var v in rpend.AsGodotArray())
+                r.ReformsPending[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
+        if (d.TryGetValue("reforms_offered", out var ro))
+            foreach (var v in ro.AsGodotArray())
+                r.ReformsOffered.Add(v.AsString());
+        if (d.TryGetValue("war_memory", out var wm))
+        {
+            var w = wm.AsGodotArray();
+            r.LastHeavyDefeat = w[0].AsInt32();
+            r.LastMutinyYear = w[1].AsInt32();
+            foreach (var v in w[2].AsGodotArray())
+                r.DefeatedBy[v.AsGodotArray()[0].AsInt32()] = v.AsGodotArray()[1].AsInt32();
+            foreach (var v in w[3].AsGodotArray())
+                r.FoughtCultures[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
+        }
         if (d.TryGetValue("musters", out var mus))
             foreach (var v in mus.AsGodotArray())
                 r.Musters.Add(Muster.FromArray(v.AsGodotArray()));

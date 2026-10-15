@@ -38,7 +38,7 @@ public partial class MapView
         if (provinceId != 0 && Game.Provinces.TryGetValue(provinceId, out var ps))
             g += BuildingCatalog.Instance.Effect(ps, "garrison");
         if (provinceId != 0 && owner > 0)
-            g += TechCatalog.Instance.Effect(Game.Realm(owner), "garrison") + WallGarrison(owner, provinceId);
+            g += TechCatalog.Instance.Effect(Game.Realm(owner), "garrison") + ReformCatalog.Instance.Effect(Game.Realm(owner), "garrison") + WallGarrison(owner, provinceId);
         if (owner > 0)
             foreach (var a in Game.Realm(owner).Armies)
                 if (a.Node >= 0 && (provinceId != 0 ? ProvinceOfNode(a.Node) == provinceId : a.Node == node))

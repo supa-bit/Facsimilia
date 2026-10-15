@@ -3209,6 +3209,43 @@ law", "History's plus a generic" and "A few for the realm (2-3)"
 - Raising guards by law waits on Laws; until then they are raised by
   paying their price.
 
+#### Military reforms **(built 15 Oct 2026)**
+
+Your answers "Offered when conditions match; they happen for other realms
+on their dates", "Every reform we can source to 1 AD", "History's causes
+plus a technology", "Silver, years to take effect, and the estates'
+anger", "You can take it later from a reforms list" and "Your rival's
+strength rises" (`data/military_reforms.json`, `src/Game/Reforms.cs`).
+
+25 reforms from 300 BC to 1 AD, each its realm's own, each with its
+source: Rome's velites (211 BC), Scipio's Spanish drill, Gaius Gracchus'
+military law (123 BC), the Marian reforms (107 BC; needs the cohort),
+citizenship for the Italian allies (89 BC), Pompey's command at sea (67
+BC) and Augustus' standing army (13 BC; needs the professional army);
+Ptolemy IV's Egyptian phalanx (217 BC), the Seleucid cataphracts and
+Antiochus IV's Roman-armed men, Philip V's rebuilding of Macedon; the
+thureos shield (Aetolians), Cleomenes' and Nabis' revolutions at Sparta,
+Hiero's army and Archimedes' engines at Syracuse, Pyrrhus' mixed line;
+Xanthippus' drill and the Barcid army of Spain (Carthage); Masinissa's
+kingdom and Juba's legions (Numidia), Mithridates' Roman-style army,
+Tigranes' army, Burebista's union of the Getae, Viriathus' way of war,
+Vercingetorix's levy.
+
+- **Your realm** is offered a reform when its cause from history is
+  present (five years at war; war with Carthage; men running short; a
+  heavy defeat, or one by Rome; a restless Italian province; pirates at
+  sea; an army having turned on you; holding Iberian or Median land; a
+  battle against Celts; ten years of peace) and it knows the technology,
+  if one is named. The Armies panel lists it: begin it (its silver now, the
+  rival faction grows at once, the effect in its 1-5 years), or leave it
+  there to take later.
+- **Other realms** take theirs in history's year.
+- **Effects**: men to call up and army pay (the realm's call-up and upkeep
+  change), how fast armies grow loyal to their generals (the Marian
+  reforms faster, Augustus' standing army slower), veterans paid in silver
+  from the treasury instead of land (Augustus), an arm's strength,
+  garrisons, unrest.
+
 #### Where units are raised **(built 15 Oct 2026)**
 
 Your answers "In provinces whose people make them, then marched to the
