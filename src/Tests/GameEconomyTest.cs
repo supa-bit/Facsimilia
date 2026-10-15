@@ -111,6 +111,24 @@ public partial class GameEconomyTest : TestRunner
         Check(map.SettleVeterans(romanLand.Id) && r.VeteransWaiting == 0 && map.ProvinceStateOf(romanLand.Id).Integration > 0.5,
             "veterans settled on conquered land should hold it for you");
 
+        // Where units are raised: in a province whose people make them; they
+        // train, then walk to the army, and are paid from the day they are called up.
+        var (from, travel) = map.MusterPlace(rome, hastati, legio);
+        Check(from != 0 && map.ProvinceStateOf(from).Culture == "latin", "Roman legionaries should be raised in a Latin province");
+        int countBefore = legio.Count;
+        double hastatiBefore = legio.Units[hastati.Index];
+        double upkeepBefore = Economy.Upkeep(r);
+        r.Treasury = 1000;
+        Check(map.RaiseUnit(r, hastati, legio) && legio.Count == countBefore && r.Musters.Count == 1 && r.Treasury < 1000,
+            "a raised unit should be paid for now and train before it joins");
+        Check(Economy.Upkeep(r) > upkeepBefore, "recruits should be paid while they train");
+        Check(r.Musters[0].TrainLeft == Muster.TrainingMonths(hastati) && Muster.TrainingMonths(cat["levy_spearmen"]) == 1,
+            "trained troops take months, levies one");
+        var arrivals = new System.Collections.Generic.List<Facsimilia.Dynasties.ChronicleEvent>();
+        for (int m = 0; m < 12 && r.Musters.Count > 0; m++)
+            map.MustersMonth(arrivals);
+        Check(r.Musters.Count == 0 && Math.Abs(legio.Units[hastati.Index] - (hastatiBefore + 1)) < 1e-6, $"the recruits should reach the army ({travel} month(s) on the road)");
+
         // Army traditions: history's at the start, shaping units; they fade unused.
         int carthage = map.CivRealmIds["carthage"];
         Check(r.Traditions.ContainsKey("manipular_legion") && r.Traditions.ContainsKey("roman_camp"), "Rome should start with its traditions");
@@ -160,6 +178,9 @@ public partial class GameEconomyTest : TestRunner
             "long peace should help growth, and ravage should outweigh it");
         double italiaRavaged = map.RavagedOf(italia);
 
+        r.Treasury = 1000;
+        r.Debt = 0;
+        Check(map.RaiseUnit(r, hastati, r.Armies[0]) && r.Musters.Count == 1, "a unit should be on its way at the save");
         // Save and load.
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();
@@ -169,6 +190,7 @@ public partial class GameEconomyTest : TestRunner
             && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
                 && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
+        Check(map2.Game.Realm(rome).Musters.Count == 1, "recruits on the way didn't survive the save");
         Check(map2.Game.Realm(rome).Traditions.ContainsKey("manipular_legion") && Guards.Count(map2.Game.Realm(rome)) == 3,
             "traditions and guards didn't survive the save");
         Check(map2.CapitalNode(egypt) == map.CapitalNode(egypt), $"a saved game should keep history's capitals ({map.CapitalNode(egypt)} vs {map2.CapitalNode(egypt)}; {map2.Game.Realm(egypt).CapitalLon}, {map2.Game.Realm(egypt).CapitalName})");
@@ -176,7 +198,7 @@ public partial class GameEconomyTest : TestRunner
             "the ravage of war and the years of peace didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +
-            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, army loyalty, veterans' land, traditions, guards and " +
+            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, raising units in their provinces, army loyalty, veterans' land, traditions, guards and " +
             $"saving all work. {events.Count} events in the first year.");
         map.Free();
         map2.Free();

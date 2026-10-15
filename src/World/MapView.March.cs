@@ -254,6 +254,7 @@ public partial class MapView
         Blockades(month);
         events.AddRange(MercenariesMonth(rng));
         UnitsMonth(rng);
+        MustersMonth(events);
         PatrolMonth();
         foreach (var siege in Game.Sieges)
         {

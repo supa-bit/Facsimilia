@@ -3209,6 +3209,25 @@ law", "History's plus a generic" and "A few for the realm (2-3)"
 - Raising guards by law waits on Laws; until then they are raised by
   paying their price.
 
+#### Where units are raised **(built 15 Oct 2026)**
+
+Your answers "In provinces whose people make them, then marched to the
+army", "1 month for levies, 3-6 for trained troops" and "They walk by
+themselves, arriving after the travel time" (your note: they leave in sets,
+a unit's men together) (`src/Game/Muster.cs`). The same for every realm.
+
+- A unit is raised in the nearest of the realm's provinces whose people
+  fight that way (legionaries in Latin provinces, Numidian horse in
+  Numidian ones; units anyone raises, in the nearest province of all);
+  if none of its provinces' people do, where the army stands.
+- It is paid for and its men called up at once, and paid upkeep from that
+  day. It trains: levies 1 month; archers, slingers and light foot 3;
+  heavy foot 4; horse and horse archers 5; elephants and ships 6.
+- Then it walks to its army, about 600 km a month, and joins it on
+  arrival; if the army is gone, it joins the realm's largest, or founds a
+  new army in its province. The Raise menu says where each unit would come
+  from and how long it takes; the army shows what is on the way.
+
 
 - **Retraining old units**: The price difference and months of training; keeps half their experience
 - **Slave soldiers**: Both

@@ -210,21 +210,30 @@ public partial class Hud
                 };
                 buttons.AddChild(lift);
             }
+            var coming = s.Musters.Where(m => m.ArmyId == army.Id).ToList();
+            if (coming.Count > 0)
+                box.AddChild(ThemeAncient.Label("On the way: " + string.Join("; ", coming.GroupBy(m => (m.Type, m.Province)).Select(g =>
+                    $"{g.Count()} {cat[g.Key.Type].Name.ToLowerInvariant()} from {(_map.Provinces?.Provinces.TryGetValue(g.Key.Province, out var hp) == true ? hp!.Name : "home")} " +
+                    $"({(g.Min(m => m.TrainLeft) > 0 ? $"training, {g.Min(m => m.Months)}" : $"marching, {g.Min(m => m.Months)}")} month(s))")) + ".", fontSize: 15));
             var raise = new MenuButton { Text = "Raise units ▾", FocusMode = FocusModeEnum.None, Flat = false };
             var popup = raise.GetPopup();
             var options = cat.Available(cultures).OrderBy(u => u.Role).ThenByDescending(u => u.Might).ToList();
             foreach (var u in options)
             {
                 var (problem, cost) = Military.CanRecruit(s, c, cultures, u, s.ElephantSource);
-                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {_map.Money(cost)}", u.Index);
+                var (from, travel) = _map.MusterPlace(_map.PlayerRealmId, u, army);
+                int train = Muster.TrainingMonths(u);
+                string fromName = _map.Provinces?.Provinces.TryGetValue(from, out var fp) == true ? fp!.Name : "here";
+                popup.AddItem($"{u.Name} ({UnitRoles.Names[u.Role].ToLowerInvariant()}): {_map.Money(cost)}, from {fromName} in {train + travel} months", u.Index);
                 int item = popup.ItemCount - 1;
                 popup.SetItemDisabled(item, problem != null);
-                popup.SetItemTooltip(item, (problem ?? $"Might {u.Might:0.00}, {u.Men:N0} men, upkeep {u.Upkeep:0} a year.") +
+                popup.SetItemTooltip(item, (problem ?? $"Might {u.Might:0.00}, {u.Men:N0} men, upkeep {u.Upkeep:0} a year (paid from the day they are called up).") +
+                    $"\nRaised in {fromName}, where its people fight this way: {train} month(s) of training, then {travel} month(s) on the road to {army.Name}." +
                     "\n" + u.Description);
             }
             popup.IdPressed += unitIndex =>
             {
-                Military.Recruit(s, _map.CensusOf(_map.PlayerRealmId), cultures, cat[(int)unitIndex], army, s.ElephantSource, _map.RecruitOrigin(_map.PlayerRealmId, army));
+                _map.RaiseUnit(s, cat[(int)unitIndex], army);
                 RefreshArmiesPanel();
                 RefreshTreasury();
             };

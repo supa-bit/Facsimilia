@@ -58,6 +58,26 @@ public static class Military
         return true;
     }
 
+    /// <summary>
+    /// Orders a unit raised in a province: paid now, its men taken from the
+    /// pool now; it trains, then marches to the army (see Muster).
+    /// </summary>
+    public static bool Muster(RealmState r, RealmCensus c, IReadOnlyCollection<string> cultures, UnitDef u, Army army,
+        int province, int travelMonths, bool elephantSource = false)
+    {
+        var (problem, cost) = CanRecruit(r, c, cultures, u, elephantSource);
+        if (problem != null)
+            return false;
+        r.Treasury -= cost;
+        r.Manpower -= u.Men;
+        r.Musters.Add(new Muster
+        {
+            Type = u.Index, Men = u.Men, Province = province, ArmyId = army.Id,
+            TrainLeft = Game.Muster.TrainingMonths(u), TravelLeft = travelMonths,
+        });
+        return true;
+    }
+
     /// <summary>Sends a unit home: its men return to the pool, the silver spent on it doesn't.</summary>
     public static bool Disband(RealmState r, Army army, UnitDef u)
     {

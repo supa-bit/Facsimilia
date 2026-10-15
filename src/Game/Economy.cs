@@ -92,7 +92,9 @@ public static class Economy
     }
 
     /// <summary>The realm's own troops' upkeep (mercenary companies are paid by the month instead).</summary>
-    public static double Upkeep(RealmState r) => r.Armies.Where(a => a.CompanyId == 0).Sum(Military.Upkeep) * r.UpkeepShare;
+    public static double Upkeep(RealmState r) =>
+        (r.Armies.Where(a => a.CompanyId == 0).Sum(Military.Upkeep) + r.Musters.Sum(m => UnitCatalog.Instance[m.Type].Upkeep * m.Men / UnitCatalog.Instance[m.Type].Men))
+        * r.UpkeepShare;   // recruits are paid from the day they are called up
 
     /// <summary>Most people a realm can keep under arms without harming itself.</summary>
     public static double SustainableManpower(RealmCensus c, double multiplier = 1) =>

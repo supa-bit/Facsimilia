@@ -144,7 +144,9 @@ public sealed class RealmState
     /// <summary>How many units of a role the realm has in all its armies.</summary>
     public double RoleCount(int role) => Armies.Sum(a => a.RoleCount(UnitCatalog.Instance, role));
 
-    public int TotalUnits => Armies.Sum(a => a.Count);
+    public int TotalUnits => Armies.Sum(a => a.Count) + Musters.Count;
+    /// <summary>Units being raised and on their way to an army.</summary>
+    public List<Muster> Musters { get; } = new();
 
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
@@ -198,6 +200,7 @@ public sealed class RealmState
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
+            ["musters"] = new GArray(Musters.Select(m => (Variant)m.ToArray()).ToArray()),
             ["traditions"] = new GArray(Traditions.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
             ["arm_wins"] = new GArray(ArmWins.Select(x => (Variant)x).ToArray()), ["cities_taken"] = CitiesTaken,
             ["veterans"] = new GArray { VeteransWaiting, VeteransXp, VeteransLed, VeteransSince, VeteransOfferSilver },
@@ -332,6 +335,9 @@ public sealed class RealmState
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
         r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
+        if (d.TryGetValue("musters", out var mus))
+            foreach (var v in mus.AsGodotArray())
+                r.Musters.Add(Muster.FromArray(v.AsGodotArray()));
         if (d.TryGetValue("traditions", out var trad))
             foreach (var v in trad.AsGodotArray())
                 r.Traditions[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();

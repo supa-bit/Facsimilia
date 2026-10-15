@@ -90,7 +90,8 @@ public static class Guards
     public const double MutinyCut = 0.5;
 
     public static int Count(RealmState r) =>
-        r.Armies.Sum(a => a.Regiments.Count(reg => UnitCatalog.Instance[reg.Type].Guard));
+        r.Armies.Sum(a => a.Regiments.Count(reg => UnitCatalog.Instance[reg.Type].Guard))
+        + r.Musters.Count(m => UnitCatalog.Instance[m.Type].Guard);
 
     public static bool Has(Army a) => a.Regiments.Any(reg => UnitCatalog.Instance[reg.Type].Guard);
 }
