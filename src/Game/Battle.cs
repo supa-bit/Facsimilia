@@ -134,7 +134,7 @@ public static class Battle
                 var u = Cat[r.Type];
                 if (u.Domain == Domain.Land)
                     m[u.Role] += share * r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role])
-                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * r.Xp);
+                        * (1 - 0.5 * a.Fatigue) * (1 + VeteranBonus * r.Xp) * ArmyLoyalty.Morale(a);
             }
         return m;
     }
@@ -246,6 +246,8 @@ public static class Battle
             army.Harden(share * 0.15 * (1 + (winner.General?.Effect("veterans") ?? 0)));
             if (army.CompanyId != 0)
                 army.VictoriesUnpaid++;
+            if (army.GeneralId != 0)
+                army.GeneralLoyalty = Math.Min(1, army.GeneralLoyalty + ArmyLoyalty.PerVictory * share);
         }
         foreach (var (army, share) in loser.Armies)
             army.Harden(share * 0.05);

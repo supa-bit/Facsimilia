@@ -162,6 +162,7 @@ public partial class MapView
         Lap("disasters");
         _census = null;
         events.AddRange(GeneralsYear(new Random(StableHash.Of(DemoYear, 3571))));
+        events.AddRange(ArmyLoyaltyYear(new Random(StableHash.Of(DemoYear, 6271))));
         events.AddRange(MercenariesYear(new Random(StableHash.Of(DemoYear, 4409))));
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");
@@ -215,6 +216,10 @@ public partial class MapView
         if (data != null && data.Count > 0)
         {
             Game = GameState.FromDict(data);
+            // Which civilisation each realm is (capitals, army names, cultures): saved with each realm.
+            foreach (var (id, s) in Game.Realms)
+                if (s.CivKey != "")
+                    CivRealmIds[s.CivKey] = id;
             RefreshWonderEffects();
             _roadsDirty = _roadLayerDirty = true;
         }

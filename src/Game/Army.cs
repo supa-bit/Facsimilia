@@ -297,6 +297,8 @@ public sealed class Army
     /// their general'): it grows with the years he leads it.
     /// </summary>
     public double GeneralLoyalty { get; set; }
+    /// <summary>The general that loyalty is owed to: a new general starts from nothing.</summary>
+    public int LoyalTo { get; set; }
     /// <summary>The army's standard (an emblem id), chosen by you.</summary>
     public string Standard { get; set; } = "";
     /// <summary>Its general (RealmState.Generals id), or 0.</summary>
@@ -331,7 +333,7 @@ public sealed class Army
     {
         return new GDictionary { ["id"] = Id, ["name"] = Name, ["node"] = Node, ["fatigue"] = Fatigue, ["general"] = GeneralId,
             ["regiments"] = new GArray(Regiments.Select(r => (Variant)r.ToArray(cat)).ToArray()),
-            ["company"] = CompanyId, ["victories_unpaid"] = VictoriesUnpaid, ["gen_loyalty"] = GeneralLoyalty, ["standard"] = Standard,
+            ["company"] = CompanyId, ["victories_unpaid"] = VictoriesUnpaid, ["gen_loyalty"] = GeneralLoyalty, ["loyal_to"] = LoyalTo, ["standard"] = Standard,
             ["route"] = new GArray(Route.Select(n => (Variant)n).ToArray()), ["carry"] = MarchCarry, ["supply"] = Supply };
     }
 
@@ -347,6 +349,7 @@ public sealed class Army
             CompanyId = d.TryGetValue("company", out var co) ? co.AsInt32() : 0,
             VictoriesUnpaid = d.TryGetValue("victories_unpaid", out var vu) ? vu.AsInt32() : 0,
             GeneralLoyalty = d.TryGetValue("gen_loyalty", out var gl) ? gl.AsDouble() : 0,
+            LoyalTo = d.TryGetValue("loyal_to", out var lt) ? lt.AsInt32() : 0,
             Standard = d.TryGetValue("standard", out var st) ? st.AsString() : "",
         };
         if (d.TryGetValue("route", out var route))

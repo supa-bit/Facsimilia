@@ -3143,6 +3143,36 @@ exits with 1 if any check fails.
 
 ### War: armies, units and generals
 
+#### Armies loyal to their general, and veterans' land **(built 15 Oct 2026)**
+
+Your answers "Yes, loyalty grows with service", "Better morale; and a loyal
+army may follow its general against you", "Full in 5 years; faster with
+victories and loot", "Veterans expect land when discharged", "You choose a
+province; conquered land is best" and "Unrest, and they may follow a
+rival", with your note on paying them off (`src/Game/ArmyLoyalty.cs`).
+
+- **Loyalty**: each of your own armies (not hired companies) grows loyal
+  to its general by 0.2 a year, plus 0.1 for a victory and 0.1 when it
+  plunders or razes a city. A new general starts again from nothing; an
+  army with no general forgets. A fully loyal army fights 15% better.
+- **Turning on you**: from 0.6 loyalty an army may follow its general
+  against the realm (Sulla, Caesar), more likely the more the realm owes
+  it: unpaid soldiers, veterans left without land, a strong rival faction.
+  At most 1 in 4 a year. The army and its general are lost, the rival
+  faction grows, and the province it stands in breaks away under them
+  (unless it is the capital's). The same rules hold for every realm.
+- **Veterans**: units with 30% experience or more, sent home, wait for
+  land. In the Armies panel you give them land in one of your provinces:
+  on conquered land they hold it for you (integration rises, 0.03 per
+  1,000, at most 0.3); on your own people's land farms are taken from
+  their owners (a grudge). While they wait they stir unrest everywhere
+  (0.01 per 1,000, at most 0.2) and the rival faction grows 2 a year;
+  each year there is a chance they offer to take silver instead (0.05
+  talents each), less likely the more of them, the more hardened, and if a
+  general leads them. Other realms settle theirs at once.
+- Taking specialised goods instead of silver waits on the goods screen work.
+
+
 - **Retraining old units**: The price difference and months of training; keeps half their experience
 - **Slave soldiers**: Both
 - **How traditions form**: From history, plus earned ones

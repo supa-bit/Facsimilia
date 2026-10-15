@@ -26,6 +26,8 @@ public partial class MapView
                 new Random(StableHash.Of(DemoYear, p.Id, 7717)));
         double people = ProvincePopulation(p.Id);
         string city = ProvinceSeat(p.Id) ?? siege.Name;
+        if (choice != SackChoice.Spare && attacker.ArmyById(siege.ArmyId) is { GeneralId: not 0 } looters)
+            looters.GeneralLoyalty = Math.Min(1, looters.GeneralLoyalty + ArmyLoyalty.PerLoot);   // the loot shared out binds them to him
         switch (choice)
         {
             case SackChoice.Spare:

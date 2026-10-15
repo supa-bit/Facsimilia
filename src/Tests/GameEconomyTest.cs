@@ -82,6 +82,35 @@ public partial class GameEconomyTest : TestRunner
             "Romans shouldn't raise Scythian horse archers");
         Check(Military.CanRecruit(r, rc, cultures, cat["sacred_band"]).Problem != null, "Rome can't raise Carthage's Sacred Band");
 
+        // Armies loyal to their general: loyalty grows with service and lifts
+        // morale; only a loyal army under pressure may turn on you.
+        Check(map.PlayerRealmId == rome, "the tests expect Rome to be the player");
+        var loyalLegion = r.Armies.First();
+        Check(loyalLegion.GeneralId == 0 || loyalLegion.LoyalTo == loyalLegion.GeneralId,
+            "after a year the army should owe its loyalty to its general");
+        if (loyalLegion.GeneralId != 0)
+        {
+            double was = loyalLegion.GeneralLoyalty;
+            loyalLegion.GeneralLoyalty = 0;
+            double plain = Military.Might(loyalLegion, Domain.Land);
+            loyalLegion.GeneralLoyalty = 1;
+            Check(Military.Might(loyalLegion, Domain.Land) > plain * 1.1, "a loyal army should fight better");
+            loyalLegion.GeneralLoyalty = was;
+        }
+        Check(ArmyLoyalty.MutinyChance(0.5, 2) == 0 && ArmyLoyalty.MutinyChance(1, 1) > 0,
+            "only a loyal army under pressure should turn on its realm");
+
+        // Veterans' land: hardened units sent home wait for land and stir unrest;
+        // settled on conquered land, they hold it for you.
+        var hardened = legio.AddRegiment(hastati.Index, 2000, 0.6);
+        Check(Military.Disband(r, legio, hardened, map.DemoYear) && r.VeteransWaiting >= 2000,
+            "hardened soldiers sent home should wait for land");
+        Check(ArmyLoyalty.WaitingUnrest(r) > 0, "veterans waiting for land should stir unrest");
+        var romanLand = map.Provinces!.Provinces.Values.First(p => p.RealmId == rome && !map.Game.Sieges.Any(x => x.ProvinceId == p.Id));
+        map.ProvinceStateOf(romanLand.Id).Integration = 0.5;   // as if newly conquered
+        Check(map.SettleVeterans(romanLand.Id) && r.VeteransWaiting == 0 && map.ProvinceStateOf(romanLand.Id).Integration > 0.5,
+            "veterans settled on conquered land should hold it for you");
+
         // Deep debt: unpaid soldiers desert.
         r.Debt = 1e6;
         int army = r.Armies.Sum(x => x.Men);
@@ -114,11 +143,12 @@ public partial class GameEconomyTest : TestRunner
             && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
                 && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
+        Check(map2.CapitalNode(egypt) == map.CapitalNode(egypt), $"a saved game should keep history's capitals ({map.CapitalNode(egypt)} vs {map2.CapitalNode(egypt)}; {map2.Game.Realm(egypt).CapitalLon}, {map2.Game.Realm(egypt).CapitalName})");
         Check(Math.Abs(map2.RavagedOf(italia) - italiaRavaged) < 1e-6 && map2.Game.Realm(rome).LastWarYear == r.LastWarYear,
             "the ravage of war and the years of peace didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +
-            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth and " +
+            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, army loyalty, veterans' land and " +
             $"saving all work. {events.Count} events in the first year.");
         map.Free();
         map2.Free();

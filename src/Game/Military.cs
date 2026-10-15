@@ -68,11 +68,13 @@ public static class Military
     }
 
     /// <summary>Sends one unit home: its men and its wounded return to the pool.</summary>
-    public static bool Disband(RealmState r, Army army, Regiment reg)
+    public static bool Disband(RealmState r, Army army, Regiment reg, int year = 0)
     {
         if (!army.Regiments.Remove(reg))
             return false;
         r.Manpower += reg.Men + reg.Wounded;
+        if (reg.Xp >= ArmyLoyalty.VeteranXp && army.CompanyId == 0)
+            ArmyLoyalty.Discharge(r, reg.Men + reg.Wounded, reg.Xp, army.GeneralId != 0 && army.GeneralLoyalty >= 0.5, year);
         army.Even();
         return true;
     }
@@ -98,7 +100,7 @@ public static class Military
         {
             var u = Cat[r.Type];
             if (u.Domain == domain)
-                m += r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role]) * (1 + Battle.VeteranBonus * r.Xp);
+                m += r.Men / (double)u.Men * u.Might * (1 + a.RoleBoost[u.Role]) * (1 + Battle.VeteranBonus * r.Xp) * ArmyLoyalty.Morale(a);
         }
         return m * (1 - 0.5 * a.Fatigue);
     }

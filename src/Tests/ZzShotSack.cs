@@ -25,6 +25,10 @@ public partial class ZzShotSack : TestRunner
             Attacker = map.PlayerRealmId, Owner = etruria.RealmId, ProvinceId = etruria.Id, ArmyId = legio.Id,
             Name = "Veii", Node = legio.Node, StartYear = map.DemoYear, Progress = 0.4, Choice = SackChoice.Raze,
         });
+        legio.LoyalTo = legio.GeneralId;
+        legio.GeneralLoyalty = 0.7;
+        ArmyLoyalty.Discharge(map.PlayerState, 3200, 0.5, true, map.DemoYear - 2);
+        map.PlayerState.VeteransOfferSilver = true;
         var latium = map.Provinces.Provinces.Values.First(p => p.Name == "Latium");
         map.Game.Ruins.Add(new Ruin(latium.Id, "Norba", map.DemoYear - 2, etruria.RealmId));
         var layer = new CanvasLayer { Layer = 1 };

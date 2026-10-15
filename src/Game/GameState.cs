@@ -149,6 +149,12 @@ public sealed class RealmState
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
     public int NextGeneralId { get; set; } = 1;
+    /// <summary>Veterans discharged and waiting for land: how many, how hardened, led by a general, since when, and whether they will take silver.</summary>
+    public double VeteransWaiting { get; set; }
+    public double VeteransXp { get; set; }
+    public bool VeteransLed { get; set; }
+    public int VeteransSince { get; set; }
+    public bool VeteransOfferSilver { get; set; }
     /// <summary>A capital you chose (lon, lat, town), or NaN for history's own seat.</summary>
     public double CapitalLon { get; set; } = double.NaN;
     public double CapitalLat { get; set; } = double.NaN;
@@ -188,7 +194,8 @@ public sealed class RealmState
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
-            ["capital"] = new GArray { CapitalLon, CapitalLat, CapitalName, MovingCapitalTo, MovingCapitalName, MovingCapitalLon, MovingCapitalLat, MovingCapitalYears },
+            ["veterans"] = new GArray { VeteransWaiting, VeteransXp, VeteransLed, VeteransSince, VeteransOfferSilver },
+            ["capital"] = new GArray { double.IsNaN(CapitalLon) ? 0 : CapitalLon, double.IsNaN(CapitalLat) ? 0 : CapitalLat, CapitalName, MovingCapitalTo, MovingCapitalName, MovingCapitalLon, MovingCapitalLat, MovingCapitalYears },
         };
     }
 
@@ -319,10 +326,19 @@ public sealed class RealmState
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
         r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
+        if (d.TryGetValue("veterans", out var vets))
+        {
+            var va = vets.AsGodotArray();
+            r.VeteransWaiting = va[0].AsDouble(); r.VeteransXp = va[1].AsDouble(); r.VeteransLed = va[2].AsBool();
+            r.VeteransSince = va[3].AsInt32(); r.VeteransOfferSilver = va[4].AsBool();
+        }
         if (d.TryGetValue("capital", out var capital))
         {
             var ca = capital.AsGodotArray();
-            r.CapitalLon = ca[0].AsDouble(); r.CapitalLat = ca[1].AsDouble(); r.CapitalName = ca[2].AsString();
+            r.CapitalName = ca[2].AsString();
+            bool chosen = r.CapitalName != "";   // no chosen capital: history's own seat (saved as 0, read back as NaN)
+            r.CapitalLon = chosen ? ca[0].AsDouble() : double.NaN;
+            r.CapitalLat = chosen ? ca[1].AsDouble() : double.NaN;
             r.MovingCapitalTo = ca[3].AsInt32(); r.MovingCapitalName = ca[4].AsString();
             r.MovingCapitalLon = ca[5].AsDouble(); r.MovingCapitalLat = ca[6].AsDouble(); r.MovingCapitalYears = ca[7].AsInt32();
         }

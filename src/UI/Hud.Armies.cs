@@ -108,6 +108,8 @@ public partial class Hud
             "The army marked for conquest is the one Conquest mode (key 3) paints for: its reach is where it can march this year. " +
             "Armies march month by month along the route you plot; winter, mountains, marsh and forest slow them. Beyond your land they live on supply lines near your borders, on what they forage, then on their baggage (up to 4 months)." +
             (_map.MovingArmyId != 0 ? "\nClick where the army should march; hold Shift to add stops on the way." : "");
+        if (s.VeteransWaiting >= 1)
+            AddVeteransRow(s);
         var selected = _map.SelectedArmy;
         foreach (var army in s.Armies.ToList())
         {
@@ -127,6 +129,18 @@ public partial class Hud
             if (army.Experience > 0.02)
                 box.AddChild(ThemeAncient.Label($"Veterans: {army.Experience:P0} (fights {Battle.VeteranBonus * army.Experience:P0} better)", fontSize: 15));
             AddGeneralRow(box, s, army);
+            if (army.GeneralId != 0 && army.CompanyId == 0 && army.GeneralLoyalty >= 0.05)
+            {
+                var loyal = ThemeAncient.Label($"Loyal to its general: {army.GeneralLoyalty:P0} (fights {ArmyLoyalty.MoraleBonus * army.GeneralLoyalty:P0} better)" +
+                    (army.GeneralLoyalty >= ArmyLoyalty.MutinyFrom ? ".  His soldiers now, more than yours." : ""), fontSize: 15);
+                loyal.TooltipText = "An army grows loyal to the general who leads it: fully in five years, sooner with victories and loot. " +
+                    "A loyal army fights better, but if you owe it pay, leave your veterans without land or the rival faction is strong, " +
+                    "it may follow him against you, as Sulla's legions did. Changing its general starts the loyalty over.";
+                loyal.MouseFilter = MouseFilterEnum.Pass;
+                if (army.GeneralLoyalty >= ArmyLoyalty.MutinyFrom)
+                    loyal.Modulate = new Color(1f, 0.8f, 0.6f);
+                box.AddChild(loyal);
+            }
             string supply = army.Supply >= 3.5 ? "full" : army.Supply <= 0.01 ? "empty: the army is starving" : $"{army.Supply:0.0} months of food";
             box.AddChild(ThemeAncient.Label((army.Marching
                 ? $"Marching to {_map.PlaceOfNode(army.Route[^1])}: about {Math.Ceiling(_map.RouteMonths(s, army)):0} month(s) more.  "
@@ -255,11 +269,65 @@ public partial class Hud
                 var send = new Button { Text = "−", FocusMode = FocusModeEnum.None, TooltipText = "Send this unit home: its men return to the pool." };
                 send.Pressed += () =>
                 {
-                    Military.Disband(s, army, reg);
+                    Military.Disband(s, army, reg, _map.DemoYear);
                     RefreshArmiesPanel();
                 };
                 line.AddChild(send);
             }
+        }
+    }
+
+    /// <summary>Veterans waiting for land: settle them in a province, or pay them off if they offered.</summary>
+    void AddVeteransRow(RealmState s)
+    {
+        var frame = new PanelContainer { ThemeTypeVariation = "GlassPanel" };
+        _armyRows.AddChild(frame);
+        var box = new VBoxContainer();
+        box.AddThemeConstantOverride("separation", 4);
+        frame.AddChild(box);
+        int years = Math.Max(0, _map.DemoYear - s.VeteransSince);
+        box.AddChild(ThemeAncient.Label($"{s.VeteransWaiting:N0} veterans await land" + (years > 0 ? $" ({years} year(s) now)" : "") + ".", "HeaderLabel", 17));
+        box.AddChild(ThemeAncient.Label("Settled on conquered land they hold it for you; on your own people's land, farms are taken from their owners. " +
+            "Left waiting they stir unrest and may follow a rival.", fontSize: 14));
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 6);
+        box.AddChild(row);
+        var where = new OptionButton { FocusMode = FocusModeEnum.None };
+        var mine = _map.Provinces?.Provinces.Values.Where(p => p.RealmId == _map.PlayerRealmId)
+            .OrderBy(p => _map.ProvinceStateOf(p.Id).Integration).ThenBy(p => p.Name).ToList() ?? new();
+        foreach (var p in mine)
+        {
+            var ps = _map.ProvinceStateOf(p.Id);
+            where.AddItem(ps.Integration < 1 ? $"{p.Name} (conquered, {ps.Integration:P0} settled)" : p.Name, p.Id);
+        }
+        row.AddChild(where);
+        var settle = new Button { Text = "Give them land there", FocusMode = FocusModeEnum.None, Disabled = mine.Count == 0 };
+        settle.Pressed += () =>
+        {
+            int id = where.GetItemId(where.Selected);
+            if (_map.SettleVeterans(id))
+                RefreshArmiesPanel();
+        };
+        row.AddChild(settle);
+        if (s.VeteransOfferSilver)
+        {
+            double cost = ArmyLoyalty.PayOffCost(s.VeteransWaiting);
+            var pay = new Button
+            {
+                Text = $"Pay them off instead ({cost:N0} talents)",
+                Disabled = s.Treasury < cost,
+                TooltipText = "They have offered to take silver instead of land.",
+                FocusMode = FocusModeEnum.None,
+            };
+            pay.Pressed += () =>
+            {
+                if (_map.PayOffVeterans())
+                {
+                    RefreshArmiesPanel();
+                    RefreshTreasury();
+                }
+            };
+            row.AddChild(pay);
         }
     }
 }
