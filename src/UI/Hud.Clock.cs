@@ -17,7 +17,13 @@ public partial class Hud
     [Signal] public delegate void MonthPassedEventHandler();
 
     static readonly string[] MonthNames = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-    static readonly float[] Speeds = { 1f, 2f, 4f, 8f };   // months a second
+    /// <summary>
+    /// Five speeds (your answer "Five, plus pause on events"): from a week a
+    /// second to a year a second, in months a second.
+    /// </summary>
+    static readonly float[] Speeds = { 12f / 52f, 1f, 3f, 6f, 12f };
+    static readonly string[] SpeedNames = { "a week a second", "a month a second", "a season a second", "half a year a second", "a year a second" };
+    static readonly string[] SpeedShort = { "1 wk/s", "1 mo/s", "3 mo/s", "6 mo/s", "1 yr/s" };
     Button _playButton = null!, _speedButton = null!;
     bool _playing;
     int _speed = 1;
@@ -45,7 +51,7 @@ public partial class Hud
             TooltipText = "Let the months run  (Space); time stops by itself when something needs you" };
         _playButton.Pressed += () => SetPlaying(!_playing);
         row.AddChild(_playButton);
-        _speedButton = new Button { FocusMode = FocusModeEnum.None, CustomMinimumSize = new Vector2(64, 52), TooltipText = "Speed: months a second" };
+        _speedButton = new Button { FocusMode = FocusModeEnum.None, CustomMinimumSize = new Vector2(92, 52), TooltipText = "Speed" };
         _speedButton.Pressed += () =>
         {
             _speed = (_speed + 1) % Speeds.Length;
@@ -66,7 +72,8 @@ public partial class Hud
     void RefreshClock()
     {
         _playButton.Text = _playing ? "❚❚" : "▶";
-        _speedButton.Text = $"{Speeds[_speed]:0}×";
+        _speedButton.Text = SpeedShort[_speed];
+        _speedButton.TooltipText = $"Speed: {SpeedNames[_speed]} (click for the next of five speeds). Time stops by itself for what needs you.";
         if (_map != null)
             _dateLabel.Text = (Month > 0 || _playing ? MonthNames[Month] + " " : "") + ThemeAncient.YearText(_map.DemoYear);
     }

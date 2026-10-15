@@ -3565,14 +3565,14 @@ Twelve of the new follow-up questions, answered while the work went on.
 
 ### Saves, speed and data
 
-- **Autosaves**: A setting (you choose how often).
+- **Autosaves**: A setting (you choose how often). Already in Settings: every 5, 10, 15, 20 or 25 years, or off.
 - **Keeping history in saves**: A setting (you choose whether old years are thinned).
 - **What mods can change**: Data first, pictures and sounds later.
 - **A store page**: Later, when the game is ready.
 
 ### Time and turns
 
-- **Clock speeds**: Five speeds, from a week a second to a year a second, with automatic pauses on events.
+- **Clock speeds** *(built, 15 Oct 2026)*: Five speeds, from a week a second to a year a second (1 wk/s, 1 mo/s, 3 mo/s, 6 mo/s, 1 yr/s; click the speed button for the next), with time stopping by itself for what needs you, as before.
 - **Weeks**: Armies and fleets move, and fight, by the week.
 
 ### Technology and knowledge
