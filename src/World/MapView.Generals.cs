@@ -225,4 +225,60 @@ public partial class MapView
         }
         events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"{g.Name} of {RealmName(s.RealmId)} falls in battle."));
     }
+
+    /// <summary>
+    /// After a battle both generals learn (War: generals): tactics, more from
+    /// a win; leadership; seamanship at sea. A victory may bring a perk that
+    /// fits how it was won, and three battles make a green commander a
+    /// seasoned one.
+    /// </summary>
+    internal void GeneralsAfterBattle(BattleReport report, RealmState winS, Army winA, RealmState loseS, Army loseA, bool naval, Random rng, List<ChronicleEvent> events)
+    {
+        bool loserAttacked = report.AttackerRealm == loseS.RealmId;
+        double enemyLost = loserAttacked ? report.AttackerLost / Math.Max(1.0, report.AttackerMen) : report.DefenderLost / Math.Max(1.0, report.DefenderMen);
+        foreach (var (s, a, won) in new[] { (winS, winA, true), (loseS, loseA, false) })
+        {
+            var g = s.GeneralOf(a);
+            if (g == null || !s.Generals.Contains(g))
+                continue;   // fell in the battle
+            var rose = new List<string>();
+            void Learn(int skill, double amount)
+            {
+                if (GeneralGrowth.Learn(g, skill, amount) > 0)
+                    rose.Add($"{Skills.Names[skill].ToLowerInvariant()} {g.BaseSkills[skill]}");
+            }
+            if (naval)
+                Learn(Skills.Seamanship, GeneralGrowth.SeamanshipBattle * (won ? 1 : 0.6));
+            else
+                Learn(Skills.Tactics, won ? GeneralGrowth.TacticsWin : GeneralGrowth.TacticsLoss);
+            Learn(Skills.Leadership, GeneralGrowth.LeadershipBattle);
+            if (g.Battles >= 3 && g.Perks.Remove("green"))
+                rose.Add("no longer green");
+            string? perk = won && GeneralGrowth.PerkRoll(g, rng) ? GeneralGrowth.FittingPerk(g, MainArm(a), report.Ground, naval, enemyLost) : null;
+            if (perk != null)
+                g.Perks.Add(perk);
+            if (s.RealmId == PlayerRealmId && (rose.Count > 0 || perk != null))
+                events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId,
+                    $"{g.Name} learns from {report.Title}" + (rose.Count > 0 ? $": {string.Join(", ", rose)}" : "") +
+                    (perk != null ? $"{(rose.Count > 0 ? "; and" : ":")} he is now known as a {PerkCatalog.Instance[perk]!.Name.ToLowerInvariant()}" : "") + "."));
+        }
+    }
+
+    /// <summary>A month of war for every general: siegecraft before walls, logistics on the march beyond his own land.</summary>
+    void GeneralsMonth(List<ChronicleEvent> events)
+    {
+        foreach (var siege in Game.Sieges)
+        {
+            var s = Game.Realm(siege.Attacker);
+            var army = s.ArmyById(siege.ArmyId);
+            if (army != null && s.GeneralOf(army) is { } g && !army.Marching && NodeDistance(army.Node, siege.Node) <= SiegeNodes
+                && GeneralGrowth.Learn(g, Skills.Siegecraft, GeneralGrowth.SiegeMonth) > 0 && s.RealmId == PlayerRealmId)
+                events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"Before the walls of {siege.Name}, {g.Name} masters siegecraft ({g.BaseSkills[Skills.Siegecraft]})."));
+        }
+        foreach (var s in Game.Realms.Values)
+            foreach (var a in s.Armies)
+                if (a.Marching && a.Node >= 0 && Population!.NodeOwner[a.Node] != s.RealmId && s.GeneralOf(a) is { } g
+                    && GeneralGrowth.Learn(g, Skills.Logistics, GeneralGrowth.MarchMonth) > 0 && s.RealmId == PlayerRealmId)
+                    events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"Long marches teach {g.Name} to feed and move an army ({Skills.Names[Skills.Logistics].ToLowerInvariant()} {g.BaseSkills[Skills.Logistics]})."));
+    }
 }

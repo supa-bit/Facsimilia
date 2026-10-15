@@ -2128,6 +2128,33 @@ Treasury > "Spending, coin and loans" opens the Finances panel.
   (State monopolies are now built: see "Treasury and money: State
   monopolies" below.)
 
+## War: generals grow **(built, 15 Oct 2026)**
+
+Your answers: "Generals earn perks and skill from campaigns and victories",
+"A chance after each victory, fitting how he won" and "Tactics from battles,
+siegecraft from sieges, logistics from long marches".
+
+- **Skill from what he does.** Each battle teaches tactics (0.5 of a point
+  for a win, 0.3 for a defeat) and leadership (0.2); a battle at sea teaches
+  seamanship instead of tactics. Each month before a city's walls teaches
+  siegecraft (0.08), and each month marching beyond his own land teaches
+  logistics (0.04). A point takes the skill divided by 5 in learning (from 5
+  to 6, a whole point), so the best come slowly. Skills learned this way
+  stop at 10; perks and traditions can lift them higher.
+- **Perks that fit the victory.** After a win there is a chance (a quarter,
+  shared out over the perks he already has) of one that fits: horse master
+  when cavalry or horse archers did most of the fighting, elephant master,
+  skirmish leader for archers, slingers and light troops, drillmaster for
+  heavy infantry; hill fighter, forest fighter, desert raider or river
+  crosser for the ground; pursuer when the enemy lost over 40% of its men;
+  sea captain at sea.
+- **Green no longer.** A young commander's "green" perk goes after his
+  third battle.
+- Your own generals' lessons are written in the chronicle.
+- **Waiting on your answers**: the full perk list (Generals' perks), how
+  many perks a general holds (How many perks a general holds), and what
+  exactly defeat teaches (What defeat teaches, in detail).
+
 ## Treasury and money: State monopolies **(built, 15 Oct 2026)**
 
 Your answers: "Declare monopolies on goods", "Both, chosen for each good"

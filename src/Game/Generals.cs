@@ -79,6 +79,8 @@ public sealed class General
     public string Origin { get; set; } = Appointed;
     public int[] BaseSkills { get; } = new int[Skills.Count];
     public List<string> Perks { get; } = new();
+    /// <summary>Progress toward the next point in each skill (War: generals, "How generals gain skill").</summary>
+    public double[] Xp { get; } = new double[Skills.Count];
     public int Battles { get; set; }
     public int Victories { get; set; }
     /// <summary>The army he leads, or 0.</summary>
@@ -139,6 +141,7 @@ public sealed class General
         ["skills"] = new GArray(BaseSkills.Select(s => (Variant)s).ToArray()),
         ["perks"] = new GArray(Perks.Select(p => (Variant)p).ToArray()),
         ["battles"] = Battles, ["victories"] = Victories, ["army"] = ArmyId,
+        ["xp"] = new GArray(Xp.Select(x => (Variant)x).ToArray()),
     };
 
     public static General FromDict(GDictionary d)
@@ -154,6 +157,87 @@ public sealed class General
             g.BaseSkills[s] = skills[s].AsInt32();
         foreach (var p in d["perks"].AsGodotArray())
             g.Perks.Add(p.AsString());
+        if (d.TryGetValue("xp", out var xp))
+            for (int s = 0; s < Math.Min(xp.AsGodotArray().Count, Skills.Count); s++)
+                g.Xp[s] = xp.AsGodotArray()[s].AsDouble();
         return g;
     }
+}
+
+/// <summary>
+/// How generals grow (War: generals): your answers "Generals earn perks and
+/// skill from campaigns and victories", "Tactics from battles, siegecraft
+/// from sieges, logistics from long marches" and "A chance after each
+/// victory, fitting how he won". A point of skill takes more learning the
+/// higher it already is; skills learned this way stop at 10 (perks and
+/// traditions can lift them further).
+/// </summary>
+public static class GeneralGrowth
+{
+    /// <summary>Learning from one battle: tactics (more from a win), leadership from holding the men together.</summary>
+    public const double TacticsWin = 0.5, TacticsLoss = 0.3, LeadershipBattle = 0.2;
+    /// <summary>Seamanship from a battle at sea.</summary>
+    public const double SeamanshipBattle = 0.5;
+    /// <summary>Each month before the walls teaches siegecraft (about a point a year at 5).</summary>
+    public const double SiegeMonth = 0.08;
+    /// <summary>Each month marching beyond his own land teaches logistics.</summary>
+    public const double MarchMonth = 0.04;
+    /// <summary>Chance of a perk after a victory, shared out over the perks he already has.</summary>
+    public const double PerkChance = 0.25;
+    public const int MaxLearned = 10;
+
+    /// <summary>Learning needed for the next point: the skill / 5 (a point from 5 to 6 takes 1.0).</summary>
+    public static double Need(int skill) => Math.Max(0.4, skill / 5.0);
+
+    /// <summary>Adds learning to a skill; returns how many points it rose.</summary>
+    public static int Learn(General g, int skill, double amount)
+    {
+        if (g.BaseSkills[skill] >= MaxLearned)
+            return 0;
+        g.Xp[skill] += amount;
+        int rose = 0;
+        while (g.BaseSkills[skill] < MaxLearned && g.Xp[skill] >= Need(g.BaseSkills[skill]))
+        {
+            g.Xp[skill] -= Need(g.BaseSkills[skill]);
+            g.BaseSkills[skill]++;
+            rose++;
+        }
+        return rose;
+    }
+
+    /// <summary>
+    /// The perk a victory fits: the arm that won it (cavalry, elephants,
+    /// archers and slingers, drilled infantry), the ground it was won on, a
+    /// rout of the enemy, or the sea. Null when it fits none he lacks.
+    /// </summary>
+    public static string? FittingPerk(General g, int mainArm, string ground, bool naval, double enemyLostShare)
+    {
+        var fits = new List<string>();
+        if (naval)
+            fits.Add("sea_captain");
+        else
+        {
+            if (ground.Contains("hills") || ground.Contains("mountains"))
+                fits.Add("hill_fighter");
+            if (ground.Contains("forest"))
+                fits.Add("forest_fighter");
+            if (ground.Contains("desert"))
+                fits.Add("desert_raider");
+            if (ground.Contains("river"))
+                fits.Add("river_crosser");
+            if (enemyLostShare > 0.4)
+                fits.Add("pursuer");
+            fits.Add(mainArm switch
+            {
+                UnitRoles.Cavalry or UnitRoles.HorseArchers => "horse_master",
+                UnitRoles.Elephants => "elephant_master",
+                UnitRoles.Missile or UnitRoles.LightInfantry => "skirmish_leader",
+                _ => "drillmaster",
+            });
+        }
+        return fits.FirstOrDefault(p => !g.Perks.Contains(p) && PerkCatalog.Instance[p] != null);
+    }
+
+    /// <summary>Whether a victory brings a perk: rarer the more he has.</summary>
+    public static bool PerkRoll(General g, Random rng) => rng.NextDouble() < PerkChance / (1 + g.Perks.Count(p => p != "green"));
 }

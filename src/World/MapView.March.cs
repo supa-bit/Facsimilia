@@ -249,6 +249,7 @@ public partial class MapView
                 if (a.Marching)
                     Advance(s, a, month);
             }
+        GeneralsMonth(events);   // armies still on the road, and sieges, teach their generals
         events.AddRange(Supply(month, rng));
         events.AddRange(Meetings(rng));
         Blockades(month);
@@ -529,6 +530,7 @@ public partial class MapView
         GeneralDeeds(winS.GeneralOf(winA), true);
         GeneralDeeds(loseS.GeneralOf(loseA), false);
         MaybeFall(loseS, loseS.GeneralOf(loseA), rng, events);
+        GeneralsAfterBattle(report, winS, winA, loseS, loseA, naval, rng, events);
         TraditionsAfterBattle(report, winS, winA, loseS, loseA, events);
         var war = Game.Wars.Between(att.RealmId, def.RealmId);
         if (war != null)

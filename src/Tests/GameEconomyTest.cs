@@ -201,6 +201,20 @@ public partial class GameEconomyTest : TestRunner
         r.Treasury = 10_000;
         Check(Military.CanRecruit(r, rc, cultures, cat["praetorians"]).Problem != null, "a realm should keep at most three guards");
 
+        // Generals grow (War: generals): skill from what they do, perks fitting how they won.
+        var learner = new General { Id = 999, Name = "Test" };
+        learner.BaseSkills[Skills.Tactics] = 5;
+        Check(GeneralGrowth.Learn(learner, Skills.Tactics, GeneralGrowth.TacticsWin) == 0
+              && GeneralGrowth.Learn(learner, Skills.Tactics, GeneralGrowth.TacticsWin) == 1 && learner.BaseSkills[Skills.Tactics] == 6,
+            "two victories should teach a middling general a point of tactics");
+        learner.BaseSkills[Skills.Siegecraft] = 10;
+        Check(GeneralGrowth.Learn(learner, Skills.Siegecraft, 5) == 0, "skills learned in the field stop at 10");
+        Check(GeneralGrowth.FittingPerk(learner, UnitRoles.Cavalry, "plain", false, 0.1) == "horse_master"
+              && GeneralGrowth.FittingPerk(learner, UnitRoles.HeavyInfantry, "hills", false, 0.1) == "hill_fighter"
+              && GeneralGrowth.FittingPerk(learner, UnitRoles.Warships, "", true, 0.1) == "sea_captain",
+            "a perk should fit how the battle was won");
+        Check(General.FromDict(learner.ToDict()).Xp[Skills.Tactics] == learner.Xp[Skills.Tactics], "a general's learning should be saved");
+
         // Deep debt: unpaid soldiers desert.
         r.Debt = 1e6;
         int army = r.Armies.Sum(x => x.Men);

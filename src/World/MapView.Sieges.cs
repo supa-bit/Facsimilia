@@ -165,7 +165,10 @@ public partial class MapView
                     double attLost = report.AttackerLost, defLost = report.DefenderLost;
                     MaybeFall(won ? defender : attacker, won ? def.General : att.General, rng, events);
                     if (lead != null)
+                    {
+                        GeneralsAfterBattle(report, won ? attacker : defender, won ? army : lead, won ? defender : attacker, won ? lead : army, false, rng, events);
                         TraditionsAfterBattle(report, won ? attacker : defender, won ? army : lead, won ? defender : attacker, won ? lead : army, events);
+                    }
                     var war = Game.Wars.Between(siege.Attacker, siege.Owner);
                     if (war != null)
                     {
