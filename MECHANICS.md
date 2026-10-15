@@ -1910,7 +1910,8 @@ up over 100 million by 280 BC. Three things were wrong, and are fixed:
   magistrates). Ancient states spent nearly everything they took.
 - **Not every state could tax alike** ("tax reach" in start_realms.json).
   The Ptolemies' royal monopolies and land tax (x1.8; Egypt now takes in about
-  6,300 talents a year), the Seleucids and Carthage (x1.5) took heavily.
+  6,300 talents a year; since 15 Oct 2026 x1.35, with the monopolies counted
+  on their own), the Seleucids and Carthage (x1.5) took heavily.
   Republican Rome's citizens paid only the tributum, a war levy, so Rome takes
   0.4 of the usual tax and lived, as it did, on booty, public land and its
   allies' soldiers.
@@ -2121,10 +2122,42 @@ Treasury > "Spending, coin and loans" opens the Finances panel.
   family purse (playing a family); officials stealing (events); banks,
   bonds and national debt (later ages); the full budget by province with
   graphs (interface).
-- **Not built yet, nothing in the way**: state monopolies on goods; each
-  realm's coin changing as history changed it; the long list of history's
-  remedies, each only in the years it was used (your note). These need
-  research into the sources first.
+- **Not built yet, nothing in the way**: each realm's coin changing as
+  history changed it; the long list of history's remedies, each only in the
+  years it was used (your note). These need research into the sources first.
+  (State monopolies are now built: see "Treasury and money: State
+  monopolies" below.)
+
+## Treasury and money: State monopolies **(built, 15 Oct 2026)**
+
+Your answers: "Declare monopolies on goods", "Both, chosen for each good"
+and "History's list, plus any other at a higher cost".
+
+- **History's monopolies** (data/monopolies.json, each with its source): the
+  Ptolemies' oil (olive and sesame), papyrus, linen, beer, salt and natron
+  (the Revenue Laws of Ptolemy II, 259 BC, and the Tebtunis papyri); Rome's
+  salt from 204 BC (Livy 29.37); the Seleucid salt tax (1 Maccabees 10.29);
+  the Hadramite frankincense road (Pliny 12.63); and for later ages
+  Justinian's silk, the Han salt and iron, Venice's salt office, the French
+  gabelle, the Spanish tobacco estanco and the Bengal opium monopoly.
+  Realms begin with the ones history gave them at the start date, so Egypt
+  starts with all of the Ptolemies'.
+- **Claiming one**: in Finances, pick any good your land makes (history's
+  for your realm and age are starred) and choose who runs it.
+  - *Royal officials* take half the value of the good your land makes (the
+    Ptolemies bought oil cheap and sold it at about twice the price), less
+    what corruption steals.
+  - *Contractors* pay 35%, steadily, and corruption doesn't touch it.
+  - You can switch each monopoly between the two at any time.
+- **What it costs**: each of history's monopolies adds 1% unrest across the
+  realm. Any other adds 3%, or 9% on a good people buy every day (grain,
+  bread, oil for the lamp), and merchants trade less with you: customs fall
+  4% for each.
+- **Egypt's tax reach** was ×1.8 to stand in for its monopolies; it is now
+  ×1.35, and the monopolies (about 2,600 talents a year) make up the rest.
+- **Waiting on your answers** (new questions on the Ledger): who sets a
+  monopoly's price, smuggling, ending a monopoly, and whether other realms
+  claim history's monopolies on their dates.
 
 ## Units of their own, the roster, and War: manpower **(built, 1 Oct 2026)**
 

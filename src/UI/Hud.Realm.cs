@@ -163,12 +163,14 @@ public partial class Hud
         var c = _map.CensusOf(_map.PlayerRealmId);
         var (tax, tribute, customs, civil, admin, upkeep, interest) = Economy.Accounts(s, c, _map.Corruption(_map.PlayerRealmId));
         double mercs = _map.Game.Companies.Where(x => x.Employer == _map.PlayerRealmId).Sum(x => x.MonthlyPay(_map.CompanyUnits(x)) * 12);
-        double net = tax + tribute + customs - civil - upkeep - admin - interest - mercs;
+        double monopolies = s.Monopolies.Sum(m => _map.MonopolyIncomeFor(m.Good, m.Farmed));
+        double net = tax + tribute + customs + monopolies - civil - upkeep - admin - interest - mercs;
         _accounts.Text =
             $"Treasury: {M(s.Treasury)} ({_map.SilverKg(s.Treasury)})" + (s.Debt > 0.5 ? $"   Debt: {T(s.Debt)} (10% interest)" : "") + "\n" +
             $"Each year at this rate:\n" +
             $"   Taxes +{T(tax)}   Tribute from unorganized land +{T(tribute)}" +
-            (c.Goods != null ? $"   Tolls and customs +{T(customs)}" : "") + "\n" +
+            (c.Goods != null ? $"   Tolls and customs +{T(customs)}" : "") +
+            (monopolies > 0.5 ? $"   Monopolies +{T(monopolies)}" : "") + "\n" +
             $"   Court, temples and public works −{T(civil)}\n" +
             $"   Administration −{T(admin)} ({c.Provinces} provinces" + (c.BuildingUpkeep > 0.5 ? $", buildings {T(c.BuildingUpkeep)}" : "") + ")\n" +
             $"     Army −{T(upkeep)}" +

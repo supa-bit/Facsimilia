@@ -55,6 +55,30 @@ public partial class GameEconomyTest : TestRunner
         Check(eg.Treasury <= expected + 1 && eg.Treasury >= expected - Math.Max(recruited, 0) - 1,
             $"Egypt's treasury {eg.Treasury:0} doesn't match {before:0} + balance {eg.LastNet:0}");
 
+        // State monopolies: Egypt starts with the Ptolemies' (oil, papyrus,
+        // linen, beer, salt, natron), which bring in a good share of its silver.
+        Check(eg.Monopolies.Count(m => m.Historical) >= 5 && eg.Monopolies.Any(m => m.Good == "papyrus" && !m.Farmed) && eg.Monopolies.Any(m => m.Good == "olive_oil" && m.Farmed),
+            "Egypt should start with the Ptolemaic monopolies, oil farmed out and papyrus run by royal officials");
+        Check(eg.LastMonopoly > 300 && eg.LastMonopoly < eg.LastTax, $"Egypt's monopolies brought in {eg.LastMonopoly:0} talents; the Ptolemies drew hundreds from them");
+        Check(map.Game.Realm(rome).Monopolies.Count == 0, "Rome's salt monopoly comes only in 204 BC");
+        // Rome claims a good history never monopolised: it pays, but people resent it and merchants trade less.
+        var romeState = map.Game.Realm(rome);
+        var claim = map.MonopolyChoices().FirstOrDefault(x => x.History == null && x.Good.Id == "wine").Good ?? map.MonopolyChoices().First(x => x.History == null).Good;
+        double customsKept = MonopolyCatalog.CustomsKept(romeState);
+        map.DeclareMonopoly(claim.Id, false);
+        Check(romeState.Monopolies.Count == 1 && !romeState.Monopolies[0].Historical && MonopolyCatalog.Unrest(romeState) >= MonopolyCatalog.OtherUnrest - 1e-9
+              && MonopolyCatalog.CustomsKept(romeState) < customsKept && map.MonopolyIncomeFor(claim.Id, false) > map.MonopolyIncomeFor(claim.Id, true),
+            $"a monopoly on {claim.Name} should pay (more run by officials), stir unrest and cut customs");
+        Check(map.CanDeclareMonopoly(claim.Id) != null, "a good can't be monopolised twice");
+        var reloaded = RealmState.FromDict(romeState.ToDict());
+        Check(reloaded.Monopolies.Count == 1 && reloaded.Monopolies[0].Good == claim.Id, "monopolies should be saved");
+        romeState.Monopolies.Clear();
+        var staple = map.MonopolyChoices().First(x => x.History == null && x.Good.Need > 0).Good;
+        map.DeclareMonopoly(staple.Id, true);
+        Check(MonopolyCatalog.Unrest(romeState) >= MonopolyCatalog.OtherUnrest * MonopolyCatalog.StapleUnrest - 1e-9,
+            $"a monopoly on {staple.Name}, which people need every day, should anger them far more");
+        romeState.Monopolies.Clear();
+
         // Heavier taxes: more silver, and a burden on growth in the realm's regions.
         var pop = map.Population!;
         int egyptRegion = pop.Regions.First(r => r.Name == "Aegyptus").Id;

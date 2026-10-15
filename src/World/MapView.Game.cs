@@ -131,6 +131,7 @@ public partial class MapView
         StartLoyalty();
         StartTechs();
         StartTraditions();
+        StartMonopolies();
         if (startRoot is { } root)
             StartTreaties(root);
         foreach (var (realmId, counts) in roles)
@@ -189,6 +190,7 @@ public partial class MapView
         _census = null;
         var census = RealmCensus();
         Lap("census and goods");
+        MonopoliesYear(census);
         foreach (var realm in Registry.Realms.Values)
         {
             if (!census.TryGetValue(realm.Id, out var c))
@@ -245,6 +247,8 @@ public partial class MapView
             StartTechs();   // a save from before technology
         if (Game.Realms.Values.All(r => r.Traditions.Count == 0))
             StartTraditions();   // a save from before army traditions
+        if (Game.Realms.Values.All(r => r.Monopolies.Count == 0))
+            StartMonopolies();   // a save from before monopolies
         RefreshRoleBoosts();
         if (Godot.FileAccess.FileExists(StartRealmsPath))
         {

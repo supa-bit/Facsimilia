@@ -96,7 +96,7 @@ public sealed class RealmState
     public double BlockadeMonths { get; set; }
     /// <summary>Talents from selling captives as slaves last year.</summary>
     public double LastCaptiveSales { get; set; }
-    public double LastNet => LastTax + LastTribute + LastCustoms + LastCaptiveSales + LastVassalTribute - LastCivil - LastAdmin - LastUpkeep - LastInterest;
+    public double LastNet => LastTax + LastTribute + LastCustoms + LastMonopoly + LastCaptiveSales + LastVassalTribute - LastCivil - LastAdmin - LastUpkeep - LastInterest;
     /// <summary>How much other realms fear this one's conquests, 0..100; fades by itself.</summary>
     public double Aggression { get; set; }
     /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
@@ -154,6 +154,9 @@ public sealed class RealmState
     /// <summary>Military reforms: enacted (id: year), under way (id: years left), offered and not yet taken.</summary>
     public Dictionary<string, int> Reforms { get; } = new();
     public Dictionary<string, int> ReformsPending { get; } = new();
+    /// <summary>State monopolies on goods (Treasury and money), and what they brought in last year.</summary>
+    public List<Monopoly> Monopolies { get; } = new();
+    public double LastMonopoly { get; set; }
     public HashSet<string> ReformsOffered { get; } = new();
     /// <summary>What history's causes look for: the last heavy defeat, defeats by each realm, peoples fought, and the last army to turn on the realm (years).</summary>
     public int LastHeavyDefeat { get; set; }
@@ -212,6 +215,7 @@ public sealed class RealmState
             ["reforms"] = new GArray(Reforms.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
             ["reforms_pending"] = new GArray(ReformsPending.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
             ["reforms_offered"] = new GArray(ReformsOffered.Select(x => (Variant)x).ToArray()),
+            ["monopolies"] = new GArray(Monopolies.Select(m => (Variant)new GArray { m.Good, m.Farmed, m.Historical, m.Since, m.Staple }).ToArray()), ["last_monopoly"] = LastMonopoly,
             ["war_memory"] = new GArray { LastHeavyDefeat, LastMutinyYear,
                 new GArray(DefeatedBy.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
                 new GArray(FoughtCultures.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()) },
@@ -359,6 +363,13 @@ public sealed class RealmState
         if (d.TryGetValue("reforms_offered", out var ro))
             foreach (var v in ro.AsGodotArray())
                 r.ReformsOffered.Add(v.AsString());
+        if (d.TryGetValue("monopolies", out var mo))
+            foreach (var v in mo.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                r.Monopolies.Add(new Monopoly { Good = a[0].AsString(), Farmed = a[1].AsBool(), Historical = a[2].AsBool(), Since = a[3].AsInt32(), Staple = a.Count > 4 && a[4].AsBool() });
+            }
+        r.LastMonopoly = d.TryGetValue("last_monopoly", out var lmo) ? lmo.AsDouble() : 0;
         if (d.TryGetValue("war_memory", out var wm))
         {
             var w = wm.AsGodotArray();

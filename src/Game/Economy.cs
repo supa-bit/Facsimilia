@@ -82,7 +82,7 @@ public static class Economy
         double p = r.PriceLevel;   // all sums are in the realm's coin: they follow its prices (decision "How debasing works")
         tax *= r.TaxReach * Remedies.TaxKept(r) * (1 + TechCatalog.Instance.Effect(r, "tax")) * kept * p;
         tribute *= p;
-        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) * Finance.Trust(r) * p : 0;
+        double customs = c.Goods != null ? Trade.Customs(c.Goods) * Remedies.CustomsKept(r) * Finance.Trust(r) * MonopolyCatalog.CustomsKept(r) * p : 0;
         customs *= 1 - Math.Clamp(r.BlockadeMonths / 12.0, 0, 0.8);   // enemy fleets off the coast
         double civil = Finance.Civil(r, tax, c.People) ;
         double admin = (AdminPerProvince * c.Provinces * (r.Collectors == Collectors.Farmers ? Finance.FarmersAdmin : 1) + c.BuildingUpkeep) * p;
@@ -127,7 +127,7 @@ public static class Economy
         if (r.ContractYears > 0)
             r.ContractYears--;
 
-        double income = tax + tribute + customs;
+        double income = tax + tribute + customs + r.LastMonopoly;   // the monopolies' take, worked out with the goods (MapView.MonopoliesYear)
         r.Treasury += income + mint - civil - admin - upkeep - interest;
         bool unpaid = false;
         if (r.Treasury < 0)

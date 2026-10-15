@@ -107,6 +107,8 @@ public partial class Hud
             coll.AddChild(b);
         }
 
+        AddMonopolies(s);
+
         // The coin.
         _financeBox.AddChild(ThemeAncient.Label("The coin", "HeaderLabel", 18));
         _financeBox.AddChild(Wrapped(
@@ -189,4 +191,69 @@ public partial class Hud
         _financeBox.AddChild(Wrapped(Finance.Basis(_map.DemoYear) == "a basket of goods" ? "Money is compared by what it buys of a basket of goods."
             : $"Money is compared by its weight in {Finance.Basis(_map.DemoYear)}.", 13, "SubtleLabel"));
     }
+
+    /// <summary>State monopolies (Treasury and money): those you hold, and goods your land makes that you could claim.</summary>
+    void AddMonopolies(RealmState s)
+    {
+        var goodsCat = _map.GoodsCatalog();
+        string Name(string id) => goodsCat?.Goods.FirstOrDefault(g => g.Id == id)?.Name ?? id;
+        _financeBox.AddChild(ThemeAncient.Label("Monopolies", "HeaderLabel", 18));
+        _financeBox.AddChild(Wrapped(
+            "A good only the crown may sell. Your officials earn more from it, but corruption takes its share; contractors pay less, but steadily. " +
+            "History's monopolies for your realm and age stir a little unrest; any other stirs more (three times more on a good people buy every day, like grain), and merchants trade less with you (customs fall)." +
+            (s.LastMonopoly > 0.5 ? $" Last year your monopolies brought in {_map.Money(s.LastMonopoly)}." : ""), 14, "SubtleLabel"));
+        foreach (var m in s.Monopolies)
+        {
+            var row = new HBoxContainer();
+            row.AddThemeConstantOverride("separation", 8);
+            _financeBox.AddChild(row);
+            var def = MonopolyCatalog.Instance.Historical(s.CivKey, m.Good, _map.DemoYear);
+            var l = ThemeAncient.Label($"{Name(m.Good)}: {_map.Money(_map.MonopolyIncomeFor(m.Good, m.Farmed))} a year" + (m.Historical ? "" : "  (resented)"), fontSize: 15);
+            l.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+            l.TooltipText = (def != null ? def.Source : m.Historical ? "One of history's monopolies when you declared it." : "No realm of your people held this monopoly in this age.")
+                + $"\nHeld since {ThemeAncient.YearText(m.Since)}.";
+            l.MouseFilter = MouseFilterEnum.Pass;
+            row.AddChild(l);
+            foreach (var (farmed, label) in new[] { (false, "Officials"), (true, "Contractors") })
+            {
+                var b = new Button { Text = label, ToggleMode = true, ButtonPressed = m.Farmed == farmed, FocusMode = FocusModeEnum.None,
+                    TooltipText = $"{_map.Money(_map.MonopolyIncomeFor(m.Good, farmed))} a year run this way." };
+                string good = m.Good;
+                b.Pressed += () =>
+                {
+                    _map.SetMonopolyFarmed(good, farmed);
+                    RefreshFinancePanel();
+                    RefreshRealmPanel();
+                };
+                row.AddChild(b);
+            }
+        }
+        var choices = _map.MonopolyChoices();
+        if (choices.Count == 0)
+            return;
+        var add = new HBoxContainer();
+        add.AddThemeConstantOverride("separation", 8);
+        _financeBox.AddChild(add);
+        add.AddChild(ThemeAncient.Label("Claim:", fontSize: 15));
+        var pick = new OptionButton { FocusMode = FocusModeEnum.None, CustomMinimumSize = new Vector2(300, 0) };
+        foreach (var (good, hist, _) in choices)
+            pick.AddItem((hist != null ? "★ " : "") + $"{good.Name} ({_map.Money(_map.MonopolyIncomeFor(good.Id, hist?.Farmed ?? false))})" + (hist == null && good.Need > 0 ? " — an everyday need" : ""));
+        pick.TooltipText = "★ marks history's monopolies for your realm in this age. The sum is what it would bring in a year.";
+        add.AddChild(pick);
+        foreach (var (farmed, label) in new[] { (false, "Run by officials"), (true, "Farm it out") })
+        {
+            var b = new Button { Text = label, FocusMode = FocusModeEnum.None };
+            b.Pressed += () =>
+            {
+                var good = choices[pick.Selected].Good.Id;
+                LogEvents(new System.Collections.Generic.List<Dynasties.ChronicleEvent> { new(Dynasties.ChronicleKind.Economy, _map.PlayerRealmId, _map.DeclareMonopoly(good, farmed)) });
+                RefreshFinancePanel();
+                RefreshRealmPanel();
+            };
+            add.AddChild(b);
+        }
+        if (choices.FirstOrDefault(c => c.History != null) is { History: { } h })
+            pick.Selected = choices.FindIndex(c => c.History == h);
+    }
+
 }
