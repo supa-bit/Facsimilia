@@ -149,6 +149,16 @@ public sealed class RealmState
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
     public int NextGeneralId { get; set; } = 1;
+    /// <summary>A capital you chose (lon, lat, town), or NaN for history's own seat.</summary>
+    public double CapitalLon { get; set; } = double.NaN;
+    public double CapitalLat { get; set; } = double.NaN;
+    public string CapitalName { get; set; } = "";
+    /// <summary>A capital being moved: the province, the town and its place, and years left (0: none).</summary>
+    public int MovingCapitalTo { get; set; }
+    public string MovingCapitalName { get; set; } = "";
+    public double MovingCapitalLon { get; set; }
+    public double MovingCapitalLat { get; set; }
+    public int MovingCapitalYears { get; set; }
     /// <summary>Until this year cities fear the realm (it razed one): its sieges go faster.</summary>
     public int TerrorUntil { get; set; } = int.MinValue;
     /// <summary>The last year this realm was at war (0: not yet known; the first year sets it). Long peace helps growth.</summary>
@@ -178,6 +188,7 @@ public sealed class RealmState
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
+            ["capital"] = new GArray { CapitalLon, CapitalLat, CapitalName, MovingCapitalTo, MovingCapitalName, MovingCapitalLon, MovingCapitalLat, MovingCapitalYears },
         };
     }
 
@@ -308,6 +319,13 @@ public sealed class RealmState
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
         r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
+        if (d.TryGetValue("capital", out var capital))
+        {
+            var ca = capital.AsGodotArray();
+            r.CapitalLon = ca[0].AsDouble(); r.CapitalLat = ca[1].AsDouble(); r.CapitalName = ca[2].AsString();
+            r.MovingCapitalTo = ca[3].AsInt32(); r.MovingCapitalName = ca[4].AsString();
+            r.MovingCapitalLon = ca[5].AsDouble(); r.MovingCapitalLat = ca[6].AsDouble(); r.MovingCapitalYears = ca[7].AsInt32();
+        }
         r.NextGeneralId = d.TryGetValue("next_general", out var ng) ? ng.AsInt32() : r.Generals.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
         if (d.TryGetValue("history", out var hist))
             foreach (Variant v in hist.AsGodotArray())

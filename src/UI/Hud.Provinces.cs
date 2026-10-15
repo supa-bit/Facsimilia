@@ -422,6 +422,32 @@ public partial class Hud
             Line(land, $"This year's harvest in {region.Name}: {year} ({n.Harvest:P0})");
             Line(land, $"Soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}");
         }
+        if (mine)
+        {
+            var me = _map.PlayerState;
+            if (me.MovingCapitalYears > 0 && me.MovingCapitalTo == p.Id)
+                Line(land, $"Your new capital is being built at {me.MovingCapitalName}: the court arrives in {me.MovingCapitalYears} year(s).");
+            else if (_map.CapitalProvince(_map.PlayerRealmId) != p.Id && _map.SeatPlace(p.Id) is { } seat)
+            {
+                string? cannot = _map.CanMoveCapital(p.Id);
+                var move = new Button
+                {
+                    Text = $"Make {seat.Name.TrimStart('★', ' ')} your capital ({_map.CapitalMoveCost():0} talents, {CapitalMove.Years} years)",
+                    Disabled = cannot != null,
+                    TooltipText = cannot ?? "The court, treasury and offices move here (Constantine took six years over Constantinople). " +
+                        "When it is done, your reach centres on the new capital; the old capital resents it and the court's old families grumble.",
+                    FocusMode = FocusModeEnum.None,
+                };
+                int cid = p.Id;
+                move.Pressed += () =>
+                {
+                    _map.StartCapitalMove(cid);
+                    RefreshProvincePanel();
+                    RefreshTreasury();
+                };
+                land.AddChild(move);
+            }
+        }
         if (_map.RuinIn(p.Id) is { } ruin)
         {
             Line(land, $"The ruins of {ruin.Name}, razed by {_map.RealmName(ruin.By)} in {ThemeAncient.YearText(ruin.Year)}.");

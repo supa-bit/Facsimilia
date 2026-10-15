@@ -30,8 +30,11 @@ public partial class MapView
                 continue;
             var (lon, lat) = NodeLonLat(node);
             var spec = RealCivs.FirstOrDefault(c => CivRealmIds.TryGetValue(c.Key, out int id) && id == realmId);
-            bool historic = spec?.CapitalLonLat is { } ll && DisasterCatalog.Km(lon, lat, ll.X, ll.Y) < 60;
-            string name = (historic && spec!.CapitalName != "" ? spec.CapitalName : null)
+            var rs = Game.Realm(realmId);
+            bool chosen = !double.IsNaN(rs.CapitalLon) && rs.CapitalName != "" && DisasterCatalog.Km(lon, lat, rs.CapitalLon, rs.CapitalLat) < 60;
+            bool historic = !chosen && spec?.CapitalLonLat is { } ll && DisasterCatalog.Km(lon, lat, ll.X, ll.Y) < 60;
+            string name = (chosen ? rs.CapitalName : null)
+                ?? (historic && spec!.CapitalName != "" ? spec.CapitalName : null)
                 ?? PlaceCatalog.Instance.Nearest(lon, lat, DemoYear, 40)
                 ?? ProvinceAtNode(node)?.Name ?? RealmName(realmId);
             list.Add((realmId, NodeCell(node), name));

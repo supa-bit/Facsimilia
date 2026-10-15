@@ -47,6 +47,12 @@ public partial class ZzShotSack : TestRunner
         for (int i = 0; i < 20; i++)
             await ToSignal(this, SceneTree.SignalName.ProcessFrame);
         Root.GetViewport().GetTexture().GetImage().SavePng(dir + "/ruin.png");
+        map.SelectProvince(map.Provinces.Provinces.Values.First(p => p.Name == "Campania").Id);
+        hud.Refresh();
+        ((TabContainer)hud.Get("_provinceTabs")).CurrentTab = 1;
+        for (int i = 0; i < 20; i++)
+            await ToSignal(this, SceneTree.SignalName.ProcessFrame);
+        Root.GetViewport().GetTexture().GetImage().SavePng(dir + "/capital.png");
         Finish("shot taken");
     }
 }

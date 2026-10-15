@@ -120,7 +120,22 @@ public partial class ConquestTest : TestRunner
         Check(reachFleet.Count(b => b) > reachNoFleet.Count(b => b), "a fleet should extend Rome's reach");
         Check(bySea.Any(b => b), "some land should be reachable only by sea");
 
-        Finish($"Conquest tests passed: reach, war before attack, Rome besieged, razed and resettled {target.p!.Name} in {years} year(s) " +
+        // Moving the capital: years, silver and the old capital's grudge; reach centres on the new seat.
+        int oldCapital = map.CapitalProvince(rome);
+        var newSeat = map.Provinces.Provinces.Values.First(p => p.RealmId == rome && p.Id != oldCapital && map.SeatPlace(p.Id) != null
+            && !map.Game.Sieges.Any(x => x.ProvinceId == p.Id));
+        map.PlayerState.Treasury = 5000;
+        double farBefore = map.DistanceFromCapital(newSeat);
+        Check(map.StartCapitalMove(newSeat.Id) && map.CapitalProvince(rome) == oldCapital, "the capital should take years to move");
+        Check(map.CanMoveCapital(newSeat.Id) != null, "one move at a time");
+        for (int y = 0; y < CapitalMove.Years; y++)
+            map.AdvanceYear();
+        Check(map.CapitalProvince(rome) == newSeat.Id, $"after {CapitalMove.Years} years the capital should be in {newSeat.Name}");
+        Check(map.DistanceFromCapital(newSeat) < farBefore, "administrative reach should centre on the new capital");
+        Check(map.ProvinceStateOf(oldCapital).Grudge > 0, "the old capital should resent losing the court");
+        Check(GameState.FromDict(map.Game.ToDict()).Realm(rome).CapitalName == map.Game.Realm(rome).CapitalName, "the new capital didn't survive a save");
+
+        Finish($"Conquest tests passed: capital moved to {map.Game.Realm(rome).CapitalName}; reach, war before attack, Rome besieged, razed and resettled {target.p!.Name} in {years} year(s) " +
             $"(a weak army would need {weak.Years}), war score {war.Score:+0}, losses and weariness, tribute and truce, fleets extend reach " +
             $"({reachNoFleet.Count(b => b):N0} -> {reachFleet.Count(b => b):N0} nodes).");
         map.Free();

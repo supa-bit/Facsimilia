@@ -173,6 +173,7 @@ public partial class MapView
         events.AddRange(WondersYear());
         events.AddRange(RoadsYear());
         FocusYear();
+        events.AddRange(CapitalYear());
         ApplyBuildingGrowth();
         SecurityYear();
         Lap("buildings");

@@ -44,7 +44,9 @@ public partial class MapView
         if (Population == null)
             return -1;
         var spec = RealCivs.FirstOrDefault(c => CivRealmIds.TryGetValue(c.Key, out int id) && id == realmId);
-        if (spec?.CapitalLonLat is { } ll)
+        var chosen = Game.Realms.TryGetValue(realmId, out var rs) && !double.IsNaN(rs.CapitalLon)
+            ? new Vector2((float)rs.CapitalLon, (float)rs.CapitalLat) : (Vector2?)null;
+        if ((chosen ?? spec?.CapitalLonLat) is { } ll)
         {
             // The seat itself, or the realm's land nearest it (a port may sit just off the coast on the grid).
             int node = Population.NodeAtLonLat(ll.X, ll.Y, LonMin, LonMax, LatMin, LatMax);

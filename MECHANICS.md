@@ -2440,9 +2440,23 @@ about 3 in 100, and otherwise plunder (`src/Game/Sacking.cs`).
 - **Resettling a ruin**: 150 talents and 2,000 men sent as settlers (as
   Caesar refounded Carthage); the ruin is gone and the grudge halves.
 
+#### Moving the capital **(built 15 Oct 2026)**
+
+Your answers "Allowed at a cost of years, silver and loyalty" and
+"Administrative reach centres on the new capital at once"
+(`src/Game/CapitalMove.cs`). In one of your provinces' Land tab, "Make
+(its seat) your capital" costs 100 talents plus 0.2 per 1,000 of your
+people (Rome, about 900,000 people: 280), paid at once. Five years later
+the court arrives (Constantine took six over Constantinople): the capital
+star and administrative reach (distance, roads to the capital) move to the
+new seat at once; the old capital holds a grudge (0.3 unrest, fading), and
+the court's old families take it badly (the rival faction grows 15). Lose
+the province before then and the move and its silver are lost. Other
+realms keep history's capitals for now.
+
 Still to come in Cities and settlements: cities as their own things inside
 provinces with sizes and tiers, their water, food and disease limits, slots
-by size, colonies, moving the capital, the mob and free cities. Those wait
+by size, colonies, the mob and free cities. Those wait
 on towns and countryside being split (your answer "Each province splits
 into its towns and its countryside").
 
