@@ -73,7 +73,7 @@ public partial class MapView
             t.DefenderMight = garrison + ReliefMight(t.Owner, against);
             t.Chance = Conquest.WinChance(t.AttackerMight, t.DefenderMight);
             double rate = Conquest.SiegeRate(t.AttackerMight, garrison, Military.Might(Game.Realm(t.Attacker), Domain.Land),
-                t.Owner > 0 ? Military.Might(Game.Realm(t.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(Game.Realm(t.Attacker), "siege"));
+                t.Owner > 0 ? Military.Might(Game.Realm(t.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(Game.Realm(t.Attacker), "siege") + TraditionCatalog.Instance.Effect(Game.Realm(t.Attacker), "siege"));
             t.Years = rate > 0 ? Math.Ceiling(1 / rate) : double.PositiveInfinity;
         }
     }
@@ -164,6 +164,8 @@ public partial class MapView
                     bool won = report.AttackerWon;
                     double attLost = report.AttackerLost, defLost = report.DefenderLost;
                     MaybeFall(won ? defender : attacker, won ? def.General : att.General, rng, events);
+                    if (lead != null)
+                        TraditionsAfterBattle(report, won ? attacker : defender, won ? army : lead, won ? defender : attacker, won ? lead : army, events);
                     var war = Game.Wars.Between(siege.Attacker, siege.Owner);
                     if (war != null)
                     {
@@ -189,7 +191,7 @@ public partial class MapView
             }
             double garrison = Garrison(siege.Owner, siege.ProvinceId, siege.People, siege.Node);
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
-                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"))
+                siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege") + TraditionCatalog.Instance.Effect(attacker, "siege"))
                 * SiegeSkill(attacker.GeneralOf(army)) * Math.Min(1, siege.MonthsPresent / 12.0)
                 * (Military.RawMight(army, Domain.Naval) > 0 && Coastal(siege.Node) ? 1.5 : 1)   // blockaded from the sea too, it starves sooner
                 * (attacker.TerrorUntil >= DemoYear ? Sacking.TerrorSiege : 1);   // it razed a city: others open their gates sooner
@@ -267,6 +269,7 @@ public partial class MapView
             events.AddRange(LearnFromConquest(siege.Attacker, siege.Owner, siege.People / people));
             war.Score = Math.Clamp(war.Score + (war.Attacker == siege.Attacker ? swing : -swing), -100, 100);
         }
+        TraditionsAfterCapture(Game.Realm(siege.Attacker), events);
         string what = siege.ProvinceId != 0 ? siege.Name : siege.Owner == 0 ? "new land" : $"land from {RealmName(siege.Owner)}";
         int years = DemoYear - siege.StartYear - (siege.StartYear < 0 && DemoYear > 0 ? 1 : 0);
         string text = $"{RealmName(siege.Attacker)} takes {what}" + (years > 1 ? $" after a siege of {years} years." : ".");

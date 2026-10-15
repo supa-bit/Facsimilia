@@ -29,7 +29,7 @@ public partial class MapView
         {
             var boost = new double[UnitRoles.Count];
             for (int role = 0; role < UnitRoles.Count; role++)
-                boost[role] = Tech.Effect(s, "might_" + UnitRoles.Keys[role]);
+                boost[role] = Tech.Effect(s, "might_" + UnitRoles.Keys[role]) + TraditionCatalog.Instance.Effect(s, "might_" + UnitRoles.Keys[role]);
             foreach (var a in s.Armies)
                 Array.Copy(boost, a.RoleBoost, boost.Length);
         }

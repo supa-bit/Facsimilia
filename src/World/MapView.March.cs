@@ -528,6 +528,7 @@ public partial class MapView
         GeneralDeeds(winS.GeneralOf(winA), true);
         GeneralDeeds(loseS.GeneralOf(loseA), false);
         MaybeFall(loseS, loseS.GeneralOf(loseA), rng, events);
+        TraditionsAfterBattle(report, winS, winA, loseS, loseA, events);
         var war = Game.Wars.Between(att.RealmId, def.RealmId);
         if (war != null)
         {

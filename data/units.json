@@ -1,5 +1,5 @@
 {
- "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year, pay and rations together (a Roman legionary drew 2 obols a day, 120 denarii a year, with his grain on top, Polybius 6.39; a Hellenistic mercenary about a drachma a day with his grain); warships cost less, as fleets lay in their ship-sheds in peace and rowers were paid only at sea; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use. requires: a technology the realm must know to raise it.",
+ "about": "Every people's own units (decision 'Playable 10': every culture's own units). A realm can raise the units of its own culture and of the peoples of the provinces it holds; units marked '*' anyone can raise. role: what the unit does in battle (heavy_infantry, light_infantry, missile, cavalry, horse_archers, elephants, warships). might: fighting value of one unit; men: soldiers (or rowers and marines) per unit; raise_cost: talents to raise; upkeep: talents a year, pay and rations together (a Roman legionary drew 2 obols a day, 120 denarii a year, with his grain on top, Polybius 6.39; a Hellenistic mercenary about a drachma a day with his grain); warships cost less, as fleets lay in their ship-sheds in peace and rowers were paid only at sea; needs: a resource the realm must hold (else 1.5x the price). Sources: Polybius, Livy, Diodorus, Plutarch; Sekunda, 'The Seleucid Army'; Head, 'Armies of the Macedonian and Punic Wars'. Our own data, free for any use. requires: a technology the realm must know to raise it. Units marked guard are a realm's elite guard (decisions 'Elite guards', 'Which guards', 'How many guards'): at most three in a realm, made from famous veterans or raised at a high price.",
  "units": [
   {
    "id": "levy_spearmen",
@@ -263,8 +263,9 @@
    "cultures": [
     "macedonian"
    ],
-   "description": "The king's shield-bearers: elite infantry.",
-   "needs": "res_iron"
+   "description": "The king's shield-bearers: elite infantry. A guard unit.",
+   "needs": "res_iron",
+   "guard": true
   },
   {
    "id": "companion_cavalry",
@@ -306,8 +307,9 @@
    "cultures": [
     "punic"
    ],
-   "description": "Carthage's citizen elite: rich, brave, few.",
-   "needs": "res_iron"
+   "description": "Carthage's citizen elite: rich, brave, few. A guard unit.",
+   "needs": "res_iron",
+   "guard": true
   },
   {
    "id": "numidian_horse",
@@ -732,6 +734,76 @@
     "sicel"
    ],
    "description": "Native Sicilians armed in the Greek way."
+  },
+  {
+   "id": "agema",
+   "name": "Royal agema",
+   "role": "cavalry",
+   "might": 1.6,
+   "men": 1000,
+   "raise_cost": 90,
+   "upkeep": 45,
+   "cultures": [
+    "macedonian"
+   ],
+   "guard": true,
+   "description": "The king's own squadron of the Companions, who rode beside him in battle (Alexander's agema at Gaugamela). A guard unit."
+  },
+  {
+   "id": "argyraspides",
+   "name": "Silver Shields",
+   "role": "heavy_infantry",
+   "might": 1.35,
+   "men": 1000,
+   "raise_cost": 80,
+   "upkeep": 40,
+   "cultures": [
+    "macedonian"
+   ],
+   "guard": true,
+   "description": "Alexander's veteran hypaspists, their shields faced with silver; the Seleucids and Ptolemies kept guards of the name. A guard unit."
+  },
+  {
+   "id": "praetorians",
+   "name": "Praetorian cohort",
+   "role": "heavy_infantry",
+   "might": 1.3,
+   "men": 1000,
+   "raise_cost": 75,
+   "upkeep": 38,
+   "cultures": [
+    "latin"
+   ],
+   "guard": true,
+   "description": "The picked men who guarded a Roman commander's headquarters (the cohors praetoria, Scipio's in Spain), later the emperors' guard. A guard unit."
+  },
+  {
+   "id": "royal_guard",
+   "name": "Royal guard",
+   "role": "heavy_infantry",
+   "might": 1.2,
+   "men": 1000,
+   "raise_cost": 70,
+   "upkeep": 35,
+   "cultures": [
+    "*"
+   ],
+   "guard": true,
+   "description": "The ruler's own picked foot soldiers, as every court kept them. A guard unit."
+  },
+  {
+   "id": "royal_guard_horse",
+   "name": "Guard horsemen",
+   "role": "cavalry",
+   "might": 1.4,
+   "men": 1000,
+   "raise_cost": 85,
+   "upkeep": 42,
+   "cultures": [
+    "*"
+   ],
+   "guard": true,
+   "description": "The ruler's own picked riders. A guard unit."
   }
  ]
 }

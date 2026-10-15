@@ -111,6 +111,32 @@ public partial class GameEconomyTest : TestRunner
         Check(map.SettleVeterans(romanLand.Id) && r.VeteransWaiting == 0 && map.ProvinceStateOf(romanLand.Id).Integration > 0.5,
             "veterans settled on conquered land should hold it for you");
 
+        // Army traditions: history's at the start, shaping units; they fade unused.
+        int carthage = map.CivRealmIds["carthage"];
+        Check(r.Traditions.ContainsKey("manipular_legion") && r.Traditions.ContainsKey("roman_camp"), "Rome should start with its traditions");
+        Check(map.Game.Realm(carthage).Traditions.ContainsKey("masters_of_the_sea"), "Carthage should start as master of the sea");
+        Check(map.Game.Realm(map.CivRealmIds["rhodes"]).Traditions.ContainsKey("rhodian_seamanship")
+            && !map.Game.Realm(map.CivRealmIds["byzantium"]).Traditions.ContainsKey("rhodian_seamanship"),
+            "Rhodian seamanship should be Rhodes' own, not every Greek city's");
+        Check(legio.RoleBoost[UnitRoles.HeavyInfantry] >= 0.1 - 1e-9, "the manipular legion should strengthen Rome's heavy infantry");
+        Check(map.Game.Realms.Values.All(x => Guards.Count(x) == 0),
+            "no realm should start with guard units (Carthage's line is Libyan spearmen, not all Sacred Band)");
+        Check(TraditionCatalog.Crushing(10_000, 5_000, 1_000) && !TraditionCatalog.Crushing(10_000, 2_000, 1_500),
+            "only a crushing defeat should break a tradition");
+        r.Traditions["manipular_legion"] = map.DemoYear - TraditionCatalog.FadeYears - 1;
+        map.TraditionsYear();
+        Check(!r.Traditions.ContainsKey("manipular_legion"), "a tradition unused for fifty years should be forgotten");
+        r.Traditions["manipular_legion"] = map.DemoYear;
+
+        // Guards: famous veterans made the guard; at most three.
+        var famous = legio.AddRegiment(hastati.Index, 1000, 0.9);
+        Check(map.MakeGuard(legio, famous) && cat[famous.Type].Id == "praetorians" && Guards.Count(r) == 1,
+            "Rome's famous veterans should become a praetorian cohort");
+        legio.AddRegiment(cat["praetorians"].Index, 1000);
+        legio.AddRegiment(cat["praetorians"].Index, 1000);
+        r.Treasury = 10_000;
+        Check(Military.CanRecruit(r, rc, cultures, cat["praetorians"]).Problem != null, "a realm should keep at most three guards");
+
         // Deep debt: unpaid soldiers desert.
         r.Debt = 1e6;
         int army = r.Armies.Sum(x => x.Men);
@@ -143,12 +169,14 @@ public partial class GameEconomyTest : TestRunner
             && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
                 && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
+        Check(map2.Game.Realm(rome).Traditions.ContainsKey("manipular_legion") && Guards.Count(map2.Game.Realm(rome)) == 3,
+            "traditions and guards didn't survive the save");
         Check(map2.CapitalNode(egypt) == map.CapitalNode(egypt), $"a saved game should keep history's capitals ({map.CapitalNode(egypt)} vs {map2.CapitalNode(egypt)}; {map2.Game.Realm(egypt).CapitalLon}, {map2.Game.Realm(egypt).CapitalName})");
         Check(Math.Abs(map2.RavagedOf(italia) - italiaRavaged) < 1e-6 && map2.Game.Realm(rome).LastWarYear == r.LastWarYear,
             "the ravage of war and the years of peace didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +
-            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, army loyalty, veterans' land and " +
+            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth, army loyalty, veterans' land, traditions, guards and " +
             $"saving all work. {events.Count} events in the first year.");
         map.Free();
         map2.Free();

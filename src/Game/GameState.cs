@@ -149,6 +149,10 @@ public sealed class RealmState
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
     public int NextGeneralId { get; set; } = 1;
+    /// <summary>Army traditions held (id: the last year it was used); victories won chiefly by each arm, and cities taken, toward earning one.</summary>
+    public Dictionary<string, int> Traditions { get; } = new();
+    public int[] ArmWins { get; } = new int[UnitRoles.Count];
+    public int CitiesTaken { get; set; }
     /// <summary>Veterans discharged and waiting for land: how many, how hardened, led by a general, since when, and whether they will take silver.</summary>
     public double VeteransWaiting { get; set; }
     public double VeteransXp { get; set; }
@@ -194,6 +198,8 @@ public sealed class RealmState
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
+            ["traditions"] = new GArray(Traditions.Select(t => (Variant)new GArray { t.Key, t.Value }).ToArray()),
+            ["arm_wins"] = new GArray(ArmWins.Select(x => (Variant)x).ToArray()), ["cities_taken"] = CitiesTaken,
             ["veterans"] = new GArray { VeteransWaiting, VeteransXp, VeteransLed, VeteransSince, VeteransOfferSilver },
             ["capital"] = new GArray { double.IsNaN(CapitalLon) ? 0 : CapitalLon, double.IsNaN(CapitalLat) ? 0 : CapitalLat, CapitalName, MovingCapitalTo, MovingCapitalName, MovingCapitalLon, MovingCapitalLat, MovingCapitalYears },
         };
@@ -326,6 +332,16 @@ public sealed class RealmState
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
         r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
+        if (d.TryGetValue("traditions", out var trad))
+            foreach (var v in trad.AsGodotArray())
+                r.Traditions[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
+        if (d.TryGetValue("arm_wins", out var aw))
+        {
+            var awa = aw.AsGodotArray();
+            for (int i = 0; i < Math.Min(awa.Count, r.ArmWins.Length); i++)
+                r.ArmWins[i] = awa[i].AsInt32();
+        }
+        r.CitiesTaken = d.TryGetValue("cities_taken", out var ct) ? ct.AsInt32() : 0;
         if (d.TryGetValue("veterans", out var vets))
         {
             var va = vets.AsGodotArray();

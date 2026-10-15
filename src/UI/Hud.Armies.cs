@@ -108,6 +108,7 @@ public partial class Hud
             "The army marked for conquest is the one Conquest mode (key 3) paints for: its reach is where it can march this year. " +
             "Armies march month by month along the route you plot; winter, mountains, marsh and forest slow them. Beyond your land they live on supply lines near your borders, on what they forage, then on their baggage (up to 4 months)." +
             (_map.MovingArmyId != 0 ? "\nClick where the army should march; hold Shift to add stops on the way." : "");
+        AddTraditionsRow(s);
         if (s.VeteransWaiting >= 1)
             AddVeteransRow(s);
         var selected = _map.SelectedArmy;
@@ -273,6 +274,22 @@ public partial class Hud
                     RefreshArmiesPanel();
                 };
                 line.AddChild(send);
+                if (reg.Xp >= Guards.FamousXp && !cat[reg.Type].Guard && cat[reg.Type].Domain == Domain.Land)
+                {
+                    string? cannot = _map.CanMakeGuard(army, reg);
+                    var guard = new Button
+                    {
+                        Text = "Guard", FocusMode = FocusModeEnum.None, Disabled = cannot != null,
+                        TooltipText = cannot ?? "Make these famous veterans your guard, as Alexander's hypaspists became the Silver Shields: " +
+                            "they fight as your people's guard unit, and an army with your guard in it is half as likely to turn on you.",
+                    };
+                    guard.Pressed += () =>
+                    {
+                        if (_map.MakeGuard(army, reg))
+                            RefreshArmiesPanel();
+                    };
+                    line.AddChild(guard);
+                }
             }
         }
     }
@@ -330,4 +347,30 @@ public partial class Hud
             row.AddChild(pay);
         }
     }
+
+    /// <summary>The realm's army traditions, what they do, and how near the next earned one is.</summary>
+    void AddTraditionsRow(RealmState s)
+    {
+        var cat = TraditionCatalog.Instance;
+        var held = s.Traditions.Keys.Select(id => cat[id]).Where(t => t != null).ToList();
+        string names = held.Count > 0 ? string.Join(", ", held.Select(t => t!.Name)) : "none yet";
+        int best = Array.IndexOf(s.ArmWins, s.ArmWins.Max());
+        string next = s.ArmWins[best] > 0
+            ? $"  Toward {cat.EarnedFor(UnitRoles.Keys[best])?.Name.ToLowerInvariant()}: {s.ArmWins[best]} of {TraditionCatalog.VictoriesToEarn} victories."
+            : "";
+        var label = ThemeAncient.Label($"Traditions: {names}.  Guards: {Guards.Count(s)} of {Guards.Max}.{next}", fontSize: 15);
+        label.TooltipText = (held.Count > 0
+            ? string.Join("\n", held.Select(t => $"{t!.Name}: {t.Text} ({DescribeTradition(t)}; last used {ThemeAncient.YearText(s.Traditions[t.Id])})")) + "\n\n"
+            : "") +
+            $"Traditions come from your people's history and from your wars: {TraditionCatalog.VictoriesToEarn} victories won chiefly by one arm earn its tradition, " +
+            $"{TraditionCatalog.CitiesToEarn} cities taken earn siegecraft. A tradition unused for {TraditionCatalog.FadeYears} years is forgotten, " +
+            "and a crushing defeat breaks the tradition of the arm that was routed.";
+        label.MouseFilter = MouseFilterEnum.Pass;
+        _armyRows.AddChild(label);
+    }
+
+    static string DescribeTradition(TraditionDef t) => string.Join(", ", t.Effects.Select(e =>
+        e.Key.StartsWith("might_") ? $"{UnitRoles.Names[Array.IndexOf(UnitRoles.Keys, e.Key[6..])].ToLowerInvariant()} +{e.Value:P0}"
+        : e.Key.StartsWith("skill_") ? $"new generals +{e.Value:0} {e.Key[6..]}"
+        : e.Key == "siege" ? $"sieges +{e.Value:P0} faster" : e.Key));
 }

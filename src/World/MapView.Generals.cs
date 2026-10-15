@@ -44,6 +44,9 @@ public partial class MapView
         if (characterId >= 0 && Registry.Characters.TryGetValue(characterId, out var c))
             for (int k = 0; k < Skills.Count; k++)
                 g.BaseSkills[k] = Math.Clamp(Registry.Skill(c, CharSkills.FirstWar + k, DemoYear), 1, 10);
+        // The realm's army traditions shape its generals (Rome's fortified camp, Alexander's school).
+        for (int k = 0; k < Skills.Count; k++)
+            g.BaseSkills[k] = Math.Clamp(g.BaseSkills[k] + (int)TraditionCatalog.Instance.Effect(s, "skill_" + Skills.Keys[k]), 1, 12);
         s.Generals.Add(g);
         return g;
     }

@@ -32,7 +32,7 @@ public static class UnitRoles
 /// legionary drew about 120 denarii a year, so 1,000 men cost about 20).
 /// </summary>
 public sealed record UnitDef(int Index, string Id, string Name, int Role, double Might, int Men, double Raise,
-    double Upkeep, string? Needs, string[] Cultures, string Description, string? Requires = null)
+    double Upkeep, string? Needs, string[] Cultures, string Description, string? Requires = null, bool Guard = false)
 {
     public Domain Domain => UnitRoles.DomainOf(Role);
     public bool Anyone => Cultures.Contains("*");
@@ -67,7 +67,8 @@ public sealed class UnitCatalog
                 u.TryGetProperty("needs", out var n) ? n.GetString() : null,
                 u.GetProperty("cultures").EnumerateArray().Select(x => x.GetString()!).ToArray(),
                 u.GetProperty("description").GetString()!,
-                u.TryGetProperty("requires", out var rq) ? rq.GetString() : null);
+                u.TryGetProperty("requires", out var rq) ? rq.GetString() : null,
+                u.TryGetProperty("guard", out var gd) && gd.GetBoolean());
             c.Units.Add(def);
             c._byId[def.Id] = def;
         }
@@ -80,8 +81,17 @@ public sealed class UnitCatalog
 
     /// <summary>The best unit of a role a people can raise (its own first, else anyone's, else hired from a people who fight that way).</summary>
     public UnitDef BestFor(int role, IReadOnlyCollection<string> cultures) =>
-        Units.Where(u => u.Role == role && !u.Anyone && u.Cultures.Any(cultures.Contains))
+        Units.Where(u => u.Role == role && !u.Anyone && !u.Guard && u.Cultures.Any(cultures.Contains))
             .OrderByDescending(u => u.Might).FirstOrDefault()
-        ?? Units.FirstOrDefault(u => u.Role == role && u.Anyone)
-        ?? Units.Where(u => u.Role == role).OrderBy(u => u.Might).First();   // hired from a neighbouring people
+        ?? Units.FirstOrDefault(u => u.Role == role && u.Anyone && !u.Guard)
+        ?? Units.Where(u => u.Role == role && !u.Guard).OrderBy(u => u.Might).First();   // hired from a neighbouring people
+
+    /// <summary>
+    /// The guard a people keeps for a role (decision "Which guards": history's,
+    /// else a generic guard): their own of that role, else the generic one.
+    /// </summary>
+    public UnitDef? GuardFor(int role, IReadOnlyCollection<string> cultures) =>
+        Units.Where(u => u.Guard && u.Role == role && !u.Anyone && u.Cultures.Any(cultures.Contains)).OrderByDescending(u => u.Might).FirstOrDefault()
+        ?? Units.FirstOrDefault(u => u.Guard && u.Role == role && u.Anyone)
+        ?? Units.FirstOrDefault(u => u.Guard && u.Anyone);
 }

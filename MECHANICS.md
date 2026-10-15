@@ -3172,6 +3172,43 @@ rival", with your note on paying them off (`src/Game/ArmyLoyalty.cs`).
   general leads them. Other realms settle theirs at once.
 - Taking specialised goods instead of silver waits on the goods screen work.
 
+#### Army traditions and guards **(built 15 Oct 2026)**
+
+Your answers "Each realm builds traditions from its wars that shape its
+units and generals", "From history, plus earned ones", "Both" (fading and
+crushing defeats), "Guard units earned by famous veterans or raised by
+law", "History's plus a generic" and "A few for the realm (2-3)"
+(`data/traditions.json`, `src/Game/Traditions.cs`).
+
+- **History's traditions** (17): each people starts with its own, e.g.
+  Rome's manipular legion (heavy infantry +10%) and fortified camp (new
+  generals +1 logistics and siegecraft); phalanx and Companions and
+  Alexander's school for the Macedonian kingdoms; masters of the sea for
+  Carthage and the Phoenicians; Rhodian seamanship and Cretan archery for
+  Rhodes and Crete alone; the Numidian horse; the warband's charge; war in
+  the hills (Iberians); peltasts of Thrace; Illyrian raiders; born in the
+  saddle (Scythians, Sarmatians); the Persian horse; archers of Ta-Seti
+  (Kush); desert riders (Arabs, Nabataeans, Sabaeans).
+- **Earned traditions**: six victories won chiefly by one arm earn its
+  tradition (+10% for that arm); six cities taken earn masters of
+  siegecraft (sieges 15% faster, new generals +1 siegecraft).
+- **Losing them**: a tradition unused for 50 years (its arm fought in no
+  battle) is forgotten; a crushing defeat (the loser lost 40% of its men
+  and three times the winner's dead) breaks the tradition of the arm that
+  was routed, earned ones first.
+- **Guards**: history's guard units are the hypaspists, the Silver
+  Shields and the royal agema (Macedonian kingdoms), the Sacred Band
+  (Carthage) and the praetorian cohort (Rome), with a generic royal guard
+  on foot and on horse for everyone. A realm keeps at most three. A unit
+  of famous veterans (80% experience or more) can be made the guard
+  (the Armies panel's Guard button), as Alexander's hypaspists became the
+  Silver Shields; or a guard can be raised at a high price. An army with
+  your guard in it is half as likely to turn on you. Guards are never
+  chosen for armies raised in bulk, so Carthage's line is now Libyan
+  spearmen and the Macedonian kingdoms' phalangites, not all elites.
+- Raising guards by law waits on Laws; until then they are raised by
+  paying their price.
+
 
 - **Retraining old units**: The price difference and months of training; keeps half their experience
 - **Slave soldiers**: Both

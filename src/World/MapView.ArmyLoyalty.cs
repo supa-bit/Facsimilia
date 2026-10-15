@@ -57,7 +57,7 @@ public partial class MapView
 
             double pressure = ArmyLoyalty.Pressure(s);
             foreach (var army in s.Armies.Where(a => a.CompanyId == 0 && a.GeneralId != 0).ToList())
-                if (rng.NextDouble() < ArmyLoyalty.MutinyChance(army.GeneralLoyalty, pressure))
+                if (rng.NextDouble() < ArmyLoyalty.MutinyChance(army.GeneralLoyalty, pressure) * (Guards.Has(army) ? Guards.MutinyCut : 1))
                     events.AddRange(Mutiny(id, s, army));
         }
         return events;

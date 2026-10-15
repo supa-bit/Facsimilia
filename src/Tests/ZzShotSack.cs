@@ -25,6 +25,8 @@ public partial class ZzShotSack : TestRunner
             Attacker = map.PlayerRealmId, Owner = etruria.RealmId, ProvinceId = etruria.Id, ArmyId = legio.Id,
             Name = "Veii", Node = legio.Node, StartYear = map.DemoYear, Progress = 0.4, Choice = SackChoice.Raze,
         });
+        legio.Regiments.Insert(0, new Regiment { Type = UnitCatalog.Instance["hastati_principes"].Index, Men = 1000, Xp = 0.9 });
+        map.PlayerState.ArmWins[UnitRoles.HeavyInfantry] = 4;
         legio.LoyalTo = legio.GeneralId;
         legio.GeneralLoyalty = 0.7;
         ArmyLoyalty.Discharge(map.PlayerState, 3200, 0.5, true, map.DemoYear - 2);

@@ -130,6 +130,7 @@ public partial class MapView
         }
         StartLoyalty();
         StartTechs();
+        StartTraditions();
         if (startRoot is { } root)
             StartTreaties(root);
         foreach (var (realmId, counts) in roles)
@@ -163,6 +164,7 @@ public partial class MapView
         _census = null;
         events.AddRange(GeneralsYear(new Random(StableHash.Of(DemoYear, 3571))));
         events.AddRange(ArmyLoyaltyYear(new Random(StableHash.Of(DemoYear, 6271))));
+        events.AddRange(TraditionsYear());
         events.AddRange(MercenariesYear(new Random(StableHash.Of(DemoYear, 4409))));
         events.AddRange(BotsYear(new Random(StableHash.Of(DemoYear, 7919))));
         Lap("other realms");
@@ -240,6 +242,8 @@ public partial class MapView
             MercenariesYear(new Random(StableHash.Of(DemoYear, 4409)));   // a save from before mercenary companies
         if (Game.Realms.Values.All(r => r.Techs.Count == 0))
             StartTechs();   // a save from before technology
+        if (Game.Realms.Values.All(r => r.Traditions.Count == 0))
+            StartTraditions();   // a save from before army traditions
         RefreshRoleBoosts();
         if (Godot.FileAccess.FileExists(StartRealmsPath))
         {

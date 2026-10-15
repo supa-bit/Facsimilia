@@ -1,0 +1,313 @@
+{
+ "about": "Army traditions (decisions 'Army traditions', 'How traditions form', 'Losing traditions'): history's traditions each people has at the start, plus ones earned by victories won chiefly by one arm or by cities taken. A tradition fades after 50 years without use and is lost in a crushing defeat of its arm. effects: might_<role> adds to that arm's fighting value; siege speeds sieges; skill_<skill> adds to new generals' skills. realms: only these realms of the culture. Sources: Polybius, Livy, Arrian, Diodorus; our own summary, free for any use.",
+ "traditions": [
+  {
+   "id": "manipular_legion",
+   "name": "The manipular legion",
+   "kind": "history",
+   "cultures": [
+    "latin"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.1
+   },
+   "text": "Rome's flexible lines of maniples, hastati, principes and triarii, that beat the Samnites in their own hills."
+  },
+  {
+   "id": "roman_camp",
+   "name": "The fortified camp",
+   "kind": "history",
+   "cultures": [
+    "latin"
+   ],
+   "effects": {
+    "skill_logistics": 1,
+    "skill_siegecraft": 1
+   },
+   "text": "Every night a Roman army dug a ditch and rampart round its camp; its officers learned engineering with the spade."
+  },
+  {
+   "id": "phalanx_and_companions",
+   "name": "Phalanx and Companions",
+   "kind": "history",
+   "cultures": [
+    "macedonian"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.08,
+    "might_cavalry": 0.1
+   },
+   "text": "Philip's and Alexander's hammer and anvil: the pike phalanx holds, the Companion cavalry strikes."
+  },
+  {
+   "id": "alexanders_school",
+   "name": "Alexander's school",
+   "kind": "history",
+   "cultures": [
+    "macedonian"
+   ],
+   "effects": {
+    "skill_tactics": 1
+   },
+   "text": "The Successors' generals learned war under Alexander and taught it to their sons."
+  },
+  {
+   "id": "hoplite_tradition",
+   "name": "The hoplite tradition",
+   "kind": "history",
+   "cultures": [
+    "greek"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.08
+   },
+   "text": "Citizens trained from youth to stand in the shield wall (Sparta's agoge above all)."
+  },
+  {
+   "id": "rhodian_seamanship",
+   "name": "Rhodian seamanship",
+   "kind": "history",
+   "cultures": [
+    "greek"
+   ],
+   "realms": [
+    "rhodes"
+   ],
+   "effects": {
+    "might_warships": 0.15,
+    "skill_seamanship": 1
+   },
+   "text": "The best sailors of the Hellenistic world, who kept the seas free of pirates."
+  },
+  {
+   "id": "cretan_archery",
+   "name": "Cretan archery",
+   "kind": "history",
+   "cultures": [
+    "greek"
+   ],
+   "realms": [
+    "crete"
+   ],
+   "effects": {
+    "might_missile": 0.15
+   },
+   "text": "Crete's archers served every king of the age as mercenaries."
+  },
+  {
+   "id": "masters_of_the_sea",
+   "name": "Masters of the sea",
+   "kind": "history",
+   "cultures": [
+    "punic",
+    "phoenician"
+   ],
+   "effects": {
+    "might_warships": 0.15,
+    "skill_seamanship": 1
+   },
+   "text": "Phoenician and Carthaginian fleets ruled the western sea for centuries."
+  },
+  {
+   "id": "numidian_horse",
+   "name": "The Numidian horse",
+   "kind": "history",
+   "cultures": [
+    "berber"
+   ],
+   "effects": {
+    "might_cavalry": 0.12
+   },
+   "text": "Riders without bridle or saddle, the finest light horse of the age (Polybius)."
+  },
+  {
+   "id": "warband_charge",
+   "name": "The warband's charge",
+   "kind": "history",
+   "cultures": [
+    "celtic",
+    "ligurian"
+   ],
+   "effects": {
+    "might_heavy_infantry": 0.05,
+    "might_cavalry": 0.06
+   },
+   "text": "The Gauls' terrible first rush, that sacked Rome and Delphi."
+  },
+  {
+   "id": "war_of_the_hills",
+   "name": "War in the hills",
+   "kind": "history",
+   "cultures": [
+    "iberian"
+   ],
+   "effects": {
+    "might_light_infantry": 0.12
+   },
+   "text": "Iberian ambush and skirmish in broken country, that cost Rome two centuries."
+  },
+  {
+   "id": "peltast_tradition",
+   "name": "Peltasts of Thrace",
+   "kind": "history",
+   "cultures": [
+    "thracian",
+    "dacian"
+   ],
+   "effects": {
+    "might_light_infantry": 0.1
+   },
+   "text": "Thracian javelin men, the masters of light infantry since Iphicrates' day."
+  },
+  {
+   "id": "illyrian_raiders",
+   "name": "Illyrian raiders",
+   "kind": "history",
+   "cultures": [
+    "illyrian"
+   ],
+   "effects": {
+    "might_warships": 0.1
+   },
+   "text": "The fast lembi of the Illyrian coast, raiders of the Adriatic."
+  },
+  {
+   "id": "born_in_the_saddle",
+   "name": "Born in the saddle",
+   "kind": "history",
+   "cultures": [
+    "scythian",
+    "sarmatian"
+   ],
+   "effects": {
+    "might_horse_archers": 0.12,
+    "might_cavalry": 0.08,
+    "skill_logistics": 1
+   },
+   "text": "Peoples who lived on horseback, every man an archer from childhood."
+  },
+  {
+   "id": "persian_horse",
+   "name": "The Persian horse",
+   "kind": "history",
+   "cultures": [
+    "persian",
+    "median",
+    "armenian",
+    "cappadocian"
+   ],
+   "effects": {
+    "might_cavalry": 0.1
+   },
+   "text": "The noble horsemen of Iran and Armenia, heirs of the Achaemenid cavalry."
+  },
+  {
+   "id": "archers_of_ta_seti",
+   "name": "Archers of Ta-Seti",
+   "kind": "history",
+   "cultures": [
+    "kushite"
+   ],
+   "effects": {
+    "might_missile": 0.12
+   },
+   "text": "Kush, 'the land of the bow' to the Egyptians."
+  },
+  {
+   "id": "desert_riders",
+   "name": "Desert riders",
+   "kind": "history",
+   "cultures": [
+    "arab",
+    "nabataean",
+    "sabaean"
+   ],
+   "effects": {
+    "might_cavalry": 0.08,
+    "skill_logistics": 1
+   },
+   "text": "Peoples who crossed the desert by camel, where armies of the river lands died of thirst."
+  },
+  {
+   "id": "earned_heavy_infantry",
+   "name": "Masters of the line",
+   "kind": "earned",
+   "role": "heavy_infantry",
+   "effects": {
+    "might_heavy_infantry": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_light_infantry",
+   "name": "Masters of skirmish",
+   "kind": "earned",
+   "role": "light_infantry",
+   "effects": {
+    "might_light_infantry": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_missile",
+   "name": "Famous archers and slingers",
+   "kind": "earned",
+   "role": "missile",
+   "effects": {
+    "might_missile": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_cavalry",
+   "name": "A tradition of horse",
+   "kind": "earned",
+   "role": "cavalry",
+   "effects": {
+    "might_cavalry": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_horse_archers",
+   "name": "Horse archers of renown",
+   "kind": "earned",
+   "role": "horse_archers",
+   "effects": {
+    "might_horse_archers": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_elephants",
+   "name": "Masters of elephants",
+   "kind": "earned",
+   "role": "elephants",
+   "effects": {
+    "might_elephants": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_warships",
+   "name": "Masters of the sea-fight",
+   "kind": "earned",
+   "role": "warships",
+   "effects": {
+    "might_warships": 0.1
+   },
+   "text": "Earned by many victories won chiefly by this arm."
+  },
+  {
+   "id": "earned_siege",
+   "name": "Masters of siegecraft",
+   "kind": "earned",
+   "role": "siege",
+   "effects": {
+    "siege": 0.15,
+    "skill_siegecraft": 1
+   },
+   "text": "Earned by many cities taken."
+  }
+ ]
+}
