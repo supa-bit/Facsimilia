@@ -2863,6 +2863,7 @@
     "anatomy"
    ],
    "effects": {
+    "wounds": 0.05,
     "growth": 0.02
    },
    "description": "Galen's system, taught for fifteen centuries."
@@ -2878,6 +2879,7 @@
     "professional_army"
    ],
    "effects": {
+    "wounds": 0.15,
     "manpower": 0.03
    },
    "description": "Valetudinaria in the legionary forts."
@@ -2908,6 +2910,7 @@
     "house_of_wisdom"
    ],
    "effects": {
+    "wounds": 0.05,
     "growth": 0.03
    },
    "description": "The bimaristans of Baghdad and Cairo."
@@ -3038,6 +3041,7 @@
     "chemistry"
    ],
    "effects": {
+    "wounds": 0.1,
     "growth": 0.08
    },
    "description": "Pasteur and Koch."
@@ -3052,6 +3056,7 @@
     "germ_theory"
    ],
    "effects": {
+    "wounds": 0.1,
     "growth": 0.04,
     "manpower": 0.03
    },
@@ -3067,6 +3072,7 @@
     "germ_theory"
    ],
    "effects": {
+    "wounds": 0.15,
     "growth": 0.12,
     "manpower": 0.05
    },
@@ -6574,6 +6580,7 @@
     "anatomy"
    ],
    "effects": {
+    "wounds": 0.05,
     "manpower": 0.01
    },
    "description": "Forceps, scalpels and retractors of bronze."
@@ -6659,6 +6666,7 @@
     "vesalius"
    ],
    "effects": {
+    "wounds": 0.1,
     "manpower": 0.02
    },
    "description": "Paré ties arteries instead of burning them."
@@ -6716,6 +6724,7 @@
     "sanitation"
    ],
    "effects": {
+    "wounds": 0.1,
     "manpower": 0.03
    },
    "description": "Nightingale at Scutari."

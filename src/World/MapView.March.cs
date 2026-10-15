@@ -483,10 +483,10 @@ public partial class MapView
     /// <summary>Two armies (or fleets) fight where they meet; the beaten one falls back toward home and gives up its sieges.</summary>
     List<ChronicleEvent> FieldBattle(RealmState att, Army attArmy, RealmState def, Army defArmy, bool naval, Random rng)
     {
-        var a = new BattleSide { Realm = att.RealmId, RealmName = RealmName(att.RealmId), Armies = new() { (attArmy, 1.0) }, General = att.GeneralOf(attArmy) };
+        var a = new BattleSide { Realm = att.RealmId, RealmName = RealmName(att.RealmId), Armies = new() { (attArmy, 1.0) }, General = att.GeneralOf(attArmy), Medicine = Medicine(att) };
         var d = new BattleSide
         {
-            Realm = def.RealmId, RealmName = RealmName(def.RealmId), Armies = new() { (defArmy, 1.0) }, General = def.GeneralOf(defArmy),
+            Realm = def.RealmId, RealmName = RealmName(def.RealmId), Armies = new() { (defArmy, 1.0) }, General = def.GeneralOf(defArmy), Medicine = Medicine(def),
             Extra = !naval && Population!.NodeOwner[defArmy.Node] == def.RealmId ? 0.1 * Military.Might(defArmy, Domain.Land) : 0,   // on home ground
         };
         string place = PlaceOfNode(defArmy.Node);

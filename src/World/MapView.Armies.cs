@@ -301,7 +301,7 @@ public partial class MapView
         foreach (var s in Game.Realms.Values)
             foreach (var a in s.Armies)
             {
-                a.Heal(rng);
+                a.Heal(rng, Medicine(s));
                 a.Tidy();
                 foreach (var (origin, men) in a.PendingDead)
                     if (origin != 0)
@@ -334,4 +334,11 @@ public partial class MapView
             Population.Pop[i] = (float)Math.Max(0, Population.Pop[i] - dead[p] * Population.Pop[i] / people[p]);
         _census = null;
     }
+
+    /// <summary>
+    /// How well a realm cares for its wounded (War: manpower, "Wounded
+    /// share": by outcome and medicine): the sum of its techs' "wounds"
+    /// (bronze surgery, the legions' hospitals, Paré, nursing, antibiotics...).
+    /// </summary>
+    public static double Medicine(RealmState s) => Math.Clamp(TechCatalog.Instance.Effect(s, "wounds"), 0, Army.MaxMedicine);
 }

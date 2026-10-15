@@ -49,6 +49,8 @@ public sealed class BattleSide
     public General? General { get; init; }
     /// <summary>Walls and levies fighting beside the armies (a garrison), as Might.</summary>
     public double Extra { get; init; }
+    /// <summary>The realm's care of the wounded (its medicine techs' "wounds"): this share of those who would die of their wounds live.</summary>
+    public double Medicine { get; init; }
     /// <summary>What the realm's techs add to its generals' tactics (not used yet: 0).</summary>
     public string Label => Armies.Count > 0 ? string.Join(" and ", Armies.Select(a => a.Army.Name).Distinct()) : "levies and garrison";
 }
@@ -329,7 +331,7 @@ public static class Battle
     static int Men(BattleSide s) => (int)s.Armies.Sum(x => Military.Soldiers(x.Army) * x.Share);
 
     static int TakeLosses(BattleSide s, double share, Random rng, Domain? only, double deadShare) =>
-        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng, only, deadShare));
+        (int)s.Armies.Sum(x => Military.TakeLosses(x.Army, share * x.Share, rng, only, deadShare * (1 - s.Medicine)));
 
     /// <summary>The day in three phases, told as the ancient historians told it.</summary>
     static void Phases(BattleReport r, BattleSide att, BattleSide def, double[] am, double[] dm, Ground g, bool won)

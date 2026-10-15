@@ -191,6 +191,7 @@ public partial class Hud
             "manpower" => $"levies {pct}",
             "integration" => $"integration speed {pct}",
             "growth" => $"health {pct}",
+            "wounds" => $"wounded saved {pct}",
             "research" => $"research {pct}",
             "siege" => $"sieges {pct}",
             "unrest" => $"unrest {pct}",

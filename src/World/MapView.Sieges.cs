@@ -151,12 +151,12 @@ public partial class MapView
                     var att = new BattleSide
                     {
                         Realm = siege.Attacker, RealmName = RealmName(siege.Attacker),
-                        Armies = new() { (army, 1.0 / sharing) }, General = attacker.GeneralOf(army),
+                        Armies = new() { (army, 1.0 / sharing) }, General = attacker.GeneralOf(army), Medicine = Medicine(attacker),
                     };
                     var def = new BattleSide
                     {
                         Realm = siege.Owner, RealmName = RealmName(siege.Owner),
-                        Armies = free.Select(a => (a, reliefShare)).ToList(), General = lead != null ? defender.GeneralOf(lead) : null,
+                        Armies = free.Select(a => (a, reliefShare)).ToList(), General = lead != null ? defender.GeneralOf(lead) : null, Medicine = Medicine(defender),
                     };
                     var report = Battle.Fight(att, def, Ground.At(Land, siege.Node), siege.Name, DemoYear, rng);
                     RavageAtNode(siege.Node, Security.Battle(report.AttackerLost + report.DefenderLost));

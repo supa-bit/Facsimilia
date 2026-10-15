@@ -226,23 +226,40 @@ public sealed class Army
         return total;
     }
 
-    /// <summary>A month of healing: about a quarter of the wounded return to the line, a few die of their wounds.</summary>
-    public void Heal(Random rng)
+    /// <summary>
+    /// A month of healing (War: manpower, "Wounded returning": months, some
+    /// never): about a quarter of the wounded return to the line, a few die
+    /// of their wounds (fewer with good medicine), and some are crippled and
+    /// go home for good: lost to the army, but alive among their people.
+    /// Returns the men sent home crippled.
+    /// </summary>
+    public int Heal(Random rng, double medicine = 0)
     {
+        int crippled = 0;
         foreach (var r in Regiments)
         {
             if (r.Wounded <= 0)
                 continue;
-            int died = (int)Math.Round(r.Wounded * WoundDeaths);
-            int back = (int)Math.Ceiling((r.Wounded - died) * WoundReturn);
-            r.Wounded -= died + back;
+            int died = (int)Math.Round(r.Wounded * WoundDeaths * (1 - medicine));
+            int home = (int)Math.Round(r.Wounded * WoundCrippled);
+            int back = (int)Math.Ceiling((r.Wounded - died - home) * WoundReturn);
+            r.Wounded -= died + home + back;
             r.Men = Math.Min(Regiment.MaxMen, r.Men + back);
+            crippled += home;
             PendingDead[r.Origin] = PendingDead.GetValueOrDefault(r.Origin) + died;
         }
+        return crippled;
     }
 
-    /// <summary>Each month a quarter of the wounded return, and 3% of them die of their wounds.</summary>
-    public const double WoundReturn = 0.25, WoundDeaths = 0.03;
+    /// <summary>
+    /// Each month a quarter of the wounded return, 3% die of their wounds and
+    /// 4% are crippled and sent home: of every hundred wounded, about 77
+    /// fight again, 13 go home maimed and 10 die (rough shares; good
+    /// medicine saves some of the 10).
+    /// </summary>
+    public const double WoundReturn = 0.25, WoundDeaths = 0.03, WoundCrippled = 0.04;
+    /// <summary>The most medicine can do: this share of those who would die live.</summary>
+    public const double MaxMedicine = 0.7;
 
     /// <summary>
     /// Keeps the number of units even (your answer: armies hold an even number

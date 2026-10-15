@@ -48,10 +48,22 @@ public partial class UnitsTest : TestRunner
         Check(lost == 1600 && Math.Abs(dead - 800) <= 2 && wounded == lost - (int)dead, $"a beaten army's losses should be half dead, half wounded ({lost} lost, {dead} dead, {wounded} wounded)");
         Check(a.PendingDead.ContainsKey(3) && a.PendingDead.ContainsKey(5), "the dead should be counted for their home provinces");
         int men = a.Men;
-        a.Heal(rng);
+        int crippled = a.Heal(rng);
         Check(a.Men > men && a.Regiments.Sum(r => r.Wounded) < wounded, "the wounded should return to the line over the months");
-        for (int m = 0; m < 24; m++) a.Heal(rng);
-        Check(a.Regiments.Sum(r => r.Wounded) == 0 && a.Men < 8000 && a.Men > 8000 - 1600, $"after two years the wounded are back or dead ({a.Men} men)");
+        for (int m = 0; m < 24; m++) crippled += a.Heal(rng);
+        Check(a.Regiments.Sum(r => r.Wounded) == 0 && a.Men < 8000 && a.Men > 8000 - 1600, $"after two years the wounded are back, home or dead ({a.Men} men)");
+        Check(crippled > wounded / 20 && crippled < wounded / 4, $"some wounded should be crippled and go home for good ({crippled} of {wounded})");
+
+        // Medicine (War: manpower, "Wounded share"): fewer of the fallen die.
+        double DeadWith(double medicine)
+        {
+            var army = new Army(cat.Count) { Id = 2, Name = "M" };
+            army.AddRegiment(h, 4000, origin: 1);
+            army.TakeLosses(0.2, Military.LoserDead * (1 - medicine), new Random(2));
+            for (int m = 0; m < 24; m++) army.Heal(new Random(m), medicine);
+            return army.PendingDead.Values.Sum();
+        }
+        Check(DeadWith(0.5) < DeadWith(0) * 0.7, "good medicine should save many who would die of their wounds");
 
         // Small remnants fold into their kind.
         a.Regiments.Clear();

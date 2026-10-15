@@ -3558,3 +3558,40 @@ Forty questions you answered on the Ledger (read 15 Oct 2026). Each becomes its 
 - **Vassals' freedom**: Levels from ally to province-in-waiting; you tighten or loosen them.
 - **Absorbing vassals**: Vassals can be absorbed over years, or bequeathed.
 - **Allies' duty**: Allies must answer or lose trust; defensive and offensive alliances differ.
+
+## Your answers of 15 October 2026, second set **(recorded)**
+
+Twelve of the new follow-up questions, answered while the work went on.
+
+### Saves, speed and data
+
+- **Autosaves**: A setting (you choose how often).
+- **Keeping history in saves**: A setting (you choose whether old years are thinned).
+- **What mods can change**: Data first, pictures and sounds later.
+- **A store page**: Later, when the game is ready.
+
+### Time and turns
+
+- **Clock speeds**: Five speeds, from a week a second to a year a second, with automatic pauses on events.
+- **Weeks**: Armies and fleets move, and fight, by the week.
+
+### Technology and knowledge
+
+- **Movement list**: Every age's great movements, built era by era, starting with the ancient philosophies.
+- **Education and research**: Four education levels now (none, letters, schooled, learned), six as the ages bring universities.
+- **Knowledge that was lost**: About 20 sourced, each with a lesser replacement that can be found again.
+- **Inventions arriving**: The more trade with where it came from, the cheaper to research once it arrives.
+
+### War: manpower **(built, 15 Oct 2026)**
+
+- **Wounded share**: By outcome and medicine. A beaten army's fallen are
+  half killed (the slaughter of the rout), a victor's a quarter, as before;
+  now each realm's medicine saves some of those who would die (bronze
+  surgery from 200 BC 5%, the legions' hospitals 15%, Galen 5%, the
+  bimaristans 5%, Paré 10%, anaesthesia 10%, nursing 10%, germ theory 10%,
+  antibiotics 15%; at most 70% together). The same care saves those who
+  would die of their wounds later.
+- **Wounded returning**: Months, and some never. Each month a quarter of
+  the wounded return to the line, 3% die of their wounds and 4% are
+  crippled and go home: alive among their people, but lost to the army. Of
+  every hundred wounded about 77 fight again, 13 go home maimed and 10 die.
