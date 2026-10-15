@@ -50,6 +50,10 @@ public partial class TechTest : TestRunner
         var knows = new TechContext { Contacts = 4, KnownShare = _ => 1, Arrived = _ => false };
         Check(Math.Abs(cat.Cost(cata, -250, knows) - cata.Cost * (1 - TechCatalog.DiffusionDiscount)) < 1e-6, "a tech every neighbour knows should be cheaper");
         Check(cat.CanResearch(r, cat["paper"]!, 800, knows)?.Contains("beyond") == true, "paper can't be studied before it reaches the realm");
+        var paper = cat["paper"]!;
+        var trading = new TechContext { SourceTrade = _ => 1 };
+        Check(cat.Cost(paper, 900, trading) < cat.Cost(paper, 900, new TechContext()) * 0.7,
+            "an invention from beyond should be cheaper the more you trade with those who know it");
         Check(cat.PointsPerYear(r, map.CensusOf(rome), knows) > cat.PointsPerYear(r, map.CensusOf(rome)), "trade contacts should bring research");
         var cataphracts = UnitCatalog.Instance.Units.First(u => u.Requires == "cataphract_armour");
         var sel = map.Game.Realm(seleucid);

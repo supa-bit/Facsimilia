@@ -81,11 +81,14 @@ public partial class MapView
         EnsureContacts();
         var contacts = _contacts!.TryGetValue(realmId, out var c) ? c : new HashSet<int>();
         var held = _heldRegions!.TryGetValue(realmId, out var h) ? h : new HashSet<string>();
+        var partners = RealmCensus().TryGetValue(realmId, out var rc) && rc.Goods != null ? rc.Goods.Partners : new HashSet<int>();
         return new TechContext
         {
             Contacts = contacts.Count,
             KnownShare = t => contacts.Count == 0 ? 0 : contacts.Count(o => Game.Realm(o).Techs.Contains(t.Id)) / (double)contacts.Count,
             Arrived = t => t.Beyond.Any(held.Contains) || contacts.Any(o => Game.Realm(o).Techs.Contains(t.Id)),
+            SourceTrade = t => t.Beyond.Any(held.Contains) ? 1
+                : partners.Count == 0 ? 0 : partners.Count(o => Game.Realms.TryGetValue(o, out var x) && x.Techs.Contains(t.Id)) / (double)partners.Count,
         };
     }
 

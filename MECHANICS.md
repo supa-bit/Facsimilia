@@ -3589,7 +3589,7 @@ Twelve of the new follow-up questions, answered while the work went on.
 - **Movement list**: Every age's great movements, built era by era, starting with the ancient philosophies.
 - **Education and research**: Four education levels now (none, letters, schooled, learned), six as the ages bring universities.
 - **Knowledge that was lost**: About 20 sourced, each with a lesser replacement that can be found again.
-- **Inventions arriving**: The more trade with where it came from, the cheaper to research once it arrives.
+- **Inventions arriving** *(built, 15 Oct 2026)*: The more trade with where it came from, the cheaper to research once it arrives: up to 40% less, by the share of your trade partners who know it, and the whole 40% if you hold the land it enters by. This comes on top of the neighbours' discount.
 
 ### War: manpower **(built, 15 Oct 2026)**
 

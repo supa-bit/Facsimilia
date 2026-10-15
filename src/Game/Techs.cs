@@ -79,6 +79,12 @@ public sealed class TechCatalog
     public const double EarlyMaxFactor = 3;
     /// <summary>A tech every contact knows costs this much less (decision "Learning from neighbours").</summary>
     public const double DiffusionDiscount = 0.4;
+    /// <summary>
+    /// An invention from beyond the map costs up to this much less the more
+    /// you trade with where it came from (your answer "Inventions arriving":
+    /// cheaper with more trade): all of it if you hold the land it enters by.
+    /// </summary>
+    public const double SourceTradeDiscount = 0.4;
     /// <summary>All research is scaled by this, set so leading realms keep near history's pace (a 100-year run, 30 Sep 2026).</summary>
     public const double PointsScale = 1.5;
     /// <summary>Old knowledge gets cheaper as it spreads: up to this much less, reached this many years after its date (decision "Pace of research").</summary>
@@ -122,7 +128,11 @@ public sealed class TechCatalog
         double age = Math.Clamp(year - t.AvailableFrom, 0, AgeYears) / (double)AgeYears;
         double cost = t.Cost * (1 + (EarlyMaxFactor - 1) * early) * (1 - AgeDiscount * age);
         if (ctx != null)
+        {
             cost *= 1 - DiffusionDiscount * ctx.KnownShare(t);
+            if (t.Beyond.Length > 0)
+                cost *= 1 - SourceTradeDiscount * Math.Clamp(ctx.SourceTrade(t), 0, 1);
+        }
         return cost;
     }
 
@@ -202,4 +212,6 @@ public sealed class TechContext
     public Func<TechDef, double> KnownShare { get; init; } = _ => 0;
     /// <summary>Whether an invention from beyond has reached the realm (it holds an entry region, or a contact knows it).</summary>
     public Func<TechDef, bool> Arrived { get; init; } = _ => true;
+    /// <summary>For an invention from beyond: how much of the realm's trade is with those who know it, 0..1 (1 if it holds the land it enters by).</summary>
+    public Func<TechDef, double> SourceTrade { get; init; } = _ => 0;
 }
