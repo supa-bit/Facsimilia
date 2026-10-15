@@ -18,6 +18,10 @@ public sealed class ProvinceState
     public double Unrest { get; set; }
     /// <summary>The realm that held it last year: a change means it was conquered.</summary>
     public int Owner { get; set; }
+    /// <summary>Unrest held over a plundering or razing, fading over the years (Sacking).</summary>
+    public double Grudge { get; set; }
+    /// <summary>Spared when it fell: its new ruler starts with it more integrated.</summary>
+    public bool Spared { get; set; }
     /// <summary>Finished buildings: id -> level.</summary>
     public Dictionary<string, int> Buildings { get; } = new();
     /// <summary>
@@ -72,7 +76,7 @@ public sealed class ProvinceState
             b[id] = n;
         return new GDictionary
         {
-            ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner,
+            ["culture"] = Culture, ["religion"] = Religion, ["integration"] = Integration, ["unrest"] = Unrest, ["owner"] = Owner, ["grudge"] = Grudge, ["spared"] = Spared,
             ["buildings"] = b, ["tax"] = Tax is { } t ? (int)t : -1, ["neglect"] = NeglectYears,
             ["works"] = new GArray(Works.Select(w => (Variant)new GArray { w.Id, w.Left }).ToArray()),
             ["focus"] = Focus, ["focus_level"] = FocusLevel,
@@ -88,6 +92,8 @@ public sealed class ProvinceState
             Culture = d["culture"].AsString(), Religion = d["religion"].AsString(),
             Integration = d["integration"].AsDouble(), Unrest = d["unrest"].AsDouble(), Owner = d["owner"].AsInt32(),
             NeglectYears = d.TryGetValue("neglect", out var ng) ? ng.AsInt32() : 0,
+            Grudge = d.TryGetValue("grudge", out var gr) ? gr.AsDouble() : 0,
+            Spared = d.TryGetValue("spared", out var sp) && sp.AsBool(),
             Tax = d.TryGetValue("tax", out var t) && t.AsInt32() >= 0 ? (TaxRate)t.AsInt32() : null,
             Focus = d.TryGetValue("focus", out var fo) ? fo.AsString() : "",
             FocusLevel = d.TryGetValue("focus_level", out var fl) ? fl.AsDouble() : 0,

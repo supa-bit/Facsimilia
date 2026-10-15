@@ -53,11 +53,13 @@ public sealed class Siege
     /// <summary>0 just begun .. 1 the place falls.</summary>
     public double Progress { get; set; }
     public List<int> Cells { get; } = new();
+    /// <summary>What the attacker will do when the place falls.</summary>
+    public SackChoice Choice { get; set; } = SackChoice.Plunder;
 
     public GDictionary ToDict() => new()
     {
         ["attacker"] = Attacker, ["owner"] = Owner, ["province"] = ProvinceId, ["army"] = ArmyId, ["name"] = Name,
-        ["people"] = People, ["node"] = Node, ["start"] = StartYear, ["progress"] = Progress, ["months"] = MonthsPresent,
+        ["people"] = People, ["node"] = Node, ["start"] = StartYear, ["progress"] = Progress, ["months"] = MonthsPresent, ["sack"] = (int)Choice,
         ["cells"] = Cells.ToArray(),
     };
 
@@ -69,6 +71,7 @@ public sealed class Siege
             ArmyId = d["army"].AsInt32(), Name = d["name"].AsString(), People = d["people"].AsDouble(),
             Node = d["node"].AsInt32(), StartYear = d["start"].AsInt32(), Progress = d["progress"].AsDouble(),
             MonthsPresent = d.TryGetValue("months", out var mp) ? mp.AsInt32() : 12,
+            Choice = d.TryGetValue("sack", out var sk) ? (SackChoice)sk.AsInt32() : SackChoice.Plunder,
         };
         s.Cells.AddRange(d["cells"].AsInt32Array());
         return s;

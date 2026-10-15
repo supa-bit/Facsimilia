@@ -75,12 +75,26 @@ public partial class ConquestTest : TestRunner
         Check(events.Any(e => e.Text.Contains("lays siege")) && map.Game.Sieges.Any(x => x.ProvinceId == target.p!.Id),
             "ending the turn should begin a siege");
         Check(map.Provinces.Provinces[target.p!.Id].RealmId == greeks, "a siege takes time: the province shouldn't fall at once");
+        // Rome will raze it (Sacking): the city becomes a ruin, its people killed or enslaved.
+        map.Game.Sieges.First(x => x.ProvinceId == target.p!.Id).Choice = SackChoice.Raze;
+        map.ProvinceStateOf(target.p!.Id).Buildings["walls"] = 1;
+        double captivesBefore = map.Game.Realm(rome).Captives;
         Check(legio.Marching ? map.ProvinceOfNodeForTest(legio.Route[^1]) == target.p!.Id : map.ProvinceOfNodeForTest(legio.Node) == target.p!.Id,
             "the army should march to the place it besieges");
         int years = 0;
         while (map.Provinces.Provinces[target.p!.Id].RealmId != rome && years++ < 5)
             events.AddRange(map.AdvanceYear());
         Check(map.Provinces.Provinces[target.p!.Id].RealmId == rome, $"the siege didn't end in {years} years");
+        var ruin = map.RuinIn(target.p!.Id);
+        Check(ruin != null && ruin.By == rome, "a razed city should leave a ruin");
+        Check(map.ProvinceStateOf(target.p!.Id).Buildings.Count == 0, "razing should burn every building");
+        Check(map.Game.Realm(rome).TerrorUntil >= map.DemoYear && map.Game.Realm(rome).Captives > captivesBefore,
+            "razing should take captives and make other cities fear Rome");
+        Check(map.ProvinceStateOf(target.p!.Id).Grudge > 0.1, "a razed province should hold a grudge");
+        Check(GameState.FromDict(map.Game.ToDict()).Ruins.Any(r => r.ProvinceId == target.p!.Id), "the ruin didn't survive a save");
+        map.PlayerState.Treasury = 1000;
+        map.PlayerState.Manpower = 100_000;
+        Check(map.Resettle(target.p!.Id) && map.RuinIn(target.p!.Id) == null, "resettling should clear the ruin");
         Check(target.cells.All(i => map.Grid.Cells[i] == rome), "the province's cells weren't all handed over");
         Check(events.Any(e => e.Text.Contains("takes")), "no chronicle line for the conquest");
         var war = map.Game.Wars.Between(rome, greeks)!;
@@ -106,7 +120,7 @@ public partial class ConquestTest : TestRunner
         Check(reachFleet.Count(b => b) > reachNoFleet.Count(b => b), "a fleet should extend Rome's reach");
         Check(bySea.Any(b => b), "some land should be reachable only by sea");
 
-        Finish($"Conquest tests passed: reach, war before attack, Rome besieged and took {target.p!.Name} in {years} year(s) " +
+        Finish($"Conquest tests passed: reach, war before attack, Rome besieged, razed and resettled {target.p!.Name} in {years} year(s) " +
             $"(a weak army would need {weak.Years}), war score {war.Score:+0}, losses and weariness, tribute and truce, fleets extend reach " +
             $"({reachNoFleet.Count(b => b):N0} -> {reachFleet.Count(b => b):N0} nodes).");
         map.Free();

@@ -422,6 +422,29 @@ public partial class Hud
             Line(land, $"This year's harvest in {region.Name}: {year} ({n.Harvest:P0})");
             Line(land, $"Soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}");
         }
+        if (_map.RuinIn(p.Id) is { } ruin)
+        {
+            Line(land, $"The ruins of {ruin.Name}, razed by {_map.RealmName(ruin.By)} in {ThemeAncient.YearText(ruin.Year)}.");
+            if (mine)
+            {
+                string? cannot = _map.CanResettle(p.Id);
+                var resettle = new Button
+                {
+                    Text = $"Resettle {ruin.Name} ({Sacking.ResettleCost:0} talents, {Sacking.ResettleMen:N0} settlers)",
+                    Disabled = cannot != null,
+                    TooltipText = cannot ?? "Send settlers to build on the ruins, as Caesar refounded Carthage. Its people's grudge eases.",
+                    FocusMode = FocusModeEnum.None,
+                };
+                int rid = p.Id;
+                resettle.Pressed += () =>
+                {
+                    _map.Resettle(rid);
+                    RefreshProvincePanel();
+                    RefreshTreasury();
+                };
+                land.AddChild(resettle);
+            }
+        }
         if (region != null && _map.Population is { } popEngine)
         {
             Line(land, GrowthBreakdown(popEngine, region.Id, region.Name));

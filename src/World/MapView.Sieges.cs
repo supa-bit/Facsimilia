@@ -191,7 +191,8 @@ public partial class MapView
             siege.Progress += Conquest.SiegeRate(attack, garrison, Military.Might(attacker, Domain.Land),
                 siege.Owner > 0 ? Military.Might(Game.Realm(siege.Owner), Domain.Land) : 0) * (1 + TechCatalog.Instance.Effect(attacker, "siege"))
                 * SiegeSkill(attacker.GeneralOf(army)) * Math.Min(1, siege.MonthsPresent / 12.0)
-                * (Military.RawMight(army, Domain.Naval) > 0 && Coastal(siege.Node) ? 1.5 : 1);   // blockaded from the sea too, it starves sooner
+                * (Military.RawMight(army, Domain.Naval) > 0 && Coastal(siege.Node) ? 1.5 : 1)   // blockaded from the sea too, it starves sooner
+                * (attacker.TerrorUntil >= DemoYear ? Sacking.TerrorSiege : 1);   // it razed a city: others open their gates sooner
             RavageAtNode(siege.Node, Security.Siege(siege.MonthsPresent));
             siege.MonthsPresent = 0;
             var gen = attacker.GeneralOf(army);
@@ -239,14 +240,14 @@ public partial class MapView
             att.Aggression = Math.Min(100, att.Aggression + (reconquest ? 1 : pretext.AggressionPerProvince));
             war.AddExhaustion(siege.Owner, Diplomacy.ExhaustionPerProvince);
         }
+        bool retaken = siege.ProvinceId != 0 && Game.Lost.TryGetValue(siege.Attacker, out var lostBefore) && lostBefore.ContainsKey(siege.ProvinceId);
         Game.RecordLoss(siege.Owner, siege.ProvinceId, DemoYear);
         if (siege.ProvinceId != 0)
         {
             if (Provinces!.Provinces.TryGetValue(siege.ProvinceId, out var taken))
-                TakeCaptives(siege.Attacker, taken);
-            var damaged = DamageBuildings(siege.ProvinceId, new Random(StableHash.Of(DemoYear, siege.ProvinceId, 7703)));
-            if (damaged.Count > 0 && (siege.Attacker == PlayerRealmId || siege.Owner == PlayerRealmId))
-                events.Add(new ChronicleEvent(ChronicleKind.Conquest, PlayerRealmId, $"The siege of {siege.Name} leaves damaged: {string.Join(", ", damaged)}."));
+                foreach (string line in Sack(siege, taken, retaken))
+                    if (siege.Attacker == PlayerRealmId || siege.Owner == PlayerRealmId)
+                        events.Add(new ChronicleEvent(ChronicleKind.Conquest, PlayerRealmId, line));
             Provinces.SetRealm(siege.ProvinceId, siege.Attacker, Grid);
             MarkChanged(siege.ProvinceId);
             Game.Wars.Between(siege.Attacker, siege.Owner)?.RecordTaken(siege.Attacker, siege.ProvinceId);

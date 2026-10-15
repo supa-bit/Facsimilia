@@ -132,7 +132,23 @@ public partial class Hud
                 ? $"Marching to {_map.PlaceOfNode(army.Route[^1])}: about {Math.Ceiling(_map.RouteMonths(s, army)):0} month(s) more.  "
                 : "Standing.  ") + $"Baggage: {supply}.", fontSize: 15));
             foreach (var siege in sieges)
-                box.AddChild(ThemeAncient.Label($"Besieging {siege.Name}: {Math.Min(siege.Progress, 0.99):P0} done", fontSize: 15));
+            {
+                var siegeRow = new HBoxContainer();
+                siegeRow.AddThemeConstantOverride("separation", 8);
+                box.AddChild(siegeRow);
+                siegeRow.AddChild(ThemeAncient.Label($"Besieging {siege.Name}: {Math.Min(siege.Progress, 0.99):P0} done.  When it falls:", fontSize: 15));
+                var sack = new OptionButton { FocusMode = FocusModeEnum.None, TooltipText = Sacking.Help[(int)siege.Choice] };
+                for (int i = 0; i < Sacking.Names.Length; i++)
+                    sack.AddItem(Sacking.Names[i], i);
+                sack.Select((int)siege.Choice);
+                var thisSiege = siege;
+                sack.ItemSelected += index =>
+                {
+                    thisSiege.Choice = (SackChoice)(int)index;
+                    sack.TooltipText = Sacking.Help[(int)index];
+                };
+                siegeRow.AddChild(sack);
+            }
 
             var buttons = new HBoxContainer();
             buttons.AddThemeConstantOverride("separation", 6);

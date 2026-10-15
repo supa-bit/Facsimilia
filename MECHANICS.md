@@ -2419,6 +2419,33 @@ the pirates' (below); the rest wait on their systems (see ROADMAP.md).
 - **Choosing spare, plunder or raze**: Spare: loyalty; plunder: silver and slaves, buildings damaged; raze: the city becomes a ruin and others fear you.
 - **City tiers**: your own answer. Your note: "At least 15 tiers"
 
+#### Sacking and ruins **(built 15 Oct 2026)**
+
+Your answers "Spare, plunder or raze" and "Destroyed cities". Each siege
+carries a choice for when the place falls, set in the Armies panel beside
+the siege (plunder unless you change it); other realms choose for
+themselves: they spare their own people and cities they lost before, raze
+about 3 in 100, and otherwise plunder (`src/Game/Sacking.cs`).
+
+- **Spare**: no loot, no captives, nothing burned; the province starts
+  0.3 more integrated under you.
+- **Plunder**: loot of about a year of its taxes (1.5 talents per 1,000
+  people), the usual captives, 3% of its people killed, buildings damaged
+  as before, and a grudge (0.25 unrest) that fades by 15% a year.
+- **Raze**: the same loot, three times the captives, a quarter of its
+  people killed, every building burned, its land laid waste (ravaged in
+  full, see War's toll on growth), a grudge of 0.4, and 8 more aggression;
+  other cities fear you, so your sieges go 25% faster for twenty years.
+  The seat becomes a ruin, named in its province's Land tab.
+- **Resettling a ruin**: 150 talents and 2,000 men sent as settlers (as
+  Caesar refounded Carthage); the ruin is gone and the grudge halves.
+
+Still to come in Cities and settlements: cities as their own things inside
+provinces with sizes and tiers, their water, food and disease limits, slots
+by size, colonies, moving the capital, the mob and free cities. Those wait
+on towns and countryside being split (your answer "Each province splits
+into its towns and its countryside").
+
 ### Diplomacy
 
 - **Client kings**: Clients keep their ruler and laws, pay tribute or troops; you can install or remove kings.

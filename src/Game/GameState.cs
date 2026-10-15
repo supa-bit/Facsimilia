@@ -149,6 +149,8 @@ public sealed class RealmState
     /// <summary>The realm's generals (decision "Next 2"): those leading an army and those waiting for one.</summary>
     public List<General> Generals { get; } = new();
     public int NextGeneralId { get; set; } = 1;
+    /// <summary>Until this year cities fear the realm (it razed one): its sieges go faster.</summary>
+    public int TerrorUntil { get; set; } = int.MinValue;
     /// <summary>The last year this realm was at war (0: not yet known; the first year sets it). Long peace helps growth.</summary>
     public int LastWarYear { get; set; }
     public General? GeneralOf(Army a) => a.GeneralId == 0 ? null : Generals.FirstOrDefault(g => g.Id == a.GeneralId);
@@ -175,7 +177,7 @@ public sealed class RealmState
             ["branch_researching"] = new GArray(BranchResearching.Select(x => (Variant)x).ToArray()), ["rival"] = RivalStrength, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
-            ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear,
+            ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
         };
     }
 
@@ -305,6 +307,7 @@ public sealed class RealmState
             foreach (Variant v in gens.AsGodotArray())
                 r.Generals.Add(General.FromDict(v.AsGodotDictionary()));
         r.LastWarYear = d.TryGetValue("last_war", out var lw) ? lw.AsInt32() : 0;
+        r.TerrorUntil = d.TryGetValue("terror", out var te) ? te.AsInt32() : int.MinValue;
         r.NextGeneralId = d.TryGetValue("next_general", out var ng) ? ng.AsInt32() : r.Generals.Select(x => x.Id).DefaultIfEmpty(0).Max() + 1;
         if (d.TryGetValue("history", out var hist))
             foreach (Variant v in hist.AsGodotArray())
@@ -361,6 +364,8 @@ public sealed class GameState
     public Dictionary<string, int> PatrolMonths { get; } = new();
     /// <summary>How ravaged by war each region is (region id: 0..1), fading over the years (Security).</summary>
     public Dictionary<int, double> Ravaged { get; } = new();
+    /// <summary>Cities razed and not yet resettled (Sacking, Ruins).</summary>
+    public List<Ruin> Ruins { get; } = new();
     /// <summary>War indemnities being paid (decision "War indemnities").</summary>
     public List<Indemnity> Indemnities { get; } = new();
     /// <summary>Grievances over unpaid debts and indemnities: (holder, target) -> the last year they give a pretext.</summary>
@@ -440,6 +445,7 @@ public sealed class GameState
             ["haven_years"] = new GArray(HavenYear.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["patrols"] = new GArray(PatrolMonths.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["ravaged"] = new GArray(Ravaged.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
+            ["ruins"] = new GArray(Ruins.Select(r => (Variant)r.ToArray()).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
         };
     }
@@ -491,6 +497,9 @@ public sealed class GameState
         if (d.TryGetValue("haven_years", out var hy))
             foreach (var v in hy.AsGodotArray())
                 g.HavenYear[v.AsGodotArray()[0].AsString()] = v.AsGodotArray()[1].AsInt32();
+        if (d.TryGetValue("ruins", out var ruins))
+            foreach (var v in ruins.AsGodotArray())
+                g.Ruins.Add(Ruin.FromArray(v.AsGodotArray()));
         if (d.TryGetValue("ravaged", out var rav))
             foreach (var v in rav.AsGodotArray())
                 g.Ravaged[v.AsGodotArray()[0].AsInt32()] = v.AsGodotArray()[1].AsDouble();
