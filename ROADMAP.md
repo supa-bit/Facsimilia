@@ -293,6 +293,16 @@ The first fourteen were answered in the Facsimilia Ledger on 25 Sep 2026
 (MECHANICS.md, "Design decisions"); the 32 "Playable" decisions on 26 Sep
 2026 (MECHANICS.md, "Playable decisions").
 
+On 15 Oct 2026 the 82 open questions were reworded in plain language, and
+296 new follow-up questions were added (Ledger orders 1551-1846), each with
+its own blocked feature line (f1624-f1918; the existing "Fairs" line now
+waits on its question). They cover the details every answered topic needs
+before it is built: monopolies, banks and taxes, markets and merchants,
+stores, cities, classes, governors, the four points, laws and elections,
+the court, envoys and treaties, generals' perks, sieges, collapses, civil
+wars, migrations, the interface and more. Until one is answered, the part
+it names waits; the rest of its topic can be built.
+
 - [x] **Goal**: sandbox with optional goals (play forever; a score and
       goals to chase if you want)
 - [x] **Other realms**: their own choices, with history as a pull

@@ -53,6 +53,23 @@ waits on a decision is `blocked` and names the decision in its detail.
 Always pass `if_version` (from your last read) when updating an existing
 document, and batch several writes into one call.
 
+How to word Ledger questions (the designer's rule, 15 Oct 2026; they take a
+while to answer when oddly worded):
+
+- `question` is one plain, complete question ending in a question mark,
+  after at most one or two sentences of history for context. Never just a
+  list of examples, never internal codes ("Next 26", "Playable 14").
+- A follow-up quotes the earlier answer in words: "You answered 'Yes,
+  loyalty grows with service' to 'Armies loyal to their general'."
+- Every option has a `detail` that says what would happen in the game if
+  chosen, in a sentence a player would understand.
+- `why` says in one sentence what the choice changes for the player.
+- Plain words; explain any term a non-historian might not know.
+
+Keep a good stock of open questions on the Ledger (the designer asked for a
+few hundred, 15 Oct 2026) so work never waits: follow-ups that every
+answered topic needs before it is built, written in the style above.
+
 ## Naming work (the designer asked for this)
 
 When talking about the work, use the Ledger's titles (its areas, features
