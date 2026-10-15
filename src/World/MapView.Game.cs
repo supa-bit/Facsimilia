@@ -174,6 +174,7 @@ public partial class MapView
         events.AddRange(RoadsYear());
         FocusYear();
         ApplyBuildingGrowth();
+        SecurityYear();
         Lap("buildings");
         events.AddRange(TechYear());
         events.AddRange(RivalsYear(new Random(StableHash.Of(DemoYear, 8111))));

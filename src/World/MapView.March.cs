@@ -520,6 +520,8 @@ public partial class MapView
     {
         var events = new List<ChronicleEvent>();
         Game.AddBattle(report);
+        if (!naval)
+            RavageAtNode(defArmy.Node >= 0 ? defArmy.Node : attArmy.Node, Security.Battle(report.AttackerLost + report.DefenderLost));
         ProvinceLog(ProvinceOfNode(defArmy.Node >= 0 ? defArmy.Node : attArmy.Node),
             $"{report.Title}: {RealmName(report.AttackerWon ? att.RealmId : def.RealmId)} defeats {RealmName(report.AttackerWon ? def.RealmId : att.RealmId)}.");
         var (winS, winA, loseS, loseA) = report.AttackerWon ? (att, attArmy, def, defArmy) : (def, defArmy, att, attArmy);

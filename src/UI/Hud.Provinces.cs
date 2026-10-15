@@ -1,5 +1,6 @@
 using Facsimilia.Game;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Facsimilia.World;
 using Godot;
@@ -421,6 +422,13 @@ public partial class Hud
             Line(land, $"This year's harvest in {region.Name}: {year} ({n.Harvest:P0})");
             Line(land, $"Soil {n.Soil:P0}, forests {n.Forest:P0}, pasture {n.Pasture:P0}, fish {n.Fish:P0}");
         }
+        if (region != null && _map.Population is { } popEngine)
+        {
+            Line(land, GrowthBreakdown(popEngine, region.Id, region.Name));
+            double ravaged = _map.RavagedOf(region.Id);
+            if (ravaged >= Security.Recovered)
+                Line(land, $"Ravaged by war: {ravaged:P0}. Burned fields and fled farmers; it fades by about an eighth a year.");
+        }
         var resources = _map.ProvinceResources(p.Id);
         Line(land, resources.Count > 0 ? "Resources: " + string.Join(", ", resources) : "No notable resources.");
 
@@ -670,5 +678,33 @@ public partial class Hud
         else
             return;
         GetViewport().SetInputAsHandled();
+    }
+
+    /// <summary>Why a region grows faster or slower than history had it (your answer "Seeing why a region grows").</summary>
+    static string GrowthBreakdown(PopulationEngine pop, int region, string name)
+    {
+        (GrowthFactor F, string Words)[] factors =
+        {
+            (GrowthFactor.Food, "food"), (GrowthFactor.Climate, "this year's weather"), (GrowthFactor.Health, "health"),
+            (GrowthFactor.Burden, "taxes and burdens"), (GrowthFactor.Security, "war"),
+        };
+        var helps = new List<string>();
+        var slows = new List<string>();
+        foreach (var (f, words) in factors)
+        {
+            float score = pop.GetFactor(region, f);
+            if (Math.Abs(score) < 0.05f)
+                continue;
+            string what = f == GrowthFactor.Security && score > 0 ? "long peace" : words;
+            string strength = Math.Abs(score) >= 0.6f ? "strongly" : Math.Abs(score) >= 0.25f ? "" : "slightly";
+            (score > 0 ? helps : slows).Add(strength.Length > 0 ? $"{what} ({strength})" : what);
+        }
+        if (helps.Count == 0 && slows.Count == 0)
+            return $"Growth in {name}: as history had it.";
+        return $"Growth in {name}: " + string.Join("; ", new[]
+        {
+            helps.Count > 0 ? "helped by " + string.Join(", ", helps) : "",
+            slows.Count > 0 ? "slowed by " + string.Join(", ", slows) : "",
+        }.Where(x => x.Length > 0)) + ".";
     }
 }

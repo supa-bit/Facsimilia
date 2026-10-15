@@ -88,6 +88,23 @@ public partial class GameEconomyTest : TestRunner
         Economy.Tick(r, rc);
         Check(r.Armies.Sum(x => x.Men) < army, "an army unpaid for years should shrink");
 
+        // War's toll (Security): a great battle ravages its region, which then
+        // grows slower, and the ravage fades over the years; long peace helps.
+        int italia = pop.Regions.First(x => x.Name == "Italia").Id;
+        int field = pop.LandNodes.First(i => pop.RegionOf(i) == italia && pop.Pop[i] > 0);
+        double ravagedBefore = map.RavagedOf(italia);
+        map.RavageAtNode(field, Security.Battle(40_000));
+        double ravaged = map.RavagedOf(italia);
+        Check(ravaged - ravagedBefore > 0.4 && ravaged - ravagedBefore <= Security.BattleRavageMax + 1e-9,
+            $"a battle of 40,000 dead should ravage Italia by about 0.45, not {ravaged - ravagedBefore:0.00}");
+        map.AdvanceYear();
+        Check(pop.GetFactor(italia, GrowthFactor.Security) <= -0.4f, "ravaged Italia should grow slower");
+        Check(map.RavagedOf(italia) < ravaged + 0.5 && map.RavagedOf(italia) >= ravaged * Security.Fade - 1e-6,
+            "the ravage should fade by an eighth a year");
+        Check(Math.Abs(Security.Score(0, 100) - Security.PeaceScore) < 1e-9 && Security.Score(0.3, 100) < 0,
+            "long peace should help growth, and ravage should outweigh it");
+        double italiaRavaged = map.RavagedOf(italia);
+
         // Save and load.
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();
@@ -97,9 +114,11 @@ public partial class GameEconomyTest : TestRunner
             && eg2.Armies.Zip(eg.Armies).All(x => x.First.Units.SequenceEqual(x.Second.Units) && x.First.Node == x.Second.Node
                 && x.First.Name == x.Second.Name) && eg2.Tax == eg.Tax,
             "Egypt's treasury, army or tax didn't survive the save");
+        Check(Math.Abs(map2.RavagedOf(italia) - italiaRavaged) < 1e-6 && map2.Game.Realm(rome).LastWarYear == r.LastWarYear,
+            "the ravage of war and the years of peace didn't survive the save");
 
         Finish($"Economy tests passed: 12 realms start with armies and silver; Egypt takes in {egTax + egTribute:N0} " +
-            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden and " +
+            $"talents a year at normal taxes ({heavy:N0} crushing); recruiting, disbanding, desertion, tax burden, war's toll on growth and " +
             $"saving all work. {events.Count} events in the first year.");
         map.Free();
         map2.Free();

@@ -957,6 +957,35 @@ reproduce today's behavior). Then each gameplay system (resources,
 economy, tech, military) is wired to one or more factor scores and must
 pass the whole table before it merges.
 
+#### Gameplay feeds growth **(your answers; Security built 15 Oct 2026)**
+
+Your follow-up answers to the growth drivers:
+
+- **Your levers on growth**: grain doles, health, colonists, lighter taxes
+  and security all move growth, each bounded by the balance tests. Built:
+  taxes, tax farmers, works and the grain dole (Burden); aqueducts and
+  medicine (Health); security (below). Colonists wait on colonies.
+- **War's toll on growth**: devastated land grows slowly for years.
+  Built as the Security factor (`src/Game/Security.cs`):
+  - A battle on a region's land ravages it by 0.15, more for a great
+    slaughter (another 0.15 per 20,000 fallen, at most 0.45 for one battle).
+  - A siege ravages it by up to 0.3 a year, for the months the besiegers
+    stood there (they live off the land).
+  - Each year a region keeps 88% of its ravage: half is gone in about five
+    years, three quarters in eleven. Sea battles ravage nothing.
+  - A ravaged region's Security score is minus its ravage (a fully ravaged
+    region loses up to 0.5% of its people's growth a year on top of the
+    dead). An unravaged region gains from the peace of the realm holding
+    most of its people: up to +0.6 after 50 years of peace (the Pax
+    Romana), counted from the realm's last year at war.
+- **Seeing why a region grows**: each province's Land tab says what helps
+  and what slows its region's growth (food, this year's weather, health,
+  taxes and burdens, war or long peace), and how ravaged it is.
+- Disease is left to the epidemics, which already kill people directly;
+  a Disease factor on top would count each plague twice. Urban and Land
+  wait on town and country (your answer "Each province splits into its
+  towns and its countryside").
+
 ### 3. Settlement naming and spawning (percentile-based)
 
 - **Spawn:** a cluster becomes a named settlement when its population
