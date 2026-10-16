@@ -49,6 +49,17 @@ public partial class MercenaryTest : TestRunner
         Check(System.Math.Abs(t0 - r.Treasury - pay * (1 + c.BonusMonths)) < pay * 0.01 + 1e-6 || r.Treasury < t0 - pay,
             $"a month should cost the pay plus the victory bonus ({t0 - r.Treasury:0.0} paid, {pay:0.0} a month)");
         Check(r.MercPaidThisYear > 0, "mercenary pay should be counted in the year's accounts");
+        // Contracts and loyalty (War: mercenaries): signed on for the months
+        // you choose, more loyal with each month paid, gone when it ends.
+        Check(c.ContractLeft == 12 - 1, $"a company hired for a year should have 11 months left after one ({c.ContractLeft})");
+        Check(c.Loyalty > 0 && c.Loyalty <= Company.LoyaltyPerMonth + 1e-9, "a paid month should add a little loyalty");
+        r.Treasury = 10000;
+        Check(map.Renew(c, 6) == null && c.ContractLeft == 17, "signing on again should add months");
+        var elite = new Company { PayMin = 1.5, PayMax = 3.0, BonusMonths = 1 };
+        var rng = new System.Random(3);
+        var bonuses = Enumerable.Range(0, 50).Select(_ => elite.VictoryBonus(rng)).ToList();
+        Check(bonuses.Min() >= 1 - 1e-9 && bonuses.Max() <= 2 + 1e-9 && bonuses.Max() - bonuses.Min() > 0.3,
+            "an elite company should name its victory bonus anywhere in its range");
         // Save and load.
         var loaded = GameState.FromDict(map.Game.ToDict());
         var lc = loaded.Companies.FirstOrDefault(x => x.Id == c.Id);
@@ -65,8 +76,18 @@ public partial class MercenaryTest : TestRunner
             map.MarchMonth();
             months++;
         }
-        Check(c.Employer != rome, "an unpaid company should desert, change sides or revolt");
+        Check(c.Employer != rome, "an unpaid company should desert, change sides, revolt or seize land");
         Check(r.ArmyById(army.Id) == null, "a company that left should take its army with it");
+        // A contract runs out: the company goes home.
+        var c2 = map.Game.Companies.FirstOrDefault(x => x.Employer == 0);
+        if (c2 != null)
+        {
+            r.Treasury = 100000;
+            Check(map.Hire(rome, c2, 6) == null, "couldn't hire a second company");
+            c2.ContractLeft = 1;
+            map.MarchMonth();
+            Check(c2.Employer != rome, "a company whose contract ends should leave");
+        }
         // Each unit type keeps its own experience.
         var a = r.NewArmy("Test", map.CapitalNode(rome));
         int h = UnitCatalog.Instance["hastati_principes"].Index, v = UnitCatalog.Instance["velites"].Index;

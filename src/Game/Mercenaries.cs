@@ -93,6 +93,30 @@ public sealed class Company
     /// <summary>The last year it can be found (a generated company waiting too long disbands).</summary>
     public int Until { get; set; }
     public bool Elite => PayMax > PayMin * 1.3;
+    /// <summary>Months left on its contract (your answer "Mercenary contracts": months you choose); 0 = none (an old save).</summary>
+    public int ContractLeft { get; set; }
+    /// <summary>
+    /// Loyalty to its employer, 0..1 (your answer "Mercenary loyalty": yes,
+    /// slowly): full after five years of paid service, lost quickly when
+    /// unpaid. A loyal company is slower to desert, turn or be outbid.
+    /// </summary>
+    public double Loyalty { get; set; }
+    /// <summary>A victory bonus has gone unpaid: the captain feels slighted.</summary>
+    public bool Slighted { get; set; }
+
+    /// <summary>Contract lengths on offer, in months.</summary>
+    public static readonly int[] Contracts = { 6, 12, 24 };
+    /// <summary>Loyalty gained each paid month (full in five years), and lost each unpaid month.</summary>
+    public const double LoyaltyPerMonth = 1.0 / 60, LoyaltyLostUnpaid = 0.15;
+
+    /// <summary>
+    /// A victory's bonus in months of pay (your answer "Expensive companies":
+    /// both): an elite company names its bonus at each victory, anywhere in its
+    /// range, as it names its pay each year.
+    /// </summary>
+    public double VictoryBonus(Random rng) => Elite
+        ? BonusMonths * (PayMin + rng.NextDouble() * (PayMax - PayMin)) / PayMin
+        : BonusMonths;
 
     /// <summary>A month's pay in talents for the troops it has.</summary>
     public double MonthlyPay(IEnumerable<Regiment> regs) =>
@@ -109,6 +133,7 @@ public sealed class Company
             ["regiments"] = new GArray(Regiments.Select(r => (Variant)r.ToArray(cat)).ToArray()),
             ["pay"] = new GArray { PayMin, PayMax, PayFactor, BonusMonths }, ["employer"] = Employer, ["army"] = ArmyId,
             ["arrears"] = Arrears, ["months"] = Months, ["until"] = Until,
+            ["contract"] = new GArray { ContractLeft, Loyalty, Slighted },
         };
     }
 
@@ -124,6 +149,13 @@ public sealed class Company
             Employer = d["employer"].AsInt32(), ArmyId = d["army"].AsInt32(), Arrears = d["arrears"].AsDouble(),
             Months = d["months"].AsInt32(), Until = d["until"].AsInt32(),
         };
+        if (d.TryGetValue("contract", out var ct))
+        {
+            var a = ct.AsGodotArray();
+            c.ContractLeft = a[0].AsInt32();
+            c.Loyalty = a[1].AsDouble();
+            c.Slighted = a[2].AsBool();
+        }
         if (d.TryGetValue("regiments", out var regs))
         {
             foreach (var v in regs.AsGodotArray())

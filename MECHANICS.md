@@ -2128,6 +2128,30 @@ Treasury > "Spending, coin and loans" opens the Finances panel.
   (State monopolies are now built: see "Treasury and money: State
   monopolies" below.)
 
+## War: mercenaries: contracts, loyalty, elite bonuses, captains who seize land **(built, 16 Oct 2026)**
+
+Your answers "Mercenary contracts: yes, months you choose", "Expensive
+companies: both", "Mercenary loyalty: yes, slowly" and "A captain taking a
+throne: yes, if unpaid or slighted".
+
+- **Contracts.** You hire a company for 6, 12 or 24 months. Two months
+  before it ends the chronicle warns you; "Sign on +6/+12/+24 mo" extends
+  it for a month's pay. When it ends the company goes back to its hiring
+  ground. Other realms at war sign theirs on again if they can pay a year.
+- **Elite companies name their bonus.** As before, a strong company names a
+  new monthly price each year within its range; now it also names its
+  bonus after each victory anywhere in that range (for a 1.5×-3× company,
+  between one and two months' pay).
+- **Loyalty grows slowly.** Each month paid in full adds 1/60 (full after
+  five years); each unpaid month takes away 15%. A loyal company is slower
+  to desert, go over to the enemy or revolt (up to 70% less likely), asks
+  more to be lured away, and while under contract and over half loyal
+  can't be outbid at all.
+- **Captains who seize land.** A captain owed three months, or one whose
+  victory bonus went unpaid (slighted) and is still owed, and whose
+  company is little bound to you (loyalty under 30%), may each month (8%)
+  take the province his company stands in, as a mutinous general does.
+
 ## War: generals grow **(built, 15 Oct 2026)**
 
 Your answers: "Generals earn perks and skill from campaigns and victories",

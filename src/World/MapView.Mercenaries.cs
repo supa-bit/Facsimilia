@@ -27,6 +27,8 @@ public partial class MapView
     public const int GeneratedYears = 6;
     /// <summary>Hired men have seen war: a company's units start this hardened.</summary>
     public const double HiredXp = 0.3;
+    /// <summary>Each month an unpaid or slighted captain, little bound to you, may seize the land his company stands in.</summary>
+    public const double CaptainSeizeChance = 0.08;
 
     int GroundNode(string groundId)
     {
@@ -105,7 +107,7 @@ public partial class MapView
     }
 
     /// <summary>Hires a waiting company: it becomes an army of the realm at its hiring ground, under its captain.</summary>
-    public string? Hire(int realmId, Company c)
+    public string? Hire(int realmId, Company c, int months = 12)
     {
         var (problem, cost) = CanHire(realmId, c);
         if (problem != null)
@@ -115,6 +117,22 @@ public partial class MapView
         s.MercPaidThisYear += cost;
         Enlist(s, c, GroundNode(c.Ground), c.Regiments.ToList());
         c.Regiments.Clear();
+        c.ContractLeft = months;
+        return null;
+    }
+
+    /// <summary>Signs a company on for more months (a month's pay as the price of signing again).</summary>
+    public string? Renew(Company c, int months)
+    {
+        if (c.Employer == 0)
+            return "It isn't in anyone's pay.";
+        var s = Game.Realm(c.Employer);
+        double month = c.MonthlyPay(CompanyUnits(c));
+        if (s.Treasury < month)
+            return $"Not enough silver: {Money(month)} needed.";
+        s.Treasury -= month;
+        s.MercPaidThisYear += month;
+        c.ContractLeft += months;
         return null;
     }
 
@@ -127,6 +145,9 @@ public partial class MapView
         c.ArmyId = army.Id;
         c.Arrears = 0;
         c.Months = 0;
+        c.Loyalty = 0;
+        c.Slighted = false;
+        c.ContractLeft = Math.Max(c.ContractLeft, 12);
         var cap = c.Captain;
         var g = new General { Id = s.NextGeneralId++, Name = cap.Name, Origin = General.Captain, BornYear = cap.BornYear, CharacterId = -1 };
         Array.Copy(cap.BaseSkills, g.BaseSkills, Skills.Count);
@@ -180,16 +201,18 @@ public partial class MapView
         var army = old.ArmyById(c.ArmyId);
         if (army == null)
             return "The company can't be found.";
-        double month = c.MonthlyPay(army.Regiments) * OutbidMargin;
+        double month = c.MonthlyPay(army.Regiments) * OutbidMargin * (1 + c.Loyalty);   // a loyal company asks more to leave
         var s = Game.Realm(realmId);
         if (s.Treasury < month * 2)
             return $"Offering more than their pay needs two months in hand: {Money(month * 2)}.";
+        if (c.ContractLeft > 0 && c.Loyalty > 0.5)
+            return $"They are loyal to {RealmName(c.Employer)} and bound by contract for {c.ContractLeft} more month(s).";
         int node = army.Node;
         int oldEmployer = c.Employer;
         Release(c, toGround: true);
         if (!Game.Companies.Contains(c))
             Game.Companies.Add(c);
-        c.PayFactor *= OutbidMargin;
+        c.PayFactor *= OutbidMargin * (1 + c.Loyalty);
         s.Treasury -= month;
         s.MercPaidThisYear += month;
         Enlist(s, c, node, c.Regiments.ToList());   // its units keep their men and experience
@@ -332,7 +355,10 @@ public partial class MapView
                 continue;
             }
             c.Months++;
-            c.Arrears += army.VictoriesUnpaid * c.BonusMonths;   // a victory earns the company its bonus
+            double bonus = 0;
+            for (int v = 0; v < army.VictoriesUnpaid; v++)
+                bonus += c.VictoryBonus(rng);   // a victory earns the company its bonus (an elite one names it)
+            c.Arrears += bonus;
             army.VictoriesUnpaid = 0;
             double month = c.MonthlyPay(army.Regiments);
             double owed = month * (1 + c.Arrears);
@@ -341,18 +367,50 @@ public partial class MapView
                 s.Treasury -= owed;
                 s.MercPaidThisYear += owed;
                 c.Arrears = 0;
+                c.Slighted = false;
+                c.Loyalty = Math.Min(1, c.Loyalty + Company.LoyaltyPerMonth);
             }
             else if (s.Treasury >= month)
             {
                 s.Treasury -= month;
                 s.MercPaidThisYear += month;
+                c.Slighted |= bonus > 0;   // paid, but not what the victory earned
             }
             else
+            {
                 c.Arrears += 1;
+                c.Loyalty = Math.Max(0, c.Loyalty - Company.LoyaltyLostUnpaid);
+            }
+            string who = RealmName(s.RealmId);
+            // The contract runs out: the company goes home unless signed on again (other realms at war sign on if they can pay a year).
+            if (--c.ContractLeft <= 0)
+            {
+                if (s.RealmId != PlayerRealmId && Game.Wars.Of(s.RealmId).Any() && s.Treasury > month * 12)
+                    c.ContractLeft = 12;
+                else
+                {
+                    Release(c);
+                    events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"{c.Name}'s contract with {who} ends; they return to their hiring ground."));
+                    continue;
+                }
+            }
+            else if (c.ContractLeft == 2 && s.RealmId == PlayerRealmId)
+                events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"{c.Name}'s contract ends in two months; sign them on again in the Armies panel or they leave."));
+            // A captain unpaid or slighted may seize the land he stands in (your answer "A captain taking a throne").
+            if ((c.Arrears >= 3 || c.Slighted && c.Arrears >= 1) && c.Loyalty < 0.3 && army.Node >= 0
+                && Population!.NodeOwner[army.Node] == s.RealmId && rng.NextDouble() < CaptainSeizeChance)
+            {
+                Game.Companies.Remove(c);
+                c.Employer = 0;
+                var seized = Mutiny(s.RealmId, s, army);
+                foreach (var e in seized)
+                    events.Add(e with { Text = e.Text.Replace("The soldiers were his, not yours.", $"Unpaid and slighted, {c.Captain.Name} takes for himself what you would not give.") });
+                continue;
+            }
             if (c.Arrears < 2)
                 continue;
-            string who = RealmName(s.RealmId);
-            if (c.Arrears >= 4 && rng.NextDouble() < 0.35)
+            double steadiness = 1 - 0.7 * c.Loyalty;   // a loyal company bears arrears longer
+            if (c.Arrears >= 4 && rng.NextDouble() < 0.35 * steadiness)
             {
                 var enemy = Game.Wars.Of(s.RealmId).Select(w => w.Attacker == s.RealmId ? w.Defender : w.Attacker)
                     .OrderByDescending(e => Game.Realm(e).Treasury).FirstOrDefault();
@@ -377,7 +435,7 @@ public partial class MapView
                         $"{c.Name}, unpaid for months, revolt against {who}, plunder {Money(loot)} and march away."));
                 }
             }
-            else if (rng.NextDouble() < 0.15)
+            else if (rng.NextDouble() < 0.15 * steadiness)
             {
                 Release(c);
                 events.Add(new ChronicleEvent(ChronicleKind.Economy, s.RealmId, $"{c.Name}, unpaid, desert {who}'s service."));
