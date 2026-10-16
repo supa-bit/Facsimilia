@@ -18,6 +18,9 @@ public partial class SettingsStore : Node
     public static SettingsStore Instance { get; private set; } = null!;
 
     public bool Fullscreen { get; private set; }
+    /// <summary>Size of panels and text (Interface: "Interface size"): 1 = as designed. One of UiScales.</summary>
+    public float UiScale { get; private set; } = 1f;
+    public static readonly float[] UiScales = { 0.8f, 0.9f, 1f, 1.1f, 1.25f, 1.5f, 1.75f };
     public float MasterVolume { get; private set; } = 1f;  // linear 0..1, matches HSlider's natural range
     /// <summary>Autosave every this many years; 0 = off. One of SaveSystem.AutosaveIntervals.</summary>
     public int AutosaveInterval { get; private set; } = SaveSystem.DefaultAutosaveInterval;
@@ -98,6 +101,13 @@ public partial class SettingsStore : Node
         Save();
     }
 
+    public void SetUiScale(float scale)
+    {
+        UiScale = UiScales.Contains(scale) ? scale : 1f;
+        Apply();
+        Save();
+    }
+
     public void SetAutosaveInterval(int years)
     {
         AutosaveInterval = ValidInterval(years);
@@ -126,6 +136,8 @@ public partial class SettingsStore : Node
             if (Fullscreen != isFullscreen)
                 DisplayServer.WindowSetMode(want);
         }
+        if (IsInsideTree())
+            GetTree().Root.ContentScaleFactor = UiScale;   // panels and text grow or shrink; the map can be zoomed as ever
         int bus = AudioServer.GetBusIndex("Master");
         if (bus != -1)
             AudioServer.SetBusVolumeDb(bus, Mathf.LinearToDb(Mathf.Max(MasterVolume, 0.0001f)));
@@ -138,6 +150,9 @@ public partial class SettingsStore : Node
             return;  // no settings file yet - defaults stand
         Fullscreen = config.GetValue("display", "fullscreen", Fullscreen).AsBool();
         MasterVolume = config.GetValue("audio", "master_volume", MasterVolume).AsSingle();
+        UiScale = config.GetValue("display", "ui_scale", UiScale).AsSingle();
+        if (!UiScales.Contains(UiScale))
+            UiScale = 1f;
         AutosaveInterval = ValidInterval(config.GetValue("gameplay", "autosave_interval", AutosaveInterval).AsInt32());
         FightBattles = config.GetValue("gameplay", "fight_battles", FightBattles).AsBool();
         ThinOldYears = config.GetValue("gameplay", "thin_old_years", ThinOldYears).AsBool();
@@ -152,6 +167,7 @@ public partial class SettingsStore : Node
         var config = new ConfigFile();
         config.SetValue("display", "fullscreen", Fullscreen);
         config.SetValue("audio", "master_volume", MasterVolume);
+        config.SetValue("display", "ui_scale", UiScale);
         config.SetValue("gameplay", "autosave_interval", AutosaveInterval);
         config.SetValue("gameplay", "fight_battles", FightBattles);
         config.SetValue("gameplay", "thin_old_years", ThinOldYears);

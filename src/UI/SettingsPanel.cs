@@ -39,6 +39,15 @@ public partial class SettingsPanel : Control
         var fullscreen = new CheckBox { ButtonPressed = store.Fullscreen };
         fullscreen.Toggled += pressed => store.SetFullscreen(pressed);
         display.AddChild(Row("Fullscreen", fullscreen, "Also F11."));
+        var size = new OptionButton();
+        foreach (float f in SettingsStore.UiScales)
+        {
+            size.AddItem($"{f * 100:0}%");
+            if (Mathf.IsEqualApprox(f, store.UiScale))
+                size.Select(size.ItemCount - 1);
+        }
+        size.ItemSelected += index => store.SetUiScale(SettingsStore.UiScales[(int)index]);
+        display.AddChild(Row("Interface size", size, "Makes every panel, button and line of text larger or smaller."));
 
         var audio = Tab(tabs, "Audio");
         var volume = new HSlider

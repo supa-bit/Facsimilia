@@ -3146,7 +3146,7 @@ exits with 1 if any check fails.
 - **The Codex**: An in-game encyclopedia on every realm, people, good, unit, tech and great person, with history notes
 - **Search**: A search box for places, characters and realms
 - **Changeable keys**: Keys for everything, changeable in Settings
-- **Interface size**: A size setting for panels and text
+- **Interface size**: A size setting for panels and text. *Built 15 Oct 2026*: Settings > Display > Interface size, 80% to 175%; everything on screen grows or shrinks together. The "Needs you" list now sits just above the map and time buttons and shows only as many lines as fit ("…and N more"), so it never covers them at any size.
 - **Colour-blind colours**: Colour-blind palettes for the map views Your note: "Try to also craft a mode to ease the strain on my eyes that have issues stemming from scleromyositis"
 - **Undo**: Undo orders given this month before time moves
 - **Your notes**: Pin notes on the map and in the chronicle

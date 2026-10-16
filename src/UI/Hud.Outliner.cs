@@ -18,14 +18,18 @@ public partial class Hud
     VBoxContainer _outlinerRows = null!;
     Button _outlinerToggle = null!;
     bool _outlinerOpen = true;
+    /// <summary>Room kept free below the outliner (the map and time buttons) and above it (the top bar and panels); its tallest; a line's height.</summary>
+    const float OutlinerBottomRoom = 250, OutlinerTopRoom = 380, OutlinerMaxHeight = 420, OutlinerRowHeight = 30;
 
     void BuildOutliner()
     {
         _outliner = new PanelContainer { ThemeTypeVariation = "GlassPanel", CustomMinimumSize = new Vector2(300, 0), MouseFilter = MouseFilterEnum.Stop };
-        _outliner.SetAnchorsPreset(LayoutPreset.TopRight);
+        // Pinned just above the map and time buttons, growing upward, so it fits any screen and interface size.
+        _outliner.SetAnchorsPreset(LayoutPreset.BottomRight);
         _outliner.GrowHorizontal = GrowDirection.Begin;
+        _outliner.GrowVertical = GrowDirection.Begin;
         _outliner.OffsetLeft = _outliner.OffsetRight = -20;
-        _outliner.OffsetTop = _outliner.OffsetBottom = 560;
+        _outliner.OffsetTop = _outliner.OffsetBottom = -OutlinerBottomRoom;
         AddChild(_outliner);
         var box = new VBoxContainer();
         box.AddThemeConstantOverride("separation", 4);
@@ -61,11 +65,22 @@ public partial class Hud
             return;
         if (items.Count == 0)
             _outlinerRows.AddChild(ThemeAncient.Label("Nothing waits on you.", "SubtleLabel", 15));
+        // Only as many lines as fit above the buttons at the bottom of the screen (a larger interface size leaves less room).
+        float room = Math.Min(OutlinerMaxHeight, GetViewportRect().Size.Y - OutlinerBottomRoom - OutlinerTopRoom);
+        int maxRows = Math.Max(3, (int)(room / OutlinerRowHeight)), rows = 0, total = items.Sum(g => g.Lines.Count + 1);
         foreach (var (heading, lines) in items)
         {
+            if (rows + 2 > maxRows)
+                break;
             _outlinerRows.AddChild(ThemeAncient.Label(heading, "SubtleLabel", 14));
+            rows++;
             foreach (var (text, go) in lines)
             {
+                if (++rows > maxRows - 1 && rows < total)
+                {
+                    _outlinerRows.AddChild(ThemeAncient.Label($"  …and {total - rows + 1} more", "SubtleLabel", 14));
+                    return;
+                }
                 var b = new Button { Text = "  " + text, Flat = true, Alignment = HorizontalAlignment.Left, FocusMode = FocusModeEnum.None,
                     ClipText = true, CustomMinimumSize = new Vector2(280, 0) };
                 b.AddThemeFontSizeOverride("font_size", 15);
