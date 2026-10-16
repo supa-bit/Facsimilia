@@ -95,6 +95,9 @@ designer to do anything: just keep committing and pushing to the same branch.
   into `master`): the full run. End each commit message with a line
   "Tests: quick" or "Tests: full", so the last full run is easy to find.
   GitHub runs every test on each push anyway (the Tests workflow).
+- SpeedTest (part of the quick run) plays ten years and fails if a year
+  averages over 3 seconds (the designer's limit), any year passes 6, or a
+  save passes 1.5. It prints the times: mention them when they grow.
 - Check visible changes in the running game with screenshots before
   saying they work.
 - After changing MECHANICS.md, rebuild the PDF: `python3 tools/build_docs_pdf.py`.

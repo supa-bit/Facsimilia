@@ -327,6 +327,17 @@ it names waits; the rest of its topic can be built.
       abolished as history abolished it); real data with hand fixes, only
       sources that allow selling the game
 
+## Speed and the engine (16 Oct 2026)
+
+You asked whether Godot can carry the finished game. Measured on 16 Oct
+2026 (228 provinces, 56 realms): a year takes about 0.7 s, a save 0.1 s.
+Nearly all of that is our own C# simulation, which would run no faster in
+another engine. SpeedTest now guards your 3-second limit as the world grows.
+The work ahead for the whole globe: spread each year across the
+processor's cores, skip what hasn't changed, tile the map image, and move
+saving to plain C# if it slows. For richer animation later, switch Godot's
+renderer from "Compatibility" to "Forward+".
+
 ## Known issues
 
 - [x] Fixed 26 Sep 2026 (found by playing through the window): the map
