@@ -134,6 +134,14 @@ public partial class GameEconomyTest : TestRunner
         map.ProvinceStateOf(romanLand.Id).Integration = 0.5;   // as if newly conquered
         Check(map.SettleVeterans(romanLand.Id) && r.VeteransWaiting == 0 && map.ProvinceStateOf(romanLand.Id).Integration > 0.5,
             "veterans settled on conquered land should hold it for you");
+        // Veterans as reserves: the colony's men can be called back to arms, at a cost to it.
+        var (reserveMen, reserveXp) = map.Reserves(romanLand.Id);
+        Check(reserveMen >= 2000 && reserveXp > 0.2, $"the settled veterans should be fit to march again ({reserveMen} men, {reserveXp:P0})");
+        var recalled = map.CallReserves(romanLand.Id);
+        Check(recalled != null && recalled.Men >= 2000 && recalled.Regiments.All(x => x.Xp > 0.2) && map.Reserves(romanLand.Id).Men == 0
+              && map.ProvinceStateOf(romanLand.Id).Grudge >= MapView.ReserveGrudge,
+            "called back, the veterans should march as a hardened army and the colony should resent it");
+        r.Armies.Remove(recalled!);
 
         // Where units are raised: in a province whose people make them; they
         // train, then walk to the army, and are paid from the day they are called up.

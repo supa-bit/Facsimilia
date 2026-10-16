@@ -132,8 +132,67 @@ public partial class MapView
         else
             ps.Grudge = Math.Max(ps.Grudge, ArmyLoyalty.HomeLandGrudge);
         ps.Log(DemoYear, $"{men:N0} veterans are given land here.");
+        ps.VeteransXp = (ps.VeteransXp * ps.Veterans + s.VeteransXp * men) / Math.Max(1, ps.Veterans + men);
+        ps.Veterans += men;
+        ps.VeteransYear = DemoYear;
         ArmyLoyalty.Clear(s);
         return true;
+    }
+
+    // --- Veterans as reserves (your answer: "Yes, from their colony", with consequences) -------
+
+    /// <summary>Settled veterans lose this much of their edge each year at the plough.</summary>
+    public const double ReserveXpLossPerYear = 0.02;
+    /// <summary>After this many years settled they are too old to march.</summary>
+    public const int ReserveYears = 25;
+    /// <summary>Calling them from their farms angers the colony (its grudge rises) and leaves its fields short.</summary>
+    public const double ReserveGrudge = 0.15;
+
+    /// <summary>How many of a province's settled veterans can still march, and how hardened they still are.</summary>
+    public (int Men, double Xp) Reserves(int provinceId)
+    {
+        var ps = ProvinceStateOf(provinceId);
+        int years = Math.Max(0, DemoYear - ps.VeteransYear);
+        if (ps.Veterans < 1 || years >= ReserveYears)
+            return (0, 0);
+        double fit = 1 - years / (double)ReserveYears;   // the old and the dead drop out
+        return ((int)(ps.Veterans * fit), Math.Max(0.1, ps.VeteransXp - ReserveXpLossPerYear * years));
+    }
+
+    /// <summary>Why the player can't call this province's veterans back to arms, or null.</summary>
+    public string? CanCallReserves(int provinceId)
+    {
+        if (Provinces?.Provinces.TryGetValue(provinceId, out var p) != true || p!.RealmId != PlayerRealmId)
+            return "Only in your own provinces.";
+        if (Reserves(provinceId).Men < Regiment.MinMen)
+            return "No veterans here are fit to march.";
+        if (Game.Sieges.Any(x => x.ProvinceId == provinceId))
+            return "Not while it is besieged.";
+        return null;
+    }
+
+    /// <summary>
+    /// Calls a colony's veterans back to arms (the Roman evocati): they march
+    /// out as hardened heavy infantry of your people, a new army at the
+    /// colony. The colony resents it and its fields go short; when they are
+    /// discharged again they will want land again.
+    /// </summary>
+    public Army? CallReserves(int provinceId)
+    {
+        if (CanCallReserves(provinceId) != null)
+            return null;
+        var s = PlayerState;
+        var ps = ProvinceStateOf(provinceId);
+        var (men, xp) = Reserves(provinceId);
+        var unit = UnitCatalog.Instance.BestFor(UnitRoles.HeavyInfantry, CulturesOf(PlayerRealmId));
+        var army = s.NewArmy($"Recalled veterans of {Provinces!.Provinces[provinceId].Name}", ProvinceNode(provinceId));
+        for (int left = men; left >= Regiment.MinMen; left -= Math.Min(left, unit.Men))
+            army.AddRegiment(unit.Index, Math.Min(left, unit.Men), xp, provinceId);
+        army.Even();
+        ps.Veterans = 0;
+        ps.Grudge = Math.Max(ps.Grudge, ReserveGrudge);
+        ps.Log(DemoYear, $"{men:N0} veterans leave their farms for the army again.");
+        return army;
     }
 
     /// <summary>The computer settles its veterans on its least settled province (conquered land first).</summary>

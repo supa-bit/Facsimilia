@@ -471,6 +471,33 @@ public partial class Hud
                 land.AddChild(resettle);
             }
         }
+        if (_map.Reserves(p.Id) is { Men: > 0 } reserve)
+        {
+            Line(land, $"{reserve.Men:N0} veterans farm here who could march again (hardened {reserve.Xp:P0}).");
+            if (mine)
+            {
+                string? cannot = _map.CanCallReserves(p.Id);
+                var call = new Button
+                {
+                    Text = $"Call them back to arms ({reserve.Men:N0} men)",
+                    Disabled = cannot != null,
+                    TooltipText = cannot ?? "Rome's evocati: they march out as a new army of hardened heavy infantry. The colony resents losing them " +
+                        "from the fields (more unrest), and when they are discharged again they will want land again.",
+                    FocusMode = FocusModeEnum.None,
+                };
+                int vid = p.Id;
+                call.Pressed += () =>
+                {
+                    if (_map.CallReserves(vid) != null)
+                    {
+                        _map.RefreshArmyMarkers();
+                        RefreshProvincePanel();
+                        RefreshArmiesPanel();
+                    }
+                };
+                land.AddChild(call);
+            }
+        }
         if (region != null && _map.Population is { } popEngine)
         {
             Line(land, GrowthBreakdown(popEngine, region.Id, region.Name));

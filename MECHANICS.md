@@ -2128,6 +2128,23 @@ Treasury > "Spending, coin and loans" opens the Finances panel.
   (State monopolies are now built: see "Treasury and money: State
   monopolies" below.)
 
+## War: veterans as reserves **(built, 16 Oct 2026)**
+
+Your answer "Veterans as reserves: yes, from their colony" (your note: "with
+consequences"), as Rome called back its evocati.
+
+- A province remembers the veterans settled on it: how many, how hardened,
+  and when. Each year at the plough they lose 2% of their edge, and after
+  25 years they are too old to march (fewer each year until then).
+- The province's Land tab shows them, and "Call them back to arms" raises
+  them as a new army of your people's heavy infantry at the colony, as
+  hardened as they still are.
+- The consequences: the colony resents losing its men from the fields (its
+  grudge rises, so more unrest), and when they are discharged again they
+  will want land again.
+- Veteran colonies becoming cities of their own ("Either") waits for the
+  cities themselves (Cities and settlements: Cities of their own).
+
 ## Other realms: grudges, coalitions by history, a new ruler's temper **(built, 16 Oct 2026)**
 
 Your answers "Grudges: yes, fading over generations", "Coalitions against
