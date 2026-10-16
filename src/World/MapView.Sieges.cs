@@ -256,6 +256,7 @@ public partial class MapView
             Provinces.SetRealm(siege.ProvinceId, siege.Attacker, Grid);
             MarkChanged(siege.ProvinceId);
             Game.Wars.Between(siege.Attacker, siege.Owner)?.RecordTaken(siege.Attacker, siege.ProvinceId);
+            Game.AddGrudge(siege.Owner, siege.Attacker, GrudgeProvince, DemoYear);
         }
         else
         {

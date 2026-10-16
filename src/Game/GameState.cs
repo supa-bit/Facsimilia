@@ -469,6 +469,28 @@ public sealed class GameState
     public List<Ruin> Ruins { get; } = new();
     /// <summary>War indemnities being paid (decision "War indemnities").</summary>
     public List<Indemnity> Indemnities { get; } = new();
+    /// <summary>
+    /// Old wrongs a realm remembers against another (Other realms: "Grudges":
+    /// yes, fading over generations): (holder, target) -> how bitter, and the
+    /// year it was last added to. Half forgotten every GrudgeHalfLife years.
+    /// </summary>
+    public Dictionary<(int Holder, int Target), (double Weight, int Year)> Grudges { get; } = new();
+    public const int GrudgeHalfLife = 30;
+    public const double GrudgeMax = 60;
+
+    /// <summary>Adds a wrong to a realm's memory of another.</summary>
+    public void AddGrudge(int holder, int target, double weight, int year)
+    {
+        if (holder <= 0 || target <= 0 || holder == target)
+            return;
+        double now = GrudgeNow(holder, target, year);
+        Grudges[(holder, target)] = (Math.Min(GrudgeMax, now + weight), year);
+    }
+
+    /// <summary>How bitter a realm still is about another this year.</summary>
+    public double GrudgeNow(int holder, int target, int year) =>
+        Grudges.TryGetValue((holder, target), out var g) ? g.Weight * Math.Pow(0.5, Math.Max(0, year - g.Year) / (double)GrudgeHalfLife) : 0;
+
     /// <summary>Grievances over unpaid debts and indemnities: (holder, target) -> the last year they give a pretext.</summary>
     public Dictionary<(int Holder, int Target), int> Grievances { get; } = new();
     public int NextCompanyId { get; set; } = 1;
@@ -576,6 +598,7 @@ public sealed class GameState
             ["ravaged"] = new GArray(Ravaged.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["ruins"] = new GArray(Ruins.Select(r => (Variant)r.ToArray()).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
+            ["grudges"] = new GArray(Grudges.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value.Weight, g.Value.Year }).ToArray()),
         };
     }
 
@@ -643,6 +666,12 @@ public sealed class GameState
             {
                 var a = v.AsGodotArray();
                 g.Grievances[(a[0].AsInt32(), a[1].AsInt32())] = a[2].AsInt32();
+            }
+        if (d.TryGetValue("grudges", out var gru))
+            foreach (Variant v in gru.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                g.Grudges[(a[0].AsInt32(), a[1].AsInt32())] = (a[2].AsDouble(), a[3].AsInt32());
             }
         if (d.TryGetValue("companies_seen", out var csn))
             foreach (Variant v in csn.AsGodotArray())

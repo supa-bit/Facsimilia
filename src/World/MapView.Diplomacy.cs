@@ -80,8 +80,44 @@ public partial class MapView
         if (RoyalTie(of, about))
             Add(15, "their houses are joined by marriage");
         Add(-0.8 * Game.Realm(about).Aggression, "fear of their conquests");
+        Add(-Game.GrudgeNow(of, about, DemoYear), "old wrongs not forgotten");
+        Add(RulerDisposition(of), RulerTemper(of));
         return (Math.Clamp(v, -100, 100), reasons);
     }
+
+    // --- Grudges and rulers (Other realms) ----------------------------------------------
+
+    /// <summary>How bitter each wrong is (Other realms: "Grudges"): fading by half every 30 years.</summary>
+    public const double GrudgeWar = 20, GrudgeProvince = 10, GrudgePlunder = 15, GrudgeRaze = 30;
+
+    /// <summary>
+    /// Realms whose policy is made by councils and assemblies, not one ruler
+    /// (your note on "New rulers, new policies": governing bodies change only
+    /// a little and must be persuaded further). Until the kinds of government
+    /// are built (waiting on your check of the draft), these are the
+    /// republics, leagues and oligarchies of 300 BC.
+    /// </summary>
+    static readonly HashSet<string> RuledByBodies = new() { "rome", "carthage", "rhodes", "massalia", "aetolia", "tarentum", "byzantium", "heraclea", "sparta" };
+    /// <summary>A council-ruled realm feels its leader's temper this much.</summary>
+    public const double BodiesTemper = 0.3;
+    static readonly string[] Warm = { "kind", "forgiving", "trusting", "just", "generous", "honest", "calm", "compassionate", "merciful", "gregarious", "hospitable", "honourable", "tolerant", "content" };
+    static readonly string[] Cold = { "ambitious", "wrathful", "cruel", "rash", "vengeful", "arrogant", "ruthless", "paranoid", "suspicious", "proud", "deceitful", "treacherous", "callous", "sadistic" };
+
+    /// <summary>
+    /// How the ruler's character colours the realm's view of every other
+    /// realm (your answer "Yes, by the new ruler's traits"): +3 for each warm
+    /// trait, -3 for each cold one, up to ±15; a new ruler brings a new temper.
+    /// </summary>
+    public double RulerDisposition(int realmId)
+    {
+        if (!Registry.Realms.TryGetValue(realmId, out var r) || !Registry.Characters.TryGetValue(r.RulerId, out var ruler) || !ruler.IsAlive)
+            return 0;
+        double d = Math.Clamp(3 * ruler.Traits.Count(Warm.Contains) - 3 * ruler.Traits.Count(Cold.Contains), -15, 15);
+        return RuledByBodies.Contains(Game.Realm(realmId).CivKey) ? d * BodiesTemper : d;
+    }
+
+    string RulerTemper(int realmId) =>
+        RuledByBodies.Contains(Game.Realm(realmId).CivKey) ? "the temper of its leading men (its councils change slowly)" : "the temper of its ruler";
 
     /// <summary>Whether the two ruling houses are joined by a living marriage (rulers or their children).</summary>
     bool RoyalTie(int a, int b)
@@ -163,6 +199,7 @@ public partial class MapView
         string text = $"{RealmName(attacker)} declares war on {RealmName(defender)}: {why ?? pretext.Name.ToLowerInvariant()}.";
         events.Add(new ChronicleEvent(ChronicleKind.War, attacker, text, cue ?? "!moment:war_declared"));
         events.Add(new ChronicleEvent(ChronicleKind.War, defender, text, cue ?? "!moment:war_on_us"));
+        Game.AddGrudge(defender, attacker, GrudgeWar, DemoYear);
         events.AddRange(CallAllies(war));
         return events;
     }
@@ -440,7 +477,7 @@ public partial class MapView
                 continue;
             }
             var afraid = census.Keys.Where(r => r != id && Game.Treaties.OverlordOf(r) != id && !Game.Treaties.Allied(r, id)
-                    && Opinion(r, id).Value <= -20 && HasPretext(r, id)).ToList();
+                    && Opinion(r, id).Value <= (Rivals(r, id) || Game.GrudgeNow(r, id, DemoYear) >= 10 ? -5 : -20) && HasPretext(r, id)).ToList();   // history's rivals and old enemies join sooner
             if (afraid.Count < 2)
                 continue;
             bool isNew = !Game.Treaties.CoalitionAgainst(id).Any();

@@ -33,6 +33,17 @@ public partial class DiplomacyTest : TestRunner
         Check(g.Treaties.Allied(seleucid, lysimachus), "Seleucus and Lysimachus should be allies in 300 BC");
         Check(map.Rivals(rome, carthage) && map.Opinion(carthage, rome).Reasons.Any(r => r.Contains("rivals")), "Rome and Carthage are old rivals");
 
+        // Grudges (Other realms): old wrongs weigh on opinion and fade by half in a generation.
+        double opinionBefore = map.Opinion(nabatea, egypt).Value;
+        g.AddGrudge(nabatea, egypt, MapView.GrudgeRaze, map.DemoYear);
+        Check(map.Opinion(nabatea, egypt).Value <= opinionBefore - MapView.GrudgeRaze + 1 && map.Opinion(nabatea, egypt).Reasons.Any(r => r.Contains("old wrongs")),
+            "a razed city should be remembered");
+        Check(System.Math.Abs(g.GrudgeNow(nabatea, egypt, map.DemoYear + 30) - MapView.GrudgeRaze / 2) < 1e-9, "a grudge should be half forgotten in 30 years");
+        Check(Game.GameState.FromDict(g.ToDict()).GrudgeNow(nabatea, egypt, map.DemoYear) > 0, "grudges should be saved");
+        g.Grudges.Clear();
+        // A ruler's temper colours his realm's view; a council-ruled realm feels it less.
+        Check(System.Math.Abs(map.RulerDisposition(rome)) <= 15 * MapView.BodiesTemper + 1e-9, "Rome's senate should change its view only a little with its leader");
+
         var toGreeks = map.PretextsAgainst(rome, greeks);
         Check(toGreeks.Contains(Pretexts.Border), "Rome borders the Samnites: a border dispute");
         Check(!map.PretextsAgainst(rome, nabatea).Contains(Pretexts.Border), "Rome has no border with the Nabataeans");

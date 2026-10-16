@@ -2128,6 +2128,29 @@ Treasury > "Spending, coin and loans" opens the Finances panel.
   (State monopolies are now built: see "Treasury and money: State
   monopolies" below.)
 
+## Other realms: grudges, coalitions by history, a new ruler's temper **(built, 16 Oct 2026)**
+
+Your answers "Grudges: yes, fading over generations", "Coalitions against
+you: by fear and history" and "New rulers, new policies: by the new ruler's
+traits" (your note: "any governing bodies and peoples making up those
+bodies change only a little, and have to be persuaded further").
+
+- **Grudges.** A realm remembers wrongs done to it: a war declared on it
+  (20), each province taken (10), a city plundered (15) or razed (30), up
+  to 60 in all. The grudge comes off its opinion of you ("old wrongs not
+  forgotten") and is half forgotten every 30 years. Saved with the game.
+- **Coalitions by history.** As before, realms afraid of a conqueror band
+  together; now history's rivals, and realms with a grudge of 10 or more,
+  join when their opinion is -5 or worse (others need -20).
+- **A new ruler's temper.** Each warm trait of a realm's ruler (kind,
+  forgiving, just, generous, calm...) adds 3 to its view of every other
+  realm, each cold one (ambitious, wrathful, cruel, vengeful, proud...)
+  takes 3, up to ±15; when a ruler dies, the next one brings his own
+  temper. Realms ruled by councils and assemblies (Rome, Carthage, Rhodes,
+  Massalia, the Aetolians, Tarentum, Byzantium, Heraclea, Sparta) feel
+  their leader's temper only 30% as much; this list will come from the
+  kinds of government once you've checked that draft.
+
 ## War: mercenaries: contracts, loyalty, elite bonuses, captains who seize land **(built, 16 Oct 2026)**
 
 Your answers "Mercenary contracts: yes, months you choose", "Expensive

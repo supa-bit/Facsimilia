@@ -38,6 +38,7 @@ public partial class MapView
 
             case SackChoice.Plunder:
             {
+                Game.AddGrudge(siege.Owner, siege.Attacker, GrudgePlunder, DemoYear);
                 TakeCaptives(siege.Attacker, p);
                 double loot = Sacking.LootPerThousand * people / 1000;
                 attacker.Treasury += loot;
@@ -50,6 +51,7 @@ public partial class MapView
             }
 
             case SackChoice.Raze:
+                Game.AddGrudge(siege.Owner, siege.Attacker, GrudgeRaze, DemoYear);
             {
                 double captivesBefore = attacker.Captives;
                 TakeCaptives(siege.Attacker, p);
