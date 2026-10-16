@@ -3604,3 +3604,38 @@ Twelve of the new follow-up questions, answered while the work went on.
   the wounded return to the line, 3% die of their wounds and 4% are
   crippled and go home: alive among their people, but lost to the army. Of
   every hundred wounded about 77 fight again, 13 go home maimed and 10 die.
+
+## Your answers of 16 October 2026 **(recorded)**
+
+Answered on the Ledger while the work went on (and four older answers whose features had been left marked as waiting). Each feature is now ready to build.
+
+- **Passes, fords and straits** (The map): Both.
+- **Forests shrinking and growing** (Land, resources and goods): Visibly on the terrain map.
+- **Coal, oil and the modern resources** (Land, resources and goods): Found by prospecting. Your note: "tech and prospecting available according to when history says".
+- **Levies and standing armies** (War: armies, units and generals): Levies raised for a campaign and sent home; standing troops kept all year, as each realm's laws allow.
+- **Others' aims** (Other realms): Both.
+- **Why they did that, in detail** (Other realms): Three, with more on click.
+- **Grudges** (Other realms): Yes, fading over generations.
+- **New rulers, new policies** (Other realms): Yes, by the new ruler's traits. Your note: "any governing bodies and peoples making up those bodies change only a little, and have to be persuaded further".
+- **Coalitions against you** (Other realms): Yes, by fear and history.
+- **Spies** (Fog of war: what your realm knows): A spymaster plus a network.
+- **Spy actions** (Fog of war: what your realm knows): Those, plus sabotage and murder.
+- **Explorers** (Fog of war: what your realm knows): History's explorers plus yours.
+- **Old maps** (Fog of war: what your realm knows): Your culture's where known.
+- **How fast news travels** (Fog of war: what your realm knows): Yes, roads and posts.
+- **The opening's sites** (The Bronze Age): 20 first, more later.
+- **Bronze Age palaces** (The Bronze Age): As above, and they can fall.
+- **Mercenary contracts** (War: mercenaries): Yes, months you choose.
+- **Expensive companies** (War: mercenaries): Both.
+- **Mercenary loyalty** (War: mercenaries): Yes, slowly.
+- **A captain taking a throne** (War: mercenaries): Yes, if unpaid or slighted.
+- **Veteran colonies** (War: veterans): Either.
+- **Veterans as reserves** (War: veterans): Yes, from their colony. Your note: "with consequences".
+- **Sound takes** (Sound and music): Both, you can drop one.
+- **The music ledger** (Sound and music): Per culture first, situations later.
+- **Spoken lines** (Sound and music): Narrator for history, adviser for you.
+- **Aims order** (Other realms): Great powers first, then the rest.
+- **Stealing techs** (Technology and knowledge): Any, harder for secrets.
+- **The look by era** (Interface: the look): At once, with a show.
+- **Ornament by people** (Interface: the look): Yes. Your note: "They don't only have to be direct photographs, but if it is illustrated it needs sources that prove it actually looked like the illustration".
+- **Fog setting choices** (Fog of war: what your realm knows): Separate for map and diplomacy. Your note: "will corresponding off, light  and full options".
