@@ -16,6 +16,7 @@ public partial class ZzShotDiplomacy : TestRunner
         map.SetPlayerCiv("rome");
         await map.GenerateWorld();
         map.PlayerState.Aggression = 30;
+        map.DeclareWar(map.CivRealmIds["cisalpine"], "");   // a war at the top of the list, with its Buy peace button
         var layer = new CanvasLayer { Layer = 1 };
         Root.AddChild(layer);
         var hud = GD.Load<PackedScene>("res://scenes/Hud.tscn").Instantiate<Hud>();

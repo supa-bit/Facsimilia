@@ -2066,6 +2066,13 @@ companies and reforms follow.
   one and a half times their fear to be at least 0 (and three times their
   might, as before). The diplomacy panel shows each realm's trust in you
   and fear of you, and their army only as well as you know them.
+- **Paying off invaders (built, 17 Oct 2026; your answer: pay tribute to buy
+  peace from raiders).** At war, the diplomacy panel offers "Buy peace":
+  you pay the enemy a year of its income, more the better the war is going
+  for it (one and a half years at a war score of 12 in its favour, two at
+  25), and peace follows with each keeping what it holds. Raiding peoples
+  (the many-tribed peoples, who came for plunder) take half. In 390 BC
+  Rome paid the Gauls a thousand pounds of gold to leave the city.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

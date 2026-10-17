@@ -66,6 +66,18 @@ public partial class DiplomacyTest : TestRunner
         Check(!map.PretextsAgainst(rome, nabatea).Contains(Pretexts.Border), "Rome has no border with the Nabataeans");
         Check(map.PretextsAgainst(rome, nabatea).Last() == Pretexts.None, "war without a pretext is always possible");
 
+        // Paying off invaders: war with the Cisalpine Gauls, bought off with silver.
+        int gauls = map.CivRealmIds["cisalpine"];
+        map.DeclareWar(gauls, "");
+        double price = map.PeacePrice(gauls);
+        Check(map.IsRaidingPeople(gauls) && price > 0, "the Gauls are raiders with a price");
+        map.PlayerState.Treasury = price + 1;
+        double gaulsSilver = g.Realm(gauls).Treasury;
+        string bought = map.BuyPeace(gauls);
+        Check(!g.Wars.AtWar(rome, gauls) && map.PlayerState.Treasury < 1.01 && g.Realm(gauls).Treasury >= gaulsSilver + price - 1e-6,
+            $"buying peace should end the war and hand over the silver ({bought})");
+        map.PlayerState.Aggression = 0;
+
         // War on Lysimachus: his allies Seleucus and Ptolemy come in against the player.
         var events = map.DeclareWar(lysimachus, "")!;
         Check(g.Wars.AtWar(rome, seleucid) && g.Wars.AtWar(rome, egypt) && events.Any(e => e.Text.Contains("honours its treaty")),

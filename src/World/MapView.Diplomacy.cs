@@ -350,6 +350,43 @@ public partial class MapView
         return (true, ApplyPeace(war, PlayerRealmId, terms));
     }
 
+    /// <summary>
+    /// What it costs to buy peace from an enemy (your answer "Paying off
+    /// invaders": pay tribute to buy peace from raiders): a year of their
+    /// income, more the better the war goes for them; raiding peoples, who
+    /// came for plunder, take half.
+    /// </summary>
+    public double PeacePrice(int enemy)
+    {
+        var war = Game.Wars.Between(PlayerRealmId, enemy);
+        if (war == null)
+            return 0;
+        var (tax, trib) = Economy.Revenue(CensusOf(enemy), Game.Realm(enemy).Tax);
+        double price = Math.Max(tax + trib, 1) * (1 + Math.Max(0, war.ScoreFor(enemy)) / 25);
+        return IsRaidingPeople(enemy) ? price * RaidersPriceShare : price;
+    }
+
+    public const double RaidersPriceShare = 0.5;
+
+    /// <summary>A people of many tribes (Gauls, Getae, Scythians...), who fought for plunder more than land.</summary>
+    public bool IsRaidingPeople(int realmId) =>
+        RealCivs.FirstOrDefault(c => c.Key == Game.Realm(realmId).CivKey)?.Tribal == true;
+
+    /// <summary>Pays an enemy to go home: peace, each keeping what it holds, and the silver is theirs.</summary>
+    public string BuyPeace(int enemy)
+    {
+        var war = Game.Wars.Between(PlayerRealmId, enemy);
+        if (war == null || war.Supports != null)
+            return "There is no war of yours with them to buy off.";
+        double price = PeacePrice(enemy);
+        if (PlayerState.Treasury < price)
+            return $"You cannot pay: {RealmName(enemy)} wants {Money(price)}.";
+        PlayerState.Treasury -= price;
+        Game.Realm(enemy).Treasury += price;
+        string peace = ApplyPeace(war, enemy, new PeaceTerms());
+        return $"{RealmName(PlayerRealmId)} pays {RealmName(enemy)} {Money(price)} to go home. {peace}";
+    }
+
     /// <summary>Old two-button form: peace keeping what each holds, or with tribute.</summary>
     public (bool Accepted, string Text) OfferPeace(int enemy, bool demandTribute) =>
         OfferPeace(enemy, new PeaceTerms { Tribute = demandTribute });

@@ -264,6 +264,11 @@ public partial class Hud
                     _terms.Provinces.Clear();
                     _terms.Tribute = _terms.Vassal = false;
                 });
+            double price = _map.PeacePrice(id);
+            AddButton(buttons, $"Buy peace ({_map.Money(price)})",
+                (_map.IsRaidingPeople(id) ? "They came for plunder: silver may send them home. " : "") +
+                "Pay them to make peace, each keeping what it holds. The better the war goes for them, the more they ask.",
+                () => Log(_map.BuyPeace(id), cue: "moment:peace"));
             if (_peaceWith == id)
                 AddPeaceTerms(frame, war, id, me);
         }
