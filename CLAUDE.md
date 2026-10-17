@@ -76,9 +76,13 @@ The designer has chronic eye pain. Every artifact page (the Ledger and any
 other) uses a sans serif typeface, never a serif one: Lexend (Google
 Fonts) with system-ui, "Segoe UI" and Verdana behind it. Strokes slim, not
 heavy (the designer found Atkinson Hyperlegible's too thick): weight 300
-for text, 400 for headings, buttons and labels, never bold. Set sizes in
-rem and give each page a text-size slider (as the Ledger has) that the
-page remembers. No pale grey text on dark grounds.
+for text, 400 for headings, buttons and labels, never bold. Layout matters
+more than the typeface (the designer's note, 17 Oct 2026): line spacing
+about 2.1, wide letter spacing (0.04em) and word spacing (0.22em), and a
+narrow column of about 58 characters so the eyes needn't swing across the
+screen. Set sizes in rem, and give each page sliders for text size, line
+spacing and column width (as the Ledger has) that the page remembers. No
+pale grey text on dark grounds.
 
 ## Naming work (the designer asked for this)
 
