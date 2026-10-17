@@ -791,15 +791,46 @@ public partial class MapView
     /// own exactly; realms you border or trade with exactly with light fog,
     /// roughly with full; the rest roughly with light, not at all with full.
     /// </summary>
-    public Insight InsightInto(int realmId)
+    public Insight InsightInto(int realmId) => InsightBetween(PlayerRealmId, realmId);
+
+    /// <summary>
+    /// What one realm knows of another's strength, by the same rules for
+    /// every realm (your answer "Other realms under fog": they see only what
+    /// they know, as you do).
+    /// </summary>
+    public Insight InsightBetween(int viewer, int realmId)
     {
-        if (realmId == PlayerRealmId || Game.DiplomacyFog == FogLevel.Off)
+        if (realmId == viewer || Game.DiplomacyFog == FogLevel.Off)
             return Insight.Exact;
         EnsureContacts();
-        bool contact = _contacts!.TryGetValue(PlayerRealmId, out var c) && c.Contains(realmId);
+        bool contact = _contacts!.TryGetValue(viewer, out var c) && c.Contains(realmId);
         return Game.DiplomacyFog == FogLevel.Light
             ? contact ? Insight.Exact : Insight.Rough
             : contact ? Insight.Rough : Insight.Unknown;
+    }
+
+    /// <summary>
+    /// The land Might one realm believes another has: exact, or a rough
+    /// estimate off by up to a quarter either way (the same error all year),
+    /// or 0 when it knows nothing of them.
+    /// </summary>
+    public double SeenMight(int viewer, int realmId)
+    {
+        double real = Military.Might(Game.Realm(realmId), Domain.Land);
+        return InsightBetween(viewer, realmId) switch
+        {
+            Insight.Exact => real,
+            Insight.Rough => Rough(real * EstimateError(viewer, realmId)),
+            _ => 0,
+        };
+    }
+
+    /// <summary>How far off one realm's estimate of another is this year: 0.75 to 1.25.</summary>
+    double EstimateError(int viewer, int realmId)
+    {
+        uint h = (uint)HashCode.Combine(viewer, realmId, DemoYear);
+        h ^= h >> 13; h *= 0x5bd1e995; h ^= h >> 15;
+        return 0.75 + 0.5 * (h % 10000) / 10000.0;
     }
 
     /// <summary>A figure as a rough report would give it: to two significant digits.</summary>

@@ -113,6 +113,15 @@ public partial class MarchTest : TestRunner
         Check(map.InsightInto(stranger) == MapView.Insight.Exact, "with the fog off every realm is known");
         map.Game.DiplomacyFog = FogLevel.Light;
         Check(Math.Abs(MapView.Rough(123456) - 120000) < 1e-6, "rough figures keep two digits");
+        // Other realms see through the same fog: Egypt knows Rome only by report, and far realms not at all.
+        Check(map.InsightBetween(egypt, egypt) == MapView.Insight.Exact, "a realm knows its own strength");
+        double romeMight = Military.Might(map.PlayerState, Domain.Land);
+        double egyptSees = map.SeenMight(egypt, rome);
+        Check(map.InsightBetween(egypt, rome) == MapView.Insight.Exact
+            || (egyptSees >= 0.7 * romeMight && egyptSees <= 1.3 * romeMight), $"Egypt's estimate of Rome should be near the truth ({egyptSees:0} vs {romeMight:0})");
+        map.Game.DiplomacyFog = FogLevel.Full;
+        Check(map.SeenMight(rome, stranger) == 0, "under full fog a realm knows nothing of a stranger's strength");
+        map.Game.DiplomacyFog = FogLevel.Light;
 
         // News travels: Egypt's news takes months, a war is known at once, the far side of the world is never heard of.
         int egyptMonths = map.NewsMonths(egypt);

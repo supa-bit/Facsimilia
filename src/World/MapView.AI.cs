@@ -105,8 +105,10 @@ public partial class MapView
                     continue;
                 // History pulls, it doesn't force suicide: too weak, it builds up and tries later in the window.
                 // Their friends count too.
-                double theirs = Military.Might(Game.Realm(target), Domain.Land) + Game.Treaties.AlliesOf(target)
-                    .Where(a => !Game.Treaties.Allied(a, realm.Id)).Sum(a => 0.5 * Military.Might(Game.Realm(a), Domain.Land));
+                // What it knows of them (the diplomacy fog): history's wars were fought against realms the attacker knew.
+                double theirs = (InsightBetween(realm.Id, target) == Insight.Unknown ? Military.Might(Game.Realm(target), Domain.Land) : SeenMight(realm.Id, target))
+                    + Game.Treaties.AlliesOf(target)
+                    .Where(a => !Game.Treaties.Allied(a, realm.Id)).Sum(a => 0.5 * SeenMight(realm.Id, a));
                 if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * theirs)
                     continue;
                 events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.'), $"war_begin:{GoalKey(goal)}"));
@@ -115,7 +117,8 @@ public partial class MapView
             int player = PlayerRealmId;
             if (player != 0 && census.ContainsKey(player) && !Game.Wars.AtWar(realm.Id, player)
                 && Diplomacy.CanDeclare(Game, realm.Id, player, year) == null
-                && Military.Might(state, Domain.Land) > 2.5 * Math.Max(Military.Might(Game.Realm(player), Domain.Land), 1)
+                && InsightBetween(realm.Id, player) != Insight.Unknown   // it can't fall on a realm it knows nothing of
+                && Military.Might(state, Domain.Land) > 2.5 * Math.Max(SeenMight(realm.Id, player), 1)
                 && !Game.Wars.Of(realm.Id).Any()
                 && rng.NextDouble() < BotOpportunism && HasPretext(realm.Id, player))
             {

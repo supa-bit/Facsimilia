@@ -2035,6 +2035,14 @@ companies and reforms follow.
   "last seen 4 mo ago". The sighting is forgotten when you see that spot
   standing empty, when the war ends, or after a year. Sightings are kept in
   the save.
+- **Other realms under fog (built, 17 Oct 2026; your answer: they see only
+  what they know, as you do).** Every realm judges the others through the
+  same diplomacy fog you play with: exactly, roughly (off by up to a
+  quarter either way, the same error all year), or not at all. A realm
+  weighing a war of history's against a realm it knows only roughly may
+  misjudge it; a strong realm can fall on a weak player only if it knows
+  of the player. (What other realms' armies can see on the map comes with
+  "Scouts".)
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
