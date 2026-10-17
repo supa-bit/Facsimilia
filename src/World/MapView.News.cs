@@ -103,6 +103,27 @@ public partial class MapView
         return from < 0 || to < 0 || ExploredNode(from) || KmBetween(from, to) <= NewsReachKm;
     }
 
+    /// <summary>
+    /// Whether you can deal with a realm at all (your answer "Who you can
+    /// deal with": only realms you know, widening with contacts and trade):
+    /// realms you border or trade with, are at war or in a treaty with, or
+    /// whose capital you have seen; with light diplomacy fog also any realm
+    /// whose news reaches you from nearby; with the fog off, every realm.
+    /// </summary>
+    public bool CanDealWith(int realmId)
+    {
+        if (Game.DiplomacyFog == FogLevel.Off || realmId == PlayerRealmId)
+            return true;
+        EnsureContacts();
+        if ((_contacts!.TryGetValue(PlayerRealmId, out var c) && c.Contains(realmId))
+            || Game.Wars.AtWar(PlayerRealmId, realmId) || Game.Treaties.AnyBetween(PlayerRealmId, realmId))
+            return true;
+        int capital = CapitalNode(realmId), home = CapitalNode(PlayerRealmId);
+        if (capital >= 0 && Game.MapFog == FogLevel.Full && Game.IsExplored(capital))
+            return true;
+        return Game.DiplomacyFog == FogLevel.Light && capital >= 0 && home >= 0 && KmBetween(capital, home) <= NewsReachKm;
+    }
+
     static bool ComesAtOnce(ChronicleEvent e) => e.Kind is ChronicleKind.War or ChronicleKind.Peace;
 
     /// <summary>

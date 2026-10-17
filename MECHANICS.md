@@ -2043,6 +2043,15 @@ companies and reforms follow.
   misjudge it; a strong realm can fall on a weak player only if it knows
   of the player. (What other realms' armies can see on the map comes with
   "Scouts".)
+- **Who you can deal with (built, 17 Oct 2026; your answer: only realms you
+  know, widening with contacts and trade).** The diplomacy panel lists, and
+  you can propose treaties to or declare war on, only the realms you border
+  or trade with, are at war or in a treaty with, or whose capital your
+  realm has seen (with full map fog). With light diplomacy fog, any realm
+  whose capital lies within 2,500 km is known as well; with the fog off,
+  every realm. The panel says how many realms lie beyond your knowledge.
+  Rome in 300 BC, for instance, cannot yet treat with Ptolemaic Egypt; the
+  two first exchanged envoys in 273 BC.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

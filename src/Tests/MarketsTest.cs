@@ -23,6 +23,7 @@ public partial class MarketsTest : TestRunner
         map.LoadLand();
         map.SetPlayerCiv("rome");
         map.StartGame();
+        map.Game.DiplomacyFog = FogLevel.Off;   // trade treaties with far realms; what Rome knows is MarchTest's
         int rome = map.PlayerRealmId, egypt = map.CivRealmIds["egypt"];
         var cat = MarketCatalog.Instance;
         Check(cat.Markets.Count >= 15 && cat.Havens.Count >= 3, "history's markets and pirate havens should load");

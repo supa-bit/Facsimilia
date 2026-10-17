@@ -179,8 +179,8 @@ public partial class MapView
     /// </summary>
     public List<ChronicleEvent>? DeclareWar(int defender, string pretextId = "")
     {
-        if (Diplomacy.CanDeclare(Game, PlayerRealmId, defender, DemoYear) != null)
-            return null;
+        if (!CanDealWith(defender) || Diplomacy.CanDeclare(Game, PlayerRealmId, defender, DemoYear) != null)
+            return null;   // a realm you know nothing of can't be attacked
         var available = PretextsAgainst(PlayerRealmId, defender);
         var pretext = available.FirstOrDefault(p => p.Id == pretextId) ?? available[0];
         var events = StartWar(PlayerRealmId, defender, pretext);
@@ -244,6 +244,8 @@ public partial class MapView
 
     public string ProposeAlliance(int other)
     {
+        if (!CanDealWith(other))
+            return "Your realm knows nothing of them.";
         if (Game.Wars.AtWar(PlayerRealmId, other))
             return "You are at war with them.";
         var (opinion, _) = Opinion(other, PlayerRealmId);

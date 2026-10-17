@@ -36,6 +36,8 @@ public sealed class Treaties
     readonly List<Treaty> _list = new();
     public IReadOnlyList<Treaty> All => _list;
 
+    /// <summary>Whether two realms share any treaty (alliance, vassalage, coalition or other).</summary>
+    public bool AnyBetween(int a, int b) => _list.Any(t => t.Involves(a) && t.Involves(b));
     public bool Allied(int a, int b) => _list.Any(t => t.Kind == TreatyKind.Alliance && t.Involves(a) && t.Involves(b));
     public int OverlordOf(int realm) => _list.FirstOrDefault(t => t.Kind == TreatyKind.Vassal && t.B == realm)?.A ?? 0;
     public IEnumerable<int> VassalsOf(int realm) => _list.Where(t => t.Kind == TreatyKind.Vassal && t.A == realm).Select(t => t.B);

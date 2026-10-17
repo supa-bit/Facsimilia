@@ -30,6 +30,7 @@ public partial class DiplomacyTest : TestRunner
             carthage = map.CivRealmIds["carthage"], seleucid = map.CivRealmIds["seleucid"], lysimachus = map.CivRealmIds["lysimachus"],
             nabatea = map.CivRealmIds["nabatea"];
         var g = map.Game;
+        g.DiplomacyFog = FogLevel.Off;   // these checks are about treaties, not about what Rome knows (the fog is MarchTest's)
         Check(g.Treaties.Allied(seleucid, lysimachus), "Seleucus and Lysimachus should be allies in 300 BC");
         Check(map.Rivals(rome, carthage) && map.Opinion(carthage, rome).Reasons.Any(r => r.Contains("rivals")), "Rome and Carthage are old rivals");
 

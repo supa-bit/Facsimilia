@@ -121,6 +121,12 @@ public partial class MarchTest : TestRunner
             || (egyptSees >= 0.7 * romeMight && egyptSees <= 1.3 * romeMight), $"Egypt's estimate of Rome should be near the truth ({egyptSees:0} vs {romeMight:0})");
         map.Game.DiplomacyFog = FogLevel.Full;
         Check(map.SeenMight(rome, stranger) == 0, "under full fog a realm knows nothing of a stranger's strength");
+        int beyond = map.Game.Realms.Keys.FirstOrDefault(id => id != rome && !map.CanDealWith(id));
+        Check(beyond != 0 && map.CanDealWith(etruscans), "under full fog you deal only with realms you know");
+        Check(map.ProposeAlliance(beyond).Contains("knows nothing") && map.DeclareWar(beyond) == null, "no treaties or wars with realms beyond your knowledge");
+        map.Game.DiplomacyFog = FogLevel.Off;
+        Check(map.CanDealWith(beyond), "with the fog off you can deal with anyone");
+        map.Game.DiplomacyFog = FogLevel.Full;
         map.Game.DiplomacyFog = FogLevel.Light;
 
         // News travels: Egypt's news takes months, a war is known at once, the far side of the world is never heard of.

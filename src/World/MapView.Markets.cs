@@ -343,6 +343,8 @@ public partial class MapView
     /// </summary>
     public string ProposeTradeTreaty(int other)
     {
+        if (!CanDealWith(other))
+            return "Your realm knows nothing of them.";
         if (Game.Wars.AtWar(PlayerRealmId, other))
             return "You are at war with them.";
         if (Game.Treaties.All.Any(t => t.Kind == TreatyKind.Trade && ((t.A == PlayerRealmId && t.B == other) || (t.A == other && t.B == PlayerRealmId))))

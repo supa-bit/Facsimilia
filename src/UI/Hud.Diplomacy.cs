@@ -160,9 +160,14 @@ public partial class Hud
             row.AddChild(no);
         }
 
-        foreach (var realm in _map.Registry.Realms.Values.Where(r => r.Id != me && census.ContainsKey(r.Id))
+        var others = _map.Registry.Realms.Values.Where(r => r.Id != me && census.ContainsKey(r.Id)).ToList();
+        foreach (var realm in others.Where(r => _map.CanDealWith(r.Id))
                      .OrderByDescending(r => _map.Game.Wars.AtWar(me, r.Id)).ThenBy(r => r.Name))
             AddRealmRow(realm, me);
+        int unknown = others.Count(r => !_map.CanDealWith(r.Id));
+        if (unknown > 0)
+            _diplomacyRows.AddChild(Small($"{unknown} more realm{(unknown == 1 ? " lies" : "s lie")} beyond your knowledge: " +
+                "you can deal with them once you border them, trade with them or see their capital.", 720));
     }
 
     void AddRealmRow(Realm realm, int me)
