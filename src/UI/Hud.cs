@@ -276,7 +276,10 @@ public partial class Hud : Control
     public void LogEvents(IReadOnlyList<ChronicleEvent> events)
     {
         string when = ThemeAncient.YearText(_map.DemoYear);
-        var news = events.Where(e => e.IsNewsFor(_map.PlayerRealmId)).DistinctBy(e => e.Text).ToList();
+        var heard = _map.NewsArriving(events);   // far news arrives late, or not at all (src/World/MapView.News.cs)
+        var news = heard.DistinctBy(e => e.Text).ToList();
+        if (news.Count == 0 && Month != 0)
+            return;   // a quiet month: nothing to write
         if (news.Count == 0)
             _entries.Insert(0, $"{when} — A quiet year.");
         else
@@ -288,7 +291,7 @@ public partial class Hud : Control
         if (_entries.Count > ChronicleLines)
             _entries.RemoveRange(ChronicleLines, _entries.Count - ChronicleLines);
         RenderChronicle();
-        Speak(events);
+        Speak(heard);
     }
 
     int _centurySpoken = int.MinValue;

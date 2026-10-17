@@ -528,6 +528,13 @@ public sealed class GameState
     /// </summary>
     public List<(int Year, int Kind, int Realm, string Text)> Chronicle { get; } = new();
 
+    /// <summary>
+    /// News still on the road to you (your answer "News that travels"): the
+    /// month it arrives and the month it set out (both counted as year * 12 +
+    /// month), its kind (a ChronicleKind), realm, text and spoken cue.
+    /// </summary>
+    public List<(int Due, int Sent, int Kind, int Realm, string Text, string Cue)> NewsOnTheRoad { get; } = new();
+
     /// <summary>With "Thin out old years" on, years older than this are kept in brief.</summary>
     public const int ThinAfterYears = 100;
 
@@ -600,6 +607,7 @@ public sealed class GameState
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
             ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["chronicle"] = new GArray(Chronicle.Select(e => (Variant)new GArray { e.Year, e.Kind, e.Realm, e.Text }).ToArray()),
+            ["news_on_the_road"] = new GArray(NewsOnTheRoad.Select(e => (Variant)new GArray { e.Due, e.Sent, e.Kind, e.Realm, e.Text, e.Cue }).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
             ["companies"] = new GArray(Companies.Select(c => (Variant)c.ToDict()).ToArray()), ["next_company"] = NextCompanyId,
             ["companies_seen"] = new GArray(CompaniesSeen.Select(c => (Variant)c).ToArray()),
@@ -701,6 +709,12 @@ public sealed class GameState
             {
                 var a = v.AsGodotArray();
                 g.Chronicle.Add((a[0].AsInt32(), a[1].AsInt32(), a[2].AsInt32(), a[3].AsString()));
+            }
+        if (d.TryGetValue("news_on_the_road", out var road))
+            foreach (Variant v in road.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                g.NewsOnTheRoad.Add((a[0].AsInt32(), a[1].AsInt32(), a[2].AsInt32(), a[3].AsInt32(), a[4].AsString(), a[5].AsString()));
             }
         if (d.TryGetValue("sieges", out var sg))
             foreach (Variant v in sg.AsGodotArray())

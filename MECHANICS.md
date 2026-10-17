@@ -2010,6 +2010,18 @@ companies and reforms follow.
     Full (the default): those you border or trade with roughly, the rest
     not at all ("?"), and they are left out of the graph.
   - Both are kept in the save.
+- **News that travels and fog in the chronicle (built, 17 Oct 2026).** News
+  of another realm sets out from its capital and travels about 900 km a
+  month (some 30 km a day, with merchants, ships and travellers, along ways
+  a third longer than the straight line): news from Alexandria reaches Rome
+  in about three months. It comes into the chronicle when it arrives,
+  marked "word took 3 months to reach us". Declarations of war and peace
+  come at once, brought by heralds and envoys. With full diplomacy fog,
+  news of a realm you have no dealings with, whose capital you have never
+  seen and which lies more than 2,500 km away never reaches you at all;
+  with light fog everything arrives, late; with the fog off everything is
+  known at once. News still on the road is kept in the save. (Roads and
+  posts speeding it up come with "News speed".)
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

@@ -114,6 +114,26 @@ public partial class MarchTest : TestRunner
         map.Game.DiplomacyFog = FogLevel.Light;
         Check(Math.Abs(MapView.Rough(123456) - 120000) < 1e-6, "rough figures keep two digits");
 
+        // News travels: Egypt's news takes months, a war is known at once, the far side of the world is never heard of.
+        int egyptMonths = map.NewsMonths(egypt);
+        Check(egyptMonths >= 1 && egyptMonths <= 6, $"news from Alexandria should take a few months ({egyptMonths})");
+        var succession = new Facsimilia.Dynasties.ChronicleEvent(Facsimilia.Dynasties.ChronicleKind.Succession, egypt, "Egypt has a new king.");
+        var war = new Facsimilia.Dynasties.ChronicleEvent(Facsimilia.Dynasties.ChronicleKind.War, egypt, "Egypt goes to war.");
+        var heardNow = map.NewsArriving(new[] { succession, war });
+        Check(heardNow.Count == 1 && heardNow[0] == war && map.Game.NewsOnTheRoad.Count == 1, "a succession in Egypt should be on the road while the war is known at once");
+        int monthsBefore = map.Game.MonthsMarched;
+        map.Game.MonthsMarched += egyptMonths;
+        var later = map.NewsArriving(Array.Empty<Facsimilia.Dynasties.ChronicleEvent>());
+        Check(later.Count == 1 && later[0].Text.Contains("to reach us") && map.Game.NewsOnTheRoad.Count == 0, "the news from Egypt should arrive, marked with its age");
+        map.Game.MonthsMarched = monthsBefore;
+        map.Game.DiplomacyFog = FogLevel.Full;
+        int farRealm = map.Game.Realms.Keys.FirstOrDefault(id => !map.NewsReaches(id));
+        Check(farRealm != 0, "with full fog some far realm's news should never reach Rome");
+        Check(map.NewsArriving(new[] { new Facsimilia.Dynasties.ChronicleEvent(Facsimilia.Dynasties.ChronicleKind.Succession, farRealm, "far news") }).Count == 0
+            && map.Game.NewsOnTheRoad.Count == 0, "news that never reaches you shouldn't be heard or queued");
+        map.Game.DiplomacyFog = FogLevel.Light;
+        map.NewsArriving(new[] { succession });   // on the road through the save
+
         // Save and load.
         map.SendArmy(rome, home, far);
         Check(await map.SaveCurrentGame("slot1"), "save failed");
@@ -124,6 +144,7 @@ public partial class MarchTest : TestRunner
         Check(map2.Game.MonthsMarched == map.Game.MonthsMarched, "the month didn't survive the save");
         Check(map2.Game.DiplomacyFog == FogLevel.Light && map2.Game.MapFog == FogLevel.Full
             && map2.Game.Explored.SequenceEqual(map.Game.Explored), "the fog settings and explored land didn't survive the save");
+        Check(map2.Game.NewsOnTheRoad.Count == 1 && map2.Game.NewsOnTheRoad[0].Text == "Egypt has a new king.", "news on the road didn't survive the save");
 
         // A whole year with the turn button marches all twelve months.
         map.AdvanceYear();
