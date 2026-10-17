@@ -146,6 +146,26 @@ public partial class MarchTest : TestRunner
         map.Game.DiplomacyFog = FogLevel.Light;
         map.NewsArriving(new[] { succession });   // on the road through the save
 
+        // Last seen: an enemy army that slips out of sight stays where it was seen, until that spot is seen empty.
+        var foe = et.Armies.First(a => !a.IsEmpty);
+        map.UpdateLastSeen();
+        Check(map.Game.LastSeen.ContainsKey((etruscans, foe.Id)), "an enemy army in sight should be noted");
+        int seenAt = map.Game.LastSeen[(etruscans, foe.Id)].Node;
+        var hiddenNodes = pop2.LandNodes.Where(i => !map.KnowsNode(i)).Take(2).ToArray();
+        int monthNow = map.DemoYear * 12 + map.Game.MonthsMarched;
+        foe.Node = hiddenNodes[0];
+        map.Game.LastSeen[(etruscans, foe.Id)] = (hiddenNodes[1], monthNow - 2);   // seen there two months ago
+        map.UpdateLastSeen();
+        Check(map.Game.LastSeen.TryGetValue((etruscans, foe.Id), out var sighting) && sighting.Node == hiddenNodes[1],
+            "an army out of sight should be remembered where it was last seen");
+        map.Game.LastSeen[(etruscans, foe.Id)] = (hiddenNodes[1], monthNow - MapView.LastSeenMonths - 1);
+        map.UpdateLastSeen();
+        Check(!map.Game.LastSeen.ContainsKey((etruscans, foe.Id)), "a sighting over a year old should be forgotten");
+        map.Game.LastSeen[(etruscans, foe.Id)] = (seenAt, monthNow);
+        map.UpdateLastSeen();
+        Check(!map.Game.LastSeen.ContainsKey((etruscans, foe.Id)), "a sighting is forgotten when its spot is seen empty");
+        foe.Node = seenAt;
+
         // Save and load.
         map.SendArmy(rome, home, far);
         Check(await map.SaveCurrentGame("slot1"), "save failed");

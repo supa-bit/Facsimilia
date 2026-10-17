@@ -2029,6 +2029,12 @@ companies and reforms follow.
   telephone ×11, the telegraph and undersea cables ×31 (news in days),
   radio ×51 and the internet ×101. In the realms table, hovering over a
   realm's name tells how long its news takes, or that none reaches you.
+- **Last-seen armies (built, 17 Oct 2026; your answer "Last-seen news":
+  shown as last seen, with how old the news is).** An enemy army that goes
+  out of your sight stays on the map, faded, where you last saw it, marked
+  "last seen 4 mo ago". The sighting is forgotten when you see that spot
+  standing empty, when the war ends, or after a year. Sightings are kept in
+  the save.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

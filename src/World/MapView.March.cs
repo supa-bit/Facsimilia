@@ -265,6 +265,7 @@ public partial class MapView
         }
         Game.MonthsMarched++;
         _known = null;
+        UpdateLastSeen();   // where the enemy was last seen
         return events;
     }
 

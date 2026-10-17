@@ -269,7 +269,84 @@ public partial class MapView
                 _armyLayer.AddChild(marker);
             }
         }
+        DrawLastSeen(icon, zoom);
     }
+
+    /// <summary>
+    /// Enemy armies out of sight, drawn faintly where they were last seen,
+    /// with how long ago (forgotten when you see that spot empty, at peace,
+    /// or after a year).
+    /// </summary>
+    void DrawLastSeen(Texture2D icon, float zoom)
+    {
+        UpdateLastSeen();
+        int now = MonthNow;
+        foreach (var ((realm, armyId), (node, month)) in Game.LastSeen)
+        {
+            var army = Game.Realm(realm).Armies.First(x => x.Id == armyId);
+            if (KnowsNode(army.Node))
+                continue;   // in sight: drawn as it is
+            const float iconScale = 0.09f;
+            var ghost = new Sprite2D
+            {
+                Texture = icon,
+                Position = NodeCell(node),
+                Scale = Vector2.One * (iconScale / Math.Max(zoom, 0.05f)),
+                SelfModulate = ColorForOwner(realm).Lightened(0.3f) with { A = 0.45f },   // the label keeps its own colour
+            };
+            int ago = now - month;
+            // On the marker, so it keeps its size on screen as the map zooms.
+            var label = new Label
+            {
+                Text = ago <= 0 ? "seen this month" : $"last seen {ago} mo ago",
+                Position = new Vector2(-50, 16) / iconScale,
+                Scale = Vector2.One / iconScale,
+            };
+            label.AddThemeFontSizeOverride("font_size", 15);
+            label.AddThemeColorOverride("font_color", new Color(1f, 0.95f, 0.85f, 0.9f));
+            label.AddThemeColorOverride("font_outline_color", new Color(0.05f, 0.035f, 0.02f, 0.85f));
+            label.AddThemeConstantOverride("outline_size", 4);
+            label.AddThemeStyleboxOverride("normal", new StyleBoxFlat
+            {
+                BgColor = new Color(0.1f, 0.08f, 0.06f, 0.85f),
+                ContentMarginLeft = 5, ContentMarginRight = 5, ContentMarginTop = 1, ContentMarginBottom = 1,
+                CornerRadiusTopLeft = 3, CornerRadiusTopRight = 3, CornerRadiusBottomLeft = 3, CornerRadiusBottomRight = 3,
+            });
+            label.ZIndex = 1;
+            ghost.AddChild(label);
+            _armyLayer!.AddChild(ghost);
+        }
+    }
+
+    /// <summary>
+    /// Notes where your enemies' armies are seen, and forgets a sighting when
+    /// the army is gone, the war is over, a year has passed, or you see the
+    /// spot it was in standing empty.
+    /// </summary>
+    public void UpdateLastSeen()
+    {
+        if (Population == null)
+            return;
+        int now = MonthNow;
+        foreach (var s in Game.Realms.Values)
+        {
+            if (s.RealmId == PlayerRealmId || !Game.Wars.AtWar(s.RealmId, PlayerRealmId))
+                continue;
+            foreach (var a in s.Armies)
+                if (!a.IsEmpty && a.Node >= 0 && KnowsNode(a.Node))
+                    Game.LastSeen[(s.RealmId, a.Id)] = (a.Node, now);
+        }
+        foreach (var ((realm, armyId), (node, month)) in Game.LastSeen.ToList())
+        {
+            var army = Game.Realms.TryGetValue(realm, out var rs) ? rs.Armies.FirstOrDefault(x => x.Id == armyId) : null;
+            if (army == null || army.IsEmpty || army.Node < 0 || !Game.Wars.AtWar(realm, PlayerRealmId) || now - month > LastSeenMonths
+                || (!KnowsNode(army.Node) && KnowsNode(node)))
+                Game.LastSeen.Remove((realm, armyId));
+        }
+    }
+
+    /// <summary>How long a sighting of an enemy army is kept on the map.</summary>
+    public const int LastSeenMonths = 12;
 
     /// <summary>A province's name, or "" for none.</summary>
     public string ProvinceName(int id) =>
