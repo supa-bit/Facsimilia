@@ -81,8 +81,12 @@ more than the typeface (the designer's note, 17 Oct 2026): line spacing
 about 2.1, wide letter spacing (0.04em) and word spacing (0.22em), and a
 narrow column of about 58 characters so the eyes needn't swing across the
 screen. Set sizes in rem, and give each page sliders for text size, line
-spacing and column width (as the Ledger has) that the page remembers. No
-pale grey text on dark grounds.
+spacing and column width (as the Ledger has) that the page remembers.
+Colours (checked 17 Oct 2026): no pure black or white; main text at about
+11:1 contrast with its background (enough to read, without glare), every
+other text at least 5:1; a dark ground lifted off black (like #1e1914) and
+a light ground dimmed off white (like #e4dccb); a switch for "as my
+system", dark and light. Reuse the Ledger's colour values.
 
 ## Naming work (the designer asked for this)
 
