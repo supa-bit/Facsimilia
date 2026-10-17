@@ -42,6 +42,22 @@ public partial class DiplomacyTest : TestRunner
         Check(System.Math.Abs(g.GrudgeNow(nabatea, egypt, map.DemoYear + 30) - MapView.GrudgeRaze / 2) < 1e-9, "a grudge should be half forgotten in 30 years");
         Check(Game.GameState.FromDict(g.ToDict()).GrudgeNow(nabatea, egypt, map.DemoYear) > 0, "grudges should be saved");
         g.Grudges.Clear();
+        // Trust and fear: breaking an alliance costs trust and colours every realm's view; trust drifts back.
+        double trustBefore = map.PlayerState.Trust;
+        double opinionOfRome = map.Opinion(egypt, rome).Value;
+        g.Treaties.Add(new Treaty(TreatyKind.Alliance, rome, nabatea, map.DemoYear));
+        map.BreakAlliance(nabatea);
+        Check(map.PlayerState.Trust == trustBefore - MapView.TrustBreakAlliance, "breaking an alliance should cost trust");
+        Check(map.Opinion(egypt, rome).Value < opinionOfRome && map.Opinion(egypt, rome).Reasons.Any(r => r.Contains("break their word")),
+            "others should think less of a realm that breaks its word");
+        Check(Game.GameState.FromDict(g.ToDict()).Realm(rome).Trust == map.PlayerState.Trust, "trust should be saved");
+        map.PlayerState.Trust = trustBefore;
+        // Fear: a neighbour far stronger than you is feared.
+        double fearBefore = map.Fear(greeks, rome);
+        map.PlayerState.Aggression = 50;
+        Check(map.Fear(greeks, rome) >= fearBefore + 39, "conquests should be feared");
+        map.PlayerState.Aggression = 0;
+
         // A ruler's temper colours his realm's view; a council-ruled realm feels it less.
         Check(System.Math.Abs(map.RulerDisposition(rome)) <= 15 * MapView.BodiesTemper + 1e-9, "Rome's senate should change its view only a little with its leader");
 

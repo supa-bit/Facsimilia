@@ -202,8 +202,11 @@ public partial class Hud
                   $"their exhaustion {war.ExhaustionFor(id):0}, yours {war.ExhaustionFor(me):0}")
             : truce is int until ? $"Truce until {ThemeAncient.YearText(until)}"
             : "At peace";
-        var statusLabel = Small($"{status}\nOpinion of you {opinion:+0;-0;0}" + (tags.Count > 0 ? "  ·  " + string.Join(", ", tags) : "") +
-            $"  ·  army about {ThemeAncient.GroupThousands((long)Math.Round(Military.Soldiers(state) / 1000.0) * 1000)} men");
+        var insight = _map.InsightInto(id);
+        string army = insight == MapView.Insight.Unknown ? "army unknown"
+            : $"army about {ThemeAncient.GroupThousands((long)Math.Round((insight == MapView.Insight.Rough ? MapView.Rough(Military.Soldiers(state)) : Military.Soldiers(state)) / 1000.0) * 1000)} men";
+        var statusLabel = Small($"{status}\nOpinion of you {opinion:+0;-0;0}  ·  their trust in you {_map.PlayerState.Trust:0}, their fear of you {_map.Fear(id, me):0}" +
+            (tags.Count > 0 ? "  ·  " + string.Join(", ", tags) : "") + $"  ·  {army}");
         statusLabel.TooltipText = reasons.Count > 0 ? string.Join("\n", reasons) : "No strong feelings either way.";
         statusLabel.MouseFilter = MouseFilterEnum.Pass;
         statusLabel.SizeFlagsHorizontal = SizeFlags.ExpandFill;

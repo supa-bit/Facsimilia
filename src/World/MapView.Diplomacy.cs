@@ -79,10 +79,41 @@ public partial class MapView
             Add(-30, "old rivals");
         if (RoyalTie(of, about))
             Add(15, "their houses are joined by marriage");
-        Add(-0.8 * Game.Realm(about).Aggression, "fear of their conquests");
+        double trust = Game.Realm(about).Trust - 50;
+        Add(TrustOpinion * trust, trust >= 0 ? "they keep their word" : "they break their word");
+        Add(-Fear(of, about), "fear of their conquests and might");
         Add(-Game.GrudgeNow(of, about, DemoYear), "old wrongs not forgotten");
         Add(RulerDisposition(of), RulerTemper(of));
         return (Math.Clamp(v, -100, 100), reasons);
+    }
+
+    // --- Trust and fear (Diplomacy) -----------------------------------------------------
+
+    /// <summary>How much a realm's trustworthiness (above or below 50) moves others' opinion of it.</summary>
+    public const double TrustOpinion = 0.4;
+    /// <summary>What breaking your word costs in trust, and what honouring a treaty earns.</summary>
+    public const double TrustBreakAlliance = 20, TrustStopIndemnity = 15, TrustWarWithoutCause = 10, TrustHonour = 3;
+    /// <summary>Trust drifts back toward 50 by this much a year.</summary>
+    public const double TrustDrift = 1;
+
+    public static void LoseTrust(RealmState s, double amount) => s.Trust = Math.Clamp(s.Trust - amount, 0, 100);
+
+    /// <summary>
+    /// How much one realm fears another (your answer "Trust and fear": fear is
+    /// might and aggression): its conquests (aggression), and its might when
+    /// it is a neighbour or partner at least twice as strong, up to 30 more.
+    /// </summary>
+    public double Fear(int of, int about)
+    {
+        double fear = 0.8 * Game.Realm(about).Aggression;
+        EnsureContacts();
+        if (_contacts!.TryGetValue(of, out var near) && near.Contains(about))
+        {
+            double ratio = SeenMight(of, about) / Math.Max(Military.Might(Game.Realm(of), Domain.Land), 1);
+            if (ratio > 2)
+                fear += Math.Min(30, 10 * Math.Log2(ratio / 2) + 5);
+        }
+        return Math.Clamp(fear, 0, 100);
     }
 
     // --- Grudges and rulers (Other realms) ----------------------------------------------
@@ -196,6 +227,8 @@ public partial class MapView
         var war = Diplomacy.Declare(Game, attacker, defender, DemoYear, pretext != Pretexts.None, pretext.Id);
         var state = Game.Realm(attacker);
         state.Aggression = Math.Min(100, state.Aggression + pretext.AggressionOnDeclare);
+        if (pretext == Pretexts.None)
+            LoseTrust(state, TrustWarWithoutCause);
         string text = $"{RealmName(attacker)} declares war on {RealmName(defender)}: {why ?? pretext.Name.ToLowerInvariant()}.";
         events.Add(new ChronicleEvent(ChronicleKind.War, attacker, text, cue ?? "!moment:war_declared"));
         events.Add(new ChronicleEvent(ChronicleKind.War, defender, text, cue ?? "!moment:war_on_us"));
@@ -223,6 +256,8 @@ public partial class MapView
             if (ally != PlayerRealmId && war.Attacker != PlayerRealmId && !HasPretext(ally, war.Attacker))
                 continue;
             Game.Wars.Declare(war.Attacker, ally, DemoYear, true, "ally", key);
+            var honoured = Game.Realm(ally);
+            honoured.Trust = Math.Min(100, honoured.Trust + TrustHonour);
             string text = $"{RealmName(ally)} honours its treaty and joins the war against {RealmName(war.Attacker)}.";
             events.Add(new ChronicleEvent(ChronicleKind.War, ally, text));
             events.Add(new ChronicleEvent(ChronicleKind.War, war.Attacker, text));
@@ -258,7 +293,7 @@ public partial class MapView
     public string BreakAlliance(int other)
     {
         Game.Treaties.Remove(TreatyKind.Alliance, PlayerRealmId, other);
-        PlayerState.Aggression = Math.Min(100, PlayerState.Aggression + 5);
+        LoseTrust(PlayerState, TrustBreakAlliance);   // a broken oath is remembered by every court
         return $"{RealmName(PlayerRealmId)} breaks its alliance with {RealmName(other)}.";
     }
 
@@ -269,8 +304,9 @@ public partial class MapView
         var (opinion, _) = Opinion(other, PlayerRealmId);
         if (Game.Treaties.OverlordOf(other) != 0)
             return $"{RealmName(other)} already has an overlord.";
-        if (mine < 3 * Math.Max(theirs, 1) || opinion < 0)
-            return $"{RealmName(other)} refuses to bow: you need three times their might and their good opinion ({opinion:+0;-0;0}).";
+        double fear = Fear(other, PlayerRealmId);
+        if (mine < 3 * Math.Max(theirs, 1) || opinion + 1.5 * fear < 0)
+            return $"{RealmName(other)} refuses to bow: you need three times their might, and their good opinion or their fear ({opinion:+0;-0;0}, fear {fear:0}).";
         Game.Treaties.Add(new Treaty(TreatyKind.Vassal, PlayerRealmId, other, DemoYear));
         return $"{RealmName(other)} submits to {RealmName(PlayerRealmId)} as a vassal.";
     }
@@ -446,6 +482,7 @@ public partial class MapView
         {
             s.LastVassalTribute = 0;
             s.Aggression = Math.Max(0, s.Aggression - Pretexts.AggressionDecay);
+            s.Trust += Math.Clamp(50 - s.Trust, -TrustDrift, TrustDrift);   // old deeds fade from memory
         }
         foreach (var t in Game.Treaties.All.Where(t => t.Kind == TreatyKind.Vassal).ToList())
         {

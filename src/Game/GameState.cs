@@ -102,6 +102,13 @@ public sealed class RealmState
     public double LastNet => LastTax + LastTribute + LastCustoms + LastMonopoly + LastCaptiveSales + LastVassalTribute - LastCivil - LastAdmin - LastUpkeep - LastInterest;
     /// <summary>How much other realms fear this one's conquests, 0..100; fades by itself.</summary>
     public double Aggression { get; set; }
+    /// <summary>
+    /// Whether this realm keeps its word (your answer "Trust and fear": trust
+    /// kept apart from fear), 0 to 100, 50 to begin with: broken alliances,
+    /// unpaid indemnities and wars without cause lower it, alliances honoured
+    /// raise it, and it drifts back toward 50 over the years.
+    /// </summary>
+    public double Trust { get; set; } = 50;
     /// <summary>Last year's tribute paid (negative) or received from vassals, talents.</summary>
     public double LastVassalTribute { get; set; }
     /// <summary>How strong an ambitious rival within the realm has grown, 0..100 (at 100 he rises).</summary>
@@ -211,7 +218,7 @@ public sealed class RealmState
             ["armies"] = armies, ["next_army"] = NextArmyId, ["manpower"] = Manpower, ["elephant_source"] = ElephantSource, ["civ"] = CivKey, ["manpower_mult"] = ManpowerMultiplier, ["army_share"] = ArmyShare, ["upkeep_share"] = UpkeepShare,
             ["last"] = new GArray { LastTax, LastTribute, LastAdmin, LastUpkeep, LastInterest, LastCustoms, LastCaptiveSales, LastCivil }, ["tax_reach"] = TaxReach, ["blockade"] = new GArray { Blockade, BlockadeMonths }, ["captives"] = Captives, ["remedies"] = RemedyDict(), ["techs"] = new GArray(Techs.Select(t => (Variant)t).ToArray()),
             ["branch_share"] = new GArray(BranchShare.Select(x => (Variant)x).ToArray()), ["branch_points"] = new GArray(BranchPoints.Select(x => (Variant)x).ToArray()),
-            ["branch_researching"] = new GArray(BranchResearching.Select(x => (Variant)x).ToArray()), ["rival"] = RivalStrength, ["aggression"] = Aggression, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
+            ["branch_researching"] = new GArray(BranchResearching.Select(x => (Variant)x).ToArray()), ["rival"] = RivalStrength, ["aggression"] = Aggression, ["trust"] = Trust, ["vassal_tribute"] = LastVassalTribute, ["start_people"] = StartPeople, ["goals"] = GoalsDict(),
             ["history"] = new GArray(History.Select(h => (Variant)h).ToArray()),
             ["merc_pay"] = new GArray { MercPaidThisYear, LastMercPay },
             ["generals"] = new GArray(Generals.Select(g => (Variant)g.ToDict()).ToArray()), ["next_general"] = NextGeneralId, ["last_war"] = LastWarYear, ["terror"] = TerrorUntil,
@@ -264,6 +271,7 @@ public sealed class RealmState
             BlockadeMonths = d.TryGetValue("blockade", out var bk2) ? bk2.AsGodotArray()[1].AsDouble() : 0,
             Captives = d.TryGetValue("captives", out var cap) ? cap.AsDouble() : 0,
             Aggression = d.TryGetValue("aggression", out var agg) ? agg.AsDouble() : 0,
+            Trust = d.TryGetValue("trust", out var trust) ? trust.AsDouble() : 50,
             LastVassalTribute = d.TryGetValue("vassal_tribute", out var vt) ? vt.AsDouble() : 0,
             StartPeople = d.TryGetValue("start_people", out var sp) ? sp.AsDouble() : 0,
         };

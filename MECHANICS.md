@@ -2052,6 +2052,20 @@ companies and reforms follow.
   every realm. The panel says how many realms lie beyond your knowledge.
   Rome in 300 BC, for instance, cannot yet treat with Ptolemaic Egypt; the
   two first exchanged envoys in 273 BC.
+- **Trust and fear (built, 17 Oct 2026; your answer: separate trust, do you
+  keep your word, and fear, your might and aggression).** Every realm has a
+  trust from 0 to 100, starting at 50. Breaking an alliance costs 20 (it no
+  longer adds aggression), stopping an indemnity you owe 15, a war with no
+  pretext 10; honouring an alliance call earns 3; trust drifts back toward
+  50 by 1 a year. Others' opinion moves by 0.4 for each point of trust
+  above or below 50 ("they keep their word" / "they break their word").
+  Fear is what a realm feels for another's conquests (0.8 for each point of
+  aggression) and, for neighbours and partners, for its might when it is
+  over twice as strong (up to 30 more). Fear lowers opinion, but a feared
+  realm bows more readily: a demand of submission needs their opinion plus
+  one and a half times their fear to be at least 0 (and three times their
+  might, as before). The diplomacy panel shows each realm's trust in you
+  and fear of you, and their army only as well as you know them.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

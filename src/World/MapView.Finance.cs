@@ -93,6 +93,7 @@ public partial class MapView
     {
         Game.Indemnities.Remove(ind);
         AddGrievance(ind.Payee, ind.Payer);
+        LoseTrust(Game.Realm(ind.Payer), TrustStopIndemnity);
         string text = $"{RealmName(ind.Payer)} {why} and stops paying its indemnity to {RealmName(ind.Payee)}, who now has a pretext for war.";
         events.Add(new ChronicleEvent(ChronicleKind.Economy, ind.Payer, text));
         events.Add(new ChronicleEvent(ChronicleKind.Economy, ind.Payee, text));
