@@ -73,11 +73,12 @@ answered topic needs before it is built, written in the style above.
 ## Pages and artifacts: sans serif only (the designer's rule, 17 Oct 2026)
 
 The designer has chronic eye pain. Every artifact page (the Ledger and any
-other) uses a sans serif typeface, never a serif one: Atkinson Hyperlegible
-(Google Fonts, made for low vision) with system-ui, "Segoe UI" and Verdana
-behind it. Set sizes in rem and give each page a text-size slider (as the
-Ledger has) that the page remembers. Keep contrast comfortable: no thin
-weights, no pale grey text on dark grounds.
+other) uses a sans serif typeface, never a serif one: Lexend (Google
+Fonts) with system-ui, "Segoe UI" and Verdana behind it. Strokes slim, not
+heavy (the designer found Atkinson Hyperlegible's too thick): weight 300
+for text, 400 for headings, buttons and labels, never bold. Set sizes in
+rem and give each page a text-size slider (as the Ledger has) that the
+page remembers. No pale grey text on dark grounds.
 
 ## Naming work (the designer asked for this)
 
