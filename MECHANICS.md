@@ -2020,8 +2020,15 @@ companies and reforms follow.
   news of a realm you have no dealings with, whose capital you have never
   seen and which lies more than 2,500 km away never reaches you at all;
   with light fog everything arrives, late; with the fog off everything is
-  known at once. News still on the road is kept in the save. (Roads and
-  posts speeding it up come with "News speed".)
+  known at once. News still on the road is kept in the save.
+- **News speed (built, 17 Oct 2026; your answer "How fast news travels":
+  roads and posts).** Along a finished road (anyone's) news goes as much
+  faster as an army marches there; posts and couriers speed all of it:
+  pigeon post ×1.2, post stations and a postal service ×1.3, courier relays
+  and the Roman cursus publicus ×1.6, the optical telegraph ×3, the
+  telephone ×11, the telegraph and undersea cables ×31 (news in days),
+  radio ×51 and the internet ×101. In the realms table, hovering over a
+  realm's name tells how long its news takes, or that none reaches you.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

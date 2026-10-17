@@ -2501,7 +2501,8 @@
    ],
    "effects": {
     "admin": 3,
-    "trade": 0.05
+    "trade": 0.05,
+    "news_speed": 30
    },
    "description": "Messages at the speed of light."
   },
@@ -3344,7 +3345,8 @@
    ],
    "effects": {
     "admin": 1,
-    "reach_km": 10
+    "reach_km": 10,
+    "news_speed": 0.3
    },
    "description": "Fresh horses a day's ride apart."
   },
@@ -4275,7 +4277,8 @@
    ],
    "effects": {
     "admin": 2,
-    "trade": 0.02
+    "trade": 0.02,
+    "news_speed": 10
    },
    "description": "Bell's telephone."
   },
@@ -4290,7 +4293,8 @@
    ],
    "effects": {
     "admin": 2,
-    "integration": 0.03
+    "integration": 0.03,
+    "news_speed": 50
    },
    "description": "Marconi crosses the Atlantic."
   },
@@ -4362,7 +4366,8 @@
    ],
    "effects": {
     "research": 0.2,
-    "trade": 0.05
+    "trade": 0.05,
+    "news_speed": 100
    },
    "description": "Computers joined across the world."
   },
@@ -5285,7 +5290,8 @@
    "requires": [],
    "effects": {
     "admin": 2,
-    "reach_km": 20
+    "reach_km": 20,
+    "news_speed": 0.6
    },
    "description": "Couriers and carriages for official business."
   },
@@ -5577,7 +5583,8 @@
     "standing_bureaucracy"
    ],
    "effects": {
-    "admin": 2
+    "admin": 2,
+    "news_speed": 0.3
    },
    "description": "The Thurn and Taxis post."
   },
@@ -7899,7 +7906,8 @@
    "available_from": 1150,
    "requires": [],
    "effects": {
-    "admin": 1
+    "admin": 1,
+    "news_speed": 0.2
    },
    "description": "The sultan's pigeons."
   },
@@ -7914,7 +7922,8 @@
    ],
    "effects": {
     "admin": 1,
-    "reach_km": 40
+    "reach_km": 40,
+    "news_speed": 0.6
    },
    "description": "Mongol riders cross an empire."
   },
@@ -8016,7 +8025,8 @@
    ],
    "effects": {
     "admin": 1,
-    "reach_km": 40
+    "reach_km": 40,
+    "news_speed": 2
    },
    "description": "Chappe's towers."
   },
@@ -8076,7 +8086,8 @@
    ],
    "effects": {
     "trade": 0.03,
-    "reach_km": 60
+    "reach_km": 60,
+    "news_speed": 30
    },
    "description": "London speaks to New York."
   },

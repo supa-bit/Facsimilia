@@ -106,6 +106,11 @@ public partial class Hud
                 name.TooltipText = insight == MapView.Insight.Rough
                     ? "Known only roughly: travellers' and merchants' reports"
                     : "Unknown: your realm has no dealings with them (the diplomacy fog)";
+            int newsMonths = _map.NewsMonths(r.Id);
+            if (!_map.NewsReaches(r.Id))
+                name.TooltipText = (name.TooltipText + "\nNo news of them reaches you.").Trim();
+            else if (newsMonths > 0)
+                name.TooltipText = (name.TooltipText + $"\nTheir news takes about {newsMonths} month{(newsMonths == 1 ? "" : "s")} to reach you.").Trim();
             for (int i = 0; i < r.Values.Length; i++)
             {
                 double v = insight == MapView.Insight.Rough ? MapView.Rough(r.Values[i]) : r.Values[i];

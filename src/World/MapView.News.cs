@@ -32,7 +32,12 @@ public partial class MapView
         return Math.Sqrt(dx * dx + dy * dy);
     }
 
-    /// <summary>Months the news of a realm takes to reach you (0: at once).</summary>
+    /// <summary>
+    /// Months the news of a realm takes to reach you (0: at once). Along a
+    /// road it goes as much faster as marching does (your answer "How fast
+    /// news travels": roads and posts), and your posts, couriers and later
+    /// telegraph speed all of it (the techs' "news_speed").
+    /// </summary>
     public int NewsMonths(int realmId)
     {
         if (Game.DiplomacyFog == FogLevel.Off || realmId == PlayerRealmId || Population == null)
@@ -40,7 +45,53 @@ public partial class MapView
         int from = CapitalNode(realmId), to = CapitalNode(PlayerRealmId);
         if (from < 0 || to < 0)
             return 0;
-        return (int)Math.Round(KmBetween(from, to) * NewsRouteFactor / NewsKmPerMonth);
+        double km = KmBetween(from, to);
+        int steps = Math.Max(1, (int)Math.Ceiling(km / NewsStepKm));
+        int w = Population.Width;
+        double way = 0;
+        for (int k = 0; k < steps; k++)
+        {
+            double t = (k + 0.5) / steps;
+            int x = (int)Math.Round(from % w + (to % w - from % w) * t), y = (int)Math.Round(from / w + (to / w - from / w) * t);
+            way += km / steps * NewsRouteFactor * RoadPaceNear(y * w + x);
+        }
+        double speed = NewsKmPerMonth * (1 + Tech.Effect(PlayerState, "news_speed"));
+        return (int)Math.Round(way / speed);
+    }
+
+    /// <summary>How finely the way news takes is looked at for roads.</summary>
+    const double NewsStepKm = 50;
+
+    Dictionary<int, double>? _roadPace;
+    int _roadPaceYear = int.MinValue, _roadPaceCount = -1;
+
+    /// <summary>The best pace of a finished road on or next to this node (1: no road).</summary>
+    double RoadPaceNear(int node)
+    {
+        if (_roadPace == null || _roadPaceYear != DemoYear || _roadPaceCount != Game.Roads.Count)
+        {
+            _roadPace = new Dictionary<int, double>();
+            _roadPaceYear = DemoYear;
+            _roadPaceCount = Game.Roads.Count;
+            foreach (var road in Game.Roads)
+            {
+                var kind = RoadCatalog.Instance[road.Kind];
+                if (kind == null || kind.Wall || kind.Water || road.Left > 0 || road.Broken)
+                    continue;
+                foreach (int n in road.Nodes)
+                    if (!_roadPace.TryGetValue(n, out double p) || kind.Pace < p)
+                        _roadPace[n] = kind.Pace;
+            }
+        }
+        if (_roadPace.Count == 0)
+            return 1;
+        int w = Population!.Width;
+        double best = 1;
+        for (int dy = -1; dy <= 1; dy++)
+            for (int dx = -1; dx <= 1; dx++)
+                if (_roadPace.TryGetValue(node + dy * w + dx, out double p) && p < best)
+                    best = p;
+        return best;
     }
 
     /// <summary>Whether news of a realm reaches you at all.</summary>

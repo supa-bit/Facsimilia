@@ -200,6 +200,7 @@ public partial class Hud
             "admin" => $"+{v:0} provinces managed",
             "garrison" => $"garrisons +{v:0.#}",
             "reach_km" => $"reach +{v:0} km",
+            "news_speed" => $"news {v + 1:0.#}× as fast",
             "sea_cost" => $"sea travel {pct}",
             _ when key.StartsWith("might_") => $"{key[6..].Replace('_', ' ')} {pct}",
             _ => $"{key} {pct}",

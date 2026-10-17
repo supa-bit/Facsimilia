@@ -117,6 +117,18 @@ public partial class MarchTest : TestRunner
         // News travels: Egypt's news takes months, a war is known at once, the far side of the world is never heard of.
         int egyptMonths = map.NewsMonths(egypt);
         Check(egyptMonths >= 1 && egyptMonths <= 6, $"news from Alexandria should take a few months ({egyptMonths})");
+        int farthest = map.Game.Realms.Keys.OrderByDescending(id => map.NewsMonths(id)).First();
+        int farMonths = map.NewsMonths(farthest);
+        var roadKind = RoadCatalog.Instance.Kinds.Where(k => !k.Wall && !k.Water && k.Pace < 1).OrderBy(k => k.Pace).First();
+        var everywhere = new Road { Id = 9999, Kind = roadKind.Id, Realm = rome };
+        everywhere.Nodes.AddRange(Enumerable.Range(0, map.Population!.Width * map.Population.Height));
+        map.Game.Roads.Add(everywhere);
+        int roadMonths = map.NewsMonths(farthest);
+        map.Game.Roads.Remove(everywhere);
+        Check(farMonths >= 3 && roadMonths < farMonths, $"news along roads should come faster ({farMonths} months without, {roadMonths} with)");
+        map.PlayerState.Techs.Add("telegraph");
+        Check(map.NewsMonths(farthest) == 0, "with the telegraph news should come at once");
+        map.PlayerState.Techs.Remove("telegraph");
         var succession = new Facsimilia.Dynasties.ChronicleEvent(Facsimilia.Dynasties.ChronicleKind.Succession, egypt, "Egypt has a new king.");
         var war = new Facsimilia.Dynasties.ChronicleEvent(Facsimilia.Dynasties.ChronicleKind.War, egypt, "Egypt goes to war.");
         var heardNow = map.NewsArriving(new[] { succession, war });
