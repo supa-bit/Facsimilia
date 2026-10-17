@@ -288,6 +288,28 @@ Each step is verified on the real game before the next begins.
       aren't specified; the population engine's era constants (C, k) exist
       only for the ancient era
 
+## Release and studio (17 Oct 2026)
+
+From the release study (docs/Release-study.md, and the page
+https://claude.ai/artifact/V1aE1yknZ6w7JW322EAUWR). Eight decisions on
+the Ledger under "Release and studio" wait on the designer.
+
+- [x] **Release study**: demand, audience, what a release needs,
+      marketing plan, studio branding
+- [ ] **Release and personal builds**: one project, two export presets;
+      the personal one carries the custom feature `personal` and turns on
+      everything not ready for sale *(waits on "One project or two
+      copies")*
+- [ ] **The release slice** *(waits on "What the first release covers")*
+- [ ] **Player-facing text in translation files** (none is today), so the
+      game can be translated later
+- [ ] **Credits screen** naming every data source, font and icon set
+- [ ] **Studio name and logo** *(waits on "The studio's name")*
+- [ ] **Steam page**: capsule art, trailer, screenshots *(waits on the
+      studio name and the release slice)*
+- [ ] **Demo** for Steam Next Fest
+- [ ] **Playtesters**: a Discord server and early builds
+
 ## Decisions
 
 The first fourteen were answered in the Facsimilia Ledger on 25 Sep 2026
