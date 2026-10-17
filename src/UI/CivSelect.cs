@@ -1,4 +1,5 @@
 using System.Linq;
+using Facsimilia.Game;
 using Facsimilia.World;
 using Godot;
 
@@ -52,7 +53,37 @@ public partial class CivSelect : Control
         scroll.AddChild(grid);
         foreach (var civ in Civs)
             grid.AddChild(Card(civ));
+        column.AddChild(FogRow());
         column.AddChild(ThemeAncient.Label("Click a realm to begin.", "SmallLabel", align: HorizontalAlignment.Center));
+    }
+
+    /// <summary>The fog this game is played with (your answer "Fog setting choices": separate for map and diplomacy).</summary>
+    public FogLevel MapFog { get; private set; } = FogLevel.Full;
+    public FogLevel DiplomacyFog { get; private set; } = FogLevel.Full;
+
+    static readonly string[] FogNames = { "Off", "Light", "Full" };
+
+    Control FogRow()
+    {
+        var row = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
+        row.AddThemeConstantOverride("separation", 12);
+        OptionButton Choice(string label, string tip, System.Action<FogLevel> set)
+        {
+            row.AddChild(ThemeAncient.Label(label, fontSize: 17));
+            var pick = new OptionButton { TooltipText = tip, FocusMode = FocusModeEnum.None };
+            foreach (var n in FogNames)
+                pick.AddItem(n);
+            pick.Selected = (int)FogLevel.Full;
+            pick.ItemSelected += i => set((FogLevel)(int)i);
+            row.AddChild(pick);
+            return pick;
+        }
+        Choice("Map fog:", "Off: see the whole world.\nLight: armies beyond your realm's sight are hidden.\n" +
+            "Full: also, land your people never knew is blank until explored.", f => MapFog = f);
+        row.AddChild(new Control { CustomMinimumSize = new Vector2(24, 0) });
+        Choice("Diplomacy fog:", "Off: every realm's figures are known.\nLight: neighbours' and partners' exactly, the rest roughly.\n" +
+            "Full: neighbours' and partners' roughly, the rest not at all.", f => DiplomacyFog = f);
+        return row;
     }
 
     PanelContainer Card(CivInfo civ)

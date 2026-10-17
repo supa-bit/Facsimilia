@@ -168,7 +168,7 @@ public partial class MapView
                 continue;
             }
             var center = (p.LabelCell * CellPixels - _camera!.Position) * zoom + screen / 2f;
-            if (!bounds.HasPoint(center))
+            if (!bounds.HasPoint(center) || !ExploredAt(p.LabelCell * CellPixels))
             {
                 label.Visible = false;
                 continue;
@@ -329,7 +329,7 @@ public partial class MapView
                 if (!capitalsOnly && rank >= 1e6)
                     continue;   // placed already
                 var at = (world - _camera!.Position) * zoom + screen / 2f;
-                if (!bounds.HasPoint(at))
+                if (!bounds.HasPoint(at) || !ExploredAt(world))
                     continue;
                 var label = _townLabels[used];
                 label.Text = name.StartsWith("★") ? name : "• " + name;

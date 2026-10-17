@@ -665,8 +665,90 @@ public partial class MapView
     }
 
     Sprite2D? _fog;
-    /// <summary>The fog can be turned off in the settings of a game (for watching the whole world).</summary>
-    public bool FogOn { get; set; } = true;
+    /// <summary>Whether the map's fog hides anything (off in a game set up without it).</summary>
+    public bool FogOn
+    {
+        get => Game.MapFog != FogLevel.Off;
+        set => Game.MapFog = value ? FogLevel.Full : FogLevel.Off;
+    }
+
+    /// <summary>
+    /// What a realm's people knew of the world at the start (your answer
+    /// "Terra incognita": only what its people knew): everything within this
+    /// many km of its capital as the crow flies (Rome: Greece, Sicily, Africa
+    /// about Carthage, southern Gaul), and the lands of the realms it borders
+    /// or trades with.
+    /// </summary>
+    public const double StartKnownKm = 1100;
+
+    /// <summary>Sets the land the player's realm knows at the start of a game.</summary>
+    void StartExplored()
+    {
+        var pop = Population!;
+        Game.Explored = new byte[(pop.Width * pop.Height + 7) / 8];
+        EnsureMoveCost();
+        EnsureContacts();
+        var contacts = _contacts!.TryGetValue(PlayerRealmId, out var c) ? c : new HashSet<int>();
+        int w = pop.Width, h = pop.Height;
+        int capital = CapitalNode(PlayerRealmId);
+        for (int i = 0; i < w * h; i++)
+        {
+            bool near = false;
+            if (capital >= 0)
+            {
+                double dx = (i % w - capital % w) * _stepKmX[(i / w + capital / w) / 2], dy = (i / w - capital / w) * _stepKmY;
+                near = dx * dx + dy * dy <= StartKnownKm * StartKnownKm;
+            }
+            if (near || pop.NodeOwner[i] == PlayerRealmId || contacts.Contains(pop.NodeOwner[i]))
+                Game.SetExplored(i);
+        }
+        // The waters off known coasts are known too.
+        var coast = new List<int>();
+        for (int i = 0; i < w * h; i++)
+        {
+            if (pop.NodeRegion[i] == 0 || !Game.IsExplored(i))
+                continue;
+            int x = i % w, y = i / w;
+            for (int dy = -CoastSeaNodes; dy <= CoastSeaNodes; dy++)
+                for (int dx = -CoastSeaNodes; dx <= CoastSeaNodes; dx++)
+                {
+                    int nx = x + dx, ny = y + dy;
+                    if (nx >= 0 && ny >= 0 && nx < w && ny < h && pop.NodeRegion[ny * w + nx] == 0)
+                        coast.Add(ny * w + nx);
+                }
+        }
+        foreach (int i in coast)
+            Game.SetExplored(i);
+        UpdateExplored();
+    }
+
+    /// <summary>How far out to sea (in map nodes) the waters off a known coast are known.</summary>
+    const int CoastSeaNodes = 2;
+
+    /// <summary>Whether a point on the map (in map pixels) is land or sea the player's realm has seen.</summary>
+    public bool ExploredAt(Vector2 world)
+    {
+        var pop = Population;
+        if (pop == null || Game.MapFog != FogLevel.Full || Game.Explored.Length == 0)
+            return true;
+        int x = Math.Clamp((int)(world.X / CellPixels * pop.Width / GridWidth), 0, pop.Width - 1);
+        int y = Math.Clamp((int)(world.Y / CellPixels * pop.Height / GridHeight), 0, pop.Height - 1);
+        return Game.IsExplored(y * pop.Width + x);
+    }
+
+    /// <summary>Whatever the realm sees now it knows from now on (your answer "Last-seen news": shown as last seen).</summary>
+    void UpdateExplored()
+    {
+        if (Game.Explored.Length == 0 || Population == null)
+            return;
+        var known = Known();
+        for (int i = 0; i < known.Length; i++)
+            if (known[i])
+                Game.SetExplored(i);
+    }
+
+    /// <summary>Whether the player's realm has ever seen this node (always true with the map fog off or light).</summary>
+    public bool ExploredNode(int node) => Game.MapFog != FogLevel.Full || node < 0 || Game.IsExplored(node);
 
     /// <summary>Dims the land the realm doesn't know (redrawn each month).</summary>
     void RefreshFog()
@@ -684,13 +766,47 @@ public partial class MapView
         if (!FogOn)
             return;
         _fog.Scale = new Vector2((float)GridWidth / w, (float)GridHeight / h);
+        UpdateExplored();
         var known = Known();
-        var img = Image.CreateEmpty(w, h, false, Image.Format.La8);
+        bool full = Game.MapFog == FogLevel.Full && Game.Explored.Length > 0;
+        var img = Image.CreateEmpty(w, h, false, Image.Format.Rgba8);
+        var seenOnce = new Color(0.08f, 0.08f, 0.08f, 0.38f);       // known land, out of sight: dimmed
+        var unknown = new Color(0.58f, 0.51f, 0.40f, 1f);           // land and sea never seen: blank parchment, as old maps left it
         for (int i = 0; i < w * h; i++)
-            if (!known[i] && pop.NodeRegion[i] != 0)
-                img.SetPixel(i % w, i / w, new Color(0.08f, 0.08f, 0.08f, 0.38f));
+            if (full && !Game.IsExplored(i))
+                img.SetPixel(i % w, i / w, unknown);
+            else if (!known[i] && pop.NodeRegion[i] != 0)
+                img.SetPixel(i % w, i / w, seenOnce);
         _fog.Texture = ImageTexture.CreateFromImage(img);
     }
 
     public bool KnowsNode(int node) => !FogOn || Population == null || node < 0 || Known()[node];
+
+    /// <summary>How well the player knows another realm's figures (its people, silver, soldiers).</summary>
+    public enum Insight { Unknown, Rough, Exact }
+
+    /// <summary>
+    /// What your realm knows of another's strength (the diplomacy fog): your
+    /// own exactly; realms you border or trade with exactly with light fog,
+    /// roughly with full; the rest roughly with light, not at all with full.
+    /// </summary>
+    public Insight InsightInto(int realmId)
+    {
+        if (realmId == PlayerRealmId || Game.DiplomacyFog == FogLevel.Off)
+            return Insight.Exact;
+        EnsureContacts();
+        bool contact = _contacts!.TryGetValue(PlayerRealmId, out var c) && c.Contains(realmId);
+        return Game.DiplomacyFog == FogLevel.Light
+            ? contact ? Insight.Exact : Insight.Rough
+            : contact ? Insight.Rough : Insight.Unknown;
+    }
+
+    /// <summary>A figure as a rough report would give it: to two significant digits.</summary>
+    public static double Rough(double v)
+    {
+        if (v == 0 || double.IsNaN(v))
+            return v;
+        double scale = Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(v))) - 1);
+        return Math.Round(v / scale) * scale;
+    }
 }

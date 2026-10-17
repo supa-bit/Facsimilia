@@ -703,7 +703,7 @@ public partial class MapView : Node2D
             var size = label.GetMinimumSize();
             var center = (world - _camera.Position) * z + screen / 2f;
             var rect = new Rect2(center - size / 2f, size);
-            bool fits = size.X <= bounds.Size.X && size.Y <= bounds.Size.Y && bounds.HasPoint(center);
+            bool fits = size.X <= bounds.Size.X && size.Y <= bounds.Size.Y && bounds.HasPoint(center) && ExploredAt(world);
             if (fits)
             {
                 rect.Position = new Vector2(

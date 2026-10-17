@@ -90,6 +90,30 @@ public partial class MarchTest : TestRunner
         Check(!known[egyptNode], "Rome shouldn't know what happens in Alexandria");
         Check(!map.KnowsNode(egyptNode), "enemy armies in unknown land should be hidden");
 
+        // Terra incognita: Rome starts knowing Italy and its neighbours, not the far edges of the world.
+        Check(map.Game.Explored.Length > 0 && map.ExploredNode(map.CapitalNode(rome)), "Rome should know its own land from the start");
+        var pop2 = map.Population!;
+        int explored = pop2.LandNodes.Count(i => map.Game.IsExplored(i));
+        Check(explored > 0 && explored < pop2.LandNodes.Length / 2, $"Rome should start knowing only part of the world ({explored} of {pop2.LandNodes.Length} land nodes)");
+        int farNode = pop2.LandNodes.OrderByDescending(i => i % pop2.Width).First();
+        Check(!map.ExploredNode(farNode), "lands far to the east should be blank at the start");
+        map.Game.MapFog = FogLevel.Light;
+        Check(map.ExploredNode(farNode) && map.FogOn, "light fog shows all land but still hides armies");
+        map.Game.MapFog = FogLevel.Off;
+        Check(map.KnowsNode(egyptNode), "with the fog off everything is seen");
+        map.Game.MapFog = FogLevel.Full;
+
+        // The diplomacy fog: what Rome knows of other realms' figures.
+        Check(map.InsightInto(rome) == MapView.Insight.Exact, "Rome knows its own figures");
+        int stranger = map.Game.Realms.Keys.FirstOrDefault(id => id != rome && map.InsightInto(id) == MapView.Insight.Unknown);
+        Check(stranger != 0, "with full diplomacy fog some far realm should be unknown");
+        map.Game.DiplomacyFog = FogLevel.Light;
+        Check(map.InsightInto(stranger) == MapView.Insight.Rough, "with light fog far realms are known roughly");
+        map.Game.DiplomacyFog = FogLevel.Off;
+        Check(map.InsightInto(stranger) == MapView.Insight.Exact, "with the fog off every realm is known");
+        map.Game.DiplomacyFog = FogLevel.Light;
+        Check(Math.Abs(MapView.Rough(123456) - 120000) < 1e-6, "rough figures keep two digits");
+
         // Save and load.
         map.SendArmy(rome, home, far);
         Check(await map.SaveCurrentGame("slot1"), "save failed");
@@ -98,6 +122,8 @@ public partial class MarchTest : TestRunner
         var home2 = map2.Game.Realm(rome).Armies[0];
         Check(home2.Route.SequenceEqual(home.Route) && Math.Abs(home2.Supply - home.Supply) < 1e-6, "routes and baggage didn't survive the save");
         Check(map2.Game.MonthsMarched == map.Game.MonthsMarched, "the month didn't survive the save");
+        Check(map2.Game.DiplomacyFog == FogLevel.Light && map2.Game.MapFog == FogLevel.Full
+            && map2.Game.Explored.SequenceEqual(map.Game.Explored), "the fog settings and explored land didn't survive the save");
 
         // A whole year with the turn button marches all twelve months.
         map.AdvanceYear();

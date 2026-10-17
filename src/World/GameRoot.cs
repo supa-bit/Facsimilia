@@ -86,10 +86,13 @@ public partial class GameRoot : Node2D
 
     async void OnCivChosen(string civKey)
     {
-        CivSelect!.QueueFree();
+        var (mapFog, diplomacyFog) = (CivSelect!.MapFog, CivSelect.DiplomacyFog);
+        CivSelect.QueueFree();
         CivSelect = null;
         Map = NewMap();
         Map.SetPlayerCiv(civKey);
+        Map.Game.MapFog = mapFog;
+        Map.Game.DiplomacyFog = diplomacyFog;
         await RunLoadingScreen("300 BC", "Preparing the ancient world...", RegionMinSeconds, Map.GenerateWorld);
         ShowHud();
     }

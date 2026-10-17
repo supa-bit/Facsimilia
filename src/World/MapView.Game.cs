@@ -81,7 +81,7 @@ public partial class MapView
     /// <summary>A new game in 300 BC: armies and treasuries from data/start_realms.json.</summary>
     internal void StartGame()
     {
-        Game = new GameState();
+        Game = new GameState { MapFog = Game.MapFog, DiplomacyFog = Game.DiplomacyFog };   // the fog chosen on the start screen
         _census = null;
         var starts = new Dictionary<string, JsonElement>();
         JsonElement? startRoot = null;
@@ -134,6 +134,7 @@ public partial class MapView
         StartMonopolies();
         if (startRoot is { } root)
             StartTreaties(root);
+        StartExplored();
         foreach (var (realmId, counts) in roles)
             StartArmy(Game.Realm(realmId), counts);
         StartGenerals();

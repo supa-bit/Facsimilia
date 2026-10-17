@@ -1990,6 +1990,26 @@ companies and reforms follow.
   its own, its allies' and vassals' land, 150 km beyond their borders, and
   120 km around its armies. The rest of the land is dimmed, and enemy armies
   there are not shown.
+- **Terra incognita and the fog levels (built, 17 Oct 2026).** Before the
+  game starts you choose two fogs on the realm screen, each Off, Light or
+  Full (your answer "Fog setting choices": separate for map and diplomacy).
+  - *Map fog.* Off: the whole world is seen. Light: the land is all drawn,
+    but armies beyond your realm's sight are hidden (as above). Full (the
+    default): land and sea your people never knew are blank parchment, as
+    old maps left them, and their realm, province and town names are not
+    written. At the start your realm knows everything within 1,100 km of
+    its capital as the crow flies (for Rome: Italy, Sicily, Greece, Carthage
+    and southern Gaul), the lands of every realm it borders or trades with,
+    and the waters off those coasts. Whatever your realm sees from then on
+    it keeps on the map; when it leaves your sight it is dimmed, as last
+    seen.
+  - *Diplomacy fog.* What the realms table tells you of other realms'
+    people, land, silver, income, soldiers, ships, learning and score. Off:
+    every realm exactly. Light: the realms you border or trade with exactly,
+    the rest roughly (two figures, marked "~", as travellers' reports).
+    Full (the default): those you border or trade with roughly, the rest
+    not at all ("?"), and they are left out of the graph.
+  - Both are kept in the save.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
@@ -3182,8 +3202,8 @@ exits with 1 if any check fails.
 
 ### Fog of war: what your realm knows
 
-- **What fog hides**: Also the land itself - Unknown coasts and rivers blank, as on ancient maps.
-- **Terra incognita**: At the start your realm knows only what its people knew; the rest is drawn as old maps drew it
+- **What fog hides**: Also the land itself - Unknown coasts and rivers blank, as on ancient maps. *(Built 17 Oct 2026: see "Terra incognita and the fog levels".)*
+- **Terra incognita**: At the start your realm knows only what its people knew; the rest is drawn as old maps drew it *(built 17 Oct 2026)*
 
 ### History: events, people, migrations and new realms
 

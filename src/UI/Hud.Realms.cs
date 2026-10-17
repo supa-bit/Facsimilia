@@ -88,7 +88,7 @@ public partial class Hud
         var rows = RealmRows();
         rows = (_realmsSort == 0
             ? rows.OrderBy(r => r.Name)
-            : rows.OrderBy(r => r.Values[_realmsSort - 1])).ToList();
+            : rows.OrderBy(r => _map.InsightInto(r.Id) == MapView.Insight.Unknown ? double.MinValue : r.Values[_realmsSort - 1])).ToList();
         if (_realmsDescending)
             rows.Reverse();
         var coin = _map.CoinOf(_map.PlayerRealmId);
@@ -101,17 +101,23 @@ public partial class Hud
                 nl.AddThemeColorOverride("font_color", new Color(1f, 0.85f, 0.45f));
             name.AddChild(nl);
             _realmsGrid.AddChild(name);
+            var insight = _map.InsightInto(r.Id);
+            if (insight != MapView.Insight.Exact)
+                name.TooltipText = insight == MapView.Insight.Rough
+                    ? "Known only roughly: travellers' and merchants' reports"
+                    : "Unknown: your realm has no dealings with them (the diplomacy fog)";
             for (int i = 0; i < r.Values.Length; i++)
             {
-                double v = r.Values[i];
-                string text = i is 2 or 3 ? CoinCatalog.Short(CoinCatalog.Instance.Coins(v, coin))
-                    : i == 7 ? $"{v:0}" : CoinCatalog.Short(v);
+                double v = insight == MapView.Insight.Rough ? MapView.Rough(r.Values[i]) : r.Values[i];
+                string text = insight == MapView.Insight.Unknown ? "?"
+                    : (insight == MapView.Insight.Rough && v != 0 ? "~" : "") + (i is 2 or 3 ? CoinCatalog.Short(CoinCatalog.Instance.Coins(v, coin))
+                    : i == 7 ? $"{v:0}" : CoinCatalog.Short(v));
                 _realmsGrid.AddChild(ThemeAncient.Label(text, fontSize: 15, align: HorizontalAlignment.Right));
             }
         }
         // The graph: you, and the five leaders by the chosen measure.
         int metric = _graphMetric.Selected + 1;   // index into a history row (0 is the year)
-        var leaders = _map.Game.Realms.Values.Where(s => s.History.Count > 0)
+        var leaders = _map.Game.Realms.Values.Where(s => s.History.Count > 0 && _map.InsightInto(s.RealmId) != MapView.Insight.Unknown)
             .OrderByDescending(s => s.History[^1][metric]).Take(5).Select(s => s.RealmId).ToList();
         if (!leaders.Contains(_map.PlayerRealmId))
             leaders.Add(_map.PlayerRealmId);

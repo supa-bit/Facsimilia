@@ -7,6 +7,9 @@ using GDictionary = Godot.Collections.Dictionary;
 
 namespace Facsimilia.Game;
 
+/// <summary>How much the fog of war hides (your answer: off, light or full).</summary>
+public enum FogLevel { Off, Light, Full }
+
 /// <summary>How hard a realm taxes (decision "Playable 5": one rate the ruler sets).</summary>
 public enum TaxRate { Low = 0, Normal = 1, Heavy = 2, Crushing = 3 }
 
@@ -429,6 +432,20 @@ public sealed class GameState
 
     public Dictionary<int, RealmState> Realms { get; } = new();
     public int YearsPerTurn { get; set; } = 1;
+    /// <summary>
+    /// How much the fog hides (your answer "Fog setting choices": separate
+    /// for map and diplomacy, each off, light or full). Map: off shows all;
+    /// light hides only armies beyond your sight; full also covers the land
+    /// your realm has never seen. Diplomacy: off shows every realm's figures;
+    /// light shows your neighbours' and partners' exactly and the rest roughly;
+    /// full shows those you know roughly and the rest not at all.
+    /// </summary>
+    public FogLevel MapFog { get; set; } = FogLevel.Full;
+    public FogLevel DiplomacyFog { get; set; } = FogLevel.Full;
+    /// <summary>The land the player's realm has ever seen, one bit a map node (empty: everything, for old saves).</summary>
+    public byte[] Explored { get; set; } = Array.Empty<byte>();
+    public bool IsExplored(int node) => Explored.Length == 0 || (node >> 3) < Explored.Length && (Explored[node >> 3] & (1 << (node & 7))) != 0;
+    public void SetExplored(int node) => Explored[node >> 3] |= (byte)(1 << (node & 7));
     public Wars Wars { get; } = new();
     public Treaties Treaties { get; } = new();
     /// <summary>Provinces each realm lost, and when (for the Reconquest pretext): realm -> province -> year.</summary>
@@ -579,7 +596,7 @@ public sealed class GameState
         return new GDictionary
         {
             ["provinces"] = provinces, ["nature"] = nature, ["sieges"] = SiegesArray(),
-            ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
+            ["realms"] = realms, ["years_per_turn"] = YearsPerTurn, ["fog"] = new GArray { (int)MapFog, (int)DiplomacyFog, Convert.ToBase64String(Explored) }, ["wars"] = Wars.ToArray(), ["peace_offers"] = offers,
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
             ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["chronicle"] = new GArray(Chronicle.Select(e => (Variant)new GArray { e.Year, e.Kind, e.Realm, e.Text }).ToArray()),
@@ -694,6 +711,13 @@ public sealed class GameState
                 var r = RealmState.FromDict(v.AsGodotDictionary());
                 g.Realms[r.RealmId] = r;
             }
+        if (d.TryGetValue("fog", out var fog))
+        {
+            var f = fog.AsGodotArray();
+            g.MapFog = (FogLevel)f[0].AsInt32();
+            g.DiplomacyFog = (FogLevel)f[1].AsInt32();
+            g.Explored = Convert.FromBase64String(f[2].AsString());
+        }
         if (d.TryGetValue("years_per_turn", out var y) && Array.IndexOf(TurnLengths, y.AsInt32()) >= 0)
             g.YearsPerTurn = y.AsInt32();
         if (d.TryGetValue("wars", out var w))

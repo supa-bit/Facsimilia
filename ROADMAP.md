@@ -151,7 +151,8 @@ stops time).
 Answered 12 Oct 2026 and waiting on their systems (recorded in MECHANICS.md,
 "Your answers of 12 October 2026"): more road kinds (corduroy, cobbles,
 plank, concrete) and railways as their own network; fog that hides the land
-itself, terra incognita at the start; events (a few a year, quoting the
+itself, terra incognita at the start (both built 17 Oct 2026, with the map
+and diplomacy fog levels chosen on the realm screen); events (a few a year, quoting the
 sources, chains, time stops and then a few months to choose, a PDF of
 picture prompts for image models); four levels of history's pull, set
 separately and changeable mid-game; great people (at least 12 kinds,
