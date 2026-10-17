@@ -70,6 +70,15 @@ Keep a good stock of open questions on the Ledger (the designer asked for a
 few hundred, 15 Oct 2026) so work never waits: follow-ups that every
 answered topic needs before it is built, written in the style above.
 
+## Pages and artifacts: sans serif only (the designer's rule, 17 Oct 2026)
+
+The designer has chronic eye pain. Every artifact page (the Ledger and any
+other) uses a sans serif typeface, never a serif one: Atkinson Hyperlegible
+(Google Fonts, made for low vision) with system-ui, "Segoe UI" and Verdana
+behind it. Set sizes in rem and give each page a text-size slider (as the
+Ledger has) that the page remembers. Keep contrast comfortable: no thin
+weights, no pale grey text on dark grounds.
+
 ## Naming work (the designer asked for this)
 
 When talking about the work, use the Ledger's titles (its areas, features
