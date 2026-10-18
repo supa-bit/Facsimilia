@@ -33,6 +33,17 @@ public partial class SettingsStore : Node
     /// <summary>Whether closeness to history counts in your score (your note on "Score parts": it can be switched off).</summary>
     public bool ScoreHistory { get; private set; } = true;
 
+    /// <summary>The map views' colours: as usual, or a colour-blind palette (your answer "Colour-blind colours").</summary>
+    public ColourSight Sight { get; private set; } = ColourSight.Usual;
+
+    public void SetSight(ColourSight sight)
+    {
+        Sight = sight;
+        Save();
+        if (GetTree()?.Root.GetNodeOrNull<World.GameRoot>("Main") is { Map: { } map })
+            map.Sight = sight;   // at once, in a game being played
+    }
+
     /// <summary>What stops time (TimeStops ids, your answer "What stops time"): ticked in Settings > Time.</summary>
     public HashSet<string> TimeStops { get; } = new(UI.TimeStops.Defaults);
 
@@ -212,6 +223,8 @@ public partial class SettingsStore : Node
         ShowOpening = config.GetValue("gameplay", "show_opening", ShowOpening).AsBool();
         OpeningSeen = config.GetValue("gameplay", "opening_seen", OpeningSeen).AsBool();
         VoiceVolume = Mathf.Clamp(config.GetValue("audio", "voice_volume", VoiceVolume).AsSingle(), 0f, 1f);
+        int sight = config.GetValue("display", "colour_sight", (int)Sight).AsInt32();
+        Sight = System.Enum.IsDefined(typeof(ColourSight), sight) ? (ColourSight)sight : ColourSight.Usual;
         if (config.HasSectionKey("gameplay", "time_stops"))
         {
             TimeStops.Clear();
@@ -239,6 +252,7 @@ public partial class SettingsStore : Node
         config.SetValue("gameplay", "show_opening", ShowOpening);
         config.SetValue("gameplay", "opening_seen", OpeningSeen);
         config.SetValue("audio", "voice_volume", VoiceVolume);
+        config.SetValue("display", "colour_sight", (int)Sight);
         config.SetValue("gameplay", "time_stops", string.Join(",", UI.TimeStops.All.Select(r => r.Id).Where(TimeStops.Contains)));
         foreach (var (id, key) in KeyOverrides)
             config.SetValue("keys", id, (long)key);

@@ -113,7 +113,10 @@ public partial class GameRoot : Node2D
     void ShowHud()
     {
         if (Map != null)
+        {
             Map.CountHistoryInScore = SettingsStore.Instance.ScoreHistory;
+            Map.Sight = SettingsStore.Instance.Sight;
+        }
         Hud = HudScene.Instantiate<Hud>();
         Hud.Theme = ThemeAncient.Build();
         _uiLayer.AddChild(Hud);

@@ -24,12 +24,15 @@ public partial class ZzShotViews : TestRunner
         hud.Setup(map);
         map.CenterOn(map.NodeCell(map.CapitalNode(map.PlayerRealmId)) * MapView.CellPixels + new Vector2(300, 150), 1.6f);
         hud.Refresh();
-        foreach (var view in new[] { MapView.RoadsView, MapView.TerrainView, MapView.SupplyView, MapView.GoodsView })
+        if (System.Enum.TryParse<ColourSight>(OS.GetEnvironment("SIGHT"), out var sight))
+            map.Sight = sight;   // a colour-blind palette
+        var views = OS.GetEnvironment("VIEWS") is { Length: > 0 } list ? list.Split(',') : new[] { MapView.RoadsView, MapView.TerrainView, MapView.SupplyView, MapView.GoodsView };
+        foreach (var view in views)
         {
             map.SetMapView(view);
             for (int i = 0; i < 30; i++)
                 await ToSignal(this, SceneTree.SignalName.ProcessFrame);
-            Root.GetViewport().GetTexture().GetImage().SavePng(OS.GetEnvironment("SHOTDIR") + $"/view_{view}.png");
+            Root.GetViewport().GetTexture().GetImage().SavePng(OS.GetEnvironment("SHOTDIR") + $"/view_{view}{(sight != ColourSight.Usual ? "_" + sight : "")}.png");
         }
         Finish("shot taken");
     }

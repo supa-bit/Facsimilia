@@ -34,26 +34,6 @@ public partial class MapView
 
     Func<int, Color>? _ownerColorOverride;
 
-    /// <summary>A steady, distinct colour for a name (a culture or religion), the same every game.</summary>
-    static Color KeyColor(string key)
-    {
-        uint h = 2166136261;
-        foreach (char ch in key)
-            h = (h ^ ch) * 16777619;
-        float hue = (h % 360) / 360f;
-        float sat = 0.32f + (h / 360 % 22) / 100f;
-        float val = 0.66f + (h / 10800 % 20) / 100f;
-        return Color.FromHsv(hue, sat, val);
-    }
-
-    static readonly Color RampLow = new(0.72f, 0.22f, 0.18f), RampMid = new(0.85f, 0.75f, 0.3f), RampHigh = new(0.25f, 0.6f, 0.3f);
-
-    static Color Ramp(double t)
-    {
-        t = Math.Clamp(t, 0, 1);
-        return t < 0.5 ? RampLow.Lerp(RampMid, (float)(t * 2)) : RampMid.Lerp(RampHigh, (float)((t - 0.5) * 2));
-    }
-
     /// <summary>Turns a province view on (or every one off with null).</summary>
     async void ShowProvinceView(string? view)
     {
@@ -99,6 +79,13 @@ public partial class MapView
         double maxHead = Math.Max(1, perHead.Values.DefaultIfEmpty(1).Max());
         // The views your answer "More map views" added: roads, the going, supply and trade goods, each province's own.
         var (bestRoad, going, chiefGood) = ProvinceGroundFacts(view);
+        IndexKeys(view switch
+        {
+            CultureView => Provinces.Provinces.Keys.Select(id => ProvinceStateOf(id).Culture).Concat(cultures.Regions.Values.Select(r => r.Item1)),
+            ReligionView => Provinces.Provinces.Keys.Select(id => ProvinceStateOf(id).Religion).Concat(cultures.Regions.Values.Select(r => r.Item2)),
+            GoodsView => chiefGood.Values,
+            _ => Enumerable.Empty<string>(),
+        });
         foreach (var p in Provinces.Provinces.Values)
         {
             var st = ProvinceStateOf(p.Id);
@@ -195,9 +182,6 @@ public partial class MapView
         }
         return (road, going, good);
     }
-
-    static readonly Color DipYou = new(0.95f, 0.8f, 0.3f), DipAlly = new(0.3f, 0.7f, 0.35f), DipVassal = new(0.55f, 0.8f, 0.5f),
-        DipWar = new(0.8f, 0.2f, 0.18f), DipTruce = new(0.55f, 0.62f, 0.75f), DipRival = new(0.9f, 0.5f, 0.2f), DipOther = new(0.55f, 0.53f, 0.5f);
 
     /// <summary>How a realm stands with the player, as a colour for the diplomacy view.</summary>
     Color DiplomacyColor(int realm)

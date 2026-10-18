@@ -48,6 +48,15 @@ public partial class SettingsPanel : Control
         }
         size.ItemSelected += index => store.SetUiScale(SettingsStore.UiScales[(int)index]);
         display.AddChild(Row("Interface size", size, "Makes every panel, button and line of text larger or smaller."));
+        var sight = new OptionButton();
+        sight.AddItem("As usual", (int)ColourSight.Usual);
+        sight.AddItem("Red-green colour blindness", (int)ColourSight.RedGreen);
+        sight.AddItem("Blue-yellow colour blindness", (int)ColourSight.BlueYellow);
+        sight.Select(sight.GetItemIndex((int)store.Sight));
+        sight.ItemSelected += index => store.SetSight((ColourSight)sight.GetItemId((int)index));
+        display.AddChild(Row("Map view colours", sight,
+            "Colours for the map views (loyalty, wealth, cultures, diplomacy and the rest) that colour-blind eyes tell apart: blue against orange for red-green " +
+            "(the most common kind), teal against red for blue-yellow. The political map keeps history's colours for the realms."));
 
         var audio = Tab(tabs, "Audio");
         var volume = new HSlider
