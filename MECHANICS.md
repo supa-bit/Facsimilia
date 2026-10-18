@@ -2137,7 +2137,8 @@ companies and reforms follow.
   back. The defaults: Enter plays the year, Space runs or pauses the
   months, 1-3 the map modes, W A S D move the map (the arrows always do
   too), F1 political, F2 trade routes, F3 culture, F4 religion, F5
-  loyalty, F6 wealth, F7 people, F8 diplomacy, F9 regions, G goods, T
+  loyalty, F6 wealth, F7 people, F8 diplomacy, F9 regions, R roads, H the
+  going, U supply, O trade goods, G goods, T
   research, L the realms table, C the whole chronicle, F11 fullscreen. Esc
   always opens the menu. Beside the map view menu a ☆ adds the view shown
   to your favourites bar, a row of one-click view buttons kept between
@@ -2188,6 +2189,14 @@ companies and reforms follow.
   that there is none) and Treasury. Click a group's heading to fold or
   unfold it. Envoys and plots join it when they are built. It never runs
   under the province panel: it shows what fits and "...and N more".
+- **More map views (built, 18 Oct 2026; your answer: also trade goods,
+  supply, literacy, roads, terrain passability, religion spread and
+  history's borders).** Four new views, each with its key: Roads (R; each
+  province by its best finished road), Terrain: going (H; how hard its
+  ground is to march over: mountains, marsh, forest), Supply (U; how great
+  an army its people can feed by foraging) and Trade goods (O; the good its
+  land yields most). Religion spread is the Religion view (F4). Literacy
+  and history's borders come with their systems.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

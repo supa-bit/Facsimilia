@@ -34,6 +34,10 @@ public static class KeyBindings
         new("view_people", "Map view: people", Key.F7),
         new("view_diplomacy", "Map view: diplomacy", Key.F8),
         new("view_regions", "Map view: regions", Key.F9),
+        new("view_roads", "Map view: roads", Key.R),
+        new("view_terrain", "Map view: the going", Key.H),
+        new("view_supply", "Map view: supply", Key.U),
+        new("view_goods", "Map view: trade goods", Key.O),
         new("panel_goods", "Goods panel", Key.G),
         new("panel_research", "Research panel", Key.T),
         new("panel_realms", "Realms table", Key.L),
@@ -49,6 +53,8 @@ public static class KeyBindings
         ["view_loyalty"] = World.MapView.LoyaltyView, ["view_wealth"] = World.MapView.WealthView,
         ["view_people"] = World.MapView.PeopleView, ["view_diplomacy"] = World.MapView.DiplomacyView,
         ["view_regions"] = World.MapView.RegionsView,
+        ["view_roads"] = World.MapView.RoadsView, ["view_terrain"] = World.MapView.TerrainView,
+        ["view_supply"] = World.MapView.SupplyView, ["view_goods"] = World.MapView.GoodsView,
     };
 
     /// <summary>The key for an action now: yours if you changed it, else its default.</summary>

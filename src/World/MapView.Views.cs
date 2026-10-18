@@ -15,12 +15,14 @@ namespace Facsimilia.World;
 public partial class MapView
 {
     public const string CultureView = "culture", ReligionView = "religion", LoyaltyView = "loyalty",
-        WealthView = "wealth", PeopleView = "people", DiplomacyView = "diplomacy";
+        WealthView = "wealth", PeopleView = "people", DiplomacyView = "diplomacy",
+        RoadsView = "roads", TerrainView = "terrain", SupplyView = "supply", GoodsView = "goods";
 
     public static readonly (string Key, string Label)[] ProvinceViews =
     {
         (CultureView, "Culture"), (ReligionView, "Religion"), (LoyaltyView, "Loyalty"),
         (WealthView, "Wealth"), (PeopleView, "People"), (DiplomacyView, "Diplomacy"),
+        (RoadsView, "Roads"), (TerrainView, "Terrain: going"), (SupplyView, "Supply"), (GoodsView, "Trade goods"),
     };
 
     public static bool IsProvinceView(string view) => ProvinceViews.Any(v => v.Key == view);
@@ -95,6 +97,8 @@ public partial class MapView
             return c.Goods != null && c.People > 0 ? c.Goods.Value / c.People : 0;
         });
         double maxHead = Math.Max(1, perHead.Values.DefaultIfEmpty(1).Max());
+        // The views your answer "More map views" added: roads, the going, supply and trade goods, each province's own.
+        var (bestRoad, going, chiefGood) = ProvinceGroundFacts(view);
         foreach (var p in Provinces.Provinces.Values)
         {
             var st = ProvinceStateOf(p.Id);
@@ -105,6 +109,10 @@ public partial class MapView
                 LoyaltyView => WithAlpha(Ramp(st.Integration * (1 - st.Unrest))),
                 WealthView => WithAlpha(Ramp(perHead.GetValueOrDefault(p.RealmId) / maxHead)),
                 PeopleView => WithAlpha(Ramp(Math.Log10(1 + ProvincePopulation(p.Id) / Math.Max(1, p.AreaKm2)) / 2.5)),
+                RoadsView => bestRoad.TryGetValue(p.Id, out double pace) ? WithAlpha(Ramp(0.35 + (1 - pace) * 1.3)) : new Color(0.35f, 0.32f, 0.3f, 0.75f),
+                TerrainView => WithAlpha(Ramp(1 - (going.GetValueOrDefault(p.Id, 1) - 1) / 2.5)),
+                SupplyView => WithAlpha(Ramp(Math.Log10(1 + ProvincePopulation(p.Id) / ForagePeoplePer1000 * 1000) / 5.5)),
+                GoodsView => chiefGood.TryGetValue(p.Id, out var good) ? Named(good, good) : new Color(0, 0, 0, 0),
                 _ => new Color(0, 0, 0, 0),
             };
             palette.SetPixel(p.Id % 256, p.Id / 256, c);
@@ -121,17 +129,72 @@ public partial class MapView
         material.SetShaderParameter("region_view_palette", ImageTexture.CreateFromImage(regionPalette));
         material.SetShaderParameter("province_view_strength", 1f);
         ViewKey = seen.OrderBy(kv => kv.Key).Select(kv => (kv.Value, kv.Key)).ToList();
+        if (view == RoadsView)
+            ViewKey = new() { (Ramp(1), "A paved road"), (Ramp(0.6), "A road or track"), (new Color(0.35f, 0.32f, 0.3f), "No road") };
         ViewRamp = view switch
         {
             LoyaltyView => (RampLow, RampHigh, "Restless, newly won", "Loyal"),
             WealthView => (RampLow, RampHigh, "Poor", "Rich (output per person)"),
             PeopleView => (RampLow, RampHigh, "Empty", "Crowded (people per km²)"),
+            TerrainView => (RampLow, RampHigh, "Hard going (mountains, marsh, forest)", "Easy going"),
+            SupplyView => (RampLow, RampHigh, "Bare: an army starves", "Rich: feeds a great army"),
             _ => null,
         };
         EmitSignal(SignalName.MapViewChanged, CurrentView);   // the legend reads the key built here
     }
 
     static Color WithAlpha(Color c) => new(c.R, c.G, c.B, 0.8f);
+
+    /// <summary>
+    /// For the roads, going and goods views: each province's best finished
+    /// road (its pace: lower is faster), its average going (1 open ground,
+    /// higher harder), and the good its land yields most.
+    /// </summary>
+    (Dictionary<int, double> Road, Dictionary<int, double> Going, Dictionary<int, string> Good) ProvinceGroundFacts(string? view)
+    {
+        var road = new Dictionary<int, double>();
+        var going = new Dictionary<int, double>();
+        var good = new Dictionary<int, string>();
+        if (Population == null || view is not (RoadsView or TerrainView or GoodsView))
+            return (road, going, good);
+        var np = NodeProvinces();
+        if (view == RoadsView)
+            foreach (int i in Population.LandNodes)
+            {
+                double pace = RoadPaceNear(i);
+                if (np[i] != 0 && pace < 1 && (!road.TryGetValue(np[i], out double best) || pace < best))
+                    road[np[i]] = pace;
+            }
+        if (view == TerrainView)
+        {
+            EnsureMoveCost();
+            var count = new Dictionary<int, int>();
+            foreach (int i in Population.LandNodes)
+                if (np[i] != 0 && _moveCost![i] > 0)
+                {
+                    going[np[i]] = going.GetValueOrDefault(np[i]) + _moveCost[i];
+                    count[np[i]] = count.GetValueOrDefault(np[i]) + 1;
+                }
+            foreach (var (id, n) in count)
+                going[id] /= n;
+        }
+        if (view == GoodsView && Land != null && GoodsCatalog() is { } cat)
+        {
+            var fields = cat.Goods.Where(g => g.Source == GoodSource.Land && g.Field.StartsWith("res_") && Land.Has(g.Field)).ToList();
+            var sums = new Dictionary<(int, string), double>();
+            foreach (int i in Population.LandNodes)
+                if (np[i] != 0)
+                    foreach (var g in fields)
+                    {
+                        double v = Land.Value(g.Field, i);
+                        if (v >= Census.ResourceThreshold)
+                            sums[(np[i], g.Name)] = sums.GetValueOrDefault((np[i], g.Name)) + v;
+                    }
+            foreach (var group in sums.GroupBy(kv => kv.Key.Item1))
+                good[group.Key] = group.OrderByDescending(kv => kv.Value).ThenBy(kv => kv.Key.Item2).First().Key.Item2;
+        }
+        return (road, going, good);
+    }
 
     static readonly Color DipYou = new(0.95f, 0.8f, 0.3f), DipAlly = new(0.3f, 0.7f, 0.35f), DipVassal = new(0.55f, 0.8f, 0.5f),
         DipWar = new(0.8f, 0.2f, 0.18f), DipTruce = new(0.55f, 0.62f, 0.75f), DipRival = new(0.9f, 0.5f, 0.2f), DipOther = new(0.55f, 0.53f, 0.5f);
