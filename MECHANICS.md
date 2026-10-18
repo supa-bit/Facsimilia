@@ -2197,6 +2197,15 @@ companies and reforms follow.
   an army its people can feed by foraging) and Trade goods (O; the good its
   land yields most). Religion spread is the Religion view (F4). Literacy
   and history's borders come with their systems.
+- **Search (built, 18 Oct 2026; your answer: a search box for places,
+  characters and realms).** F opens Find: type two letters or more and it
+  lists the provinces, towns, people and realms of that name your realm
+  knows of (the fog applies: no far realms you know nothing of, no people
+  of houses you have never dealt with, no land never seen), names that
+  begin with your letters first. Clicking one goes there: a province or
+  town centres the map, a person opens their panel, a realm opens
+  Diplomacy (or your own realm's panel). Whether it also searches the Codex
+  and the chronicle waits on "Search scope".
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

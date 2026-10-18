@@ -267,7 +267,7 @@ public partial class MapView
     int _townsYear = int.MinValue;
 
     /// <summary>Places standing this year, most important first (links to other places, and people living there).</summary>
-    List<(string Name, Vector2 World, double Rank)> TownsNow()
+    internal List<(string Name, Vector2 World, double Rank)> TownsNow()
     {
         if (_towns != null && _townsYear == DemoYear)
             return _towns;

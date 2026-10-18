@@ -181,6 +181,14 @@ public partial class MarchTest : TestRunner
         Check(!map.Game.LastSeen.ContainsKey((etruscans, foe.Id)), "a sighting is forgotten when its spot is seen empty");
         foe.Node = seenAt;
 
+        // Search: it finds what Rome knows, and not what it doesn't.
+        map.Game.DiplomacyFog = FogLevel.Full;
+        Check(map.Search("Latium").Any(f => f.Kind == MapView.FoundKind.Province), "searching should find Latium");
+        Check(map.Search("Carthage").Any(f => f.Kind == MapView.FoundKind.Realm), "searching should find Carthage, which Rome knows");
+        int farOff = map.Game.Realms.Keys.First(id => !map.CanDealWith(id) && map.Registry.Realms.ContainsKey(id));
+        Check(!map.Search(map.RealmName(farOff)).Any(f => f.Kind == MapView.FoundKind.Realm && f.Id == farOff), "searching shouldn't find a realm beyond Rome's knowledge");
+        map.Game.DiplomacyFog = FogLevel.Light;
+
         // Save and load.
         map.Game.Pins.Add($"realm:{egypt}");
         map.Game.Notes.Add((map.CapitalProvince(rome), map.DemoYear, "Muster here in spring"));

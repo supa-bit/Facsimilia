@@ -754,6 +754,7 @@ public partial class Hud
             case "panel_goods": ToggleGoodsPanel(); break;
             case "panel_research": ToggleResearchPanel(); break;
             case "panel_realms": ToggleRealmsPanel(); break;
+            case "search": ToggleSearch(); break;
             case "panel_chronicle":
                 if (_bookPanel is { Visible: true })
                     _bookPanel.Visible = false;

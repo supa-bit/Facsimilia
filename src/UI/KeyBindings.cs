@@ -42,6 +42,7 @@ public static class KeyBindings
         new("panel_research", "Research panel", Key.T),
         new("panel_realms", "Realms table", Key.L),
         new("panel_chronicle", "The whole chronicle", Key.C),
+        new("search", "Find a place, person or realm", Key.F),
         new("fullscreen", "Fullscreen", Key.F11),
     };
 
