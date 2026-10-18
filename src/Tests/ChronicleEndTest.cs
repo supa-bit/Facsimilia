@@ -35,6 +35,21 @@ public partial class ChronicleEndTest : TestRunner
         Check(await map2.LoadSavedGame("slot1"), "load failed");
         Check(map2.PlayerState.History.Count == me.History.Count && map2.Game.HistoryChecks.Count == checkedN
               && map2.Game.RulerLog.Count == map.Game.RulerLog.Count, "the history record should survive a save");
+        // The searchable chronicle: by kind, realm, place and words, newest first.
+        var lines = new System.Collections.Generic.List<(int, int, int, string)>
+        {
+            (-300, (int)Dynasties.ChronicleKind.War, 5, "Carthage declares war on Syracuse."),
+            (-299, (int)Dynasties.ChronicleKind.Disaster, 7, "An earthquake shakes Rhodes."),
+            (-298, (int)Dynasties.ChronicleKind.War, 7, "Rhodes goes to war with Carthage."),
+        };
+        var wars = UI.Hud.FilterChronicle(lines, new[] { Dynasties.ChronicleKind.War }, -1, "", "", "");
+        Check(wars.Count == 2 && wars[0].Item1 == -298, "filtering by kind should keep the wars, newest first");
+        Check(UI.Hud.FilterChronicle(lines, System.Array.Empty<Dynasties.ChronicleKind>(), 5, "Carthage", "", "").Count == 2,
+            "a realm's news should include lines naming it");
+        Check(UI.Hud.FilterChronicle(lines, System.Array.Empty<Dynasties.ChronicleKind>(), -1, "", "Rhodes", "").Count == 2
+            && UI.Hud.FilterChronicle(lines, System.Array.Empty<Dynasties.ChronicleKind>(), -1, "", "", "EARTHQUAKE").Count == 1,
+            "place and search filters should find their lines");
+
         Finish($"Chronicle end tests passed: {me.History.Count} records in 35 years; {matched} of {checkedN} campaigns went as history had them " +
             $"({share:P0}); {map.Game.RulerLog.Count} ruler(s) logged; saves keep it.");
         map.Free();

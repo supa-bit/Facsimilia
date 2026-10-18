@@ -120,7 +120,13 @@ public partial class Hud : Control
         header.AddThemeConstantOverride("separation", 10);
         vbox.AddChild(header);
         header.AddChild(ThemeAncient.IconRect("log", 24));
-        header.AddChild(ThemeAncient.Label("Chronicle", "HeaderLabel", 20));
+        var chronicleTitle = ThemeAncient.Label("Chronicle", "HeaderLabel", 20);
+        chronicleTitle.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+        header.AddChild(chronicleTitle);
+        var readAll = new Button { Text = "Read it all", Flat = true, FocusMode = FocusModeEnum.None,
+            TooltipText = "The whole game's chronicle: search it, and filter by kind, realm and place" };
+        readAll.Pressed += () => ShowChronicleBook();
+        header.AddChild(readAll);
         var rule = new HSeparator();
         rule.AddThemeConstantOverride("separation", 4);
         vbox.AddChild(rule);

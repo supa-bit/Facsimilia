@@ -2120,6 +2120,15 @@ companies and reforms follow.
   "How close to history" (borders, events and people), the events are
   counted now; borders come with "Later borders" and people with "Great
   people".
+- **A searchable chronicle (built, 18 Oct 2026; your answer: filter by
+  kind, realm and place, search, and read the whole game's history).** The
+  Chronicle box has a "Read it all" button. It opens the whole game's
+  chronicle, newest first and grouped by year, with a search box and three
+  filters: the kind of news (wars, peace, conquests, revolts, disasters,
+  rulers and houses, families, the treasury and works), the realm (yours
+  first, then every realm the chronicle has named) and the place (every
+  province the chronicle has named). The newest 3,000 lines are shown; a
+  search finds older ones.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
