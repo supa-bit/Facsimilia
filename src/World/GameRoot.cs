@@ -258,7 +258,7 @@ public partial class GameRoot : Node2D
         _advancing = false;
         Hud.TurnBusy = false;
         Hud.YearPlayed();
-        if (all.Exists(e => StopsTurn(e, Map.PlayerRealmId)) || Map.GameOver)
+        if (all.Exists(e => StopsTurn(e, Map.PlayerRealmId)) || Map.GameOver || SettingsStore.Instance.TimeStops.Contains("newyear"))
             Hud.SetPlaying(false);   // something needs you
         if (Map.GameOver && !_endShown)
         {
@@ -270,12 +270,12 @@ public partial class GameRoot : Node2D
             await Autosave();
     }
 
-    /// <summary>Major events that end a long turn early: they concern the player and may need an answer.</summary>
-    static bool StopsTurn(ChronicleEvent e, int player) =>
-        e.RealmId == player && (e.Kind is ChronicleKind.Succession or ChronicleKind.NewHouse or ChronicleKind.War
-            or ChronicleKind.Conquest or ChronicleKind.Revolt or ChronicleKind.Disaster
-            // Of the economy, only trouble stops a turn: famine, desertion.
-            || (e.Kind == ChronicleKind.Economy && (e.Text.Contains("famine") || e.Text.Contains("desert"))));
+    /// <summary>
+    /// Major events that stop the clock or end a long turn early: they
+    /// concern the player and may need an answer. Which ones is the
+    /// player's to tick (Settings > Time, your answer "What stops time").
+    /// </summary>
+    static bool StopsTurn(ChronicleEvent e, int player) => TimeStops.Stops(e, player, SettingsStore.Instance.TimeStops);
 
     /// <summary>Years since 300 BC, allowing for there being no year 0.</summary>
     static int YearsPlayed(int year) => year - MapView.StartYear - (year > 0 ? 1 : 0);

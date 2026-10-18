@@ -3862,6 +3862,7 @@ Twelve of the new follow-up questions, answered while the work went on.
 ### Time and turns
 
 - **Clock speeds** *(built, 15 Oct 2026)*: Five speeds, from a week a second to a year a second (1 wk/s, 1 mo/s, 3 mo/s, 6 mo/s, 1 yr/s; click the speed button for the next), with time stopping by itself for what needs you, as before.
+- **What stops time** *(built, 18 Oct 2026)*: Settings > Time lists what can stop the clock (or end a turn of several years early) when it happens to your realm, each with a tick: your ruler dies, war is declared, land changes hands, a revolt, a disaster, famine or desertion (ticked at first, as before), and peace is made, a child is born, a marriage, a death in the family and each new year (unticked at first). Your own battles, when you fight them yourself, and the end of the game always stop it.
 - **Weeks**: Armies and fleets move, and fight, by the week.
 
 ### Technology and knowledge

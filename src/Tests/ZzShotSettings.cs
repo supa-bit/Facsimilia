@@ -17,7 +17,7 @@ public partial class ZzShotSettings : TestRunner
         for (int i = 0; i < 5; i++)
             await ToSignal(this, SceneTree.SignalName.ProcessFrame);
         var tabs = panel.FindChildren("*", "TabContainer", true, false)[0] as TabContainer;
-        tabs!.CurrentTab = 2;
+        tabs!.CurrentTab = int.TryParse(OS.GetEnvironment("TAB"), out int t) ? t : 2;
         for (int i = 0; i < 10; i++)
             await ToSignal(this, SceneTree.SignalName.ProcessFrame);
         Root.GetViewport().GetTexture().GetImage().SavePng(OS.GetEnvironment("SHOTDIR") + "/settings.png");

@@ -33,6 +33,18 @@ public partial class SettingsStore : Node
     /// <summary>Whether closeness to history counts in your score (your note on "Score parts": it can be switched off).</summary>
     public bool ScoreHistory { get; private set; } = true;
 
+    /// <summary>What stops time (TimeStops ids, your answer "What stops time"): ticked in Settings > Time.</summary>
+    public HashSet<string> TimeStops { get; } = new(UI.TimeStops.Defaults);
+
+    public void SetTimeStop(string id, bool on)
+    {
+        if (on)
+            TimeStops.Add(id);
+        else
+            TimeStops.Remove(id);
+        Save();
+    }
+
     /// <summary>Keys you have changed (KeyBindings): action id -> key.</summary>
     public Dictionary<string, Key> KeyOverrides { get; } = new();
     /// <summary>Your favourite map views, for the favourites bar (your answer "Map view keys").</summary>
@@ -200,6 +212,12 @@ public partial class SettingsStore : Node
         ShowOpening = config.GetValue("gameplay", "show_opening", ShowOpening).AsBool();
         OpeningSeen = config.GetValue("gameplay", "opening_seen", OpeningSeen).AsBool();
         VoiceVolume = Mathf.Clamp(config.GetValue("audio", "voice_volume", VoiceVolume).AsSingle(), 0f, 1f);
+        if (config.HasSectionKey("gameplay", "time_stops"))
+        {
+            TimeStops.Clear();
+            TimeStops.UnionWith(config.GetValue("gameplay", "time_stops", "").AsString()
+                .Split(',', System.StringSplitOptions.RemoveEmptyEntries));
+        }
         if (config.HasSection("keys"))
             foreach (var id in config.GetSectionKeys("keys"))
                 KeyOverrides[id] = (Key)config.GetValue("keys", id).AsInt64();
@@ -221,6 +239,7 @@ public partial class SettingsStore : Node
         config.SetValue("gameplay", "show_opening", ShowOpening);
         config.SetValue("gameplay", "opening_seen", OpeningSeen);
         config.SetValue("audio", "voice_volume", VoiceVolume);
+        config.SetValue("gameplay", "time_stops", string.Join(",", UI.TimeStops.All.Select(r => r.Id).Where(TimeStops.Contains)));
         foreach (var (id, key) in KeyOverrides)
             config.SetValue("keys", id, (long)key);
         config.SetValue("display", "favourite_views", string.Join(",", FavouriteViews));

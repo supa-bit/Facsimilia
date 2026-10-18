@@ -19,6 +19,15 @@ public partial class KeysTest : TestRunner
         var views = MapView.ProvinceViews.Select(v => v.Key).Concat(new[] { MapView.PoliticalView, MapView.TradeView, MapView.RegionsView }).ToHashSet();
         Check(KeyBindings.ViewOf.Values.All(views.Contains) && views.All(KeyBindings.ViewOf.ContainsValue), "each map view should have its own key");
         Check(KeyBindings.ViewOf.Keys.All(id => KeyBindings.All.Any(a => a.Id == id)), "each view key should be a listed action");
+        // What stops time: the old fixed list is ticked at first; others' news never stops it.
+        var ticked = TimeStops.Defaults.ToList();
+        Check(TimeStops.Stops(new(Dynasties.ChronicleKind.War, 7, "war"), 7, ticked) && !TimeStops.Stops(new(Dynasties.ChronicleKind.War, 8, "war"), 7, ticked),
+            "your wars should stop time, others' should not");
+        Check(!TimeStops.Stops(new(Dynasties.ChronicleKind.Birth, 7, "born"), 7, ticked) && TimeStops.Stops(new(Dynasties.ChronicleKind.Birth, 7, "born"), 7, new[] { "birth" }),
+            "a birth should stop time only when ticked");
+        Check(TimeStops.Stops(new(Dynasties.ChronicleKind.Economy, 7, "a famine"), 7, ticked) && !TimeStops.Stops(new(Dynasties.ChronicleKind.Economy, 7, "debt grows"), 7, ticked),
+            "of the economy, only trouble should stop time");
+        Check(TimeStops.All.Select(r => r.Id).Distinct().Count() == TimeStops.All.Length, "each reason should have its own id");
         Finish($"Keys tests passed: {KeyBindings.All.Length} actions, each with its own key.");
         return Task.CompletedTask;
     }

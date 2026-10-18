@@ -100,6 +100,17 @@ public partial class SettingsPanel : Control
         gameplay.AddChild(Row("Show the opening", opening,
             "A new game begins with the story from Göbekli Tepe to 300 BC. It can always be skipped."));
 
+        var time = Tab(tabs, "Time");
+        time.AddChild(ThemeAncient.Label("Tick what stops the clock when it happens to your realm. Your own battles always stop it when you fight them yourself, and so does the end of the game.",
+            "SubtleLabel", 15));
+        foreach (var reason in TimeStops.All)
+        {
+            var tick = new CheckBox { ButtonPressed = store.TimeStops.Contains(reason.Id) };
+            string id = reason.Id;
+            tick.Toggled += on => store.SetTimeStop(id, on);
+            time.AddChild(Row(reason.Name, tick, reason.Detail));
+        }
+
         var keys = Tab(tabs, "Keys");
         keys.AddChild(ThemeAncient.Label("Click an action, then press its new key (Esc to cancel). Esc for the menu and the arrow keys for moving the map always work too.",
             "SubtleLabel", 15));
