@@ -2154,6 +2154,16 @@ companies and reforms follow.
   battle map), the end of the game, and great battles: a battle of yours
   with 20,000 men or more in all, or 5,000 or more dead, opens its report;
   smaller fights are told in the chronicle and kept in Battle reports.
+- **Nested hover cards (built, 18 Oct 2026; your answer: hover a word in a
+  card for its own card, as in Crusader Kings 3).** In a province's hover
+  card the realm, the people and the faith are underlined; resting the
+  mouse on one opens its own card beside it: a realm's ruler and age, its
+  people (as well as the fog lets you know), its people and gods, and how
+  it stands with you; a people's provinces (how many yours) and the realms
+  they live under; a faith's provinces. Those cards have underlined words
+  too, so you can follow on as far as you like. A card stays open while the
+  mouse is on it, and the chain closes when the mouse leaves. Card titles
+  are in gold rather than bold.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
