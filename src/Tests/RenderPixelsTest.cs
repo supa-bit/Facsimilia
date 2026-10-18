@@ -26,7 +26,7 @@ public partial class RenderPixelsTest : TestRunner
         var image = map.MapImage!;
         int checkedCount = 0, mismatches = 0;
 
-        var rng = new RandomNumberGenerator { Seed = 42 };
+        using var rng = new RandomNumberGenerator { Seed = 42 };
         for (int i = 0; i < 40; i++)
         {
             int x = rng.RandiRange(0, MapView.GridWidth - 1), y = rng.RandiRange(0, MapView.GridHeight - 1);

@@ -132,7 +132,7 @@ public partial class DynastyLifeTest : TestRunner
     void CheckCenturies()
     {
         var reg = StartingWorld();
-        var rng = new RandomNumberGenerator { Seed = 42 };
+        using var rng = new RandomNumberGenerator { Seed = 42 };
         var clock = System.Diagnostics.Stopwatch.StartNew();
         var counts = new Dictionary<ChronicleKind, int>();
         int maxLiving = 0, years = 0;

@@ -53,7 +53,7 @@ public partial class MapView
 
     string CommanderName(int realmId, Random rng)
     {
-        var grng = new RandomNumberGenerator { Seed = (ulong)rng.NextInt64() };
+        using var grng = new RandomNumberGenerator { Seed = (ulong)rng.NextInt64() };
         return Names.Pick(CultureOf(realmId), true, grng);
     }
 

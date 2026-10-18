@@ -41,7 +41,7 @@ public partial class TimeTest : TestRunner
         var old = reg.CreateCharacter("Ateas", "male", 900, culture: Culture.Scythian);
         reg.CreateDynasty("House Ateas", old);
         var realm = reg.CreateRealm("Old Realm", old, SuccessionLaw.Primogeniture, Colors.Gray, Culture.Scythian);
-        var rng = new RandomNumberGenerator { Seed = 1 };
+        using var rng = new RandomNumberGenerator { Seed = 1 };
         ChronicleEvent? newHouse = null;
         int year = 990;
         for (; year < 1030 && old.IsAlive; year++)

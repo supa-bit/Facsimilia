@@ -60,6 +60,10 @@ public abstract partial class TestRunner : SceneTree
             GD.Print(passedSummary);
         else
             GD.PrintErr($"{_failures} check(s) failed");
+        // Let C# finish releasing Godot objects (random number generators and the like) while the engine
+        // still runs: left to the very end, one now and then aborts Godot's exit (exit code 134) after a pass.
+        System.GC.Collect();
+        System.GC.WaitForPendingFinalizers();
         Quit(_failures == 0 ? 0 : 1);
     }
 }

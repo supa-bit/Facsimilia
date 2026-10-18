@@ -72,7 +72,7 @@ public partial class PeopleTest : TestRunner
         Check(reg.Skill(boy, CharSkills.Leadership, -320) < reg.Skill(boy, CharSkills.Leadership, -300) || reg.Skill(boy, CharSkills.Leadership, -300) <= 2,
             "a four-year-old has only part of the skills he will have");
         var realm = reg.CreateRealm("Seleucid realm", king, SuccessionLaw.MalePreferencePrimogeniture, Colors.Gray);
-        var rng = new RandomNumberGenerator { Seed = 42 };
+        using var rng = new RandomNumberGenerator { Seed = 42 };
         for (int y = -322; y <= -306; y++)
             reg.AdvanceYear(y, rng);
         if (boy.IsAlive)
