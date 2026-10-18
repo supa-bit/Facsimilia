@@ -307,7 +307,31 @@ public partial class MapView
         }
     }
 
-    /// <summary>Wars between other realms end when history's years are over and a side is losing or tired; beaten realms pay tribute.</summary>
+    /// <summary>How much both sides must want peace before they make it.</summary>
+    const double BotPeaceWish = 50;
+
+    /// <summary>
+    /// Peace sense (your answer "They weigh war score, exhaustion, other
+    /// threats and their aims"): how much a side wants this war over. Losing
+    /// counts (a beaten side wants it above all), half its weariness, every
+    /// other war it isn't winning, its aims met (the attacker's campaign over
+    /// or won; the defender holding its own), and a war that drags on.
+    /// </summary>
+    internal double PeaceWish(War war, int side, bool goalOver, int years)
+    {
+        double score = war.ScoreFor(side);
+        double wish = score <= -50 ? 100 : -score;
+        wish += 0.5 * war.ExhaustionFor(side);
+        wish += 25 * Game.Wars.Of(side).Count(w => w != war && w.Supports == null && w.ScoreFor(side) < 10);
+        bool aimsMet = side == war.Attacker ? (goalOver && years >= 2) || score >= 50 : score >= -20;
+        if (aimsMet)
+            wish += 60;
+        if (years >= Diplomacy.WearyYears)
+            wish += 15;
+        return wish;
+    }
+
+    /// <summary>Wars between other realms end when both sides want peace enough (PeaceWish), or after 25 years; beaten realms pay tribute.</summary>
     List<ChronicleEvent> BotsMakePeace(Dictionary<int, RealmCensus> census)
     {
         var events = new List<ChronicleEvent>();
@@ -320,8 +344,7 @@ public partial class MapView
             bool goalOver = !HistoryGoals.Any(g => g.Realm == attacker.CivKey && g.ActiveIn(year)
                 && RealmOfCiv(g.Target) == war.Defender);
             int years = year - war.Since;
-            bool loserBeaten = Math.Abs(war.Score) >= 50;
-            if (!(goalOver && years >= 2) && !loserBeaten && years < 25)
+            if (years < 25 && (PeaceWish(war, war.Attacker, goalOver, years) < BotPeaceWish || PeaceWish(war, war.Defender, goalOver, years) < BotPeaceWish))
                 continue;
             int winner = war.Score >= 0 ? war.Attacker : war.Defender;
             int loser = war.Enemy(winner);

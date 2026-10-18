@@ -51,6 +51,14 @@ public partial class AiTest : TestRunner
         // raises it when the simulation needs more; it is never a reason to cut simulation.
         Check(msPerYear < 1000, $"a year takes {msPerYear:0} ms, over the designer's 1-second tripwire");
 
+        // Peace sense: a fresh attacker short of its aims fights on; worn out, it wants peace; a beaten side wants it above all.
+        var probe = new Game.War(1, 2, map.DemoYear, true);
+        Check(map.PeaceWish(probe, 1, goalOver: false, years: 0) < 50, "a fresh attacker short of its aims shouldn't want peace");
+        probe.AttackerExhaustion = 100;
+        Check(map.PeaceWish(probe, 1, goalOver: false, years: 0) >= 50, "a worn-out attacker should want peace");
+        probe.Score = 60;
+        Check(map.PeaceWish(probe, 2, goalOver: false, years: 0) >= 100, "a beaten defender should want peace above all");
+
         // Mid-war save and load keeps the wars.
         int wars = map.Game.Wars.All.Count;
         Check(await map.SaveCurrentGame("slot1"), "save failed");
