@@ -88,6 +88,34 @@ public partial class MercenaryTest : TestRunner
             map.MarchMonth();
             Check(c2.Employer != rome, "a company whose contract ends should leave");
         }
+        // A captain rises: an unpaid captain standing in Roman land outside the capital makes himself its lord.
+        var c3 = map.Game.Companies.FirstOrDefault(x => x.Employer == 0);
+        Check(c3 != null, "no free company left to test a captain's rise");
+        if (c3 != null)
+        {
+            r.Treasury = 100000;
+            Check(map.Hire(rome, c3, 12) == null, "couldn't hire a third company");
+            var cArmy = r.ArmyById(c3.ArmyId)!;
+            var seat = map.Provinces!.Provinces.Values.First(p => p.RealmId == rome && p.Id != map.CapitalProvince(rome));
+            cArmy.Node = map.Population!.LandNodes.First(i => map.ProvinceOfNodeForTest(i) == seat.Id);
+            cArmy.Route.Clear();
+            int realmsBefore = map.Registry.Realms.Count;
+            map.Game.Companies.Remove(c3);
+            var risen = map.Mutiny(rome, r, cArmy, lordship: true);
+            int lord = map.Provinces.Provinces[seat.Id].RealmId;
+            Check(map.Registry.Realms.Count == realmsBefore + 1 && lord != rome && lord != 0 && map.Game.Realm(lord).ArmyById(cArmy.Id) != null,
+                $"the captain should found a lordship on {seat.Name} with his men ({string.Join(" ", risen.Select(e => e.Text))})");
+            Check(map.Registry.Realms[lord].RulerId >= 0 && map.Registry.Characters[map.Registry.Realms[lord].RulerId].DynastyId != -1,
+                "the new lord should be a ruler with a house");
+            Check(await map.SaveCurrentGame("slot2"), "save failed");
+            var m2 = new MapView();
+            Check(await m2.LoadSavedGame("slot2"), "load failed");
+            Check(m2.Provinces!.Provinces[seat.Id].RealmId == lord && m2.Game.Realm(lord).CivKey == $"risen:{lord}" && m2.CivRealmIds.ContainsKey($"risen:{lord}"),
+                "the lordship should survive the save");
+            map.AdvanceYear();   // a new realm lives through a year
+            Check(map.Game.Realms.ContainsKey(lord), "the lordship should live through a year");
+            m2.Free();
+        }
         // Each unit type keeps its own experience.
         var a = r.NewArmy("Test", map.CapitalNode(rome));
         int h = UnitCatalog.Instance["hastati_principes"].Index, v = UnitCatalog.Instance["velites"].Index;

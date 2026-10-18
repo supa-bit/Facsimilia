@@ -2087,6 +2087,18 @@ companies and reforms follow.
     rather than to attack, so that your allies are called in and the world
     sees you as the wronged side.
   The buttons now wrap onto a second line in a wider panel.
+- **Captains who rise (built, 18 Oct 2026; your answers: by deeds and by
+  chance, to a lordship or a throne if they hold land and their men are
+  loyal).** When an unpaid or slighted captain turns on you while standing
+  in your land (not your capital's province), he no longer just takes the
+  province for no one: he makes it a lordship of his own, a new realm ("the
+  Lordship of Campania") ruled by him and his house, with his company as
+  its army, as the Campanian mercenaries took Messana in 288 BC and ruled it
+  as the Mamertines. His former employer bears it a grudge. Each victory he
+  has won makes such a bid a tenth likelier (up to three times). New
+  realms are kept in the save like the realms of 300 BC, and the same way
+  of founding a realm mid-game will serve history's new realms, pretenders
+  and civil wars.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

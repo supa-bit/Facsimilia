@@ -30,6 +30,13 @@ public partial class MapView
     /// <summary>Each month an unpaid or slighted captain, little bound to you, may seize the land his company stands in.</summary>
     public const double CaptainSeizeChance = 0.08;
 
+    /// <summary>
+    /// A captain rises by deeds and by chance (your answer "How a captain
+    /// rises": both): each victory he has won makes his bid for land a tenth
+    /// likelier, up to three times as likely.
+    /// </summary>
+    double CaptainDeeds(RealmState s, Army army) => Math.Min(3, 1 + 0.1 * (s.GeneralOf(army)?.Victories ?? 0));
+
     int GroundNode(string groundId)
     {
         var g = MercenaryCatalog.Instance.Ground(groundId);
@@ -398,11 +405,11 @@ public partial class MapView
                 events.Add(new ChronicleEvent(ChronicleKind.War, s.RealmId, $"{c.Name}'s contract ends in two months; sign them on again in the Armies panel or they leave."));
             // A captain unpaid or slighted may seize the land he stands in (your answer "A captain taking a throne").
             if ((c.Arrears >= 3 || c.Slighted && c.Arrears >= 1) && c.Loyalty < 0.3 && army.Node >= 0
-                && Population!.NodeOwner[army.Node] == s.RealmId && rng.NextDouble() < CaptainSeizeChance)
+                && Population!.NodeOwner[army.Node] == s.RealmId && rng.NextDouble() < CaptainSeizeChance * CaptainDeeds(s, army))
             {
                 Game.Companies.Remove(c);
                 c.Employer = 0;
-                var seized = Mutiny(s.RealmId, s, army);
+                var seized = Mutiny(s.RealmId, s, army, lordship: true);
                 foreach (var e in seized)
                     events.Add(e with { Text = e.Text.Replace("The soldiers were his, not yours.", $"Unpaid and slighted, {c.Captain.Name} takes for himself what you would not give.") });
                 continue;

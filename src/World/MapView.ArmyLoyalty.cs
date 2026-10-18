@@ -75,7 +75,7 @@ public partial class MapView
     /// it is lost to you, its general with it, and the province it stands in
     /// breaks away under them, unless it is the capital's.
     /// </summary>
-    List<ChronicleEvent> Mutiny(int realmId, RealmState s, Army army)
+    internal List<ChronicleEvent> Mutiny(int realmId, RealmState s, Army army, bool lordship = false)
     {
         var events = new List<ChronicleEvent>();
         var general = s.GeneralOf(army);
@@ -89,6 +89,24 @@ public partial class MapView
         string text = $"{who} and {army.Name} turn against {RealmName(realmId)}";
         if (province != 0 && Provinces!.Provinces.TryGetValue(province, out var p) && p.RealmId == realmId && province != CapitalProvince(realmId))
         {
+            if (lordship && general != null)
+            {
+                // A captain with land and loyal men makes himself a lord (your answer "How far can a captain rise":
+                // to a lordship or a throne), as the Mamertines took Messana in 288 BC.
+                var culture = CultureOfProvince(province, Registry.Realms.TryGetValue(realmId, out var old) ? old.Culture : Culture.Greek);
+                int lord = FoundRealm($"Lordship of {p.Name}", general.Name, general.BornYear, culture, province, army.Node);
+                var ls = Game.Realm(lord);
+                ls.Armies.Add(army);
+                ls.NextArmyId = Math.Max(ls.NextArmyId, army.Id + 1);
+                ls.Generals.Add(general);
+                ls.Treasury = 0;
+                Game.AddGrudge(realmId, lord, GrudgeProvince, DemoYear);
+                ProvinceLog(province, $"{who} makes himself lord of {p.Name}, taking it from {RealmName(realmId)}.");
+                text += $", seize {p.Name} and make it a lordship of their own";
+                events.Add(new ChronicleEvent(ChronicleKind.Revolt, realmId, text + ". The soldiers were his, not yours."));
+                events.Add(new ChronicleEvent(ChronicleKind.NewHouse, lord, $"{who} founds the {RealmName(lord)}."));
+                return events;
+            }
             Game.RecordLoss(realmId, province, DemoYear);
             Provinces.SetRealm(province, 0, Grid);
             MarkChanged(province);
