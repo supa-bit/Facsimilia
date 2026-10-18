@@ -39,6 +39,11 @@ public partial class DiplomacyTest : TestRunner
         g.AddGrudge(nabatea, egypt, MapView.GrudgeRaze, map.DemoYear);
         Check(map.Opinion(nabatea, egypt).Value <= opinionBefore - MapView.GrudgeRaze + 1 && map.Opinion(nabatea, egypt).Reasons.Any(r => r.Contains("old wrongs")),
             "a razed city should be remembered");
+        // Why they did that: a realm's aims and reasons, as far as your realm knows them.
+        Check(map.AimsOf(nabatea).Any(a => a.Text == $"Bears a grudge against {map.RealmName(egypt)}"), "an old wrong should show among Nabataea's aims");
+        g.DiplomacyFog = FogLevel.Full;
+        Check(map.AimsOf(nabatea).Count == 0, "under full fog Rome should know nothing of far Nabataea's aims");
+        g.DiplomacyFog = FogLevel.Off;
         Check(System.Math.Abs(g.GrudgeNow(nabatea, egypt, map.DemoYear + 30) - MapView.GrudgeRaze / 2) < 1e-9, "a grudge should be half forgotten in 30 years");
         Check(Game.GameState.FromDict(g.ToDict()).GrudgeNow(nabatea, egypt, map.DemoYear) > 0, "grudges should be saved");
         g.Grudges.Clear();
@@ -154,6 +159,8 @@ public partial class DiplomacyTest : TestRunner
         Check(map2.Game.Treaties.All.Count == g.Treaties.All.Count && map2.Game.Treaties.OverlordOf(nabatea) == rome
             && Math.Abs(map2.PlayerState.Aggression - map.PlayerState.Aggression) < 1e-6
             && map2.Game.Lost.Count == g.Lost.Count, "treaties, aggression or losses didn't survive the save");
+        Check(g.Wars.All.Any(w => w.Why != "") && map2.Game.Wars.All.Select(w => w.Why).SequenceEqual(g.Wars.All.Select(w => w.Why)),
+            "why each war was declared should survive the save");
 
         Finish($"Diplomacy tests passed: treaties and rivals of 300 BC; pretexts; allies called in; terms by war score " +
             $"(Samnium cost {cost:0}); forced peace by exhaustion; offers; vassal tribute; a coalition of " +

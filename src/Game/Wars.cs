@@ -21,6 +21,8 @@ public sealed class War
     public bool Pretext { get; }              // declared with a good reason (decision "Playable 15")
     /// <summary>The pretext it was declared on (Pretexts.All), or "" for none.</summary>
     public string CasusBelli { get; init; } = "";
+    /// <summary>Why it was declared, in words ("The Third Samnite War: ..."; Other realms: "Why they did that").</summary>
+    public string Why { get; set; } = "";
     /// <summary>For an ally's war: the main war it was called into (attacker, defender), else null.</summary>
     public (int Attacker, int Defender)? Supports { get; init; }
     public double Score { get; set; }
@@ -70,7 +72,7 @@ public sealed class War
     public GDictionary ToDict() => new()
     {
         ["a"] = Attacker, ["d"] = Defender, ["since"] = Since, ["pretext"] = Pretext, ["score"] = Score,
-        ["al"] = AttackerLosses, ["dl"] = DefenderLosses, ["cb"] = CasusBelli,
+        ["al"] = AttackerLosses, ["dl"] = DefenderLosses, ["cb"] = CasusBelli, ["why"] = Why,
         ["ae"] = AttackerExhaustion, ["de"] = DefenderExhaustion, ["cal"] = CountedAttackerLosses, ["cdl"] = CountedDefenderLosses,
         ["sup"] = Supports is { } sp ? new GArray { sp.Attacker, sp.Defender } : new GArray(),
         ["taken_a"] = new GArray(Taken.GetValueOrDefault(Attacker)?.Select(p => (Variant)p).ToArray() ?? Array.Empty<Variant>()),
@@ -83,6 +85,7 @@ public sealed class War
         var w = new War(d["a"].AsInt32(), d["d"].AsInt32(), d["since"].AsInt32(), d["pretext"].AsBool())
         {
             CasusBelli = d.TryGetValue("cb", out var cb) ? cb.AsString() : "",
+            Why = d.TryGetValue("why", out var why) ? why.AsString() : "",
             Supports = sup.Count == 2 ? (sup[0].AsInt32(), sup[1].AsInt32()) : null,
             AttackerExhaustion = d.TryGetValue("ae", out var ae) ? ae.AsDouble() : 0,
             DefenderExhaustion = d.TryGetValue("de", out var de) ? de.AsDouble() : 0,

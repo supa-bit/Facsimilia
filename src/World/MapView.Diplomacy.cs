@@ -227,6 +227,7 @@ public partial class MapView
     {
         var events = new List<ChronicleEvent>();
         var war = Diplomacy.Declare(Game, attacker, defender, DemoYear, pretext != Pretexts.None, pretext.Id);
+        war.Why = why ?? pretext.Name;
         var state = Game.Realm(attacker);
         state.Aggression = Math.Min(100, state.Aggression + pretext.AggressionOnDeclare);
         if (pretext == Pretexts.None)

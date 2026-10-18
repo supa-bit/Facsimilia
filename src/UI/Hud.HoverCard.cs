@@ -62,9 +62,13 @@ public partial class Hud
     {
         CloseCards(depth);
         var card = new PanelContainer { ThemeTypeVariation = "GlassPanel", MouseFilter = MouseFilterEnum.Stop, ZIndex = 50 + depth };
+        // Long cards (a realm's aims and their reasons) wrap at a reading width.
+        bool wrap = bbcode.Length > 360;
         var text = new RichTextLabel
         {
-            BbcodeEnabled = true, FitContent = true, ScrollActive = false, AutowrapMode = TextServer.AutowrapMode.Off,
+            BbcodeEnabled = true, FitContent = true, ScrollActive = false,
+            AutowrapMode = wrap ? TextServer.AutowrapMode.WordSmart : TextServer.AutowrapMode.Off,
+            CustomMinimumSize = new Vector2(wrap ? 460 : 0, 0),
             MouseFilter = MouseFilterEnum.Pass, Text = bbcode,
         };
         text.AddThemeFontSizeOverride("normal_font_size", 15);
@@ -74,6 +78,13 @@ public partial class Hud
             string body = CardFor(meta.AsString());
             if (body != "")
                 OpenCard(depth + 1, body, GetViewport().GetMousePosition() + new Vector2(14, 14));
+        };
+        text.MetaClicked += meta =>
+        {
+            // "More on click" (your answer "Why they did that, in detail"): every aim, not just the first three.
+            string m = meta.AsString();
+            if (m.StartsWith("aims:") && int.TryParse(m[5..], out int realm))
+                OpenCard(depth + 1, AimsCard(realm, all: true), GetViewport().GetMousePosition() + new Vector2(14, 14));
         };
         card.AddChild(text);
         AddChild(card);
@@ -151,7 +162,26 @@ public partial class Hud
             var (opinion, _) = _map.Opinion(realmId, _map.PlayerRealmId);
             string status = _map.Game.Wars.AtWar(realmId, _map.PlayerRealmId) ? "At war with you" : _map.Game.Treaties.Allied(realmId, _map.PlayerRealmId) ? "Your ally" : "At peace with you";
             lines.Add($"{status}  ·  their opinion of you {opinion:+0;-0;0}");
+            lines.Add(AimsCard(realmId, all: false));
         }
+        return string.Join("\n", lines);
+    }
+
+    /// <summary>Most aims shown on a realm's card; the rest on click.</summary>
+    const int CardAims = 3;
+
+    /// <summary>A realm's aims and why (Other realms: "Why they did that"): the first three, or all of them.</summary>
+    string AimsCard(int realmId, bool all)
+    {
+        var aims = _map.AimsOf(realmId);
+        if (aims.Count == 0)
+            return "Your realm knows nothing of their aims.";
+        var shown = all ? aims : aims.Take(CardAims).ToList();
+        string dim = ThemeAncient.TextDim.ToHtml(false);
+        var lines = new List<string> { all ? Title($"{_map.RealmName(realmId)}: all their aims") : "Their aims:" };
+        lines.AddRange(shown.Select(a => $"•  {a.Text}\n    [color=#{dim}]{a.Reason}[/color]"));
+        if (!all && aims.Count > CardAims)
+            lines.Add($"[url=aims:{realmId}][u]Click for all {aims.Count} of their aims[/u][/url]");
         return string.Join("\n", lines);
     }
 
