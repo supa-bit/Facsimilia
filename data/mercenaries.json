@@ -1,5 +1,5 @@
 {
- "about": "Mercenary companies (decision 'Next 8': named companies; your follow-up answers: history's companies in their eras plus generated ones, hired at their hiring grounds, monthly pay plus a bonus after victories, 500 to 5,000 men of mixed arms, captains who can rise, going to whoever pays best). grounds: the hiring grounds where companies wait for employers (Cape Taenarum was the great one of the 4th and 3rd centuries BC; Crete and Rhodes sent archers and slingers; the Balearics slingers; the Celtic lands war bands). companies: from/to (years, negative BC) when the company can be hired; ground; units (unit id: count of units); captain (name, skills tactics/leadership/siegecraft/logistics/seamanship, perks); pay: [least, most] times what the same troops would cost as your own (pay and rations); an elite company's pay is drawn anew each year inside its range, so a strong company can bankrupt you; bonus: months of pay owed after each victory. Sources: Polybius 1.65-88 (the Mercenary War), 1.32-34 (Xanthippus), 2.21-31 (the Gaesatae at Telamon); Diodorus 21.18 and Polybius 1.7-8 (the Mamertines); Livy 38.16 and Pausanias 10.23 (the Galatians' crossing); Griffith, 'The Mercenaries of the Hellenistic World' (1935). Our own data, free for any use.",
+ "about": "Mercenary companies (decision 'Next 8': named companies; your follow-up answers: history's companies in their eras plus generated ones, hired at their hiring grounds, monthly pay plus a bonus after victories, 500 to 5,000 men of mixed arms, captains who can rise, going to whoever pays best). grounds: the hiring grounds where companies wait for employers (Cape Taenarum was the great one of the 4th and 3rd centuries BC; Crete and Rhodes sent archers and slingers; the Balearics slingers; the Celtic lands war bands). companies: from/to (years, negative BC) when the company can be hired; ground; units (unit id: count of units); captain (name, skills tactics/leadership/siegecraft/logistics/seamanship, perks); pay: [least, most] times what the same troops would cost as your own (pay and rations); an elite company's pay is drawn anew each year inside its range, so a strong company can bankrupt you; bonus: months of pay owed after each victory. Sources: Polybius 1.65-88 (the Mercenary War), 1.32-34 (Xanthippus), 2.21-31 (the Gaesatae at Telamon); Diodorus 21.18 and Polybius 1.7-8 (the Mamertines); Livy 38.16 and Pausanias 10.23 (the Galatians' crossing); Griffith, 'The Mercenaries of the Hellenistic World' (1935). Our own data, free for any use. men (unit id: men, added 18 Oct 2026; your answer 'Company sizes': to history's numbers, 500 to 5,000; each company is split into an even number of units): Taenarum's bands of a few thousand (Diodorus 17.111, 18.9); Xanthippus came with a small draft of Greek mercenaries (Polybius 1.32); Cretans 1,000 to 3,000 (Polybius 5.65, Raphia); Rhodian slingers at the 500 floor (Xenophon had 200, Anabasis 3.3); Leonnorios' half of the 10,000 Galatian fighters (Livy 38.16); the Gaesatae, a few thousand of the great Gallic host at Telamon (Polybius 2.23); the Mamertines, of whom Hiero defeated 8,000 (Polybius 1.9); Scopas' 6,000 Aetolians (Livy 31.43); the rest rounded to the bands' usual size in Griffith (1935). When 'men' is given it sets the company's size; 'units' still names the kinds of troops.",
  "grounds": [
   {
    "id": "taenarum",
@@ -124,7 +124,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "hoplites": 2000
+   }
   },
   {
    "id": "xanthippus",
@@ -154,7 +157,11 @@
     1.6,
     3.5
    ],
-   "bonus": 2
+   "bonus": 2,
+   "men": {
+    "hoplites": 800,
+    "peltasts": 400
+   }
   },
   {
    "id": "cretan_archers",
@@ -169,7 +176,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "cretan_archers": 1000
+   }
   },
   {
    "id": "cretan_gortyn",
@@ -185,7 +195,11 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "cretan_archers": 600,
+    "peltasts": 400
+   }
   },
   {
    "id": "rhodian_slingers",
@@ -200,7 +214,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "slingers": 500
+   }
   },
   {
    "id": "balearic_slingers",
@@ -215,7 +232,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "balearic_slingers": 1000
+   }
   },
   {
    "id": "thracian_peltasts",
@@ -230,7 +250,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "peltasts": 2000
+   }
   },
   {
    "id": "leonnorios",
@@ -260,7 +283,11 @@
     1.5,
     2.5
    ],
-   "bonus": 2
+   "bonus": 2,
+   "men": {
+    "galatian_warriors": 4400,
+    "gallic_cavalry": 600
+   }
   },
   {
    "id": "galatian_band",
@@ -275,7 +302,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "galatian_warriors": 3000
+   }
   },
   {
    "id": "gaesatae",
@@ -304,7 +334,11 @@
     1.6,
     3.0
    ],
-   "bonus": 2
+   "bonus": 2,
+   "men": {
+    "warband": 4000,
+    "gallic_cavalry": 1000
+   }
   },
   {
    "id": "celtic_band",
@@ -319,7 +353,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "warband": 2000
+   }
   },
   {
    "id": "scutarii",
@@ -335,7 +372,11 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "scutarii": 3000,
+    "iberian_cavalry": 500
+   }
   },
   {
    "id": "numidian_horse",
@@ -350,7 +391,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "numidian_horse": 2000
+   }
   },
   {
    "id": "libyan_spears",
@@ -365,7 +409,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "libyan_spearmen": 3000
+   }
   },
   {
    "id": "mamertines",
@@ -393,7 +440,10 @@
     1.5,
     2.2
    ],
-   "bonus": 2
+   "bonus": 2,
+   "men": {
+    "samnite_warriors": 4000
+   }
   },
   {
    "id": "illyrian_raiders",
@@ -408,7 +458,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "illyrian_raiders": 2000
+   }
   },
   {
    "id": "aetolian_band",
@@ -424,7 +477,11 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "peltasts": 3000,
+    "hoplites": 2000
+   }
   },
   {
    "id": "thessalian_horse",
@@ -439,7 +496,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "thessalian_cavalry": 1000
+   }
   },
   {
    "id": "scythian_archers",
@@ -454,7 +514,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "scythian_horse_archers": 2000
+   }
   },
   {
    "id": "sarmatian_lancers",
@@ -469,7 +532,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "sarmatian_lancers": 3000
+   }
   },
   {
    "id": "arab_riders",
@@ -485,7 +551,11 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "camel_riders": 1000,
+    "arab_archers": 1000
+   }
   },
   {
    "id": "persian_horse",
@@ -500,7 +570,10 @@
     1.3,
     1.5
    ],
-   "bonus": 1
+   "bonus": 1,
+   "men": {
+    "persian_cavalry": 2000
+   }
   }
  ]
 }

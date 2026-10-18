@@ -2099,6 +2099,16 @@ companies and reforms follow.
   realms are kept in the save like the realms of 300 BC, and the same way
   of founding a realm mid-game will serve history's new realms, pretenders
   and civil wars.
+- **Companies sized to history (built, 18 Oct 2026; your answers: to
+  history's numbers, 500 to 5,000 men; armies hold an even number of
+  units).** Each historical company now has its men from the sources
+  (data/mercenaries.json, "men"): the hoplites of Taenarum 2,000, the
+  Cretan archers of Knossos 1,000, the Rhodian slingers 500, Leonnorios'
+  Galatians 5,000, the Gaesatae 5,000, the Mamertines 4,000, the Aetolians
+  5,000, and so on. Each kind of troop is split into units of about its
+  usual size, and if that makes an odd number of units, the largest kind
+  is split once more. Companies raised by chance at a hiring ground have
+  500 to 5,000 men of one or two kinds, also in an even number of units.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

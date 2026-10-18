@@ -254,10 +254,13 @@ public partial class MapView
                 Id = Game.NextCompanyId++, SpecId = spec.Id, Name = spec.Name, Ground = spec.Ground,
                 PayMin = spec.PayMin, PayMax = spec.PayMax, BonusMonths = spec.Bonus, Until = spec.To,
             };
-            foreach (var (u, n) in spec.Units)
-                if (cat.Has(u))
-                    for (int k = 0; k < n; k++)
-                        c.Regiments.Add(new Regiment { Type = cat[u].Index, Men = cat[u].Men, Xp = HiredXp });
+            if (spec.Men != null)   // history's numbers, in an even number of units
+                c.Regiments.AddRange(Company.Sized(spec.Men.Where(m => cat.Has(m.Key)).Select(m => (cat[m.Key].Index, m.Value, cat[m.Key].Men)), HiredXp));
+            else
+                foreach (var (u, n) in spec.Units)
+                    if (cat.Has(u))
+                        for (int k = 0; k < n; k++)
+                            c.Regiments.Add(new Regiment { Type = cat[u].Index, Men = cat[u].Men, Xp = HiredXp });
             c.PayFactor = spec.PayMin + rng.NextDouble() * (spec.PayMax - spec.PayMin);
             c.Captain = spec.CaptainName != null
                 ? MakeCaptain(spec.CaptainName, spec.CaptainSkills!, spec.CaptainPerks!)
@@ -324,13 +327,17 @@ public partial class MapView
         var cultures = new HashSet<string> { culture };
         var units = new List<Regiment>();
         int[] roles = { UnitRoles.HeavyInfantry, UnitRoles.LightInfantry, UnitRoles.Missile, UnitRoles.Cavalry };
-        int total = 2 + rng.Next(3);
-        for (int k = 0; k < total; k++)
+        // 500 to 5,000 men of one or two kinds (your answer "Company sizes"), in an even number of units.
+        int total = 500 + 100 * rng.Next(46);
+        var kinds = new List<(int Type, int Men, int UsualMen)>();
+        int parts = 1 + rng.Next(2);
+        for (int k = 0; k < parts; k++)
         {
             var u = cat.BestFor(roles[rng.Next(roles.Length)], cultures);
-            if (u.Domain == Domain.Land)
-                units.Add(new Regiment { Type = u.Index, Men = u.Men, Xp = HiredXp });
+            if (u.Domain == Domain.Land && kinds.All(x => x.Type != u.Index))
+                kinds.Add((u.Index, total / parts, u.Men));
         }
+        units.AddRange(Company.Sized(kinds, HiredXp));
         if (units.Count == 0)
             return null;
         string captain = CaptainName(ground.Id, rng);

@@ -27,6 +27,13 @@ public partial class MercenaryTest : TestRunner
         var r = map.Game.Realm(rome);
 
         Check(map.Game.Companies.Count >= 10, $"history's companies should wait at their grounds, found {map.Game.Companies.Count}");
+        foreach (var comp in map.Game.Companies)
+        {
+            int menIn = comp.Regiments.Sum(x => x.Men);
+            Check(comp.Regiments.Count % 2 == 0 && menIn >= 500 && menIn <= 5000,
+                $"{comp.Name} should have an even number of units and 500 to 5,000 men ({comp.Regiments.Count} units, {menIn} men)");
+        }
+        Check(map.Game.Companies.First(x => x.SpecId == "taenarum_hoplites").Regiments.Sum(x => x.Men) == 2000, "Taenarum's hoplites should be 2,000 strong");
         var c = map.Game.Companies.FirstOrDefault(x => x.Employer == 0 && x.SpecId == "taenarum_hoplites");
         Check(c != null, "the hoplites of Taenarum should be for hire");
         if (c == null)
@@ -37,7 +44,7 @@ public partial class MercenaryTest : TestRunner
         r.Treasury = 10000;
         Check(map.Hire(rome, c) == null, "couldn't hire a company with silver in hand");
         var army = r.ArmyById(c.ArmyId);
-        Check(army != null && army.CompanyId == c.Id && army.Count == 3, "the company should become an army of three units");
+        Check(army != null && army.CompanyId == c.Id && army.Count == 2 && army.Regiments.Sum(x => x.Men) == 2000, "the company should become an army of its two units, 2,000 men");
         Check(r.GeneralOf(army!)?.Origin == General.Captain, "the company's captain should lead it");
         Check(System.Math.Abs(Economy.Upkeep(r) - upkeepBefore) < 1e-6, "a company should be paid by the month, not in the yearly upkeep");
         Check(map.Hire(rome, c) != null, "a company can't be hired twice");

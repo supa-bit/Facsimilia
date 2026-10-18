@@ -13,7 +13,8 @@ public sealed record HiringGround(string Id, string Name, double Lon, double Lat
 
 /// <summary>A historical company as the data describes it.</summary>
 public sealed record CompanySpec(string Id, string Name, int From, int To, string Ground, IReadOnlyDictionary<string, int> Units,
-    string? CaptainName, int[]? CaptainSkills, string[]? CaptainPerks, double PayMin, double PayMax, double Bonus);
+    string? CaptainName, int[]? CaptainSkills, string[]? CaptainPerks, double PayMin, double PayMax, double Bonus,
+    IReadOnlyDictionary<string, int>? Men = null);
 
 public sealed class MercenaryCatalog
 {
@@ -54,9 +55,12 @@ public sealed class MercenaryCatalog
                 cp = cap.GetProperty("perks").EnumerateArray().Select(x => x.GetString()!).ToArray();
             }
             var pay = c.GetProperty("pay").EnumerateArray().Select(x => x.GetDouble()).ToArray();
+            Dictionary<string, int>? men = null;
+            if (c.TryGetProperty("men", out var mm))
+                men = mm.EnumerateObject().ToDictionary(x => x.Name, x => x.Value.GetInt32());
             companies.Add(new CompanySpec(c.GetProperty("id").GetString()!, c.GetProperty("name").GetString()!,
                 c.GetProperty("from").GetInt32(), c.GetProperty("to").GetInt32(), c.GetProperty("ground").GetString()!, units,
-                cn, cs, cp, pay[0], pay[1], c.GetProperty("bonus").GetDouble()));
+                cn, cs, cp, pay[0], pay[1], c.GetProperty("bonus").GetDouble(), men));
         }
         return new MercenaryCatalog(grounds, companies);
     }
@@ -70,6 +74,28 @@ public sealed class MercenaryCatalog
 /// </summary>
 public sealed class Company
 {
+    /// <summary>
+    /// A company's units from history's numbers of men (your answers: "to
+    /// history's numbers", and armies hold an even number of units so the
+    /// line has matching wings): each kind of troop in units of about its
+    /// usual size, and if that makes an odd count, the largest kind is split
+    /// once more.
+    /// </summary>
+    public static List<Regiment> Sized(IEnumerable<(int Type, int Men, int UsualMen)> kinds, double xp)
+    {
+        var list = kinds.Where(k => k.Men > 0).Select(k => (k.Type, k.Men, Count: Math.Max(1, (int)Math.Round((double)k.Men / Math.Max(k.UsualMen, 1))))).ToList();
+        if (list.Sum(k => k.Count) % 2 == 1 && list.Count > 0)
+        {
+            int big = list.IndexOf(list.OrderByDescending(k => k.Men).First());
+            list[big] = (list[big].Type, list[big].Men, list[big].Count + 1);
+        }
+        var regiments = new List<Regiment>();
+        foreach (var (type, men, count) in list)
+            for (int i = 0; i < count; i++)
+                regiments.Add(new Regiment { Type = type, Men = Math.Clamp(men / count + (i < men % count ? 1 : 0), Regiment.MinMen, Regiment.MaxMen), Xp = xp });
+        return regiments;
+    }
+
     public int Id { get; init; }
     public string SpecId { get; init; } = "";   // a historical company's id, or "" for a generated one
     public string Name { get; set; } = "";
