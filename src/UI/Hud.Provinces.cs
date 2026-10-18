@@ -249,7 +249,10 @@ public partial class Hud
     {
         var p = _map.SelectedProvince;
         bool editing = _map.Mode == MapMode.EditProvinces;
+        bool wasVisible = _provincePanel.Visible;
         _provincePanel.Visible = (p != null || editing) && _map.Mode != MapMode.PlanConquest;
+        if (wasVisible != _provincePanel.Visible)
+            Callable.From(RefreshOutliner).CallDeferred();   // the outliner fits the room left below the panel
         if (!_provincePanel.Visible)
             return;
         bool mine = p != null && p.RealmId == _map.PlayerRealmId;

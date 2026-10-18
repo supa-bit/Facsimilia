@@ -18,6 +18,8 @@ public partial class Hud
     VBoxContainer _outlinerRows = null!;
     Button _outlinerToggle = null!;
     bool _outlinerOpen = true;
+    /// <summary>The groups you have folded (your answer "Outliner contents": each group collapsible).</summary>
+    readonly HashSet<string> _outlinerFolded = new();
     /// <summary>Room kept free below the outliner (the map and time buttons) and above it (the top bar and panels); its tallest; a line's height.</summary>
     const float OutlinerBottomRoom = 250, OutlinerTopRoom = 380, OutlinerMaxHeight = 420, OutlinerRowHeight = 30;
 
@@ -66,14 +68,31 @@ public partial class Hud
         if (items.Count == 0)
             _outlinerRows.AddChild(ThemeAncient.Label("Nothing waits on you.", "SubtleLabel", 15));
         // Only as many lines as fit above the buttons at the bottom of the screen (a larger interface size leaves less room).
-        float room = Math.Min(OutlinerMaxHeight, GetViewportRect().Size.Y - OutlinerBottomRoom - OutlinerTopRoom);
+        float top = OutlinerTopRoom;
+        if (_provincePanel is { Visible: true })   // never under the province panel
+            top = Math.Max(top, _provincePanel.GetGlobalRect().End.Y + 12);
+        float room = Math.Min(OutlinerMaxHeight, GetViewportRect().Size.Y - OutlinerBottomRoom - top);
         int maxRows = Math.Max(3, (int)(room / OutlinerRowHeight)), rows = 0, total = items.Sum(g => g.Lines.Count + 1);
         foreach (var (heading, lines) in items)
         {
             if (rows + 2 > maxRows)
                 break;
-            _outlinerRows.AddChild(ThemeAncient.Label(heading, "SubtleLabel", 14));
+            bool folded = _outlinerFolded.Contains(heading);
+            var head = new Button { Text = (folded ? "▸ " : "▾ ") + heading + (folded ? $" ({lines.Count})" : ""), Flat = true,
+                Alignment = HorizontalAlignment.Left, FocusMode = FocusModeEnum.None, TooltipText = folded ? "Unfold" : "Fold" };
+            head.AddThemeFontSizeOverride("font_size", 14);
+            head.AddThemeColorOverride("font_color", ThemeAncient.TextDim);
+            string h = heading;
+            head.Pressed += () =>
+            {
+                if (!_outlinerFolded.Remove(h))
+                    _outlinerFolded.Add(h);
+                RefreshOutliner();
+            };
+            _outlinerRows.AddChild(head);
             rows++;
+            if (folded)
+                continue;
             foreach (var (text, go) in lines)
             {
                 if (++rows > maxRows - 1 && rows < total)
@@ -124,8 +143,11 @@ public partial class Hud
         }));
         Add("Sieges", _map.Game.Sieges.Where(x => x.Attacker == me || x.Owner == me).Select(x =>
             ($"{(x.Attacker == me ? "Besieging" : "Besieged:")} {x.Name} ({x.Progress:P0})", (Action)(() => FocusNode(x.Node)))));
-        Add("Armies", s.Armies.Where(a => !a.IsEmpty).Select(a =>
-            ($"{a.Name}: {ThemeAncient.GroupThousands(Military.Soldiers(a))} men" + (a.Resting ? ", resting" : ""), (Action)(() => FocusNode(a.Node)))));
+        bool IsFleet(Army a) => Military.RawMight(a, Domain.Land) <= 0;
+        Add("Armies", s.Armies.Where(a => !a.IsEmpty && !IsFleet(a)).Select(a =>
+            ($"{a.Name}: {ThemeAncient.GroupThousands(Military.Soldiers(a))} men" + (a.Resting ? ", resting" : a.Marching ? ", marching" : ""), (Action)(() => FocusNode(a.Node)))));
+        Add("Fleets", s.Armies.Where(a => !a.IsEmpty && IsFleet(a)).Select(a =>
+            ($"{a.Name}: {a.RoleCount(UnitCatalog.Instance, UnitRoles.Warships):0} warships" + (a.Marching ? ", sailing" : ""), (Action)(() => FocusNode(a.Node)))));
         Add("Unrest", _map.Provinces!.Provinces.Values.Where(p => p.RealmId == me)
             .Select(p => (p, st: _map.ProvinceStateOf(p.Id)))
             .Where(x => x.st.Unrest > Loyalty.RevoltThreshold * 0.7)
@@ -135,7 +157,24 @@ public partial class Hud
         var research = new List<(string, Action)>();
         if (!s.Studying)
             research.Add(("Nothing is being studied", () => ToggleResearchPanel(true)));
+        else
+            foreach (var id in s.BranchResearching.Where(x => x != ""))
+                research.Add(($"Studying {TechCatalog.Instance.All.FirstOrDefault(t => t.Id == id)?.Name ?? id}", () => ToggleResearchPanel(true)));
         Add("Research", research);
+        Add("Building", _map.Provinces!.Provinces.Values.Where(p => p.RealmId == me)
+            .Select(p => (p, st: _map.ProvinceStateOf(p.Id))).Where(x => x.st.Works.Count > 0)
+            .Select(x => ($"{x.p.Name}: {BuildingCatalog.Instance[x.st.Works[0].Id]?.Name ?? x.st.Works[0].Id}, {x.st.Works[0].Left} yr" +
+                          (x.st.Works.Count > 1 ? $" (+{x.st.Works.Count - 1} queued)" : ""),
+                (Action)(() => { _map.SelectProvince(x.p.Id); _map.CenterOn(x.p.LabelCell * MapView.CellPixels, 3f); }))));
+        var family = new List<(string, Action)>();
+        var realm = _map.GetPlayerRealm();
+        if (_map.Registry.Characters.TryGetValue(realm.RulerId, out var ruler))
+            family.Add(($"{ruler.Name}, your ruler, aged {_map.DemoYear - ruler.BirthYear}", () => ShowPerson(ruler.Id)));
+        if (_map.Registry.ResolveHeir(realm) is { } heir)
+            family.Add(($"{heir.Name}, the heir, aged {_map.DemoYear - heir.BirthYear}", () => ShowPerson(heir.Id)));
+        else
+            family.Add(("No heir: the house may end", () => { if (ruler != null) ShowPerson(ruler.Id); }));
+        Add("Family", family);
         var money = new List<(string, Action)>();
         if (s.Debt > 0.5)
             money.Add(($"In debt: {_map.Money(s.Debt)}", () => ToggleRealmPanel(true)));

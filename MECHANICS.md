@@ -2179,6 +2179,15 @@ companies and reforms follow.
   and a "Your notes" filter; notes are never thinned out of old years.
   Notes are kept in the save. (Whether they go into the history book waits
   on the question "Notes".)
+- **Outliner contents (built, 18 Oct 2026; your answer: armies, fleets,
+  sieges, research, building, envoys, plots, family, each group
+  collapsible).** The outliner now has: Pinned, offers waiting, Wars,
+  Sieges, Armies (resting or marching), Fleets (warships, sailing), Unrest,
+  Research (what each branch is studying), Building (each province's work
+  and how many more are queued), Family (your ruler and heir, or a warning
+  that there is none) and Treasury. Click a group's heading to fold or
+  unfold it. Envoys and plots join it when they are built. It never runs
+  under the province panel: it shows what fits and "...and N more".
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
