@@ -92,7 +92,7 @@ public partial class MapView
                 ReformCatalog.Enact(s, d, DemoYear);
                 changed = true;
                 if (id == PlayerRealmId)
-                    events.Add(new ChronicleEvent(ChronicleKind.War, id, $"The reform is done: {d.Name}. {d.Text}"));
+                    events.Add(new ChronicleEvent(ChronicleKind.War, id, $"The reform is done: {d.Name}. (In history, {UI.ThemeAncient.YearText(d.Year)}: {d.Text})"));
             }
 
         foreach (var d in cat.All)
@@ -107,7 +107,8 @@ public partial class MapView
                     continue;
                 s.ReformsOffered.Add(d.Id);
                 events.Add(new ChronicleEvent(ChronicleKind.War, realmId,
-                    $"A reform is proposed: {d.Name}. {d.Text} (See the Armies panel: {d.Cost:0} talents, {d.Years} years.)"));
+                    // History's own reform is the precedent, told with its date, not as if it were happening now.
+                    $"A reform is proposed: {d.Name}. In history ({UI.ThemeAncient.YearText(d.Year)}): {d.Text} (See the Armies panel: {d.Cost:0} talents, {d.Years} years.)"));
             }
             else if (DemoYear >= d.Year)
             {

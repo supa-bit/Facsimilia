@@ -402,7 +402,7 @@ public partial class Hud
             var row = new HBoxContainer();
             row.AddThemeConstantOverride("separation", 8);
             box.AddChild(row);
-            var text = ThemeAncient.Label($"Proposed: {d.Name}. {d.Text}", fontSize: 15);
+            var text = ThemeAncient.Label($"Proposed: {d.Name}. In history ({ThemeAncient.YearText(d.Year)}): {d.Text}", fontSize: 15);
             text.AutowrapMode = TextServer.AutowrapMode.WordSmart;
             text.SizeFlagsHorizontal = SizeFlags.ExpandFill;
             text.TooltipText = $"Effects: {DescribeReform(d)}.\nCost: {d.Cost:0} talents now, {d.Years} year(s) to take effect; the rival faction grows {d.Rival:0}.\nSource: {d.Source}.\nLeave it for now and it stays here to take later.";
