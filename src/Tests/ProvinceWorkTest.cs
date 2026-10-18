@@ -62,8 +62,8 @@ public partial class ProvinceWorkTest : TestRunner
         Check(piece != null && piece.RealmId == rome && big.CellCount + piece.CellCount == cells && Math.Abs(big.CellCount - piece.CellCount) < cells / 5,
             $"{big.Name} splits in two halves ({big.CellCount} and {piece?.CellCount} of {cells} cells)");
         Check(map.ProvinceStateOf(big.Id).Unrest > unrest && map.ProvinceStateOf(piece!.Id).Unrest > unrest, "splitting costs loyalty for a while");
-        Check(map.CanJoin(big, piece) == null, "the halves border each other");
-        Check(map.JoinProvince(big.Id, piece.Id) == null && big.CellCount == cells && !map.Provinces.Provinces.ContainsKey(piece.Id), "joined again into one");
+        Check(map.CanJoin(big, piece!) == null, "the halves border each other");
+        Check(map.JoinProvince(big.Id, piece!.Id) == null && big.CellCount == cells && !map.Provinces!.Provinces.ContainsKey(piece.Id), "joined again into one");
         var foreign = provs.First(p => p.RealmId != rome && p.RealmId > 0);
         Check(map.CanJoin(big, foreign) != null && map.CanSplit(foreign) != null, "only your own provinces");
 

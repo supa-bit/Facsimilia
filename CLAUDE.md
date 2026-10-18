@@ -103,7 +103,10 @@ designer to do anything: just keep committing and pushing to the same branch.
 
 ## Building and testing
 
-- Build: `dotnet build` (the session hook installs .NET and Godot).
+- Build: `dotnet build -warnaserror` (the session hook installs .NET and Godot).
+  GitHub counts warnings as errors, so a warning breaks its Tests run;
+  `tools/run_tests.sh` builds that strict way first and stops if it fails.
+  Never pipe the test script into `tail` before `&&`: check its exit code.
 - Tests (the designer's rule, 13 Oct 2026: this is not a live game, so the
   long tests need not run every time): `tools/run_tests.sh` runs the quick
   ones (all but the slow ones listed in it), `tools/run_tests.sh full`

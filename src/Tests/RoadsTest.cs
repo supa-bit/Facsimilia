@@ -92,7 +92,7 @@ public partial class RoadsTest : TestRunner
         var stone = cat.Walls.First(k => k.Id == "stone_wall");
         var wallPlan = map.ExtendWall(rome, stone, null, roma, dest, "Roma", "the far town")!;
         Check(wallPlan != null && wallPlan.Problem == null && wallPlan.Km > 50, "a wall drawn point to point along your land");
-        var wall = map.BuildRoad(rome, wallPlan)!;
+        var wall = map.BuildRoad(rome, wallPlan!)!;
         wall.Left = 1;
         s.Manpower = 100000;
         map.RoadsYearForTest();
