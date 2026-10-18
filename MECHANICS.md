@@ -2148,6 +2148,12 @@ companies and reforms follow.
   land, silver, income, soldiers, ships, techs and score in two rows, as
   well as the diplomacy fog lets you know them, and a graph of both over
   the years for the measure chosen above it.
+- **What pops up (built, 18 Oct 2026; your answer: a window only for major
+  events and choices; the rest in the chronicle and outliner).** Windows
+  open by themselves only for choices (offers, battles you fight on the
+  battle map), the end of the game, and great battles: a battle of yours
+  with 20,000 men or more in all, or 5,000 or more dead, opens its report;
+  smaller fights are told in the chronicle and kept in Battle reports.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

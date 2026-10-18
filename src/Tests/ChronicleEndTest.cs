@@ -50,6 +50,11 @@ public partial class ChronicleEndTest : TestRunner
             && UI.Hud.FilterChronicle(lines, System.Array.Empty<Dynasties.ChronicleKind>(), -1, "", "", "EARTHQUAKE").Count == 1,
             "place and search filters should find their lines");
 
+        // What pops up: only a great battle opens its report by itself.
+        Check(UI.Hud.IsGreatBattle(new Game.BattleReport { AttackerMen = 15000, DefenderMen = 9000 })
+            && !UI.Hud.IsGreatBattle(new Game.BattleReport { AttackerMen = 3000, DefenderMen = 2000, AttackerLost = 400 }),
+            "great battles open their report; skirmishes stay in the chronicle");
+
         Finish($"Chronicle end tests passed: {me.History.Count} records in 35 years; {matched} of {checkedN} campaigns went as history had them " +
             $"({share:P0}); {map.Game.RulerLog.Count} ruler(s) logged; saves keep it.");
         map.Free();

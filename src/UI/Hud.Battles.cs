@@ -34,16 +34,27 @@ public partial class Hud
         RefreshBattles();
     }
 
-    /// <summary>After a year: opens the reports when the player fought a new battle.</summary>
+    /// <summary>
+    /// After a month or a year: opens the reports by itself only when the
+    /// player fought a great battle (your answer "What pops up": a window only
+    /// for major events and choices); smaller fights stay in the chronicle and
+    /// the Battle reports list.
+    /// </summary>
     void CheckNewBattles()
     {
-        var mine = _map.Game.Battles.Count(IsMine);
+        var mine = _map.Game.Battles.Where(IsMine).ToList();
         if (_battlesSeen < 0)
-            _battlesSeen = _map.Game.Battles.Count(IsMine) - (_map.Game.Battles.Any(b => IsMine(b) && b.Year == _map.DemoYear - 1) ? 1 : 0);
-        if (mine > _battlesSeen)
+            _battlesSeen = mine.Count - (mine.Any(b => b.Year == _map.DemoYear - 1) ? 1 : 0);
+        if (mine.Skip(Math.Max(0, _battlesSeen)).Any(IsGreatBattle))
             ShowBattles();
-        _battlesSeen = mine;
+        _battlesSeen = mine.Count;
     }
+
+    /// <summary>A battle great enough to open its report: 20,000 men or more in all, or 5,000 or more dead.</summary>
+    public static bool IsGreatBattle(BattleReport b) =>
+        b.AttackerMen + b.DefenderMen >= GreatBattleMen || b.AttackerLost + b.DefenderLost >= GreatBattleDead;
+
+    public const int GreatBattleMen = 20000, GreatBattleDead = 5000;
 
     bool IsMine(BattleReport b) => b.AttackerRealm == _map.PlayerRealmId || b.DefenderRealm == _map.PlayerRealmId;
 
