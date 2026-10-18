@@ -29,6 +29,8 @@ public partial class Hud
     readonly List<int> _compareIds = new();
     GridContainer _compareGrid = null!;
     RealmGraph _compareGraph = null!;
+    /// <summary>The two compared realms' aims and reasons (your answer "Others' aims": on the card and on a screen).</summary>
+    readonly RichTextLabel[] _compareAims = new RichTextLabel[2];
 
     void BuildComparison(VBoxContainer box)
     {
@@ -49,6 +51,22 @@ public partial class Hud
         box.AddChild(_compareGrid);
         _compareGraph = new RealmGraph { CustomMinimumSize = new Vector2(950, 130) };
         box.AddChild(_compareGraph);
+        var aimsScroll = new ScrollContainer { CustomMinimumSize = new Vector2(950, 110), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        box.AddChild(aimsScroll);
+        var aims = new HBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        aims.AddThemeConstantOverride("separation", 24);
+        aimsScroll.AddChild(aims);
+        for (int i = 0; i < 2; i++)
+        {
+            _compareAims[i] = new RichTextLabel
+            {
+                BbcodeEnabled = true, FitContent = true, ScrollActive = false, SizeFlagsHorizontal = SizeFlags.ExpandFill,
+                AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(460, 0),
+            };
+            _compareAims[i].AddThemeFontSizeOverride("normal_font_size", 14);
+            _compareAims[i].AddThemeColorOverride("default_color", ThemeAncient.Text);
+            aims.AddChild(_compareAims[i]);
+        }
     }
 
     /// <summary>The realms to choose from: yours, then every realm still holding land, by name.</summary>
@@ -99,6 +117,8 @@ public partial class Hud
                 _compareGrid.AddChild(ThemeAncient.Label(text, fontSize: 15, align: HorizontalAlignment.Right));
             }
         }
+        for (int i = 0; i < 2; i++)
+            _compareAims[i].Text = chosen[i] == _map.PlayerRealmId ? $"{_map.RealmName(chosen[i])}: your own realm, whose aims are yours." : AimsCard(chosen[i], all: true);
         int metric = _graphMetric.Selected + 1;
         _compareGraph.Series = chosen.Where(id => _map.InsightInto(id) != MapView.Insight.Unknown).Select(id => (
             _map.ColorForRealm(id), id == chosen[0],
