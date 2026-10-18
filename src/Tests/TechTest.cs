@@ -97,9 +97,9 @@ public partial class TechTest : TestRunner
         // Corruption and a rival grow with overreach.
         double corruption = map.Corruption(rome);
         Check(corruption > 0 && corruption < 0.2, $"a small realm should be only a little corrupt ({corruption:P0})");
-        Check(map.ScoreBreakdown(rome).Select(x => x.Category).SequenceEqual(new[] { "People", "Land", "Wealth", "Culture", "Dynasty", "Goals" }),
+        Check(map.ScoreBreakdown(rome).Select(x => x.Category).SequenceEqual(new[] { "People", "Land", "Wealth", "Culture", "Dynasty", "Knowledge", "Wonders", "History", "Goals" }),
             "the score should be split into its categories");
-        Check(map.ScoreBreakdown(rome).First(x => x.Category == "Culture").Points > 0, "knowledge should count for culture");
+        Check(map.ScoreBreakdown(rome).First(x => x.Category == "Knowledge").Points > 0, "knowledge should have its own part of the score");
 
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();

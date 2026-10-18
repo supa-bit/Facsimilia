@@ -90,6 +90,11 @@ public partial class SettingsPanel : Control
         gameplay.AddChild(Row("Thin out old years", thin,
             "Off: saves keep everything - the whole chronicle, every battle report, every province's history. On: years more than a century old are kept in brief " +
             "(the chronicle keeps wars, conquests, revolts, disasters and successions; battle reports keep their numbers but not the blow-by-blow), so very long games save faster."));
+        var history = new CheckBox { ButtonPressed = store.ScoreHistory };
+        history.Toggled += on => store.SetScoreHistory(on);
+        gameplay.AddChild(Row("Score closeness to history", history,
+            "On: your score has a part for how closely the world has followed history (2 points for each of history's campaigns that turned out as it did). " +
+            "Off: that part is left out, for a game where you mean to change history."));
         var opening = new CheckBox { ButtonPressed = store.ShowOpening };
         opening.Toggled += on => store.SetShowOpening(on);
         gameplay.AddChild(Row("Show the opening", opening,

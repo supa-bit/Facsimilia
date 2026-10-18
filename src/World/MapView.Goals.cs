@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Facsimilia.Dynasties;
 using Facsimilia.Game;
+using Facsimilia.UI;
 
 namespace Facsimilia.World;
 
@@ -83,32 +84,48 @@ public partial class MapView
     public double Score(int realmId) => ScoreBreakdown(realmId).Sum(x => x.Points);
 
     /// <summary>
-    /// The score by category (decision "Playable 26": people, land, wealth,
-    /// culture and dynasty, shown separately), plus goals reached.
+    /// The score by part (your answer "Score parts": people, land, wealth,
+    /// culture, dynasty, knowledge, wonders and closeness to history, each
+    /// shown on its own, with its fixed weight), plus the goals reached.
+    /// Closeness to history counts for your realm only (the others are
+    /// history's own), and can be switched off in the settings.
     /// </summary>
     public List<(string Category, double Points, string Detail)> ScoreBreakdown(int realmId)
     {
         var list = new List<(string, double, string)>();
         var s = Game.Realm(realmId);
         var c = CensusOf(realmId);
-        list.Add(("People", c.People / 100000, $"{c.People:N0} people"));
+        list.Add(("People", c.People / 100000, $"{c.People:N0} people; 1 point per 100,000"));
         double area = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => p.AreaKm2) ?? 0;
-        list.Add(("Land", c.Provinces + area / 20000, $"{c.Provinces} provinces, {area:N0} km²"));
+        list.Add(("Land", c.Provinces + area / 20000, $"{c.Provinces} provinces, {area:N0} km²; 1 point per province and per 20,000 km²"));
         var (tax, trib) = Economy.Revenue(c, s.Tax);
         tax *= s.TaxReach;
         list.Add(("Wealth", Math.Max(0, s.Treasury - s.Debt) / 1000 + (tax + trib) / 500,
-            $"{Money(Math.Max(0, s.Treasury - s.Debt))} saved, {Money(tax + trib)} a year"));
+            $"{Money(Math.Max(0, s.Treasury - s.Debt))} saved, {Money(tax + trib)} a year; 1 point per {Money(1000)} saved and per {Money(500)} a year"));
         int buildings = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).Sum(p => ProvinceStateOf(p.Id).Buildings.Values.Sum()) ?? 0;
         var mine = Provinces?.Provinces.Values.Where(p => p.RealmId == realmId).ToList() ?? new List<Province>();
         double integration = mine.Count > 0 ? mine.Average(p => ProvinceStateOf(p.Id).Integration) : 0;
+        list.Add(("Culture", buildings * 0.5 + integration * 10,
+            $"{buildings} buildings, {integration:P0} integrated; half a point per building, 10 for a wholly integrated realm"));
+        list.Add(("Dynasty", DynastyScore(realmId, out string dyn), dyn + "; 1 point per 5 of the house alive, 2 per royal marriage"));
+        list.Add(("Knowledge", s.Techs.Count * 0.5, $"{s.Techs.Count} technologies; half a point each"));
         var wonders = WondersOf(realmId);
-        list.Add(("Culture", s.Techs.Count * 0.5 + buildings * 0.5 + integration * 10 + wonders.Sum(w => w.Culture),
-            $"{s.Techs.Count} technologies, {buildings} buildings, {wonders.Count(w => w.IsWonder)} wonder{(wonders.Count(w => w.IsWonder) == 1 ? "" : "s")}, {wonders.Count(w => !w.IsWonder)} great works, {integration:P0} integrated"));
-        list.Add(("Dynasty", DynastyScore(realmId, out string dyn), dyn));
+        int wonderCount = wonders.Count(w => w.IsWonder);
+        list.Add(("Wonders", wonders.Sum(w => w.Culture),
+            $"{wonderCount} wonder{(wonderCount == 1 ? "" : "s")}, {wonders.Count(w => !w.IsWonder)} great works; each as great as it was"));
+        if (realmId == PlayerRealmId && (SettingsStore.Instance?.ScoreHistory ?? true))
+        {
+            var (_, matched, checkedN) = HistoryCloseness();
+            list.Add(("History", HistoryPoints * matched,
+                $"{matched} of {checkedN} of history's campaigns so far turned out as they did; {HistoryPoints} points each"));
+        }
         double goals = GoalsOf(realmId).Where(g => s.GoalsDone.ContainsKey(g.Id)).Sum(g => g.Points);
-        list.Add(("Goals", goals, $"{s.GoalsDone.Count} reached"));
+        list.Add(("Goals", goals, $"{s.GoalsDone.Count} reached; each goal's own points"));
         return list;
     }
+
+    /// <summary>Points for each of history's campaigns that turned out as it did (the score's "History" part).</summary>
+    public const double HistoryPoints = 2;
 
     /// <summary>The ruling house: its members alive, and marriages into other ruling houses.</summary>
     double DynastyScore(int realmId, out string detail)

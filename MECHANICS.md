@@ -2109,6 +2109,17 @@ companies and reforms follow.
   usual size, and if that makes an odd number of units, the largest kind
   is split once more. Companies raised by chance at a hiring ground have
   500 to 5,000 men of one or two kinds, also in an even number of units.
+- **Score parts (built, 18 Oct 2026; your answers "Score parts": eight
+  parts, closeness to history switchable; "Score weights": fixed weights
+  shown).** The score is now People, Land, Wealth, Culture (buildings and
+  integration), Dynasty, Knowledge (half a point per technology), Wonders
+  (each as great as it was), History (2 points for each of history's
+  campaigns that turned out as it did; your realm only, since the others
+  are history's own) and Goals. Each part shows its weight beside it.
+  Settings, "Score closeness to history", leaves the History part out. Of
+  "How close to history" (borders, events and people), the events are
+  counted now; borders come with "Later borders" and people with "Great
+  people".
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
@@ -3822,3 +3833,14 @@ Answered on the Ledger while the work went on (and four older answers whose feat
 - **The look by era** (Interface: the look): At once, with a show.
 - **Ornament by people** (Interface: the look): Yes. Your note: "They don't only have to be direct photographs, but if it is illustrated it needs sources that prove it actually looked like the illustration".
 - **Fog setting choices** (Fog of war: what your realm knows): Separate for map and diplomacy. Your note: "will corresponding off, light  and full options".
+
+## Your answers of 18 October 2026 **(recorded)**
+
+Answered on the Ledger while the work went on. Each feature is now ready to build.
+
+- **History book writing** (Goals, score and the end): Both, as two parts: a narrative and the full chronicle.
+- **Era summary style** (Goals, score and the end): A page, narrated if you wish.
+- **Starter goals** (Goals, score and the end): About 10 shared goals plus each great realm's own.
+- **How close to history** (Goals, score and the end): By borders, events and people: which great people lived.
+- **Score parts** (Goals, score and the end): Eight, adding how close you stayed to history. Your note: "history's closeness should be toggleable".
+- **The other start dates** (Goals, score and the end): 44 BC, Caesar's death, is built first.

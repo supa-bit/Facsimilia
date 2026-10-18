@@ -184,6 +184,14 @@ missionaries and slow conversion; claims, appeasement, vassals' freedom,
 allies' duty. 82 questions remain open (Culture and religion, Later eras,
 War at sea, campaigns and supply, and the battle map).
 
+Answered 18 Oct 2026 (recorded in MECHANICS.md, "Your answers of 18
+October 2026"): the end of the game. The history book in two parts (a
+narrative and the full chronicle); era summaries as a page, narrated if
+you wish; a starter set of about ten shared goals plus each great realm's
+own; closeness to history measured by borders, events and which great
+people lived; the score in eight parts (adding goals and history's
+closeness, which can be switched off); and 44 BC as the second start date.
+
 - [~] **Voices** (12-13 Oct 2026): the script is written (1024 lines:
       opening, tutorial, ages, wonders, disasters, history's wars, war
       cries, plus history lessons, moments of play in each narrator's

@@ -71,7 +71,7 @@ public partial class WondersTest : TestRunner
         Check(map.Game.Wonders.TryGetValue("pharos", out var site) && site.Province == coast.Id, "the Pharos should stand in your province");
         Check(!map.Game.WonderWorks.Any(w => w.Id == "pharos"), "Egypt's work stops");
         Check(map.WondersOf(rome).Any(w => w.Id == "pharos") && s.WonderEffects.GetValueOrDefault("sea_cost") < 0, "the Pharos makes your sea travel cheaper");
-        Check(map.ScoreBreakdown(rome).First(x => x.Category == "Culture").Detail.Contains("1 wonder"), "wonders count for culture");
+        Check(map.ScoreBreakdown(rome).First(x => x.Category == "Wonders").Detail.Contains("1 wonder"), "wonders have their own part of the score");
         Check(map.CanBuildWonder(coast, cat["pharos"]!) == "It already stands.", "each wonder once in the world");
 
         // A wonder whose builder isn't a realm of the game: whoever holds the place begins it on history's date.
