@@ -109,7 +109,8 @@ public partial class MapView
                 double theirs = (InsightBetween(realm.Id, target) == Insight.Unknown ? Military.Might(Game.Realm(target), Domain.Land) : SeenMight(realm.Id, target))
                     + Game.Treaties.AlliesOf(target)
                     .Where(a => !Game.Treaties.Allied(a, realm.Id)).Sum(a => 0.5 * SeenMight(realm.Id, a));
-                if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * theirs)
+                // A bold ruler strikes sooner, a cautious one waits for more (your answer "Choices follow the ruler's traits").
+                if (Military.Might(state, Domain.Land) < BotMinStrengthToDeclare * (1 - BoldStrength * Boldness(realm.Id)) * theirs)
                     continue;
                 events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.'), $"war_begin:{GoalKey(goal)}"));
             }
@@ -118,9 +119,9 @@ public partial class MapView
             if (player != 0 && census.ContainsKey(player) && !Game.Wars.AtWar(realm.Id, player)
                 && Diplomacy.CanDeclare(Game, realm.Id, player, year) == null
                 && InsightBetween(realm.Id, player) != Insight.Unknown   // it can't fall on a realm it knows nothing of
-                && Military.Might(state, Domain.Land) > 2.5 * Math.Max(SeenMight(realm.Id, player), 1)
+                && Military.Might(state, Domain.Land) > (2.5 - 0.3 * Boldness(realm.Id)) * Math.Max(SeenMight(realm.Id, player), 1)
                 && !Game.Wars.Of(realm.Id).Any()
-                && rng.NextDouble() < BotOpportunism && HasPretext(realm.Id, player))
+                && rng.NextDouble() < BotOpportunism * Math.Max(0, 1 + 0.5 * Boldness(realm.Id)) && HasPretext(realm.Id, player))
             {
                 events.AddRange(StartWar(realm.Id, player, Pretexts.Border, "it sees your weakness"));
             }
@@ -307,6 +308,23 @@ public partial class MapView
         }
     }
 
+    /// <summary>Traits that make a ruler bolder, and ones that make him wait (your answer "Choices follow the ruler's traits").</summary>
+    static readonly string[] BoldTraits = { "brave", "reckless", "rash", "fearless", "ambitious", "wrathful", "arrogant", "proud", "energetic" },
+        CautiousTraits = { "cautious", "craven", "timid", "patient", "calm", "content", "slothful", "languid", "humble" };
+    /// <summary>Each step of boldness lowers (or, cautious, raises) the strength a ruler wants before striking by this share.</summary>
+    const double BoldStrength = 0.12;
+    /// <summary>Each step of boldness lowers a ruler's wish for peace by this much.</summary>
+    const double BoldPeace = 8;
+
+    /// <summary>A realm's ruler's boldness, from -3 (cautious, timid) to +3 (brave, reckless); 0 for a realm with no ruler.</summary>
+    public int Boldness(int realmId)
+    {
+        if (!Registry.Realms.TryGetValue(realmId, out var realm) || !Registry.Characters.TryGetValue(realm.RulerId, out var ruler))
+            return 0;
+        int bold = ruler.Traits.Count(BoldTraits.Contains) - ruler.Traits.Count(CautiousTraits.Contains);
+        return Math.Clamp(bold, -3, 3);
+    }
+
     /// <summary>How much both sides must want peace before they make it.</summary>
     const double BotPeaceWish = 50;
 
@@ -328,7 +346,7 @@ public partial class MapView
             wish += 60;
         if (years >= Diplomacy.WearyYears)
             wish += 15;
-        return wish;
+        return wish - BoldPeace * Boldness(side);   // a bold ruler fights on, a cautious one takes peace sooner
     }
 
     /// <summary>Wars between other realms end when both sides want peace enough (PeaceWish), or after 25 years; beaten realms pay tribute.</summary>

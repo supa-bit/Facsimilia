@@ -52,12 +52,25 @@ public partial class AiTest : TestRunner
         Check(msPerYear < 1000, $"a year takes {msPerYear:0} ms, over the designer's 1-second tripwire");
 
         // Peace sense: a fresh attacker short of its aims fights on; worn out, it wants peace; a beaten side wants it above all.
-        var probe = new Game.War(1, 2, map.DemoYear, true);
-        Check(map.PeaceWish(probe, 1, goalOver: false, years: 0) < 50, "a fresh attacker short of its aims shouldn't want peace");
+        // (Realms 90001 and 90002 have no ruler, so no temper weighs in.)
+        var probe = new Game.War(90001, 90002, map.DemoYear, true);
+        Check(map.PeaceWish(probe, 90001, goalOver: false, years: 0) < 50, "a fresh attacker short of its aims shouldn't want peace");
         probe.AttackerExhaustion = 100;
-        Check(map.PeaceWish(probe, 1, goalOver: false, years: 0) >= 50, "a worn-out attacker should want peace");
+        Check(map.PeaceWish(probe, 90001, goalOver: false, years: 0) >= 50, "a worn-out attacker should want peace");
         probe.Score = 60;
-        Check(map.PeaceWish(probe, 2, goalOver: false, years: 0) >= 100, "a beaten defender should want peace above all");
+        Check(map.PeaceWish(probe, 90002, goalOver: false, years: 0) >= 100, "a beaten defender should want peace above all");
+
+        // Rulers' character: a bold ruler wants peace less than a cautious one.
+        int carthage = map.CivRealmIds["carthage"];
+        var hannibal = map.Registry.Characters[map.Registry.Realms[carthage].RulerId];
+        var kept = hannibal.Traits.ToList();
+        hannibal.Traits = new() { "brave", "reckless" };
+        var war = new Game.War(carthage, 2, map.DemoYear, true) { AttackerExhaustion = 60 };
+        double boldWish = map.PeaceWish(war, carthage, goalOver: false, years: 0);
+        Check(map.Boldness(carthage) == 2, "brave and reckless should make a ruler bold");
+        hannibal.Traits = new() { "cautious", "timid", "patient", "calm" };
+        Check(map.Boldness(carthage) == -3 && map.PeaceWish(war, carthage, goalOver: false, years: 0) > boldWish, "a cautious ruler should want peace sooner");
+        hannibal.Traits = kept;
 
         // Mid-war save and load keeps the wars.
         int wars = map.Game.Wars.All.Count;

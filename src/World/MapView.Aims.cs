@@ -68,7 +68,7 @@ public partial class MapView
                     continue;
                 string regions = string.Join(" and ", goal.Regions);
                 aims.Add(new Aim($"Has designs on {RealmName(target)} in {regions}",
-                    Sentence(goal.Why) + (Diplomacy.CanDeclare(Game, realmId, target, year) is not { } bar ? " It waits until it is strong enough."
+                    Sentence(goal.Why) + (Diplomacy.CanDeclare(Game, realmId, target, year) is not { } bar ? " It waits until it is strong enough" + TemperNote(realmId) + "."
                         : bar.StartsWith("A truce") ? $" It can't strike yet: a{bar[1..]}" : " A treaty binds it to them for now.")));
             }
 
@@ -102,6 +102,15 @@ public partial class MapView
         if (aims.Count == 0)
             aims.Add(new Aim("Keeping the peace", close ? "No war of its own, and none of history's campaigns is due." : "It is at war with no one that your realm has heard of."));
         return aims;
+    }
+
+    /// <summary>", and its ruler, Pyrrhus, is bold": how the ruler's traits weigh on its choices, if they do.</summary>
+    string TemperNote(int realmId)
+    {
+        int bold = Boldness(realmId);
+        if (bold == 0 || !Registry.Realms.TryGetValue(realmId, out var realm) || !Registry.Characters.TryGetValue(realm.RulerId, out var ruler))
+            return "";
+        return bold > 0 ? $"; its ruler, {ruler.Name}, is bold and won't wait long" : $"; its ruler, {ruler.Name}, is cautious and waits for more";
     }
 
     static string Sentence(string text) => text.EndsWith('.') ? text : text + ".";
