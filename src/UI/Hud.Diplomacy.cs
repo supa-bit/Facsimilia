@@ -215,9 +215,11 @@ public partial class Hud
         row.AddChild(statusLabel);
 
         var buttons = new HFlowContainer();   // wraps onto a second line rather than widening the panel
+        var pinned = IsPinned($"realm:{id}");
         buttons.AddThemeConstantOverride("h_separation", 6);
         buttons.AddThemeConstantOverride("v_separation", 6);
         frame.AddChild(buttons);
+        AddButton(buttons, pinned ? "Unpin" : "Pin", "Pin this realm to the outliner (or unpin it)", () => TogglePin($"realm:{id}"));
         if (war == null)
         {
             string? cannot = Diplomacy.CanDeclare(game, me, id, _map.DemoYear);

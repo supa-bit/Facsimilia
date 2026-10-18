@@ -104,6 +104,7 @@ public partial class Hud
         _provinceName.TextSubmitted += text => CommitRename(text);
         _provinceName.FocusExited += () => CommitRename(_provinceName.Text);
         header.AddChild(_provinceName);
+        header.AddChild(IconButton(null, "📌", "Pin this province to the outliner (or unpin it)", () => TogglePin($"province:{_map.SelectedProvinceId}")));
         header.AddChild(IconButton(null, "×", "Close  (right-click the map)", () => _map.SelectProvince(0)));
 
         _provinceRealm = ThemeAncient.Label("", fontSize: 18);

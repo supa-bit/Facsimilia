@@ -2164,6 +2164,13 @@ companies and reforms follow.
   too, so you can follow on as far as you like. A card stays open while the
   mouse is on it, and the chain closes when the mouse leaves. Card titles
   are in gold rather than bold.
+- **Pinning (built, 18 Oct 2026; your answer: pin any province, character
+  or realm to the outliner).** A pin button on the province panel, on a
+  person's panel and on each realm's row in Diplomacy puts it in a
+  "Pinned" group at the top of the outliner, with a live line (a
+  province's owner and unrest, a realm's opinion of you or its war with
+  you, a person's age). Clicking the line takes you there; right-clicking
+  it unpins it. Pins are kept in the save.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

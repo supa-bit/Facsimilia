@@ -85,6 +85,16 @@ public partial class Hud
                     ClipText = true, CustomMinimumSize = new Vector2(280, 0) };
                 b.AddThemeFontSizeOverride("font_size", 15);
                 b.Pressed += go;
+                if (heading == "Pinned")
+                {
+                    string pin = _map.Game.Pins.FirstOrDefault(x => PinnedLine(x).Text == text) ?? "";
+                    b.TooltipText = "Right-click to unpin";
+                    b.GuiInput += e =>
+                    {
+                        if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right })
+                            TogglePin(pin);
+                    };
+                }
                 _outlinerRows.AddChild(b);
             }
         }
@@ -102,6 +112,7 @@ public partial class Hud
             if (l.Count > 0)
                 groups.Add((heading, l));
         }
+        Add("Pinned", _map.Game.Pins.Select(PinnedLine).Where(x => x.Text != ""));
         int waiting = _map.Game.Offers.Count + _map.Game.PeaceOffers.Count;
         Add("Waiting for an answer", waiting > 0
             ? new[] { ($"{waiting} offer{(waiting > 1 ? "s" : "")} in Diplomacy", (Action)(() => ToggleDiplomacyPanel(true))) }
@@ -130,6 +141,41 @@ public partial class Hud
             money.Add(($"In debt: {_map.Money(s.Debt)}", () => ToggleRealmPanel(true)));
         Add("Treasury", money);
         return groups;
+    }
+
+    /// <summary>Pins something to the outliner, or unpins it (your answer "Pinning": any province, character or realm).</summary>
+    public void TogglePin(string pin)
+    {
+        if (pin == "")
+            return;
+        if (!_map.Game.Pins.Remove(pin))
+            _map.Game.Pins.Add(pin);
+        RefreshOutliner();
+    }
+
+    public bool IsPinned(string pin) => _map.Game.Pins.Contains(pin);
+
+    /// <summary>A pinned thing's line in the outliner, and where clicking it takes you ("" when it is gone).</summary>
+    (string Text, Action Go) PinnedLine(string pin)
+    {
+        int colon = pin.IndexOf(':');
+        if (colon < 0 || !int.TryParse(pin[(colon + 1)..], out int id))
+            return ("", () => { });
+        switch (pin[..colon])
+        {
+            case "province" when _map.Provinces!.Provinces.TryGetValue(id, out var p):
+                var st = _map.ProvinceStateOf(id);
+                return ($"{p.Name}: {_map.RealmName(p.RealmId)}, unrest {st.Unrest:P0}",
+                    () => { _map.SelectProvince(id); _map.CenterOn(p.LabelCell * MapView.CellPixels, 3f); });
+            case "realm" when _map.RealmCensus().ContainsKey(id):
+                var (opinion, _) = _map.Opinion(id, _map.PlayerRealmId);
+                string stand = id == _map.PlayerRealmId ? "yours" : _map.Game.Wars.AtWar(id, _map.PlayerRealmId) ? "at war with you" : $"opinion {opinion:+0;-0;0}";
+                return ($"{_map.RealmName(id)}: {stand}", () => ToggleDiplomacyPanel(true));
+            case "character" when _map.Registry.Characters.TryGetValue(id, out var c):
+                return ($"{c.Name}" + (c.IsAlive ? $", aged {_map.DemoYear - c.BirthYear}" : ", dead"), () => ShowPerson(id));
+            default:
+                return ("", () => { });
+        }
     }
 
     void FocusNode(int node)

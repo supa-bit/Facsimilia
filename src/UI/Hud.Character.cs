@@ -71,6 +71,9 @@ public partial class Hud
         _personId = id;
         foreach (Node child in _personBox.GetChildren())
             child.QueueFree();
+        var pin = new Button { Text = IsPinned($"character:{id}") ? "Unpin from the outliner" : "Pin to the outliner", FocusMode = FocusModeEnum.None };
+        pin.Pressed += () => { TogglePin($"character:{id}"); ShowPerson(id); };
+        _personBox.AddChild(pin);
         int year = _map.DemoYear;
         reg.Develop(c);
         var cat = TraitCatalog.Instance;

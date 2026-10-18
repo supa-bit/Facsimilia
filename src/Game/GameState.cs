@@ -552,6 +552,9 @@ public sealed class GameState
     /// </summary>
     public Dictionary<(int Realm, int Army), (int Node, int Month)> LastSeen { get; } = new();
 
+    /// <summary>What you pinned to the outliner (your answer "Pinning"): "province:12", "realm:5", "character:44".</summary>
+    public List<string> Pins { get; } = new();
+
     /// <summary>With "Thin out old years" on, years older than this are kept in brief.</summary>
     public const int ThinAfterYears = 100;
 
@@ -624,6 +627,7 @@ public sealed class GameState
             ["treaties"] = Treaties.ToArray(), ["lost"] = LostArray(),
             ["history_checks"] = HistoryChecksDict(), ["months_marched"] = MonthsMarched, ["battles"] = new GArray(Battles.Select(b => (Variant)b.ToDict()).ToArray()),
             ["chronicle"] = new GArray(Chronicle.Select(e => (Variant)new GArray { e.Year, e.Kind, e.Realm, e.Text }).ToArray()),
+            ["pins"] = new GArray(Pins.Select(x => (Variant)x).ToArray()),
             ["last_seen"] = new GArray(LastSeen.Select(e => (Variant)new GArray { e.Key.Realm, e.Key.Army, e.Value.Node, e.Value.Month }).ToArray()),
             ["news_on_the_road"] = new GArray(NewsOnTheRoad.Select(e => (Variant)new GArray { e.Due, e.Sent, e.Kind, e.Realm, e.Text, e.Cue }).ToArray()),
             ["ruler_log"] = new GArray(RulerLog.Select(r => (Variant)new GArray { r.Year, r.Name }).ToArray()), ["offers"] = new GArray(Offers.Select(o => (Variant)o.ToDict()).ToArray()),
@@ -735,6 +739,9 @@ public sealed class GameState
                 var a = v.AsGodotArray();
                 g.Chronicle.Add((a[0].AsInt32(), a[1].AsInt32(), a[2].AsInt32(), a[3].AsString()));
             }
+        if (d.TryGetValue("pins", out var pins))
+            foreach (Variant v in pins.AsGodotArray())
+                g.Pins.Add(v.AsString());
         if (d.TryGetValue("last_seen", out var seen))
             foreach (Variant v in seen.AsGodotArray())
             {
