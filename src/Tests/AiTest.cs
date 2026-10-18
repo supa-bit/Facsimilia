@@ -36,6 +36,11 @@ public partial class AiTest : TestRunner
         Check(events.Any(e => e.Cue != null && e.Cue.StartsWith("war_begin:")), "history's wars should be announced by the narrator");
         Check(events.Any(e => e.Kind == ChronicleKind.Peace), "some war should have ended in peace");
         Check(events.Count(e => e.Kind == ChronicleKind.Conquest) > 0, "someone should have taken land");
+        // Alliances (your answer "They seek allies against rivals and threats"): some are sworn, never with an enemy of the threat's side.
+        var sworn = map.Game.Treaties.All.Where(t => t.Kind == Game.TreatyKind.Alliance && t.Against != 0).ToList();
+        Check(events.Any(e => e.Text.Contains("swear an alliance against")), "some realms should seek allies against a threat in 30 years");
+        Check(sworn.All(t => !map.Game.Treaties.Allied(t.A, t.Against) && !map.Game.Treaties.Allied(t.B, t.Against)) || sworn.Count == 0,
+            "no realm should ally against a realm it is allied with");
         var census = map.RealmCensus();
         // Small peoples may fall, as the Samnites and Etruscans did to Rome by 280 BC; the great powers stand.
         foreach (string key in new[] { "rome", "carthage", "egypt", "seleucid", "lysimachus", "kush" })
@@ -55,7 +60,7 @@ public partial class AiTest : TestRunner
 
         Finish($"AI tests passed: 30 years with {events.Count(e => e.Kind == ChronicleKind.War)} wars declared, " +
             $"{events.Count(e => e.Kind == ChronicleKind.Peace)} peaces, {events.Count(e => e.Kind == ChronicleKind.Conquest)} " +
-            $"conquest reports; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
+            $"conquest reports; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
         map.Free();
         map2.Free();
     }

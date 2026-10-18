@@ -126,6 +126,7 @@ public partial class MapView
             }
         }
         events.AddRange(BotsMakePeace(census));
+        events.AddRange(BotsSeekAllies(bots, census, rng));
 
         // Recruiting and attacks.
         var provinces = ProvinceSummaries();
@@ -338,6 +339,61 @@ public partial class MapView
         }
         return events;
     }
+
+    /// <summary>Most alliances a realm makes on its own (beyond history's of 300 BC).</summary>
+    const int BotMaxAlliances = 3;
+    /// <summary>A yearly chance that a realm with a threat goes looking for an ally.</summary>
+    const double BotAllyChance = 0.2;
+    /// <summary>Fear (0-100) from which another realm counts as a threat.</summary>
+    const double BotThreatFear = 35;
+
+    /// <summary>
+    /// Alliances (your answer "They seek allies against rivals and threats"):
+    /// a realm with a rival, a feared neighbour or an enemy at war looks among
+    /// the realms it deals with for one that shares the threat and thinks well
+    /// of it, and they swear an alliance. Each looks at most once a year.
+    /// </summary>
+    List<ChronicleEvent> BotsSeekAllies(List<Realm> bots, Dictionary<int, RealmCensus> census, Random rng)
+    {
+        var events = new List<ChronicleEvent>();
+        EnsureContacts();
+        foreach (var realm in bots)
+        {
+            int a = realm.Id;
+            if (rng.NextDouble() > BotAllyChance || Game.Treaties.AlliesOf(a).Count() >= BotMaxAlliances + StartAlliances(a)
+                || !_contacts!.TryGetValue(a, out var near))
+                continue;
+            var threats = ThreatsTo(a, census);
+            if (threats.Count == 0)
+                continue;
+            var partner = near.Where(b => b != PlayerRealmId && census.ContainsKey(b) && !Game.Treaties.Allied(a, b) && !Game.Wars.AtWar(a, b)
+                    && Game.Treaties.OverlordOf(b) == 0 && Game.Treaties.AlliesOf(b).Count() < BotMaxAlliances + StartAlliances(b))
+                .Select(b => (Id: b, Shared: threats.FirstOrDefault(t => t != b && ThreatsTo(b, census).Contains(t))))
+                .Where(x => x.Shared != 0 && !Game.Treaties.Allied(x.Id, x.Shared) && Opinion(x.Id, a).Value >= AllianceOpinion)
+                .OrderBy(x => x.Id).FirstOrDefault();
+            if (partner.Id == 0)
+                continue;
+            Game.Treaties.Add(new Treaty(TreatyKind.Alliance, a, partner.Id, DemoYear, partner.Shared));
+            string text = $"{RealmName(a)} and {RealmName(partner.Id)} swear an alliance against {RealmName(partner.Shared)}.";
+            events.Add(new ChronicleEvent(ChronicleKind.Peace, a, text));
+            events.Add(new ChronicleEvent(ChronicleKind.Peace, partner.Id, text));
+        }
+        return events;
+    }
+
+    /// <summary>Who a realm counts as a threat: its rivals, realms it fears, and those at war with it.</summary>
+    List<int> ThreatsTo(int realmId, Dictionary<int, RealmCensus> census)
+    {
+        var threats = new SortedSet<int>(Game.Wars.EnemiesOf(realmId));
+        if (_contacts!.TryGetValue(realmId, out var near))
+            foreach (int other in near)
+                if (census.ContainsKey(other) && (Rivals(realmId, other) || Fear(realmId, other) >= BotThreatFear))
+                    threats.Add(other);
+        return threats.ToList();
+    }
+
+    /// <summary>Alliances a realm didn't make against a threat of its own (history's of 300 BC, the player's): they don't count against the ones it makes.</summary>
+    int StartAlliances(int realmId) => Game.Treaties.All.Count(t => t.Kind == TreatyKind.Alliance && t.Involves(realmId) && t.Against == 0);
 
     /// <summary>A campaign's key in the voice script (data/voice_lines.json): "rome>samnites@-298".</summary>
     internal static string GoalKey(HistoryGoal g) => $"{g.Realm}>{g.Target}@{g.From}";

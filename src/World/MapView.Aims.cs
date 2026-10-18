@@ -72,6 +72,11 @@ public partial class MapView
                         : bar.StartsWith("A truce") ? $" It can't strike yet: a{bar[1..]}" : " A treaty binds it to them for now.")));
             }
 
+        // Alliances it swore against a threat (treaties are known to all).
+        foreach (var t in Game.Treaties.All.Where(t => t.Kind == TreatyKind.Alliance && t.Against != 0 && t.Involves(realmId)).OrderBy(t => t.Since))
+            aims.Add(new Aim($"Allied with {RealmName(t.Other(realmId))} against {RealmName(t.Against)}",
+                $"Both count {RealmName(t.Against)} a threat; they swore the alliance in {Math.Abs(t.Since)} {(t.Since < 0 ? "BC" : "AD")}."));
+
         // Old wrongs it remembers.
         foreach (var ((holder, target), _) in Game.Grudges.Where(g => g.Key.Holder == realmId).OrderBy(g => g.Key.Target))
         {
