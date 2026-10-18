@@ -258,17 +258,19 @@ public sealed partial class CharacterRegistry
         {
             ["characters"] = characters, ["dynasties"] = dynasties, ["realms"] = realms,
             ["next_character_id"] = _nextCharacterId, ["next_dynasty_id"] = _nextDynastyId,
-            ["next_realm_id"] = _nextRealmId,
+            ["next_realm_id"] = _nextRealmId, ["rng_state"] = RandomState.ToString(),
         };
     }
 
     public void LoadFromDict(GDictionary data)
     {
+        if (data.TryGetValue("rng_state", out var rs) && ulong.TryParse(rs.AsString(), out ulong state))
+            RandomState = state;
         Characters.Clear();
         _living.Clear();
         Dynasties.Clear();
         Realms.Clear();
-        foreach (var value in Section(data, "realms").Values)
+        foreach (var value in InOrder(data, "realms"))
         {
             var rd = value.AsGodotDictionary();
             var col = rd["color"].AsGodotArray();
@@ -280,7 +282,7 @@ public sealed partial class CharacterRegistry
                 (SuccessionLaw)rd["succession_law"].AsInt32(), color, culture);
             Realms[r.Id] = r;
         }
-        foreach (var value in Section(data, "characters").Values)
+        foreach (var value in InOrder(data, "characters"))
         {
             var cd = value.AsGodotDictionary();
             var c = new Character(cd["id"].AsInt32(), cd["name"].AsString(), cd["sex"].AsString(),
@@ -308,7 +310,7 @@ public sealed partial class CharacterRegistry
             if (c.IsAlive)
                 _living.Add(c.Id);
         }
-        foreach (var value in Section(data, "dynasties").Values)
+        foreach (var value in InOrder(data, "dynasties"))
         {
             var dd = value.AsGodotDictionary();
             var d = new Dynasty(dd["id"].AsInt32(), dd["name"].AsString(), dd["founder_id"].AsInt32())
@@ -323,7 +325,7 @@ public sealed partial class CharacterRegistry
         foreach (var r in Realms.Values)
             if (Characters.TryGetValue(r.RulerId, out var ruler) && ruler.DynastyId != -1)
                 cultureByDynasty.TryAdd(ruler.DynastyId, r.Culture);
-        foreach (var value in Section(data, "characters").Values)
+        foreach (var value in InOrder(data, "characters"))
         {
             var cd = value.AsGodotDictionary();
             var c = Characters[cd["id"].AsInt32()];
@@ -337,4 +339,17 @@ public sealed partial class CharacterRegistry
 
     static GDictionary Section(GDictionary data, string key) =>
         data.TryGetValue(key, out var v) ? v.AsGodotDictionary() : new GDictionary();
+
+    /// <summary>
+    /// A saved section's entries in the order they were made (by their id
+    /// number). The save file lists them sorted as words ("10" before "2");
+    /// read back that way, the yearly draws would fall to different people
+    /// and a loaded game would not go on as it would have.
+    /// </summary>
+    static IEnumerable<Variant> InOrder(GDictionary data, string key)
+    {
+        var section = Section(data, key);
+        return section.Keys.OrderBy(k => long.TryParse(k.AsString(), out long n) ? n : long.MaxValue)
+            .ThenBy(k => k.AsString()).Select(k => section[k]).ToList();
+    }
 }

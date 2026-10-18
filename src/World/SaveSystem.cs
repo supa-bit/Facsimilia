@@ -200,7 +200,7 @@ public static class SaveSystem
             state["provinces"] = provinces.ToDict();
         if (game != null)
             state["game"] = game;
-        if (!WriteText($"{dir}/{StateFile}", Json.Stringify(state)))
+        if (!WriteText($"{dir}/{StateFile}", Json.Stringify(state, "", true, true)))
             return false;
 
         if (population != null && population.Count > 0)
@@ -254,7 +254,7 @@ public static class SaveSystem
         if (!HasSave(slot))
             return null;
         string dir = SlotDir(slot);
-        var parsed = Json.ParseString(FileAccess.GetFileAsString($"{dir}/{StateFile}"));
+        var parsed = ExactJson.Parse(FileAccess.GetFileAsString($"{dir}/{StateFile}"));
         if (parsed.VariantType != Variant.Type.Dictionary)
         {
             GD.PushError($"SaveSystem: {dir}/{StateFile} is not valid JSON");

@@ -11,10 +11,11 @@ public partial class KeysTest : TestRunner
 {
     protected override Task Run()
     {
-        var keys = KeyBindings.All.Select(a => KeyBindings.KeyFor(a.Id)).ToList();
+        // The defaults (your own changed keys live in your settings, which tests never read).
+        var keys = KeyBindings.All.Select(a => a.Default).ToList();
         Check(keys.All(k => k != Key.None), "every action should have a key");
         Check(keys.Distinct().Count() == keys.Count, "no key should do two things");
-        Check(KeyBindings.ActionFor(Key.F3) == "view_culture" && KeyBindings.ActionFor(Key.Enter) == "advance", "the default keys");
+        Check(KeyBindings.All.First(a => a.Default == Key.F3).Id == "view_culture" && KeyBindings.All.First(a => a.Default == Key.Enter).Id == "advance", "the default keys");
         var views = MapView.ProvinceViews.Select(v => v.Key).Concat(new[] { MapView.PoliticalView, MapView.TradeView, MapView.RegionsView }).ToHashSet();
         Check(KeyBindings.ViewOf.Values.All(views.Contains) && views.All(KeyBindings.ViewOf.ContainsValue), "each map view should have its own key");
         Check(KeyBindings.ViewOf.Keys.All(id => KeyBindings.All.Any(a => a.Id == id)), "each view key should be a listed action");

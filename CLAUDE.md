@@ -116,6 +116,17 @@ designer to do anything: just keep committing and pushing to the same branch.
   into `master`): the full run. End each commit message with a line
   "Tests: quick" or "Tests: full", so the last full run is easy to find.
   GitHub runs every test on each push anyway (the Tests workflow).
+- No test may pass or fail by chance (the designer's rule, 18 Oct 2026: an
+  intermittent test is unacceptable). Every random draw in the game is
+  seeded: `StableHash.Of(...)` for yearly and monthly draws (never .NET's
+  `HashCode.Combine` or `GetHashCode`, which change on every launch), and
+  the court's births and deaths from the registry's saved seed. Nothing
+  may depend on the clock, on the order a dictionary happens to hold
+  things, or on the player's own settings or saves: each test saves into
+  its own folder (`TestRunner` sets this up). DeterminismTest plays the
+  same game twice, and once through a save and load, and fails if
+  anything differs. A test that ever fails once is a bug to find, never a
+  "flake" to rerun.
 - SpeedTest (part of the quick run) plays ten years and fails if a year
   averages over 3 seconds (the designer's limit), any year passes 6, or a
   save passes 1.5. It prints the times: mention them when they grow.

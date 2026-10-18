@@ -113,7 +113,7 @@ public partial class MapView
         int wonderCount = wonders.Count(w => w.IsWonder);
         list.Add(("Wonders", wonders.Sum(w => w.Culture),
             $"{wonderCount} wonder{(wonderCount == 1 ? "" : "s")}, {wonders.Count(w => !w.IsWonder)} great works; each as great as it was"));
-        if (realmId == PlayerRealmId && (SettingsStore.Instance?.ScoreHistory ?? true))
+        if (realmId == PlayerRealmId && CountHistoryInScore)
         {
             var (_, matched, checkedN) = HistoryCloseness();
             list.Add(("History", HistoryPoints * matched,
@@ -123,6 +123,12 @@ public partial class MapView
         list.Add(("Goals", goals, $"{s.GoalsDone.Count} reached; each goal's own points"));
         return list;
     }
+
+    /// <summary>
+    /// Whether the score has its History part (Settings, "Score closeness to
+    /// history"; the game sets it from your settings, so tests never depend on them).
+    /// </summary>
+    public bool CountHistoryInScore { get; set; } = true;
 
     /// <summary>Points for each of history's campaigns that turned out as it did (the score's "History" part).</summary>
     public const double HistoryPoints = 2;

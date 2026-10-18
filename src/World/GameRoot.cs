@@ -91,6 +91,7 @@ public partial class GameRoot : Node2D
         CivSelect = null;
         Map = NewMap();
         Map.SetPlayerCiv(civKey);
+        Map.Registry.NewHistory((ulong)Time.GetTicksUsec());   // each new game its own births, marriages and deaths
         Map.Game.MapFog = mapFog;
         Map.Game.DiplomacyFog = diplomacyFog;
         await RunLoadingScreen("300 BC", "Preparing the ancient world...", RegionMinSeconds, Map.GenerateWorld);
@@ -111,6 +112,8 @@ public partial class GameRoot : Node2D
 
     void ShowHud()
     {
+        if (Map != null)
+            Map.CountHistoryInScore = SettingsStore.Instance.ScoreHistory;
         Hud = HudScene.Instantiate<Hud>();
         Hud.Theme = ThemeAncient.Build();
         _uiLayer.AddChild(Hud);
@@ -173,6 +176,7 @@ public partial class GameRoot : Node2D
         if (Map == null || Hud == null || _advancing)
             return;
         Map.FightBattlesYourself = SettingsStore.Instance.FightBattles;
+        Map.CountHistoryInScore = SettingsStore.Instance.ScoreHistory;
         var events = Map.MarchMonth();
         if (Map.Pending != null)
         {
@@ -221,6 +225,7 @@ public partial class GameRoot : Node2D
             }
             var yearClock = System.Diagnostics.Stopwatch.StartNew();
             Map.FightBattlesYourself = SettingsStore.Instance.FightBattles;
+            Map.CountHistoryInScore = SettingsStore.Instance.ScoreHistory;
             var events = Map.AdvanceYear();
             if (SettingsStore.Instance.ThinOldYears && Map.DemoYear % 10 == 0)
                 Map.Game.ThinOldYears(Map.DemoYear, MapView.GreatChronicleKinds);

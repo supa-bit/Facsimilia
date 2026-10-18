@@ -23,6 +23,12 @@ public abstract partial class TestRunner : SceneTree
     {
         try
         {
+            // Each test saves into its own empty folder, never into the player's
+            // real save slots, and never into another test's (tests may run at once).
+            string root = $"user://test_saves/{GetType().Name}";
+            World.SaveSystem.DeleteDir(root);
+            DirAccess.MakeDirRecursiveAbsolute(root);
+            World.SaveSystem.Root = root;
             await Run();
         }
         catch (Exception e)

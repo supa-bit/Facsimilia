@@ -828,7 +828,7 @@ public partial class MapView
     /// <summary>How far off one realm's estimate of another is this year: 0.75 to 1.25.</summary>
     double EstimateError(int viewer, int realmId)
     {
-        uint h = (uint)HashCode.Combine(viewer, realmId, DemoYear);
+        uint h = (uint)StableHash.Of(viewer, realmId, DemoYear);   // the same every run (HashCode.Combine is not)
         h ^= h >> 13; h *= 0x5bd1e995; h ^= h >> 15;
         return 0.75 + 0.5 * (h % 10000) / 10000.0;
     }

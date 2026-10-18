@@ -78,14 +78,21 @@ public sealed partial class CharacterRegistry
 
     // One generator for the whole game. (A fresh, clock-seeded one each year
     // repeats the same rolls when turns come quickly, so everyone of an age
-    // dies in the same year.)
-    readonly RandomNumberGenerator _rng = NewRandomized();
+    // dies in the same year.) It starts from a fixed seed, so the same game
+    // always plays the same way (tests and replays); a new game chosen on the
+    // start screen gets a fresh seed (NewHistory), and where it has got to is
+    // kept in the save, so a loaded game goes on as it would have.
+    readonly RandomNumberGenerator _rng = new() { Seed = DefaultSeed };
+    public const ulong DefaultSeed = 300;
 
-    static RandomNumberGenerator NewRandomized()
+    /// <summary>A new game's own history: births, marriages and deaths drawn from this seed.</summary>
+    public void NewHistory(ulong seed) => _rng.Seed = seed;
+
+    /// <summary>Where the draws have got to (saved, and restored on load).</summary>
+    public ulong RandomState
     {
-        var rng = new RandomNumberGenerator();
-        rng.Randomize();
-        return rng;
+        get => _rng.State;
+        set => _rng.State = value;
     }
 
     static double BirthChance(int motherAge) => motherAge switch

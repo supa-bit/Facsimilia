@@ -113,6 +113,8 @@ public partial class SettingsStore : Node
     {
         ScoreHistory = value;
         Save();
+        if (GetTree()?.Root.GetNodeOrNull<World.GameRoot>("Main") is { Map: { } map })
+            map.CountHistoryInScore = value;   // at once, in a game being played
     }
 
     public override void _EnterTree() => Instance = this;

@@ -325,7 +325,7 @@ public partial class MapView
         double ratio = Military.Might(Game.Realm(other), Domain.Land) / Math.Max(SeenMight(other, PlayerRealmId), 1);
         double chance = Math.Clamp(0.4 * ratio - 0.02 * RulerDisposition(other), 0, 0.8);
         if (!Game.Wars.AtWar(other, PlayerRealmId) && Diplomacy.CanDeclare(Game, other, PlayerRealmId, DemoYear) == null
-            && new Random(HashCode.Combine(other, PlayerRealmId, DemoYear, Game.MonthsMarched)).NextDouble() < chance)
+            && new Random(StableHash.Of(other, PlayerRealmId, DemoYear, Game.MonthsMarched, 5843)).NextDouble() < chance)
             events.AddRange(StartWar(other, PlayerRealmId, Pretexts.Affront, "to avenge the insult"));
         else
             events.Add(new ChronicleEvent(ChronicleKind.War, other, $"{RealmName(other)} swallows the insult, for now."));
