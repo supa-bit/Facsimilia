@@ -60,7 +60,7 @@ public partial class AiTest : TestRunner
 
         Finish($"AI tests passed: 30 years with {events.Count(e => e.Kind == ChronicleKind.War)} wars declared, " +
             $"{events.Count(e => e.Kind == ChronicleKind.Peace)} peaces, {events.Count(e => e.Kind == ChronicleKind.Conquest)} " +
-            $"conquest reports; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
+            $"conquest reports; {events.Count(e => e.Kind == ChronicleKind.Revolt)} revolts; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
         map.Free();
         map2.Free();
     }

@@ -173,11 +173,13 @@ public partial class MapView
                     + Corruption(p.RealmId) * CorruptionUnrest + s.Grudge + ArmyLoyalty.WaitingUnrest(state),
                 AdminCapacity(p.RealmId));
             s.Grudge = s.Grudge * Sacking.GrudgeFade < 0.01 ? 0 : s.Grudge * Sacking.GrudgeFade;
-            if (p.RealmId == PlayerRealmId && rng.NextDouble() < Loyalty.ChanceOfRevolt(s.Unrest))
+            // Every realm's provinces may rise, not just yours (your answer "Same rules as you": exactly your rules).
+            if (rng.NextDouble() < Loyalty.ChanceOfRevolt(s.Unrest))
                 revolts.Add(p);
         }
         foreach (var p in revolts)
         {
+            int was = p.RealmId;
             string ruler = RealmName(p.RealmId);
             Game.RecordLoss(p.RealmId, p.Id, DemoYear);
             Provinces.SetRealm(p.Id, 0, Grid);   // it throws off its ruler and stands alone
@@ -187,7 +189,7 @@ public partial class MapView
             s.Owner = 0;
             s.Unrest = 0;
             TerritoryChanged = true;
-            events.Add(new ChronicleEvent(ChronicleKind.Revolt, PlayerRealmId,
+            events.Add(new ChronicleEvent(ChronicleKind.Revolt, was,
                 $"{p.Name} rises against {ruler} and breaks away."));
         }
         if (revolts.Count > 0)
