@@ -350,10 +350,11 @@ public partial class MapView : Node2D
         if (_camera == null || GetViewport().GuiGetFocusOwner() is LineEdit)
             return;
         var dir = Vector2.Zero;
-        if (Input.IsKeyPressed(Key.Left) || Input.IsKeyPressed(Key.A)) dir.X -= 1;
-        if (Input.IsKeyPressed(Key.Right) || Input.IsKeyPressed(Key.D)) dir.X += 1;
-        if (Input.IsKeyPressed(Key.Up) || Input.IsKeyPressed(Key.W)) dir.Y -= 1;
-        if (Input.IsKeyPressed(Key.Down) || Input.IsKeyPressed(Key.S)) dir.Y += 1;
+        // The arrows always move the map; the other keys are yours to change (Settings, Keys).
+        if (Input.IsKeyPressed(Key.Left) || Pressed("pan_left")) dir.X -= 1;
+        if (Input.IsKeyPressed(Key.Right) || Pressed("pan_right")) dir.X += 1;
+        if (Input.IsKeyPressed(Key.Up) || Pressed("pan_up")) dir.Y -= 1;
+        if (Input.IsKeyPressed(Key.Down) || Pressed("pan_down")) dir.Y += 1;
         if (dir == Vector2.Zero)
             return;
         _camera.Position += dir.Normalized() * KeyPanSpeed * (float)delta / _camera.Zoom.X;
@@ -398,6 +399,8 @@ public partial class MapView : Node2D
                 break;
         }
     }
+
+    static bool Pressed(string action) => KeyBindings.KeyFor(action) is var k && k != Key.None && Input.IsKeyPressed(k);
 
     // --- Realms and players -------------------------------------------------------
 

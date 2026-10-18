@@ -23,7 +23,7 @@ public partial class Hud
     {
         _mapViewMenu = new OptionButton
         {
-            TooltipText = "What the map shows  (R regions, V back to political)",
+            TooltipText = "What the map shows. Each view has its key (F1 political to F9 regions, changeable in Settings); ☆ adds it to your favourites.",
             FocusMode = FocusModeEnum.None,
             CustomMinimumSize = new Vector2(150, 40),
             FitToLongestItem = false,
@@ -35,6 +35,53 @@ public partial class Hud
                 _map.SetMapView(_mapViewKeys[id]);
         };
         return _mapViewMenu;
+    }
+
+    Button _favStar = null!;
+    HBoxContainer _favBar = null!;
+
+    /// <summary>☆: adds the view shown to your favourites bar, or takes it off (your answer "Map view keys": a favourites bar).</summary>
+    Control BuildFavouriteStar()
+    {
+        _favStar = new Button { Text = "☆", FocusMode = FocusModeEnum.None, CustomMinimumSize = new Vector2(40, 40),
+            TooltipText = "Add this map view to your favourites bar (or take it off)" };
+        _favStar.Pressed += () =>
+        {
+            SettingsStore.Instance?.ToggleFavouriteView(_map.CurrentView);
+            RefreshFavourites();
+        };
+        return _favStar;
+    }
+
+    Control BuildFavouritesBar()
+    {
+        _favBar = new HBoxContainer();
+        _favBar.AddThemeConstantOverride("separation", 4);
+        return _favBar;
+    }
+
+    /// <summary>The favourites bar: one button per favourite view; the star shows whether the view shown is one.</summary>
+    void RefreshFavourites()
+    {
+        if (_favBar == null)
+            return;
+        var favourites = SettingsStore.Instance?.FavouriteViews ?? new List<string>();
+        _favStar.Text = favourites.Contains(_map.CurrentView) ? "★" : "☆";
+        foreach (Node child in _favBar.GetChildren())
+            child.QueueFree();
+        foreach (var view in favourites)
+        {
+            int index = _mapViewKeys.IndexOf(view);
+            if (index < 0)
+                continue;
+            string label = _mapViewMenu.GetItemText(_mapViewMenu.GetItemIndex(index));
+            string? action = KeyBindings.ViewOf.FirstOrDefault(v => v.Value == view).Key;
+            var b = new Button { Text = label, ToggleMode = true, ButtonPressed = view == _map.CurrentView, FocusMode = FocusModeEnum.None,
+                CustomMinimumSize = new Vector2(0, 40), TooltipText = "Show this map view" + (action != null ? KeyBindings.Hint(action) : "") };
+            string v = view;
+            b.Pressed += () => _map.SetMapView(v);
+            _favBar.AddChild(b);
+        }
     }
 
     /// <summary>Fills the menu once the map is known (which views have data) and builds the legend.</summary>
@@ -114,6 +161,7 @@ public partial class Hud
 
     void RefreshMapView()
     {
+        RefreshFavourites();
         int id = _mapViewKeys.IndexOf(_map.CurrentView);
         for (int i = 0; i < _mapViewMenu.ItemCount; i++)
             if (_mapViewMenu.GetItemId(i) == id && !_mapViewMenu.IsItemSeparator(i))

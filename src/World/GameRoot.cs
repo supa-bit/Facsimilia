@@ -292,7 +292,7 @@ public partial class GameRoot : Node2D
     {
         if (@event is not InputEventKey { Pressed: true } key)
             return;
-        if (key.Keycode == Key.F11)
+        if (key.Keycode == UI.KeyBindings.KeyFor("fullscreen"))
             SettingsStore.Instance.SetFullscreen(!SettingsStore.Instance.Fullscreen);
         else if (key.Keycode == Key.Escape)
             TogglePauseMenu();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Facsimilia.World;
 using Godot;
@@ -31,6 +32,34 @@ public partial class SettingsStore : Node
     public bool ThinOldYears { get; private set; }
     /// <summary>Whether closeness to history counts in your score (your note on "Score parts": it can be switched off).</summary>
     public bool ScoreHistory { get; private set; } = true;
+
+    /// <summary>Keys you have changed (KeyBindings): action id -> key.</summary>
+    public Dictionary<string, Key> KeyOverrides { get; } = new();
+    /// <summary>Your favourite map views, for the favourites bar (your answer "Map view keys").</summary>
+    public List<string> FavouriteViews { get; } = new();
+
+    /// <summary>Gives an action a new key; an action that had that key loses it (no key does two things).</summary>
+    public void SetKey(string action, Key key)
+    {
+        foreach (var other in KeyBindings.All)
+            if (other.Id != action && KeyBindings.KeyFor(other.Id) == key)
+                KeyOverrides[other.Id] = Key.None;
+        KeyOverrides[action] = key;
+        Save();
+    }
+
+    public void ResetKeys()
+    {
+        KeyOverrides.Clear();
+        Save();
+    }
+
+    public void ToggleFavouriteView(string view)
+    {
+        if (!FavouriteViews.Remove(view))
+            FavouriteViews.Add(view);
+        Save();
+    }
 
     /// <summary>The narrators speak (decision "Voices"); off, only the text shows.</summary>
     public bool VoiceEnabled { get; private set; } = true;
@@ -169,6 +198,11 @@ public partial class SettingsStore : Node
         ShowOpening = config.GetValue("gameplay", "show_opening", ShowOpening).AsBool();
         OpeningSeen = config.GetValue("gameplay", "opening_seen", OpeningSeen).AsBool();
         VoiceVolume = Mathf.Clamp(config.GetValue("audio", "voice_volume", VoiceVolume).AsSingle(), 0f, 1f);
+        if (config.HasSection("keys"))
+            foreach (var id in config.GetSectionKeys("keys"))
+                KeyOverrides[id] = (Key)config.GetValue("keys", id).AsInt64();
+        FavouriteViews.AddRange(config.GetValue("display", "favourite_views", "").AsString()
+            .Split(',', System.StringSplitOptions.RemoveEmptyEntries));
     }
 
     void Save()
@@ -185,6 +219,9 @@ public partial class SettingsStore : Node
         config.SetValue("gameplay", "show_opening", ShowOpening);
         config.SetValue("gameplay", "opening_seen", OpeningSeen);
         config.SetValue("audio", "voice_volume", VoiceVolume);
+        foreach (var (id, key) in KeyOverrides)
+            config.SetValue("keys", id, (long)key);
+        config.SetValue("display", "favourite_views", string.Join(",", FavouriteViews));
         config.Save(SavePath);
     }
 }

@@ -2129,6 +2129,19 @@ companies and reforms follow.
   first, then every realm the chronicle has named) and the place (every
   province the chronicle has named). The newest 3,000 lines are shown; a
   search finds older ones.
+- **Changeable keys and map view keys (built, 18 Oct 2026; your answers:
+  keys for everything, changeable in Settings; a key for each view and a
+  favourites bar).** Settings has a Keys tab: every action with its key;
+  click one and press the new key (a key taken from another action leaves
+  that one without, so no key does two things), and a button puts them all
+  back. The defaults: Enter plays the year, Space runs or pauses the
+  months, 1-3 the map modes, W A S D move the map (the arrows always do
+  too), F1 political, F2 trade routes, F3 culture, F4 religion, F5
+  loyalty, F6 wealth, F7 people, F8 diplomacy, F9 regions, G goods, T
+  research, L the realms table, C the whole chronicle, F11 fullscreen. Esc
+  always opens the menu. Beside the map view menu a ☆ adds the view shown
+  to your favourites bar, a row of one-click view buttons kept between
+  games.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

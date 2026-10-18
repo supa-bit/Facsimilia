@@ -30,9 +30,9 @@ public partial class Hud
 
     static readonly (MapMode Mode, string Text, string Tip)[] Modes =
     {
-        (MapMode.Inspect, "Inspect", "Click a province to see it; drag to move the map  (1)"),
-        (MapMode.EditProvinces, "Provinces", "Redraw your provinces with the brush  (2)"),
-        (MapMode.PlanConquest, "Conquest", "Paint land to attack; fights are decided when the turn ends  (3)"),
+        (MapMode.Inspect, "Inspect", "Click a province to see it; drag to move the map"),
+        (MapMode.EditProvinces, "Provinces", "Redraw your provinces with the brush"),
+        (MapMode.PlanConquest, "Conquest", "Paint land to attack; fights are decided when the turn ends"),
     };
 
     HBoxContainer BuildModeRow()
@@ -49,7 +49,7 @@ public partial class Hud
                 ToggleMode = true,
                 ButtonGroup = group,
                 ButtonPressed = mode == MapMode.Inspect,
-                TooltipText = tip,
+                TooltipText = tip + KeyBindings.Hint(new[] { "mode_inspect", "mode_provinces", "mode_conquest" }[i]),
                 FocusMode = FocusModeEnum.None,
                 CustomMinimumSize = new Vector2(96, 40),
             };
@@ -58,6 +58,10 @@ public partial class Hud
             _modeButtons[i] = b;
         }
         row.AddChild(BuildMapViewMenu());
+        row.AddChild(BuildFavouriteStar());
+        var favourites = BuildFavouritesBar();
+        row.AddChild(favourites);
+        row.MoveChild(favourites, 0);
         return row;
     }
 
@@ -735,24 +739,29 @@ public partial class Hud
     {
         if (@event is not InputEventKey { Pressed: true, Echo: false } key)
             return;
-        if (key.Keycode is Key.Enter or Key.KpEnter)
-            EmitSignal(SignalName.AdvanceRequested);
-        else if (key.Keycode == Key.Space)
-            SetPlaying(!_playing);
-        else if (key.Keycode is >= Key.Key1 and <= Key.Key3)
-            _map.SetMode(Modes[key.Keycode - Key.Key1].Mode);
-        else if (key.Keycode == Key.R && _map.RegionsAvailable)
-            _map.SetMapView(_map.CurrentView == MapView.RegionsView ? MapView.PoliticalView : MapView.RegionsView);
-        else if (key.Keycode == Key.V)
-            _map.SetMapView(MapView.PoliticalView);
-        else if (key.Keycode == Key.G)
-            ToggleGoodsPanel();
-        else if (key.Keycode == Key.T)
-            ToggleResearchPanel();
-        else if (key.Keycode == Key.L)
-            ToggleRealmsPanel();
-        else
-            return;
+        switch (KeyBindings.ActionFor(key.Keycode))
+        {
+            case "advance": EmitSignal(SignalName.AdvanceRequested); break;
+            case "play": SetPlaying(!_playing); break;
+            case "mode_inspect": _map.SetMode(Modes[0].Mode); break;
+            case "mode_provinces": _map.SetMode(Modes[1].Mode); break;
+            case "mode_conquest": _map.SetMode(Modes[2].Mode); break;
+            case "panel_goods": ToggleGoodsPanel(); break;
+            case "panel_research": ToggleResearchPanel(); break;
+            case "panel_realms": ToggleRealmsPanel(); break;
+            case "panel_chronicle":
+                if (_bookPanel is { Visible: true })
+                    _bookPanel.Visible = false;
+                else
+                    ShowChronicleBook();
+                break;
+            case { } id when KeyBindings.ViewOf.TryGetValue(id, out var view)
+                             && (view != MapView.RegionsView || _map.RegionsAvailable):
+                _map.SetMapView(view);
+                break;
+            default:
+                return;
+        }
         GetViewport().SetInputAsHandled();
     }
 

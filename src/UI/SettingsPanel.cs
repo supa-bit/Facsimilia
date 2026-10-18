@@ -100,10 +100,59 @@ public partial class SettingsPanel : Control
         gameplay.AddChild(Row("Show the opening", opening,
             "A new game begins with the story from Göbekli Tepe to 300 BC. It can always be skipped."));
 
+        var keys = Tab(tabs, "Keys");
+        keys.AddChild(ThemeAncient.Label("Click an action, then press its new key (Esc to cancel). Esc for the menu and the arrow keys for moving the map always work too.",
+            "SubtleLabel", 15));
+        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(440, 320), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        keys.AddChild(scroll);
+        _keyRows = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        _keyRows.AddThemeConstantOverride("separation", 4);
+        scroll.AddChild(_keyRows);
+        var reset = new Button { Text = "Put every key back as it was" };
+        reset.Pressed += () => { store.ResetKeys(); FillKeys(); };
+        keys.AddChild(reset);
+        FillKeys();
+
         var back = new Button { Text = "Back" };
         back.Pressed += () => EmitSignal(SignalName.Closed);
         vbox.AddChild(back);
         back.GrabFocus();
+    }
+
+    VBoxContainer _keyRows = null!;
+    string? _capturing;   // the action waiting for its new key
+
+    /// <summary>One row per action (your answer "Changeable keys"): its name and its key, click to change.</summary>
+    void FillKeys()
+    {
+        foreach (Node child in _keyRows.GetChildren())
+            child.QueueFree();
+        foreach (var action in KeyBindings.All)
+        {
+            var row = new HBoxContainer();
+            row.AddChild(new Label { Text = action.Name, SizeFlagsHorizontal = SizeFlags.ExpandFill });
+            string id = action.Id;
+            var b = new Button
+            {
+                Text = _capturing == id ? "Press a key..." : KeyBindings.Name(KeyBindings.KeyFor(id)),
+                CustomMinimumSize = new Vector2(140, 0),
+                FocusMode = FocusModeEnum.None,
+            };
+            b.Pressed += () => { _capturing = id; FillKeys(); };
+            row.AddChild(b);
+            _keyRows.AddChild(row);
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (_capturing == null || @event is not InputEventKey { Pressed: true, Echo: false } key)
+            return;
+        if (key.Keycode != Key.Escape)
+            SettingsStore.Instance.SetKey(_capturing, key.Keycode);
+        _capturing = null;
+        FillKeys();
+        GetViewport().SetInputAsHandled();
     }
 
     static VBoxContainer Tab(TabContainer tabs, string title)
