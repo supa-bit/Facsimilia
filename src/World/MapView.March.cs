@@ -803,7 +803,8 @@ public partial class MapView
         if (realmId == viewer || Game.DiplomacyFog == FogLevel.Off)
             return Insight.Exact;
         EnsureContacts();
-        bool contact = _contacts!.TryGetValue(viewer, out var c) && c.Contains(realmId);
+        // Enemies watch each other: the contacts that spread learning leave out realms at war, but war is no fog.
+        bool contact = (_contacts!.TryGetValue(viewer, out var c) && c.Contains(realmId)) || Game.Wars.AtWar(viewer, realmId);
         return Game.DiplomacyFog == FogLevel.Light
             ? contact ? Insight.Exact : Insight.Rough
             : contact ? Insight.Rough : Insight.Unknown;

@@ -26,7 +26,10 @@ for n in $names; do
   if out=$(timeout 1500 godot --headless --path . --script "res://src/Tests/$n.cs" 2>&1); then
     pass=$((pass + 1))
   else
-    fail=$((fail + 1)); echo "FAILED $n"; echo "$out" | grep -E "FAIL|rror" | head -5
+    code=$?
+    fail=$((fail + 1)); echo "FAILED $n (exit code $code)"
+    # A failed check prints FAIL; a crash or a timeout (exit code 124) may not, so show the end of its output then.
+    if echo "$out" | grep -qE "FAIL|rror"; then echo "$out" | grep -E "FAIL|rror" | head -5; else echo "$out" | tail -15; fi
   fi
 done
 echo "passed $pass failed $fail"

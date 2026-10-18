@@ -39,6 +39,15 @@ public partial class DataTest : TestRunner
         Keys("coins.json", Load("coins.json").GetProperty("realms").EnumerateObject().Select(p => p.Name));
         foreach (var g in Load("history_goals.json").GetProperty("goals").EnumerateArray())
             Keys("history_goals.json", new[] { g.GetProperty("realm").GetString()!, g.GetProperty("target").GetString()! });
+        var regionNames = Load("regions/regions.json").GetProperty("regions").EnumerateArray().Select(r => r.GetProperty("name").GetString()!).ToHashSet();
+        foreach (var a in Load("history_aims.json").GetProperty("aims").EnumerateArray())
+        {
+            Keys("history_aims.json", new[] { a.GetProperty("realm").GetString()! });
+            foreach (var r in a.GetProperty("regions").EnumerateArray())
+                Check(regionNames.Contains(r.GetString()!), $"history_aims.json: '{r.GetString()}' is not one of the 38 regions");
+            Check(a.GetProperty("source").GetString()!.Length > 0 && a.GetProperty("from").GetInt32() <= a.GetProperty("to").GetInt32(),
+                $"history_aims.json: an aim of {a.GetProperty("realm").GetString()} has no source or ends before it begins");
+        }
 
         var techs = TechCatalog.Instance.All.Select(t => t.Id).ToHashSet();
         foreach (var u in UnitCatalog.Instance.Units.Where(u => u.Requires != null))

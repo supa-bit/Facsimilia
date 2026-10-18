@@ -60,6 +60,10 @@ public partial class AiTest : TestRunner
         probe.Score = 60;
         Check(map.PeaceWish(probe, 90002, goalOver: false, years: 0) >= 100, "a beaten defender should want peace above all");
 
+        // History's aims: Rome wants all Italy in its first years, until it holds most of it.
+        Check(map.HistoryAims.Count >= 20, "history's aims should be loaded");
+        Check(map.HistoryAims.Where(a => a.Realm == "seleucid").All(a => a.Source != ""), "every aim should name its source");
+
         // Rulers' character: a bold ruler wants peace less than a cautious one.
         int carthage = map.CivRealmIds["carthage"];
         var hannibal = map.Registry.Characters[map.Registry.Realms[carthage].RulerId];
@@ -81,7 +85,7 @@ public partial class AiTest : TestRunner
 
         Finish($"AI tests passed: 30 years with {events.Count(e => e.Kind == ChronicleKind.War)} wars declared, " +
             $"{events.Count(e => e.Kind == ChronicleKind.Peace)} peaces, {events.Count(e => e.Kind == ChronicleKind.Conquest)} " +
-            $"conquest reports; {events.Count(e => e.Kind == ChronicleKind.Revolt)} revolts; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
+            $"conquest reports; {events.Count(e => e.Kind == ChronicleKind.War && map.HistoryAims.Any(a => e.Text.Contains($": {a.Aim}: ")))} wars for aims; {events.Count(e => e.Kind == ChronicleKind.Revolt)} revolts; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
         map.Free();
         map2.Free();
     }

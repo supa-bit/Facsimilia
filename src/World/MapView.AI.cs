@@ -7,6 +7,12 @@ using Facsimilia.Game;
 
 namespace Facsimilia.World;
 
+/// <summary>One of history's aims (data/history_aims.json): land a realm wanted in those years.</summary>
+public sealed record HistoryAim(string Realm, string[] Regions, int From, int To, string Aim, string Why, string Source)
+{
+    public bool ActiveIn(int year) => year >= From && year <= To;
+}
+
 /// <summary>One of history's campaigns (data/history_goals.json).</summary>
 public sealed record HistoryGoal(string Realm, string Target, string[] Regions, int From, int To, string Why, bool Failed = false)
 {
@@ -55,6 +61,50 @@ public partial class MapView
             return _goals;
         }
     }
+
+    public const string HistoryAimsPath = "res://data/history_aims.json";
+    /// <summary>A yearly chance that a strong realm at peace, with no campaign due, makes war for one of its aims (at the history pull "Guided").</summary>
+    const double BotAimChance = 0.04;
+    List<HistoryAim>? _aims;
+
+    /// <summary>History's aims (data/history_aims.json): the land each great realm wanted, era by era.</summary>
+    public IReadOnlyList<HistoryAim> HistoryAims
+    {
+        get
+        {
+            if (_aims != null)
+                return _aims;
+            _aims = new List<HistoryAim>();
+            if (!Godot.FileAccess.FileExists(HistoryAimsPath))
+                return _aims;
+            using var doc = JsonDocument.Parse(Godot.FileAccess.GetFileAsString(HistoryAimsPath));
+            foreach (var a in doc.RootElement.GetProperty("aims").EnumerateArray())
+                _aims.Add(new HistoryAim(a.GetProperty("realm").GetString()!, a.GetProperty("regions").EnumerateArray().Select(x => x.GetString()!).ToArray(),
+                    a.GetProperty("from").GetInt32(), a.GetProperty("to").GetInt32(), a.GetProperty("aim").GetString()!,
+                    a.GetProperty("why").GetString()!, a.GetProperty("source").GetString()!));
+            return _aims;
+        }
+    }
+
+    /// <summary>A realm's aims for this year that it hasn't won: it holds less than half the aim's provinces.</summary>
+    public List<HistoryAim> UnmetAims(int realmId)
+    {
+        string civ = Game.Realm(realmId).CivKey;
+        var list = new List<HistoryAim>();
+        if (Provinces == null || Population == null)
+            return list;
+        foreach (var aim in HistoryAims.Where(a => a.Realm == civ && a.ActiveIn(DemoYear)))
+        {
+            var regions = AimRegionIds(aim);
+            var inAim = Provinces.Provinces.Values.Where(p => regions.Contains(RegionOfProvince(p))).ToList();
+            if (inAim.Count > 0 && inAim.Count(p => p.RealmId == realmId) * 2 < inAim.Count)
+                list.Add(aim);
+        }
+        return list;
+    }
+
+    HashSet<int> AimRegionIds(HistoryAim aim) =>
+        aim.Regions.Select(n => Population!.Regions.FirstOrDefault(r => r.Name == n)?.Id ?? 0).Where(id => id != 0).ToHashSet();
 
     public int RealmOfCiv(string key) => Game.Realms.Values.FirstOrDefault(r => r.CivKey == key)?.RealmId ?? 0;
 
@@ -114,6 +164,25 @@ public partial class MapView
                     continue;
                 events.AddRange(StartWar(realm.Id, target, Pretexts.History, goal.Why.TrimEnd('.'), $"war_begin:{GoalKey(goal)}"));
             }
+            // History's aims: strong and at peace, with no campaign due, a realm may make war for one of them
+            // (bolder rulers sooner), on the weakest holder of that land it knows, has a pretext against, and far outmatches.
+            if (!Game.Wars.Of(realm.Id).Any() && !HistoryGoals.Any(g => g.Realm == state.CivKey && g.ActiveIn(year))
+                && rng.NextDouble() < BotAimChance * Math.Max(0, 1 + 0.5 * Boldness(realm.Id)))
+                foreach (var aim in UnmetAims(realm.Id))
+                {
+                    var regions = AimRegionIds(aim);
+                    double mine = Military.Might(state, Domain.Land);
+                    var target = Provinces!.Provinces.Values.Where(p => regions.Contains(RegionOfProvince(p)))
+                        .Select(p => p.RealmId).Where(r => r > 0 && r != realm.Id && r != SeaOwnerId && census.ContainsKey(r)).Distinct()
+                        .Where(r => Diplomacy.CanDeclare(Game, realm.Id, r, year) == null && InsightBetween(realm.Id, r) != Insight.Unknown
+                            && PretextsAgainst(realm.Id, r).Count > 0
+                            && mine >= 2 * (SeenMight(realm.Id, r) + Game.Treaties.AlliesOf(r).Sum(x => 0.5 * SeenMight(realm.Id, x))))
+                        .OrderBy(r => SeenMight(realm.Id, r)).ThenBy(r => r).FirstOrDefault();
+                    if (target == 0)
+                        continue;
+                    events.AddRange(StartWar(realm.Id, target, PretextsAgainst(realm.Id, target)[0], $"{aim.Aim}: {aim.Why.TrimEnd('.')}"));
+                    break;
+                }
             // A far stronger neighbour may fall on a weak player.
             int player = PlayerRealmId;
             if (player != 0 && census.ContainsKey(player) && !Game.Wars.AtWar(realm.Id, player)
@@ -163,6 +232,13 @@ public partial class MapView
                 var regions = goal == null ? null : new HashSet<int>(goal.Regions
                     .Select(n => Population.Regions.FirstOrDefault(r => r.Name == n)?.Id ?? 0).Where(id => id != 0));
                 bool defending = !vsPlayer && war.Defender == realm.Id;
+                // No campaign of history's: it presses where its aims lie, if any are within reach (history's aims).
+                if (regions == null && !defending)
+                {
+                    var aimRegions = UnmetAims(realm.Id).SelectMany(AimRegionIds).ToHashSet();
+                    if (aimRegions.Count > 0)
+                        regions = aimRegions;
+                }
                 if (defending)
                 {
                     // The side attacked in a historical war retakes what it lost; it

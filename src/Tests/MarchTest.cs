@@ -121,6 +121,10 @@ public partial class MarchTest : TestRunner
             || (egyptSees >= 0.7 * romeMight && egyptSees <= 1.3 * romeMight), $"Egypt's estimate of Rome should be near the truth ({egyptSees:0} vs {romeMight:0})");
         map.Game.DiplomacyFog = FogLevel.Full;
         Check(map.SeenMight(rome, stranger) == 0, "under full fog a realm knows nothing of a stranger's strength");
+        // Enemies watch each other: at war, even a far realm is known at least by report.
+        var strangerWar = Diplomacy.Declare(map.Game, rome, stranger, map.DemoYear, false);
+        Check(map.InsightInto(stranger) != MapView.Insight.Unknown, "at war with a far realm, Rome should know it at least roughly");
+        map.Game.Wars.End(strangerWar);
         int beyond = map.Game.Realms.Keys.FirstOrDefault(id => id != rome && !map.CanDealWith(id));
         Check(beyond != 0 && map.CanDealWith(etruscans), "under full fog you deal only with realms you know");
         Check(map.ProposeAlliance(beyond).Contains("knows nothing") && map.DeclareWar(beyond) == null, "no treaties or wars with realms beyond your knowledge");
