@@ -2171,6 +2171,14 @@ companies and reforms follow.
   province's owner and unrest, a realm's opinion of you or its war with
   you, a person's age). Clicking the line takes you there; right-clicking
   it unpins it. Pins are kept in the save.
+- **Your notes (built, 18 Oct 2026; your answer: pin notes on the map and
+  in the chronicle).** A province's History tab has a box to write a note
+  on it; its notes are listed there (each can be struck out) and shown on
+  the map as a small scroll with the note's first words. The whole
+  chronicle has a box to write a note in the chronicle under this year,
+  and a "Your notes" filter; notes are never thinned out of old years.
+  Notes are kept in the save. (Whether they go into the history book waits
+  on the question "Notes".)
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

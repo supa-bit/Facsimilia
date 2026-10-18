@@ -32,6 +32,7 @@ public partial class Hud
         ("Rulers and houses", new[] { ChronicleKind.Succession, ChronicleKind.NewHouse }),
         ("Families", new[] { ChronicleKind.Death, ChronicleKind.Marriage, ChronicleKind.Birth }),
         ("The treasury and works", new[] { ChronicleKind.Economy }),
+        ("Your notes", new[] { ChronicleKind.Note }),
     };
 
     /// <summary>Most lines shown at once (the newest); a search finds older ones.</summary>
@@ -69,6 +70,16 @@ public partial class Hud
         _bookPlace = new OptionButton { FocusMode = FocusModeEnum.None, TooltipText = "News that names one place" };
         _bookPlace.ItemSelected += _ => RefreshChronicleBook();
         filters.AddChild(_bookPlace);
+        var write = new LineEdit { PlaceholderText = "Write a note in the chronicle, then Enter...", MaxLength = 300 };
+        write.TextSubmitted += text =>
+        {
+            if (text.Trim() == "")
+                return;
+            _map.Game.Chronicle.Add((_map.DemoYear, (int)ChronicleKind.Note, _map.PlayerRealmId, "Your note: " + text.Trim()));
+            write.Text = "";
+            RefreshChronicleBook();
+        };
+        box.AddChild(write);
         _bookCount = ThemeAncient.Label("", "SubtleLabel", 15);
         box.AddChild(_bookCount);
         _bookText = new RichTextLabel

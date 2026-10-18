@@ -270,6 +270,42 @@ public partial class MapView
             }
         }
         DrawLastSeen(icon, zoom);
+        DrawNotes(zoom);
+    }
+
+    /// <summary>Your notes on the map: a scroll mark on the province with the note's first words.</summary>
+    void DrawNotes(float zoom)
+    {
+        const float iconScale = 0.07f;
+        foreach (var group in Game.Notes.GroupBy(n => n.Province))
+        {
+            if (Provinces?.Provinces.TryGetValue(group.Key, out var p) != true)
+                continue;
+            var mark = new Sprite2D
+            {
+                Texture = UI.ThemeAncient.Icon("log"),
+                Position = p!.LabelCell * CellPixels + new Vector2(0, 10) / Math.Max(zoom, 0.05f),
+                Scale = Vector2.One * (iconScale / Math.Max(zoom, 0.05f)),
+                SelfModulate = new Color(1f, 0.9f, 0.6f),
+            };
+            string text = group.Last().Text;
+            var label = new Label
+            {
+                Text = (text.Length > 28 ? text[..28] + "..." : text) + (group.Count() > 1 ? $" (+{group.Count() - 1})" : ""),
+                Position = new Vector2(16, -10) / iconScale,
+                Scale = Vector2.One / iconScale,
+            };
+            label.AddThemeFontSizeOverride("font_size", 14);
+            label.AddThemeColorOverride("font_color", new Color(1f, 0.93f, 0.75f));
+            label.AddThemeStyleboxOverride("normal", new StyleBoxFlat
+            {
+                BgColor = new Color(0.1f, 0.08f, 0.06f, 0.85f),
+                ContentMarginLeft = 5, ContentMarginRight = 5, ContentMarginTop = 1, ContentMarginBottom = 1,
+                CornerRadiusTopLeft = 3, CornerRadiusTopRight = 3, CornerRadiusBottomLeft = 3, CornerRadiusBottomRight = 3,
+            });
+            mark.AddChild(label);
+            _armyLayer!.AddChild(mark);
+        }
     }
 
     /// <summary>

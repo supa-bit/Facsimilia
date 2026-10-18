@@ -335,6 +335,7 @@ public partial class Hud
         foreach (var page in new Node[] { people, land, buildings, military, history })
             Clear(page);
         var ps = _map.ProvinceStateOf(p.Id);
+        AddProvinceNotes(history, p.Id);
 
         // Graphs (the Ledger: "Province graphs"): its people, unrest and integration over the years.
         if (ps.Records.Count >= 2)
@@ -764,6 +765,37 @@ public partial class Hud
                 return;
         }
         GetViewport().SetInputAsHandled();
+    }
+
+    /// <summary>Your notes on this province (your answer "Your notes"): write one, see them, strike one out.</summary>
+    void AddProvinceNotes(VBoxContainer page, int provinceId)
+    {
+        var write = new LineEdit { PlaceholderText = "Write a note on this province, then Enter...", MaxLength = 200 };
+        write.TextSubmitted += text =>
+        {
+            if (text.Trim() == "")
+                return;
+            _map.Game.Notes.Add((provinceId, _map.DemoYear, text.Trim()));
+            _map.RefreshArmyMarkers();
+            RefreshProvincePanel();
+        };
+        page.AddChild(write);
+        foreach (var note in _map.Game.Notes.Where(n => n.Province == provinceId).ToList())
+        {
+            var row = new HBoxContainer();
+            var label = ThemeAncient.Label($"{ThemeAncient.YearText(note.Year)}: {note.Text}", fontSize: 15);
+            label.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+            label.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+            row.AddChild(label);
+            var n = note;
+            row.AddChild(IconButton(null, "×", "Strike out this note", () =>
+            {
+                _map.Game.Notes.Remove(n);
+                _map.RefreshArmyMarkers();
+                RefreshProvincePanel();
+            }));
+            page.AddChild(row);
+        }
     }
 
     /// <summary>Why a region grows faster or slower than history had it (your answer "Seeing why a region grows").</summary>

@@ -159,7 +159,7 @@ public partial class MapView
     public static readonly int[] GreatChronicleKinds =
     {
         (int)ChronicleKind.Succession, (int)ChronicleKind.NewHouse, (int)ChronicleKind.War, (int)ChronicleKind.Peace,
-        (int)ChronicleKind.Conquest, (int)ChronicleKind.Revolt, (int)ChronicleKind.Disaster,
+        (int)ChronicleKind.Conquest, (int)ChronicleKind.Revolt, (int)ChronicleKind.Disaster, (int)ChronicleKind.Note,
     };
 
     internal void RecordHistory()

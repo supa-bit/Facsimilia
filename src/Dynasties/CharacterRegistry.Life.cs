@@ -18,6 +18,7 @@ public enum ChronicleKind
     Conquest,    // land changed hands
     Revolt,      // a province rose up
     Disaster,    // plague, earthquake, eruption, famine
+    Note,        // a note you wrote in the chronicle (your answer "Your notes")
 }
 
 /// <summary>

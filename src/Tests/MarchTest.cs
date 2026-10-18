@@ -183,6 +183,7 @@ public partial class MarchTest : TestRunner
 
         // Save and load.
         map.Game.Pins.Add($"realm:{egypt}");
+        map.Game.Notes.Add((map.CapitalProvince(rome), map.DemoYear, "Muster here in spring"));
         map.SendArmy(rome, home, far);
         Check(await map.SaveCurrentGame("slot1"), "save failed");
         var map2 = new MapView();
@@ -193,6 +194,7 @@ public partial class MarchTest : TestRunner
         Check(map2.Game.DiplomacyFog == FogLevel.Light && map2.Game.MapFog == FogLevel.Full
             && map2.Game.Explored.SequenceEqual(map.Game.Explored), "the fog settings and explored land didn't survive the save");
         Check(map2.Game.Pins.Contains($"realm:{egypt}"), "pins didn't survive the save");
+        Check(map2.Game.Notes.Any(n => n.Text == "Muster here in spring"), "notes didn't survive the save");
         Check(map2.Game.NewsOnTheRoad.Count == 1 && map2.Game.NewsOnTheRoad[0].Text == "Egypt has a new king.", "news on the road didn't survive the save");
 
         // A whole year with the turn button marches all twelve months.
