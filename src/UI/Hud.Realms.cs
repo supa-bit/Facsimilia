@@ -24,13 +24,95 @@ public partial class Hud
     static readonly string[] RealmColumns = { "Realm", "People", "Land km²", "Silver", "Income", "Soldiers", "Ships", "Techs", "Score" };
     static readonly string[] GraphMetrics = { "People", "Silver", "Soldiers", "Score" };
 
+    // Two realms side by side (your answer "Comparing two realms": side by side, with graphs).
+    OptionButton _compareA = null!, _compareB = null!;
+    readonly List<int> _compareIds = new();
+    GridContainer _compareGrid = null!;
+    RealmGraph _compareGraph = null!;
+
+    void BuildComparison(VBoxContainer box)
+    {
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 8);
+        box.AddChild(row);
+        row.AddChild(ThemeAncient.Label("Side by side:", "SubtleLabel", 15));
+        _compareA = new OptionButton { FocusMode = FocusModeEnum.None };
+        _compareB = new OptionButton { FocusMode = FocusModeEnum.None };
+        _compareA.ItemSelected += _ => RefreshComparison();
+        _compareB.ItemSelected += _ => RefreshComparison();
+        row.AddChild(_compareA);
+        row.AddChild(ThemeAncient.Label("and", "SubtleLabel", 15));
+        row.AddChild(_compareB);
+        row.AddChild(ThemeAncient.Label("  (the graph follows the measure chosen above)", "SubtleLabel", 15));
+        _compareGrid = new GridContainer { Columns = RealmColumns.Length, SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        _compareGrid.AddThemeConstantOverride("h_separation", 40);
+        box.AddChild(_compareGrid);
+        _compareGraph = new RealmGraph { CustomMinimumSize = new Vector2(950, 130) };
+        box.AddChild(_compareGraph);
+    }
+
+    /// <summary>The realms to choose from: yours, then every realm still holding land, by name.</summary>
+    void FillComparisonChoices()
+    {
+        int a = _compareA.Selected >= 0 && _compareA.Selected < _compareIds.Count ? _compareIds[_compareA.Selected] : _map.PlayerRealmId;
+        int b = _compareB.Selected >= 0 && _compareB.Selected < _compareIds.Count ? _compareIds[_compareB.Selected] : 0;
+        _compareIds.Clear();
+        _compareA.Clear();
+        _compareB.Clear();
+        var census = _map.RealmCensus();
+        foreach (int id in census.Keys.OrderBy(id => id == _map.PlayerRealmId ? "" : _map.RealmName(id)))
+        {
+            _compareIds.Add(id);
+            _compareA.AddItem(_map.RealmName(id));
+            _compareB.AddItem(_map.RealmName(id));
+        }
+        if (b == 0)   // at first: you and the realm with the highest score after you
+            b = census.Keys.Where(id => id != a).OrderByDescending(id => _map.Score(id)).FirstOrDefault();
+        _compareA.Selected = Math.Max(0, _compareIds.IndexOf(a));
+        _compareB.Selected = Math.Max(0, _compareIds.IndexOf(b));
+    }
+
+    void RefreshComparison()
+    {
+        if (_compareIds.Count == 0)
+            return;
+        foreach (Node child in _compareGrid.GetChildren())
+            child.QueueFree();
+        var rows = RealmRows();
+        var coin = _map.CoinOf(_map.PlayerRealmId);
+        var chosen = new[] { _compareIds[Math.Max(0, _compareA.Selected)], _compareIds[Math.Max(0, _compareB.Selected)] };
+        foreach (var name in RealmColumns)
+            _compareGrid.AddChild(ThemeAncient.Label(name, "SubtleLabel", 15, HorizontalAlignment.Right));
+        foreach (int id in chosen)
+        {
+            var r = rows.FirstOrDefault(x => x.Id == id);
+            if (r.Values == null)
+                continue;
+            var insight = _map.InsightInto(id);
+            _compareGrid.AddChild(ThemeAncient.Label(r.Name, fontSize: 15));
+            for (int i = 0; i < r.Values.Length; i++)
+            {
+                double v = insight == MapView.Insight.Rough ? MapView.Rough(r.Values[i]) : r.Values[i];
+                string text = insight == MapView.Insight.Unknown ? "?"
+                    : (insight == MapView.Insight.Rough && v != 0 ? "~" : "") + (i is 2 or 3 ? CoinCatalog.Short(CoinCatalog.Instance.Coins(v, coin))
+                    : i == 7 ? $"{v:0}" : CoinCatalog.Short(v));
+                _compareGrid.AddChild(ThemeAncient.Label(text, fontSize: 15, align: HorizontalAlignment.Right));
+            }
+        }
+        int metric = _graphMetric.Selected + 1;
+        _compareGraph.Series = chosen.Where(id => _map.InsightInto(id) != MapView.Insight.Unknown).Select(id => (
+            _map.ColorForRealm(id), id == chosen[0],
+            _map.Game.Realm(id).History.Select(h => new Vector2(h[0], h[metric])).ToList())).ToList();
+        _compareGraph.QueueRedraw();
+    }
+
     void BuildRealmsPanel()
     {
         _realmsPanel = SidePanel("Realms", () => ToggleRealmsPanel(false), 980);
         var box = _realmsPanel.GetNode<VBoxContainer>("Box");
         var hint = ThemeAncient.Label("Click a column to sort. Silver is shown in your coin.", "SubtleLabel", 15);
         box.AddChild(hint);
-        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(950, 380), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(950, 300), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
         box.AddChild(scroll);
         _realmsGrid = new GridContainer { Columns = RealmColumns.Length, SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _realmsGrid.AddThemeConstantOverride("h_separation", 18);
@@ -46,8 +128,9 @@ public partial class Hud
         _graphMetric.ItemSelected += _ => RefreshRealmsPanel();
         row.AddChild(_graphMetric);
         row.AddChild(ThemeAncient.Label("  you (thick) and the five leaders", "SubtleLabel", 15));
-        _realmGraph = new RealmGraph { CustomMinimumSize = new Vector2(950, 220) };
+        _realmGraph = new RealmGraph { CustomMinimumSize = new Vector2(950, 150) };
         box.AddChild(_realmGraph);
+        BuildComparison(box);
         var open = new Button { Text = "Compare realms", FocusMode = FocusModeEnum.None };
         open.Pressed += () => ToggleRealmsPanel(true);
         _goalsPanel.GetNode<VBoxContainer>("Box").AddChild(open);
@@ -131,6 +214,8 @@ public partial class Hud
             id == _map.PlayerRealmId,
             _map.Game.Realm(id).History.Select(h => new Vector2(h[0], h[metric])).ToList())).ToList();
         _realmGraph.QueueRedraw();
+        FillComparisonChoices();
+        RefreshComparison();
     }
 
     /// <summary>One row per realm still holding land: people, land, silver, income, soldiers, ships, techs, score.</summary>

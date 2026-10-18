@@ -2142,6 +2142,12 @@ companies and reforms follow.
   always opens the menu. Beside the map view menu a ☆ adds the view shown
   to your favourites bar, a row of one-click view buttons kept between
   games.
+- **Comparing two realms (built, 18 Oct 2026; your answer: side by side,
+  with graphs).** Below the realms table, "Side by side" picks any two
+  realms (yours and the highest-scoring other at first): their people,
+  land, silver, income, soldiers, ships, techs and score in two rows, as
+  well as the diplomacy fog lets you know them, and a graph of both over
+  the years for the measure chosen above it.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 
