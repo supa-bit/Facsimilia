@@ -518,6 +518,8 @@ public sealed class GameState
 
     /// <summary>Grievances over unpaid debts and indemnities: (holder, target) -> the last year they give a pretext.</summary>
     public Dictionary<(int Holder, int Target), int> Grievances { get; } = new();
+    /// <summary>Affronts (an insult, a just demand refused): (holder, target) -> the last year they give a pretext.</summary>
+    public Dictionary<(int Holder, int Target), int> Affronts { get; } = new();
     public int NextCompanyId { get; set; } = 1;
     /// <summary>History's companies already brought into the game (each appears once).</summary>
     public HashSet<string> CompaniesSeen { get; } = new();
@@ -639,6 +641,7 @@ public sealed class GameState
             ["ravaged"] = new GArray(Ravaged.Select(p => (Variant)new GArray { p.Key, p.Value }).ToArray()),
             ["ruins"] = new GArray(Ruins.Select(r => (Variant)r.ToArray()).ToArray()),
             ["grievances"] = new GArray(Grievances.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
+            ["affronts"] = new GArray(Affronts.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value }).ToArray()),
             ["grudges"] = new GArray(Grudges.Select(g => (Variant)new GArray { g.Key.Holder, g.Key.Target, g.Value.Weight, g.Value.Year }).ToArray()),
         };
     }
@@ -707,6 +710,12 @@ public sealed class GameState
             {
                 var a = v.AsGodotArray();
                 g.Grievances[(a[0].AsInt32(), a[1].AsInt32())] = a[2].AsInt32();
+            }
+        if (d.TryGetValue("affronts", out var aff))
+            foreach (var v in aff.AsGodotArray())
+            {
+                var a = v.AsGodotArray();
+                g.Affronts[(a[0].AsInt32(), a[1].AsInt32())] = a[2].AsInt32();
             }
         if (d.TryGetValue("grudges", out var gru))
             foreach (Variant v in gru.AsGodotArray())

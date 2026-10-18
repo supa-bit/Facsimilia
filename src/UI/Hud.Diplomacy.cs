@@ -43,7 +43,7 @@ public partial class Hud
         _diplomacyPanel = new PanelContainer
         {
             ThemeTypeVariation = "GlassPanel",
-            CustomMinimumSize = new Vector2(760, 0),
+            CustomMinimumSize = new Vector2(980, 0),
             MouseFilter = MouseFilterEnum.Stop,
             Visible = false,
         };
@@ -61,7 +61,7 @@ public partial class Hud
         title.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         header.AddChild(title);
         header.AddChild(IconButton(null, "×", "Close", () => ToggleDiplomacyPanel(false)));
-        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(740, 640), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(960, 640), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
         box.AddChild(scroll);
         _diplomacyRows = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _diplomacyRows.AddThemeConstantOverride("separation", 6);
@@ -214,8 +214,9 @@ public partial class Hud
             statusLabel.Modulate = new Color(1f, 0.75f, 0.65f);
         row.AddChild(statusLabel);
 
-        var buttons = new HBoxContainer();
-        buttons.AddThemeConstantOverride("separation", 6);
+        var buttons = new HFlowContainer();   // wraps onto a second line rather than widening the panel
+        buttons.AddThemeConstantOverride("h_separation", 6);
+        buttons.AddThemeConstantOverride("v_separation", 6);
         frame.AddChild(buttons);
         if (war == null)
         {
@@ -250,6 +251,10 @@ public partial class Hud
             if (!game.Treaties.All.Any(t => t.Kind == TreatyKind.Trade && t.Involves(me) && t.Involves(id)))
                 AddButton(buttons, "Trade treaty", "Your merchants deal directly, even without a border or a shared route. They agree unless they hate you.",
                     () => Log(_map.ProposeTradeTreaty(id), ChronicleKind.Economy));
+            AddButton(buttons, "Demand tribute", "Demand a yearly tribute (a tenth of their income for ten years). They pay if you have twice their might and they like or fear you enough; " +
+                "a refusal is an affront you may avenge in war.", () => Log(_map.DemandTribute(id), ChronicleKind.Economy));
+            AddButton(buttons, "Insult", "Insult them before the world. They will remember it and may declare war on you: a way to be attacked rather than to attack.",
+                () => LogEvents(_map.Insult(id)));
             double canLend = _map.LendLimit(id);
             if (canLend >= 1)
                 AddButton(buttons, $"Lend {_map.Money(canLend)}", $"Lend them silver at {Finance.RealmRate:P0} a year; they repay a tenth a year. They take it only if short of silver. If they never repay, you gain a pretext for war.",
@@ -274,7 +279,7 @@ public partial class Hud
         }
     }
 
-    void AddButton(HBoxContainer row, string text, string tip, Action act)
+    void AddButton(Container row, string text, string tip, Action act)
     {
         var b = new Button { Text = text, TooltipText = tip, FocusMode = FocusModeEnum.None };
         b.Pressed += () => { act(); AfterDiplomacy(); };

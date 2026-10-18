@@ -2073,6 +2073,20 @@ companies and reforms follow.
   25), and peace follows with each keeping what it holds. Raiding peoples
   (the many-tribed peoples, who came for plunder) take half. In 390 BC
   Rome paid the Gauls a thousand pounds of gold to leave the city.
+- **Demands and insults (built, 17 Oct 2026; your answer: send demands and
+  insults).** At peace, each realm's row offers:
+  - *Demand tribute*: they pay a tenth of their income a year for ten years
+    if you have twice their might and their opinion of you plus one and a
+    half times their fear is at least 10. If they refuse, they think a
+    little worse of you, and the refusal is an affront: for five years you
+    have a new pretext for war, "An affront to avenge" (as Rome's fetial
+    priests demanded redress before declaring a war).
+  - *Insult*: they remember it (an old wrong of 15) and gain that pretext
+    against you for five years. If they are strong enough (and their ruler
+    hot-tempered) they may declare war on you at once: a way to be attacked
+    rather than to attack, so that your allies are called in and the world
+    sees you as the wronged side.
+  The buttons now wrap onto a second line in a wider panel.
 
 ## Battles and generals, part 3: the battle map, sea battles, blockades **(built, 28 Sep 2026)**
 

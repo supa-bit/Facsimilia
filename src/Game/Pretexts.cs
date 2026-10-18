@@ -36,7 +36,9 @@ public static class Pretexts
 
     public static readonly Pretext Debt = new("debt", "Unpaid debts",
         "They will not repay what they owe you, or have stopped paying their indemnity.", 5, 2, true);
-    public static readonly Pretext[] All = { History, Reconquest, Kin, Border, Subjugation, Faith, Debt, None };
+    public static readonly Pretext Affront = new("affront", "An affront to avenge",
+        "They insulted you, or refused your just demands: the gods and your people will see a just war.", 5, 3, false);
+    public static readonly Pretext[] All = { History, Reconquest, Kin, Border, Subjugation, Faith, Debt, Affront, None };
 
     public static Pretext ById(string id) => All.FirstOrDefault(p => p.Id == id) ?? None;
 

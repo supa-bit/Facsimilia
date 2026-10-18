@@ -78,6 +78,18 @@ public partial class DiplomacyTest : TestRunner
             $"buying peace should end the war and hand over the silver ({bought})");
         map.PlayerState.Aggression = 0;
 
+        // Demands and insults: a refused demand is an affront Rome may avenge; an insult gives them one against Rome.
+        string refused = map.DemandTribute(carthage);
+        Check(refused.Contains("refuses") && map.PretextsAgainst(rome, carthage).Contains(Pretexts.Affront), $"a refused demand should be an affront to avenge ({refused})");
+        var insultEvents = map.Insult(nabatea);
+        Check(map.PretextsAgainst(nabatea, rome).Contains(Pretexts.Affront) && g.GrudgeNow(nabatea, rome, map.DemoYear) >= MapView.GrudgeInsult - 1e-9,
+            "an insult should be remembered and give them a pretext");
+        Check(Game.GameState.FromDict(g.ToDict()).Affronts.ContainsKey((rome, carthage)), "affronts should be saved");
+        foreach (var w in g.Wars.Of(rome).ToList())
+            g.Wars.MakePeace(w, map.DemoYear);
+        g.Grudges.Clear();
+        g.Affronts.Clear();
+
         // War on Lysimachus: his allies Seleucus and Ptolemy come in against the player.
         var events = map.DeclareWar(lysimachus, "")!;
         Check(g.Wars.AtWar(rome, seleucid) && g.Wars.AtWar(rome, egypt) && events.Any(e => e.Text.Contains("honours its treaty")),

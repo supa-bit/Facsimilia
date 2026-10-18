@@ -200,6 +200,8 @@ public partial class MapView
         }
         if (HasGrievance(attacker, defender))
             list.Add(Pretexts.Debt);
+        if (Game.Affronts.TryGetValue((attacker, defender), out int affrontUntil) && DemoYear <= affrontUntil)
+            list.Add(Pretexts.Affront);
         list.Add(Pretexts.None);
         return list;
     }
@@ -295,6 +297,65 @@ public partial class MapView
         Game.Treaties.Remove(TreatyKind.Alliance, PlayerRealmId, other);
         LoseTrust(PlayerState, TrustBreakAlliance);   // a broken oath is remembered by every court
         return $"{RealmName(PlayerRealmId)} breaks its alliance with {RealmName(other)}.";
+    }
+
+    // --- Demands and insults (your answer: send demands and insults) -------------------
+
+    /// <summary>How long an affront gives a pretext for war, and how bitter an insult is.</summary>
+    public const int AffrontYears = 5;
+    public const double GrudgeInsult = 15, GrudgeDemand = 5;
+    /// <summary>A tribute demanded is half a war indemnity: a tenth of the payer's income a year, for the indemnity's years.</summary>
+    public const double DemandedTributeShare = 0.5;
+
+    /// <summary>
+    /// Insults another realm. They take it ill (an old wrong, a pretext against
+    /// you for five years), and if they are strong enough to answer it, and
+    /// their ruler hot-tempered enough, they may declare war on you at once:
+    /// a way to be attacked rather than to attack.
+    /// </summary>
+    public List<ChronicleEvent> Insult(int other)
+    {
+        var events = new List<ChronicleEvent>();
+        if (!CanDealWith(other) || other == PlayerRealmId)
+            return events;
+        Game.AddGrudge(other, PlayerRealmId, GrudgeInsult, DemoYear);
+        Game.Affronts[(other, PlayerRealmId)] = DemoYear + AffrontYears;
+        string text = $"{RealmName(PlayerRealmId)} insults {RealmName(other)} before all the world.";
+        events.Add(new ChronicleEvent(ChronicleKind.War, PlayerRealmId, text));
+        double ratio = Military.Might(Game.Realm(other), Domain.Land) / Math.Max(SeenMight(other, PlayerRealmId), 1);
+        double chance = Math.Clamp(0.4 * ratio - 0.02 * RulerDisposition(other), 0, 0.8);
+        if (!Game.Wars.AtWar(other, PlayerRealmId) && Diplomacy.CanDeclare(Game, other, PlayerRealmId, DemoYear) == null
+            && new Random(HashCode.Combine(other, PlayerRealmId, DemoYear, Game.MonthsMarched)).NextDouble() < chance)
+            events.AddRange(StartWar(other, PlayerRealmId, Pretexts.Affront, "to avenge the insult"));
+        else
+            events.Add(new ChronicleEvent(ChronicleKind.War, other, $"{RealmName(other)} swallows the insult, for now."));
+        return events;
+    }
+
+    /// <summary>
+    /// Demands a yearly tribute of a weaker realm. A realm that fears you
+    /// enough, or likes you, pays; one that refuses takes it ill and gives you
+    /// an affront to avenge (as Rome's priests demanded redress before a war).
+    /// </summary>
+    public string DemandTribute(int other)
+    {
+        if (!CanDealWith(other) || Game.Wars.AtWar(PlayerRealmId, other))
+            return "You cannot demand anything of them now.";
+        if (Game.Indemnities.Any(i => i.Payer == other && i.Payee == PlayerRealmId))
+            return $"{RealmName(other)} already pays you.";
+        double mine = Military.Might(PlayerState, Domain.Land), theirs = Military.Might(Game.Realm(other), Domain.Land);
+        var (opinion, _) = Opinion(other, PlayerRealmId);
+        double fear = Fear(other, PlayerRealmId);
+        if (mine >= 2 * Math.Max(theirs, 1) && opinion + 1.5 * fear >= 10)
+        {
+            var (tax, trib) = Economy.Revenue(CensusOf(other), Game.Realm(other).Tax);
+            double yearly = ImposeIndemnity(other, PlayerRealmId, DemandedTributeShare * (tax + trib));
+            return $"{RealmName(other)} agrees to pay {RealmName(PlayerRealmId)} a tribute of {Money(yearly)} a year for {IndemnityYears} years.";
+        }
+        Game.AddGrudge(other, PlayerRealmId, GrudgeDemand, DemoYear);
+        Game.Affronts[(PlayerRealmId, other)] = DemoYear + AffrontYears;
+        return $"{RealmName(other)} refuses your demand (you need twice their might, and their good opinion or fear: {opinion:+0;-0;0}, fear {fear:0}). " +
+               "The refusal is an affront you may avenge.";
     }
 
     /// <summary>A far weaker realm that thinks well enough of you may accept you as overlord without a war.</summary>
