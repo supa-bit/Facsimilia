@@ -1,5 +1,5 @@
 {
- "about": "The people of history's great towns through the ages (for the Ledger questions 'Towns and countryside' and 'City tiers'); between two dates the size changes smoothly, 0 means abandoned or razed. Estimates are rounded and uncertain before 1500. Made by tools/history/towns.py. Sources: Chandler, 'Four Thousand Years of Urban Growth' (1987); Modelski, 'World Cities: -3000 to 2000' (2003); Scheidel, 'Population and Demography' in the Oxford Handbook of Roman Economy; Morley, 'Metropolis and Hinterland' (1996). Our own summary, free for any use. Not yet used by the game.",
+ "about": "The people of history's great towns through the ages (for the Ledger questions 'Towns and countryside' and 'City tiers'); between two dates the size changes smoothly, 0 means abandoned or razed. Estimates are rounded and uncertain before 1500. Made by tools/history/towns.py. Sources: Chandler, 'Four Thousand Years of Urban Growth' (1987); Modelski, 'World Cities: -3000 to 2000' (2003); Scheidel, 'Population and Demography' in the Oxford Handbook of Roman Economy; Morley, 'Metropolis and Hinterland' (1996). Our own summary, free for any use. Used by the game for the buildings that need a town (a named town counts at its own size; the map's cells spread a great city over its countryside).",
  "towns": [
   {
    "name": "Roma",

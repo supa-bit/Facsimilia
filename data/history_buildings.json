@@ -1,0 +1,47 @@
+{
+ "about": "History's own buildings (your answer 'History's own on their dates, then by need'): what a realm the computer runs builds in its year, if it still holds the province and can build there, before anything chosen by need. Each entry raises that building one level. 'building' is an id in buildings.json, 'province' a province name, 'realm' a key in realms_bc300.json. A realm that missed the year (at war, short of silver, not yet holding the place) still builds it within 'window' years (20 if not given). Sources are the ancient authors (book.chapter).",
+ "buildings": [
+  {"realm": "rome", "building": "road", "province": "Latium", "year": -312, "name": "the Via Appia",
+   "why": "Appius Claudius the censor paved the road from Rome to Capua.", "source": "Livy 9.29; Diodorus 20.36"},
+  {"realm": "rome", "building": "aqueduct", "province": "Latium", "year": -312, "name": "the Aqua Appia",
+   "why": "Rome's first aqueduct, built by the same censor.", "source": "Frontinus, On the Aqueducts 1.5"},
+  {"realm": "rome", "building": "mint", "province": "Latium", "year": -269, "name": "the silver mint",
+   "why": "Rome began striking silver coin of its own.", "source": "Pliny, Natural History 33.44"},
+  {"realm": "rome", "building": "aqueduct", "province": "Latium", "year": -272, "name": "the Anio Vetus",
+   "why": "Paid for from the spoils of the war with Pyrrhus.", "source": "Frontinus, On the Aqueducts 1.6"},
+  {"realm": "rome", "building": "road", "province": "Umbria", "year": -220, "name": "the Via Flaminia",
+   "why": "Gaius Flaminius ran a road across the Apennines to the Adriatic.", "source": "Livy, Periochae 20; Strabo 5.1.11"},
+  {"realm": "rome", "building": "theatre", "province": "Latium", "year": -55, "name": "the Theatre of Pompey",
+   "why": "Rome's first theatre of stone.", "source": "Plutarch, Pompey 42; Cassius Dio 39.38"},
+  {"realm": "rome", "building": "library", "province": "Latium", "year": -39, "name": "the first public library",
+   "why": "Asinius Pollio opened Rome's first public library from the spoils of Illyria.", "source": "Pliny, Natural History 35.10"},
+  {"realm": "rome", "building": "baths", "province": "Latium", "year": -25, "name": "the Baths of Agrippa",
+   "why": "The first great public baths of Rome.", "source": "Cassius Dio 53.27"},
+  {"realm": "rome", "building": "harbour", "province": "Latium", "year": 42, "name": "Portus",
+   "why": "Claudius built a new harbour at Ostia for the grain ships.", "source": "Suetonius, Claudius 20"},
+  {"realm": "rome", "building": "walls", "province": "Latium", "year": 271, "name": "the Aurelian Walls",
+   "why": "Aurelian walled Rome again against the barbarian raids.", "source": "Historia Augusta, Aurelian 21, 39"},
+
+  {"realm": "egypt", "building": "library", "province": "Western Delta", "year": -295, "name": "the Museum and Library of Alexandria",
+   "why": "Ptolemy I gathered scholars and books in Alexandria.", "source": "Strabo 17.1.8"},
+  {"realm": "egypt", "building": "harbour", "province": "Western Delta", "year": -285, "name": "the Great Harbour and the Heptastadion",
+   "why": "A mole to the island of Pharos made Alexandria's twin harbours.", "source": "Strabo 17.1.6"},
+  {"realm": "egypt", "building": "irrigation", "province": "Arsinoite Fayum", "year": -260, "name": "the draining of the Fayum",
+   "why": "Ptolemy II drained the lake's edge and settled his soldiers on the new land.", "source": "Zenon archive (P. Cair. Zen.); Strabo 17.1.35"},
+  {"realm": "egypt", "building": "agora", "province": "Western Delta", "year": -280, "name": "the markets of Alexandria",
+   "why": "The city of Alexander grew into the greatest market of the age.", "source": "Strabo 17.1.13"},
+
+  {"realm": "seleucid", "building": "agora", "province": "Seleucis", "year": -300, "name": "Antioch on the Orontes",
+   "why": "Seleucus founded Antioch and the cities of the Syrian tetrapolis.", "source": "Strabo 16.2.4"},
+  {"realm": "seleucid", "building": "agora", "province": "Babylonia", "year": -300, "name": "Seleucia on the Tigris",
+   "why": "Seleucus' eastern capital drew the trade and people of Babylon.", "source": "Strabo 16.1.5; Pliny, Natural History 6.122"},
+
+  {"realm": "carthage", "building": "harbour", "province": "Zeugitana", "year": -200, "name": "the Cothon",
+   "why": "Carthage's round war harbour, with sheds for 220 ships.", "source": "Appian, Punica 96"},
+
+  {"realm": "syracuse", "building": "shipyards", "province": "Syracusan Sicily", "year": -240, "name": "the Syracusia",
+   "why": "Hieron II had Archimedes oversee the building of the greatest ship of the age.", "source": "Athenaeus 5.206-209"},
+  {"realm": "syracuse", "building": "theatre", "province": "Syracusan Sicily", "year": -230, "name": "the great theatre",
+   "why": "Hieron II enlarged the theatre cut in the rock.", "source": "Diodorus 16.83; its inscriptions to Queen Philistis"}
+ ]
+}

@@ -47,6 +47,7 @@ After changing a file:
 | `techs.json` | 732 technologies in 15 branches: year, cost, prerequisites, effects; `start` lists what each culture knows in 300 BC. |
 | `disasters.json` | History's plagues, earthquakes, eruptions and famines (year, place, reach, deaths), and the quake belts for chance ones. |
 | `history_goals.json` | History's campaigns: which realm attacks which, where, and when. |
+| `history_buildings.json` | History's own buildings: which realm built what, in which province and year, and the ancient source. |
 | `history_aims.json` | History's aims for the great realms: the regions each wanted, in which years, why, and the ancient source. |
 | `goals.json` | Each realm's optional goals and the common ones; how points add to the score. |
 
@@ -55,6 +56,7 @@ After changing a file:
 - A realm's `key` in `realms_bc300.json` is used in `start_realms.json`,
   `goals.json`, `history_goals.json`, `history_aims.json` and `coins.json`.
 - A history aim's `regions` must be names in `regions/regions.json`.
+- A history building's `building` must be an `id` in `buildings.json`, and its `province` a name in `province_seeds.json`.
 - A realm's `culture` must be a key in `cultures.json`'s `cultures`.
 - A unit's `requires`, a building's `requires` and a tech's `requires`
   must be tech `id`s in `techs.json`.

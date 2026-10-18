@@ -13,6 +13,13 @@ public sealed record HistoryAim(string Realm, string[] Regions, int From, int To
     public bool ActiveIn(int year) => year >= From && year <= To;
 }
 
+/// <summary>One of history's own buildings (data/history_buildings.json).</summary>
+public sealed record HistoryBuilding(string Realm, string Building, string Province, int Year, int Window, string Name, string Why, string Source)
+{
+    /// <summary>Its key in saves ("rome:aqueduct:Latium:-312"): new entries in the data never confuse an old save.</summary>
+    public string Key => $"{Realm}:{Building}:{Province}:{Year}";
+}
+
 /// <summary>One of history's campaigns (data/history_goals.json).</summary>
 public sealed record HistoryGoal(string Realm, string Target, string[] Regions, int From, int To, string Why, bool Failed = false)
 {
@@ -461,6 +468,8 @@ public partial class MapView
     const int BotMaxAlliances = 3;
     /// <summary>A yearly chance that a realm with a threat goes looking for an ally.</summary>
     const double BotAllyChance = 0.2;
+    /// <summary>The opinion a realm needs of another to ally against a threat they share: lower than for an alliance offered to you, as the enemy of my enemy is my friend.</summary>
+    const double BotAllyOpinion = 10;
     /// <summary>Fear (0-100) from which another realm counts as a threat.</summary>
     const double BotThreatFear = 35;
 
@@ -486,7 +495,7 @@ public partial class MapView
             var partner = near.Where(b => b != PlayerRealmId && census.ContainsKey(b) && !Game.Treaties.Allied(a, b) && !Game.Wars.AtWar(a, b)
                     && Game.Treaties.OverlordOf(b) == 0 && Game.Treaties.AlliesOf(b).Count() < BotMaxAlliances + StartAlliances(b))
                 .Select(b => (Id: b, Shared: threats.FirstOrDefault(t => t != b && ThreatsTo(b, census).Contains(t))))
-                .Where(x => x.Shared != 0 && !Game.Treaties.Allied(x.Id, x.Shared) && Opinion(x.Id, a).Value >= AllianceOpinion)
+                .Where(x => x.Shared != 0 && !Game.Treaties.Allied(x.Id, x.Shared) && Opinion(x.Id, a).Value >= BotAllyOpinion)
                 .OrderBy(x => x.Id).FirstOrDefault();
             if (partner.Id == 0)
                 continue;

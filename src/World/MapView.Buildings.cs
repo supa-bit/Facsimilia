@@ -91,6 +91,34 @@ public partial class MapView
     Dictionary<int, HashSet<string>>? _provinceNeeds;
     int _provinceNeedsYear = int.MinValue;
 
+    List<(double Lon, double Lat, (int Year, double People)[] Sizes)>? _townSizes;
+
+    /// <summary>History's great towns and their people in a year, between two dates changing smoothly (data/town_sizes.json).</summary>
+    IEnumerable<(double Lon, double Lat, double People)> HistoryTownSizes(int year)
+    {
+        if (_townSizes == null)
+        {
+            _townSizes = new();
+            const string path = "res://data/town_sizes.json";
+            if (Godot.FileAccess.FileExists(path))
+            {
+                using var doc = System.Text.Json.JsonDocument.Parse(Godot.FileAccess.GetFileAsString(path));
+                foreach (var t in doc.RootElement.GetProperty("towns").EnumerateArray())
+                    _townSizes.Add((t.GetProperty("lon").GetDouble(), t.GetProperty("lat").GetDouble(),
+                        t.GetProperty("sizes").EnumerateArray().Select(x => (x[0].GetInt32(), x[1].GetDouble())).ToArray()));
+            }
+        }
+        foreach (var (lon, lat, sizes) in _townSizes)
+        {
+            if (sizes.Length == 0 || year < sizes[0].Year)
+                continue;
+            int i = Array.FindLastIndex(sizes, x => x.Year <= year);
+            double people = i == sizes.Length - 1 ? sizes[i].People
+                : sizes[i].People + (sizes[i + 1].People - sizes[i].People) * (year - sizes[i].Year) / (double)(sizes[i + 1].Year - sizes[i].Year);
+            yield return (lon, lat, people);
+        }
+    }
+
     /// <summary>Whether a province has what a building needs (worked out for every province once a year).</summary>
     bool ProvinceHas(int provinceId, string need)
     {
@@ -128,6 +156,19 @@ public partial class MapView
                     if (!set.Contains("has:" + gid) && Land.Value(gfield, i) >= Census.ResourceThreshold)
                         set.Add("has:" + gid);
                 _largestPlace[prov] = Math.Max(_largestPlace.GetValueOrDefault(prov), Population.Pop[i]);
+            }
+            // History's towns (data/town_sizes.json, your answer "Towns from history's sizes"): the map's cells
+            // spread a great city over its countryside (Rome's largest cell holds 7,500), so a named town counts at its own size.
+            foreach (var (lon, lat, people) in HistoryTownSizes(DemoYear))
+            {
+                int prov = ProvinceIdAtWorld(WorldAt(lon, lat));
+                if (prov == 0 || people <= 0)
+                    continue;
+                if (!_provinceNeeds.TryGetValue(prov, out var set))
+                    _provinceNeeds[prov] = set = new HashSet<string>();
+                if (people >= Census.UrbanThreshold)
+                    set.Add("town");
+                _largestPlace[prov] = Math.Max(_largestPlace.GetValueOrDefault(prov), people);
             }
             _provinceNeedsYear = DemoYear;
         }
@@ -181,6 +222,7 @@ public partial class MapView
             }
         }
         events.AddRange(NeglectYear(rng));
+        events.AddRange(HistoryBuildingsYear());
         // Other realms: a rich realm builds where it helps most.
         var census = RealmCensus();
         foreach (var (id, state) in Game.Realms)
@@ -200,6 +242,65 @@ public partial class MapView
                 var (prov, b) = options[rng.Next(options.Count)];
                 StartBuildingFor(prov, b, state);
             }
+        }
+        return events;
+    }
+
+    public const string HistoryBuildingsPath = "res://data/history_buildings.json";
+    List<HistoryBuilding>? _historyBuildings;
+
+    /// <summary>History's own buildings (data/history_buildings.json), in year order.</summary>
+    public IReadOnlyList<HistoryBuilding> HistoryBuildings
+    {
+        get
+        {
+            if (_historyBuildings != null)
+                return _historyBuildings;
+            _historyBuildings = new List<HistoryBuilding>();
+            if (!Godot.FileAccess.FileExists(HistoryBuildingsPath))
+                return _historyBuildings;
+            using var doc = System.Text.Json.JsonDocument.Parse(Godot.FileAccess.GetFileAsString(HistoryBuildingsPath));
+            foreach (var b in doc.RootElement.GetProperty("buildings").EnumerateArray())
+                _historyBuildings.Add(new HistoryBuilding(b.GetProperty("realm").GetString()!, b.GetProperty("building").GetString()!,
+                    b.GetProperty("province").GetString()!, b.GetProperty("year").GetInt32(),
+                    b.TryGetProperty("window", out var w) ? w.GetInt32() : 20, b.GetProperty("name").GetString()!,
+                    b.GetProperty("why").GetString()!, b.GetProperty("source").GetString()!));
+            _historyBuildings.Sort((x, y) => x.Year.CompareTo(y.Year));
+            return _historyBuildings;
+        }
+    }
+
+    /// <summary>
+    /// Buildings by history (your answer "History's own on their dates, then
+    /// by need"): in its year (or within its window, if the realm was at war,
+    /// short of silver or didn't yet hold the place) a realm the computer runs
+    /// begins history's own building there, before anything chosen by need.
+    /// Each is begun once (Game.HistoryBuilt keeps which); you build your own.
+    /// </summary>
+    List<ChronicleEvent> HistoryBuildingsYear()
+    {
+        var events = new List<ChronicleEvent>();
+        var cat = BuildingCatalog.Instance;
+        for (int i = 0; i < HistoryBuildings.Count; i++)
+        {
+            var h = HistoryBuildings[i];
+            if (DemoYear < h.Year || DemoYear > h.Year + h.Window || Game.HistoryBuilt.Contains(h.Key))
+                continue;
+            int realmId = RealmOfCiv(h.Realm);
+            var p = Provinces!.Provinces.Values.FirstOrDefault(x => x.Name == h.Province);
+            var b = cat[h.Building];
+            if (realmId == 0 || realmId == PlayerRealmId || p == null || p.RealmId != realmId || b == null)
+                continue;
+            var state = Game.Realm(realmId);
+            string? problem = CanBuildFor(p, b, state);
+            if (problem != null && !problem.StartsWith("Built as far") && !problem.StartsWith("Already built"))
+                continue;   // not yet: it tries again next year, within the window
+            Game.HistoryBuilt.Add(h.Key);
+            if (problem != null)
+                continue;   // already as built as it goes
+            StartBuildingFor(p, b, state);
+            ProvinceStateOf(p.Id).Log(DemoYear, $"{RealmName(realmId)} begins {h.Name}: {h.Why}");
+            events.Add(new ChronicleEvent(ChronicleKind.Economy, realmId, $"{RealmName(realmId)} begins {h.Name} in {p.Name}."));
         }
         return events;
     }

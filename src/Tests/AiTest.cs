@@ -64,6 +64,10 @@ public partial class AiTest : TestRunner
         Check(map.HistoryAims.Count >= 20, "history's aims should be loaded");
         Check(map.HistoryAims.Where(a => a.Realm == "seleucid").All(a => a.Source != ""), "every aim should name its source");
 
+        // Buildings by history: Rome begins the Aqua Appia, Egypt the Library of Alexandria, on (or soon after) their dates.
+        Check(map.Game.HistoryBuilt.Contains("rome:aqueduct:Latium:-312") && map.Game.HistoryBuilt.Contains("egypt:library:Western Delta:-295"),
+            $"history's own buildings should be begun (begun: {string.Join(", ", map.Game.HistoryBuilt)})");
+
         // Rulers' character: a bold ruler wants peace less than a cautious one.
         int carthage = map.CivRealmIds["carthage"];
         var hannibal = map.Registry.Characters[map.Registry.Realms[carthage].RulerId];
@@ -82,10 +86,11 @@ public partial class AiTest : TestRunner
         var map2 = new MapView();
         Check(await map2.LoadSavedGame("slot1"), "load failed");
         Check(map2.Game.Wars.All.Count == wars, "wars weren't saved");
+        Check(map2.Game.HistoryBuilt.SetEquals(map.Game.HistoryBuilt), "history's begun buildings weren't saved");
 
         Finish($"AI tests passed: 30 years with {events.Count(e => e.Kind == ChronicleKind.War)} wars declared, " +
             $"{events.Count(e => e.Kind == ChronicleKind.Peace)} peaces, {events.Count(e => e.Kind == ChronicleKind.Conquest)} " +
-            $"conquest reports; {events.Count(e => e.Kind == ChronicleKind.War && map.HistoryAims.Any(a => e.Text.Contains($": {a.Aim}: ")))} wars for aims; {events.Count(e => e.Kind == ChronicleKind.Revolt)} revolts; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
+            $"conquest reports; {map.Game.HistoryBuilt.Count} of history's buildings begun; {events.Count(e => e.Kind == ChronicleKind.War && map.HistoryAims.Any(a => e.Text.Contains($": {a.Aim}: ")))} wars for aims; {events.Count(e => e.Kind == ChronicleKind.Revolt)} revolts; {sworn.Count} alliances sworn against threats; {standing} of {WorldFixture.CivKeys.Length} realms stand; {msPerYear:0} ms a year.");
         map.Free();
         map2.Free();
     }

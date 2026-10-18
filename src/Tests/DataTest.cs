@@ -39,6 +39,15 @@ public partial class DataTest : TestRunner
         Keys("coins.json", Load("coins.json").GetProperty("realms").EnumerateObject().Select(p => p.Name));
         foreach (var g in Load("history_goals.json").GetProperty("goals").EnumerateArray())
             Keys("history_goals.json", new[] { g.GetProperty("realm").GetString()!, g.GetProperty("target").GetString()! });
+        var provinceNames = Load("province_seeds.json").GetProperty("seeds").EnumerateArray().Select(p => p.GetProperty("name").GetString()!).ToHashSet();
+        var buildingIds = Load("buildings.json").GetProperty("buildings").EnumerateArray().Select(b => b.GetProperty("id").GetString()!).ToHashSet();
+        foreach (var b in Load("history_buildings.json").GetProperty("buildings").EnumerateArray())
+        {
+            Keys("history_buildings.json", new[] { b.GetProperty("realm").GetString()! });
+            Check(provinceNames.Contains(b.GetProperty("province").GetString()!), $"history_buildings.json: no province called '{b.GetProperty("province").GetString()}'");
+            Check(buildingIds.Contains(b.GetProperty("building").GetString()!), $"history_buildings.json: no building '{b.GetProperty("building").GetString()}'");
+            Check(b.GetProperty("source").GetString()!.Length > 0, $"history_buildings.json: {b.GetProperty("name").GetString()} has no source");
+        }
         var regionNames = Load("regions/regions.json").GetProperty("regions").EnumerateArray().Select(r => r.GetProperty("name").GetString()!).ToHashSet();
         foreach (var a in Load("history_aims.json").GetProperty("aims").EnumerateArray())
         {
