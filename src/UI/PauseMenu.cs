@@ -14,7 +14,8 @@ public partial class PauseMenu : Control
 {
     [Signal] public delegate void ResumeRequestedEventHandler();
     /// <summary>Save to this slot, then: 0 stay in the pause menu, 1 return to the main menu, 2 quit.</summary>
-    [Signal] public delegate void SaveRequestedEventHandler(string slot, int then);
+    /// <summary>Save into this slot; name is the new save's name, or "" to keep the slot's own.</summary>
+    [Signal] public delegate void SaveRequestedEventHandler(string slot, string name, int then);
 
     public const int ThenStay = 0, ThenMainMenu = 1, ThenQuit = 2;
 
@@ -24,6 +25,8 @@ public partial class PauseMenu : Control
     /// loaded from the autosave): they ask for a slot first.
     /// </summary>
     public string? CurrentSlot { get; set; }
+    /// <summary>What a new save is called unless you name it otherwise: your realm and the year.</summary>
+    public string DefaultSaveName { get; set; } = "";
     [Signal] public delegate void ReturnToMenuWithoutSavingRequestedEventHandler();
     [Signal] public delegate void QuitWithoutSavingRequestedEventHandler();
 
@@ -143,9 +146,17 @@ public partial class PauseMenu : Control
         };
     }
 
+    string? _namedSlot;
+    string _slotName = "";
+
     public override void _Process(double delta)
     {
-        string where = CurrentSlot == null ? "" : $" ({SaveSystem.SlotName(CurrentSlot)})";
+        if (_namedSlot != CurrentSlot)
+        {
+            _namedSlot = CurrentSlot;   // a named save's name is read from its folder, so only when the slot changes
+            _slotName = CurrentSlot == null ? "" : SaveSystem.SlotName(CurrentSlot);
+        }
+        string where = CurrentSlot == null ? "" : $" ({_slotName})";
         _saveAndMenu.Text = "Save and Return to Main Menu" + where;
         _saveAndQuit.Text = "Save and Quit to Desktop" + where;
     }
@@ -153,7 +164,7 @@ public partial class PauseMenu : Control
     void SaveThen(int then)
     {
         if (CurrentSlot != null)
-            EmitSignal(SignalName.SaveRequested, CurrentSlot, then);
+            EmitSignal(SignalName.SaveRequested, CurrentSlot, "", then);
         else
             ChooseSlot(then);
     }
@@ -162,7 +173,7 @@ public partial class PauseMenu : Control
     {
         if (_slotsPanel != null)
             return;
-        _slotsPanel = new SaveSlotsPanel(SaveSlotsPanel.Mode.Save) { Theme = Theme };
+        _slotsPanel = new SaveSlotsPanel(SaveSlotsPanel.Mode.Save) { Theme = Theme, DefaultName = DefaultSaveName };
         AddChild(_slotsPanel);
         _center.Visible = false;
         void Close()
@@ -171,10 +182,10 @@ public partial class PauseMenu : Control
             _slotsPanel = null;
             _center.Visible = true;
         }
-        _slotsPanel.SlotChosen += slot =>
+        _slotsPanel.SlotChosen += (slot, name) =>
         {
             Close();
-            EmitSignal(SignalName.SaveRequested, slot, then);
+            EmitSignal(SignalName.SaveRequested, slot, name, then);
         };
         _slotsPanel.Closed += Close;
     }

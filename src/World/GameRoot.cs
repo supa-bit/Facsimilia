@@ -316,9 +316,11 @@ public partial class GameRoot : Node2D
             PauseMenu = null;
         };
         PauseMenu.CurrentSlot = CurrentSlot;
-        PauseMenu.SaveRequested += async (slot, then) =>
+        if (Map != null)
+            PauseMenu.DefaultSaveName = $"{Map.RealmName(Map.PlayerRealmId)} {ThemeAncient.YearText(Map.DemoYear)}";
+        PauseMenu.SaveRequested += async (slot, name, then) =>
         {
-            if (!await SaveFromPauseMenu(slot))
+            if (!await SaveFromPauseMenu(slot, name == "" ? null : name))
                 return;
             if (then == PauseMenu.ThenMainMenu)
                 GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
@@ -334,11 +336,11 @@ public partial class GameRoot : Node2D
         PauseMenu.QuitWithoutSavingRequested += () => GetTree().Quit();
     }
 
-    async Task<bool> SaveFromPauseMenu(string slot)
+    async Task<bool> SaveFromPauseMenu(string slot, string? name)
     {
         PauseMenu!.SetBusy(true);
         PauseMenu.ShowMessage("Saving...");
-        if (await Map!.SaveCurrentGame(slot))
+        if (await Map!.SaveCurrentGame(slot, name))
         {
             CurrentSlot = slot;
             PauseMenu.CurrentSlot = slot;

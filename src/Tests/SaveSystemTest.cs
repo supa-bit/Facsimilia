@@ -111,6 +111,21 @@ public partial class SaveSystemTest : TestRunner
         SaveSystem.DeleteSave("slot2");
         Check(!SaveSystem.HasSave("slot2") && SaveSystem.ListSaves().Count == 1, "delete");
 
+        // Named saves (your answer "Named saves": any number of them).
+        string named = SaveSystem.SlotFor("Rome, 264 BC");
+        Check(named == "s_rome__264_bc" && SaveSystem.SlotFor("rome  264 bc") == named, "a name's folder");
+        for (int i = 0; i < 5; i++)
+            Check(await SaveSystem.SaveGame(SaveSystem.SlotFor($"Rome {i}"), grid, registry, -260 + i, realm.Id, name: $"Rome {i}"), "named save");
+        Check(await SaveSystem.SaveGame(named, grid, registry, -264, realm.Id, name: "Rome, 264 BC"), "named save");
+        Check(SaveSystem.ListOwnSaves().Count == 6 && SaveSystem.ListSaves().Count == 7, "six named saves and the autosave should be listed");
+        Check(SaveSystem.SlotName(named) == "Rome, 264 BC" && SaveSystem.ReadInfo(named)!.Name == "Rome, 264 BC", "a save keeps its name as typed");
+        Check(await SaveSystem.SaveGame(named, grid, registry, -263, realm.Id), "saving over a named save");
+        Check(SaveSystem.SlotName(named) == "Rome, 264 BC" && SaveSystem.LoadGame(named)!.DemoYear == -263, "saving over keeps the name");
+        Check(SaveSystem.MostRecent()?.Slot == named, "Continue should pick the newest named save");
+        foreach (var own in SaveSystem.ListOwnSaves())
+            SaveSystem.DeleteSave(own.Slot);
+        Check(SaveSystem.ListSaves().Count == 1, "deleting named saves");
+
         // The one autosave folder of the first slot version becomes Autosave 1.
         SaveSystem.DeleteSave("autosave1");
         Check(await SaveSystem.SaveGame("autosave", grid, registry, -230, realm.Id), "old-style autosave");

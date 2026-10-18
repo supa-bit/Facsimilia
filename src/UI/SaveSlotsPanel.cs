@@ -5,22 +5,29 @@ using Godot;
 namespace Facsimilia.UI;
 
 /// <summary>
-/// The save slot list, as an overlay. Load mode (main menu) lists every
-/// save including the autosaves, with Load and Delete. Save mode (pause menu)
-/// lists the three manual slots; picking a used one asks before
-/// overwriting it. Emits SlotChosen (after any confirmation) or Closed and
-/// never loads or saves itself; the owner does that.
+/// The list of saves, as an overlay. Load mode (main menu) lists every
+/// save including the autosaves, newest first, with Load and Delete. Save
+/// mode (pause menu) has a box for the new save's name (your answer "Named
+/// saves": any number of them), filled in with your realm and the year, and
+/// below it your own saves to save over or delete; a name already used asks
+/// before overwriting. Emits SlotChosen (after any confirmation) or Closed
+/// and never loads or saves itself; the owner does that.
 /// </summary>
 public partial class SaveSlotsPanel : Control
 {
-    [Signal] public delegate void SlotChosenEventHandler(string slot);
+    /// <summary>The save to load or write; name is a new save's name ("" when saving over one, which keeps its own).</summary>
+    [Signal] public delegate void SlotChosenEventHandler(string slot, string name);
     [Signal] public delegate void ClosedEventHandler();
 
     public enum Mode { Load, Save }
 
     readonly Mode _mode;
+    /// <summary>Save mode: the name the box starts with.</summary>
+    public string DefaultName { get; set; } = "";
     VBoxContainer _listPage = null!;
     VBoxContainer _rows = null!;
+    LineEdit? _nameBox;
+    ScrollContainer _scroll = null!;
     VBoxContainer _confirmPage = null!;
     Label _confirmText = null!;
     Button _confirmYes = null!;
@@ -44,14 +51,23 @@ public partial class SaveSlotsPanel : Control
         panel.AddChild(pages);
 
         _listPage = Page(pages, _mode == Mode.Save ? "Save Game" : "Load Game");
-        _rows = new VBoxContainer();
+        if (_mode == Mode.Save)
+            _listPage.AddChild(NameRow());
+        var scroll = new ScrollContainer
+        {
+            CustomMinimumSize = new Vector2(600, 0), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+            SizeFlagsVertical = SizeFlags.ExpandFill,
+        };
+        _listPage.AddChild(scroll);
+        _rows = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _rows.AddThemeConstantOverride("separation", 10);
-        _listPage.AddChild(_rows);
+        scroll.AddChild(_rows);
+        _scroll = scroll;
         var back = new Button { Text = "Back" };
         back.Pressed += () => EmitSignal(SignalName.Closed);
         _listPage.AddChild(back);
 
-        _confirmPage = Page(pages, _mode == Mode.Save ? "Overwrite Save" : "Delete Save");
+        _confirmPage = Page(pages, "Are You Sure?");
         _confirmPage.Visible = false;
         _confirmText = new Label
         {
@@ -84,25 +100,63 @@ public partial class SaveSlotsPanel : Control
         return page;
     }
 
+    /// <summary>Save mode: the new save's name, and its Save button.</summary>
+    Control NameRow()
+    {
+        var box = new VBoxContainer();
+        box.AddChild(ThemeAncient.Label("Name this save:", "SubtleLabel", 16));
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 10);
+        box.AddChild(row);
+        _nameBox = new LineEdit { Text = DefaultName, MaxLength = 60, SizeFlagsHorizontal = SizeFlags.ExpandFill, SelectAllOnFocus = true };
+        row.AddChild(_nameBox);
+        var save = new Button { Text = "Save", Icon = ThemeAncient.Icon("save"), CustomMinimumSize = new Vector2(96, 0) };
+        row.AddChild(save);
+        void SaveNamed()
+        {
+            string name = _nameBox.Text.Trim();
+            string slot = SaveSystem.SlotFor(name);
+            if (name == "" || slot == "s_")
+                return;
+            var info = SaveSystem.ReadInfo(slot);
+            if (info == null)
+                EmitSignal(SignalName.SlotChosen, slot, name);
+            else
+                Confirm($"There is already a save called {SaveSystem.SlotName(slot)} ({info.RealmName}, {ThemeAncient.YearText(info.Year)}). " +
+                    "Overwrite it? That saved game will be replaced.", "Overwrite", () => EmitSignal(SignalName.SlotChosen, slot, name));
+        }
+        save.Pressed += SaveNamed;
+        _nameBox.TextSubmitted += _ => SaveNamed();
+        _nameBox.TextChanged += text => save.Disabled = SaveSystem.SlotFor(text) == "s_";
+        _nameBox.CallDeferred(Control.MethodName.GrabFocus);
+        return box;
+    }
+
     void BuildRows()
     {
         foreach (var child in _rows.GetChildren())
             child.QueueFree();
         Button? first = null;
-        var slots = _mode == Mode.Save ? SaveSystem.ManualSlots : [.. SaveSystem.ManualSlots, .. SaveSystem.AutosaveSlots];
-        foreach (string slot in slots)
+        var saves = _mode == Mode.Save ? SaveSystem.ListOwnSaves() : SaveSystem.ListSaves();
+        if (_mode == Mode.Save && saves.Count > 0)
+            _rows.AddChild(ThemeAncient.Label("Or save over one of your saves:", "SubtleLabel", 16));
+        foreach (var info in saves)
         {
-            var info = SaveSystem.ReadInfo(slot);
-            var button = SlotRow(slot, info);
-            first ??= button.Disabled ? null : button;
+            var button = SlotRow(info.Slot, info);
+            first ??= button;
         }
-        if (_mode == Mode.Load && SaveSystem.ListSaves().Count == 0)
+        if (_mode == Mode.Load && saves.Count == 0)
             _rows.AddChild(ThemeAncient.Label("No saved games yet.", "SubtleLabel", align: HorizontalAlignment.Center));
-        (first ?? (Control)_listPage.GetChild(_listPage.GetChildCount() - 1)).CallDeferred(Control.MethodName.GrabFocus);
+        Callable.From(FitList).CallDeferred();
+        if (_nameBox == null)
+            (first ?? (Control)_listPage.GetChild(_listPage.GetChildCount() - 1)).CallDeferred(Control.MethodName.GrabFocus);
     }
 
-    /// <summary>One slot: color bar, name and summary, and its action button(s).</summary>
-    Button SlotRow(string slot, SaveInfo? info)
+    /// <summary>The list as tall as its saves, up to a screenful; more saves scroll.</summary>
+    void FitList() => _scroll.CustomMinimumSize = new Vector2(600, Mathf.Min(_rows.GetCombinedMinimumSize().Y, 440));
+
+    /// <summary>One save: color bar, name and summary, and its buttons.</summary>
+    Button SlotRow(string slot, SaveInfo info)
     {
         var card = new PanelContainer { ThemeTypeVariation = "CardPanel" };
         _rows.AddChild(card);
@@ -111,54 +165,45 @@ public partial class SaveSlotsPanel : Control
         card.AddChild(row);
         row.AddChild(new ColorRect
         {
-            Color = info?.RealmColor ?? new Color(0.25f, 0.22f, 0.18f),
+            Color = info.RealmColor,
             CustomMinimumSize = new Vector2(8, 0),
         });
 
         var text = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
         text.AddThemeConstantOverride("separation", 2);
         row.AddChild(text);
-        string title = SaveSystem.SlotName(slot) + (info == null ? " — empty" : $" — {info.RealmName}");
+        string name = SaveSystem.SlotName(slot);
+        string title = SaveSystem.IsNamed(slot) ? name : $"{name} — {info.RealmName}";
         text.AddChild(ThemeAncient.Label(title, fontSize: 20));
-        if (info != null)
-            text.AddChild(ThemeAncient.Label(
-                $"{ThemeAncient.YearText(info.Year)} · Ruler: {info.Ruler} · Saved {info.SavedText()}", "SubtleLabel", 16));
+        text.AddChild(ThemeAncient.Label(
+            (SaveSystem.IsNamed(slot) ? info.RealmName + " · " : "") +
+            $"{ThemeAncient.YearText(info.Year)} · Ruler: {info.Ruler} · Saved {info.SavedText()}", "SubtleLabel", 16));
 
         var main = new Button { SizeFlagsVertical = SizeFlags.ShrinkCenter, CustomMinimumSize = new Vector2(96, 0) };
         row.AddChild(main);
         if (_mode == Mode.Save)
         {
-            main.Text = "Save";
+            main.Text = "Save over";
             main.Icon = ThemeAncient.Icon("save");
-            main.Pressed += () =>
-            {
-                if (info == null)
-                    EmitSignal(SignalName.SlotChosen, slot);
-                else
-                    Confirm($"Overwrite {SaveSystem.SlotName(slot)} ({info.RealmName}, {ThemeAncient.YearText(info.Year)})? " +
-                        "That saved game will be replaced.", "Overwrite", () => EmitSignal(SignalName.SlotChosen, slot));
-            };
+            main.Pressed += () => Confirm($"Overwrite {name} ({info.RealmName}, {ThemeAncient.YearText(info.Year)})? " +
+                "That saved game will be replaced.", "Overwrite", () => EmitSignal(SignalName.SlotChosen, slot, ""));
         }
         else
         {
             main.Text = "Load";
             main.Icon = ThemeAncient.Icon("continue");
-            main.Disabled = info == null;
-            main.Pressed += () => EmitSignal(SignalName.SlotChosen, slot);
-            if (info != null)
-            {
-                var delete = new Button { Text = "Delete", SizeFlagsVertical = SizeFlags.ShrinkCenter };
-                delete.Pressed += () => Confirm(
-                    $"Delete {SaveSystem.SlotName(slot)} ({info.RealmName}, {ThemeAncient.YearText(info.Year)})? This can't be undone.",
-                    "Delete", () =>
-                    {
-                        SaveSystem.DeleteSave(slot);
-                        ShowConfirm(false);
-                        BuildRows();
-                    });
-                row.AddChild(delete);
-            }
+            main.Pressed += () => EmitSignal(SignalName.SlotChosen, slot, "");
         }
+        var delete = new Button { Text = "Delete", SizeFlagsVertical = SizeFlags.ShrinkCenter };
+        delete.Pressed += () => Confirm(
+            $"Delete {name} ({info.RealmName}, {ThemeAncient.YearText(info.Year)})? This can't be undone.",
+            "Delete", () =>
+            {
+                SaveSystem.DeleteSave(slot);
+                ShowConfirm(false);
+                BuildRows();
+            });
+        row.AddChild(delete);
         return main;
     }
 

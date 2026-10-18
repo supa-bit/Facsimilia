@@ -175,9 +175,10 @@ public partial class MapView : Node2D
         GD.Print($"Facsimilia map view ready: {GridWidth}x{GridHeight} cells, year {DemoYear}.");
     }
 
-    public Task<bool> SaveCurrentGame(string slot) =>
+    /// <summary>Saves into a slot; a name names a new save (null keeps the slot's own name).</summary>
+    public Task<bool> SaveCurrentGame(string slot, string? name = null) =>
         SaveSystem.SaveGame(slot, Grid, Registry, DemoYear, PlayerRealmId, this, Population?.ToDict(), Provinces,
-            Game.ToDict());
+            Game.ToDict(), name);
 
     /// <summary>
     /// Restores a saved world instead of generating one: skips seeding and

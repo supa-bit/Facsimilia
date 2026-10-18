@@ -130,7 +130,7 @@ public partial class MainMenu : Control
     {
         var panel = new SaveSlotsPanel(SaveSlotsPanel.Mode.Load) { Theme = Theme };
         AddChild(panel);
-        panel.SlotChosen += LoadSlot;
+        panel.SlotChosen += (slot, _) => LoadSlot(slot);
         panel.Closed += () =>
         {
             panel.QueueFree();

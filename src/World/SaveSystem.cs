@@ -14,7 +14,7 @@ public sealed record LoadedGame(OwnershipGrid Grid, CharacterRegistry Registry, 
 
 /// <summary>A save's summary for the slot lists, read without loading the whole game.</summary>
 public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, int Year, string Ruler,
-    double SavedUnix, string Build)
+    double SavedUnix, string Build, string Name = "")
 {
     /// <summary>"12 Mar 2026, 21:40" in the player's local time.</summary>
     public string SavedText()
@@ -25,8 +25,11 @@ public sealed record SaveInfo(string Slot, string RealmName, Color RealmColor, i
 }
 
 /// <summary>
-/// Saves and loads games in slots: three the player picks (slot1..slot3)
-/// and three autosaves that take turns (autosave1..autosave3), each a folder under user://saves/ holding
+/// Saves and loads games: any number of saves the player names (your
+/// answer "Named saves"; each in a folder "s_" plus the name in plain
+/// letters, the name itself kept in info.json), the three numbered slots
+/// of earlier versions (slot1..slot3, still listed and loadable), and three
+/// autosaves that take turns (autosave1..autosave3), each a folder under user://saves/ holding
 ///   info.json       what the slot lists show: realm, year, ruler, when
 ///   state.json      year, player realm, grid size, and the character registry
 ///   grid.bin        the ownership grid, one byte per cell (owner ids fit a
@@ -83,7 +86,24 @@ public static class SaveSystem
 
     public static string SlotName(string slot) =>
         IsAutosave(slot) ? "Autosave " + slot["autosave".Length..]
+        : IsNamed(slot) ? (ReadInfo(slot)?.Name is { Length: > 0 } name ? name : slot[2..])
         : slot.StartsWith("slot") ? "Slot " + slot[4..] : slot;
+
+    /// <summary>A save the player named (rather than an autosave or an old numbered slot).</summary>
+    public static bool IsNamed(string slot) => slot.StartsWith("s_");
+
+    /// <summary>
+    /// The folder a save of this name goes in: its letters and digits in
+    /// lower case, everything else an underscore (so it is a safe folder
+    /// name on Windows too). "Rome, 264 BC" and "rome 264 bc" are one save.
+    /// </summary>
+    public static string SlotFor(string name)
+    {
+        var folder = new System.Text.StringBuilder("s_");
+        foreach (char c in name.Trim().ToLowerInvariant())
+            folder.Append(char.IsLetterOrDigit(c) ? c : '_');
+        return folder.Length > 64 ? folder.ToString(0, 64) : folder.ToString();
+    }
 
     static string SlotDir(string slot) => $"{SavesDir}/{slot}";
 
@@ -97,8 +117,25 @@ public static class SaveSystem
 
     /// <summary>Every existing save, newest first.</summary>
     public static List<SaveInfo> ListSaves() =>
-        ManualSlots.Concat(AutosaveSlots).Select(ReadInfo).OfType<SaveInfo>()
-            .OrderByDescending(i => i.SavedUnix).ToList();
+        AllSlots().Select(ReadInfo).OfType<SaveInfo>()
+            .OrderByDescending(i => i.SavedUnix).ThenBy(i => i.Slot, StringComparer.Ordinal).ToList();
+
+    /// <summary>The player's own saves (named and old numbered ones, not autosaves), newest first.</summary>
+    public static List<SaveInfo> ListOwnSaves() => ListSaves().Where(i => !IsAutosave(i.Slot)).ToList();
+
+    /// <summary>Every save folder: the numbered slots, the autosaves, and each named save (a crash's ".old" copy counts as its save).</summary>
+    static IEnumerable<string> AllSlots()
+    {
+        var slots = new SortedSet<string>(ManualSlots.Concat(AutosaveSlots), StringComparer.Ordinal);
+        if (DirAccess.DirExistsAbsolute(SavesDir))
+            foreach (string dir in DirAccess.GetDirectoriesAt(SavesDir))
+            {
+                string slot = dir.EndsWith(OldSuffix) ? dir[..^OldSuffix.Length] : dir;
+                if (IsNamed(slot) && !slot.EndsWith(PartialSuffix))
+                    slots.Add(slot);
+            }
+        return slots;
+    }
 
     /// <summary>The save "Continue" loads: the most recently written one, autosave included.</summary>
     public static SaveInfo? MostRecent() => ListSaves().FirstOrDefault();
@@ -117,7 +154,8 @@ public static class SaveSystem
             d.TryGetValue("year", out var y) ? y.AsInt32() : 0,
             Str("ruler", "—"),
             d.TryGetValue("saved_unix", out var t) ? t.AsDouble() : modified,
-            Str("build", ""));
+            Str("build", ""),
+            Str("name", ""));
     }
 
     public static void DeleteSave(string slot)
@@ -133,8 +171,9 @@ public static class SaveSystem
     /// </summary>
     public static async Task<bool> SaveGame(string slot, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
         int playerRealmId, Node? host = null, GDictionary? population = null, ProvinceMap? provinces = null,
-        GDictionary? game = null)
+        GDictionary? game = null, string? name = null)
     {
+        name ??= ReadInfo(slot)?.Name ?? "";   // saving over a named save keeps its name
         if (host != null && host.IsInsideTree())
             await host.ToSignal(host.GetTree(), SceneTree.SignalName.ProcessFrame);
 
@@ -145,7 +184,7 @@ public static class SaveSystem
             GD.PushError("SaveSystem: couldn't create " + partial);
             return false;
         }
-        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population, provinces, game))
+        if (!WriteFiles(partial, grid, registry, demoYear, playerRealmId, population, provinces, game, name))
         {
             DeleteDir(partial);
             return false;
@@ -170,7 +209,7 @@ public static class SaveSystem
     }
 
     static bool WriteFiles(string dir, OwnershipGrid grid, CharacterRegistry registry, int demoYear,
-        int playerRealmId, GDictionary? population, ProvinceMap? provinces, GDictionary? game = null)
+        int playerRealmId, GDictionary? population, ProvinceMap? provinces, GDictionary? game = null, string name = "")
     {
         var bytes = new byte[grid.Cells.Length];
         for (int i = 0; i < bytes.Length; i++)
@@ -215,7 +254,10 @@ public static class SaveSystem
             popFile.StoreVar(population);
         }
 
-        return WriteText($"{dir}/{InfoFile}", Json.Stringify(Info(registry, demoYear, playerRealmId)));
+        var info = Info(registry, demoYear, playerRealmId);
+        if (name != "")
+            info["name"] = name;
+        return WriteText($"{dir}/{InfoFile}", Json.Stringify(info));
     }
 
     static GDictionary Info(CharacterRegistry registry, int demoYear, int playerRealmId)
